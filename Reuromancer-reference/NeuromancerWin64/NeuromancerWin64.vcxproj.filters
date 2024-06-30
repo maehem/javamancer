@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="resource_manager.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_animation_control.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="character_control.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_control.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drawing_control.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utilities.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="neuro_window_control.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="neuro_menu_control.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_main_menu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_not_implemented.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_real_world.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rw_state_inventory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rw_state_dialog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rw_state_pax.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="window_animation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rw_state_skills.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="items.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rw_state_rom.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="save_load.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="address_translator.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="neuro86.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rw_state_disk_options.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rw_state_body_parts_shop.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bg_animation_control.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="character_control.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_control.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drawing_control.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="neuro_window_control.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="neuro_menu_control.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_real_world.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window_animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="items.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="save_load.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="address_translator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="neuro86.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="opcodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
