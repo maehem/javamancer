@@ -1,0 +1,119 @@
+
+
+.root {
+    
+    -fx-accent: #de77de;
+    -fx-focus-color: derive( -fx-accent, -20% );
+    
+    /* don't use!
+    -fx-background-color: #292929;
+    */
+
+    -fx-control-inner-background: derive(-fx-background-color,  35%);
+    -fx-control-inner-background-alt: -fx-control-inner-background ;
+
+
+    -fx-padding: 10;
+    -fx-border-width: 2;
+    -fx-border-insets: 5;
+    -fx-border-radius: 5;
+}
+
+#root-opaque {
+    -fx-background-color: #292929;
+}
+
+#root-clear {
+    -fx-background-color: transparent;
+}
+
+
+.text {
+    -fx-fill: lightgray;
+}
+
+Text {
+    -fx-fill: lightgray;
+}
+
+.label{
+    -fx-text-fill: lightgray;
+}
+
+.text-field {
+    -fx-prompt-text-fill: gray;
+}
+
+.button{
+    -fx-focus-traversable: false;
+    -fx-background-color: derive( -fx-accent,  -40% );
+
+    -fx-border-color: -fx-accent;
+    -fx-border-width: 3;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 5 20 5 20;
+}
+
+.button:hover{
+    -fx-text-fill: #f6f;
+    -fx-background-color: #bb44bb;
+}
+
+.button:default { /* OK buttons */
+    -fx-background-color: -fx-accent;
+}
+
+#root-button-bar {
+    -fx-spacing: 10;
+}
+
+#root-button {
+}
+
+#root-button:hover {
+}
+
+#about-done-button {
+    -fx-font-size: 120%
+}
+#about-done-button:hover {
+}
+
+#settings-done-button {
+    -fx-font-size: 120%;
+}
+
+#settings-done-button:hover {
+}
+
+#settings-title {
+    -fx-font-size: 120%;
+    -fx-font-weight: bold;
+}
+
+/* Check icon by Arthur Shlain from Usefulicons.com (CC3.0) */
+.check-icon {
+    -fx-shape: "M20 40L10 50L40 80L90 30L80 20L40 60Z";
+    -fx-border-color: transparent;
+    -fx-background-color: green;
+    -fx-scale-x: 0.5;
+    -fx-scale-y: 0.5;
+}
+
+/* Cross icon by Arthur Shlain from Usefulicons.com (CC3.0) */
+.cross-icon {
+    -fx-shape: "M85 25L75 15L50 40L25 15L15 25L40 50L15 75L25 85L50 60L75 85L85 75L60 50Z";
+    -fx-border-color: transparent;
+    -fx-background-color: red;
+    -fx-scale-x: 0.5;
+    -fx-scale-y: 0.5;
+}
+
+#button-icon{
+    -fx-padding: 2;
+    -fx-border-width: 2;
+    -fx-border-insets: 0;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}

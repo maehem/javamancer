@@ -1,0 +1,188 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024 Mark J. Koch ( @maehem on GitHub )
+ *
+ * Portions of this software are Copyright (c) 2018 Henadzi Matuts and are
+ * derived from their project: https://github.com/HenadziMatuts/Reuromancer
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+package com.maehem.javamancer;
+
+import com.maehem.javamancer.logging.Logging;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.HostServices;
+
+/**
+ * Manage properties for the application
+ *
+ * @author Mark J Koch ( @maehem on GitHub )
+ */
+public class AppProperties extends Properties {
+
+    private static final Logger LOGGER = Logging.LOGGER;
+
+    public static final String DAT_DIR = "DAT";
+    private static final String APP_VERSION = "0"; // Get from Javamancer.java ???
+
+    private static AppProperties instance = null;
+    private final File propFile;// = initPropFile();
+    //private HostServices hostServices;
+    private HostServices hostServices;
+
+    private AppProperties() {
+        propFile = initPropFile();
+        if (propFile.exists()) {
+            load();
+        } else {
+            propFile.getParentFile().mkdirs();
+            save(true);
+        }
+        initDatFolder();
+    }
+
+    public static AppProperties getInstance() {
+        if (instance == null) {
+            instance = new AppProperties();
+        }
+
+        return instance;
+    }
+
+    public final void load() {
+        try {
+            load(new FileInputStream(propFile));
+            LOGGER.log(Level.SEVERE, "Loaded Javamancer settings file: {0}", propFile.getAbsolutePath());
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public final void save() {
+        save(false);
+    }
+
+    public final void save(boolean asNew) {
+        try {
+            String msg = "Saved Javamancer Settings File.";
+            if (asNew) {
+                msg = "Created New Javamancer Settings File.";
+            }
+            store(new FileOutputStream(propFile), msg);
+            LOGGER.log(Level.SEVERE, "{0} :: {1}", new Object[]{msg, propFile.getAbsolutePath()});
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public File getPropFile() {
+        return propFile;
+    }
+
+    private static File initPropFile() {
+        final String os = System.getProperty("os.name");
+        if (os != null && os.startsWith("Mac")) {
+            return new File(System.getProperty("user.home")
+                    + File.separator + "Library"
+                    + File.separator + "Application Support"
+                    + File.separator + "Javamancer"
+                    + File.separator + APP_VERSION
+                    + File.separator + "settings.properties"
+            );
+        } else {
+            // TODO: Sort this out per platform later.
+            return new File(System.getProperty("user.home")
+                    + File.separator + "javamancer-settings.properies"
+            );
+        }
+    }
+
+    private void initDatFolder() {
+        File df = getDatFolder();
+        if (df.exists() && df.isDirectory() && df.canRead() && df.canWrite() && df.canExecute()) {
+            LOGGER.log(Level.SEVERE, "DAT Folder exists and seems OK for use.");
+            if (!datFilesPresent()) {
+                LOGGER.log(Level.SEVERE, "DAT Files do not seem to be installed yet. User must do this manually.");
+            }
+        } else {
+            if (df.exists()) {
+                LOGGER.log(Level.SEVERE, "DAT Folder exists but is either a file or permissions are wrong.");
+            } else {
+                LOGGER.log(Level.SEVERE, "DAT Folder does not exist. Creating...");
+                if (df.mkdirs()) {
+                    LOGGER.log(Level.SEVERE, "DAT Folder created.");
+                } else {
+                    LOGGER.log(Level.SEVERE, "DAT Folder could not be created. Unknown reason.");
+                }
+            }
+        }
+    }
+
+    public HostServices getHostServices() {
+        return hostServices;
+    }
+
+    public void setHostServices(HostServices hostServices) {
+        this.hostServices = hostServices;
+    }
+
+    public boolean datFilesPresent() {
+
+        boolean retVal = true;
+        File datFolder = getDatFolder();
+        if (datFolder.isDirectory()) {
+            File dat1 = new File(datFolder, "NEURO1.DAT");
+            File dat2 = new File(datFolder, "NEURO2.DAT");
+            if (dat1.isFile() && dat1.canRead()) {
+                LOGGER.log(Level.CONFIG, "  Found: NEURO1.DAT");
+            } else {
+                LOGGER.log(Level.SEVERE, "Missing: NEURO1.DAT");
+                retVal = false;
+            }
+            if (dat2.isFile() && dat2.canRead()) {
+                LOGGER.log(Level.CONFIG, "  Found: NEURO2.DAT");
+            } else {
+                LOGGER.log(Level.SEVERE, "Missing: NEURO2.DAT");
+                retVal = false;
+            }
+        } else {
+            LOGGER.log(Level.SEVERE, "DAT Directory missing or is not a directory!");
+            retVal = false;
+        }
+
+        return retVal;
+    }
+
+    public File getDatFolder() {
+        return new File(getPropFile().getParentFile(), DAT_DIR);
+    }
+}
