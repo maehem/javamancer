@@ -27,8 +27,10 @@
 package com.maehem.javamancer;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.resource.BrowserPane;
 import com.maehem.javamancer.root.AboutPane;
 import com.maehem.javamancer.root.AboutPaneListener;
+import com.maehem.javamancer.root.BrowserPaneListener;
 import com.maehem.javamancer.root.RootButtonListener;
 import com.maehem.javamancer.root.RootPane;
 import com.maehem.javamancer.root.settings.SettingsPane;
@@ -46,7 +48,7 @@ import javafx.stage.Stage;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class Javamancer extends Application implements RootButtonListener, AboutPaneListener, SettingsPaneListener {
+public class Javamancer extends Application implements RootButtonListener, AboutPaneListener, SettingsPaneListener, BrowserPaneListener {
 
     // TODO: create a static logger in logging package.
     public static final Logger LOGGER = Logging.LOGGER;
@@ -60,6 +62,12 @@ public class Javamancer extends Application implements RootButtonListener, About
 
     @Override
     public void settingsActionPerformed(SettingsPane.Action action) {
+        scene.setRoot(rootPane);
+        mode = Mode.ROOT;
+    }
+
+    @Override
+    public void broswerActionPerformed(BrowserPane.Action action) {
         scene.setRoot(rootPane);
         mode = Mode.ROOT;
     }
@@ -146,6 +154,11 @@ public class Javamancer extends Application implements RootButtonListener, About
             }
             case BROWSER -> {
                 LOGGER.log(Level.SEVERE, "Browser Button Pressed");
+                if (browserPane == null) {
+                    browserPane = new BrowserPane(this);
+                }
+                scene.setRoot(browserPane);
+                mode = Mode.BROWSER;
             }
             case SETTINGS -> {
                 LOGGER.log(Level.SEVERE, "Settings Button Pressed");

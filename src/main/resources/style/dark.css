@@ -1,17 +1,16 @@
 
 
 .root {
+    /* Don't use -fx-base here.  It will cause pane background images to
+       not display correctly.  Instead, use #root-opaque cssID in
+       panes that need normal UI styling.
+    */
     
     -fx-accent: #de77de;
     -fx-focus-color: derive( -fx-accent, -20% );
     
-    /* don't use!
-    -fx-background-color: #292929;
-    */
-
     -fx-control-inner-background: derive(-fx-background-color,  35%);
     -fx-control-inner-background-alt: -fx-control-inner-background ;
-
 
     -fx-padding: 10;
     -fx-border-width: 2;
@@ -20,13 +19,12 @@
 }
 
 #root-opaque {
-    -fx-background-color: #292929;
+    -fx-base: #292929;
 }
 
 #root-clear {
     -fx-background-color: transparent;
 }
-
 
 .text {
     -fx-fill: lightgray;
