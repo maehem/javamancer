@@ -155,6 +155,13 @@ public class AppProperties extends Properties {
         this.hostServices = hostServices;
     }
 
+    public File[] getDatFiles() {
+        return new File[]{
+            new File(getDatFolder(), "NEURO1.DAT"),
+            new File(getDatFolder(), "NEURO2.DAT")
+        };
+    }
+
     public boolean datFilesPresent() {
 
         boolean retVal = true;
