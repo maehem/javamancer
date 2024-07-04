@@ -28,6 +28,8 @@ package com.maehem.javamancer;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.resource.BrowserPane;
+import com.maehem.javamancer.resource.Ingest;
+import com.maehem.javamancer.resource.model.DAT;
 import com.maehem.javamancer.root.AboutPane;
 import com.maehem.javamancer.root.AboutPaneListener;
 import com.maehem.javamancer.root.BrowserPaneListener;
@@ -35,6 +37,7 @@ import com.maehem.javamancer.root.RootButtonListener;
 import com.maehem.javamancer.root.RootPane;
 import com.maehem.javamancer.root.settings.SettingsPane;
 import com.maehem.javamancer.root.settings.SettingsPaneListener;
+import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,23 +57,7 @@ public class Javamancer extends Application implements RootButtonListener, About
     public static final Logger LOGGER = Logging.LOGGER;
     private Scene scene;
 
-    @Override
-    public void aboutActionPerformed(AboutPane.Action action) {
-        scene.setRoot(rootPane);
-        mode = Mode.ROOT;
-    }
-
-    @Override
-    public void settingsActionPerformed(SettingsPane.Action action) {
-        scene.setRoot(rootPane);
-        mode = Mode.ROOT;
-    }
-
-    @Override
-    public void broswerActionPerformed(BrowserPane.Action action) {
-        scene.setRoot(rootPane);
-        mode = Mode.ROOT;
-    }
+    private DAT dat = null;
 
     public enum Mode {
         ROOT, GAME, BROWSER, SETTINGS, ABOUT
@@ -154,6 +141,13 @@ public class Javamancer extends Application implements RootButtonListener, About
             }
             case BROWSER -> {
                 LOGGER.log(Level.SEVERE, "Browser Button Pressed");
+                if (dat == null) {
+                    try {
+                        dat = Ingest.ingestDAT(appProperties.getDatFiles());
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(Javamancer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
                 if (browserPane == null) {
                     browserPane = new BrowserPane(this);
                 }
@@ -189,6 +183,24 @@ public class Javamancer extends Application implements RootButtonListener, About
         String posY = appProperties.getProperty(WINDOW_POS_Y_PROP_KEY, "20");
         stage.setX(Double.parseDouble(posX));
         stage.setY(Double.parseDouble(posY));
+    }
+
+    @Override
+    public void aboutActionPerformed(AboutPane.Action action) {
+        scene.setRoot(rootPane);
+        mode = Mode.ROOT;
+    }
+
+    @Override
+    public void settingsActionPerformed(SettingsPane.Action action) {
+        scene.setRoot(rootPane);
+        mode = Mode.ROOT;
+    }
+
+    @Override
+    public void broswerActionPerformed(BrowserPane.Action action) {
+        scene.setRoot(rootPane);
+        mode = Mode.ROOT;
     }
 
 }
