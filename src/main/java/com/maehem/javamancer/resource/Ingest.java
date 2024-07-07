@@ -29,6 +29,7 @@ package com.maehem.javamancer.resource;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.resource.file.*;
 import com.maehem.javamancer.resource.model.DAT;
+import com.maehem.javamancer.resource.model.IMHThing;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -52,9 +53,11 @@ public class Ingest {
         for (IMH imh : IMH.values()) {
             byte[] dest = new byte[64000];
 
-            decompressResource(raf[imh.fileNum], imh, dest);
+            int len = decompressResource(raf[imh.fileNum], imh, dest);
+            IMHThing thing = new IMHThing(imh, dest, len);
 
-            int a = 0; // debug breakpoint
+            dat.imh.add(thing);
+
         }
         // Ingest PIC
         // Ingest ANH
@@ -64,7 +67,8 @@ public class Ingest {
         return dat;
     }
 
-    private static void decompressResource(RandomAccessFile raf, Resource resource, byte[] dest) {
+    private static int decompressResource(RandomAccessFile raf, Resource resource, byte[] dest) {
+        Logging.LOGGER.log(Level.SEVERE, "Decompress: " + resource.getName());
         /*<code>
     uint8_t compd[64000];
 
@@ -90,7 +94,7 @@ public class Ingest {
             byte[] compressedData = new byte[64000];
             if (resource instanceof PIC || resource instanceof IMH) {
                 // fseek(f, src->offset + 32, SEEK_SET);
-                raf.seek(resource.getOffset() + 32);
+                raf.seek(resource.getOffset() + 32); // TODO Get and review the 32 byte header.
             } else {
                 // fseek(f, src->offset, SEEK_SET);
                 raf.seek(resource.getOffset());
@@ -98,11 +102,12 @@ public class Ingest {
 
             // fread(compd, 1, src->size, f);
             raf.read(compressedData, 0, resource.getSize());
-            resource.decompress(compressedData, dest);
+            return resource.decompress(compressedData, dest);
         } catch (IOException ex) {
             Logging.LOGGER.log(Level.SEVERE, null, ex);
         }
 
+        return 0;
     }
 
 }
