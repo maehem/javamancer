@@ -119,8 +119,8 @@ public enum BIH implements Resource {
     }
 
     @Override
-    public void decompress(byte[] compressedData, byte[] destination) {
-        Huffman.decompress(compressedData, destination);
+    public int decompress(byte[] compressedData, byte[] destination) {
+        return Huffman.decompress(compressedData, destination);
     }
 
     @Override

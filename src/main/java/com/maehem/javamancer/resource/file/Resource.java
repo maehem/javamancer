@@ -40,6 +40,6 @@ public interface Resource {
 
     public int getSize();
 
-    public void decompress(byte[] compressedData, byte[] destination);
+    public int decompress(byte[] compressedData, byte[] destination);
 
 }

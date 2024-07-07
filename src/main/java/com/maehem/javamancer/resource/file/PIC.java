@@ -119,7 +119,7 @@ public enum PIC implements Resource {
     }
 
     @Override
-    public void decompress(byte[] compressedData, byte[] destination) {
+    public int decompress(byte[] compressedData, byte[] destination) {
 //	uint8_t pic[64000];
 //
 //	huffman_decompress(src, pic);
@@ -127,5 +127,6 @@ public enum PIC implements Resource {
 //	xor_rows(dst, 152, 112);
 //
 //	return 152 * 112;
+        return 0;  // TODO
     }
 }
