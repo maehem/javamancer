@@ -148,6 +148,11 @@ public class Javamancer extends Application implements RootButtonListener, About
                         Logger.getLogger(Javamancer.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+
+                if (!appProperties.cacheFilesPresent()) {
+                    appProperties.initCacheFolder(dat);
+                }
+
                 if (browserPane == null) {
                     browserPane = new BrowserPane(this);
                 }
