@@ -26,77 +26,42 @@
  */
 package com.maehem.javamancer.resource.model;
 
+import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.resource.file.IMH;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class IMHThing {
-    private int x;
-    private int y;
-    private int w;
-    private int h;
+    public static final Logger LOGGER = Logging.LOGGER;
 
-    public IMHThing(int x, int y, int w, int h) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-    }
+    public final String name;
+    public final byte data[];
+    public final ArrayList<byte[]> dataBlock = new ArrayList<>();
 
-    /**
-     * @return the x
-     */
-    public int getX() {
-        return x;
-    }
+    public IMHThing(IMH imh, byte[] data, int len) {
+        this.name = imh.getName();
 
-    /**
-     * @param x the x to set
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
+        this.data = new byte[64000];
+        System.arraycopy(data, 0, this.data, 0, len);
 
-    /**
-     * @return the y
-     */
-    public int getY() {
-        return y;
-    }
+        int i = 0;
+        while (i < len) {
+            int width = ((data[i + 5] & 0xFF) << 8) + ((data[i + 4] & 0xFF));
+            int height = ((data[i + 7] & 0xFF) << 8) + ((data[i + 6] & 0xFF));
+            int size = 8 + width * height;
+            byte blob[] = new byte[size];
+            System.arraycopy(data, i, blob, 0, size);
+            i += size;
+            LOGGER.log(Level.SEVERE, "IMHThing Added a blob: {0}x{1}", new Object[]{width, height});
+            dataBlock.add(blob);
+        }
 
-    /**
-     * @param y the y to set
-     */
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    /**
-     * @return the w
-     */
-    public int getW() {
-        return w;
-    }
-
-    /**
-     * @param w the w to set
-     */
-    public void setW(int w) {
-        this.w = w;
-    }
-
-    /**
-     * @return the h
-     */
-    public int getH() {
-        return h;
-    }
-
-    /**
-     * @param h the h to set
-     */
-    public void setH(int h) {
-        this.h = h;
+        LOGGER.log(Level.SEVERE, "{0}:: Blob count = {1}", new Object[]{name, dataBlock.size()});
     }
 
 }
