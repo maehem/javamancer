@@ -27,6 +27,8 @@
 package com.maehem.javamancer;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.resource.model.DAT;
+import com.maehem.javamancer.resource.view.DATUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -47,6 +49,7 @@ public class AppProperties extends Properties {
     private static final Logger LOGGER = Logging.LOGGER;
 
     public static final String DAT_DIR = "DAT";
+    public static final String CACHE_DIR = "cache";
     private static final String APP_VERSION = "0"; // Get from Javamancer.java ???
 
     private static AppProperties instance = null;
@@ -147,6 +150,33 @@ public class AppProperties extends Properties {
         }
     }
 
+    public void initCacheFolder(DAT dat) {
+        File cacheFolder = getCacheFolder();
+        if (cacheFolder.exists() && cacheFolder.isDirectory() && cacheFolder.canRead() && cacheFolder.canWrite() && cacheFolder.canExecute()) {
+            LOGGER.log(Level.SEVERE, "Cache Folder exists and seems OK for use.");
+            if (!cacheFilesPresent()) {
+                LOGGER.log(Level.SEVERE, "Cache Files do not seem to be installed yet. Need to regenerate from DAT.");
+
+                // Generate from DAT.
+                DATUtil.createCache(dat, cacheFolder);
+            }
+        } else {
+            if (cacheFolder.exists()) {
+                LOGGER.log(Level.SEVERE, "Cache Folder exists but is either a file or permissions are wrong.");
+            } else {
+                LOGGER.log(Level.SEVERE, "Cache Folder does not exist. Creating...");
+                if (cacheFolder.mkdirs()) {
+                    LOGGER.log(Level.SEVERE, "Cache Folder created.");
+
+                    // Generate from DAT.
+                    DATUtil.createCache(dat, cacheFolder);
+                } else {
+                    LOGGER.log(Level.SEVERE, "Cache Folder could not be created. Unknown reason.");
+                }
+            }
+        }
+    }
+
     public HostServices getHostServices() {
         return hostServices;
     }
@@ -189,7 +219,57 @@ public class AppProperties extends Properties {
         return retVal;
     }
 
+    public boolean cacheFilesPresent() {
+
+        boolean retVal = true;
+        File cacheFolder = getCacheFolder();
+        if (cacheFolder.isDirectory()) {
+            File anhDir = new File(cacheFolder, "ANH");
+            File bihDir = new File(cacheFolder, "BIH");
+            File imhDir = new File(cacheFolder, "IMH");
+            File picDir = new File(cacheFolder, "PIC");
+
+            if (anhDir.isDirectory() && anhDir.canRead()) {
+                LOGGER.log(Level.CONFIG, "  Found: ANH Folder");
+                // Check sub-folders against ANH model list.
+            } else {
+                LOGGER.log(Level.SEVERE, "Missing: ANH Folder");
+                retVal = false;
+            }
+            if (bihDir.isDirectory() && bihDir.canRead()) {
+                LOGGER.log(Level.CONFIG, "  Found: BIH Folder");
+                // Check sub-folders against BIH model list.
+            } else {
+                LOGGER.log(Level.SEVERE, "Missing: BIH Folder");
+                retVal = false;
+            }
+            if (imhDir.isDirectory() && imhDir.canRead()) {
+                LOGGER.log(Level.CONFIG, "  Found: IMH Folder");
+                // Check sub-folders against IMH model list.
+            } else {
+                LOGGER.log(Level.SEVERE, "Missing: IMH Folder");
+                retVal = false;
+            }
+            if (picDir.isDirectory() && picDir.canRead()) {
+                LOGGER.log(Level.CONFIG, "  Found: PIC Folder");
+                // Check sub-folders against PIC model list.
+            } else {
+                LOGGER.log(Level.SEVERE, "Missing: PIC Folder");
+                retVal = false;
+            }
+        } else {
+            LOGGER.log(Level.SEVERE, "Cache Directory missing or is not a directory!");
+            retVal = false;
+        }
+
+        return retVal;
+    }
+
     public File getDatFolder() {
         return new File(getPropFile().getParentFile(), DAT_DIR);
+    }
+
+    public File getCacheFolder() {
+        return new File(getPropFile().getParentFile(), CACHE_DIR);
     }
 }
