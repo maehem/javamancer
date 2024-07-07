@@ -37,6 +37,52 @@ import java.util.logging.Level;
  */
 public class Util {
 
+    /*
+    uint8_t DosPal[1024] = {
+    0x00, 0x00, 0x00, 0x00, // black
+    0x80, 0x00, 0x00, 0x00, // blue
+    0x00, 0x80, 0x00, 0x00, // green
+    0x80, 0x80, 0x00, 0x00, // cyan
+    0x00, 0x00, 0x80, 0x00, // red
+    0x80, 0x00, 0x80, 0x00, // magnetta
+    0x00, 0x80, 0x80, 0x00, // brown
+    0xC0, 0xC0, 0xC0, 0x00, // light gray
+    0x80, 0x80, 0x80, 0x00, // dark gray
+    0xFF, 0x00, 0x00, 0x00, // light blue
+    0x00, 0xFF, 0x00, 0x00, // light green
+    0xFF, 0xFF, 0x00, 0x00, // light cyan
+    0x00, 0x00, 0xFF, 0x00, // light red
+    0xFF, 0x00, 0xFF, 0x00, // light magnetta
+    0x00, 0xFF, 0xFF, 0x00, // yellow
+    0xFF, 0xFF, 0xFF, 0x00, // white
+    0x00,
+};
+     */
+    /**
+     * Color Palette
+     *
+     * Stored as web color string red[23..16] grn:[15..0] blu:[7..0] For JavaFX
+     * color creation with: Color.web(palette[index], double alpha)
+     */
+    public static final String[] palette = {
+        "0x000000", //black
+        "0x000080", //blue
+        "0x008000", //green
+        "0x008080", //cyan
+        "0x800000", //red
+        "0x800080", //magenta
+        "0x808000", //brown
+        "0xC0C0C0", //light gray
+        "0x808080", //dark gray
+        "0x0000FF", //light blue
+        "0x00FF00", //light green
+        "0x00FFFF", //light cyan
+        "0xFF0000", //light red
+        "0xFF00FF", //light magenta
+        "0xFFFF00", //yellow
+        "0xFFFFFF" // white
+    };
+
     /**
      *
      * <pre>
@@ -166,7 +212,7 @@ public class Util {
         }
         LOGGER.log(Level.SEVERE, "XOR Result ===>");
         HexFormat hexFormat = HexFormat.of();
-        for (int ii = 0; ii < inoutIdx + w * h; ii += 16) {
+        for (int ii = inoutIdx; ii < inoutIdx + w * h; ii += 16) {
             Logging.LOGGER.log(Level.SEVERE,
                     String.format("%04X", ii & 0xFFFF) + ": "
                     + hexFormat.toHexDigits(inout[ii]) + " " + hexFormat.toHexDigits(inout[ii + 1]) + " "
