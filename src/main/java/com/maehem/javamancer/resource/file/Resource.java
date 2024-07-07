@@ -32,6 +32,8 @@ package com.maehem.javamancer.resource.file;
  */
 public interface Resource {
 
+    public String getName();
+
     public int getFileNum();
 
     public int getOffset();

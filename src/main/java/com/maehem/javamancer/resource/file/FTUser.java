@@ -56,4 +56,9 @@ public class FTUser implements Resource {
     public void decompress(byte[] compressedData, byte[] destination) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 }

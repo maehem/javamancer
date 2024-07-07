@@ -89,6 +89,11 @@ public enum IMH implements Resource {
     }
 
     @Override
+    public String getName() {
+        return name();
+    }
+
+    @Override
     public void decompress(byte[] compressedData, byte[] destination) {
 //	uint8_t imh[64000];
         byte mid[] = new byte[64000];

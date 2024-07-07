@@ -83,4 +83,9 @@ public enum ANH implements Resource {
     public void decompress(byte[] compressedData, byte[] destination) {
         Huffman.decompress(compressedData, destination);
     }
+
+    @Override
+    public String getName() {
+        return name();
+    }
 }

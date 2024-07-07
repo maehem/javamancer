@@ -114,6 +114,11 @@ public enum PIC implements Resource {
     }
 
     @Override
+    public String getName() {
+        return name();
+    }
+
+    @Override
     public void decompress(byte[] compressedData, byte[] destination) {
 //	uint8_t pic[64000];
 //
