@@ -26,11 +26,15 @@
  */
 package com.maehem.javamancer.resource.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class DAT {
+
+    public final ArrayList<IMHThing> imh = new ArrayList<>();
 
     public DAT() {
     }
