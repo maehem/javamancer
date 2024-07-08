@@ -26,18 +26,44 @@
  */
 package com.maehem.javamancer.resource.model;
 
+import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.resource.file.PIC;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class DAT {
+public class PICThing {
+    public static final Logger LOGGER = Logging.LOGGER;
 
-    public final ArrayList<IMHThing> imh = new ArrayList<>();
-    public final ArrayList<PICThing> pic = new ArrayList<>();
+    public final String name;
+    //public final byte data[];
+    public final ArrayList<byte[]> dataBlock = new ArrayList<>();
 
-    public DAT() {
+    public PICThing(PIC pic, byte[] data, int len) {
+        this.name = pic.getName();
+
+        //this.data = new byte[64000];
+        //System.arraycopy(data, 0, this.data, 0, len);
+
+        int i = 0;
+        while (i < len) {
+            //int width = ((data[i + 5] & 0xFF) << 8) + ((data[i + 4] & 0xFF));
+            //int height = ((data[i + 7] & 0xFF) << 8) + ((data[i + 6] & 0xFF));
+            int width = 152;
+            int height = 112;
+            int size = width * height;
+            byte blob[] = new byte[size];
+            System.arraycopy(data, i, blob, 0, size);
+            i += size;
+            LOGGER.log(Level.SEVERE, "PICThing Added a blob: {0}x{1}", new Object[]{width, height});
+            dataBlock.add(blob);
+        }
+
+        LOGGER.log(Level.SEVERE, "{0}:: Blob count = {1}", new Object[]{name, dataBlock.size()});
     }
 
 }

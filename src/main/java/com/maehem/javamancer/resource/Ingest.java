@@ -30,6 +30,7 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.resource.file.*;
 import com.maehem.javamancer.resource.model.DAT;
 import com.maehem.javamancer.resource.model.IMHThing;
+import com.maehem.javamancer.resource.model.PICThing;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -60,6 +61,15 @@ public class Ingest {
 
         }
         // Ingest PIC
+        for (PIC pic : PIC.values()) {
+            byte[] dest = new byte[64000];
+
+            int len = decompressResource(raf[pic.fileNum], pic, dest);
+            PICThing thing = new PICThing(pic, dest, len);
+
+            dat.pic.add(thing);
+
+        }
         // Ingest ANH
         // Ingest BIH
 

@@ -26,6 +26,11 @@
  */
 package com.maehem.javamancer.resource.file;
 
+import com.maehem.javamancer.logging.Logging;
+import java.util.HexFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -88,6 +93,8 @@ public enum PIC implements Resource {
     R57(1, 0x55765, 0x15F7),
     R58(1, 0x56E0F, 0x170C);
 
+    private static final Logger LOGGER = Logging.LOGGER;
+
     public final int fileNum;
     public final int offset; // DOS long == Java int (32-bits)
     public final int size;
@@ -121,12 +128,73 @@ public enum PIC implements Resource {
     @Override
     public int decompress(byte[] compressedData, byte[] destination) {
 //	uint8_t pic[64000];
+        byte mid[] = new byte[64000];
+
 //
 //	huffman_decompress(src, pic);
+        int len = Huffman.decompress(compressedData, mid);
+
 //	decode_rle(pic, 152 * 112, dst);
+        return decode(mid, len, destination); // Should be 152 * 112
 //	xor_rows(dst, 152, 112);
 //
 //	return 152 * 112;
-        return 0;  // TODO
+    }
+
+    private static int decode(byte[] src, int len, byte[] dst) {
+        int totalLen = 0;
+        int srcIdx = 0;
+        int dstIdx = 0;
+        //int imhSize = 2 * 4; // 2 bytes times 4 values
+
+        while (len > 0) {
+            int processed = 0;
+            //int width = ((src[srcIdx + 5] & 0xFF) << 8) + ((src[srcIdx + 4] & 0xFF));
+            //int height = ((src[srcIdx + 7] & 0xFF) << 8) + ((src[srcIdx + 6] & 0xFF));
+            int width = 152;
+            int height = 112;
+            int size = width * height;
+            LOGGER.log(Level.SEVERE, "\nSub-image: {0}x{1}", new Object[]{width, height});
+
+            //memmove(dst, src, sizeof(imh_hdr_t))
+//            for (int ii = 0; ii < imhSize; ii++) { // Copy x/y w/h values to dst[].
+//                dst[dstIdx + ii] = src[srcIdx + ii];
+//            }
+            //totalLen += imhSize + size;
+            totalLen += size;
+            //srcIdx += imhSize;
+            //dstIdx += imhSize;
+            //len -= imhSize;
+            processed = Util.decodeRLE(src, srcIdx, size, dst, dstIdx);
+            srcIdx += processed; // Add processed to srcIdx
+            len -= processed;
+
+            Util.xorRows(dst, dstIdx, width, height);
+            dstIdx += size; // Add size to dstIdx
+
+            LOGGER.log(Level.SEVERE, "Pretty XOR Result with header ===>");
+            HexFormat hexFormat = HexFormat.of();
+            int prettyIdx = dstIdx - size; // - imhSize;
+            LOGGER.log(Level.SEVERE,
+                    "#### XY: {1}{0} {3}{2}    W:{5}{4}   H:{7}{6}",
+                    new Object[]{
+                        dst[prettyIdx++], dst[prettyIdx++], dst[prettyIdx++], dst[prettyIdx++],
+                        dst[prettyIdx++], dst[prettyIdx++], dst[prettyIdx++], dst[prettyIdx++]
+                    }
+            );
+            // Reset pretty index
+            //prettyIdx = dstIdx - size;
+            for (int j = prettyIdx; j < dstIdx; j += width) {
+                StringBuilder sb = new StringBuilder(String.format("%04X", j & 0xFFFF) + ": ");
+                for (int ww = 0; ww < width; ww++) {
+                    sb.append(hexFormat.toHexDigits(dst[j + ww])).append(" ");
+                }
+                LOGGER.log(Level.SEVERE, sb.toString());
+            }
+
+        }
+
+        return dstIdx; // Length of data
+        //return totalLen;
     }
 }

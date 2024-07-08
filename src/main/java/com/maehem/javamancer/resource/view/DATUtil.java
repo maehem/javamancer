@@ -74,10 +74,17 @@ public class DATUtil {
         }
 
         File picDir = new File(cacheFolder, "pic");
-        if (picDir.isDirectory()) {
+        if (!picDir.isDirectory()) {
+            if (picDir.exists()) {
+                LOG.log(Level.SEVERE, "Cache 'pic' folder is not a folder. Deleting.");
+                picDir.delete();
+            }
+            LOG.log(Level.SEVERE, "Cache 'pic' folder created.");
+            picDir.mkdir();
 
+            populatePIC(dat, picDir);
         } else {
-            LOG.log(Level.SEVERE, "Cache 'pic' folder is not a folder!");
+            LOG.log(Level.SEVERE, "Cache 'pic' folder found.");
         }
     }
 
@@ -95,6 +102,28 @@ public class DATUtil {
                 try {
                     // Save to PNG
                     pngWriter.write(new File(folder, imh.name + "_" + (indexOf + 1) + ".png"), img);
+                } catch (IOException ex) {
+                    LOG.log(Level.SEVERE, null, ex);
+                }
+            });
+
+        });
+    }
+
+    private static void populatePIC(DAT dat, File folder) {
+        dat.pic.forEach((pic) -> {
+            LOG.log(Level.SEVERE, "Process PIC: " + pic.name);
+            PNGWriter pngWriter = new PNGWriter();
+
+            pic.dataBlock.forEach((blob) -> {
+                // Create Image
+                Image img = new Data2Image(blob, 152, 112, 0);
+                int indexOf = pic.dataBlock.indexOf(blob);
+                LOG.log(Level.SEVERE, "    Found sub-image: {0}x{1}", new Object[]{img.getWidth(), img.getHeight()});
+
+                try {
+                    // Save to PNG
+                    pngWriter.write(new File(folder, pic.name + "_" + (indexOf + 1) + ".png"), img);
                 } catch (IOException ex) {
                     LOG.log(Level.SEVERE, null, ex);
                 }
