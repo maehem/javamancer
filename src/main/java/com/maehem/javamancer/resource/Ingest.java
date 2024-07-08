@@ -28,6 +28,7 @@ package com.maehem.javamancer.resource;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.resource.file.*;
+import com.maehem.javamancer.resource.model.BIHThing;
 import com.maehem.javamancer.resource.model.DAT;
 import com.maehem.javamancer.resource.model.IMHThing;
 import com.maehem.javamancer.resource.model.PICThing;
@@ -36,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -58,7 +60,6 @@ public class Ingest {
             IMHThing thing = new IMHThing(imh, dest, len);
 
             dat.imh.add(thing);
-
         }
         // Ingest PIC
         for (PIC pic : PIC.values()) {
@@ -68,10 +69,28 @@ public class Ingest {
             PICThing thing = new PICThing(pic, dest, len);
 
             dat.pic.add(thing);
-
         }
         // Ingest ANH
         // Ingest BIH
+        for (BIH bih : BIH.values()) {
+            byte[] dest = new byte[64000];
+
+            int len = decompressResource(raf[bih.fileNum], bih, dest);
+            BIHThing thing = new BIHThing(bih, dest, len);
+
+            dat.bih.add(thing);
+            try {
+                File userDir = new File(System.getProperty("user.home"));
+                File dataDir = new File(userDir, "javamancer");
+                RandomAccessFile datOut = new RandomAccessFile(new File(dataDir, bih.getName() + ".data"), "rw");
+                datOut.getChannel().truncate(0L);
+                datOut.write(dest);
+                datOut.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(Ingest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
 
         return dat;
