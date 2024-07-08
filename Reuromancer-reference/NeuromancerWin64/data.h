@@ -184,7 +184,7 @@ typedef struct neuro_inventory_t {
 typedef struct level_info_t {
 	uint8_t first_dialog_reply;
 	uint8_t total_dialog_replies;
-	uint8_t level_transitions[4];
+	uint8_t level_transitions[4]; // TRBL
 } level_info_t;
 
 typedef struct x3f85_t {
