@@ -37,6 +37,12 @@ import javafx.scene.paint.Color;
  */
 public class Data2Image extends WritableImage {
 
+    /**
+     * Used for IMH files. W/H is stored at beginning of data block.
+     *
+     * @param data
+     * @param dataIndex
+     */
     public Data2Image(byte[] data, int dataIndex) {
         super(probeWidth(data, dataIndex), probeHeight(data, dataIndex));
         if (getWidth() == 0 || getHeight() == 0) {
@@ -57,6 +63,14 @@ public class Data2Image extends WritableImage {
         }
     }
 
+    /**
+     * Used for PIC files. No W/H in data, supplied by caller.
+     *
+     * @param data
+     * @param width
+     * @param height
+     * @param dataIndex
+     */
     public Data2Image(byte[] data, int width, int height, int dataIndex) {
         super(width * 2, height);
         if (getWidth() == 0 || getHeight() == 0) {
