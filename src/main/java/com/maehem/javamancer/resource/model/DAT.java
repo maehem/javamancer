@@ -36,6 +36,7 @@ public class DAT {
 
     public final ArrayList<IMHThing> imh = new ArrayList<>();
     public final ArrayList<PICThing> pic = new ArrayList<>();
+    public final ArrayList<BIHThing> bih = new ArrayList<>();
 
     public DAT() {
     }
