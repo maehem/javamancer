@@ -61,7 +61,7 @@ public class BIHThing {
     public final ArrayList<String> text = new ArrayList<>();
     public final int[] byteCodeArrayOffset = new int[3];
     public final int[] initObjCodeOffset = new int[3];
-    public final int[] unknown = new int[10];
+    public final byte[] unknown = new byte[20];
 
     public BIHThing(BIH bih, byte[] data, int len) {
         this.name = bih.getName();
@@ -81,7 +81,7 @@ public class BIHThing {
         initObjCodeOffset[1] = (data[17] & 0xff << 8) + data[16] & 0xff;
         initObjCodeOffset[2] = (data[19] & 0xff << 8) + data[18] & 0xff;
 
-        System.arraycopy(data, 18, unknown, 0, 10);
+        System.arraycopy(data, 18, unknown, 0, 20);
     }
 
     private void initText() {
