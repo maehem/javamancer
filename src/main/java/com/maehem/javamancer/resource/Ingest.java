@@ -28,6 +28,7 @@ package com.maehem.javamancer.resource;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.resource.file.*;
+import com.maehem.javamancer.resource.model.ANHThing;
 import com.maehem.javamancer.resource.model.BIHThing;
 import com.maehem.javamancer.resource.model.DAT;
 import com.maehem.javamancer.resource.model.IMHThing;
@@ -71,6 +72,25 @@ public class Ingest {
             dat.pic.add(thing);
         }
         // Ingest ANH
+        for (ANH anh : ANH.values()) {
+            byte[] dest = new byte[64000];
+
+            int len = decompressResource(raf[anh.fileNum], anh, dest);
+            ANHThing thing = new ANHThing(anh, dest, len);
+
+            dat.anh.add(thing);
+            try {
+                File userDir = new File(System.getProperty("user.home"));
+                File dataDir = new File(userDir, "javamancer");
+                RandomAccessFile datOut = new RandomAccessFile(new File(dataDir, anh.getName() + ".anh"), "rw");
+                datOut.getChannel().truncate(0L);
+                datOut.write(dest);
+                datOut.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(Ingest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         // Ingest BIH
         for (BIH bih : BIH.values()) {
             byte[] dest = new byte[64000];
@@ -79,17 +99,17 @@ public class Ingest {
             BIHThing thing = new BIHThing(bih, dest, len);
 
             dat.bih.add(thing);
-            try {
-                File userDir = new File(System.getProperty("user.home"));
-                File dataDir = new File(userDir, "javamancer");
-                RandomAccessFile datOut = new RandomAccessFile(new File(dataDir, bih.getName() + ".data"), "rw");
-                datOut.getChannel().truncate(0L);
-                datOut.write(dest);
-                datOut.close();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Ingest.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                File userDir = new File(System.getProperty("user.home"));
+//                File dataDir = new File(userDir, "javamancer");
+//                RandomAccessFile datOut = new RandomAccessFile(new File(dataDir, bih.getName() + ".bih"), "rw");
+//                datOut.getChannel().truncate(0L);
+//                datOut.write(dest);
+//                datOut.close();
+//
+//            } catch (IOException ex) {
+//                Logger.getLogger(Ingest.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
 
 
