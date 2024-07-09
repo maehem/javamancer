@@ -185,21 +185,21 @@ public class Util {
             }
         }
 
-        HexFormat hexFormat = HexFormat.of();
-        LOGGER.log(Level.SEVERE, "RLE Decode => ");
-        for (int ii = dstIdxOrig; ii < dstIdx; ii += 16) {
-            Logging.LOGGER.log(Level.SEVERE,
-                    String.format("%04X", ii & 0xFFFF) + ": "
-                    + hexFormat.toHexDigits(dst[ii]) + " " + hexFormat.toHexDigits(dst[ii + 1]) + " "
-                    + hexFormat.toHexDigits(dst[ii + 2]) + " " + hexFormat.toHexDigits(dst[ii + 3]) + " "
-                    + hexFormat.toHexDigits(dst[ii + 4]) + " " + hexFormat.toHexDigits(dst[ii + 5]) + " "
-                    + hexFormat.toHexDigits(dst[ii + 6]) + " " + hexFormat.toHexDigits(dst[ii + 7]) + " "
-                    + hexFormat.toHexDigits(dst[ii + 8]) + " " + hexFormat.toHexDigits(dst[ii + 9]) + " "
-                    + hexFormat.toHexDigits(dst[ii + 10]) + " " + hexFormat.toHexDigits(dst[ii + 11]) + " "
-                    + hexFormat.toHexDigits(dst[ii + 12]) + " " + hexFormat.toHexDigits(dst[ii + 13]) + " "
-                    + hexFormat.toHexDigits(dst[ii + 14]) + " " + hexFormat.toHexDigits(dst[ii + 15]) + " "
-            );
-        }
+//        HexFormat hexFormat = HexFormat.of();
+//        LOGGER.log(Level.SEVERE, "RLE Decode => ");
+//        int columns = 16;
+//        for (int ii = dstIdxOrig; ii < dstIdx; ii += columns) {
+//            StringBuilder sb = new StringBuilder(String.format("%04X", ii & 0xFFFF) + ": ");
+//            try {
+//                for (int i = 0; i < columns; i++) {
+//                    byte b = dst[ii + i];
+//                    sb.append(hexFormat.toHexDigits(b)).append(" ");
+//                }
+//            } catch (IndexOutOfBoundsException ex) {
+//
+//            }
+//            Logging.LOGGER.log(Level.SEVERE, sb.toString());
+//        }
 
         return processed;
     }
