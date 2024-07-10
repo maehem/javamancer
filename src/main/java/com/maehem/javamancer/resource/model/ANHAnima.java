@@ -36,14 +36,14 @@ import java.util.logging.Level;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class ANHFrameData {
+public class ANHAnima {
 
     public final int sleep;
     public final int offset;
     public final byte data[];
     public final ArrayList<ANHFrame> frames = new ArrayList<>();
 
-    public ANHFrameData(int sleep, int offset, byte[] data) { // TODO: Rename to Anima
+    public ANHAnima(int sleep, int offset, byte[] data) {
         this.sleep = sleep;
         this.offset = offset; // TODO: Don't keep
         this.data = data;    // TODO: Don't keep

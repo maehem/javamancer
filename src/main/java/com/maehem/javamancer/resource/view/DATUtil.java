@@ -30,7 +30,7 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.resource.file.PNGWriter;
 import com.maehem.javamancer.resource.model.ANHEntry;
 import com.maehem.javamancer.resource.model.ANHFrame;
-import com.maehem.javamancer.resource.model.ANHFrameData;
+import com.maehem.javamancer.resource.model.ANHAnima;
 import com.maehem.javamancer.resource.model.DAT;
 import java.io.File;
 import java.io.IOException;
@@ -157,7 +157,7 @@ public class DATUtil {
                 LOG.log(Level.SEVERE, "Create Entry Dir: {0}", entryDir.getAbsolutePath());
 
                 for (int animNum = 0; animNum < entry.frames.size(); animNum++) {
-                    ANHFrameData anim = entry.frames.get(animNum);
+                    ANHAnima anim = entry.frames.get(animNum);
                     File animDir = new File(entryDir, "anim" + animNum);
                     animDir.mkdir();
                     LOG.log(Level.SEVERE, "Create Anim Dir: " + animDir.getAbsolutePath());
