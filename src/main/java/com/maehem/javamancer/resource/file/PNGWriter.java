@@ -87,7 +87,7 @@ public class PNGWriter {
             i += 1;
         }
         LOGGER.log(Level.FINEST, "     * Compress");
-        ByteBuffer bb = ByteBuffer.allocate(imgSize + 5);
+        ByteBuffer bb = ByteBuffer.allocate(imgSize + 16);
         Deflater deflater = new Deflater(Deflater.DEFAULT_COMPRESSION);
         deflater.setInput(imgBuf);
         deflater.finish();
@@ -119,7 +119,11 @@ public class PNGWriter {
                 chunk[3] = 'T';
                 for (int ii = 4; ii < chunk.length; ii++) {
                     //LOGGER.log(Level.SEVERE, "Chunk Index: {0}", size - len + ii - 4);
-                    chunk[ii] = bb.get(size - len + ii - 4);
+                    try {
+                        chunk[ii] = bb.get(size - len + ii - 4);
+                    } catch (IndexOutOfBoundsException ex) {
+                        int a = 0; // Debugger break point.
+                    }
                 }
                 len = 0;
             }
