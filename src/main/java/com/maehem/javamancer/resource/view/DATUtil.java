@@ -28,6 +28,9 @@ package com.maehem.javamancer.resource.view;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.resource.file.PNGWriter;
+import com.maehem.javamancer.resource.model.ANHEntry;
+import com.maehem.javamancer.resource.model.ANHFrame;
+import com.maehem.javamancer.resource.model.ANHFrameData;
 import com.maehem.javamancer.resource.model.DAT;
 import java.io.File;
 import java.io.IOException;
@@ -46,10 +49,17 @@ public class DATUtil {
     public static void createCache(DAT dat, File cacheFolder) {
 
         File anhDir = new File(cacheFolder, "anh");
-        if (anhDir.isDirectory()) {
+        if (!anhDir.isDirectory()) {
+            if (anhDir.exists()) {
+                LOG.log(Level.SEVERE, "Cache 'anh' folder is not a folder. Deleting.");
+                anhDir.delete();
+            }
+            LOG.log(Level.SEVERE, "Cache 'anh' folder created.");
+            anhDir.mkdir();
 
+            populateANH(dat, anhDir);
         } else {
-            LOG.log(Level.SEVERE, "Cache 'anh' folder is not a folder!");
+            LOG.log(Level.SEVERE, "Cache 'anh' folder found.");
         }
 
         File bihDir = new File(cacheFolder, "bih");
@@ -130,5 +140,56 @@ public class DATUtil {
             });
 
         });
+    }
+
+    private static void populateANH(DAT dat, File folder) {
+        dat.anh.forEach((anh) -> {
+            LOG.log(Level.SEVERE, "Process ANH: {0} with {1} entries.", new Object[]{anh.name, anh.anhEntry.size()});
+
+            File subDir = new File(folder, anh.name);
+            subDir.mkdir();
+            LOG.log(Level.SEVERE, "Create ANH Sub Dir: {0}", subDir.getAbsolutePath());
+
+            for (int entryNum = 0; entryNum < anh.anhEntry.size(); entryNum++) {
+                ANHEntry entry = anh.anhEntry.get(entryNum);
+                File entryDir = new File(subDir, "entry" + (entryNum + 1));
+                entryDir.mkdir();
+                LOG.log(Level.SEVERE, "Create Entry Dir: {0}", entryDir.getAbsolutePath());
+
+                for (int animNum = 0; animNum < entry.frames.size(); animNum++) {
+                    ANHFrameData anim = entry.frames.get(animNum);
+                    File animDir = new File(entryDir, "anim" + animNum);
+                    animDir.mkdir();
+                    LOG.log(Level.SEVERE, "Create Anim Dir: " + animDir.getAbsolutePath());
+                    // TODO: Store sleep in properties file.
+                    for (int frameNum = 0; frameNum < anim.frames.size(); frameNum++) {
+                        ANHFrame frame = anim.frames.get(frameNum);
+                        File frameFile = new File(animDir, (frameNum + 1) + ".png");
+                        makeImageFile(frameFile, frame.data, frame.w, frame.h, 0);
+                        LOG.log(Level.SEVERE, "Create image: " + frameFile.getAbsolutePath());
+                    };
+
+                }
+            }
+
+        });
+    }
+
+    private static boolean makeImageFile(File file, byte blob[], int w, int h, int offset) {
+        PNGWriter pngWriter = new PNGWriter();
+
+        // Create Image
+        Image img = new Data2Image(blob, w, h, offset);
+        LOG.log(Level.SEVERE, "    Found sub-image: {0}x{1}", new Object[]{img.getWidth(), img.getHeight()});
+
+        try {
+            pngWriter.write(file, img); // Save to PNG
+
+        } catch (IOException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+        return true;
     }
 }
