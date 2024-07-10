@@ -26,8 +26,17 @@
  */
 package com.maehem.javamancer.resource.view;
 
+import com.maehem.javamancer.AppProperties;
+import java.io.File;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -36,11 +45,42 @@ import javafx.scene.control.Tab;
 public class IMHTab extends Tab {
 
     private final ResourceBundle MSG;
+    public final ListView<File> list = new ListView<>();
 
     public IMHTab() {
         MSG = ResourceBundle.getBundle("i18n/Browser"); // Must be done after super() called.
         setClosable(false);
         setText(MSG.getString("IMH_TAB_LABEL"));
+
+        AppProperties appProps = AppProperties.getInstance();
+        File cacheFolder = appProps.getCacheFolder();
+        File picFolder = new File(cacheFolder, "imh");
+        File[] listFiles = picFolder.listFiles((File dir, String name) -> name.endsWith(".png"));
+        ObservableList<File> items = FXCollections.observableArrayList(Arrays.asList(listFiles)).sorted();
+
+        list.setItems(items);
+        configCellFactory(list);
+
+        VBox.setVgrow(list, Priority.ALWAYS);
+
+        setContent(new VBox(list));
     }
 
+    private void configCellFactory(ListView<File> list) {
+        list.setCellFactory((p) -> {
+
+            return new ListCell<>() {
+                @Override
+                protected void updateItem(File file, boolean empty) {
+                    super.updateItem(file, empty);
+                    if (empty || file == null) {
+                        setText(null);
+                    } else {
+                        setText(file.getName());
+                    }
+                }
+
+            };
+        });
+    }
 }

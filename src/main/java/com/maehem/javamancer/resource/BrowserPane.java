@@ -26,17 +26,16 @@
  */
 package com.maehem.javamancer.resource;
 
+import com.maehem.javamancer.AppProperties;
+import com.maehem.javamancer.JavamancerPane;
 import com.maehem.javamancer.resource.view.ANHTab;
 import com.maehem.javamancer.resource.view.BIHTab;
 import com.maehem.javamancer.resource.view.IMHTab;
 import com.maehem.javamancer.resource.view.PICTab;
-import com.maehem.javamancer.AppProperties;
-import com.maehem.javamancer.JavamancerPane;
 import com.maehem.javamancer.root.*;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
@@ -51,6 +50,11 @@ public class BrowserPane extends JavamancerPane {
     public enum Action {
         DONE
     };
+
+    public final ANHTab anhTab = new ANHTab();
+    public final BIHTab bihTab = new BIHTab();
+    public final IMHTab imhTab = new IMHTab();
+    public final PICTab picTab = new PICTab();
 
     private final BrowserPaneListener listener;
 
@@ -73,35 +77,27 @@ public class BrowserPane extends JavamancerPane {
         topPane.setPrefHeight(48);
         setTop(topPane);
 
-        setCenter(contentNode());
+        TabPane tabPane = new TabPane(imhTab, picTab, bihTab, anhTab);
+        ContentPreviewPane contentPane = new ContentPreviewPane();
+        SplitPane contentBox = new SplitPane(tabPane, contentPane);
+        contentBox.setId("root-opaque");
+        contentBox.setDividerPosition(0, 0.25);
+        setCenter(contentBox);
+
         HBox bottomBox = new HBox();
         bottomBox.setAlignment(Pos.CENTER);
         setBottom(bottomBox);
 
         initListeners();
+
+        picTab.list.getSelectionModel().selectedItemProperty().addListener(contentPane);
+        imhTab.list.getSelectionModel().selectedItemProperty().addListener(contentPane);
     }
 
     private void initListeners() {
         doneButton.setOnAction((t) -> {
             listener.broswerActionPerformed(Action.DONE);
         });
-    }
-
-    private Node contentNode() {
-
-        ANHTab anhTab = new ANHTab();
-        BIHTab bihTab = new BIHTab();
-        IMHTab imhTab = new IMHTab();
-        PICTab picTab = new PICTab();
-        TabPane tabPane = new TabPane(imhTab, picTab, bihTab, anhTab);
-
-        ContentPreviewPane contentPane = new ContentPreviewPane();
-
-        SplitPane contentBox = new SplitPane(tabPane, contentPane);
-
-        contentBox.setDividerPosition(0, 0.25);
-
-        return contentBox;
     }
 
     @Override

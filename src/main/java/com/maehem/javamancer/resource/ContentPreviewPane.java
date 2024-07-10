@@ -26,12 +26,55 @@
  */
 package com.maehem.javamancer.resource;
 
+import com.maehem.javamancer.logging.Logging;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class ContentPreviewPane extends StackPane {
+public class ContentPreviewPane extends StackPane implements ChangeListener<File> {
+
+    public static final Logger LOGGER = Logging.LOGGER;
+
+    public ContentPreviewPane() {
+    }
+
+    @Override
+    public void changed(ObservableValue<? extends File> ov, File oldFile, File clickedFile) {
+        if (clickedFile == null) {
+            LOGGER.log(Level.FINER, "Clear clicked.");
+            getChildren().clear();
+        } else {
+            LOGGER.log(Level.FINER, "User clicked: {0}", clickedFile.getName());
+            getChildren().clear();
+            int width = 100;
+            String parent = clickedFile.getParentFile().getName();
+            if (parent.equals("imh")) {
+                width = 300;
+            } else if (parent.equals("pic")) {
+                width = 608;
+            } else if (parent.equals("anh")) {
+                width = 200;
+            }
+            try {
+                Image img = new Image(new FileInputStream(clickedFile), width, 224, true, true);
+                ImageView iv = new ImageView(img);
+                getChildren().add(iv);
+
+            } catch (FileNotFoundException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
 }
