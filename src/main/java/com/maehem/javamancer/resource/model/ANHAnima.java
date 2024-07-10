@@ -67,7 +67,7 @@ public class ANHAnima {
                 }
                 sb.append(hexFormat.toHexDigits(rleBlob[i])).append(" ");
             }
-            LOGGER.log(Level.SEVERE, sb.toString());
+            LOGGER.log(Level.FINE, sb.toString());
 
             frames.add(new ANHFrame(xOff, yOff, w, h, rleBlob));
         }
