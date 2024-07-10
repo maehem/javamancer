@@ -24,7 +24,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.resource;
+package com.maehem.javamancer.resource.view;
 
 import java.util.ResourceBundle;
 import javafx.scene.control.Tab;
@@ -33,14 +33,14 @@ import javafx.scene.control.Tab;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class BIHTab extends Tab {
+public class ANHTab extends Tab {
 
     private final ResourceBundle MSG;
 
-    public BIHTab() {
+    public ANHTab() {
         MSG = ResourceBundle.getBundle("i18n/Browser"); // Must be done after super() called.
         setClosable(false);
-        setText(MSG.getString("BIH_TAB_LABEL"));
+        setText(MSG.getString("ANH_TAB_LABEL"));
     }
 
 }
