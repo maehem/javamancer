@@ -141,15 +141,15 @@ public class Javamancer extends Application implements RootButtonListener, About
             }
             case BROWSER -> {
                 LOGGER.log(Level.SEVERE, "Browser Button Pressed");
-                if (dat == null) {
-                    try {
-                        dat = Ingest.ingestDAT(appProperties.getDatFiles());
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(Javamancer.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
 
                 if (!appProperties.cacheFilesPresent()) {
+                    if (dat == null) {
+                        try {
+                            dat = Ingest.ingestDAT(appProperties.getDatFiles());
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(Javamancer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                     appProperties.initCacheFolder(dat);
                 }
 
