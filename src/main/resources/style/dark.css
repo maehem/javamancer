@@ -9,9 +9,6 @@
     -fx-accent: #de77de;
     -fx-focus-color: derive( -fx-accent, -20% );
     
-    -fx-control-inner-background: derive(-fx-background-color,  35%);
-    -fx-control-inner-background-alt: -fx-control-inner-background ;
-
     -fx-padding: 10;
     -fx-border-width: 2;
     -fx-border-insets: 5;
@@ -20,6 +17,13 @@
 
 #root-opaque {
     -fx-base: #292929;
+    
+    -fx-control-inner-background: derive(-fx-base,  15%);
+    -fx-control-inner-background-alt: derive( -fx-control-inner-background, 10%);
+    /*
+    -fx-control-inner-background: derive(-fx-background-color,  35%);
+    -fx-control-inner-background-alt: -fx-control-inner-background ;
+ */
 }
 
 #root-clear {
