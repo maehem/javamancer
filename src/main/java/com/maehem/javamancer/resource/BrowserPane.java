@@ -26,6 +26,10 @@
  */
 package com.maehem.javamancer.resource;
 
+import com.maehem.javamancer.resource.view.ANHTab;
+import com.maehem.javamancer.resource.view.BIHTab;
+import com.maehem.javamancer.resource.view.IMHTab;
+import com.maehem.javamancer.resource.view.PICTab;
 import com.maehem.javamancer.AppProperties;
 import com.maehem.javamancer.JavamancerPane;
 import com.maehem.javamancer.root.*;
