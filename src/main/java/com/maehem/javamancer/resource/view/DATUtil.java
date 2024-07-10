@@ -28,12 +28,14 @@ package com.maehem.javamancer.resource.view;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.resource.file.PNGWriter;
+import com.maehem.javamancer.resource.model.ANHAnima;
 import com.maehem.javamancer.resource.model.ANHEntry;
 import com.maehem.javamancer.resource.model.ANHFrame;
-import com.maehem.javamancer.resource.model.ANHAnima;
 import com.maehem.javamancer.resource.model.DAT;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
@@ -160,15 +162,30 @@ public class DATUtil {
                     ANHAnima anim = entry.frames.get(animNum);
                     File animDir = new File(entryDir, "anim" + animNum);
                     animDir.mkdir();
-                    LOG.log(Level.SEVERE, "Create Anim Dir: " + animDir.getAbsolutePath());
-                    // TODO: Store sleep in properties file.
-                    for (int frameNum = 0; frameNum < anim.frames.size(); frameNum++) {
-                        ANHFrame frame = anim.frames.get(frameNum);
-                        File frameFile = new File(animDir, (frameNum + 1) + ".png");
-                        makeImageFile(frameFile, frame.data, frame.w, frame.h, 0);
-                        LOG.log(Level.SEVERE, "Create image: " + frameFile.getAbsolutePath());
-                    };
+                    LOG.log(Level.CONFIG, "Create Anim Dir: " + animDir.getAbsolutePath());
 
+                    try {
+                        File sleepFile = new File(animDir, "meta.txt");
+                        LOG.log(Level.CONFIG, "Create Sleep File: {0}", sleepFile.getAbsolutePath());
+                        try (RandomAccessFile writer = new RandomAccessFile(sleepFile, "rw")) {
+                            writer.getChannel().truncate(0L);
+                            writer.writeChars(String.valueOf(anim.sleep) + "\n");
+
+                            // TODO: Store sleep in properties file.
+                            for (int frameNum = 0; frameNum < anim.frames.size(); frameNum++) {
+                                ANHFrame frame = anim.frames.get(frameNum);
+                                writer.writeChars(frame.xOffset + "," + frame.yOffset + "\n");
+                                File frameFile = new File(animDir, (frameNum + 1) + ".png");
+                                makeImageFile(frameFile, frame.data, frame.w, frame.h, 0);
+                                LOG.log(Level.FINE, "Create image: " + frameFile.getAbsolutePath());
+                            };
+
+                        }
+                    } catch (FileNotFoundException ex) {
+                        LOG.log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        LOG.log(Level.SEVERE, null, ex);
+                    }
                 }
             }
 
