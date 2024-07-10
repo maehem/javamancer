@@ -115,9 +115,9 @@ public class Huffman {
 //	return length;
         HexFormat hexFormat = HexFormat.of();
 
-        LOGGER.log(Level.SEVERE, "Huffman Decompress => ");
+        LOGGER.log(Level.FINER, "Huffman Decompress => ");
         for (int ii = 0; ii < length; ii += 16) {
-            Logging.LOGGER.log(Level.SEVERE,
+            Logging.LOGGER.log(Level.FINER,
                     String.format("%04X", ii & 0xFFFF) + ": "
                     + hexFormat.toHexDigits(destination[ii]) + hexFormat.toHexDigits(destination[ii + 1]) + " "
                     + hexFormat.toHexDigits(destination[ii + 2]) + hexFormat.toHexDigits(destination[ii + 3]) + " "
