@@ -210,10 +210,10 @@ public class Util {
                 inout[inoutIdx + ((i + 1) * w) + j] ^= inout[inoutIdx + (i * w) + j];
             }
         }
-        LOGGER.log(Level.SEVERE, "XOR Result ===>");
+        LOGGER.log(Level.FINER, "XOR Result ===>");
         HexFormat hexFormat = HexFormat.of();
         for (int ii = inoutIdx; ii < inoutIdx + w * h; ii += 16) {
-            Logging.LOGGER.log(Level.SEVERE,
+            Logging.LOGGER.log(Level.FINER,
                     String.format("%04X", ii & 0xFFFF) + ": "
                     + hexFormat.toHexDigits(inout[ii]) + " " + hexFormat.toHexDigits(inout[ii + 1]) + " "
                     + hexFormat.toHexDigits(inout[ii + 2]) + " " + hexFormat.toHexDigits(inout[ii + 3]) + " "
@@ -226,13 +226,4 @@ public class Util {
             );
         }
     }
-//    static void xor_rows(uint8_t  *inout, uint32_t w, uint32_t h) {
-//	uint8_t *p = inout;
-//
-//        for (uint32_t i = 0; i < h - 1; i++) {
-//            for (uint32_t j = 0; j < w; j++) {
-//                p[((i + 1) * w) + j] ^= p[(i * w) + j];
-//            }
-//        }
-//    }
 }
