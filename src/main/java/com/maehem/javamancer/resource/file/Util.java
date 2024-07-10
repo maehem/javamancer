@@ -66,20 +66,20 @@ public class Util {
      */
     public static final String[] palette = {
         "0x000000", //black
-        "0x000080", //blue
-        "0x008000", //green
-        "0x008080", //cyan
-        "0x800000", //red
-        "0x800080", //magenta
-        "0x808000", //brown
-        "0xC0C0C0", //light gray
-        "0x808080", //dark gray
-        "0x0000FF", //light blue
-        "0x00FF00", //light green
-        "0x00FFFF", //light cyan
-        "0xFF0000", //light red
+        "0x000070", //blue
+        "0x007000", //green
+        "0x007080", //cyan
+        "0x700000", //red
+        "0x900090", //magenta
+        "0x606000", //brown
+        "0xB0B0B0", //light gray
+        "0x606060", //dark gray
+        "0x0000DD", //light blue
+        "0x00DD00", //light green
+        "0x00CCCC", //light cyan
+        "0xDD0000", //light red
         "0xFF00FF", //light magenta
-        "0xFFFF00", //yellow
+        "0xDDDD00", //yellow
         "0xFFFFFF" // white
     };
 
