@@ -52,6 +52,14 @@ public class ViewUtils {
     public static final double FONT_SCALE = 1.000; // Mango Custom. Font height can vary depending on Family.
     public static double FONT_SIZE_MULT = 1.666; // JavaFX pixel units to font size ratio. Found experimentally.
 
+    public static final int PIC_DEFAULT_WIDTH = 304;
+    public static final int PIC_DEFAULT_HEIGHT = 112;
+
+    public static final double PIC_PREVIEW_SCALE = 2.0;
+
+    public static final double PIC_PREF_WIDTH = PIC_DEFAULT_WIDTH * PIC_PREVIEW_SCALE;
+    public static final double PIC_PREF_HEIGHT = PIC_DEFAULT_HEIGHT * PIC_PREVIEW_SCALE;
+
     public static Button createIconButton(String name, Image img) {
         return (Button) createIconButton(name, img, ICON_IMG_SIZE, false);
     }
