@@ -77,7 +77,6 @@ public class Data2Image extends WritableImage {
             return;
         }
 
-        //dataIndex += 8; // X/Y W/H header is 8 bytes.
         PixelWriter pw = getPixelWriter();
         for (int row = 0; row < getHeight(); row++) {
             for (int col = 0; col < getWidth(); col += 2) {
