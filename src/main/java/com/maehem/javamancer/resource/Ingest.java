@@ -38,7 +38,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -79,17 +78,17 @@ public class Ingest {
             ANHThing thing = new ANHThing(anh, dest, len);
 
             dat.anh.add(thing);
-            try {
-                File userDir = new File(System.getProperty("user.home"));
-                File dataDir = new File(userDir, "javamancer");
-                RandomAccessFile datOut = new RandomAccessFile(new File(dataDir, anh.getName() + ".anh"), "rw");
-                datOut.getChannel().truncate(0L);
-                datOut.write(dest);
-                datOut.close();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Ingest.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                File userDir = new File(System.getProperty("user.home"));
+//                File dataDir = new File(userDir, "javamancer");
+//                RandomAccessFile datOut = new RandomAccessFile(new File(dataDir, anh.getName() + ".anh"), "rw");
+//                datOut.getChannel().truncate(0L);
+//                datOut.write(dest);
+//                datOut.close();
+//
+//            } catch (IOException ex) {
+//                Logger.getLogger(Ingest.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
         // Ingest BIH
         for (BIH bih : BIH.values()) {
