@@ -26,53 +26,186 @@
  */
 package com.maehem.javamancer.resource;
 
+import com.maehem.javamancer.AppProperties;
+import com.maehem.javamancer.ViewUtils;
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.resource.view.AnimationSequence;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Group;
+import javafx.scene.control.TreeItem;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class ContentPreviewPane extends StackPane implements ChangeListener<File> {
+public class ContentPreviewPane extends StackPane implements ChangeListener<Object> {
 
     public static final Logger LOGGER = Logging.LOGGER;
+    Timeline timeline = null;
 
     public ContentPreviewPane() {
     }
 
     @Override
-    public void changed(ObservableValue<? extends File> ov, File oldFile, File clickedFile) {
-        if (clickedFile == null) {
-            LOGGER.log(Level.FINER, "Clear clicked.");
-            getChildren().clear();
-        } else {
-            LOGGER.log(Level.FINER, "User clicked: {0}", clickedFile.getName());
-            getChildren().clear();
-            int width = 100;
-            String parent = clickedFile.getParentFile().getName();
-            if (parent.equals("imh")) {
-                width = 300;
-            } else if (parent.equals("pic")) {
-                width = 608;
-            } else if (parent.equals("anh")) {
-                width = 200;
-            }
-            try {
-                Image img = new Image(new FileInputStream(clickedFile), width, 224, true, true);
-                ImageView iv = new ImageView(img);
-                getChildren().add(iv);
+    public void changed(ObservableValue<? extends Object> ov, Object oldFile, Object clickedObject) {
+        if (timeline != null) {
+            timeline.stop();
+            timeline = null;
+        }
 
-            } catch (FileNotFoundException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
+        if (clickedObject instanceof File clickedFile) {
+            if (clickedFile == null) {
+                LOGGER.log(Level.FINER, "Clear clicked.");
+                getChildren().clear();
+            } else {
+                LOGGER.log(Level.FINER, "User clicked: {0}", clickedFile.getName());
+                getChildren().clear();
+                int width = 100;
+                String parent = clickedFile.getParentFile().getName();
+                if (parent.equals("imh")) {
+                    width = 300;
+                } else if (parent.equals("pic")) {
+                    width = (int) ViewUtils.PIC_PREF_WIDTH;
+                } else if (parent.equals("anh")) {
+                    width = 200;
+                }
+                try {
+                    Image img = new Image(new FileInputStream(clickedFile), width, 224, true, true);
+                    ImageView iv = new ImageView(img);
+                    getChildren().add(iv);
+
+                } catch (FileNotFoundException ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                }
+            }
+        } else if (clickedObject instanceof TreeItem tv) {
+            if (tv.getValue() instanceof File file) {
+                if (file.getName().startsWith("anim")) {
+                    LOGGER.log(Level.SEVERE, "User Clicked in Anim Item.");
+                    getChildren().clear();
+
+                    AnimationSequence animSequence = new AnimationSequence();
+
+                    // Get Room name.
+                    File roomFolder = file.getParentFile().getParentFile();
+                    LOGGER.log(Level.SEVERE, "Room File: " + roomFolder.getName());
+                    AppProperties app = AppProperties.getInstance();
+                    File picFolder = new File(app.getCacheFolder(), "pic");
+                    File roomPngFile = new File(picFolder, roomFolder.getName() + ".png");
+
+                    try {
+                        Group compGroup = new Group();
+                        getChildren().add(compGroup);
+
+                        ArrayList<String> locList = new ArrayList<>();
+
+                        // Get metadata.  Sleep, and locations.
+                        File meta = new File(file, "meta.txt");
+                        if (meta.exists()) {
+                            LOGGER.log(Level.SEVERE, "Found meta.txt");
+                            try (Stream<String> stream = Files.lines(Paths.get(meta.toURI()))) {
+                                stream.forEach((line) -> {
+                                    if (line.startsWith("sleep:")) {
+                                        String[] split = line.split(":");
+                                        animSequence.setSleep(Integer.parseInt(split[1]));
+                                        LOGGER.log(Level.SEVERE, "Set Sleep to: {0}", animSequence.getSleep());
+                                    } else if (line.startsWith("//")) {
+                                        // Ignore comment
+                                        LOGGER.log(Level.SEVERE, line);
+                                    } else if (line.contains(",")) {
+                                        locList.add(line);
+                                    }
+                                });
+                            } catch (IOException ex) {
+                                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+                            }
+                        }
+                        // Draw room pic
+                        {
+                            LOGGER.log(Level.SEVERE, "Add PIC.");
+                            ImageView iv = new ImageView(new Image(
+                                    new FileInputStream(roomPngFile),
+                                    ViewUtils.PIC_PREF_WIDTH, 0, true, true
+                            ));
+                            compGroup.getChildren().add(iv);
+                        }
+
+                        // Load frames.
+                        File[] pngFiles = file.listFiles((dir, name) -> {
+                            return name.endsWith(".png");
+                        });
+                        Arrays.sort(pngFiles);
+                        int listIndex = 0;
+                        for (File pngFile : pngFiles) {
+                            Image img0 = new Image(new FileInputStream(pngFile));
+                            double w = img0.getWidth() * ViewUtils.PIC_PREVIEW_SCALE;
+                            Image img = new Image(new FileInputStream(pngFile), w, 0, true, true);
+
+                            ImageView iv = new ImageView(img);
+                            animSequence.images.add(iv);
+                            iv.setBlendMode(BlendMode.DIFFERENCE);
+
+                            String[] split = locList.get(listIndex).split(",");
+                            iv.setLayoutX((Integer.parseInt(split[0]) - 4) * ViewUtils.PIC_PREVIEW_SCALE * 2.0);
+                            iv.setLayoutY((Integer.parseInt(split[1]) - 8) * ViewUtils.PIC_PREVIEW_SCALE);
+                            LOGGER.log(Level.SEVERE, "Add anim frame.");
+
+                            compGroup.getChildren().add(iv);
+                            iv.setVisible(listIndex == 0);
+                            listIndex++;
+                        }
+
+                        timeline = new Timeline(new KeyFrame(
+                                Duration.millis(animSequence.getSleep() * 10),
+                                ae -> {
+                                    //LOGGER.log(Level.SEVERE, "Anim Frame Event.");
+                                    ArrayList<ImageView> images = animSequence.images;
+                                    int next = 0;
+                                    for (int i = 0; i < images.size(); i++) {
+                                        if (images.get(i).isVisible()) {
+                                            images.get(i).setVisible(false);
+                                            next = i + 1;
+                                        }
+                                    }
+                                    next %= images.size();
+                                    //LOGGER.log(Level.SEVERE, "SetVisible: " + next);
+                                    images.get(next).setVisible(true);
+                                }
+                        ));
+                        timeline.setCycleCount(Animation.INDEFINITE);
+                        LOGGER.log(Level.SEVERE, "Start Play Timeline.");
+                        timeline.play();
+
+                        // draw each frame png at location.
+//                        Rectangle g = new Rectangle(50, 50);
+//                        g.setFill(Color.GREEN);
+//                        g.setLayoutX(100);
+//                        g.setLayoutY(100);
+//                        compGroup.getChildren().add(g);
+                    } catch (FileNotFoundException ex) {
+                        LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+                    }
+                }
             }
         }
     }
