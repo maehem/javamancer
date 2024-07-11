@@ -135,7 +135,11 @@ public class DATUtil {
 
                 try {
                     // Save to PNG
-                    pngWriter.write(new File(folder, pic.name + "_" + (indexOf + 1) + ".png"), img);
+                    if (indexOf > 0) { // There should only be one PIC per room.
+                        pngWriter.write(new File(folder, pic.name + "_" + (indexOf + 1) + ".png"), img);
+                    } else {
+                        pngWriter.write(new File(folder, pic.name + ".png"), img);
+                    }
                 } catch (IOException ex) {
                     LOG.log(Level.SEVERE, null, ex);
                 }
@@ -169,13 +173,14 @@ public class DATUtil {
                         LOG.log(Level.CONFIG, "Create Sleep File: {0}", sleepFile.getAbsolutePath());
                         try (RandomAccessFile writer = new RandomAccessFile(sleepFile, "rw")) {
                             writer.getChannel().truncate(0L);
-                            writer.writeChars(String.valueOf(anim.sleep) + "\n");
+                            writer.writeBytes("// This is a comment.\n");
+                            writer.writeBytes("sleep:" + String.valueOf(anim.sleep) + "\n");
 
                             // TODO: Store sleep in properties file.
                             for (int frameNum = 0; frameNum < anim.frames.size(); frameNum++) {
                                 ANHFrame frame = anim.frames.get(frameNum);
-                                writer.writeChars(frame.xOffset + "," + frame.yOffset + "\n");
-                                File frameFile = new File(animDir, (frameNum + 1) + ".png");
+                                writer.writeBytes(frame.xOffset + "," + frame.yOffset + "\n");
+                                File frameFile = new File(animDir, (frameNum < 10 ? "0" : "") + frameNum + ".png");
                                 makeImageFile(frameFile, frame.data, frame.w, frame.h, 0);
                                 LOG.log(Level.FINE, "Create image: " + frameFile.getAbsolutePath());
                             };
