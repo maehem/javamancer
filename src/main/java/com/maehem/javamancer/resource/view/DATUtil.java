@@ -164,7 +164,7 @@ public class DATUtil {
 
                 for (int animNum = 0; animNum < entry.frames.size(); animNum++) {
                     ANHAnima anim = entry.frames.get(animNum);
-                    File animDir = new File(entryDir, "anim" + animNum);
+                    File animDir = new File(entryDir, "anim" + (animNum < 10 ? "0" : "") + animNum);
                     animDir.mkdir();
                     LOG.log(Level.CONFIG, "Create Anim Dir: " + animDir.getAbsolutePath());
 
