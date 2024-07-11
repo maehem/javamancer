@@ -26,8 +26,19 @@
  */
 package com.maehem.javamancer.resource.view;
 
+import com.maehem.javamancer.AppProperties;
+import java.io.File;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -36,11 +47,77 @@ import javafx.scene.control.Tab;
 public class ANHTab extends Tab {
 
     private final ResourceBundle MSG;
+    public final ListView<File> list = new ListView<>();
+    public final TreeItem<File> rootNode = new TreeItem<>();
+    public final TreeView<File> treeView = new TreeView<>(rootNode);
 
     public ANHTab() {
         MSG = ResourceBundle.getBundle("i18n/Browser"); // Must be done after super() called.
         setClosable(false);
         setText(MSG.getString("ANH_TAB_LABEL"));
+
+        AppProperties appProps = AppProperties.getInstance();
+        File cacheFolder = appProps.getCacheFolder();
+        File anhFolder = new File(cacheFolder, "anh");
+        File[] listFiles = anhFolder.listFiles((File dir, String name) -> (dir.isDirectory() && name.startsWith("R")));
+        ObservableList<File> rItems = FXCollections.observableArrayList(Arrays.asList(listFiles)).sorted();
+
+        treeView.setShowRoot(false);
+        rootNode.setExpanded(true);
+        configCellFactory(treeView);
+
+        //list.setItems(items);
+        rItems.forEach((file) -> {
+            TreeItem<File> rItem = new TreeItem<>(file);
+            rootNode.getChildren().add(rItem);
+            processRoomItems(rItem);
+        });
+
+//        configCellFactory(list);
+        VBox.setVgrow(treeView, Priority.ALWAYS);
+
+        setContent(new VBox(treeView));
     }
 
+    private void configCellFactory(TreeView<File> list) {
+        list.setCellFactory((p) -> new TreeCell<>() {
+            @Override
+            protected void updateItem(File file, boolean empty) {
+                super.updateItem(file, empty);
+                if (empty || file == null) {
+                    setText(null);
+                } else {
+                    setText(file.getName());
+                }
+            }
+        });
+    }
+
+    private void processRoomItems(TreeItem<File> roomTree) {
+        File roomFolder = roomTree.getValue();
+        if (roomFolder.isDirectory()) { //entry1, entry2, etc.
+            File[] listFiles = roomFolder.listFiles((File dir, String name) -> (dir.isDirectory() && name.startsWith("entry")));
+            ObservableList<File> entryItems = FXCollections.observableArrayList(Arrays.asList(listFiles)).sorted();
+
+            entryItems.forEach((file) -> {
+                TreeItem<File> entryItem = new TreeItem<>(file);
+                roomTree.getChildren().add(entryItem);
+                processEntryItems(entryItem);
+            });
+        }
+    }
+
+    private void processEntryItems(TreeItem<File> entryTree) {
+        File entryFolder = entryTree.getValue();
+        if (entryFolder.isDirectory()) { // anim1, anim2, etc.
+            File[] listFiles = entryFolder.listFiles((File dir, String name) -> (dir.isDirectory() && name.startsWith("anim")));
+            ObservableList<File> animItems = FXCollections.observableArrayList(Arrays.asList(listFiles)).sorted();
+
+            animItems.forEach((file) -> {
+                TreeItem<File> animItem = new TreeItem<>(file);
+                entryTree.getChildren().add(animItem);
+                //processAnimItems(entryItem);
+            });
+        }
+    }
 }
