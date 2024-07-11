@@ -163,7 +163,7 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
 
                             ImageView iv = new ImageView(img);
                             animSequence.images.add(iv);
-                            iv.setBlendMode(BlendMode.DIFFERENCE);
+                            iv.setBlendMode(BlendMode.EXCLUSION);
 
                             String[] split = locList.get(listIndex).split(",");
                             iv.setLayoutX((Integer.parseInt(split[0]) - 4) * ViewUtils.PIC_PREVIEW_SCALE * 2.0);
@@ -176,7 +176,7 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                         }
 
                         timeline = new Timeline(new KeyFrame(
-                                Duration.millis(animSequence.getSleep() * 10),
+                                Duration.millis(animSequence.getSleep() * 50),
                                 ae -> {
                                     //LOGGER.log(Level.SEVERE, "Anim Frame Event.");
                                     ArrayList<ImageView> images = animSequence.images;
