@@ -92,6 +92,7 @@ public class BrowserPane extends JavamancerPane {
 
         picTab.list.getSelectionModel().selectedItemProperty().addListener(contentPane);
         imhTab.list.getSelectionModel().selectedItemProperty().addListener(contentPane);
+        anhTab.treeView.getSelectionModel().selectedItemProperty().addListener(contentPane);
     }
 
     private void initListeners() {
