@@ -63,24 +63,27 @@ public class Util {
      *
      * Stored as web color string red[23..16] grn:[15..0] blu:[7..0] For JavaFX
      * color creation with: Color.web(palette[index], double alpha)
+     *
+     * Raw color values, i.e. #FF0000 for red were found to appear too bright
+     * and garish, so they were tuned to be more pleasing.
      */
     public static final String[] palette = {
         "0x000000", //black
-        "0x000070", //blue
-        "0x007000", //green
-        "0x007080", //cyan
-        "0x700000", //red
-        "0x900090", //magenta
-        "0x606000", //brown
-        "0xB0B0B0", //light gray
-        "0x606060", //dark gray
-        "0x0000DD", //light blue
-        "0x00DD00", //light green
-        "0x00CCCC", //light cyan
-        "0xDD0000", //light red
-        "0xFF00FF", //light magenta
-        "0xDDDD00", //yellow
-        "0xFFFFFF" // white
+        "0x000066", //blue
+        "0x006600", //green
+        "0x007070", //cyan
+        "0x660000", //red
+        "0x400040", //magenta
+        "0x402000", //brown
+        "0x909090", //light gray
+        "0x333333", //dark gray
+        "0x0000A6", //light blue
+        "0x00A600", //light green
+        "0x00BBBB", //light cyan
+        "0xAA0000", //light red
+        "0xAA00AA", //light magenta
+        "0xC4C400", //yellow
+        "0xF0F0F0" // white
     };
 
     /**
