@@ -70,29 +70,33 @@ public class PNGWriter {
         LOGGER.log(Level.FINEST, "    - TEXT Chunk");
         writeTEXTChunk(raf, "Software\0Javamancer");
 
-        int imgSize = (int) ((img.getWidth() + 1) * img.getHeight() * 4);
+        int imgSize = (int) ((img.getWidth()) * img.getHeight() * 5);
         LOGGER.log(Level.FINEST, "    :: Image Size {0} bytes -- uncompressed", imgSize);
-        byte[] imgBuf = new byte[imgSize + 4 + 1024];
+        //byte[] imgBuf = new byte[imgSize + 4 + 1024];
+        byte[] imgBuf = new byte[imgSize + 5];
+
         PixelReader pr = img.getPixelReader();
         int i = 0;
-        for ( int y=0; y<img.getHeight(); y++ ) {
+        for (int y = 0; y < img.getHeight(); y++) {
+            imgBuf[i++] = 0x00; // Filter None
             for (int x = 0; x < img.getWidth(); x++) {
                 int argb = pr.getArgb(x, y);
-                imgBuf[i + 0] = (byte) (((argb & 0xFF000000) >> 24) & 0xFF);
-                imgBuf[i + 1] = (byte) (((argb & 0x00FF0000) >> 16) & 0xFF);
-                imgBuf[i + 2] = (byte) (((argb & 0x0000FF00) >> 8) & 0xFF);
-                imgBuf[i + 3] = (byte) ((argb & 0x000000FF) & 0xFF);
-                i += 4;
+                imgBuf[i++] = (byte) (((argb & 0x00FF0000) >> 16) & 0xFF);
+                imgBuf[i++] = (byte) (((argb & 0x0000FF00) >> 8) & 0xFF);
+                imgBuf[i++] = (byte) ((argb & 0x000000FF) & 0xFF);
+                imgBuf[i++] = (byte) (((argb & 0xFF000000) >> 24) & 0xFF);
             }
-            i += 1;
         }
+        //i += 1;
+        //imgBuf[i] = 0x00;
+
         LOGGER.log(Level.FINEST, "     * Compress");
-        ByteBuffer bb = ByteBuffer.allocate(imgSize + 16);
+        ByteBuffer bb = ByteBuffer.allocate(imgSize + 32);
         Deflater deflater = new Deflater(Deflater.DEFAULT_COMPRESSION);
         deflater.setInput(imgBuf);
         deflater.finish();
         deflater.deflate(bb);
-        int size = deflater.getTotalOut() + 5;
+        int size = deflater.getTotalOut();// + 5;
         deflater.end();
 
         //List<Integer> compressed = compress(new String(imgBuf));
