@@ -102,17 +102,6 @@ public class Ingest {
             BIHThing thing = new BIHThing(bih, dest, len);
 
             dat.bih.add(thing);
-//            try {
-//                File userDir = new File(System.getProperty("user.home"));
-//                File dataDir = new File(userDir, "javamancer");
-//                RandomAccessFile datOut = new RandomAccessFile(new File(dataDir, bih.getName() + ".bih"), "rw");
-//                datOut.getChannel().truncate(0L);
-//                datOut.write(dest);
-//                datOut.close();
-//
-//            } catch (IOException ex) {
-//                Logger.getLogger(Ingest.class.getName()).log(Level.SEVERE, null, ex);
-//            }
         }
 
         return dat;
