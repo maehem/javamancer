@@ -63,7 +63,7 @@ public class PICThing {
             dataBlock.add(blob);
         }
 
-        LOGGER.log(Level.SEVERE, "{0}:: Blob count = {1}", new Object[]{name, dataBlock.size()});
+        LOGGER.log(Level.SEVERE, "{0}:: PIC Blob count = {1}", new Object[]{name, dataBlock.size()});
     }
 
 }
