@@ -181,7 +181,7 @@ public class DATUtil {
                                 ANHFrame frame = anim.frames.get(frameNum);
                                 writer.writeBytes(frame.xOffset + "," + frame.yOffset + "\n");
                                 File frameFile = new File(animDir, (frameNum < 10 ? "0" : "") + frameNum + ".png");
-                                makeImageFile(frameFile, frame.data, frame.w, frame.h, 0);
+                                makeImageFile(frameFile, frame.getXorData(), frame.w, frame.h, 0);
                                 LOG.log(Level.FINE, "Create image: " + frameFile.getAbsolutePath());
                             };
 
