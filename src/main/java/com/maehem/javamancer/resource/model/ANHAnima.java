@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.resource.model;
 
+import com.maehem.javamancer.ViewUtils;
 import static com.maehem.javamancer.logging.Logging.LOGGER;
 import com.maehem.javamancer.resource.file.Util;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class ANHAnima {
     public final byte data[];
     public final ArrayList<ANHFrame> frames = new ArrayList<>();
 
-    public ANHAnima(int sleep, int offset, byte[] data) {
+    public ANHAnima(int sleep, int offset, byte[] data, byte[] roomData) {
         this.sleep = sleep;
         this.offset = offset; // TODO: Don't keep
         this.data = data;    // TODO: Don't keep
@@ -72,6 +73,33 @@ public class ANHAnima {
             frames.add(new ANHFrame(xOff, yOff, w, h, rleBlob));
         }
         LOGGER.log(Level.SEVERE, "Animation has " + frames.size() + " frames.");
+
+        // Apply XOR frames to room PIC
+        // Copy Room data. Original might be used elsewhere.
+        byte roomCopy[] = new byte[roomData.length];
+        System.arraycopy(roomData, 0, roomCopy, 0, roomData.length);
+
+        final int PIC_W = ViewUtils.PIC_DATA_WIDTH;
+
+        frames.forEach((frame) -> {
+            byte xorFrame[] = new byte[frame.data.length];
+            // XOR apply frame data.
+            for (int y = 0; y < frame.h; y++) {
+                for (int x = 0; x < frame.w; x++) {
+                    int index = ((frame.yOffset - 8) * PIC_W) + (frame.xOffset - 4) + (y * PIC_W) + x;
+                    try {
+                        roomCopy[index] ^= frame.data[y * frame.w + x]; // XOR, for next frame
+                        xorFrame[y * frame.w + x] = roomCopy[index]; // Our snapshot.
+                    } catch (ArrayIndexOutOfBoundsException ex) {
+                        int a = 0; // debug break
+                        // Sometimes writes past win height. Ignore.
+                    }
+                }
+            }
+
+            // Store clipped frame.
+            frame.setXorData(xorFrame);
+        });
     }
 
 }
