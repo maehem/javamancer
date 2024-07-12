@@ -49,7 +49,7 @@ public class ANHEntry {
     public final int totalFrames;
     public final ArrayList<ANHAnima> frames = new ArrayList<>();
 
-    public ANHEntry(byte[] data) {
+    public ANHEntry(byte[] data, byte[] roomData) {
         this.data = new byte[data.length];
         System.arraycopy(data, 0, this.data, 0, data.length);
 
@@ -93,7 +93,7 @@ public class ANHEntry {
         System.arraycopy(data, dIndex, frameBytes, 0, bLen);
 
         for (int i = 0; i < totalFrames; i++) {
-            frames.add(new ANHAnima(frameData[i][0], frameData[i][1], frameBytes));
+            frames.add(new ANHAnima(frameData[i][0], frameData[i][1], frameBytes, roomData));
         }
 
     }

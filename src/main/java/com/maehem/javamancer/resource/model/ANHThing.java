@@ -54,7 +54,7 @@ public class ANHThing {
     public final String name;
     public final ArrayList<ANHEntry> anhEntry = new ArrayList<>();
 
-    public ANHThing(ANH anh, byte[] data, int len) {
+    public ANHThing(ANH anh, byte[] data, int len, byte roomData[]) {
         this.name = anh.getName();
 
         this.data = new byte[len];
@@ -68,7 +68,7 @@ public class ANHThing {
             offset += 2;
             byte entData[] = new byte[entLen];
             System.arraycopy(this.data, offset, entData, 0, entLen);
-            ANHEntry entry = new ANHEntry(entData);
+            ANHEntry entry = new ANHEntry(entData, roomData);
 
             anhEntry.add(entry);
             offset += entLen;
