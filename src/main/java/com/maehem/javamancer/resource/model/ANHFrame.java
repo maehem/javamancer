@@ -37,6 +37,7 @@ public class ANHFrame {
     public final int w;
     public final int h;
     public final byte[] data;
+    private byte[] xorFrame;
 
     public ANHFrame(int xOffset, int yOffset, int w, int h, byte data[]) {
         this.xOffset = xOffset;
@@ -45,6 +46,14 @@ public class ANHFrame {
         this.h = h;
 
         this.data = data;
+    }
+
+    void setXorData(byte[] xorFrame) {
+        this.xorFrame = xorFrame;
+    }
+
+    public byte[] getXorData() {
+        return xorFrame;
     }
 
 }
