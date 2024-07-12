@@ -74,10 +74,10 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
 
         if (clickedObject instanceof File clickedFile) {
             if (clickedFile == null) {
-                LOGGER.log(Level.FINER, "Clear clicked.");
+                LOGGER.log(Level.FINEST, "Clear clicked.");
                 getChildren().clear();
             } else {
-                LOGGER.log(Level.FINER, "User clicked: {0}", clickedFile.getName());
+                LOGGER.log(Level.FINEST, "User clicked: {0}", clickedFile.getName());
                 getChildren().clear();
                 int width = 100;
                 String parent = clickedFile.getParentFile().getName();
@@ -100,14 +100,14 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
         } else if (clickedObject instanceof TreeItem tv) {
             if (tv.getValue() instanceof File file) {
                 if (file.getName().startsWith("anim")) {
-                    LOGGER.log(Level.SEVERE, "User Clicked in Anim Item.");
+                    LOGGER.log(Level.FINEST, "User Clicked in Anim Item.");
                     getChildren().clear();
 
                     AnimationSequence animSequence = new AnimationSequence();
 
                     // Get Room name.
                     File roomFolder = file.getParentFile().getParentFile();
-                    LOGGER.log(Level.SEVERE, "Room File: " + roomFolder.getName());
+                    LOGGER.log(Level.FINER, "Room File: " + roomFolder.getName());
                     AppProperties app = AppProperties.getInstance();
                     File picFolder = new File(app.getCacheFolder(), "pic");
                     File roomPngFile = new File(picFolder, roomFolder.getName() + ".png");
@@ -121,16 +121,16 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                         // Get metadata.  Sleep, and locations.
                         File meta = new File(file, "meta.txt");
                         if (meta.exists()) {
-                            LOGGER.log(Level.SEVERE, "Found meta.txt");
+                            LOGGER.log(Level.FINEST, "Found meta.txt");
                             try (Stream<String> stream = Files.lines(Paths.get(meta.toURI()))) {
                                 stream.forEach((line) -> {
                                     if (line.startsWith("sleep:")) {
                                         String[] split = line.split(":");
                                         animSequence.setSleep(Integer.parseInt(split[1]));
-                                        LOGGER.log(Level.SEVERE, "Set Sleep to: {0}", animSequence.getSleep());
+                                        LOGGER.log(Level.FINER, "Set Sleep to: {0}", animSequence.getSleep());
                                     } else if (line.startsWith("//")) {
                                         // Ignore comment
-                                        LOGGER.log(Level.SEVERE, line);
+                                        LOGGER.log(Level.FINER, line);
                                     } else if (line.contains(",")) {
                                         locList.add(line);
                                     }
@@ -141,7 +141,7 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                         }
                         // Draw room pic
                         {
-                            LOGGER.log(Level.SEVERE, "Add PIC.");
+                            LOGGER.log(Level.FINEST, "Add PIC.");
                             ImageView iv = new ImageView(new Image(
                                     new FileInputStream(roomPngFile),
                                     ViewUtils.PIC_PREF_WIDTH, 0, true, true
@@ -167,7 +167,7 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                             String[] split = locList.get(listIndex).split(",");
                             iv.setLayoutX((Integer.parseInt(split[0]) - 4) * ViewUtils.PIC_PREVIEW_SCALE * 2.0);
                             iv.setLayoutY((Integer.parseInt(split[1]) - 8) * ViewUtils.PIC_PREVIEW_SCALE);
-                            LOGGER.log(Level.SEVERE, "Add anim frame.");
+                            LOGGER.log(Level.FINEST, "Add anim frame.");
 
                             compGroup.getChildren().add(iv);
                             iv.setVisible(listIndex == 0);
@@ -192,7 +192,7 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                                 }
                         ));
                         timeline.setCycleCount(Animation.INDEFINITE);
-                        LOGGER.log(Level.SEVERE, "Start Play Timeline.");
+                        LOGGER.log(Level.FINER, "Start Play Timeline.");
                         timeline.play();
 
                         // draw each frame png at location.
