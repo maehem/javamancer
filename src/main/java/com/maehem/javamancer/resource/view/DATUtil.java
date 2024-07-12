@@ -27,6 +27,7 @@
 package com.maehem.javamancer.resource.view;
 
 import com.maehem.javamancer.logging.Logging;
+import static com.maehem.javamancer.logging.Logging.LOGGER;
 import com.maehem.javamancer.resource.file.PNGWriter;
 import com.maehem.javamancer.resource.model.ANHAnima;
 import com.maehem.javamancer.resource.model.ANHEntry;
@@ -36,6 +37,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.HexFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
@@ -65,10 +67,17 @@ public class DATUtil {
         }
 
         File bihDir = new File(cacheFolder, "bih");
-        if (bihDir.isDirectory()) {
+        if (!bihDir.isDirectory()) {
+            if (bihDir.exists()) {
+                LOG.log(Level.SEVERE, "Cache 'bih' folder is not a folder. Deleting.");
+                bihDir.delete();
+            }
+            LOG.log(Level.SEVERE, "Cache 'bih' folder created.");
+            bihDir.mkdir();
 
+            populateBIH(dat, bihDir);
         } else {
-            LOG.log(Level.SEVERE, "Cache 'bih' folder is not a folder!");
+            LOG.log(Level.SEVERE, "Cache 'bih' folder found.");
         }
 
         File imhDir = new File(cacheFolder, "imh");
@@ -170,21 +179,21 @@ public class DATUtil {
 
                     try {
                         File sleepFile = new File(animDir, "meta.txt");
-                        LOG.log(Level.CONFIG, "Create Sleep File: {0}", sleepFile.getAbsolutePath());
+                        LOG.log(Level.CONFIG, "Create Meta File: {0}", sleepFile.getAbsolutePath());
                         try (RandomAccessFile writer = new RandomAccessFile(sleepFile, "rw")) {
                             writer.getChannel().truncate(0L);
                             writer.writeBytes("// This is a comment.\n");
                             writer.writeBytes("sleep:" + String.valueOf(anim.sleep) + "\n");
 
-                            // TODO: Store sleep in properties file.
+                            // Store frame coords in meta file and store image as PNG.
                             for (int frameNum = 0; frameNum < anim.frames.size(); frameNum++) {
                                 ANHFrame frame = anim.frames.get(frameNum);
                                 writer.writeBytes(frame.xOffset + "," + frame.yOffset + "\n");
+
                                 File frameFile = new File(animDir, (frameNum < 10 ? "0" : "") + frameNum + ".png");
                                 makeImageFile(frameFile, frame.getXorData(), frame.w, frame.h, 0);
                                 LOG.log(Level.FINE, "Create image: " + frameFile.getAbsolutePath());
-                            };
-
+                            }
                         }
                     } catch (FileNotFoundException ex) {
                         LOG.log(Level.SEVERE, null, ex);
@@ -192,6 +201,74 @@ public class DATUtil {
                         LOG.log(Level.SEVERE, null, ex);
                     }
                 }
+            }
+
+        });
+    }
+
+    private static void populateBIH(DAT dat, File folder) {
+        dat.bih.forEach((bihThing) -> {
+            LOG.log(Level.SEVERE, "Process BIH: {0}.", new Object[]{bihThing.name});
+
+            File subDir = new File(folder, bihThing.name);
+            LOG.log(Level.SEVERE, "Create BIH Sub Dir: {0}", subDir.getAbsolutePath());
+            subDir.mkdir();
+
+            // Meta.txt
+            // Text.txt
+            File metaFile = new File(subDir, "meta.txt");
+            LOG.log(Level.CONFIG, "Create Meta File: {0}", metaFile.getAbsolutePath());
+            try (RandomAccessFile writer = new RandomAccessFile(metaFile, "rw")) {
+                writer.getChannel().truncate(0L);
+                writer.writeBytes("// Meta for BIH: " + bihThing.name + "\n");
+                writer.writeBytes("name:" + String.valueOf(bihThing.name) + "\n");
+                writer.writeBytes("cbOffset:" + String.valueOf(bihThing.cbOffset) + "\n");
+                writer.writeBytes("cbSegment:" + String.valueOf(bihThing.cbSegment) + "\n");
+                writer.writeBytes("ctrlStructAddr:" + String.valueOf(bihThing.ctrlStructAddr) + "\n");
+
+                // Write addr of unkown and bytes in hex string. :  ab12: 00 00 00 00 00 ...
+                writer.writeBytes("unknown:\n");
+
+                LOGGER.log(Level.FINER, "Unknown Bytes @ :");
+                int columns = 24;
+                HexFormat hexFormat = HexFormat.of();
+                for (int ii = 0; ii < bihThing.unknown.length; ii += columns) {
+                    StringBuilder sb = new StringBuilder(String.format("%04X", ii & 0xFFFF) + ": ");
+                    try {
+                        for (int i = 0; i < columns; i++) {
+                            byte b = bihThing.unknown[ii + i];
+                            sb.append(hexFormat.toHexDigits(b)).append(" ");
+                        }
+                    } catch (IndexOutOfBoundsException ex) {
+
+                    }
+                    //Logging.LOGGER.log(Level.SEVERE, sb.toString());
+                    writer.writeBytes(sb.toString());
+                    writer.writeBytes("\n");
+                }
+
+                writer.writeBytes("// Text Elements:\n");
+                for (String text : bihThing.text) {
+                    // TODO: Replace any byte == 01 with "<player_name>"
+                    writer.writeBytes(text);
+                    writer.writeBytes("\n");
+                }
+
+            } catch (FileNotFoundException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+
+            // Save raw BIH as a binary file.
+            File binaryFile = new File(subDir, bihThing.name + ".bih");
+            LOG.log(Level.CONFIG, "Create Binary File: {0}", binaryFile.getAbsolutePath());
+            try (RandomAccessFile binWriter = new RandomAccessFile(binaryFile, "rw")) {
+                binWriter.getChannel().truncate(0L);
+                binWriter.write(bihThing.data);
+                binWriter.close();
+            } catch (IOException ex) {
+                LOG.log(Level.SEVERE, null, ex);
             }
 
         });
