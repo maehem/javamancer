@@ -195,12 +195,6 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                         LOGGER.log(Level.FINER, "Start Play Timeline.");
                         timeline.play();
 
-                        // draw each frame png at location.
-//                        Rectangle g = new Rectangle(50, 50);
-//                        g.setFill(Color.GREEN);
-//                        g.setLayoutX(100);
-//                        g.setLayoutY(100);
-//                        compGroup.getChildren().add(g);
                     } catch (FileNotFoundException ex) {
                         LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
                     }
