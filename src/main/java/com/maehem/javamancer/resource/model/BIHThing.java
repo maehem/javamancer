@@ -29,6 +29,7 @@ package com.maehem.javamancer.resource.model;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.resource.file.BIH;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -52,7 +53,7 @@ public class BIHThing {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
-    private final byte[] data;
+    public final byte[] data;
 
     public final String name;
     public final int cbOffset;
@@ -69,23 +70,32 @@ public class BIHThing {
         this.data = new byte[len];
         System.arraycopy(data, 0, this.data, 0, len);
 
-        cbOffset = (data[1] & 0xff << 8) + data[0] & 0xff;
-        cbSegment = (data[3] & 0xff << 8) + data[2] & 0xff;
-        ctrlStructAddr = (data[5] & 0xff << 8) + data[4] & 0xff;
-        initText();
-        byteCodeArrayOffset[0] = (data[9] & 0xff << 8) + data[8] & 0xff;
-        byteCodeArrayOffset[1] = (data[11] & 0xff << 8) + data[10] & 0xff;
-        byteCodeArrayOffset[2] = (data[13] & 0xff << 8) + data[12] & 0xff;
+        if (name.equals("NEWS") || name.equals("PAXBBS")) {
+            LOGGER.log(Level.SEVERE, "Special BIH \"" + name + "\" found.");
+            cbOffset = 0;
+            cbSegment = 0;
+            ctrlStructAddr = 0;
+            initText(0);
+        } else {
+            cbOffset = (data[1] & 0xff << 8) + data[0] & 0xff;
+            cbSegment = (data[3] & 0xff << 8) + data[2] & 0xff;
+            ctrlStructAddr = (data[5] & 0xff << 8) + data[4] & 0xff;
 
-        initObjCodeOffset[0] = (data[15] & 0xff << 8) + data[14] & 0xff;
-        initObjCodeOffset[1] = (data[17] & 0xff << 8) + data[16] & 0xff;
-        initObjCodeOffset[2] = (data[19] & 0xff << 8) + data[18] & 0xff;
+            initText((data[7] & 0xff << 8) + data[6] & 0xff);
 
-        System.arraycopy(data, 18, unknown, 0, 20);
+            byteCodeArrayOffset[0] = (data[9] & 0xff << 8) + data[8] & 0xff;
+            byteCodeArrayOffset[1] = (data[11] & 0xff << 8) + data[10] & 0xff;
+            byteCodeArrayOffset[2] = (data[13] & 0xff << 8) + data[12] & 0xff;
+
+            initObjCodeOffset[0] = (data[15] & 0xff << 8) + data[14] & 0xff;
+            initObjCodeOffset[1] = (data[17] & 0xff << 8) + data[16] & 0xff;
+            initObjCodeOffset[2] = (data[19] & 0xff << 8) + data[18] & 0xff;
+
+            System.arraycopy(data, 18, unknown, 0, 20);
+        }
     }
 
-    private void initText() {
-        int index = (data[7] & 0xff << 8) + data[6] & 0xff;
+    private void initText(int index) {
         String textBlob = new String(data, index, data.length - index).trim();
 
         for (int i = 0; i < textBlob.length();) {
