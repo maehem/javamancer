@@ -48,7 +48,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.control.TreeItem;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -163,7 +162,7 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
 
                             ImageView iv = new ImageView(img);
                             animSequence.images.add(iv);
-                            iv.setBlendMode(BlendMode.EXCLUSION);
+                            //iv.setBlendMode(BlendMode.EXCLUSION);
 
                             String[] split = locList.get(listIndex).split(",");
                             iv.setLayoutX((Integer.parseInt(split[0]) - 4) * ViewUtils.PIC_PREVIEW_SCALE * 2.0);
