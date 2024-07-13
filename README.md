@@ -1,12 +1,12 @@
 # javamancer
-Neuromancer PC Game (1989) Java Port and Game Assets Browser
+Java "Port" of Neuromancer PC Game (1989) with Game Assets Browser
 
 <p align="center">
   <img src="/images/javamancer-main.png" height="240">
-  <img src="/images/neuromancer-pc-box-2.jpeg" height="240">
+  <a href="neuro-game-box.md"><img src="/images/neuromancer-pc-box-2.jpeg" height="240"></a>
 </p>
 
-Based originaly upon the [Reuromancer Windows64](https://github.com/HenadziMatuts/Reuromancer) port by [Henadzi Matuts]( https://github.com/HenadziMatuts) and adapted to Java/JavaFX.
+Inspired by and partially based upon the [Reuromancer Windows64](https://github.com/HenadziMatuts/Reuromancer) port by [Henadzi Matuts]( https://github.com/HenadziMatuts) and adapted to Java/JavaFX.
 
 ## Requirements
 - This engine will require the original NEURO1.DAT and NEURO2.DAT resource files to operate.  You can obtain a copy via by searching the internet.
