@@ -17,12 +17,13 @@ Neuromancer PC was "1989 Game of the Year" for PCs and shipped in a [22cmm x 22c
 thick box](neuro-game-box.md).  The box contained a simple manual, two game floppies and a "decoder" wheel.
 The decoder wheel was used as DRM(copy protection).  As the floppies could be easily copied,
 the designers of the game created an interactive wheel to use during the "on-line" portion
-of the game. The user would be presented with a <img src="/images/neuromancer-pc-box-25.jpeg" height="96"> three word phrase and would need to type
+of the game. The user would be presented with a <img src="/images/neuromancer-pc-box-25.jpeg" align="right" height="96"/> three word phrase and would need to type
 a reply of a number code to proceed in the game.  For example, you might be presented with the
 phrase "Chatsubo" "Ratz" "Chiba City".  The player would rotate the wheel layers such that the
 first two phrases (around the outer edge) line up. Then the user would read the number
 that appears inside the box with the label for the third phrase word(s). Type in the
 number and game continues.
+<br clear="left"/>
 
 There are a few [web hosted "code wheels"](http://www.mlsite.net/neuro/) as the lookup table for the wheel has been
 well documented for a while.  I even wrote a simple [Neuromancer code lookup in JavaFX](https://github.com/maehem/neuromancer-pax-wheel) and
@@ -43,7 +44,7 @@ but I didn't own a Commodore 64 or even a desktop PC at the time. However, by 19
 on my second job out of college at none other than Sun Microsystems, where much of the
 early internet hardware was being designed and built.  Sun was already directly on the new
 thing called the Internet and had state-of-the-art hardware that put PCs to shame. As employees,
-we had email (still a new thing) <img src="/images/neuromancer-book.jpeg" align="right" height="240"/> and access to a thing called Usenet, kind of a text version of
+we had email (still a new thing) <img src="/images/neuromancer-book.jpeg" align="right" height="180"/> and access to a thing called Usenet, kind of a text version of
 web pages, where vast information was searchable and groups of like-minded people could group and
 share ideas and information about subjects they were interested in.  Similar to BBSs of the previous
 decade except no dial-up (always connected) and the places you could explore expanded every day.
