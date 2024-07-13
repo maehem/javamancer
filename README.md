@@ -13,7 +13,7 @@ Based originaly upon the [Reuromancer Windows64](https://github.com/HenadziMatut
 - For now, under development and requires NetBeans IDE for running (unless you have Maven skills).
 
 ## What is Neuromancer PC?
-Neuromancer PC was "1989 Game of the Year" for PCs and shipped in a [22cmm x 22cmm x 2cm
+Neuromancer PC was "1989 Game of the Year" for PCs and shipped in a [22cm x 22cm x 2cm
 thick box](neuro-game-box.md).  The box contained a simple manual, two game floppies and a "decoder" wheel.
 The decoder wheel was used as DRM(copy protection).  As the floppies could be easily copied,
 the designers of the game created an interactive wheel to use during the "on-line" portion
@@ -41,9 +41,10 @@ In a nutshell, I was hooked when I first read the Neuromancer book. I had just g
 college, I was already a CompuServe dial-up service junkie and even spent time on a few
 dial-up BBSs.  I had seen Neuromancer released on C64 sometime in early 1989 or even 1988,
 but I didn't own a Commodore 64 or even a desktop PC at the time. However, by 1990, I was
-on my second job out of college at none other than Sun Microsystems, where much of the
-early internet hardware was being designed and built.  Sun was already directly on the new
-thing called the Internet and had state-of-the-art hardware that put PCs to shame. As employees,
+on my second job out of college at none other than [Sun Microsystems](https://en.wikipedia.org/wiki/Sun_Microsystems), 
+where leaders in the design and manufacture of 
+early internet hardware.  Sun was already directly on the new
+thing called the Internet and had state-of-the-art hardware called "workstations" that put PCs to shame. As employees,
 we had email (still a new thing) <img src="/images/neuromancer-book.jpeg" align="right" height="240"/> and access to a thing called Usenet, kind of a text version of
 web pages, where vast information was searchable and groups of like-minded people could group and
 share ideas and information about subjects they were interested in.  Similar to BBSs of the previous
@@ -59,37 +60,39 @@ interface and download more powerful tools to battle the next ICE with. They mig
 peruse the site to gain hints and information about where to go next in the game.
 <br clear="left"/>
 I thought this made a wonderful metaphor for how I'd already been accessing the
-real internet already.  At the time, the Matrix presented in the game, as well as
-the book, felt like a plausible approach for an actual future internet.  I remember
-Virtual Reality (VR) taking off as an idea back then as well and even got involved
+real internet already. In my mind the internet felt like some kind of ocean to be
+explored, I spend many on work and off work hours using the internet at my terminal there. 
+At the time, the Matrix presented in the game, as well as
+the book, felt like a plausible approach for an actual future internet.  
+Virtual Reality (VR) was emerging as an idea back then as well and even got involved
 as an engineer in it while working at Sun.  VR's promise was something like "headphones
-for you eyes".  But I think for it's time, it was a harder problem than any of us
-thought. Here we are 30 years later and Meta still has work to do.  All in all, I
-was sucked completely in by cyberpunk and with a strong bias towards the how-it-worked
-and how it could work. For all the corny and trope-ish things found in Neuromancer PC,
+for your eyes".  But I think for it's time, it was a harder problem than any of us
+thought. Here we are 35 years later and Meta and others still have work to do.  All in all, I
+was sucked completely in by cyberpunk and with a strong bias towards the techicnal how-it-worked
+and how it could work. For all the corny and trope-ish things found in Neuromancer PC game,
 I feel that they got a lot right in regards to how I viewed the preset and the possible
 future back in 1989...  and still do.
 
 ## What does it do?
 Currently, this software is able to uncompress and decode the image and text game
-assets from Neuromancer PC, you will need a copy of the original floppy files, I
+assets from Neuromancer PC .DAT files, you will need a copy of the original floppy files, I
 won't distribute them here.  Many abandon-ware sites have archived them. Once running,
 the application will scan your NEURO1.DAT and NEURO2.DAT files, extract and cache
 the assets to your user computer.  You can then use the browser function to explore
 the sprites, backgrounds, animations and dialog text.  In the future, I will write
 an engine to play the game with the cached assets.
 
-#Is this an emulator for the game?
+# Is this an emulator for the game?
 No.  Any engine that appears here (it's not working yet) is a new rewrite, in JavaFX.
 I'm hoping that won't be too much of a can-of-worms as I now have access to the pic
 assets and text assets as well as plenty of walk through resources. Small matter of
-code.
+code. Famous last words.
 
 # Where did you get the idea for this?
 Around 2020 (perhaps during covid lock-down) I had an idea to extract the data from
 the original files and maybe do something with them.  I really liked playing the game
 in a DOS emulator, but wished there was a way to play it directly on something more
-modern and maybe even be able to add things to or change things in the game.  I initially
+modern and maybe even be able to add things to or change things (like imagery) in the game.  I initially
 probed around the DAT files with a hex editor but my knowledge of old game encoding
 and compression were lacking.  I really couldn't make sense of it so I gave up.  A few
 months later, I had the idea of coding something similar from scratch.  I wanted to make
@@ -102,6 +105,16 @@ walk around and affect the environment.  I also started making notes for my own 
 and setting.  Like in Neuromancer PC, my character starts with nothing and the NPCs
 drop hints about what to do next.  My setting is also in a cyberpunk future but set in
 the American South West (go with what you know).  Different challenges than Chiba City.
+
+### Abyss engine
+A little rough around the edges, but a running game. Left: My version of Chatsubo Bar.  Right:
+my take on the Cyberspace interface.  Still working with an artist for character
+designs and such. Don't judge.
+<p>
+<img src="/images/abyss-engine-screenhot-realworld-1.png" height="240"/>
+<img src="/images/abyss-engine-screenshot-matrix-1.png" height="240"/>
+</p>
+
 
 During this process, I'd realized that I had three projects to juggle.  A Neuromancer PC
 clone "[Chiba City Blues](https://github.com/maehem/ChibaCityBlues)", my game story idea
