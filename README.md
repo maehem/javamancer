@@ -42,7 +42,7 @@ college, I was already a CompuServe dial-up service junkie and even spent time o
 dial-up BBSs.  I had seen Neuromancer released on C64 sometime in early 1989 or even 1988,
 but I didn't own a Commodore 64 or even a desktop PC at the time. However, by 1990, I was
 on my second job out of college at none other than [Sun Microsystems](https://en.wikipedia.org/wiki/Sun_Microsystems), 
-where leaders in the design and manufacture of 
+were leaders in the design and manufacture of 
 early internet hardware.  Sun was already directly on the new
 thing called the Internet and had state-of-the-art hardware called "workstations" that put PCs to shame. As employees,
 we had email (still a new thing) <img src="/images/neuromancer-book.jpeg" align="right" height="240"/> and access to a thing called Usenet, kind of a text version of
@@ -114,21 +114,21 @@ and "Jack" ran on the same game engine, called "[Abyss](https://github.com/maehe
 Javamancer is not any of those things, so now I have four related projects.
 
 ### Abyss engine
-A little rough around the edges, but a running game. Left: My version of Chatsubo Bar.  Right:
-my take on the Cyberspace interface.  Still working with an artist for character
-designs and such. Don't judge.
+A little rough around the edges, but a running game on the 
+"[Abyss](https://github.com/maehem/Abyss)" engine. Left: My version of Chatsubo Bar.  
+Right: My take on the Cyberspace interface.  Still working with an artist for character
+designs and such. This is all prototype stuff so don't judge.
 <p>
 <img src="/images/abyss-engine-screenhot-realworld-1.png" height="240"/>
 <img src="/images/abyss-engine-screenshot-matrix-1.png" height="240"/>
 </p>
 
-
-### Fast forward to now (2024)...
+## Fast forward to now (2024)...
 
 In researcing more for "Chiba City Blues" I ran across the work of [Henadzi Matuts](https://habr.com/en/articles/352050/) .
 Hendazi had the same initial curiosity but did exactly what I couldn't, he used his
 skills in 8088/8086 assembler to reverse engineer the Neuromancer PC game byte by byte.
-He went further and wrote a series of four blog posts that break down the content
+He went further and wrote a series of four amazing blog posts that break down the content
 encoding on the original Neuromancer PC game DAT files.  He had done it back in 2018,
 but somehow I had not stumbled across his work until 2024.  However, he decided to
 port Neuromancer PC to Windows (64-bit) in C++.  But his detailed study of the game's
@@ -139,6 +139,8 @@ also MIT license.  I've included Handazi's code here in my source tree for refer
 I've made no changes (except for an additional note or comment here and there). But
 if you want to study Hendazi's code, I suggest you go straight to their source at:
 [Hendazi Matut's Reuromancer](https://github.com/HenadziMatuts/Reuromancer)
+Handazi's Blogs are in Russian, so I suggest you use Chrome to view them and let
+Google translate it for you.
 
 From there, I was able to unpack and decode all the assets, in Java, in a couple
 weeks.  So here is "Javamancer" in it's current rough state.  I'm sure there are
