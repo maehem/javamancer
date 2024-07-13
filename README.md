@@ -43,7 +43,7 @@ but I didn't own a Commodore 64 or even a desktop PC at the time. However, by 19
 on my second job out of college at none other than Sun Microsystems, where much of the
 early internet hardware was being designed and built.  Sun was already directly on the new
 thing called the Internet and had state-of-the-art hardware that put PCs to shame. As employees,
-we had email (still a new thing) <img src="/images/neuromancer-book.jpeg" height="240">and access to a thing called Usenet, kind of a text version of
+we had email (still a new thing) <img src="/images/neuromancer-book.jpeg" align="right" height="240"/> and access to a thing called Usenet, kind of a text version of
 web pages, where vast information was searchable and groups of like-minded people could group and
 share ideas and information about subjects they were interested in.  Similar to BBSs of the previous
 decade except no dial-up (always connected) and the places you could explore expanded every day.
@@ -56,7 +56,7 @@ that the user would battle with in a turn based manner until they died or the si
 was smashed through.  Once through, the player could access the site via a BBS style terminal
 interface and download more powerful tools to battle the next ICE with. They might also
 peruse the site to gain hints and information about where to go next in the game.
-
+<br clear="left"/>
 I thought this made a wonderful metaphor for how I'd already been accessing the
 real internet already.  At the time, the Matrix presented in the game, as well as
 the book, felt like a plausible approach for an actual future internet.  I remember
