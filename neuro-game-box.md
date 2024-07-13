@@ -9,3 +9,49 @@ Here are photos of my orginal box.
   <img src="/images/neuromancer-pc-box-2.jpeg" height="240">
   <img src="/images/neuromancer-pc-box-3.jpeg" height="240">
 </p>
+
+<p align="center">
+  <img src="/images/neuromancer-pc-box-4.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-5.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-6.jpeg" height="240">
+</p>
+
+<p align="center">
+  <img src="/images/neuromancer-pc-box-7.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-8.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-9.jpeg" height="240">
+</p>
+
+<p align="center">
+  <img src="/images/neuromancer-pc-box-10.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-11.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-12.jpeg" height="240">
+</p>
+
+<p align="center">
+  <img src="/images/neuromancer-pc-box-13.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-14.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-15.jpeg" height="240">
+</p>
+
+<p align="center">
+  <img src="/images/neuromancer-pc-box-16.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-17.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-18.jpeg" height="240">
+</p>
+
+<p align="center">
+  <img src="/images/neuromancer-pc-box-19.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-20.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-21.jpeg" height="240">
+</p>
+
+<p align="center">
+  <img src="/images/neuromancer-pc-box-22.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-23.jpeg" height="240">
+  <img src="/images/neuromancer-pc-box-24.jpeg" height="240">
+</p>
+
+<p align="center">
+  <img src="/images/neuromancer-pc-box-25.jpeg" height="240">
+</p>
