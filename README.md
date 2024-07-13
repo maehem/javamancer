@@ -106,6 +106,13 @@ and setting.  Like in Neuromancer PC, my character starts with nothing and the N
 drop hints about what to do next.  My setting is also in a cyberpunk future but set in
 the American South West (go with what you know).  Different challenges than Chiba City.
 
+During this process, I'd realized that I had three projects to juggle.  A Neuromancer PC
+clone "[Chiba City Blues](https://github.com/maehem/ChibaCityBlues)", my game story idea
+"Jack" and an engine "Abyss".  So I divided the work up such that both "Neuro-clone"
+and "Jack" ran on the same game engine, called "[Abyss](https://github.com/maehem/Abyss)".
+ I've been working on those three projects for about three years now, no rush.  
+Javamancer is not any of those things, so now I have four related projects.
+
 ### Abyss engine
 A little rough around the edges, but a running game. Left: My version of Chatsubo Bar.  Right:
 my take on the Cyberspace interface.  Still working with an artist for character
@@ -115,13 +122,6 @@ designs and such. Don't judge.
 <img src="/images/abyss-engine-screenshot-matrix-1.png" height="240"/>
 </p>
 
-
-During this process, I'd realized that I had three projects to juggle.  A Neuromancer PC
-clone "[Chiba City Blues](https://github.com/maehem/ChibaCityBlues)", my game story idea
-"Jack" and an engine "Abyss".  So I divided the work up such that both "Neuro-clone"
-and "Jack" ran on the same game engine, called "[Abyss](https://github.com/maehem/Abyss)".
- I've been working on those three projects for about three years now, no rush.  
-Javamancer is not any of those things, so now I have four related projects.   
 
 ### Fast forward to now (2024)...
 
