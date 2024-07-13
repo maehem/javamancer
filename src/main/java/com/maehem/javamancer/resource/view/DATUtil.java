@@ -221,32 +221,47 @@ public class DATUtil {
             try (RandomAccessFile writer = new RandomAccessFile(metaFile, "rw")) {
                 writer.getChannel().truncate(0L);
                 writer.writeBytes("// Meta for BIH: " + bihThing.name + "\n");
-                writer.writeBytes("name:" + String.valueOf(bihThing.name) + "\n");
-                writer.writeBytes("cbOffset:" + String.valueOf(bihThing.cbOffset) + "\n");
-                writer.writeBytes("cbSegment:" + String.valueOf(bihThing.cbSegment) + "\n");
-                writer.writeBytes("ctrlStructAddr:" + String.valueOf(bihThing.ctrlStructAddr) + "\n");
-
-                // Write addr of unkown and bytes in hex string. :  ab12: 00 00 00 00 00 ...
-                writer.writeBytes("unknown:\n");
-
-                LOGGER.log(Level.FINER, "Unknown Bytes @ :");
-                int columns = 24;
-                HexFormat hexFormat = HexFormat.of();
-                for (int ii = 0; ii < bihThing.unknown.length; ii += columns) {
-                    StringBuilder sb = new StringBuilder(String.format("%04X", ii & 0xFFFF) + ": ");
-                    try {
-                        for (int i = 0; i < columns; i++) {
-                            byte b = bihThing.unknown[ii + i];
-                            sb.append(hexFormat.toHexDigits(b)).append(" ");
-                        }
-                    } catch (IndexOutOfBoundsException ex) {
-
+                if (bihThing.cbOffset != 0 || bihThing.cbSegment != 0 || bihThing.ctrlStructAddr != 0 || bihThing.unknown.length != 0) {
+                    if (bihThing.name.equals("R3")) {
+                        int a = 0; // debug breakpoint
                     }
-                    //Logging.LOGGER.log(Level.SEVERE, sb.toString());
-                    writer.writeBytes(sb.toString());
+                    writer.writeBytes("name:" + String.valueOf(bihThing.name) + "\n");
+                    writer.writeBytes("cbOffset:" + String.valueOf(bihThing.cbOffset) + "\n");
+                    writer.writeBytes("cbSegment:" + String.valueOf(bihThing.cbSegment) + "\n");
+                    writer.writeBytes("ctrlStructAddr:" + String.valueOf(bihThing.ctrlStructAddr) + "\n");
                     writer.writeBytes("\n");
-                }
 
+                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[0]) + "\n");
+                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[1]) + "\n");
+                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[2]) + "\n");
+                    writer.writeBytes("\n");
+
+                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.initObjCodeOffset[0]) + "\n");
+                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.initObjCodeOffset[1]) + "\n");
+                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.initObjCodeOffset[2]) + "\n");
+                    writer.writeBytes("\n");
+
+                    // Write addr of unkown and bytes in hex string. :  ab12: 00 00 00 00 00 ...
+                    writer.writeBytes("unknown:\n");
+
+                    LOGGER.log(Level.FINER, "Unknown Bytes @ :");
+                    int columns = 24;
+                    HexFormat hexFormat = HexFormat.of();
+                    for (int ii = 0; ii < bihThing.unknown.length; ii += columns) {
+                        StringBuilder sb = new StringBuilder(String.format("%04X", (ii + 20) & 0xFFFF) + ": ");
+                        try {
+                            for (int i = 0; i < columns; i++) {
+                                byte b = bihThing.unknown[ii + i];
+                                sb.append(hexFormat.toHexDigits(b)).append(" ");
+                            }
+                        } catch (IndexOutOfBoundsException ex) {
+
+                        }
+                        //Logging.LOGGER.log(Level.SEVERE, sb.toString());
+                        writer.writeBytes(sb.toString());
+                        writer.writeBytes("\n");
+                    }
+                }
                 writer.writeBytes("// Text Elements:\n");
                 for (String text : bihThing.text) {
                     // TODO: Replace any byte == 01 with "<player_name>"

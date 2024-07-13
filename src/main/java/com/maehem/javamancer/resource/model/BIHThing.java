@@ -62,7 +62,7 @@ public class BIHThing {
     public final ArrayList<String> text = new ArrayList<>();
     public final int[] byteCodeArrayOffset = new int[3];
     public final int[] initObjCodeOffset = new int[3];
-    public final byte[] unknown = new byte[20];
+    public final byte[] unknown;
 
     public BIHThing(BIH bih, byte[] data, int len) {
         this.name = bih.getName();
@@ -76,22 +76,38 @@ public class BIHThing {
             cbSegment = 0;
             ctrlStructAddr = 0;
             initText(0);
+            unknown = new byte[0];
+        } else if (name.equals("CORNERS")) {
+            LOGGER.log(Level.SEVERE, "Special BIH \"" + name + "\" found.");
+            cbOffset = 0;
+            cbSegment = 0;
+            ctrlStructAddr = 0;
+            unknown = new byte[data.length];
+            System.arraycopy(data, 0, unknown, 0, data.length);
         } else {
-            cbOffset = (data[1] & 0xff << 8) + data[0] & 0xff;
-            cbSegment = (data[3] & 0xff << 8) + data[2] & 0xff;
-            ctrlStructAddr = (data[5] & 0xff << 8) + data[4] & 0xff;
+            if (name.equals("R3")) {
+                int a = 0; // debug breakpoint
+            }
+            cbOffset = (data[1] & 0xff) << 8 + (data[0] & 0xff);
+            cbSegment = (data[3] & 0xff) << 8 + (data[2] & 0xff);
+            ctrlStructAddr = (data[5] & 0xff) << 8 + (data[4] & 0xff);
 
-            initText((data[7] & 0xff << 8) + data[6] & 0xff);
+            int tH = (data[7] & 0xff) << 8;
+            int tL = (data[6] & 0xff);
+            int tidx = ((data[7] & 0xff) << 8) + (data[6] & 0xff);
 
-            byteCodeArrayOffset[0] = (data[9] & 0xff << 8) + data[8] & 0xff;
-            byteCodeArrayOffset[1] = (data[11] & 0xff << 8) + data[10] & 0xff;
-            byteCodeArrayOffset[2] = (data[13] & 0xff << 8) + data[12] & 0xff;
+            initText(((data[7] & 0xff) << 8) + (data[6] & 0xff));
 
-            initObjCodeOffset[0] = (data[15] & 0xff << 8) + data[14] & 0xff;
-            initObjCodeOffset[1] = (data[17] & 0xff << 8) + data[16] & 0xff;
-            initObjCodeOffset[2] = (data[19] & 0xff << 8) + data[18] & 0xff;
+            byteCodeArrayOffset[0] = ((data[9] & 0xff) << 8) + (data[8] & 0xff);
+            byteCodeArrayOffset[1] = ((data[11] & 0xff) << 8) + (data[10] & 0xff);
+            byteCodeArrayOffset[2] = ((data[13] & 0xff) << 8) + (data[12] & 0xff);
 
-            System.arraycopy(data, 18, unknown, 0, 20);
+            initObjCodeOffset[0] = ((data[15] & 0xff)) << 8 + (data[14] & 0xff);
+            initObjCodeOffset[1] = ((data[17] & 0xff)) << 8 + (data[16] & 0xff);
+            initObjCodeOffset[2] = ((data[19] & 0xff)) << 8 + (data[18] & 0xff);
+
+            unknown = new byte[20];
+            System.arraycopy(data, 20, unknown, 0, 20);
         }
     }
 
@@ -100,14 +116,19 @@ public class BIHThing {
 
         for (int i = 0; i < textBlob.length();) {
             int start = i;
+
+            // 0x00 break up text elements so look for one.
             i = textBlob.indexOf('\0', start);
             if (i < 0) {
+                // None found so go to end.
                 i = textBlob.length();
             }
 
+            // grab the start index up to the found '00' index.
             text.add(textBlob.substring(start, i));
 
             if (i < textBlob.length()) {
+                // if not at the end, increment next start point.
                 ++i;
             }
         }
