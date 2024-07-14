@@ -213,7 +213,6 @@ public class DATUtil {
 //            File subDir = new File(folder, bihThing.name);
 //            LOG.log(Level.CONFIG, "Create BIH Sub Dir: {0}", subDir.getAbsolutePath());
 //            subDir.mkdir();
-
             // Meta.txt
             // Text.txt
             File metaFile = new File(folder, bihThing.name + "_meta.txt");
@@ -226,9 +225,6 @@ public class DATUtil {
                         int a = 0; // debug breakpoint
                     }
                     writer.writeBytes("name:" + String.valueOf(bihThing.name) + "\n");
-                    writer.writeBytes("cbOffset:" + String.valueOf(bihThing.cbOffset) + "\n");
-                    writer.writeBytes("cbSegment:" + String.valueOf(bihThing.cbSegment) + "\n");
-                    writer.writeBytes("ctrlStructAddr:" + String.valueOf(bihThing.ctrlStructAddr) + "\n");
                     writer.writeBytes("\n");
 
 //                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[0]) + "\n");
@@ -240,7 +236,6 @@ public class DATUtil {
 //                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.iocOff[1]) + "\n");
 //                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.iocOff[2]) + "\n");
 //                    writer.writeBytes("\n");
-
                     // Write addr of unkown and bytes in hex string. :  ab12: 00 00 00 00 00 ...
                     writer.writeBytes("unknown:\n");
                     LOGGER.log(Level.FINER, "Unknown Bytes @ :");
@@ -273,15 +268,24 @@ public class DATUtil {
                     }
 
                     writer.writeBytes("\n");
-
                 }
-                writer.writeBytes("// Text Elements:\n");
+                writer.writeBytes("// Text Elements:");
+                if (bihThing.text.size() > 0) {
+                    writer.writeBytes("\n");
+                } else {
+                    writer.writeBytes("  NONE\n");
+                }
                 for (String text : bihThing.text) {
                     // TODO: Replace any byte == 01 with "<player_name>"
                     // TODO: Maybe remove line breaks?
                     writer.writeBytes(text);
                     writer.writeBytes("\n");
                 }
+
+                writer.writeBytes("\n\n// Ancillary header fields: (no known use, always zero)\n");
+                writer.writeBytes("cbOffset:" + String.valueOf(bihThing.cbOffset) + "\n");
+                writer.writeBytes("cbSegment:" + String.valueOf(bihThing.cbSegment) + "\n");
+                writer.writeBytes("ctrlStructAddr:" + String.valueOf(bihThing.ctrlStructAddr) + "\n");
 
             } catch (FileNotFoundException ex) {
                 LOG.log(Level.SEVERE, ex.toString(), ex);
