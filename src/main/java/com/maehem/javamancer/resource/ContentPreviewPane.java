@@ -34,7 +34,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,10 +49,14 @@ import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
@@ -77,25 +83,34 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                 LOGGER.log(Level.FINEST, "Clear clicked.");
                 getChildren().clear();
             } else {
-                LOGGER.log(Level.FINEST, "User clicked: {0}", clickedFile.getName());
+                LOGGER.log(Level.SEVERE, "User clicked: {0}", clickedFile.getName());
                 getChildren().clear();
-                int width = 100;
                 String parent = clickedFile.getParentFile().getName();
-                if (parent.equals("imh")) {
-                    width = 300;
-                } else if (parent.equals("pic")) {
-                    width = (int) ViewUtils.PIC_PREF_WIDTH;
-                } else if (parent.equals("anh")) {
-                    width = 200;
+                switch (parent) {
+                    case "imh" -> {
+                        getChildren().add(doImage(clickedFile, 300));
+                    }
+                    case "pic" -> {
+                        int width = (int) ViewUtils.PIC_PREF_WIDTH;
+                        getChildren().add(doImage(clickedFile, width));
+                    }
+                    case "anh" -> {  // Not used.
+                        getChildren().add(doImage(clickedFile, 200));
+                    }
+                    case "bih" -> {
+                        getChildren().add(bihPreview(clickedFile));
+                    }
+                    default -> {
+                    }
                 }
-                try {
-                    Image img = new Image(new FileInputStream(clickedFile), width, 224, true, true);
-                    ImageView iv = new ImageView(img);
-                    getChildren().add(iv);
-
-                } catch (FileNotFoundException ex) {
-                    LOGGER.log(Level.SEVERE, null, ex);
-                }
+//                try {
+//                    Image img = new Image(new FileInputStream(clickedFile), width, 0, true, true);
+//                    ImageView iv = new ImageView(img);
+//                    getChildren().add(iv);
+//
+//                } catch (FileNotFoundException ex) {
+//                    LOGGER.log(Level.SEVERE, null, ex);
+//                }
             }
         } else if (clickedObject instanceof TreeItem tv) {
             if (tv.getValue() instanceof File file) {
@@ -203,4 +218,35 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
         }
     }
 
+    private static ImageView doImage(File clickedFile, int width) {
+        try {
+            Image img = new Image(new FileInputStream(clickedFile), width, 0, true, true);
+            ImageView iv = new ImageView(img);
+            return iv;
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, ex.toString(), ex);
+        }
+
+        return null;
+    }
+
+    private static VBox bihPreview(File roomFile) {
+        LOGGER.log(Level.SEVERE, "Do BIH Preview: " + roomFile.getAbsolutePath());
+        VBox box = new VBox();
+        box.setMaxHeight(Double.MAX_VALUE);
+
+        try {
+            Path path = Paths.get(roomFile.toURI());
+            TextArea textArea = new TextArea(Files.readString(path));
+            textArea.setWrapText(true);
+            InputStream fontStream = ContentPreviewPane.class.getResourceAsStream("/fonts/OxygenMono-Regular.ttf");
+            textArea.setFont(Font.loadFont(fontStream, 12));
+            VBox.setVgrow(textArea, Priority.ALWAYS);
+            box.getChildren().add(textArea);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, ex.toString(), ex);
+        }
+
+        return box;
+    }
 }
