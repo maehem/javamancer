@@ -42,7 +42,7 @@ college, I was already a CompuServe dial-up service junkie and even spent time o
 dial-up BBSs.  I had seen Neuromancer released on C64 sometime in early 1989 or even 1988,
 but I didn't own a Commodore 64 or even a desktop PC at the time. However, by 1990, I was
 on my second job out of college at none other than [Sun Microsystems](https://en.wikipedia.org/wiki/Sun_Microsystems), 
-were leaders in the design and manufacture of 
+who were leaders in the design and manufacture of 
 early internet hardware.  Sun was already directly on the new
 thing called the Internet and had state-of-the-art hardware called "workstations" that put PCs to shame. As employees,
 we had email (still a new thing) <img src="/images/neuromancer-book.jpeg" align="right" height="240"/> and access to a thing called Usenet, kind of a text version of
@@ -97,14 +97,16 @@ probed around the DAT files with a hex editor but my knowledge of old game encod
 and compression were lacking.  I really couldn't make sense of it so I gave up.  A few
 months later, I had the idea of coding something similar from scratch.  I wanted to make
 a Neuromancer-like game with my own characters but set in a very similar world (hacking,
-BBS, Matrix ICE busting, etc.). So I started some experiments with a "room" where a
-character could walk around, talk to a NPC, had a simple inventory. I worked out these
-constraints over a few months and ended up with something rough but pleasing.  I started
-to add rooms to the experiment and soon had a multi room area that the player could
-walk around and affect the environment.  I also started making notes for my own character
-and setting.  Like in Neuromancer PC, my character starts with nothing and the NPCs
-drop hints about what to do next.  My setting is also in a cyberpunk future but set in
-the American South West (go with what you know).  Different challenges than Chiba City.
+BBS, Matrix ICE busting, etc.). So I started some JavaFX object oriented code experiments 
+with a "room" where a character could walk around, talk to a NPC, had a simple 
+inventory. I worked out these constraints over a few months and ended up with a 
+game app that was rough but pleasing.  I started to add rooms to the experiment 
+and soon had a multi room area that the player could walk room to room and affect
+the environment.  I now had my own simp[le game engine.   I also started making 
+notes for my own character and setting.  Like in Neuromancer PC, my character 
+starts with nothing and the NPCs drop hints about what to do next.  My setting 
+is also in a cyberpunk future but set in the American South West (go with what 
+you know).  Different challenges than Chiba City.
 
 During this process, I'd realized that I had three projects to juggle.  A Neuromancer PC
 clone "[Chiba City Blues](https://github.com/maehem/ChibaCityBlues)", my game story idea
