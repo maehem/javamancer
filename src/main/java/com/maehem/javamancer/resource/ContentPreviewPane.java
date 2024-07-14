@@ -237,6 +237,9 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
 
         try {
             Path path = Paths.get(roomFile.toURI());
+            // Some text has a 'return' character (0x0D) that is not displayable.
+            // We replace it with space+tilde+newline (" ~\n") here to show that
+            // it is a text scroll stop-point in the game engine.
             TextArea textArea = new TextArea(Files.readString(path).replace("\r", " ~\n"));
             textArea.setWrapText(true);
             InputStream fontStream = ContentPreviewPane.class.getResourceAsStream("/fonts/OxygenMono-Regular.ttf");
