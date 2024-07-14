@@ -26,8 +26,19 @@
  */
 package com.maehem.javamancer.resource.view;
 
+import com.maehem.javamancer.AppProperties;
+import static com.maehem.javamancer.logging.Logging.LOGGER;
+import java.io.File;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -36,11 +47,63 @@ import javafx.scene.control.Tab;
 public class BIHTab extends Tab {
 
     private final ResourceBundle MSG;
+    public final ListView<File> list = new ListView<>();
+//    public final TreeItem<File> rootNode = new TreeItem<>();
+//    public final TreeView<File> treeView = new TreeView<>(rootNode);
 
     public BIHTab() {
         MSG = ResourceBundle.getBundle("i18n/Browser"); // Must be done after super() called.
         setClosable(false);
         setText(MSG.getString("BIH_TAB_LABEL"));
+
+        AppProperties appProps = AppProperties.getInstance();
+        File cacheFolder = appProps.getCacheFolder();
+        File bihFolder = new File(cacheFolder, "bih");
+        File[] listFiles = bihFolder.listFiles((File file, String name) -> (name.endsWith("_meta.txt")));
+        ObservableList<File> items = FXCollections.observableArrayList(Arrays.asList(listFiles)).sorted();
+        //ObservableList<File> rItems = FXCollections.observableArrayList(Arrays.asList(listFiles)).sorted();
+
+        LOGGER.log(Level.SEVERE, "BIH has " + listFiles.length + " items.");
+//        treeView.setShowRoot(false);
+//        rootNode.setExpanded(true);
+        list.setItems(items);
+        configCellFactory(list);
+
+//        rItems.forEach((file) -> {
+//            TreeItem<File> rItem = new TreeItem<>(file);
+//            rootNode.getChildren().add(rItem);
+//            //processRoomItems(rItem);
+//        });
+
+        VBox.setVgrow(list, Priority.ALWAYS);
+
+        setContent(new VBox(list));
     }
+
+    private void configCellFactory(ListView<File> list) {
+        list.setCellFactory((p) -> new ListCell<>() {
+            @Override
+            protected void updateItem(File file, boolean empty) {
+                super.updateItem(file, empty);
+                if (empty || file == null) {
+                    setText(null);
+                } else {
+                    setText(file.getName());
+                }
+            }
+        });
+    }
+
+//    private void processRoomItems(TreeItem<File> roomTree) {
+//        File roomFolder = roomTree.getValue();
+//        if (roomFolder.isDirectory()) { //meta.txt, R3.bih
+//            File[] listFiles = roomFolder.listFiles((File dir, String name) -> (name.equals("meta.txt")));
+//
+//            if (listFiles.length == 1) {
+//                TreeItem<File> entryItem = new TreeItem<>(listFiles[0]);
+//                roomTree.getChildren().add(entryItem);
+//            }
+//        }
+//    }
 
 }
