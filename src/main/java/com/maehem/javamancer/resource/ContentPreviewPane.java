@@ -237,7 +237,7 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
 
         try {
             Path path = Paths.get(roomFile.toURI());
-            TextArea textArea = new TextArea(Files.readString(path));
+            TextArea textArea = new TextArea(Files.readString(path).replace("\r", " ~\n"));
             textArea.setWrapText(true);
             InputStream fontStream = ContentPreviewPane.class.getResourceAsStream("/fonts/OxygenMono-Regular.ttf");
             textArea.setFont(Font.loadFont(fontStream, 12));

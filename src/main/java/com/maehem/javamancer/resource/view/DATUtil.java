@@ -279,7 +279,7 @@ public class DATUtil {
                 for (String text : bihThing.text) {
                     // TODO: Replace any byte == 01 with "<player_name>"
                     // TODO: Maybe remove line breaks?
-                    writer.writeBytes(text.replace('\r', '\n'));
+                    writer.writeBytes(text);
                     writer.writeBytes("\n");
                 }
 
