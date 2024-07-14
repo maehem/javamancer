@@ -32,7 +32,6 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -47,7 +46,6 @@ import javafx.scene.layout.VBox;
 public class ANHTab extends Tab {
 
     private final ResourceBundle MSG;
-    public final ListView<File> list = new ListView<>();
     public final TreeItem<File> rootNode = new TreeItem<>();
     public final TreeView<File> treeView = new TreeView<>(rootNode);
 
@@ -73,7 +71,6 @@ public class ANHTab extends Tab {
             processRoomItems(rItem);
         });
 
-//        configCellFactory(list);
         VBox.setVgrow(treeView, Priority.ALWAYS);
 
         setContent(new VBox(treeView));
