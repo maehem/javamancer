@@ -210,13 +210,13 @@ public class DATUtil {
         dat.bih.forEach((bihThing) -> {
             LOG.log(Level.CONFIG, "Process BIH: {0}.", new Object[]{bihThing.name});
 
-            File subDir = new File(folder, bihThing.name);
-            LOG.log(Level.CONFIG, "Create BIH Sub Dir: {0}", subDir.getAbsolutePath());
-            subDir.mkdir();
+//            File subDir = new File(folder, bihThing.name);
+//            LOG.log(Level.CONFIG, "Create BIH Sub Dir: {0}", subDir.getAbsolutePath());
+//            subDir.mkdir();
 
             // Meta.txt
             // Text.txt
-            File metaFile = new File(subDir, "meta.txt");
+            File metaFile = new File(folder, bihThing.name + "_meta.txt");
             LOG.log(Level.CONFIG, "Create Meta File: {0}", metaFile.getAbsolutePath());
             try (RandomAccessFile writer = new RandomAccessFile(metaFile, "rw")) {
                 writer.getChannel().truncate(0L);
@@ -279,7 +279,7 @@ public class DATUtil {
                 for (String text : bihThing.text) {
                     // TODO: Replace any byte == 01 with "<player_name>"
                     // TODO: Maybe remove line breaks?
-                    writer.writeBytes(text);
+                    writer.writeBytes(text.replace('\r', '\n'));
                     writer.writeBytes("\n");
                 }
 
@@ -290,7 +290,7 @@ public class DATUtil {
             }
 
             // Save raw BIH as a binary file.
-            File binaryFile = new File(subDir, bihThing.name + ".bih");
+            File binaryFile = new File(folder, bihThing.name + ".bih");
             LOG.log(Level.CONFIG, "Create Binary File: {0}", binaryFile.getAbsolutePath());
             try (RandomAccessFile binWriter = new RandomAccessFile(binaryFile, "rw")) {
                 binWriter.getChannel().truncate(0L);
