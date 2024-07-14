@@ -55,70 +55,70 @@ public class DATUtil {
         File anhDir = new File(cacheFolder, "anh");
         if (!anhDir.isDirectory()) {
             if (anhDir.exists()) {
-                LOG.log(Level.SEVERE, "Cache 'anh' folder is not a folder. Deleting.");
+                LOG.log(Level.CONFIG, "Cache 'anh' folder is not a folder. Deleting.");
                 anhDir.delete();
             }
-            LOG.log(Level.SEVERE, "Cache 'anh' folder created.");
+            LOG.log(Level.CONFIG, "Cache 'anh' folder created.");
             anhDir.mkdir();
 
             populateANH(dat, anhDir);
         } else {
-            LOG.log(Level.SEVERE, "Cache 'anh' folder found.");
+            LOG.log(Level.CONFIG, "Cache 'anh' folder found.");
         }
 
         File bihDir = new File(cacheFolder, "bih");
         if (!bihDir.isDirectory()) {
             if (bihDir.exists()) {
-                LOG.log(Level.SEVERE, "Cache 'bih' folder is not a folder. Deleting.");
+                LOG.log(Level.CONFIG, "Cache 'bih' folder is not a folder. Deleting.");
                 bihDir.delete();
             }
-            LOG.log(Level.SEVERE, "Cache 'bih' folder created.");
+            LOG.log(Level.CONFIG, "Cache 'bih' folder created.");
             bihDir.mkdir();
 
             populateBIH(dat, bihDir);
         } else {
-            LOG.log(Level.SEVERE, "Cache 'bih' folder found.");
+            LOG.log(Level.CONFIG, "Cache 'bih' folder found.");
         }
 
         File imhDir = new File(cacheFolder, "imh");
         if (!imhDir.isDirectory()) {
             if (imhDir.exists()) {
-                LOG.log(Level.SEVERE, "Cache 'imh' folder is not a folder. Deleting.");
+                LOG.log(Level.CONFIG, "Cache 'imh' folder is not a folder. Deleting.");
                 imhDir.delete();
             }
-            LOG.log(Level.SEVERE, "Cache 'imh' folder created.");
+            LOG.log(Level.CONFIG, "Cache 'imh' folder created.");
             imhDir.mkdir();
 
             populateIMH(dat, imhDir);
         } else {
-            LOG.log(Level.SEVERE, "Cache 'imh' folder found.");
+            LOG.log(Level.CONFIG, "Cache 'imh' folder found.");
         }
 
         File picDir = new File(cacheFolder, "pic");
         if (!picDir.isDirectory()) {
             if (picDir.exists()) {
-                LOG.log(Level.SEVERE, "Cache 'pic' folder is not a folder. Deleting.");
+                LOG.log(Level.CONFIG, "Cache 'pic' folder is not a folder. Deleting.");
                 picDir.delete();
             }
-            LOG.log(Level.SEVERE, "Cache 'pic' folder created.");
+            LOG.log(Level.CONFIG, "Cache 'pic' folder created.");
             picDir.mkdir();
 
             populatePIC(dat, picDir);
         } else {
-            LOG.log(Level.SEVERE, "Cache 'pic' folder found.");
+            LOG.log(Level.CONFIG, "Cache 'pic' folder found.");
         }
     }
 
     private static void populateIMH(DAT dat, File folder) {
         dat.imh.forEach((imh) -> {
-            LOG.log(Level.SEVERE, "Process IMH: " + imh.name);
+            LOG.log(Level.CONFIG, "Process IMH: " + imh.name);
             PNGWriter pngWriter = new PNGWriter();
 
             imh.dataBlock.forEach((blob) -> {
                 // Create Image
                 Image img = new Data2Image(blob, 0);
                 int indexOf = imh.dataBlock.indexOf(blob);
-                LOG.log(Level.SEVERE, "    Found sub-image: {0}x{1}", new Object[]{img.getWidth(), img.getHeight()});
+                LOG.log(Level.FINE, "    Found sub-image: {0}x{1}", new Object[]{img.getWidth(), img.getHeight()});
 
                 try {
                     // Save to PNG
@@ -133,14 +133,14 @@ public class DATUtil {
 
     private static void populatePIC(DAT dat, File folder) {
         dat.pic.forEach((pic) -> {
-            LOG.log(Level.SEVERE, "Process PIC: " + pic.name);
+            LOG.log(Level.CONFIG, "Process PIC: " + pic.name);
             PNGWriter pngWriter = new PNGWriter();
 
             pic.dataBlock.forEach((blob) -> {
                 // Create Image
                 Image img = new Data2Image(blob, 152, 112, 0);
                 int indexOf = pic.dataBlock.indexOf(blob);
-                LOG.log(Level.SEVERE, "    Found sub-image: {0}x{1}", new Object[]{img.getWidth(), img.getHeight()});
+                LOG.log(Level.FINE, "    Found sub-image: {0}x{1}", new Object[]{img.getWidth(), img.getHeight()});
 
                 try {
                     // Save to PNG
@@ -150,7 +150,7 @@ public class DATUtil {
                         pngWriter.write(new File(folder, pic.name + ".png"), img);
                     }
                 } catch (IOException ex) {
-                    LOG.log(Level.SEVERE, null, ex);
+                    LOG.log(Level.SEVERE, ex.toString(), ex);
                 }
             });
 
@@ -159,23 +159,23 @@ public class DATUtil {
 
     private static void populateANH(DAT dat, File folder) {
         dat.anh.forEach((anh) -> {
-            LOG.log(Level.SEVERE, "Process ANH: {0} with {1} entries.", new Object[]{anh.name, anh.anhEntry.size()});
+            LOG.log(Level.CONFIG, "Process ANH: {0} with {1} entries.", new Object[]{anh.name, anh.anhEntry.size()});
 
             File subDir = new File(folder, anh.name);
             subDir.mkdir();
-            LOG.log(Level.SEVERE, "Create ANH Sub Dir: {0}", subDir.getAbsolutePath());
+            LOG.log(Level.FINE, "Create ANH Sub Dir: {0}", subDir.getAbsolutePath());
 
             for (int entryNum = 0; entryNum < anh.anhEntry.size(); entryNum++) {
                 ANHEntry entry = anh.anhEntry.get(entryNum);
                 File entryDir = new File(subDir, "entry" + (entryNum + 1));
                 entryDir.mkdir();
-                LOG.log(Level.SEVERE, "Create Entry Dir: {0}", entryDir.getAbsolutePath());
+                LOG.log(Level.FINE, "Create Entry Dir: {0}", entryDir.getAbsolutePath());
 
                 for (int animNum = 0; animNum < entry.frames.size(); animNum++) {
                     ANHAnima anim = entry.frames.get(animNum);
                     File animDir = new File(entryDir, "anim" + (animNum < 10 ? "0" : "") + animNum);
                     animDir.mkdir();
-                    LOG.log(Level.CONFIG, "Create Anim Dir: " + animDir.getAbsolutePath());
+                    LOG.log(Level.FINE, "Create Anim Dir: " + animDir.getAbsolutePath());
 
                     try {
                         File sleepFile = new File(animDir, "meta.txt");
@@ -196,9 +196,9 @@ public class DATUtil {
                             }
                         }
                     } catch (FileNotFoundException ex) {
-                        LOG.log(Level.SEVERE, null, ex);
+                        LOG.log(Level.SEVERE, ex.toString(), ex);
                     } catch (IOException ex) {
-                        LOG.log(Level.SEVERE, null, ex);
+                        LOG.log(Level.SEVERE, ex.toString(), ex);
                     }
                 }
             }
@@ -208,10 +208,10 @@ public class DATUtil {
 
     private static void populateBIH(DAT dat, File folder) {
         dat.bih.forEach((bihThing) -> {
-            LOG.log(Level.SEVERE, "Process BIH: {0}.", new Object[]{bihThing.name});
+            LOG.log(Level.CONFIG, "Process BIH: {0}.", new Object[]{bihThing.name});
 
             File subDir = new File(folder, bihThing.name);
-            LOG.log(Level.SEVERE, "Create BIH Sub Dir: {0}", subDir.getAbsolutePath());
+            LOG.log(Level.CONFIG, "Create BIH Sub Dir: {0}", subDir.getAbsolutePath());
             subDir.mkdir();
 
             // Meta.txt
@@ -231,48 +231,62 @@ public class DATUtil {
                     writer.writeBytes("ctrlStructAddr:" + String.valueOf(bihThing.ctrlStructAddr) + "\n");
                     writer.writeBytes("\n");
 
-                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[0]) + "\n");
-                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[1]) + "\n");
-                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[2]) + "\n");
-                    writer.writeBytes("\n");
-
-                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.initObjCodeOffset[0]) + "\n");
-                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.initObjCodeOffset[1]) + "\n");
-                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.initObjCodeOffset[2]) + "\n");
-                    writer.writeBytes("\n");
+//                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[0]) + "\n");
+//                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[1]) + "\n");
+//                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[2]) + "\n");
+//                    writer.writeBytes("\n");
+//
+//                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.iocOff[0]) + "\n");
+//                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.iocOff[1]) + "\n");
+//                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.iocOff[2]) + "\n");
+//                    writer.writeBytes("\n");
 
                     // Write addr of unkown and bytes in hex string. :  ab12: 00 00 00 00 00 ...
                     writer.writeBytes("unknown:\n");
-
                     LOGGER.log(Level.FINER, "Unknown Bytes @ :");
-                    int columns = 24;
-                    HexFormat hexFormat = HexFormat.of();
-                    for (int ii = 0; ii < bihThing.unknown.length; ii += columns) {
-                        StringBuilder sb = new StringBuilder(String.format("%04X", (ii + 20) & 0xFFFF) + ": ");
-                        try {
-                            for (int i = 0; i < columns; i++) {
-                                byte b = bihThing.unknown[ii + i];
-                                sb.append(hexFormat.toHexDigits(b)).append(" ");
-                            }
-                        } catch (IndexOutOfBoundsException ex) {
+                    writer.writeBytes(hexBlob(20, bihThing.unknown, 24));
 
+                    writer.writeBytes("\n");
+                    LOGGER.log(Level.FINER, "Byte Codes:");
+                    for (int i = 0; i < 3; i++) {
+                        writer.writeBytes("ByteCodes [" + i + "] :::");
+                        if (bihThing.byteCode[i] != null && bihThing.byteCode[i].length > 0) {
+                            writer.writeBytes("\n");
+                            writer.writeBytes(hexBlob(bihThing.byteCodeArrayOffset[i], bihThing.byteCode[i], 16));
+                        } else {
+                            writer.writeBytes("    NONE\n");
                         }
-                        //Logging.LOGGER.log(Level.SEVERE, sb.toString());
-                        writer.writeBytes(sb.toString());
                         writer.writeBytes("\n");
                     }
+
+                    writer.writeBytes("\n");
+                    LOGGER.log(Level.FINER, "Object Codes:");
+                    for (int i = 0; i < 3; i++) {
+                        writer.writeBytes("ObjectCodes [" + i + "] :::");
+                        if (bihThing.objectCode[i] != null && bihThing.objectCode[i].length > 0) {
+                            writer.writeBytes("\n");
+                            writer.writeBytes(hexBlob(bihThing.iocOff[i], bihThing.objectCode[i], 16));
+                        } else {
+                            writer.writeBytes("    NONE\n");
+                        }
+                        writer.writeBytes("\n");
+                    }
+
+                    writer.writeBytes("\n");
+
                 }
                 writer.writeBytes("// Text Elements:\n");
                 for (String text : bihThing.text) {
                     // TODO: Replace any byte == 01 with "<player_name>"
+                    // TODO: Maybe remove line breaks?
                     writer.writeBytes(text);
                     writer.writeBytes("\n");
                 }
 
             } catch (FileNotFoundException ex) {
-                LOG.log(Level.SEVERE, null, ex);
+                LOG.log(Level.SEVERE, ex.toString(), ex);
             } catch (IOException ex) {
-                LOG.log(Level.SEVERE, null, ex);
+                LOG.log(Level.SEVERE, ex.toString(), ex);
             }
 
             // Save raw BIH as a binary file.
@@ -283,10 +297,29 @@ public class DATUtil {
                 binWriter.write(bihThing.data);
                 binWriter.close();
             } catch (IOException ex) {
-                LOG.log(Level.SEVERE, null, ex);
+                LOG.log(Level.SEVERE, ex.toString(), ex);
             }
 
         });
+    }
+
+    private static String hexBlob(int addr, byte[] blob, int columns) {
+        StringBuilder sb = new StringBuilder();
+        HexFormat hexFormat = HexFormat.of();
+        for (int ii = 0; ii < blob.length; ii += columns) {
+            sb.append(String.format("%04X", (ii + addr) & 0xFFFF) + ": ");
+            try {
+                for (int i = 0; i < columns; i++) {
+                    byte b = blob[ii + i];
+                    sb.append(hexFormat.toHexDigits(b)).append(" ");
+                }
+            } catch (IndexOutOfBoundsException ex) {
+
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
     private static boolean makeImageFile(File file, byte blob[], int w, int h, int offset) {
@@ -294,13 +327,13 @@ public class DATUtil {
 
         // Create Image
         Image img = new Data2Image(blob, w, h, offset);
-        LOG.log(Level.SEVERE, "    Found sub-image: {0}x{1}", new Object[]{img.getWidth(), img.getHeight()});
+        LOG.log(Level.CONFIG, "    Found sub-image: {0}x{1}", new Object[]{img.getWidth(), img.getHeight()});
 
         try {
             pngWriter.write(file, img); // Save to PNG
 
         } catch (IOException ex) {
-            LOG.log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, ex.toString(), ex);
             return false;
         }
 
