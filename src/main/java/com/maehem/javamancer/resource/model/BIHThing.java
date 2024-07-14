@@ -75,140 +75,134 @@ public class BIHThing {
         this.data = new byte[len];
         System.arraycopy(data, 0, this.data, 0, len);
 
-        if (name.equals("NEWS") || name.equals("PAXBBS")) {
-            LOGGER.log(Level.FINER, "Special BIH \"" + name + "\" found.");
-            cbOffset = 0;
-            cbSegment = 0;
-            ctrlStructAddr = 0;
-            initText(0);
-            unknown = new byte[0];
-        } else if (name.equals("CORNERS")) {
-            LOGGER.log(Level.FINER, "Special BIH \"" + name + "\" found.");
-            cbOffset = 0;
-            cbSegment = 0;
-            ctrlStructAddr = 0;
-            unknown = new byte[data.length];
-            System.arraycopy(data, 0, unknown, 0, data.length);
-        } else if (name.equals("ROOMPOS")) {
-            LOGGER.log(Level.FINER, "Special BIH \"" + name + "\" found.");
-            cbOffset = 0;
-            cbSegment = 0;
-            ctrlStructAddr = 0;
-            unknown = new byte[data.length];
-            System.arraycopy(data, 0, unknown, 0, data.length);
-        } else {
-            if (name.equals("R4")) {
-                int a = 0; // debug breakpoint
-            }
-            cbOffset = (data[1] & 0xff) << 8 + (data[0] & 0xff);
-            cbSegment = (data[3] & 0xff) << 8 + (data[2] & 0xff);
-            ctrlStructAddr = (data[5] & 0xff) << 8 + (data[4] & 0xff);
+        switch (name) {
+            case "NEWS":
+            case "PAXBBS":
+                LOGGER.log(Level.FINER, "Special BIH \"{0}\" found.", name);
+                cbOffset = 0;
+                cbSegment = 0;
+                ctrlStructAddr = 0;
+                initText(0);
+                unknown = new byte[0];
+                break;
+            case "CORNERS":
+                LOGGER.log(Level.FINER, "Special BIH \"{0}\" found.", name);
+                cbOffset = 0;
+                cbSegment = 0;
+                ctrlStructAddr = 0;
+                unknown = new byte[data.length];
+                System.arraycopy(data, 0, unknown, 0, data.length);
+                break;
+            case "ROOMPOS":
+                LOGGER.log(Level.FINER, "Special BIH \"{0}\" found.", name);
+                cbOffset = 0;
+                cbSegment = 0;
+                ctrlStructAddr = 0;
+                unknown = new byte[data.length];
+                System.arraycopy(data, 0, unknown, 0, data.length);
+                break;
+            default:
+                cbOffset = (data[1] & 0xff) << 8 + (data[0] & 0xff);
+                cbSegment = (data[3] & 0xff) << 8 + (data[2] & 0xff);
+                ctrlStructAddr = (data[5] & 0xff) << 8 + (data[4] & 0xff);
+                int txtOffset = ((data[7] & 0xff) << 8) + (data[6] & 0xff);
+                initText(txtOffset);
+                byteCodeArrayOffset[0] = ((data[9] & 0xff) << 8) + (data[8] & 0xff);
+                byteCodeArrayOffset[1] = ((data[11] & 0xff) << 8) + (data[10] & 0xff);
+                byteCodeArrayOffset[2] = ((data[13] & 0xff) << 8) + (data[12] & 0xff);
+                iocOff[0] = ((data[15] & 0xff) << 8) + (data[14] & 0xff);
+                iocOff[1] = ((data[17] & 0xff) << 8) + (data[16] & 0xff);
+                iocOff[2] = ((data[19] & 0xff) << 8) + (data[18] & 0xff);
+                unknown = new byte[20];
+                System.arraycopy(data, 20, unknown, 0, 20);
+                // Process byte array
+                int bcEnd[] = new int[]{0, 0, 0};
+                if (byteCodeArrayOffset[0] != 0) { // Something there.
+                    bcEnd[0] = txtOffset;
+                    // Whittle it down.
+                    if (iocOff[2] != 0 && iocOff[2] > iocOff[1]) {
+                        bcEnd[0] = iocOff[2];
+                    }
+                    if (iocOff[1] != 0 && iocOff[1] > iocOff[0]) {
+                        bcEnd[0] = iocOff[1];
+                    }
+                    if (iocOff[0] != 0) {
+                        bcEnd[0] = iocOff[0];
+                    }
+                    if (byteCodeArrayOffset[2] != 0) {
+                        bcEnd[0] = byteCodeArrayOffset[2];
+                    }
+                    if (byteCodeArrayOffset[1] != 0) {
+                        bcEnd[0] = byteCodeArrayOffset[1];
+                    }
+                }
+                if (byteCodeArrayOffset[1] != 0) { // Something there.
+                    bcEnd[1] = txtOffset;
+                    // Whittle it down.
+                    if (iocOff[2] != 0 && iocOff[2] > iocOff[1]) {
+                        bcEnd[1] = iocOff[2];
+                    }
+                    if (iocOff[1] != 0 && iocOff[1] > iocOff[0]) {
+                        bcEnd[1] = iocOff[1];
+                    }
+                    if (iocOff[0] != 0) {
+                        bcEnd[1] = iocOff[0];
+                    }
+                    if (byteCodeArrayOffset[2] != 0) {
+                        bcEnd[1] = byteCodeArrayOffset[2];
+                    }
+                }
+                if (byteCodeArrayOffset[2] != 0) { // Something there.
+                    bcEnd[2] = txtOffset;
+                    // Whittle it down.
+                    if (iocOff[2] != 0 && iocOff[2] > iocOff[1]) {
+                        bcEnd[2] = iocOff[2];
+                    } else if (iocOff[1] != 0 && iocOff[1] > iocOff[0]) {
+                        bcEnd[2] = iocOff[1];
+                    } else if (iocOff[0] != 0) {
+                        bcEnd[2] = iocOff[0];
+                    }
+                }
+                int iocEnd[] = new int[]{
+                    smallestOf(iocOff[0],
+                    iocOff[1],
+                    iocOff[2],
+                    txtOffset
+                    ),
+                    smallestOf(iocOff[1],
+                    iocOff[0],
+                    iocOff[2],
+                    txtOffset
+                    ),
+                    smallestOf(iocOff[2],
+                    iocOff[0],
+                    iocOff[1],
+                    txtOffset
+                    )
+                };  // Assemble Byte Codes and Object Codes
+                for (int i = 0; i < 3; i++) {
+                    byteCode[i] = new byte[bcEnd[i] - byteCodeArrayOffset[i]];
+                    System.arraycopy(data, byteCodeArrayOffset[i], byteCode[i], 0, byteCode[i].length);
 
-            int txtOffset = ((data[7] & 0xff) << 8) + (data[6] & 0xff);
-            initText(txtOffset);
-
-            byteCodeArrayOffset[0] = ((data[9] & 0xff) << 8) + (data[8] & 0xff);
-            byteCodeArrayOffset[1] = ((data[11] & 0xff) << 8) + (data[10] & 0xff);
-            byteCodeArrayOffset[2] = ((data[13] & 0xff) << 8) + (data[12] & 0xff);
-
-            iocOff[0] = ((data[15] & 0xff) << 8) + (data[14] & 0xff);
-            iocOff[1] = ((data[17] & 0xff) << 8) + (data[16] & 0xff);
-            iocOff[2] = ((data[19] & 0xff) << 8) + (data[18] & 0xff);
-
-            unknown = new byte[20];
-            System.arraycopy(data, 20, unknown, 0, 20);
-
-            // Process byte array
-            int bcEnd[] = new int[]{0, 0, 0};
-            if (byteCodeArrayOffset[0] != 0) { // Something there.
-                bcEnd[0] = txtOffset;
-                // Whittle it down.
-                if (iocOff[2] != 0 && iocOff[2] > iocOff[1]) {
-                    bcEnd[0] = iocOff[2];
+                    objectCode[i] = new byte[iocEnd[i] - iocOff[i]];
+                    System.arraycopy(data, iocOff[i], objectCode[i], 0, objectCode[i].length);
                 }
-                if (iocOff[1] != 0 && iocOff[1] > iocOff[0]) {
-                    bcEnd[0] = iocOff[1];
-                }
-                if (iocOff[0] != 0) {
-                    bcEnd[0] = iocOff[0];
-                }
-                if (byteCodeArrayOffset[2] != 0) {
-                    bcEnd[0] = byteCodeArrayOffset[2];
-                }
-                if (byteCodeArrayOffset[1] != 0) {
-                    bcEnd[0] = byteCodeArrayOffset[1];
-                }
-            }
-            if (byteCodeArrayOffset[1] != 0) { // Something there.
-                bcEnd[1] = txtOffset;
-                // Whittle it down.
-                if (iocOff[2] != 0 && iocOff[2] > iocOff[1]) {
-                    bcEnd[1] = iocOff[2];
-                }
-                if (iocOff[1] != 0 && iocOff[1] > iocOff[0]) {
-                    bcEnd[1] = iocOff[1];
-                }
-                if (iocOff[0] != 0) {
-                    bcEnd[1] = iocOff[0];
-                }
-                if (byteCodeArrayOffset[2] != 0) {
-                    bcEnd[1] = byteCodeArrayOffset[2];
-                }
-            }
-            if (byteCodeArrayOffset[2] != 0) { // Something there.
-                bcEnd[2] = txtOffset;
-                // Whittle it down.
-                if (iocOff[2] != 0 && iocOff[2] > iocOff[1]) {
-                    bcEnd[2] = iocOff[2];
-                } else if (iocOff[1] != 0 && iocOff[1] > iocOff[0]) {
-                    bcEnd[2] = iocOff[1];
-                } else if (iocOff[0] != 0) {
-                    bcEnd[2] = iocOff[0];
-                }
-            }
-
-            int iocEnd[] = new int[]{
-                smallestOf(iocOff[0],
-                iocOff[1],
-                iocOff[2],
-                txtOffset
-                ),
-                smallestOf(iocOff[1],
-                iocOff[0],
-                iocOff[2],
-                txtOffset
-                ),
-                smallestOf(iocOff[2],
-                iocOff[0],
-                iocOff[1],
-                txtOffset
-                )
-            };
-
-            // Assemble Byte Codes and Object Codes
-            for (int i = 0; i < 3; i++) {
-                byteCode[i] = new byte[bcEnd[i] - byteCodeArrayOffset[i]];
-                System.arraycopy(data, byteCodeArrayOffset[i], byteCode[i], 0, byteCode[i].length);
-
-                objectCode[i] = new byte[iocEnd[i] - iocOff[i]];
-                System.arraycopy(data, iocOff[i], objectCode[i], 0, objectCode[i].length);
-            }
-
-            HexFormat hex = HexFormat.of();
-            LOGGER.log(Level.FINEST, "BIH: " + name);
-            LOGGER.log(Level.FINEST, "        textOffset: " + hex.toHexDigits(txtOffset));
-            LOGGER.log(Level.FINEST, "    Byte Code:\n    0:   beg: {0}  last:{1}\n    1:   beg: {2}  last:{3}\n    2:   beg: {4}  last:{5}",
-                    new Object[]{
-                        hex.toHexDigits(byteCodeArrayOffset[0]), hex.toHexDigits(bcEnd[0]),
-                        hex.toHexDigits(byteCodeArrayOffset[1]), hex.toHexDigits(bcEnd[1]),
-                        hex.toHexDigits(byteCodeArrayOffset[2]), hex.toHexDigits(bcEnd[2])
-                    });
-            LOGGER.log(Level.FINEST, "     Obj Code:\n    0:   beg: {0}  last:{1}\n    1:   beg: {2}  last:{3}\n    2:   beg: {4}  last:{5}",
-                    new Object[]{
-                        hex.toHexDigits(iocOff[0]), hex.toHexDigits(iocEnd[0]),
-                        hex.toHexDigits(iocOff[1]), hex.toHexDigits(iocEnd[1]),
-                        hex.toHexDigits(iocOff[2]), hex.toHexDigits(iocEnd[2])
-                    });
+                HexFormat hex = HexFormat.of();
+                LOGGER.log(Level.FINEST, "BIH: {0}", name);
+                LOGGER.log(Level.FINEST, "        textOffset: {0}", hex.toHexDigits(txtOffset));
+                LOGGER.log(Level.FINEST, "    Byte Code:\n    0:   beg: {0}  last:{1}\n    1:   beg: {2}  last:{3}\n    2:   beg: {4}  last:{5}",
+                        new Object[]{
+                            hex.toHexDigits(byteCodeArrayOffset[0]), hex.toHexDigits(bcEnd[0]),
+                            hex.toHexDigits(byteCodeArrayOffset[1]), hex.toHexDigits(bcEnd[1]),
+                            hex.toHexDigits(byteCodeArrayOffset[2]), hex.toHexDigits(bcEnd[2])
+                        });
+                LOGGER.log(Level.FINEST, "     Obj Code:\n    0:   beg: {0}  last:{1}\n    1:   beg: {2}  last:{3}\n    2:   beg: {4}  last:{5}",
+                        new Object[]{
+                            hex.toHexDigits(iocOff[0]), hex.toHexDigits(iocEnd[0]),
+                            hex.toHexDigits(iocOff[1]), hex.toHexDigits(iocEnd[1]),
+                            hex.toHexDigits(iocOff[2]), hex.toHexDigits(iocEnd[2])
+                        });
+                break;
         }
     }
 
