@@ -48,7 +48,7 @@ import javafx.scene.image.Image;
  */
 public class DATUtil {
 
-    private static Logger LOG = Logging.LOGGER;
+    private static final Logger LOG = Logging.LOGGER;
 
     public static void createCache(DAT dat, File cacheFolder) {
 
@@ -111,7 +111,7 @@ public class DATUtil {
 
     private static void populateIMH(DAT dat, File folder) {
         dat.imh.forEach((imh) -> {
-            LOG.log(Level.CONFIG, "Process IMH: " + imh.name);
+            LOG.log(Level.CONFIG, "Process IMH: {0}", imh.name);
             PNGWriter pngWriter = new PNGWriter();
 
             imh.dataBlock.forEach((blob) -> {
@@ -133,7 +133,7 @@ public class DATUtil {
 
     private static void populatePIC(DAT dat, File folder) {
         dat.pic.forEach((pic) -> {
-            LOG.log(Level.CONFIG, "Process PIC: " + pic.name);
+            LOG.log(Level.CONFIG, "Process PIC: {0}", pic.name);
             PNGWriter pngWriter = new PNGWriter();
 
             pic.dataBlock.forEach((blob) -> {
@@ -175,7 +175,7 @@ public class DATUtil {
                     ANHAnima anim = entry.frames.get(animNum);
                     File animDir = new File(entryDir, "anim" + (animNum < 10 ? "0" : "") + animNum);
                     animDir.mkdir();
-                    LOG.log(Level.FINE, "Create Anim Dir: " + animDir.getAbsolutePath());
+                    LOG.log(Level.FINE, "Create Anim Dir: {0}", animDir.getAbsolutePath());
 
                     try {
                         File sleepFile = new File(animDir, "meta.txt");
@@ -192,7 +192,7 @@ public class DATUtil {
 
                                 File frameFile = new File(animDir, (frameNum < 10 ? "0" : "") + frameNum + ".png");
                                 makeImageFile(frameFile, frame.getXorData(), frame.w, frame.h, 0);
-                                LOG.log(Level.FINE, "Create image: " + frameFile.getAbsolutePath());
+                                LOG.log(Level.FINE, "Create image: {0}", frameFile.getAbsolutePath());
                             }
                         }
                     } catch (FileNotFoundException ex) {
@@ -210,9 +210,6 @@ public class DATUtil {
         dat.bih.forEach((bihThing) -> {
             LOG.log(Level.CONFIG, "Process BIH: {0}.", new Object[]{bihThing.name});
 
-//            File subDir = new File(folder, bihThing.name);
-//            LOG.log(Level.CONFIG, "Create BIH Sub Dir: {0}", subDir.getAbsolutePath());
-//            subDir.mkdir();
             // Meta.txt
             // Text.txt
             File metaFile = new File(folder, bihThing.name + "_meta.txt");
@@ -221,21 +218,9 @@ public class DATUtil {
                 writer.getChannel().truncate(0L);
                 writer.writeBytes("// Meta for BIH: " + bihThing.name + "\n");
                 if (bihThing.cbOffset != 0 || bihThing.cbSegment != 0 || bihThing.ctrlStructAddr != 0 || bihThing.unknown.length != 0) {
-                    if (bihThing.name.equals("R3")) {
-                        int a = 0; // debug breakpoint
-                    }
                     writer.writeBytes("name:" + String.valueOf(bihThing.name) + "\n");
                     writer.writeBytes("\n");
 
-//                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[0]) + "\n");
-//                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[1]) + "\n");
-//                    writer.writeBytes("byteCodeArray@:" + String.valueOf(bihThing.byteCodeArrayOffset[2]) + "\n");
-//                    writer.writeBytes("\n");
-//
-//                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.iocOff[0]) + "\n");
-//                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.iocOff[1]) + "\n");
-//                    writer.writeBytes("initObjCode@:" + String.valueOf(bihThing.iocOff[2]) + "\n");
-//                    writer.writeBytes("\n");
                     // Write addr of unkown and bytes in hex string. :  ab12: 00 00 00 00 00 ...
                     writer.writeBytes("unknown:\n");
                     LOGGER.log(Level.FINER, "Unknown Bytes @ :");
@@ -270,7 +255,7 @@ public class DATUtil {
                     writer.writeBytes("\n");
                 }
                 writer.writeBytes("// Text Elements:");
-                if (bihThing.text.size() > 0) {
+                if (!bihThing.text.isEmpty()) {
                     writer.writeBytes("\n");
                 } else {
                     writer.writeBytes("  NONE\n");
@@ -311,7 +296,7 @@ public class DATUtil {
         StringBuilder sb = new StringBuilder();
         HexFormat hexFormat = HexFormat.of();
         for (int ii = 0; ii < blob.length; ii += columns) {
-            sb.append(String.format("%04X", (ii + addr) & 0xFFFF) + ": ");
+            sb.append(String.format("%04X", (ii + addr) & 0xFFFF)).append(": ");
             try {
                 for (int i = 0; i < columns; i++) {
                     byte b = blob[ii + i];
