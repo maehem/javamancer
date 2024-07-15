@@ -100,6 +100,8 @@ public class RootPane extends JavamancerPane {
         setBottom(bottomBox);
 
         initListeners();
+
+        refresh();
     }
 
     private void initListeners() {
@@ -128,6 +130,14 @@ public class RootPane extends JavamancerPane {
         String sizeW = appProperties.getProperty(PANE_SIZE_W_PROP_KEY, "640");
         String sizeH = appProperties.getProperty(PANE_SIZE_H_PROP_KEY, "480");
         setPrefSize(Double.parseDouble(sizeW), Double.parseDouble(sizeH));
+    }
+
+    @Override
+    public void refresh() {
+        boolean datFilesPresent = AppProperties.getInstance().datFilesPresent();
+        boolean cacheFilesPresent = AppProperties.getInstance().cacheFilesPresent();
+        gameButton.setDisable(!datFilesPresent || !cacheFilesPresent);
+        browserButton.setDisable(!datFilesPresent);
     }
 
 }

@@ -44,5 +44,7 @@ public abstract class JavamancerPane extends BorderPane {
     public abstract void pushProperties(AppProperties appProperties);
     public abstract void pullProperties(AppProperties appProperties);
 
+    public void refresh() {
+    }
 
 }

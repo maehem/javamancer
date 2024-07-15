@@ -47,9 +47,7 @@ public class SettingsContentPane extends GridPane {
         setHgap(20);
         setVgap(4);
 
-        DatFilesStatusItem datStat = new DatFilesStatusItem();
-        addRow(0, datStat.getLabel(), datStat);
-
+        rebuildSettings();
 
         ColumnConstraints col1 = new ColumnConstraints(120);
         col1.setHalignment(HPos.RIGHT);
@@ -58,4 +56,9 @@ public class SettingsContentPane extends GridPane {
         getColumnConstraints().addAll(col1, col2);
     }
 
+    public void rebuildSettings() {
+        getChildren().clear();
+        DatFilesStatusItem datStat = new DatFilesStatusItem();
+        addRow(0, datStat.getLabel(), datStat);
+    }
 }

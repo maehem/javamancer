@@ -164,6 +164,7 @@ public class Javamancer extends Application implements RootButtonListener, About
                 if (settingsPane == null) {
                     settingsPane = new SettingsPane(this);
                 }
+                settingsPane.refresh();
                 scene.setRoot(settingsPane);
                 mode = Mode.SETTINGS;
             }
@@ -193,18 +194,21 @@ public class Javamancer extends Application implements RootButtonListener, About
     @Override
     public void aboutActionPerformed(AboutPane.Action action) {
         scene.setRoot(rootPane);
+        rootPane.refresh();
         mode = Mode.ROOT;
     }
 
     @Override
     public void settingsActionPerformed(SettingsPane.Action action) {
         scene.setRoot(rootPane);
+        rootPane.refresh();
         mode = Mode.ROOT;
     }
 
     @Override
     public void broswerActionPerformed(BrowserPane.Action action) {
         scene.setRoot(rootPane);
+        rootPane.refresh();
         mode = Mode.ROOT;
     }
 

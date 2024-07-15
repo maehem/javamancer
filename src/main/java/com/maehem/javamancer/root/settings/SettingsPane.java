@@ -45,6 +45,8 @@ import javafx.scene.text.TextAlignment;
  */
 public class SettingsPane extends JavamancerPane {
 
+    private final SettingsContentPane contentBox;
+
     public enum Action {
         DONE
     };
@@ -73,7 +75,7 @@ public class SettingsPane extends JavamancerPane {
         topBox.setAlignment(Pos.CENTER);
         setTop(topBox);
 
-        SettingsContentPane contentBox = new SettingsContentPane();
+        contentBox = new SettingsContentPane();
         HBox contentExpandBox = new HBox(contentBox);
         HBox.setHgrow(contentBox, Priority.ALWAYS);
         setCenter(contentExpandBox);
@@ -97,6 +99,11 @@ public class SettingsPane extends JavamancerPane {
 
     @Override
     public void pullProperties(AppProperties appProperties) {
+    }
+
+    @Override
+    public void refresh() {
+        contentBox.rebuildSettings();
     }
 
 }
