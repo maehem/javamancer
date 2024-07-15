@@ -110,6 +110,7 @@ public class DatFilesStatusItem extends HBox {
     private void doInfoPopup() {
         Alert alert = new Alert(AlertType.INFORMATION);
         ViewUtils.applyAppStylesheet(alert.getDialogPane().getStylesheets());
+        alert.getDialogPane().setId("root-opaque");
         alert.setTitle(MSG.getString("STATUS_DAT_HOWTO_TITLE"));
         alert.setHeaderText(MSG.getString("STATUS_DAT_HOWTO_HEADER"));
         alert.setContentText(MSG.getString("STATUS_DAT_HOWTO_INSTRUCTIONS"));
