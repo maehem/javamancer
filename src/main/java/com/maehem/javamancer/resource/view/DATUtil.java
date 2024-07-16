@@ -28,7 +28,6 @@ package com.maehem.javamancer.resource.view;
 
 import com.maehem.javamancer.logging.Logging;
 import static com.maehem.javamancer.logging.Logging.LOGGER;
-import com.maehem.javamancer.resource.file.PNGWriter;
 import com.maehem.javamancer.resource.model.ANHAnima;
 import com.maehem.javamancer.resource.model.ANHEntry;
 import com.maehem.javamancer.resource.model.ANHFrame;

@@ -30,7 +30,7 @@ package com.maehem.javamancer.resource.file;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum FTUser implements Resource {
+public enum FtUserResource implements Resource {
 
     TXT; // Only one thing.
 

@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer;
 
-import com.maehem.javamancer.resource.file.PNGWriter;
+import com.maehem.javamancer.resource.view.PNGWriter;
 import java.io.File;
 import javafx.application.Application;
 import javafx.application.Platform;

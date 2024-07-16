@@ -27,7 +27,7 @@
 package com.maehem.javamancer.resource.model;
 
 import com.maehem.javamancer.logging.Logging;
-import com.maehem.javamancer.resource.file.IMH;
+import com.maehem.javamancer.resource.file.ImhResource;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +43,7 @@ public class IMHThing {
     public final byte data[];
     public final ArrayList<byte[]> dataBlock = new ArrayList<>();
 
-    public IMHThing(IMH imh, byte[] data, int len) {
+    public IMHThing(ImhResource imh, byte[] data, int len) {
         this.name = imh.getName();
 
         this.data = new byte[64000];

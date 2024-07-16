@@ -27,7 +27,7 @@
 package com.maehem.javamancer.resource.model;
 
 import com.maehem.javamancer.logging.Logging;
-import com.maehem.javamancer.resource.file.BIH;
+import com.maehem.javamancer.resource.file.BihResource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HexFormat;
@@ -69,7 +69,7 @@ public class BIHThing {
     public final byte[][] byteCode = new byte[3][];
     public final byte[][] objectCode = new byte[3][];
 
-    public BIHThing(BIH bih, byte[] data, int len) {
+    public BIHThing(BihResource bih, byte[] data, int len) {
         this.name = bih.getName();
 
         this.data = new byte[len];

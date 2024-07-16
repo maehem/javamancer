@@ -27,7 +27,7 @@
 package com.maehem.javamancer.resource.model;
 
 import com.maehem.javamancer.logging.Logging;
-import com.maehem.javamancer.resource.file.SaveGame;
+import com.maehem.javamancer.resource.file.GameSaveResource;
 import java.util.logging.Logger;
 
 /**
@@ -52,7 +52,7 @@ public class GameSaveThing {
     public final byte[] data; // Should be the bytes of the string.
     public final String name;
 
-    public GameSaveThing(SaveGame saveGame, byte[] data, int len) {
+    public GameSaveThing(GameSaveResource saveGame, byte[] data, int len) {
         this.name = saveGame.getName();
 
         this.data = new byte[len];

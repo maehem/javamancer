@@ -24,7 +24,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.resource.file;
+package com.maehem.javamancer.resource.view;
 
 import com.maehem.javamancer.logging.Logging;
 import static com.maehem.javamancer.logging.Logging.LOGGER;

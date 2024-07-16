@@ -54,8 +54,8 @@ public class Ingest {
             new RandomAccessFile(datFile[1], "r")
         };
 
-        // Ingest IMH
-        for (IMH imh : IMH.values()) {
+        // Ingest ImhResource
+        for (ImhResource imh : ImhResource.values()) {
             byte[] dest = new byte[64000];
 
             int len = decompressResource(raf[imh.fileNum], imh, dest);
@@ -63,8 +63,8 @@ public class Ingest {
 
             dat.imh.add(thing);
         }
-        // Ingest PIC
-        for (PIC pic : PIC.values()) {
+        // Ingest PicResource
+        for (PicResource pic : PicResource.values()) {
             byte[] dest = new byte[64000];
 
             int len = decompressResource(raf[pic.fileNum], pic, dest);
@@ -72,8 +72,8 @@ public class Ingest {
 
             dat.pic.add(thing);
         }
-        // Ingest ANH
-        for (ANH anh : ANH.values()) {
+        // Ingest AnhResource
+        for (AnhResource anh : AnhResource.values()) {
             byte[] dest = new byte[64000];
 
             int len = decompressResource(raf[anh.fileNum], anh, dest);
@@ -95,8 +95,8 @@ public class Ingest {
 
             dat.anh.add(thing);
         }
-        // Ingest BIH
-        for (BIH bih : BIH.values()) {
+        // Ingest BihResource
+        for (BihResource bih : BihResource.values()) {
             byte[] dest = new byte[64000];
 
             int len = decompressResource(raf[bih.fileNum], bih, dest);
@@ -108,15 +108,15 @@ public class Ingest {
         // Ingest FTUSER
         byte[] dest = new byte[64000];
 
-        int len = decompressResource(raf[FTUser.fileNum], FTUser.TXT, dest);
-        FTUserThing thing = new FTUserThing(FTUser.TXT, dest, len);
+        int len = decompressResource(raf[FtUserResource.fileNum], FtUserResource.TXT, dest);
+        FTUserThing thing = new FTUserThing(FtUserResource.TXT, dest, len);
         dat.ftuser = thing;
 
         // Ingest Game Save default data.
-        dest = new byte[SaveGame.size];
+        dest = new byte[GameSaveResource.size];
 
-        len = decompressResource(raf[SaveGame.fileNum], SaveGame.DATA, dest);
-        GameSaveThing gsThing = new GameSaveThing(SaveGame.DATA, dest, len);
+        len = decompressResource(raf[GameSaveResource.fileNum], GameSaveResource.DATA, dest);
+        GameSaveThing gsThing = new GameSaveThing(GameSaveResource.DATA, dest, len);
         dat.gamesave = gsThing;
 
         return dat;
@@ -127,7 +127,7 @@ public class Ingest {
 
         try {
             byte[] compressedData = new byte[64000];
-            if (resource instanceof PIC || resource instanceof IMH) {
+            if (resource instanceof PicResource || resource instanceof ImhResource) {
                 raf.seek(resource.getOffset() + 32); // TODO Get and review the 32 byte header.
             } else {
                 raf.seek(resource.getOffset());

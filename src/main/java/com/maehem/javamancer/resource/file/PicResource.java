@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.resource.file;
 
+import com.maehem.javamancer.resource.view.Util;
 import com.maehem.javamancer.logging.Logging;
 import java.util.HexFormat;
 import java.util.logging.Level;
@@ -35,7 +36,7 @@ import java.util.logging.Logger;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum PIC implements Resource {
+public enum PicResource implements Resource {
 
     R1(0, 0x5EE, 0x1346),
     R2(0, 0x1CE0, 0x1CB3),
@@ -99,7 +100,7 @@ public enum PIC implements Resource {
     public final int offset; // DOS long == Java int (32-bits)
     public final int size;
 
-    private PIC(int fileNum, int offset, int size) {
+    private PicResource(int fileNum, int offset, int size) {
         this.fileNum = fileNum;
         this.offset = offset;
         this.size = size;

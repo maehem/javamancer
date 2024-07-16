@@ -26,7 +26,6 @@
  */
 package com.maehem.javamancer.resource.view;
 
-import com.maehem.javamancer.resource.file.Util;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;

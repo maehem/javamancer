@@ -27,7 +27,7 @@
 package com.maehem.javamancer.resource.model;
 
 import com.maehem.javamancer.logging.Logging;
-import com.maehem.javamancer.resource.file.ANH;
+import com.maehem.javamancer.resource.file.AnhResource;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +54,7 @@ public class ANHThing {
     public final String name;
     public final ArrayList<ANHEntry> anhEntry = new ArrayList<>();
 
-    public ANHThing(ANH anh, byte[] data, int len, byte roomData[]) {
+    public ANHThing(AnhResource anh, byte[] data, int len, byte roomData[]) {
         this.name = anh.getName();
 
         this.data = new byte[len];

@@ -30,7 +30,7 @@ package com.maehem.javamancer.resource.file;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum SaveGame implements Resource {
+public enum GameSaveResource implements Resource {
 
     DATA;
 

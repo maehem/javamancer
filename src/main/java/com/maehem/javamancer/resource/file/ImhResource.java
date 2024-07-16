@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.resource.file;
 
+import com.maehem.javamancer.resource.view.Util;
 import com.maehem.javamancer.logging.Logging;
 import java.util.HexFormat;
 import java.util.logging.Level;
@@ -35,7 +36,7 @@ import java.util.logging.Logger;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum IMH implements Resource {
+public enum ImhResource implements Resource {
 
     CURSORS(0, 0x364EE, 0xF3),
     BUBBLES(0, 0x363F1, 0xFD),
@@ -72,7 +73,7 @@ public enum IMH implements Resource {
     public final int offset; // DOS long == Java int (32-bits)
     public final int size;
 
-    private IMH(int fileNum, int offset, int size) {
+    private ImhResource(int fileNum, int offset, int size) {
         this.fileNum = fileNum;
         this.offset = offset;
         this.size = size;

@@ -27,7 +27,7 @@
 package com.maehem.javamancer.resource.model;
 
 import com.maehem.javamancer.logging.Logging;
-import com.maehem.javamancer.resource.file.PIC;
+import com.maehem.javamancer.resource.file.PicResource;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +43,7 @@ public class PICThing {
     //public final byte data[];
     public final ArrayList<byte[]> dataBlock = new ArrayList<>();
 
-    public PICThing(PIC pic, byte[] data, int len) {
+    public PICThing(PicResource pic, byte[] data, int len) {
         this.name = pic.getName();
 
         //this.data = new byte[64000];
