@@ -8,12 +8,12 @@
 #include <string.h>
 
 static uint16_t g_4c6b = 0;
-static uint8_t g_savegames[12000];
+static uint8_t g_savegames[12000]; // Four slots, 3000 bytes each ( slotNum * 3000 ).
 
 #pragma pack(push, 1)
 typedef struct neuro_savegame_t {
 	x3f85_t x3f85;
-	x4bae_t x4bae;
+	x4bae_t x4bae;  // progress flags, amounts, name ...
 	uint8_t visited_levels[8];
 	uint8_t x3b94[374];
 	neuro_menu_t neuro_menus[4];
@@ -41,7 +41,7 @@ static void save_game(int slot)
 
 	memmove(&savegame->x3f85, &g_3f85, sizeof(x3f85_t));
 	memmove(&savegame->x4bae, &g_4bae, sizeof(x4bae_t));
-	memmove(savegame->visited_levels, g_visited_levels_bitstring, 8);
+	memmove(savegame->visited_levels, g_visited_levels_bitstring, 8); // Level bit flag set when visited.
 
 	memmove(savegame->x3b94, g_3b94, 64);
 	memmove(savegame->x3b94 + 64, g_sprite_chain, 310);

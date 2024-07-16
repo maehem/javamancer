@@ -187,7 +187,7 @@ typedef struct level_info_t {
 	uint8_t level_transitions[4]; // TRBL
 } level_info_t;
 
-typedef struct x3f85_t {
+typedef struct x3f85_t {  // Savegame data chunk
 	neuro_vm_state_t vm_state[35];
 	uint8_t vm_state_end;        // 0x407A
 	level_info_t level_info[58]; // 0x407B
