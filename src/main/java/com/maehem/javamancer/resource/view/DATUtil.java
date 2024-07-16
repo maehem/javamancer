@@ -368,7 +368,7 @@ public class DATUtil {
     private static void populateGameSave(DAT dat, File gSaveFile) {
         try (RandomAccessFile writer = new RandomAccessFile(gSaveFile, "rw")) {
             writer.getChannel().truncate(0L);
-            writer.writeBytes("// GameSave Raw Data: " + dat.gamesave.name + "\n");
+            //writer.writeBytes("// GameSave Raw Data: " + dat.gamesave.name + "\n");
             writer.write(dat.gamesave.data);
             writer.close();
         } catch (FileNotFoundException ex) {
