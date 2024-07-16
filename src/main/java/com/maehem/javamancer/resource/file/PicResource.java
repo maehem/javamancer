@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.resource.file;
 
+import com.maehem.javamancer.resource.Util;
 import com.maehem.javamancer.logging.Logging;
 import java.util.HexFormat;
 import java.util.logging.Level;

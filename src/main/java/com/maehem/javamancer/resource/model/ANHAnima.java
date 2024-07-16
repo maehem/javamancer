@@ -28,7 +28,7 @@ package com.maehem.javamancer.resource.model;
 
 import com.maehem.javamancer.ViewUtils;
 import static com.maehem.javamancer.logging.Logging.LOGGER;
-import com.maehem.javamancer.resource.view.Util;
+import com.maehem.javamancer.resource.Util;
 import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.logging.Level;
