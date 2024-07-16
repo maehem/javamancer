@@ -30,7 +30,9 @@ package com.maehem.javamancer.resource.file;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class FTUser implements Resource {
+public enum FTUser implements Resource {
+
+    TXT; // Only one thing.
 
     public final static String name = "FTUSER.TXH";
     public final static int fileNum = 0;
@@ -54,7 +56,7 @@ public class FTUser implements Resource {
 
     @Override
     public int decompress(byte[] compressedData, byte[] destination) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return Huffman.decompress(compressedData, destination);
     }
 
     @Override
