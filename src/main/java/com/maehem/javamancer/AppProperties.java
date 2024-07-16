@@ -272,4 +272,20 @@ public class AppProperties extends Properties {
     public File getCacheFolder() {
         return new File(getPropFile().getParentFile(), CACHE_DIR);
     }
+
+    public File getImhFolder() {
+        return new File(getCacheFolder(), "imh");
+    }
+
+    public File getPicFolder() {
+        return new File(getCacheFolder(), "pic");
+    }
+
+    public File getBihFolder() {
+        return new File(getCacheFolder(), "bih");
+    }
+
+    public File getAnhFolder() {
+        return new File(getCacheFolder(), "anh");
+    }
 }
