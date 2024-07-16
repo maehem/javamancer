@@ -10,9 +10,12 @@
     -fx-focus-color: derive( -fx-accent, -20% );
     
     -fx-padding: 10;
+    
+    /*
     -fx-border-width: 2;
     -fx-border-insets: 5;
     -fx-border-radius: 5;
+    */
 }
 
 #root-opaque {
@@ -29,6 +32,8 @@
 #root-clear {
     -fx-background-color: transparent;
 }
+
+
 
 .text {
     -fx-fill: lightgray;
@@ -58,7 +63,7 @@ Text {
 }
 
 .button:hover{
-    -fx-text-fill: #f6f;
+    /*-fx-text-fill: #f6f; */
     -fx-background-color: #bb44bb;
 }
 
@@ -118,4 +123,47 @@ Text {
     -fx-border-insets: 0;
     -fx-border-radius: 3;
     -fx-background-radius: 3;
+}
+
+#neuro-game {
+    -fx-base: #292929;
+    
+    -fx-control-inner-background: derive(-fx-base,  15%);
+    -fx-control-inner-background-alt: derive( -fx-control-inner-background, 10%);
+    
+    -fx-padding: 0;
+    
+
+}
+
+#neuro-button {
+    -fx-background-color: white;
+    -fx-background-insets: 1;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 4 10 4 10;
+    
+    -fx-text-fill: black;
+}
+
+#neuro-button .text {
+    -fx-fill: black; 
+}
+
+#neuro-button-no-border {
+    -fx-background-color: white;
+    -fx-background-insets: 1;
+    -fx-border-color: black;
+    -fx-border-width: 0;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 4 2 4 2;
+    
+    -fx-text-fill: black;
+}
+
+#neuro-name-chooser {
+    
 }

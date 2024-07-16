@@ -1,0 +1,54 @@
+
+.neuroDialog, .button{
+    -fx-background-color: white;
+    -fx-background-insets: 1;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 4 10 4 10;
+
+    -fx-text-fill: black;
+}
+.neuroDialog > *.button-bar > *.container{
+    -fx-background-color: white;
+}
+.neuroDialog > *.label.content{
+    -fx-font-size: 30;
+    -fx-font-weight: bold;
+}
+.neuroDialog:header *.header-panel{
+    -fx-background-color: white;
+    -fx-font-size: 30;
+}
+.neuroDialog:header *.header-panel *.label{
+    -fx-font-family: VT323;
+    -fx-font-size: 30;
+    -fx-text-fill: black;
+}
+
+.neuroDialog:header *.header-panel *.text{
+    -fx-fill: black;
+}
+
+.button:hover, .button:default {
+    -fx-background-color: white;
+}
+
+.neuroDialog .button .text {
+    -fx-font-family: VT323;
+    -fx-font-size: 30;
+    -fx-fill: black;
+}
+
+.text-field {
+    -fx-font-family: VT323;
+    -fx-font-size: 30;
+    -fx-background-insets: 0,0,0,0;
+    -fx-text-box-border: transparent;
+    -fx-background-color: transparent;
+}
+
+#neuro-button-no-border {
+    -fx-border-width: 0;
+}
