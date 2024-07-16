@@ -27,6 +27,8 @@
 package com.maehem.javamancer;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.NeuroPane;
+import com.maehem.javamancer.neuro.NeuroPaneListener;
 import com.maehem.javamancer.resource.BrowserPane;
 import com.maehem.javamancer.resource.Ingest;
 import com.maehem.javamancer.resource.model.DAT;
@@ -51,7 +53,7 @@ import javafx.stage.Stage;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class Javamancer extends Application implements RootButtonListener, AboutPaneListener, SettingsPaneListener, BrowserPaneListener {
+public class Javamancer extends Application implements RootButtonListener, AboutPaneListener, SettingsPaneListener, BrowserPaneListener, NeuroPaneListener {
 
     // TODO: create a static logger in logging package.
     public static final Logger LOGGER = Logging.LOGGER;
@@ -106,8 +108,9 @@ public class Javamancer extends Application implements RootButtonListener, About
         stage.setScene(scene); // Add the scene to the Stage
 
         rootPane.pullProperties(appProperties); // Load settings from prop file.
+
         // Always keep the aspect ratio for any window size.
-        final double aspectRatio = 4.0 / 3.0; // 4:3 old style aspect ratio
+        final double aspectRatio = 16.0 / 10.0; // Original game screens are 16:10 aspect ratio (320 x 200)
         stage.minWidthProperty().bind(scene.heightProperty().multiply(aspectRatio));
         stage.minHeightProperty().bind(scene.widthProperty().divide(aspectRatio));
 
@@ -138,6 +141,13 @@ public class Javamancer extends Application implements RootButtonListener, About
         switch (button) {
             case GAME -> {
                 LOGGER.log(Level.SEVERE, "Game Button Pressed");
+
+                if (gamePane == null) {
+                    gamePane = new NeuroPane(this);
+                }
+                gamePane.refresh();
+                scene.setRoot(gamePane);
+                mode = Mode.GAME;
             }
             case BROWSER -> {
                 LOGGER.log(Level.SEVERE, "Browser Button Pressed");
@@ -207,6 +217,13 @@ public class Javamancer extends Application implements RootButtonListener, About
 
     @Override
     public void broswerActionPerformed(BrowserPane.Action action) {
+        scene.setRoot(rootPane);
+        rootPane.refresh();
+        mode = Mode.ROOT;
+    }
+
+    @Override
+    public void neuroActionPerformed(NeuroPaneListener.Action action) {
         scene.setRoot(rootPane);
         rootPane.refresh();
         mode = Mode.ROOT;
