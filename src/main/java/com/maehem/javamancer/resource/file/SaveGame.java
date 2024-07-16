@@ -30,11 +30,38 @@ package com.maehem.javamancer.resource.file;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class SaveGame {
+public enum SaveGame implements Resource {
+
+    DATA;
 
     public final static String name = "SAVEGAME.SAV";
     public final static int fileNum = 0;
     public final static int offset = 0x3C96E;
     public final static int size = 0x2EE0;
 
+    @Override
+    public int getFileNum() {
+        return fileNum;
+    }
+
+    @Override
+    public int getOffset() {
+        return offset;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
+    }
+
+    @Override
+    public int decompress(byte[] compressedData, byte[] destination) {
+        System.arraycopy(compressedData, 0, destination, 0, destination.length);
+        return destination.length;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 }
