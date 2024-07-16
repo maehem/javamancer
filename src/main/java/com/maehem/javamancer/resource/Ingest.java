@@ -26,7 +26,6 @@
  */
 package com.maehem.javamancer.resource;
 
-import com.maehem.javamancer.logging.Logging;
 import static com.maehem.javamancer.logging.Logging.LOGGER;
 import com.maehem.javamancer.resource.file.*;
 import com.maehem.javamancer.resource.model.ANHThing;
@@ -124,7 +123,7 @@ public class Ingest {
     }
 
     private static int decompressResource(RandomAccessFile raf, Resource resource, byte[] dest) {
-        Logging.LOGGER.log(Level.FINE, "Decompress: " + resource.getName());
+        LOGGER.log(Level.FINE, "Decompress: " + resource.getName());
 
         try {
             byte[] compressedData = new byte[64000];
@@ -137,7 +136,7 @@ public class Ingest {
             raf.read(compressedData, 0, resource.getSize());
             return resource.decompress(compressedData, dest);
         } catch (IOException ex) {
-            Logging.LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
 
         return 0;
