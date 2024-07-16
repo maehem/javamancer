@@ -26,22 +26,37 @@
  */
 package com.maehem.javamancer.resource.model;
 
-import java.util.ArrayList;
+import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.resource.file.SaveGame;
+import java.util.logging.Logger;
 
 /**
+ * <pre> // save_load.c
+ * typedef struct neuro_savegame_t {
+ *      x3f85_t x3f85;
+ *      x4bae_t x4bae;
+ *      uint8_t visited_levels[8];
+ *      uint8_t x3b94[374];
+ *      neuro_menu_t neuro_menus[4];
+ *      neuro_window_t neuro_windows[4];
+ * } neuro_savegame_t;
+ * </pre>
+ *
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class DAT {
+public class GameSaveThing {
 
-    public final ArrayList<IMHThing> imh = new ArrayList<>();
-    public final ArrayList<PICThing> pic = new ArrayList<>();
-    public final ArrayList<BIHThing> bih = new ArrayList<>();
-    public final ArrayList<ANHThing> anh = new ArrayList<>();
-    public FTUserThing ftuser;
-    public GameSaveThing gamesave;
+    public static final Logger LOGGER = Logging.LOGGER;
 
-    public DAT() {
+    public final byte[] data; // Should be the bytes of the string.
+    public final String name;
+
+    public GameSaveThing(SaveGame saveGame, byte[] data, int len) {
+        this.name = saveGame.getName();
+
+        this.data = new byte[len];
+        System.arraycopy(data, 0, this.data, 0, len);
     }
 
 }

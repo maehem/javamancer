@@ -26,22 +26,40 @@
  */
 package com.maehem.javamancer.resource.model;
 
-import java.util.ArrayList;
+import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.resource.file.FTUser;
+import java.util.logging.Logger;
 
 /**
+ * <pre>
+ *typedef struct bih_hdr_t {
+ *      uint16_t cb_offt;                 // a8e8
+ *      uint16_t cb_segt;                 // a8ea
+ *      uint16_t ctrl_struct_addr;        // a8ec
+ *      uint16_t text_offset;             // a8ee
+ *      uint16_t bytecode_array_offt[3];  // a8f0
+ *      uint16_t init_obj_code_offt[3];   // a8f6
+ *      uint16_t unknown[10];             // a8fc
+ *      // the rest of bih file
+ * } bih_hdr_t;
+ * </pre>
+ *
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class DAT {
+public class FTUserThing {
 
-    public final ArrayList<IMHThing> imh = new ArrayList<>();
-    public final ArrayList<PICThing> pic = new ArrayList<>();
-    public final ArrayList<BIHThing> bih = new ArrayList<>();
-    public final ArrayList<ANHThing> anh = new ArrayList<>();
-    public FTUserThing ftuser;
-    public GameSaveThing gamesave;
+    public static final Logger LOGGER = Logging.LOGGER;
 
-    public DAT() {
+    public final byte[] data; // Should be the bytes of the string.
+    public final String name;
+
+    public FTUserThing(FTUser ftUser, byte[] data, int len) {
+        this.name = ftUser.getName();
+
+        this.data = new byte[len];
+        System.arraycopy(data, 0, this.data, 0, len);
+
     }
 
 }

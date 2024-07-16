@@ -107,6 +107,29 @@ public class DATUtil {
         } else {
             LOG.log(Level.CONFIG, "Cache 'pic' folder found.");
         }
+
+        File ftuFile = new File(cacheFolder, "ftUser.txt");
+        if (!ftuFile.isFile()) {
+            if (ftuFile.exists()) {
+                LOG.log(Level.CONFIG, "Cache ''{0}'' delete.", ftuFile.getName());
+                ftuFile.delete();
+            }
+        } else {
+            LOG.log(Level.CONFIG, "Cache ''{0}'' file found.", ftuFile.getName());
+        }
+        populateFTU(dat, ftuFile);
+
+        File gSaveFile = new File(cacheFolder, "gamesave.bin");
+        if (!gSaveFile.isFile()) {
+            if (gSaveFile.exists()) {
+                LOG.log(Level.CONFIG, "Cache ''{0}'' delete.", gSaveFile.getName());
+                gSaveFile.delete();
+            }
+        } else {
+            LOG.log(Level.CONFIG, "Cache ''{0}'' file found.", gSaveFile.getName());
+        }
+        populateGameSave(dat, gSaveFile);
+
     }
 
     private static void populateIMH(DAT dat, File folder) {
@@ -328,4 +351,31 @@ public class DATUtil {
 
         return true;
     }
+
+    private static void populateFTU(DAT dat, File ftuFile) {
+        try (RandomAccessFile writer = new RandomAccessFile(ftuFile, "rw")) {
+            writer.getChannel().truncate(0L);
+            writer.writeBytes("// Text for FTUser: " + dat.ftuser.name + "\n");
+            writer.write(dat.ftuser.data);
+            writer.close();
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    private static void populateGameSave(DAT dat, File gSaveFile) {
+        try (RandomAccessFile writer = new RandomAccessFile(gSaveFile, "rw")) {
+            writer.getChannel().truncate(0L);
+            writer.writeBytes("// GameSave Raw Data: " + dat.gamesave.name + "\n");
+            writer.write(dat.gamesave.data);
+            writer.close();
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
 }

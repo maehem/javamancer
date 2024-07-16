@@ -32,6 +32,8 @@ import com.maehem.javamancer.resource.file.*;
 import com.maehem.javamancer.resource.model.ANHThing;
 import com.maehem.javamancer.resource.model.BIHThing;
 import com.maehem.javamancer.resource.model.DAT;
+import com.maehem.javamancer.resource.model.FTUserThing;
+import com.maehem.javamancer.resource.model.GameSaveThing;
 import com.maehem.javamancer.resource.model.IMHThing;
 import com.maehem.javamancer.resource.model.PICThing;
 import java.io.File;
@@ -104,47 +106,38 @@ public class Ingest {
             dat.bih.add(thing);
         }
 
+        // Ingest FTUSER
+        byte[] dest = new byte[64000];
+
+        int len = decompressResource(raf[FTUser.fileNum], FTUser.TXT, dest);
+        FTUserThing thing = new FTUserThing(FTUser.TXT, dest, len);
+        dat.ftuser = thing;
+
+        // Ingest Game Save default data.
+        dest = new byte[SaveGame.size];
+
+        len = decompressResource(raf[SaveGame.fileNum], SaveGame.DATA, dest);
+        GameSaveThing gsThing = new GameSaveThing(SaveGame.DATA, dest, len);
+        dat.gamesave = gsThing;
+
         return dat;
     }
 
     private static int decompressResource(RandomAccessFile raf, Resource resource, byte[] dest) {
-        Logging.LOGGER.log(Level.SEVERE, "Decompress: " + resource.getName());
-        /*<code>
-    uint8_t compd[64000];
-
-    if (strstr(src->name, ".PIC") || strstr(src->name, ".IMH")) {
-        fseek(f, src->offset + 32, SEEK_SET);
-    }else{
-        fseek(f, src->offset, SEEK_SET);
-    }
-    fread(compd, 1, src->size, f);
-
-    if (strstr(src->name, ".IMH")) {
-        return decompress_imh(compd, dst);
-    } else if (strstr(src->name, ".PIC")) {
-        return decompress_pic(compd, dst);
-    } else if (strstr(src->name, ".BIH")) {
-        return decompress_bih(compd, dst);
-    } else {
-        return decompress_anh(compd, dst);
-    }
-    </code> */
+        Logging.LOGGER.log(Level.FINE, "Decompress: " + resource.getName());
 
         try {
             byte[] compressedData = new byte[64000];
             if (resource instanceof PIC || resource instanceof IMH) {
-                // fseek(f, src->offset + 32, SEEK_SET);
                 raf.seek(resource.getOffset() + 32); // TODO Get and review the 32 byte header.
             } else {
-                // fseek(f, src->offset, SEEK_SET);
                 raf.seek(resource.getOffset());
             }
 
-            // fread(compd, 1, src->size, f);
             raf.read(compressedData, 0, resource.getSize());
             return resource.decompress(compressedData, dest);
         } catch (IOException ex) {
-            Logging.LOGGER.log(Level.SEVERE, null, ex);
+            Logging.LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
 
         return 0;
