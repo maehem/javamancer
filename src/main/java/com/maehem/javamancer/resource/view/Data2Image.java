@@ -36,13 +36,17 @@ import javafx.scene.paint.Color;
  */
 public class Data2Image extends WritableImage {
 
+    public enum Alpha {
+        BLACK_IS_BLACK, BLACK_IS_CLEAR
+    }
+
     /**
      * Used for IMH files. W/H is stored at beginning of data block.
      *
      * @param data
      * @param dataIndex
      */
-    public Data2Image(byte[] data, int dataIndex) {
+    public Data2Image(byte[] data, int dataIndex, Alpha alph) {
         super(probeWidth(data, dataIndex), probeHeight(data, dataIndex));
         if (getWidth() == 0 || getHeight() == 0) {
             return;
@@ -55,9 +59,19 @@ public class Data2Image extends WritableImage {
                 byte pixels = data[dataIndex];
                 dataIndex++;
 
+                int pixelH = pixels & 0xF0 >> 4;
+                int pixelL = pixels & 0x0F;
+
+                Color blackColor = Color.BLACK;
+                if (alph.equals(Alpha.BLACK_IS_CLEAR)) {
+                    blackColor = Color.TRANSPARENT;
+                }
+                Color colorH = pixelH > 0 ? Color.web(Util.palette[pixelH]) : blackColor;
+                Color colorL = pixelL > 0 ? Color.web(Util.palette[pixelL]) : blackColor;
+
                 // pixels contains two 4-bit indexed color nibbles.
-                pw.setColor(col, row, Color.web(Util.palette[(pixels & 0xF0) >> 4], 1.0));
-                pw.setColor(col + 1, row, Color.web(Util.palette[(pixels & 0xF)], 1.0));
+                pw.setColor(col, row, colorH);
+                pw.setColor(col + 1, row, colorL);
             }
         }
     }
