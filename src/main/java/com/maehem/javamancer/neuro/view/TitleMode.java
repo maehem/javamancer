@@ -24,9 +24,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro;
+package com.maehem.javamancer.neuro.view;
 
-import com.maehem.javamancer.neuro.ui.LoadSaveDialog;
+import com.maehem.javamancer.neuro.view.ui.LoadSaveDialog;
 import java.util.Optional;
 import java.util.logging.Level;
 import javafx.scene.control.Button;

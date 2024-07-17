@@ -24,7 +24,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro.ui;
+package com.maehem.javamancer.neuro.view.ui;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;

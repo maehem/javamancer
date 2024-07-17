@@ -28,7 +28,7 @@ package com.maehem.javamancer;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.NeuroPane;
-import com.maehem.javamancer.neuro.NeuroPaneListener;
+import com.maehem.javamancer.neuro.view.NeuroPaneListener;
 import com.maehem.javamancer.resource.BrowserPane;
 import com.maehem.javamancer.resource.Ingest;
 import com.maehem.javamancer.resource.model.DAT;

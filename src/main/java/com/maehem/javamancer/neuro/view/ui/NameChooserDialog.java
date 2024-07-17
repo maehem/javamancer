@@ -24,17 +24,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro;
+package com.maehem.javamancer.neuro.view.ui;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public interface NeuroModePaneListener {
+public class NameChooserDialog {
 
-    public enum Action {
-        QUIT, LOAD, SAVE, NEW_GAME, ROOM_CHANGE
-    };
-
-    public void neuroModeActionPerformed(Action action, Object[] actionObjects);
 }
