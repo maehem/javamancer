@@ -94,7 +94,7 @@ public class TitleMode extends NeuroModePane {
         quit.setLayoutY(310);
 
         quit.setOnAction((t) -> {
-            getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.QUIT);
+            getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.QUIT, null);
         });
 
         getChildren().addAll(newLoadBox, quit);
@@ -114,6 +114,10 @@ public class TitleMode extends NeuroModePane {
         dialog.setGraphic(null);
         dialog.setHeaderText("YOUR NAME?");
         dialog.showAndWait();
+
+        if (dialog.getResult() != null) {
+            getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.NEW_GAME, new Object[]{dialog.getResult()});
+        }
     }
 
     private void doLoadDialog() {

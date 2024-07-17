@@ -27,8 +27,10 @@
 package com.maehem.javamancer.neuro;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.GameState;
 import java.io.File;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,6 +38,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
 /**
+ * Main container for the game engine and manager of game modes.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
@@ -45,25 +48,20 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     public static final int WIDTH = 640;
     public static final int HEIGHT = 480;
     public static final double RESOURCE_SCALE = 2.0;
-    private final File resourceFolder;
     private EventHandler<ActionEvent> actionHandler;
     private final ResourceManager resourceManager;
+    private final GameState gameState;
+
+    private NeuroModePane mode;
 
     public NeuroGamePane(File resourceFolder) {
-        this.resourceFolder = resourceFolder;
         this.setPrefSize(WIDTH, HEIGHT);
         this.setWidth(WIDTH);
         this.setHeight(HEIGHT);
         this.setClip(new Rectangle(WIDTH, HEIGHT));
 
         this.resourceManager = new ResourceManager(resourceFolder);
-
-//        Platform.runLater(() -> {
-//            Image cursorImage = resourceManager.getSprite("CURSORS_1");
-//            getScene().setCursor(new ImageCursor(cursorImage,
-//                    2,
-//                    cursorImage.getHeight() / 2));
-//        });
+        this.gameState = new GameState();
 
         doTitleScreen();
     }
@@ -74,8 +72,16 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         TitleMode titleMode = new TitleMode(this, resourceManager);
         getChildren().add(titleMode);
 
+        mode = titleMode;
+
         titleMode.initCursor();
     }
+
+//    private void doRoom( Room r ) {
+//        getChildren().clear();
+//
+//    }
+//
 
     public void pushProperties(Properties properties) {
 
@@ -86,13 +92,29 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     }
 
     @Override
-    public void neuroModeActionPerformed(Action action) {
+    public void neuroModeActionPerformed(Action action, Object actionObjects[]) {
         switch (action) {
             case QUIT -> {
+                // Parent watches this action and will switch screen back to
+                // main Javamancer application.
+                LOGGER.log(Level.CONFIG, "User Quit Game.");
                 actionHandler.handle(new ActionEvent(action, this));
             }
             case LOAD -> {
 
+            }
+            case NEW_GAME -> {
+                Object actionObject = actionObjects[0];
+                if (actionObject != null && actionObject instanceof String s) {
+                    if (!s.isBlank()) {
+                        gameState.name = s;
+                    }
+                    LOGGER.log(Level.CONFIG, "New Game with player name: " + gameState.name);
+
+                    // Change mode to Room 1.
+                } else {
+                    LOGGER.log(Level.CONFIG, "New Game actionObject[0] was null!");
+                }
             }
         }
     }
