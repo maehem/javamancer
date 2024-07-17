@@ -27,10 +27,8 @@
 package com.maehem.javamancer.neuro;
 
 import com.maehem.javamancer.neuro.ui.LoadSaveDialog;
-import java.io.File;
 import java.util.Optional;
 import java.util.logging.Level;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextInputDialog;
@@ -45,12 +43,13 @@ import javafx.stage.StageStyle;
  */
 public class TitleMode extends NeuroModePane {
 
-    private Font vtFont = Font.loadFont(TitleMode.class.getResourceAsStream("/fonts/VT323-Regular.ttf"), BUTTON_FONT_SIZE);
+    private final Font vtFont = Font.loadFont(TitleMode.class.getResourceAsStream("/fonts/VT323-Regular.ttf"), BUTTON_FONT_SIZE);
 
-    public TitleMode(NeuroModePaneListener listener, File resourceFolder) {
-        super(listener, resourceFolder);
+    public TitleMode(NeuroModePaneListener listener, ResourceManager resourceManager) {
+        super(listener, resourceManager);
 
-        ImageView titleView = new ImageView(getImhImage("TITLE_1"));
+        //ImageView titleView = new ImageView(getImhImage("TITLE_1"));
+        ImageView titleView = new ImageView(getResourceManager().getSprite("TITLE_1"));
 
         getChildren().add(titleView);
 
@@ -88,19 +87,19 @@ public class TitleMode extends NeuroModePane {
         quit.setLayoutY(310);
 
         quit.setOnAction((t) -> {
-            listener.neuroModeActionPerformed(NeuroModePaneListener.Action.QUIT);
+            getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.QUIT);
         });
 
         getChildren().addAll(newLoadBox, quit);
+
     }
 
     private void doNewplayerDialog() {
         TextInputDialog dialog = new TextInputDialog();
-        double scale = NeuroGamePane.RESOURCE_SCALE * getBoundsInLocal().getWidth() / NeuroGamePane.WIDTH;
 
         dialog.initOwner(getScene().getWindow());
         dialog.initStyle(StageStyle.UNDECORATED);
-        dialog.getEditor().setCursor(Cursor.DEFAULT);
+        //dialog.getEditor().setCursor(Cursor.DEFAULT);
         DialogPane dialogPane = dialog.getDialogPane();
         dialogPane.getStylesheets().add(
                 getClass().getResource("/style/neuro.css").toExternalForm());

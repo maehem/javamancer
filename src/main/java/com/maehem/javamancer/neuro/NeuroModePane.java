@@ -27,11 +27,9 @@
 package com.maehem.javamancer.neuro;
 
 import com.maehem.javamancer.logging.Logging;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.scene.ImageCursor;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
@@ -42,78 +40,92 @@ import javafx.scene.layout.Pane;
 public abstract class NeuroModePane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
-    private final double SCALE = NeuroGamePane.RESOURCE_SCALE;
+    //private final double SCALE = NeuroGamePane.RESOURCE_SCALE;
     public static final double BUTTON_FONT_SIZE = 24;
 
-    private final File resourceFolder;
-    private final File imhFolder;
-    private final File picFolder;
-    private final File anhFolder;
-    private final File bihFolder;
-
     private final NeuroModePaneListener listener;
+    private final ResourceManager resourceManager;
 
-    public NeuroModePane(NeuroModePaneListener listener, File resourceFolder) {
+    public NeuroModePane(NeuroModePaneListener listener, ResourceManager resourceManager) {
         this.listener = listener;
-        this.resourceFolder = resourceFolder;
-        this.anhFolder = new File(resourceFolder, "anh");
-        this.picFolder = new File(resourceFolder, "pic");
-        this.imhFolder = new File(resourceFolder, "imh");
-        this.bihFolder = new File(resourceFolder, "bih");
+        this.resourceManager = resourceManager;
+
+        setOnMouseEntered((t) -> {
+            initCursor();
+        });
+
     }
 
-    public Image getImhImage(String name) {
-        try {
-            // Bring resources in at 2X by scaling up it when loaded into Image().
-            // This causes the images to look as expected. Bringing small bitmap images in
-            // at their tiny native size causes JavaFX to smooth or blur them.
-            // So, This 2X technique has the effect of "over sampling".
-            Image protoImg = new Image(new FileInputStream(new File(imhFolder, name + ".png")));
-            return new Image(new FileInputStream(new File(imhFolder, name + ".png")),
-                    protoImg.getWidth() * SCALE, protoImg.getHeight() * SCALE,
-                    true, true
-            );
-        } catch (FileNotFoundException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        }
-
-        return null;  // TODO: Return ERROR/BROKEN_IMAGE icon.
+    protected NeuroModePaneListener getListener() {
+        return listener;
     }
 
-    public Image getPicImage(String name) {
-        try {
-            // Bring resources in at 2X by scaling up it when loaded into Image().
-            // This causes the images to look as expected. Bringing small bitmap images in
-            // at their tiny native size causes JavaFX to smooth or blur them.
-            // So, This 2X technique has the effect of "over sampling".
-            Image protoImg = new Image(new FileInputStream(new File(picFolder, name + ".png")));
-            return new Image(new FileInputStream(new File(picFolder, name + ".png")),
-                    protoImg.getWidth() * SCALE, protoImg.getHeight() * SCALE,
-                    true, true
-            );
-        } catch (FileNotFoundException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        }
-
-        return null;  // TODO: Return ERROR/BROKEN_IMAGE icon.
+    protected ResourceManager getResourceManager() {
+        return resourceManager;
     }
 
-    public Image getAnhImage(String name) {
-        try {
-            Image protoImg = new Image(new FileInputStream(new File(anhFolder, name)));
-            return new Image(new FileInputStream(new File(anhFolder, name)),
-                    protoImg.getWidth() * SCALE, protoImg.getHeight() * SCALE,
-                    true, true
-            );
-        } catch (FileNotFoundException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        }
-
-        return null;  // TODO: Return ERROR/BROKEN_IMAGE icon.
+    public void initCursor() {
+        Platform.runLater(() -> {
+            double scale = NeuroGamePane.RESOURCE_SCALE * getBoundsInLocal().getWidth() / NeuroGamePane.WIDTH;
+            Image cursorImage = getResourceManager().getSprite("CURSORS_1", scale);
+            getParent().setCursor(new ImageCursor(cursorImage,
+                    2,
+                    cursorImage.getHeight() / 2));
+        });
     }
 
-    public File getBihFile(String name) {
-        return new File(bihFolder, name + "_meta.txt");
-    }
+//    public Image getImhImage(String name) {
+//        try {
+//            // Bring resources in at 2X by scaling up it when loaded into Image().
+//            // This causes the images to look as expected. Bringing small bitmap images in
+//            // at their tiny native size causes JavaFX to smooth or blur them.
+//            // So, This 2X technique has the effect of "over sampling".
+//            Image protoImg = new Image(new FileInputStream(new File(imhFolder, name + ".png")));
+//            return new Image(new FileInputStream(new File(imhFolder, name + ".png")),
+//                    protoImg.getWidth() * SCALE, protoImg.getHeight() * SCALE,
+//                    true, true
+//            );
+//        } catch (FileNotFoundException ex) {
+//            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+//        }
+//
+//        return null;  // TODO: Return ERROR/BROKEN_IMAGE icon.
+//    }
+
+//    public Image getPicImage(String name) {
+//        try {
+//            // Bring resources in at 2X by scaling up it when loaded into Image().
+//            // This causes the images to look as expected. Bringing small bitmap images in
+//            // at their tiny native size causes JavaFX to smooth or blur them.
+//            // So, This 2X technique has the effect of "over sampling".
+//            Image protoImg = new Image(new FileInputStream(new File(picFolder, name + ".png")));
+//            return new Image(new FileInputStream(new File(picFolder, name + ".png")),
+//                    protoImg.getWidth() * SCALE, protoImg.getHeight() * SCALE,
+//                    true, true
+//            );
+//        } catch (FileNotFoundException ex) {
+//            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+//        }
+//
+//        return null;  // TODO: Return ERROR/BROKEN_IMAGE icon.
+//    }
+
+//    public Image getAnhImage(String name) {
+//        try {
+//            Image protoImg = new Image(new FileInputStream(new File(anhFolder, name)));
+//            return new Image(new FileInputStream(new File(anhFolder, name)),
+//                    protoImg.getWidth() * SCALE, protoImg.getHeight() * SCALE,
+//                    true, true
+//            );
+//        } catch (FileNotFoundException ex) {
+//            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+//        }
+//
+//        return null;  // TODO: Return ERROR/BROKEN_IMAGE icon.
+//    }
+//
+//    public File getBihFile(String name) {
+//        return new File(bihFolder, name + "_meta.txt");
+//    }
 
 }

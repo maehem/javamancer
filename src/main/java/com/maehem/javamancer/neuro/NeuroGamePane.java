@@ -47,6 +47,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     public static final double RESOURCE_SCALE = 2.0;
     private final File resourceFolder;
     private EventHandler<ActionEvent> actionHandler;
+    private final ResourceManager resourceManager;
 
     public NeuroGamePane(File resourceFolder) {
         this.resourceFolder = resourceFolder;
@@ -55,15 +56,25 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         this.setHeight(HEIGHT);
         this.setClip(new Rectangle(WIDTH, HEIGHT));
 
+        this.resourceManager = new ResourceManager(resourceFolder);
+
+//        Platform.runLater(() -> {
+//            Image cursorImage = resourceManager.getSprite("CURSORS_1");
+//            getScene().setCursor(new ImageCursor(cursorImage,
+//                    2,
+//                    cursorImage.getHeight() / 2));
+//        });
+
         doTitleScreen();
     }
 
     private void doTitleScreen() {
         getChildren().clear();
 
-        TitleMode titleMode = new TitleMode(this, resourceFolder);
+        TitleMode titleMode = new TitleMode(this, resourceManager);
         getChildren().add(titleMode);
 
+        titleMode.initCursor();
     }
 
     public void pushProperties(Properties properties) {
