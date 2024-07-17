@@ -26,12 +26,43 @@
  */
 package com.maehem.javamancer.neuro.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class GameState {
 
+    public String name = "Case";
+    public int levelNumber = 0; // "Rn" = levelNumber + 1
+    public boolean gasMaskIsOn = false;
+    public Item activeItem = Item.NONE;
+    public Skill activeSkill = Skill.NONE;
+    public int activeSkillLevel = 0;
+    public int cash = 6;
+    public int bankAccount = 2000;
+    public int constitution = 2000;
+    public int cashWithdrawal = 0;
+    public int bankLastTransactionIndex = 0;
+    public BankTransaction bankTransactionRecord[] = new BankTransaction[]{
+        new BankTransaction(0x40, 120),
+        new BankTransaction(0x40, 56),
+        new BankTransaction(0x40, 75),
+        new BankTransaction(0xC0, 1000)
+    };
+    public int timeMinute = 0;
+    public int timeHour = 0x0C;
+    public int dateDay = 0;
+
+    public final ArrayList<BodyParts> soldBodyParts = new ArrayList<>();
+
+    public int roomPosX = 0xA0;
+    public int roomPosY = 0x69;
+
+    public boolean msgToArmitageSent = false;
+
+    int x4bbf = 0xFF;
 }
 
 /*
@@ -40,17 +71,17 @@ typedef struct x4bae_t {
 	uint8_t x4bae[16];
 	uint8_t active_dialog_reply; // 0x4BBE
 	uint8_t x4bbf;
-	uint16_t active_item;     // 0x4BC0
-	uint32_t cash_withdrawal; // 0x4BC2
-	uint16_t time_m;  // 0x4BC6
-	uint8_t time_h;   // 0x4BC8
-	uint8_t date_day; // 0x4BC9
+*	uint16_t active_item;     // 0x4BC0
+*	uint32_t cash_withdrawal; // 0x4BC2
+*	uint16_t time_m;  // 0x4BC6
+*	uint8_t time_h;   // 0x4BC8
+*	uint8_t date_day; // 0x4BC9
 	uint8_t x4bca[2]; // padding
 	uint8_t x4bcc;
 	uint8_t x4bcd[38];
 	uint8_t x4bf3;
-	uint8_t active_skill; // 0x4BF4
-	uint8_t active_skill_level; // 0x4BF5
+*	uint8_t active_skill; // 0x4BF4
+*	uint8_t active_skill_level; // 0x4BF5
 	uint8_t x4bf6[6];
 	uint8_t x4bfc;
 	uint8_t x4bfd;
@@ -64,11 +95,11 @@ typedef struct x4bae_t {
 	uint8_t x4c08[8];
 	uint8_t x4c10;
 	uint8_t x4c11[8];
-	uint8_t gas_mask_is_on;
+*	uint8_t gas_mask_is_on;
 	uint8_t x4c1a;
 	uint16_t x4c1b;
 	uint8_t x4c1d[4];
-	uint16_t msg_to_armitage_sent;
+*	uint16_t msg_to_armitage_sent;
 	uint8_t x4c23[2];
 	uint16_t x4c25;
 	uint8_t x4c27[4];
@@ -105,23 +136,23 @@ typedef struct x4bae_t {
 	uint8_t x4c74;
 	uint8_t x4c75;
 	uint8_t x4c76[2]; // padding
-	uint32_t cash; // 0x4C78
+*	uint32_t cash; // 0x4C78
 	uint16_t x4c7c;
 	uint8_t x4c7e[4];
 	uint16_t x4c82;
-	uint8_t sold_body_parts_bitstring[3];
+*	uint8_t sold_body_parts_bitstring[3];
 	uint16_t x4c87;
-	uint32_t bank_account; // 0x4C89
-	uint8_t bank_last_transacton_record_index; // 0x4C8D
+*	uint32_t bank_account; // 0x4C89
+*	uint8_t bank_last_transacton_record_index; // 0x4C8D
 	uint16_t x4c8e;
 	uint16_t x4c90;
-	char name[13];    // 0x4C92
-	uint16_t constitution; // 0x4C9F
+*	char name[13];    // 0x4C92
+*	uint16_t constitution; // 0x4C9F
 	uint16_t level_n; // 0x4CA1
-	uint16_t roompos_x; // 0x4CA3
-	uint16_t roompos_y; // 0x4CA5
+*	uint16_t roompos_x; // 0x4CA3
+*	uint16_t roompos_y; // 0x4CA5
 	uint16_t x4ca7;
-	transaction_record_t bank_transaction_record[4]; // 0x4CA9
+*	transaction_record_t bank_transaction_record[4]; // 0x4CA9
 	uint16_t ui_type; // 0x4CC1
 	uint16_t x4cc3;
 	uint16_t x4cc5;
@@ -135,4 +166,4 @@ typedef struct x4bae_t {
 } x4bae_t;
 
 </code></pre>
-*/
+ */
