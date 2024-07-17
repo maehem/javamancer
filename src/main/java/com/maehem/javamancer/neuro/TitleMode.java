@@ -33,7 +33,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.StageStyle;
 
@@ -50,8 +53,12 @@ public class TitleMode extends NeuroModePane {
 
         //ImageView titleView = new ImageView(getImhImage("TITLE_1"));
         ImageView titleView = new ImageView(getResourceManager().getSprite("TITLE_1"));
+        ImageView snowBackground = makeSnowBackground(
+                titleView.getImage().getWidth(),
+                titleView.getImage().getHeight(),
+                8);
 
-        getChildren().add(titleView);
+        getChildren().addAll(snowBackground, titleView);
 
         Button newButton = new Button("New");
         newButton.setId("neuro-button-no-border");
@@ -120,5 +127,35 @@ public class TitleMode extends NeuroModePane {
             // Nothing happes.
             LOGGER.log(Level.SEVERE, "User aborted Load dialog.");
         }
+    }
+
+    private ImageView makeSnowBackground(double w, double h, int intensity) {
+
+        WritableImage img = new WritableImage((int) w, (int) h);
+        PixelWriter pw = img.getPixelWriter();
+        for (int y = 0; y < h; y += 2) {
+            for (int x = 0; x < w; x += 2) {
+                Color randomGrey = randomGrey(intensity);
+                pw.setColor(x, y, randomGrey);
+                pw.setColor(x + 1, y, randomGrey);
+                pw.setColor(x, y + 1, randomGrey);
+                pw.setColor(x + 1, y + 1, randomGrey);
+            }
+        }
+
+        return new ImageView(img);
+    }
+
+    private Color randomGrey(int intensity) {
+        if (intensity > 64) {
+            intensity = 64;
+        }
+        if (intensity < 0) {
+            intensity = 0;
+        }
+        double random = Math.random();
+
+        double grey = random * random * intensity / 64;
+        return new Color(grey, grey, grey, 1.0);
     }
 }
