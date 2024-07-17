@@ -10,6 +10,7 @@
 
     -fx-text-fill: black;
 }
+
 .neuroDialog > *.button-bar > *.container{
     -fx-background-color: white;
 }
@@ -49,6 +50,39 @@
     -fx-background-color: transparent;
 }
 
+.button {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 4 10 4 10;
+    
+    -fx-text-fill: black;
+}
+
+.button .text {
+    -fx-font-family: VT323;
+    -fx-font-size: 30;
+    -fx-fill: black; 
+}
+
 #neuro-button-no-border {
-    -fx-border-width: 0;
+    -fx-border-color: white;
+    -fx-padding: 4 0 4 0;
+}
+
+#neuro-button-box {
+    /*
+    -fx-background-color: white;
+    -fx-background-insets: 1;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 4 20 4 20;
+    
+    -fx-text-fill: black;
+    */
 }
