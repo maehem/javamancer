@@ -30,8 +30,8 @@ package com.maehem.javamancer.neuro.model;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum Skills {
-
+public enum Skill {
+    NONE,
     BARGAINING,
     COPTALK,
     WAREZ_ANALYSIS,

@@ -30,7 +30,7 @@ package com.maehem.javamancer.neuro.model;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum Items {
+public enum Item {
 
     /* 0x4469 */
 //static char *g_item_names[104] = {
@@ -137,12 +137,13 @@ public enum Items {
     CHIBATICKET(100, "Chiba ticket"),
     GASMASK(101, "gas mask"),
     UNK28(102, ""),
-    SAKE(103, "sake");
+    SAKE(103, "sake"),
+    NONE(999, "none");
 
     public int num;
     public String itemName;
 
-    private Items(int num, String name) {
+    private Item(int num, String name) {
         this.num = num;
         this.itemName = name;
     }
