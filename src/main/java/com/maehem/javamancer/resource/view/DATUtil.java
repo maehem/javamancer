@@ -246,7 +246,11 @@ public class DATUtil {
                     // Write addr of unkown and bytes in hex string. :  ab12: 00 00 00 00 00 ...
                     writer.writeBytes("unknown:\n");
                     LOGGER.log(Level.FINER, "Unknown Bytes @ :");
-                    writer.writeBytes(hexBlob(20, bihThing.unknown, 24));
+                    if (bihThing.name.equals("ROOMPOS")) {
+                        writer.writeBytes(hexBlob(20, bihThing.unknown, 20)); // Data are 20 bytes each
+                    } else {
+                        writer.writeBytes(hexBlob(20, bihThing.unknown, 24));
+                    }
 
                     writer.writeBytes("\n");
                     LOGGER.log(Level.FINER, "Byte Codes:");
