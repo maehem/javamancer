@@ -56,7 +56,7 @@ public class ANHAnima {
             int w = data[p++] & 0xFF;
             int h = data[p++] & 0xFF;
             byte rleBlob[] = new byte[w * h];
-            LOGGER.log(Level.SEVERE, "Frame RLE settings: x:{0} y:{1} {2}x{3}  len:{4}", new Object[]{xOff, yOff, w, h, w * h});
+            LOGGER.log(Level.CONFIG, "Frame RLE settings: x:{0} y:{1} {2}x{3}  len:{4}", new Object[]{xOff, yOff, w, h, w * h});
             p += Util.decodeRLE(data, p, w * h, rleBlob, 0);
             //System.arraycopy(data, p, rleBlob, 0, rleBlob.length);
 
