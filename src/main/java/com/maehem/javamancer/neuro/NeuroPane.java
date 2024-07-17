@@ -35,6 +35,8 @@ import java.util.logging.Level;
 import javafx.scene.Group;
 
 /**
+ * Acts as a resizable container for the game's fixed size. Also provides system
+ * level resource folder location to game.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
