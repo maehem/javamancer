@@ -131,6 +131,13 @@ public class TitleMode extends NeuroModePane {
         return new ImageView(img);
     }
 
+    /**
+     * The sky above the port was the color of television tuned to a dead
+     * channel.
+     *
+     * @param intensity
+     * @return
+     */
     private Color randomGrey(int intensity) {
         if (intensity > 64) {
             intensity = 64;
@@ -146,5 +153,15 @@ public class TitleMode extends NeuroModePane {
 
         double grey = random * random * intensity / 64;
         return new Color(grey, grey, grey, 1.0);
+    }
+
+    @Override
+    public void tick() {
+
+    }
+
+    @Override
+    public void destroy() {
+
     }
 }
