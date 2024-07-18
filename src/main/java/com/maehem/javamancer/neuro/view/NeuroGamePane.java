@@ -49,7 +49,6 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     public static final int SYSTEM_WINDOW_HEADER_H = 20; // MacOS
     public static final int WIDTH = 640;
     public static final int HEIGHT = 480 + SYSTEM_WINDOW_HEADER_H;
-    public static final double RESOURCE_SCALE = 2.0;
     private EventHandler<ActionEvent> actionHandler;
     private final ResourceManager resourceManager;
     private final GameState gameState;
