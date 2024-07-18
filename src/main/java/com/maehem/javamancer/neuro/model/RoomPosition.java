@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model;
  */
 public enum RoomPosition {
 
-    R1(160, 60, 60, 40);
+    R1(300, 216, 60, 40);
 
     public final int playerX;
     public final int playerY;
@@ -45,5 +45,14 @@ public enum RoomPosition {
         this.playerY = pY;
         this.npcX = npcX;
         this.npcY = npcY;
+    }
+
+    public static RoomPosition get(Room room) {
+        for (RoomPosition rp : values()) {
+            if (rp.name().equals(room.name())) {
+                return rp;
+            }
+        }
+        return null;
     }
 }
