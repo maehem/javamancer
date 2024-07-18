@@ -70,8 +70,8 @@ public abstract class NeuroModePane extends Pane {
 
     public void initCursor() {
         Platform.runLater(() -> {
-            double scale = NeuroGamePane.RESOURCE_SCALE * getBoundsInLocal().getWidth() / NeuroGamePane.WIDTH;
-            Image cursorImage = getResourceManager().getSprite("CURSORS_1", scale);
+            //double scale = ResourceManager.IMG_SCALE * getBoundsInLocal().getWidth() / NeuroGamePane.WIDTH;
+            Image cursorImage = getResourceManager().getSprite("CURSORS_1", 1.0);
             getParent().setCursor(new ImageCursor(cursorImage,
                     2,
                     1));
