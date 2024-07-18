@@ -33,6 +33,7 @@ import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.Pane;
@@ -54,6 +55,9 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     private final GameState gameState;
 
     private NeuroModePane mode;
+    private AnimationTimer timer;
+
+    private boolean pause = false;
 
     public NeuroGamePane(File resourceFolder) {
         this.setPrefSize(WIDTH, HEIGHT);
@@ -64,7 +68,9 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         this.resourceManager = new ResourceManager(resourceFolder);
         this.gameState = new GameState();
 
-        doTitleScreen();
+        setMode(new TitleMode(this, resourceManager));
+
+        initGameLoop();
     }
 
     private void doTitleScreen() {
@@ -74,7 +80,6 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 //        getChildren().add(titleMode);
 //
 //        mode = titleMode;
-        setMode(new TitleMode(this, resourceManager));
 
         //       titleMode.initCursor();
     }
@@ -84,6 +89,35 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 //
 //    }
 //
+    private void initGameLoop() {
+        // toggle the visibility of 'rect' every 500ms
+        AnimationTimer timer = new AnimationTimer() {
+
+            private long lastToggle;
+
+            @Override
+            public void handle(long now) {
+                if (lastToggle == 0L) {
+                    lastToggle = now;
+                } else {
+                    long diff = now - lastToggle;
+                    if (diff >= 66_000_000L) { // 66,000,000ns == 66ms == 15FPS
+                        loop();
+                        lastToggle = now;
+                    }
+                }
+            }
+        };
+        timer.start();
+    }
+
+    private void loop() {
+        if (!pause) {
+            // Handlemusic state.
+
+            mode.tick();
+        }
+    }
 
     public void pushProperties(Properties properties) {
 
@@ -97,9 +131,11 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     public void neuroModeActionPerformed(Action action, Object actionObjects[]) {
         switch (action) {
             case QUIT -> {
-                // Parent watches this action and will switch screen back to
-                // main Javamancer application.
+                // Parent watches this action via actionHandler and will switch
+                // screen back to main Javamancer application.
                 LOGGER.log(Level.CONFIG, "User Quit Game.");
+                LOGGER.log(Level.CONFIG, "Stop Timer Loop.");
+                timer.stop();
                 actionHandler.handle(new ActionEvent(action, this));
             }
             case LOAD -> {
@@ -122,13 +158,19 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         }
     }
 
-    private void setMode(NeuroModePane mode) {
-        if (this.mode == null || !this.mode.equals(mode)) {
+    private void setMode(NeuroModePane newMode) {
+        if (this.mode == null || !this.mode.equals(newMode)) {
             // tell current mode to de-init.
+            pause = true;
+            if (this.mode != null) {
+                this.mode.destroy();
+            }
+
             getChildren().clear();
-            this.mode = mode;
-            getChildren().add(mode);
-            mode.initCursor();
+            this.mode = newMode;
+            getChildren().add(newMode);
+            newMode.initCursor();
+            pause = false;
         }
     }
 
