@@ -28,44 +28,55 @@ package com.maehem.javamancer.neuro.model;
 
 /**
  * Top, Right, Bottom, Left of walk area. Player can walk inside a rectangle
- * zone defined above. Door positions: T(x1,x2), R(y1,y2),B(x1,x2),L(xy1,y2)
- * Doors rest on edge define above with opening defined by two numbers x1/x2 or
- * y1/y2.
+ * zone defined above.
+ *
+ * Door positions: T(x,w), R(y,w),B(x,w),L(y,w) Doors rest on edge define above
+ * with position defined by two numbers x or y and width defined by w.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public enum RoomBounds { // and Doors
 
-    R1(10, 630, 60, 40, 0, 0, 0, 0, 500, 600, 0, 0);
+    R1(180, 580, 226, 40, 0, 0, 0, 0, 436, 144, 0, 0);
 
-    public final int tBound;
-    public final int rBound;
-    public final int bBound;
-    public final int lBound;
-    public final int tx1;
-    public final int tx2;
-    public final int ry1;
-    public final int ry2;
-    public final int bx1;
-    public final int bx2;
-    public final int ly1;
-    public final int ly2;
+    public final int tBound; // Upper walk Line
+    public final int rBound; // Right Walk Line
+    public final int bBound; // Bottom Walk Line
+    public final int lBound; // Left Walk Line
+    public final int tx; // Top Door x location. 0 = none.
+    public final int tw; // Top Door width. 0 = none.
+    public final int ry; // Right Door  y location.
+    public final int rw; // Right Door width.
+    public final int bx; // Bottom Door x location.
+    public final int bw; // Bottom Door width.
+    public final int ly; // Left Door y location.
+    public final int lw; // Left Door width.
 
     private RoomBounds(
             int tBound, int rBound, int bBound, int lBound,
-            int tx1, int tx2, int ry1, int ry2, int bx1, int bx2, int ly1, int ly2
+            int tx, int tw, int ry, int rw, int bx, int bw, int ly, int lw
     ) {
         this.tBound = tBound;
         this.rBound = rBound;
         this.bBound = bBound;
         this.lBound = lBound;
-        this.tx1 = tx1;
-        this.tx2 = tx2;
-        this.ry1 = ry1;
-        this.ry2 = ry2;
-        this.bx1 = bx1;
-        this.bx2 = bx2;
-        this.ly1 = ly1;
-        this.ly2 = ly2;
+        this.tx = tx;
+        this.tw = tw;
+        this.ry = ry;
+        this.rw = rw;
+        this.bx = bx;
+        this.bw = bw;
+        this.ly = ly;
+        this.lw = lw;
+    }
+
+    public static RoomBounds get(Room room) {
+        for (RoomBounds rb : values()) {
+            if (rb.name().equals(room.name())) {
+                return rb;
+            }
+        }
+
+        return null;
     }
 }
