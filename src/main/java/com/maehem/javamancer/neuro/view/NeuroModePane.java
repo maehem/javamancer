@@ -78,4 +78,16 @@ public abstract class NeuroModePane extends Pane {
         });
     }
 
+    /**
+     * Frame updates and animation. Called every 66ms(15FPS) unless paused.
+     */
+    public abstract void tick();
+
+    /**
+     * Called when user leaves scene. Null out some variables to assure prompt
+     * garbage collection.
+     *
+     */
+    public abstract void destroy();
+
 }
