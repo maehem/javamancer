@@ -36,14 +36,14 @@ import javafx.scene.image.ImageView;
  */
 public class RoomMode extends NeuroModePane {
 
+    protected Room room;
+
     public RoomMode(NeuroModePaneListener listener, ResourceManager resourceManager, Room room) {
         super(listener, resourceManager);
+        this.room = room;
 
         ImageView cPanelView = new ImageView(getResourceManager().getSprite("NEURO_1"));
         RoomPane roomPane = new RoomPane(resourceManager, room);
-//        ImageView roomView = new ImageView(getResourceManager().getBackdrop(room));
-//        roomView.setLayoutX(15.5);
-//        roomView.setLayoutY(19);
         getChildren().addAll(cPanelView, roomPane);
     }
 
