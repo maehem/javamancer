@@ -32,6 +32,7 @@ import javafx.application.Platform;
 import javafx.scene.ImageCursor;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -42,6 +43,7 @@ public abstract class NeuroModePane extends Pane {
     public static final Logger LOGGER = Logging.LOGGER;
     //private final double SCALE = NeuroGamePane.RESOURCE_SCALE;
     public static final double BUTTON_FONT_SIZE = 24;
+    public static final Font VT_FONT = Font.loadFont(TitleMode.class.getResourceAsStream("/fonts/VT323-Regular.ttf"), BUTTON_FONT_SIZE);
 
     private final NeuroModePaneListener listener;
     private final ResourceManager resourceManager;
@@ -49,6 +51,9 @@ public abstract class NeuroModePane extends Pane {
     public NeuroModePane(NeuroModePaneListener listener, ResourceManager resourceManager) {
         this.listener = listener;
         this.resourceManager = resourceManager;
+
+        getStylesheets().add(
+                getClass().getResource("/style/neuro.css").toExternalForm());
 
         setOnMouseEntered((t) -> {
             initCursor();
@@ -70,7 +75,7 @@ public abstract class NeuroModePane extends Pane {
             Image cursorImage = getResourceManager().getSprite("CURSORS_1", scale);
             getParent().setCursor(new ImageCursor(cursorImage,
                     2,
-                    cursorImage.getHeight() / 2));
+                    1));
         });
     }
 
