@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.room;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.RoomBounds;
+import com.maehem.javamancer.neuro.model.RoomPosition;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.logging.Logger;
 import javafx.scene.image.ImageView;
@@ -81,8 +82,9 @@ public class RoomPane extends Pane {
         }
 
         PlayerNode player = new PlayerNode(resourceManager);
-        player.setLayoutX(300);
-        player.setLayoutY(216);
+        RoomPosition rp = RoomPosition.get(room);
+        player.setLayoutX(rp.playerX);
+        player.setLayoutY(rp.playerY);
 
         getChildren().add(player);
 
