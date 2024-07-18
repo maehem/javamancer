@@ -54,24 +54,16 @@ public class TitleMode extends NeuroModePane {
         ImageView snowBackground = makeSnowBackground(
                 titleView.getImage().getWidth(),
                 titleView.getImage().getHeight(),
-                8);
+                4);
 
         getChildren().addAll(snowBackground, titleView);
 
         Button newButton = new NakedButton(" New");
         newButton.setOnAction((t) -> {
-            //listener.neuroModeActionPerformed(NeuroModePaneListener.Action.LOAD_SAVE);
-            // Check for Save Games
-            // If so, present options.
-            // else New Game -> present Name chooser.
             doNewplayerDialog();
         });
         Button loadButton = new NakedButton("/Load ");
         loadButton.setOnAction((t) -> {
-            //listener.neuroModeActionPerformed(NeuroModePaneListener.Action.LOAD_SAVE);
-            // Check for Save Games
-            // If so, present options.
-            // else New Game -> present Name chooser.
             doLoadDialog();
         });
 
@@ -147,6 +139,10 @@ public class TitleMode extends NeuroModePane {
             intensity = 0;
         }
         double random = Math.random();
+        if (random > 0.8) {
+            random += Math.random() * 1.0;
+        }
+
 
         double grey = random * random * intensity / 64;
         return new Color(grey, grey, grey, 1.0);
