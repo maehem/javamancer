@@ -26,7 +26,9 @@
  */
 package com.maehem.javamancer.neuro.view;
 
+import com.maehem.javamancer.neuro.view.ui.BorderButton;
 import com.maehem.javamancer.neuro.view.ui.LoadSaveDialog;
+import com.maehem.javamancer.neuro.view.ui.NakedButton;
 import java.util.Optional;
 import java.util.logging.Level;
 import javafx.scene.control.Button;
@@ -37,7 +39,6 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.StageStyle;
 
 /**
@@ -46,12 +47,9 @@ import javafx.stage.StageStyle;
  */
 public class TitleMode extends NeuroModePane {
 
-    private final Font vtFont = Font.loadFont(TitleMode.class.getResourceAsStream("/fonts/VT323-Regular.ttf"), BUTTON_FONT_SIZE);
-
     public TitleMode(NeuroModePaneListener listener, ResourceManager resourceManager) {
         super(listener, resourceManager);
 
-        //ImageView titleView = new ImageView(getImhImage("TITLE_1"));
         ImageView titleView = new ImageView(getResourceManager().getSprite("TITLE_1"));
         ImageView snowBackground = makeSnowBackground(
                 titleView.getImage().getWidth(),
@@ -60,11 +58,7 @@ public class TitleMode extends NeuroModePane {
 
         getChildren().addAll(snowBackground, titleView);
 
-        Button newButton = new Button("New");
-        newButton.setId("neuro-button-no-border");
-        newButton.setFont(vtFont);
-        //newButton.setLayoutX(80);
-        //newButton.setLayoutY(310);
+        Button newButton = new NakedButton(" New");
         newButton.setOnAction((t) -> {
             //listener.neuroModeActionPerformed(NeuroModePaneListener.Action.LOAD_SAVE);
             // Check for Save Games
@@ -72,9 +66,7 @@ public class TitleMode extends NeuroModePane {
             // else New Game -> present Name chooser.
             doNewplayerDialog();
         });
-        Button loadButton = new Button("/Load");
-        loadButton.setId("neuro-button-no-border");
-        loadButton.setFont(vtFont);
+        Button loadButton = new NakedButton("/Load ");
         loadButton.setOnAction((t) -> {
             //listener.neuroModeActionPerformed(NeuroModePaneListener.Action.LOAD_SAVE);
             // Check for Save Games
@@ -82,23 +74,19 @@ public class TitleMode extends NeuroModePane {
             // else New Game -> present Name chooser.
             doLoadDialog();
         });
+
         HBox newLoadBox = new HBox(newButton, loadButton);
-        newLoadBox.setId("neuro-button");
+        newLoadBox.setSpacing(0);
         newLoadBox.setLayoutX(100);
         newLoadBox.setLayoutY(310);
 
-        Button quit = new Button("Quit");
-        quit.setId("neuro-button");
-        quit.setFont(vtFont);
-        quit.setLayoutX(486);
-        quit.setLayoutY(310);
+        Button quit = new BorderButton("Quit", 482, 310);
 
         quit.setOnAction((t) -> {
             getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.QUIT, null);
         });
 
         getChildren().addAll(newLoadBox, quit);
-
     }
 
     private void doNewplayerDialog() {
@@ -127,6 +115,7 @@ public class TitleMode extends NeuroModePane {
         if (result.isPresent()) {
             selected = result.get();
             LOGGER.log(Level.SEVERE, "User wants to load {0}.", selected);
+            getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.LOAD, new Object[]{selected});
         } else if (selected == null) {
             // Nothing happes.
             LOGGER.log(Level.SEVERE, "User aborted Load dialog.");
