@@ -24,27 +24,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro.view;
+package com.maehem.javamancer.neuro.view.room;
 
 import com.maehem.javamancer.neuro.model.Room;
-import com.maehem.javamancer.neuro.view.room.RoomPane;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class RoomMode extends NeuroModePane {
+public class RoomPane extends Pane {
 
-    public RoomMode(NeuroModePaneListener listener, ResourceManager resourceManager, Room room) {
-        super(listener, resourceManager);
+    public RoomPane(ResourceManager resourceManager, Room room) {
+        ImageView roomView = new ImageView(resourceManager.getBackdrop(room));
+        setLayoutX(15.5);
+        setLayoutY(19);
 
-        ImageView cPanelView = new ImageView(getResourceManager().getSprite("NEURO_1"));
-        RoomPane roomPane = new RoomPane(resourceManager, room);
-//        ImageView roomView = new ImageView(getResourceManager().getBackdrop(room));
-//        roomView.setLayoutX(15.5);
-//        roomView.setLayoutY(19);
-        getChildren().addAll(cPanelView, roomPane);
+        getChildren().add(roomView);
     }
 
 }
