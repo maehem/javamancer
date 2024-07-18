@@ -41,7 +41,6 @@ import javafx.scene.text.Font;
 public abstract class NeuroModePane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
-    //private final double SCALE = NeuroGamePane.RESOURCE_SCALE;
     public static final double BUTTON_FONT_SIZE = 24;
     public static final Font VT_FONT = Font.loadFont(TitleMode.class.getResourceAsStream("/fonts/VT323-Regular.ttf"), BUTTON_FONT_SIZE);
 
