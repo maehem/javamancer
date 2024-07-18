@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.Room;
 import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -45,8 +46,9 @@ import javafx.scene.shape.Rectangle;
 public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
     public static final Logger LOGGER = Logging.LOGGER;
+    public static final int SYSTEM_WINDOW_HEADER_H = 20; // MacOS
     public static final int WIDTH = 640;
-    public static final int HEIGHT = 480;
+    public static final int HEIGHT = 480 + SYSTEM_WINDOW_HEADER_H;
     public static final double RESOURCE_SCALE = 2.0;
     private EventHandler<ActionEvent> actionHandler;
     private final ResourceManager resourceManager;
@@ -67,14 +69,15 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     }
 
     private void doTitleScreen() {
-        getChildren().clear();
+//        getChildren().clear();
+//
+//        TitleMode titleMode = new TitleMode(this, resourceManager);
+//        getChildren().add(titleMode);
+//
+//        mode = titleMode;
+        setMode(new TitleMode(this, resourceManager));
 
-        TitleMode titleMode = new TitleMode(this, resourceManager);
-        getChildren().add(titleMode);
-
-        mode = titleMode;
-
-        titleMode.initCursor();
+        //       titleMode.initCursor();
     }
 
 //    private void doRoom( Room r ) {
@@ -101,7 +104,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                 actionHandler.handle(new ActionEvent(action, this));
             }
             case LOAD -> {
-
+                LOGGER.log(Level.CONFIG, "Load Saved Game #" + actionObjects[0]);
             }
             case NEW_GAME -> {
                 Object actionObject = actionObjects[0];
@@ -112,10 +115,21 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                     LOGGER.log(Level.CONFIG, "New Game with player name: " + gameState.name);
 
                     // Change mode to Room 1.
+                    setMode(new RoomMode(this, resourceManager, Room.R1));
                 } else {
                     LOGGER.log(Level.CONFIG, "New Game actionObject[0] was null!");
                 }
             }
+        }
+    }
+
+    private void setMode(NeuroModePane mode) {
+        if (this.mode == null || !this.mode.equals(mode)) {
+            // tell current mode to de-init.
+            getChildren().clear();
+            this.mode = mode;
+            getChildren().add(mode);
+            mode.initCursor();
         }
     }
 
