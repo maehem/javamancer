@@ -59,7 +59,7 @@ public class Data2Image extends WritableImage {
                 byte pixels = data[dataIndex];
                 dataIndex++;
 
-                int pixelH = pixels & 0xF0 >> 4;
+                int pixelH = (pixels & 0xF0) >> 4;
                 int pixelL = pixels & 0x0F;
 
                 Color blackColor = Color.BLACK;
