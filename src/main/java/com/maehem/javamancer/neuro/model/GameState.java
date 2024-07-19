@@ -61,6 +61,7 @@ public class GameState {
 
     public int roomPosX = 160;
     public int roomPosY = 0x69;
+    public RoomBounds.Door useDoor = RoomBounds.Door.NONE;
 
     public boolean msgToArmitageSent = false;
 

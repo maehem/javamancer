@@ -30,6 +30,7 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.RoomBounds;
+import com.maehem.javamancer.neuro.model.RoomBounds.Door;
 import com.maehem.javamancer.neuro.model.RoomPosition;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.logging.Level;
@@ -39,6 +40,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /**
  *
@@ -67,6 +69,7 @@ public class RoomPane extends Pane {
     private final Group playerGroup;
     private final double stepSizeRL = 8.0;
     private final double stepSizeTA = 4.0;
+    private final double BOUNDS_OPACITY = 0.5;
 
     public RoomPane(ResourceManager resourceManager, Room room) {
         this.room = room;
@@ -110,9 +113,9 @@ public class RoomPane extends Pane {
         Rectangle r = new Rectangle(
                 rb.lBound, rb.tBound,
                 rb.rBound - rb.lBound, rb.bBound - rb.tBound);
-        r.setFill(null);
-        r.setStroke(Color.GREEN);
-        r.setStrokeWidth(4);
+        r.setFill(Color.YELLOW);
+        r.setOpacity(BOUNDS_OPACITY);
+        r.setStroke(null);
 
         return r;
     }
@@ -121,6 +124,7 @@ public class RoomPane extends Pane {
         if (rb.tx != 0 && rb.tw != 0) {
             Rectangle r = new Rectangle(rb.tx, rb.tBound, rb.tw, DOOR_THICK);
             r.setFill(Color.RED);
+            r.setOpacity(BOUNDS_OPACITY);
             r.setStroke(null);
             return r;
         }
@@ -132,6 +136,7 @@ public class RoomPane extends Pane {
         if (rb.ry != 0 && rb.rw != 0) {
             Rectangle r = new Rectangle(rb.rBound, rb.ry, DOOR_THICK, rb.rw);
             r.setFill(Color.RED);
+            r.setOpacity(BOUNDS_OPACITY);
             r.setStroke(null);
             return r;
         }
@@ -141,8 +146,9 @@ public class RoomPane extends Pane {
 
     private Rectangle initDoorBottom(RoomBounds rb) {
         if (rb.bx != 0 && rb.bw != 0) {
-            Rectangle r = new Rectangle(rb.bx, rb.bBound - DOOR_THICK / 2, rb.bw, DOOR_THICK);
+            Rectangle r = new Rectangle(rb.bx, rb.bBound - DOOR_THICK, rb.bw, DOOR_THICK);
             r.setFill(Color.RED);
+            r.setOpacity(BOUNDS_OPACITY);
             r.setStroke(null);
             return r;
         }
@@ -154,6 +160,7 @@ public class RoomPane extends Pane {
         if (rb.ly != 0 && rb.lw != 0) {
             Rectangle r = new Rectangle(rb.tBound, rb.ly, DOOR_THICK, rb.lw);
             r.setFill(Color.RED);
+            r.setOpacity(BOUNDS_OPACITY);
             r.setStroke(null);
             return r;
         }
@@ -162,47 +169,98 @@ public class RoomPane extends Pane {
     }
 
     public void tick(GameState gs) {
+        if (processWalk(gs)) {
+            handleDoors(gs);
+        }
+    }
+
+    private boolean processWalk(GameState gs) {
+        boolean playerMoved = false; // Helps door checker not run every frame.
         if (!(walkToX == 0 && walkToY == 0)) {
+            int newPosX = gs.roomPosX;
+            int newPosY = gs.roomPosY;
+
             if (walkToX != 0) {
                 if (Math.abs(walkToX - gs.roomPosX) < stepSizeRL) {
                     walkToX = 0;
                     walkToY = 0;
                     //LOGGER.log(Level.SEVERE, "End walking L-R");
-                    return;
+                    return true;
                 }
                 if (walkToX > gs.roomPosX) {
-                    gs.roomPosX += stepSizeRL;
+                    newPosX += stepSizeRL;
                     player.setDirection(PlayerNode.Direction.RIGHT);
                 } else if (walkToX < gs.roomPosX) {
-                    gs.roomPosX -= stepSizeRL;
+                    newPosX -= stepSizeRL;
                     player.setDirection(PlayerNode.Direction.LEFT);
                 }
                 player.step();
+                playerMoved = true;
             } else {
                 if (Math.abs(walkToY - gs.roomPosY) < stepSizeTA) {
                     walkToX = 0;
                     walkToY = 0;
                     //LOGGER.log(Level.SEVERE, "End walking T-A");
-                    return;
+                    return true;
                 }
                 if (walkToY > gs.roomPosY) {
-                    gs.roomPosY += stepSizeTA;
+                    newPosY += stepSizeTA;
                     player.setDirection(PlayerNode.Direction.TOWARD);
                 } else {
-                    gs.roomPosY -= stepSizeTA;
+                    newPosY -= stepSizeTA;
                     player.setDirection(PlayerNode.Direction.AWAY);
                 }
                 player.step();
+                playerMoved = true;
             }
-            updatePlayerPosition(gs);
+            if (!updatePlayerPosition(gs, newPosX, newPosY)) {
+                // Player hit something. Stop waling.
+                walkToX = 0;
+                walkToY = 0;
+                playerMoved = false;
+            }
         }
-
+        return playerMoved;
     }
 
-    public void updatePlayerPosition(GameState gs) {
-        playerGroup.setLayoutX(gs.roomPosX);
-        playerGroup.setLayoutY(gs.roomPosY);
+    private void handleDoors(GameState gs) {
+        if (topDoor != null
+                && Shape.intersect(playerFeet, topDoor).getBoundsInLocal().getWidth() != -1) {
+            gs.useDoor = Door.TOP;
+        } else if (rightDoor != null
+                && Shape.intersect(playerFeet, rightDoor).getBoundsInLocal().getWidth() != -1) {
+            gs.useDoor = Door.RIGHT;
+        } else if (bottomDoor != null
+                && Shape.intersect(playerFeet, bottomDoor).getBoundsInLocal().getWidth() != -1) {
+            gs.useDoor = Door.BOTTOM;
+        } else if (leftDoor != null
+                && Shape.intersect(playerFeet, leftDoor).getBoundsInLocal().getWidth() != -1) {
+            gs.useDoor = Door.LEFT;
+        } else {
+            gs.useDoor = Door.NONE;
+        }
+        LOGGER.log(Level.SEVERE, "Door State: {0}", gs.useDoor.name());
+    }
+
+    public boolean updatePlayerPosition(GameState gs, int newPosX, int newPosY) {
+
+        boolean retVal = true;
+        playerGroup.setLayoutX(newPosX);
+        playerGroup.setLayoutY(newPosY);
+        if (Shape.intersect(playerFeet, boundsRect).getBoundsInLocal().getWidth() != -1) {
+            // Inside room - keep change.
+            gs.roomPosX = newPosX;
+            gs.roomPosY = newPosY;
+            retVal = true;
+        } else {
+            // Out of bounds. Move back.
+            LOGGER.log(Level.SEVERE, "Bumped Wall. No moving.");
+            playerGroup.setLayoutX(gs.roomPosX);
+            playerGroup.setLayoutY(gs.roomPosY);
+            retVal = false;
+        }
         LOGGER.log(Level.SEVERE, "Player Position: {0},{1}", new Object[]{gs.roomPosX, gs.roomPosY});
+        return retVal;
     }
 
     public void mouseClick(double x, double y, GameState gs) {

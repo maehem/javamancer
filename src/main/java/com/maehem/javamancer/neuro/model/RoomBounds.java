@@ -37,7 +37,11 @@ package com.maehem.javamancer.neuro.model;
  */
 public enum RoomBounds { // and Doors
 
-    R1(180, 580, 226, 40, 0, 0, 0, 0, 436, 144, 0, 0);
+    R1(184, 580, 228, 40, 0, 0, 0, 0, 436, 144, 0, 0);
+
+    public enum Door {
+        NONE, TOP, RIGHT, BOTTOM, LEFT
+    };
 
     public final int tBound; // Upper walk Line
     public final int rBound; // Right Walk Line

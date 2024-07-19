@@ -69,7 +69,7 @@ public class RoomMode extends NeuroModePane {
 
         Platform.runLater(() -> {
             updateStatus();
-            roomPane.updatePlayerPosition(gameState);
+            roomPane.updatePlayerPosition(gameState, gameState.roomPosX, gameState.roomPosY);
         });
     }
 
