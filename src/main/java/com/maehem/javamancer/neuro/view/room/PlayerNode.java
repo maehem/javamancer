@@ -58,8 +58,8 @@ public class PlayerNode extends StackPane {
 
     public PlayerNode(ResourceManager resourceManager) {
         for ( int i=0; i< 32; i++ ) {
-            Image sprite = resourceManager.getSprite(PREFIX + "_" + (i + 1));
-            ImageView imageView = new ImageView(sprite);
+            Image spriteImg = resourceManager.getSprite(PREFIX + "_" + (i + 1));
+            ImageView imageView = new ImageView(spriteImg);
             this.sprite[i / 8][i % 8] = imageView;
             getChildren().add(imageView);
         }
@@ -70,7 +70,7 @@ public class PlayerNode extends StackPane {
         updateSprite();
     }
 
-    public void updateSprite() {
+    public final void updateSprite() {
         for (int i = 0; i < 32; i++) {
             this.sprite[i / 8][i % 8].setVisible(false);
         }
@@ -82,10 +82,12 @@ public class PlayerNode extends StackPane {
         if (step > 7) {
             step = 0;
         }
+        updateSprite();
     }
 
     public void setDirection(Direction d) {
         this.direction = d;
+        updateSprite();
     }
 
 }
