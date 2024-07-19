@@ -62,7 +62,7 @@
     -fx-text-fill: black;
 }
 
-.button .text {
+.button .text, Text {
     -fx-font-family: VT323;
     -fx-font-size: 30;
     -fx-fill: black; 
@@ -73,6 +73,9 @@
     -fx-padding: 4 0 4 0;
 }
 
+#neuro-status {
+    -fx-font-size: 28;
+}
 #neuro-button-box {
     /*
     -fx-background-color: white;
