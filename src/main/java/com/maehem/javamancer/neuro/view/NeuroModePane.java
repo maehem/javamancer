@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.GameState;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.ImageCursor;
@@ -46,10 +47,12 @@ public abstract class NeuroModePane extends Pane {
 
     private final NeuroModePaneListener listener;
     private final ResourceManager resourceManager;
+    private final GameState gameState;
 
-    public NeuroModePane(NeuroModePaneListener listener, ResourceManager resourceManager) {
+    public NeuroModePane(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState) {
         this.listener = listener;
         this.resourceManager = resourceManager;
+        this.gameState = gameState;
 
         getStylesheets().add(
                 getClass().getResource("/style/neuro.css").toExternalForm());
@@ -89,5 +92,11 @@ public abstract class NeuroModePane extends Pane {
      *
      */
     public abstract void destroy();
+
+    public abstract void updateStatus();
+
+    protected final GameState getGameState() {
+        return gameState;
+    }
 
 }

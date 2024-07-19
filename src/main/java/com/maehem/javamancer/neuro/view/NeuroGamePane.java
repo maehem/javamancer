@@ -56,6 +56,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
     private NeuroModePane mode;
     private AnimationTimer timer;
+    private int frameCount = 0;
 
     private boolean pause = false;
 
@@ -68,30 +69,14 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         this.resourceManager = new ResourceManager(resourceFolder);
         this.gameState = new GameState();
 
-        setMode(new TitleMode(this, resourceManager));
+        setMode(new TitleMode(this, resourceManager, gameState));
 
         initGameLoop();
     }
 
-    private void doTitleScreen() {
-//        getChildren().clear();
-//
-//        TitleMode titleMode = new TitleMode(this, resourceManager);
-//        getChildren().add(titleMode);
-//
-//        mode = titleMode;
-
-        //       titleMode.initCursor();
-    }
-
-//    private void doRoom( Room r ) {
-//        getChildren().clear();
-//
-//    }
-//
     private void initGameLoop() {
         // toggle the visibility of 'rect' every 500ms
-        AnimationTimer timer = new AnimationTimer() {
+        timer = new AnimationTimer() {
 
             private long lastToggle;
 
@@ -114,7 +99,11 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     private void loop() {
         if (!pause) {
             // Handlemusic state.
-
+            if (++frameCount > 15) {
+                gameState.addMinute();
+                frameCount = 0;
+                mode.updateStatus();
+            }
             mode.tick();
         }
     }
@@ -139,7 +128,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                 actionHandler.handle(new ActionEvent(action, this));
             }
             case LOAD -> {
-                LOGGER.log(Level.CONFIG, "Load Saved Game #" + actionObjects[0]);
+                LOGGER.log(Level.CONFIG, "Load Saved Game #{0}", actionObjects[0]);
             }
             case NEW_GAME -> {
                 Object actionObject = actionObjects[0];
@@ -147,10 +136,10 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                     if (!s.isBlank()) {
                         gameState.name = s;
                     }
-                    LOGGER.log(Level.CONFIG, "New Game with player name: " + gameState.name);
+                    LOGGER.log(Level.CONFIG, "New Game with player name: {0}", gameState.name);
 
                     // Change mode to Room 1.
-                    setMode(new RoomMode(this, resourceManager, Room.R1));
+                    setMode(new RoomMode(this, resourceManager, gameState, Room.R1));
                 } else {
                     LOGGER.log(Level.CONFIG, "New Game actionObject[0] was null!");
                 }

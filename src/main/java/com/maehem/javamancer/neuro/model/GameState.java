@@ -52,17 +52,35 @@ public class GameState {
         new BankTransaction(0xC0, 1000)
     };
     public int timeMinute = 0;
-    public int timeHour = 0x0C;
-    public int dateDay = 0;
+    public int timeHour = 12;
+    public int dateMonth = 11;
+    public int dateDay = 16;
+    public int dateYear = 2058;
 
     public final ArrayList<BodyParts> soldBodyParts = new ArrayList<>();
 
-    public int roomPosX = 0xA0;
+    public int roomPosX = 160;
     public int roomPosY = 0x69;
 
     public boolean msgToArmitageSent = false;
 
     int x4bbf = 0xFF;
+
+    public void addMinute() {
+        if (++timeMinute > 59) {
+            if (++timeHour > 23) {
+                if (++dateDay > 30) {
+                    if (++dateMonth > 12) {
+                        dateYear++;
+                        dateMonth = 1;
+                    }
+                    dateDay = 1;
+                }
+                timeHour = 0;
+            }
+            timeMinute = 0;
+        }
+    }
 }
 
 /*

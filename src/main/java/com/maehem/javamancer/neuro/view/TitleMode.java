@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.view;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.ui.BorderButton;
 import com.maehem.javamancer.neuro.view.ui.LoadSaveDialog;
 import com.maehem.javamancer.neuro.view.ui.NakedButton;
@@ -47,8 +48,8 @@ import javafx.stage.StageStyle;
  */
 public class TitleMode extends NeuroModePane {
 
-    public TitleMode(NeuroModePaneListener listener, ResourceManager resourceManager) {
-        super(listener, resourceManager);
+    public TitleMode(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState) {
+        super(listener, resourceManager, gameState);
 
         ImageView titleView = new ImageView(getResourceManager().getSprite("TITLE_1"));
         ImageView snowBackground = makeSnowBackground(
@@ -164,4 +165,14 @@ public class TitleMode extends NeuroModePane {
     public void destroy() {
 
     }
+
+    /**
+     * GameState values have changed. Update relevant things.
+     *
+     */
+    @Override
+    public void updateStatus() {
+
+    }
+
 }

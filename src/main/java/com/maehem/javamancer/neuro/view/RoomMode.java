@@ -26,10 +26,13 @@
  */
 package com.maehem.javamancer.neuro.view;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
 import java.util.logging.Level;
+import javafx.application.Platform;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -37,18 +40,33 @@ import javafx.scene.image.ImageView;
  */
 public class RoomMode extends NeuroModePane {
 
-    protected Room room;
+    private enum Status {
+        DATE, TIME, CREDIT, CONSTITUTION
+    }
 
-    public RoomMode(NeuroModePaneListener listener, ResourceManager resourceManager, Room room) {
-        super(listener, resourceManager);
+    protected Room room;
+    private final Text statusText = new Text("* STATUS *");
+
+    private Status statusMode = Status.DATE;
+
+    public RoomMode(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState, Room room) {
+        super(listener, resourceManager, gameState);
         this.room = room;
 
         ImageView cPanelView = new ImageView(getResourceManager().getSprite("NEURO_1"));
         RoomPane roomPane = new RoomPane(resourceManager, room);
-        getChildren().addAll(cPanelView, roomPane);
+        getChildren().addAll(cPanelView, roomPane, statusText);
+
+        statusText.setId("neuro-status");
+        statusText.setLayoutX(198);
+        statusText.setLayoutY(314);
 
         setOnMouseClicked((t) -> {
             handleMouseClick(t.getX(), t.getY());
+        });
+
+        Platform.runLater(() -> {
+            updateStatus();
         });
     }
 
@@ -60,6 +78,31 @@ public class RoomMode extends NeuroModePane {
     @Override
     public void destroy() {
         room = null;
+    }
+
+    @Override
+    public void updateStatus() {
+        GameState gs = getGameState();
+        switch (statusMode) {
+            case DATE -> {
+                String month = String.format("%02d", gs.dateMonth);
+                String day = String.format("%02d", gs.dateDay);
+                String year = String.format("%04d", gs.dateYear).substring(2);
+                statusText.setText(" " + month + "/" + day + "/" + year);
+            }
+            case TIME -> {
+                String hour = String.format("%02d", gs.timeHour);
+                String minute = String.format("%02d", gs.timeMinute);
+                String time = String.format("%1$10s", hour + ":" + minute);
+                statusText.setText(time);
+            }
+            case CREDIT -> {
+                statusText.setText("$" + String.format("%1$9s", String.valueOf(getGameState().cash)));
+            }
+            case CONSTITUTION -> {
+                statusText.setText(String.format("%1$10s", String.valueOf(gs.constitution)));
+            }
+        }
     }
 
     private void handleMouseClick(double x, double y) {
@@ -85,18 +128,22 @@ public class RoomMode extends NeuroModePane {
         } else if (y > 336 && y < 380 && x > 109 && x < 172) {
             // disk
             LOGGER.log(Level.SEVERE, "User clicked Disk.");
-        } else if (y > 334 && y < 356 && x > 224 && x < 256) {
-            // disk
+        } else if (y > 334 && y < 356 && x > 224 && x < 256) { // Date Status
             LOGGER.log(Level.SEVERE, "User clicked Date Status.");
-        } else if (y > 334 && y < 356 && x > 256 && x < 288) {
-            // disk
+            statusMode = Status.DATE;
+            updateStatus();
+        } else if (y > 334 && y < 356 && x > 256 && x < 288) { // Time Status
             LOGGER.log(Level.SEVERE, "User clicked Time Status.");
-        } else if (y > 356 && y < 378 && x > 224 && x < 256) {
-            // disk
+            statusMode = Status.TIME;
+            updateStatus();
+        } else if (y > 356 && y < 378 && x > 224 && x < 256) { // Credits Status
             LOGGER.log(Level.SEVERE, "User clicked Credits Status.");
-        } else if (y > 356 && y < 378 && x > 256 && x < 288) {
-            // disk
+            statusMode = Status.CREDIT;
+            updateStatus();
+        } else if (y > 356 && y < 378 && x > 256 && x < 288) { // Constitution Status
             LOGGER.log(Level.SEVERE, "User clicked Constitution Status.");
+            statusMode = Status.CONSTITUTION;
+            updateStatus();
         }
     }
 }
