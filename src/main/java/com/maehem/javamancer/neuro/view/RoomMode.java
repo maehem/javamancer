@@ -40,6 +40,8 @@ import javafx.scene.text.Text;
  */
 public class RoomMode extends NeuroModePane {
 
+    private final RoomPane roomPane;
+
     private enum Status {
         DATE, TIME, CREDIT, CONSTITUTION
     }
@@ -54,7 +56,7 @@ public class RoomMode extends NeuroModePane {
         this.room = room;
 
         ImageView cPanelView = new ImageView(getResourceManager().getSprite("NEURO_1"));
-        RoomPane roomPane = new RoomPane(resourceManager, room);
+        roomPane = new RoomPane(resourceManager, room);
         getChildren().addAll(cPanelView, roomPane, statusText);
 
         statusText.setId("neuro-status");
@@ -67,12 +69,14 @@ public class RoomMode extends NeuroModePane {
 
         Platform.runLater(() -> {
             updateStatus();
+            roomPane.updatePlayerPosition(gameState);
         });
     }
 
     @Override
     public void tick() {
         // ???
+        roomPane.tick(getGameState());
     }
 
     @Override
@@ -110,6 +114,7 @@ public class RoomMode extends NeuroModePane {
         if ((y > 16 && y < 240) && (x > 16 && x < 624)) {
             // User clicked in room scene.
             LOGGER.log(Level.SEVERE, "User clicked in scene at: {0},{1}", new Object[]{x, y});
+            roomPane.mouseClick(x - RoomPane.PANE_X, y - RoomPane.PANE_Y, getGameState());
         } else if (y > 292 && y < 336 && x > 32 && x < 81) {
             // inventory
             LOGGER.log(Level.SEVERE, "User clicked Inventory.");

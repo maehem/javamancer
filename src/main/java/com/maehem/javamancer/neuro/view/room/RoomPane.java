@@ -27,11 +27,14 @@
 package com.maehem.javamancer.neuro.view.room;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.RoomBounds;
 import com.maehem.javamancer.neuro.model.RoomPosition;
 import com.maehem.javamancer.neuro.view.ResourceManager;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -45,6 +48,9 @@ public class RoomPane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
+    public static final double PANE_X = 15.5;
+    public static final double PANE_Y = 19;
+
     private static final int DOOR_THICK = 12;
     private final Rectangle boundsRect;
     private final Rectangle topDoor;
@@ -52,13 +58,20 @@ public class RoomPane extends Pane {
     private final Rectangle bottomDoor;
     private final Rectangle leftDoor;
 
+    private int walkToX = 0;
+    private int walkToY = 0;
+
     private final Room room;
+    private final PlayerNode player;
+    private final Rectangle playerFeet = new Rectangle(4, 4);
+    private final Group playerGroup;
+    private final double stepSize = 4.0;
 
     public RoomPane(ResourceManager resourceManager, Room room) {
         this.room = room;
         ImageView roomView = new ImageView(resourceManager.getBackdrop(room));
-        setLayoutX(15.5);
-        setLayoutY(19);
+        setLayoutX(PANE_X);
+        setLayoutY(PANE_Y);
 
         RoomBounds bounds = RoomBounds.get(room);
         boundsRect = initBoundsRect(bounds);
@@ -81,13 +94,15 @@ public class RoomPane extends Pane {
             getChildren().add(leftDoor);
         }
 
-        PlayerNode player = new PlayerNode(resourceManager);
+        player = new PlayerNode(resourceManager);
         RoomPosition rp = RoomPosition.get(room);
-        player.setLayoutX(rp.playerX);
-        player.setLayoutY(rp.playerY);
+        playerFeet.setTranslateX(-playerFeet.getWidth() / 2);
+        playerFeet.setTranslateY(-playerFeet.getHeight() / 2);
+        playerGroup = new Group(player, playerFeet);
+        playerGroup.setLayoutX(rp.playerX);
+        playerGroup.setLayoutY(rp.playerY);
 
-        getChildren().add(player);
-
+        getChildren().add(playerGroup);
     }
 
     private Rectangle initBoundsRect(RoomBounds rb) {
@@ -143,5 +158,58 @@ public class RoomPane extends Pane {
         }
 
         return null;
+    }
+
+    public void tick(GameState gs) {
+        if (!(walkToX == 0 && walkToX == 0)) {
+            if (walkToX != 0) {
+                if (Math.abs(walkToX - gs.roomPosX) < stepSize) {
+                    walkToX = 0;
+                    walkToY = 0;
+                    LOGGER.log(Level.SEVERE, "End walking L-R");
+                    return;
+                }
+                if (walkToX > gs.roomPosX) {
+                    gs.roomPosX += stepSize;
+                } else if (walkToX < gs.roomPosX) {
+                    gs.roomPosX -= stepSize;
+                }
+            } else {
+                if (Math.abs(walkToY - gs.roomPosY) < stepSize) {
+                    walkToX = 0;
+                    walkToY = 0;
+                    LOGGER.log(Level.SEVERE, "End walking T-A");
+                    return;
+                }
+                if (walkToY > gs.roomPosY) {
+                    gs.roomPosY += stepSize;
+                } else {
+                    gs.roomPosY -= stepSize;
+                }
+            }
+            updatePlayerPosition(gs);
+        }
+
+    }
+
+    public void updatePlayerPosition(GameState gs) {
+        playerGroup.setLayoutX(gs.roomPosX);
+        playerGroup.setLayoutY(gs.roomPosY);
+        LOGGER.log(Level.SEVERE, "Player Position: {0},{1}", new Object[]{gs.roomPosX, gs.roomPosY});
+    }
+
+    public void mouseClick(double x, double y, GameState gs) {
+        double absX = Math.abs(x - gs.roomPosX);
+        double absY = Math.abs(y - gs.roomPosY);
+        if (absX > 6 && absX > absY) {
+            LOGGER.log(Level.SEVERE, "Init Walk L-R");
+            walkToX = (int) x;
+            walkToY = 0;
+        } else if (absY > 6) {
+            LOGGER.log(Level.SEVERE, "Init Walk T-A");
+            walkToX = 0;
+            walkToY = (int) y;
+        }
+        LOGGER.log(Level.SEVERE, "Walk to: {0},{1}", new Object[]{walkToX, walkToY});
     }
 }
