@@ -65,7 +65,8 @@ public class RoomPane extends Pane {
     private final PlayerNode player;
     private final Rectangle playerFeet = new Rectangle(4, 4);
     private final Group playerGroup;
-    private final double stepSize = 4.0;
+    private final double stepSizeRL = 8.0;
+    private final double stepSizeTA = 4.0;
 
     public RoomPane(ResourceManager resourceManager, Room room) {
         this.room = room;
@@ -161,31 +162,37 @@ public class RoomPane extends Pane {
     }
 
     public void tick(GameState gs) {
-        if (!(walkToX == 0 && walkToX == 0)) {
+        if (!(walkToX == 0 && walkToY == 0)) {
             if (walkToX != 0) {
-                if (Math.abs(walkToX - gs.roomPosX) < stepSize) {
+                if (Math.abs(walkToX - gs.roomPosX) < stepSizeRL) {
                     walkToX = 0;
                     walkToY = 0;
-                    LOGGER.log(Level.SEVERE, "End walking L-R");
+                    //LOGGER.log(Level.SEVERE, "End walking L-R");
                     return;
                 }
                 if (walkToX > gs.roomPosX) {
-                    gs.roomPosX += stepSize;
+                    gs.roomPosX += stepSizeRL;
+                    player.setDirection(PlayerNode.Direction.RIGHT);
                 } else if (walkToX < gs.roomPosX) {
-                    gs.roomPosX -= stepSize;
+                    gs.roomPosX -= stepSizeRL;
+                    player.setDirection(PlayerNode.Direction.LEFT);
                 }
+                player.step();
             } else {
-                if (Math.abs(walkToY - gs.roomPosY) < stepSize) {
+                if (Math.abs(walkToY - gs.roomPosY) < stepSizeTA) {
                     walkToX = 0;
                     walkToY = 0;
-                    LOGGER.log(Level.SEVERE, "End walking T-A");
+                    //LOGGER.log(Level.SEVERE, "End walking T-A");
                     return;
                 }
                 if (walkToY > gs.roomPosY) {
-                    gs.roomPosY += stepSize;
+                    gs.roomPosY += stepSizeTA;
+                    player.setDirection(PlayerNode.Direction.TOWARD);
                 } else {
-                    gs.roomPosY -= stepSize;
+                    gs.roomPosY -= stepSizeTA;
+                    player.setDirection(PlayerNode.Direction.AWAY);
                 }
+                player.step();
             }
             updatePlayerPosition(gs);
         }
