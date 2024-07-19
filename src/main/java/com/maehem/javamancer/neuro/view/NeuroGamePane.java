@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;
+import com.maehem.javamancer.neuro.model.RoomPosition;
 import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -140,6 +141,11 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
                     // Change mode to Room 1.
                     setMode(new RoomMode(this, resourceManager, gameState, Room.R1));
+                    gameState.roomPosX = RoomPosition.R1.playerX;
+                    gameState.roomPosY = RoomPosition.R1.playerY;
+                    LOGGER.log(Level.SEVERE, "Set default player position: {0},{1}",
+                            new Object[]{RoomPosition.R1.playerX, RoomPosition.R1.playerY}
+                    );
                 } else {
                     LOGGER.log(Level.CONFIG, "New Game actionObject[0] was null!");
                 }
