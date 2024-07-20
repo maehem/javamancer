@@ -298,6 +298,7 @@ public class DATUtil {
                     writer.writeBytes(text);
                     writer.writeBytes("\n");
                 }
+                writer.writeBytes("// END Text Elements");
 
                 writer.writeBytes("\n\n// Ancillary header fields: (no known use, always zero)\n");
                 writer.writeBytes("cbOffset:" + String.valueOf(bihThing.cbOffset) + "\n");
