@@ -1,4 +1,8 @@
 
+.text {
+    -fx-font-size: 30;
+}
+
 .neuroDialog, .button{
     -fx-background-color: white;
     -fx-background-insets: 1;
@@ -74,7 +78,7 @@
 }
 
 #neuro-status {
-    -fx-font-size: 28;
+    -fx-font-size: 24;
 }
 #neuro-button-box {
     /*
@@ -88,4 +92,19 @@
     
     -fx-text-fill: black;
     */
+}
+
+.scroll-pane {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.scroll-pane > .viewport  Text {
+   -fx-font-size: 26;
 }
