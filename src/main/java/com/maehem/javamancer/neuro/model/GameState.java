@@ -62,6 +62,15 @@ public class GameState {
     public int roomPosX = 160;
     public int roomPosY = 0x69;
     public RoomBounds.Door useDoor = RoomBounds.Door.NONE;
+    public final boolean roomIsVisited[] = { // 58 Slots  [0..57]
+        false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false,
+        false, false, false, false
+    };
 
     public boolean msgToArmitageSent = false;
 
