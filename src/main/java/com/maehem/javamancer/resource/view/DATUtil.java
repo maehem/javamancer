@@ -138,7 +138,12 @@ public class DATUtil {
 
             imh.dataBlock.forEach((blob) -> {
                 // Create Image
-                Image img = new Data2Image(blob, 0, Data2Image.Alpha.BLACK_IS_CLEAR);
+                Image img;
+                if (imh.name.startsWith("NEURO")) {
+                    img = new Data2Image(blob, 0, Data2Image.Alpha.BLACK_IS_BLACK);
+                } else {
+                    img = new Data2Image(blob, 0, Data2Image.Alpha.BLACK_IS_CLEAR);
+                }
 
                 int indexOf = imh.dataBlock.indexOf(blob);
                 LOG.log(Level.FINE, "    Found sub-image: {0}x{1}", new Object[]{img.getWidth(), img.getHeight()});
