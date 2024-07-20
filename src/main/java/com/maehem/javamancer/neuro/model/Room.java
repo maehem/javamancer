@@ -96,4 +96,8 @@ public enum Room {
     private Room(String name) {
         this.roomName = name;
     }
+
+    public int getIndex() {
+        return Integer.parseInt(name().substring(1)) - 1;
+    }
 }
