@@ -51,9 +51,13 @@ public class RoomPane extends Pane {
     public static final Logger LOGGER = Logging.LOGGER;
 
     public static final double PANE_X = 15.5;
-    public static final double PANE_Y = 19;
+    public static final double PANE_Y = 16;
 
     private static final int DOOR_THICK = 12;
+    private static final Color DOOR_COLOR = Color.RED;
+    private static final Color BOUNDS_COLOR = Color.YELLOW;
+    private static final double BOUNDS_OPACITY = 0.01;
+
     private final Rectangle boundsRect;
     private final Rectangle topDoor;
     private final Rectangle rightDoor;
@@ -69,7 +73,6 @@ public class RoomPane extends Pane {
     private final Group playerGroup;
     private final double stepSizeRL = 8.0;
     private final double stepSizeTA = 4.0;
-    private final double BOUNDS_OPACITY = 0.5;
 
     public RoomPane(ResourceManager resourceManager, Room room) {
         this.room = room;
@@ -79,24 +82,12 @@ public class RoomPane extends Pane {
 
         RoomBounds bounds = RoomBounds.get(room);
         boundsRect = initBoundsRect(bounds);
-        topDoor = initDoorTop(bounds);
-        rightDoor = initDoorRight(bounds);
-        bottomDoor = initDoorBottom(bounds);
-        leftDoor = initDoorLeft(bounds);
-
         getChildren().addAll(roomView, boundsRect);
-        if (topDoor != null) {
-            getChildren().add(topDoor);
-        }
-        if (rightDoor != null) {
-            getChildren().add(rightDoor);
-        }
-        if (bottomDoor != null) {
-            getChildren().add(bottomDoor);
-        }
-        if (leftDoor != null) {
-            getChildren().add(leftDoor);
-        }
+
+        topDoor = addDoor(bounds, Door.TOP);
+        rightDoor = addDoor(bounds, Door.RIGHT);
+        bottomDoor = addDoor(bounds, Door.BOTTOM);
+        leftDoor = addDoor(bounds, Door.LEFT);
 
         player = new PlayerNode(resourceManager);
         RoomPosition rp = RoomPosition.get(room);
@@ -113,64 +104,66 @@ public class RoomPane extends Pane {
         Rectangle r = new Rectangle(
                 rb.lBound, rb.tBound,
                 rb.rBound - rb.lBound, rb.bBound - rb.tBound);
-        r.setFill(Color.YELLOW);
+        r.setFill(BOUNDS_COLOR);
         r.setOpacity(BOUNDS_OPACITY);
         r.setStroke(null);
 
         return r;
     }
 
-    private Rectangle initDoorTop(RoomBounds rb) {
-        if (rb.tx != 0 && rb.tw != 0) {
-            Rectangle r = new Rectangle(rb.tx, rb.tBound, rb.tw, DOOR_THICK);
-            r.setFill(Color.RED);
-            r.setOpacity(BOUNDS_OPACITY);
-            r.setStroke(null);
-            return r;
+    private Rectangle addDoor(RoomBounds rb, RoomBounds.Door door) {
+        int x=1, y=1, w=1, h=1;
+        switch (door) {
+            case TOP -> {
+                if (rb.tx == 0 || rb.tw == 0) {
+                    return null;
+                }
+                x = rb.tx;
+                y = rb.tBound;
+                w = rb.tw;
+                h = DOOR_THICK;
+            }
+            case RIGHT -> {
+                if (rb.ry == 0 || rb.rw == 0) {
+                    return null;
+                }
+                x = rb.rBound - DOOR_THICK;
+                y = rb.ry;
+                w = DOOR_THICK;
+                h = rb.rw;
+            }
+            case BOTTOM -> {
+                if (rb.bx == 0 || rb.bw == 0) {
+                    return null;
+                }
+                x = rb.bx;
+                y = rb.bBound - DOOR_THICK;
+                w = rb.bw;
+                h = DOOR_THICK;
+            }
+            case LEFT -> {
+                if (rb.ly == 0 || rb.lw == 0) {
+                    return null;
+                }
+                x = rb.lBound;
+                y = rb.ly;
+                w = DOOR_THICK;
+                h = rb.lw;
+            }
+
         }
+        Rectangle r = new Rectangle(x,y,w,h);
+        r.setFill(DOOR_COLOR);
+        r.setOpacity(BOUNDS_OPACITY);
+        r.setStroke(null);
+        getChildren().add(r);
 
-        return null;
-    }
-
-    private Rectangle initDoorRight(RoomBounds rb) {
-        if (rb.ry != 0 && rb.rw != 0) {
-            Rectangle r = new Rectangle(rb.rBound, rb.ry, DOOR_THICK, rb.rw);
-            r.setFill(Color.RED);
-            r.setOpacity(BOUNDS_OPACITY);
-            r.setStroke(null);
-            return r;
-        }
-
-        return null;
-    }
-
-    private Rectangle initDoorBottom(RoomBounds rb) {
-        if (rb.bx != 0 && rb.bw != 0) {
-            Rectangle r = new Rectangle(rb.bx, rb.bBound - DOOR_THICK, rb.bw, DOOR_THICK);
-            r.setFill(Color.RED);
-            r.setOpacity(BOUNDS_OPACITY);
-            r.setStroke(null);
-            return r;
-        }
-
-        return null;
-    }
-
-    private Rectangle initDoorLeft(RoomBounds rb) {
-        if (rb.ly != 0 && rb.lw != 0) {
-            Rectangle r = new Rectangle(rb.tBound, rb.ly, DOOR_THICK, rb.lw);
-            r.setFill(Color.RED);
-            r.setOpacity(BOUNDS_OPACITY);
-            r.setStroke(null);
-            return r;
-        }
-
-        return null;
+        return r;
     }
 
     public void tick(GameState gs) {
         if (processWalk(gs)) {
-            handleDoors(gs);
+            updateDoors(gs);
         }
     }
 
@@ -223,7 +216,7 @@ public class RoomPane extends Pane {
         return playerMoved;
     }
 
-    private void handleDoors(GameState gs) {
+    private void updateDoors(GameState gs) {
         if (topDoor != null
                 && Shape.intersect(playerFeet, topDoor).getBoundsInLocal().getWidth() != -1) {
             gs.useDoor = Door.TOP;
