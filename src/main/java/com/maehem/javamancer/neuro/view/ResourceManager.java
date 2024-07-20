@@ -28,9 +28,14 @@ package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.Room;
+import com.maehem.javamancer.neuro.model.TextResource;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
@@ -104,11 +109,41 @@ public class ResourceManager {
         return null;
     }
 
+    public TextResource getText(Room room) {
+        BufferedReader in = null;
+        TextResource tr = new TextResource();
+        try {
+            File txtFile = new File(bihFolder, room.name() + "_meta.txt");
+            in = new BufferedReader(new FileReader(txtFile), 16 * 1024);
+            try (Scanner read = new Scanner(in)) {
+                read.useDelimiter("\n");
+                boolean foundText = false;
+
+                while (read.hasNext()) {
+                    String txt = read.next();
+                    if (foundText) {
+                        tr.add(txt);
+                    } else if (txt.startsWith("// END Text Elements")) {
+                        break;
+                    } else if (txt.startsWith("// Text Elements:")) {
+                        foundText = true;
+                    }
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        } finally {
+            try {
+                in.close();
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        }
+
+        return tr;
+    }
     // TODO:
 //    public Animation getAnimation( String name ) {
 //
 //    }
-    public String getText(Room room, boolean visited) {
-        return "Room Text";
-    }
 }
