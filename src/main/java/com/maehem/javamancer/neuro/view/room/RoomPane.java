@@ -167,6 +167,8 @@ public class RoomPane extends Pane {
         if (processWalk(gs)) {
             updateDoors(gs);
         }
+
+        // Update animation.
     }
 
     private boolean processWalk(GameState gs) {
