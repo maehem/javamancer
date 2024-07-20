@@ -58,7 +58,7 @@ public class RoomPane extends Pane {
     private static final Color BOUNDS_COLOR = Color.YELLOW;
     private static final double BOUNDS_OPACITY = 0.01;
 
-    private final Rectangle boundsRect;
+    private final Rectangle walkBounds;
     private final Rectangle topDoor;
     private final Rectangle rightDoor;
     private final Rectangle bottomDoor;
@@ -77,12 +77,13 @@ public class RoomPane extends Pane {
     public RoomPane(ResourceManager resourceManager, Room room) {
         this.room = room;
         ImageView roomView = new ImageView(resourceManager.getBackdrop(room));
+        getChildren().addAll(roomView);
+
         setLayoutX(PANE_X);
         setLayoutY(PANE_Y);
 
         RoomBounds bounds = RoomBounds.get(room);
-        boundsRect = initBoundsRect(bounds);
-        getChildren().addAll(roomView, boundsRect);
+        walkBounds = addWalkBounds(bounds);
 
         topDoor = addDoor(bounds, Door.TOP);
         rightDoor = addDoor(bounds, Door.RIGHT);
@@ -100,13 +101,14 @@ public class RoomPane extends Pane {
         getChildren().add(playerGroup);
     }
 
-    private Rectangle initBoundsRect(RoomBounds rb) {
+    private Rectangle addWalkBounds(RoomBounds rb) {
         Rectangle r = new Rectangle(
                 rb.lBound, rb.tBound,
                 rb.rBound - rb.lBound, rb.bBound - rb.tBound);
         r.setFill(BOUNDS_COLOR);
         r.setOpacity(BOUNDS_OPACITY);
         r.setStroke(null);
+        getChildren().add(walkBounds);
 
         return r;
     }
@@ -240,7 +242,7 @@ public class RoomPane extends Pane {
         boolean retVal = true;
         playerGroup.setLayoutX(newPosX);
         playerGroup.setLayoutY(newPosY);
-        if (Shape.intersect(playerFeet, boundsRect).getBoundsInLocal().getWidth() != -1) {
+        if (Shape.intersect(playerFeet, walkBounds).getBoundsInLocal().getWidth() != -1) {
             // Inside room - keep change.
             gs.roomPosX = newPosX;
             gs.roomPosY = newPosY;
