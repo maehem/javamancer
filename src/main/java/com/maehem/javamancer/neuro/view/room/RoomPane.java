@@ -108,7 +108,7 @@ public class RoomPane extends Pane {
         r.setFill(BOUNDS_COLOR);
         r.setOpacity(BOUNDS_OPACITY);
         r.setStroke(null);
-        getChildren().add(walkBounds);
+        getChildren().add(r);
 
         return r;
     }
