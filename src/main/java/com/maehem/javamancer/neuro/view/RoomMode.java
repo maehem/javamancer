@@ -28,11 +28,15 @@ package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;
+import com.maehem.javamancer.neuro.model.TextResource;
+import com.maehem.javamancer.neuro.view.room.RoomDescriptionPane;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
 import java.util.logging.Level;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Scale;
 
 /**
  *
@@ -40,42 +44,82 @@ import javafx.scene.text.Text;
  */
 public class RoomMode extends NeuroModePane {
 
-    private final RoomPane roomPane;
-
     private enum Status {
         DATE, TIME, CREDIT, CONSTITUTION
     }
 
+    private final RoomPane roomPane;
+    private final TextResource roomText;
     protected Room room;
     private final Text statusText = new Text("* STATUS *");
+    private final Text scrollHint = new Text("+");
 
+    private final RoomDescriptionPane roomDescriptionPane;
     private Status statusMode = Status.DATE;
+    private boolean firstTime = true;
 
     public RoomMode(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState, Room room) {
         super(listener, resourceManager, gameState);
         this.room = room;
+        if (gameState.roomIsVisited[room.getIndex()]) {
+            firstTime = false;
+        }
+
+        roomText = resourceManager.getText(room);
 
         ImageView cPanelView = new ImageView(getResourceManager().getSprite("NEURO_1"));
         roomPane = new RoomPane(resourceManager, room);
-        getChildren().addAll(cPanelView, roomPane, statusText);
+
+        roomDescriptionPane = new RoomDescriptionPane();
+
+
+        scrollHint.setLayoutX(616);
+        scrollHint.setLayoutY(388);
+        scrollHint.setScaleX(1.333);
+
+        getChildren().addAll(cPanelView, roomPane, statusText, roomDescriptionPane, scrollHint);
 
         statusText.setId("neuro-status");
-        statusText.setLayoutX(198);
-        statusText.setLayoutY(314);
+        statusText.setLayoutX(190);
+        statusText.setLayoutY(313);
+        statusText.getTransforms().add(new Scale(1.333, 1.0));
 
         setOnMouseClicked((t) -> {
             handleMouseClick(t.getX(), t.getY());
         });
 
+        if (firstTime) {
+            roomDescriptionPane.setText(roomText.getDescription());
+        } else {
+            roomDescriptionPane.setText(roomText.getShortDescription());
+        }
+
         Platform.runLater(() -> {
             updateStatus();
             roomPane.updatePlayerPosition(gameState, gameState.roomPosX, gameState.roomPosY);
         });
+
+        roomDescriptionPane.vvalueProperty().addListener(
+                (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+                    LOGGER.log(Level.FINEST, "Description Scroll: " + newValue);
+                    scrollHint.setVisible(newValue.doubleValue() != 1.0);
+                });
     }
 
     @Override
     public void tick() {
+        if (firstTime) {
+            // We are scrolling the description and may not yet be done
+            // incrementing through it.
+        }
         // ???
+        // if( just loaded) {
+        //     * First view, scroll room description in lower right frame.
+        //     pause and scroll more if text too long.
+
+        //     * Second view (room visited). Show second description.
+        // }
+        // then allow
         roomPane.tick(getGameState());
     }
 
@@ -151,4 +195,6 @@ public class RoomMode extends NeuroModePane {
             updateStatus();
         }
     }
+
+
 }
