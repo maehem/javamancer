@@ -1,6 +1,8 @@
 
-.text {
-    -fx-font-size: 30;
+Text {
+    -fx-font-size: 26;
+    -fx-font-family: VT323;
+    -fx-fill: black;
 }
 
 .neuroDialog, .button{
@@ -66,9 +68,9 @@
     -fx-text-fill: black;
 }
 
-.button .text, Text {
+.button .text {
     -fx-font-family: VT323;
-    -fx-font-size: 30;
+    -fx-font-size: 26;
     -fx-fill: black; 
 }
 
@@ -107,4 +109,10 @@
 
 .scroll-pane > .viewport  Text {
    -fx-font-size: 26;
+}
+
+#neuro-popup {
+    -fx-background-color: white;
+    -fx-border-width: 2;
+    -fx-border-color: black;
 }
