@@ -35,6 +35,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -142,6 +143,19 @@ public class ResourceManager {
 
         return tr;
     }
+
+    public String getFirstTimeText() {
+        try {
+            File txtFile = new File(resourceFolder, "ftUser.txt");
+            return Files.readString(txtFile.toPath());
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return "";
+    }
+
     // TODO:
 //    public Animation getAnimation( String name ) {
 //
