@@ -35,6 +35,7 @@ import java.util.ArrayList;
 public class GameState {
 
     public String name = "Case";
+    public boolean pause = true;
     public int levelNumber = 0; // "Rn" = levelNumber + 1
     public boolean gasMaskIsOn = false;
     public Item activeItem = Item.NONE;
