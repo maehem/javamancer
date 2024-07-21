@@ -41,8 +41,9 @@ public class GameState {
     public Item activeItem = Item.NONE;
     public Skill activeSkill = Skill.NONE;
     public int activeSkillLevel = 0;
-    public int cash = 6;
-    public int bankAccount = 2000;
+    public int chipBalance = 6;
+    public int bankBalance = 2000;
+    public String bankId = "056306118";
     public int constitution = 2000;
     public int cashWithdrawal = 0;
     public int bankLastTransactionIndex = 0;
@@ -165,7 +166,7 @@ typedef struct x4bae_t {
 	uint8_t x4c74;
 	uint8_t x4c75;
 	uint8_t x4c76[2]; // padding
-*	uint32_t cash; // 0x4C78
+*	uint32_t chipBalance; // 0x4C78
 	uint16_t x4c7c;
 	uint8_t x4c7e[4];
 	uint16_t x4c82;
