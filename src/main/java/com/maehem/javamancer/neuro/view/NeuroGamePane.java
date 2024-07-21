@@ -59,7 +59,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     private AnimationTimer timer;
     private int frameCount = 0;
 
-    private boolean pause = false;
+    //private boolean pause = false;
 
     public NeuroGamePane(File resourceFolder) {
         this.setPrefSize(WIDTH, HEIGHT);
@@ -98,7 +98,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     }
 
     private void loop() {
-        if (!pause) {
+        if (!gameState.pause) {
             // Handlemusic state.
             if (++frameCount > 15) {
                 gameState.addMinute();
@@ -156,7 +156,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     private void setMode(NeuroModePane newMode) {
         if (this.mode == null || !this.mode.equals(newMode)) {
             // tell current mode to de-init.
-            pause = true;
+            gameState.pause = true;
             if (this.mode != null) {
                 this.mode.destroy();
             }
@@ -165,7 +165,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
             this.mode = newMode;
             getChildren().add(newMode);
             newMode.initCursor();
-            pause = false;
+            gameState.pause = false;
         }
     }
 
