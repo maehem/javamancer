@@ -45,8 +45,10 @@ public abstract class PopupPane extends Pane {
 
     private static final int WIDTH = 632;
     private static final int HEIGHT = 200;
+    private final GameState gameState;
 
     public PopupPane(GameState gs) {
+        this.gameState = gs;
         setPrefSize(WIDTH, HEIGHT);
         setMinSize(WIDTH, HEIGHT);
         setLayoutX(4);
@@ -67,5 +69,8 @@ public abstract class PopupPane extends Pane {
         return false;
     }
 
+    public GameState getGameState() {
+        return gameState;
+    }
 
 }
