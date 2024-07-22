@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.NewsArticle;
 import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.TextResource;
 import java.io.BufferedReader;
@@ -36,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -154,6 +156,56 @@ public class ResourceManager {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
         return "";
+    }
+
+    public void initNewsArticles(ArrayList<NewsArticle> articles, String playerName, String dateString) {
+        BufferedReader in;
+        int index = 0;
+        try {
+            File txtFile = new File(bihFolder, "NEWS_meta.txt");
+            in = new BufferedReader(new FileReader(txtFile), 16 * 1024);
+            try (Scanner read = new Scanner(in)) {
+                read.useDelimiter("\n");
+
+                while (read.hasNext()) {
+                    String txt = read.next();
+                    if (txt.startsWith("// Ancillary")) {
+                        break; // End of items
+                    } else if (txt.startsWith("//")) {
+                        // Comment line, ignore
+                    } else if (txt.isEmpty()) {
+                        // Comment line, ignore
+                    } else {
+                        //LOGGER.log(Level.SEVERE, "Process: " + txt.substring(0, 12));
+                        int bodyStart = txt.indexOf("\r");
+                        if (bodyStart < 0) {
+                            // One of the news articles does not contain a '\r'
+                            // char to denote the headline. Instead we seek for
+                            // the unique text found there.
+                            bodyStart = txt.indexOf("ZED A") + 3;
+                        }
+
+                        // ASCII code 01 is used as a token for the player's name.
+                        String body = txt.substring(bodyStart + 1).replaceAll("\01", playerName);
+
+                        articles.add(new NewsArticle(
+                                (index < NewsArticle.defaultShow) ? dateString : "XX/XX/XX",
+                                txt.substring(0, bodyStart),
+                                body,
+                                index < NewsArticle.defaultShow // Show if index less than defaultShow number.
+                        ));
+
+                        index++;
+                    }
+                }
+            }
+            in.close();
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ResourceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     // TODO:
