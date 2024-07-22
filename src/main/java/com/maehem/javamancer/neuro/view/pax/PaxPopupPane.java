@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
+import static javafx.scene.input.KeyCode.DIGIT1;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -143,24 +144,31 @@ public class PaxPopupPane extends PopupPane {
                 }
             }
             case MENU -> {
-                if (keyEvent.getCode().isDigitKey()) {
-                    String text = keyEvent.getText();
-                    if (text.equals("1")) {
+                switch (keyEvent.getCode()) {
+                    case DIGIT1 -> {
                         LOGGER.log(Level.CONFIG, "First Time User.");
                         getChildren().clear();
                         mode = Mode.FIRST;
                         getChildren().add(new PaxFirstTimeNode(resourceManager));
                         return false;
-                    } else if (text.equals("2")) {
+                    }
+                    case DIGIT2 -> {
                         LOGGER.log(Level.CONFIG, "Banking.");
                         getChildren().clear();
                         mode = Mode.BANKING;
                         paxNode = new PaxBankingNode(getGameState());
                         getChildren().add(paxNode);
                         return false;
-                    } else if (text.equals("3")) {
+                    }
+                    case DIGIT3 -> {
                         LOGGER.log(Level.CONFIG, "News.");
-                    } else if (text.equals("4")) {
+                        getChildren().clear();
+                        mode = Mode.NEWS;
+                        paxNode = new PaxNewsNode(getGameState(), resourceManager);
+                        getChildren().add(paxNode);
+                        return false;
+                    }
+                    case DIGIT4 -> {
                         LOGGER.log(Level.CONFIG, "BBS.");
                     }
                 }
@@ -182,7 +190,15 @@ public class PaxPopupPane extends PopupPane {
                     return false;
                 }
                 return false;
-
+            }
+            case NEWS -> {
+                if (paxNode.handleEvent(keyEvent)) {
+                    // Exit bank menu
+                    getChildren().clear();
+                    mode = Mode.MENU;
+                    getChildren().add(modeMenu());
+                }
+                return false;
             }
         }
 
