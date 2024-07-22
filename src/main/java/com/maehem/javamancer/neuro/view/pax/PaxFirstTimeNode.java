@@ -26,7 +26,9 @@
  */
 package com.maehem.javamancer.neuro.view.pax;
 
+import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.view.ResourceManager;
+import java.util.logging.Logger;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -39,6 +41,7 @@ import javafx.scene.transform.Scale;
  */
 public class PaxFirstTimeNode extends VBox {
 
+    public static final Logger LOGGER = Logging.LOGGER;
     public PaxFirstTimeNode(ResourceManager rm) {
         getTransforms().add(new Scale(1.333, 1.0));
         setLayoutX(20);

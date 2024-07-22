@@ -46,13 +46,8 @@ public class GameState {
     public String bankId = "056306118";
     public int constitution = 2000;
     public int cashWithdrawal = 0;
-    public int bankLastTransactionIndex = 0;
-    public BankTransaction bankTransactionRecord[] = new BankTransaction[]{
-        new BankTransaction(0x40, 120),
-        new BankTransaction(0x40, 56),
-        new BankTransaction(0x40, 75),
-        new BankTransaction(0xC0, 1000)
-    };
+    public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<BankTransaction>();
+
     public int timeMinute = 0;
     public int timeHour = 12;
     public int dateMonth = 11;
@@ -77,6 +72,13 @@ public class GameState {
     public boolean msgToArmitageSent = false;
 
     int x4bbf = 0xFF;
+
+    public GameState() {
+        bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 120));
+        bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 56));
+        bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 75));
+        bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Fine, 1000));
+    }
 
     public void addMinute() {
         if (++timeMinute > 59) {

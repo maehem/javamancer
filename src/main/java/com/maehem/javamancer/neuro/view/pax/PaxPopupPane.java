@@ -26,9 +26,12 @@
  */
 package com.maehem.javamancer.neuro.view.pax;
 
+import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.PopupPane;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
@@ -37,6 +40,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 
 /**
@@ -45,18 +49,29 @@ import javafx.scene.transform.Scale;
  */
 public class PaxPopupPane extends PopupPane {
 
+    public static final Logger LOGGER = Logging.LOGGER;
+    private final ResourceManager resourceManager;
+
+    private enum Mode {
+        ACCESS, MENU, FIRST, BANKING, NEWS, BBS
+    }
+
     private final String enterPrefix = "Enter verification code:";
     private final String enterCursor = "<";
     private final Text enterCode = new Text();
     StringBuilder enteredCode = new StringBuilder();
 
-    public PaxPopupPane(GameState gs) {
-        super(gs);
+    private Mode mode = Mode.ACCESS;
+    private PaxNode paxNode = null;
 
-        getChildren().add(loginBox());
+    public PaxPopupPane(GameState gs, ResourceManager rm) {
+        super(gs);
+        this.resourceManager = rm;
+
+        getChildren().add(modeAccess());
     }
 
-    private Node loginBox() {
+    private Node modeAccess() {
         Text title = new Text("PAX - Public Access System");
         Text words = new Text("Matt Shaw\nComlink\nChiba City");
         enterCode.setText(enterPrefix + enterCursor);
@@ -77,26 +92,103 @@ public class PaxPopupPane extends PopupPane {
         box.setLayoutX(30);
         box.setLayoutY(20);
 
-        setOnKeyPressed((keyEvent) -> {
-        });
+        return box;
+    }
+
+    private Node modeMenu() {
+        Text exitItem = new Text("X. Exit\n");
+        Text firstTimeItem = new Text("1. First Time PAX User Info.\n");
+        Text bankItem = new Text("2. Access Banking Interlink\n");
+        Text newsItem = new Text("3. Might City News\n");
+        Text bbsItem = new Text("4. Bulletin Board");
+        TextFlow menuItems = new TextFlow(
+                exitItem,
+                firstTimeItem,
+                bankItem,
+                newsItem,
+                bbsItem
+        );
+        menuItems.setLineSpacing(-6);
+
+        VBox box = new VBox(
+                menuItems,
+                new Text("          " + "choose a function")
+        );
+        box.setSpacing(6);
+        box.setPadding(new Insets(0));
+        box.getTransforms().add(new Scale(1.3, 1.0));
+        box.setLayoutX(30);
+        box.setLayoutY(20);
 
         return box;
     }
 
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
-        if (super.handleKeyEvent(keyEvent)) { // Check if X pressed.
-            return true;
+        switch (mode) {
+            case ACCESS -> {
+                if (enteredCode.length() < 12 && keyEvent.getCode().isDigitKey()) {
+                    LOGGER.log(Level.FINEST, "Typed." + keyEvent.getText());
+                    enteredCode.append(keyEvent.getText());
+                    enterCode.setText(enterPrefix + enteredCode.toString() + enterCursor);
+                } else if (enteredCode.length() > 0 && keyEvent.getCode().equals(KeyCode.BACK_SPACE)) {
+                    LOGGER.log(Level.FINEST, "Backspace.");
+                    enteredCode.delete(enteredCode.length() - 1, enteredCode.length());
+                    enterCode.setText(enterPrefix + enteredCode.toString() + enterCursor);
+                } else if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+                    getChildren().clear();
+                    mode = Mode.MENU;
+                    getChildren().add(modeMenu());
+                    return false;
+                }
+            }
+            case MENU -> {
+                if (keyEvent.getCode().isDigitKey()) {
+                    String text = keyEvent.getText();
+                    if (text.equals("1")) {
+                        LOGGER.log(Level.CONFIG, "First Time User.");
+                        getChildren().clear();
+                        mode = Mode.FIRST;
+                        getChildren().add(new PaxFirstTimeNode(resourceManager));
+                        return false;
+                    } else if (text.equals("2")) {
+                        LOGGER.log(Level.CONFIG, "Banking.");
+                        getChildren().clear();
+                        mode = Mode.BANKING;
+                        paxNode = new PaxBankingNode(getGameState());
+                        getChildren().add(paxNode);
+                        return false;
+                    } else if (text.equals("3")) {
+                        LOGGER.log(Level.CONFIG, "News.");
+                    } else if (text.equals("4")) {
+                        LOGGER.log(Level.CONFIG, "BBS.");
+                    }
+                }
+            }
+            case FIRST -> {
+                if (keyEvent.getCode().isLetterKey()) {
+                    getChildren().clear();
+                    mode = Mode.MENU;
+                    getChildren().add(modeMenu());
+                    return false;
+                }
+            }
+            case BANKING -> {
+                if (paxNode.handleEvent(keyEvent)) {
+                    // Exit bank menu
+                    getChildren().clear();
+                    mode = Mode.MENU;
+                    getChildren().add(modeMenu());
+                    return false;
+                }
+                return false;
+
+            }
         }
 
-        if (enteredCode.length() < 12 && keyEvent.getCode().isDigitKey()) {
-            LOGGER.log(Level.FINEST, "Typed." + keyEvent.getText());
-            enteredCode.append(keyEvent.getText());
-            enterCode.setText(enterPrefix + enteredCode.toString() + enterCursor);
-        } else if (enteredCode.length() > 0 && keyEvent.getCode().equals(KeyCode.BACK_SPACE)) {
-            LOGGER.log(Level.FINEST, "Backspace.");
-            enteredCode.delete(enteredCode.length() - 1, enteredCode.length());
-            enterCode.setText(enterPrefix + enteredCode.toString() + enterCursor);
+        // No one else handled the X or ESC, so quit PAX.
+        if (super.handleKeyEvent(keyEvent)) { // Check if X pressed.
+            return true;
         }
 
         return false;

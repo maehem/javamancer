@@ -24,32 +24,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro.model;
+package com.maehem.javamancer.neuro.view.pax;
+
+import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.GameState;
+import java.util.logging.Logger;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class BankTransaction {
+public abstract class PaxNode extends Pane {
 
-    public enum Operation {
-        Download, Upload, Fine
+    public static final Logger LOGGER = Logging.LOGGER;
+    protected final GameState gameState;
+
+    public PaxNode(GameState gs) {
+        this.gameState = gs;
     }
 
-    public final String date;
-    public final Operation op;
-    public final int amount;
-
-    public BankTransaction(String date, Operation op, int amount) {
-        this.date = date;
-        this.op = op;
-        this.amount = amount;
-    }
-
-    @Override
-    public String toString() {
-        return date + " " + String.format("%-8s", op.name()) + " " + String.format("%1$10s", amount);
-    }
-
+    public abstract boolean handleEvent(KeyEvent ke);
 
 }

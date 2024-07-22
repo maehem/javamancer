@@ -282,22 +282,22 @@ public class RoomMode extends NeuroModePane {
     private void showPopup( Popup pop) {
         switch( pop ) {
             case INVENTORY -> {
-                popup = new PaxPopupPane(getGameState());
+                popup = new PaxPopupPane(getGameState(), getResourceManager());
             }
             case PAX -> {
-                popup = new PaxPopupPane(getGameState());
+                popup = new PaxPopupPane(getGameState(), getResourceManager());
             }
             case TALK -> {
-                popup = new PaxPopupPane(getGameState());
+                popup = new PaxPopupPane(getGameState(), getResourceManager());
             }
             case SKILLS -> {
-                popup = new PaxPopupPane(getGameState());
+                popup = new PaxPopupPane(getGameState(), getResourceManager());
             }
             case ROM -> {
-                popup = new PaxPopupPane(getGameState());
+                popup = new PaxPopupPane(getGameState(), getResourceManager());
             }
             case DISK -> {
-                popup = new PaxPopupPane(getGameState());
+                popup = new PaxPopupPane(getGameState(), getResourceManager());
             }
         }
         getChildren().add(popup);
@@ -326,7 +326,7 @@ public class RoomMode extends NeuroModePane {
                 statusText.setText(time);
             }
             case CREDIT -> {
-                statusText.setText("$" + String.format("%1$9s", String.valueOf(getGameState().cash)));
+                statusText.setText("$" + String.format("%1$9s", String.valueOf(getGameState().chipBalance)));
             }
             case CONSTITUTION -> {
                 statusText.setText(String.format("%1$10s", String.valueOf(gs.constitution)));
