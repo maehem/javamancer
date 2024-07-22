@@ -138,6 +138,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                         gameState.name = s;
                     }
                     LOGGER.log(Level.CONFIG, "New Game with player name: {0}", gameState.name);
+                    initGame();
 
                     // Change mode to Room 1.
                     setMode(new RoomMode(this, resourceManager, gameState, Room.R1));
@@ -171,5 +172,14 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
     public final void setOnAction(EventHandler<ActionEvent> handler) {
         actionHandler = handler;
+    }
+
+    private void initGame() {
+        resourceManager.initNewsArticles(
+                gameState.news,
+                gameState.name,
+                gameState.getDateString()
+        );
+        int a = 0;
     }
 }
