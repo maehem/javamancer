@@ -47,6 +47,7 @@ public class GameState {
     public int constitution = 2000;
     public int cashWithdrawal = 0;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<BankTransaction>();
+    public final ArrayList<NewsArticle> news = new ArrayList<>();
 
     public int timeMinute = 0;
     public int timeHour = 12;
@@ -94,6 +95,14 @@ public class GameState {
             }
             timeMinute = 0;
         }
+    }
+
+    public String getDateString() {
+        String month = String.format("%02d", dateMonth);
+        String day = String.format("%02d", dateDay);
+        String year = String.format("%04d", dateYear).substring(2);
+
+        return month + "/" + day + "/" + year;
     }
 }
 
