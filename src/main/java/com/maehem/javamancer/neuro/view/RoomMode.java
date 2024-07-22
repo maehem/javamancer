@@ -314,10 +314,7 @@ public class RoomMode extends NeuroModePane {
         GameState gs = getGameState();
         switch (statusMode) {
             case DATE -> {
-                String month = String.format("%02d", gs.dateMonth);
-                String day = String.format("%02d", gs.dateDay);
-                String year = String.format("%04d", gs.dateYear).substring(2);
-                statusText.setText(" " + month + "/" + day + "/" + year);
+                statusText.setText(" " + gs.getDateString());
             }
             case TIME -> {
                 String hour = String.format("%02d", gs.timeHour);
