@@ -43,7 +43,7 @@ public class GameState {
     public int activeSkillLevel = 0;
     public int chipBalance = 6;
     public int bankBalance = 2000;
-    public String bankId = "056306118";
+    public String bamaId = "056306118";
     public int constitution = 2000;
     public int cashWithdrawal = 0;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<BankTransaction>();

@@ -107,7 +107,7 @@ public class PaxBankingNode extends PaxNode {
         GridPane infoGrid = new GridPane(2, 2);
 
         Text nameItem = new Text("name: " + gameState.name);
-        Text idItem = new Text("id = " + gameState.bankId);
+        Text idItem = new Text("id = " + gameState.bamaId);
         Text chipItem = new Text("chip = " + gameState.chipBalance);
         Text bankItem = new Text("account = " + gameState.bankBalance);
         infoGrid.addRow(0, nameItem, idItem);
