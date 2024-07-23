@@ -182,8 +182,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         );
         resourceManager.initBbsMessages(
                 gameState.bbs,
-                gameState.name,
-                gameState.getDateString()
+                gameState.name
         );
     }
 }
