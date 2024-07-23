@@ -244,20 +244,25 @@ public class PaxBbsNode extends PaxNode {
         //Text msgText = new Text("");
         msgCaretText = new Text("");
         Text newLineText = new Text("\n");
+        Text newLineText2 = new Text("\n");
 
         TextFlow tf = new TextFlow(dateText,
                 toText, sendToText, toCaretText,
                 newLineText,
-                sendMsgText, msgCaretText);
+                sendMsgText, msgCaretText,
+                newLineText2
+        );
         tf.setLineSpacing(-8);
+        tf.setMinHeight(138);
+        tf.setMaxSize(460, 138);
         VBox box = new VBox(
                 header,
                 tf
         );
         box.setSpacing(8);
         box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinWidth(518);
-        box.setPrefWidth(518);
+        box.setMinWidth(480);
+        box.setPrefWidth(480);
         box.setMinHeight(200);
         box.setPadding(new Insets(0, 0, 0, 6));
         VBox.setVgrow(tf, Priority.ALWAYS);
@@ -345,25 +350,28 @@ public class PaxBbsNode extends PaxNode {
                         sendMessage();
                         modeMenu();
                     }
-                    case ENTER, TAB -> { // Toggle send sub-mode
+                    case TAB -> { // Toggle send sub-mode
                         if (sendMode.equals(SendMode.TO)) {
                             updateSendMode(SendMode.MESSAGE);
                         } else {
                             updateSendMode(SendMode.TO);
                         }
                     }
+                    case ENTER -> { // Toggle send sub-mode
+                        if (sendMode.equals(SendMode.TO)) {
+                            updateSendMode(SendMode.MESSAGE);
+                        } else {
+                            handleTypedMsg(ke);
+                        }
+                    }
                     default -> {
-                        if (ke.getCode().isDigitKey()
-                                || ke.getCode().isLetterKey()
-                                || ke.getCode().equals(KeyCode.BACK_SPACE)) {
-                            // Typed value
-                            switch (sendMode) {
-                                case TO -> {
-                                    handleTypedTo(ke);
-                                }
-                                case MESSAGE -> {
-                                    handleTypedMsg(ke);
-                                }
+                        // Typed value
+                        switch (sendMode) {
+                            case TO -> {
+                                handleTypedTo(ke);
+                            }
+                            case MESSAGE -> {
+                                handleTypedMsg(ke);
                             }
                         }
                     }
@@ -397,6 +405,7 @@ public class PaxBbsNode extends PaxNode {
             }
         }
     }
+
     private void handleTypedTo(KeyEvent ke) {
         if (typedTo.length() < 12 && ke.getCode().isLetterKey()) {
             LOGGER.log(Level.FINEST, "Typed: {0}", ke.getText());
@@ -414,7 +423,35 @@ public class PaxBbsNode extends PaxNode {
     }
 
     private void handleTypedMsg(KeyEvent ke) {
-        if (typedMessage.length() < 255 && ke.getCode().isLetterKey()) {
+        KeyCode code = ke.getCode();
+        if (typedMessage.length() < 205 && (code.isLetterKey() || code.isDigitKey()
+                || code.isWhitespaceKey()
+                || code.equals(KeyCode.PERIOD)
+                || code.equals(KeyCode.COMMA)
+                || code.equals(KeyCode.SEMICOLON)
+                || code.equals(KeyCode.QUOTE)
+                || code.equals(KeyCode.QUOTEDBL)
+                || code.equals(KeyCode.ENTER)
+                || code.equals(KeyCode.DOLLAR)
+                || code.equals(KeyCode.POUND)
+                || code.equals(KeyCode.EXCLAMATION_MARK)
+                || code.equals(KeyCode.AMPERSAND)
+                || code.equals(KeyCode.ASTERISK)
+                || code.equals(KeyCode.OPEN_BRACKET)
+                || code.equals(KeyCode.CLOSE_BRACKET)
+                || code.equals(KeyCode.SLASH)
+                || code.equals(KeyCode.BRACELEFT)
+                || code.equals(KeyCode.BRACERIGHT)
+                || code.equals(KeyCode.MINUS)
+                || code.equals(KeyCode.EQUALS)
+                || code.equals(KeyCode.PLUS)
+                || code.equals(KeyCode.UNDERSCORE)
+                || code.equals(KeyCode.RIGHT_PARENTHESIS)
+                || code.equals(KeyCode.LEFT_PARENTHESIS)
+                || code.equals(KeyCode.CIRCUMFLEX)
+                || "~".equals(ke.getCharacter())
+                || "%".equals(ke.getCharacter())
+                || code.equals(KeyCode.ENTER))) {
             LOGGER.log(Level.FINEST, "Typed: {0}", ke.getText());
             typedMessage.append(ke.getText());
             sendMsgText.setText(typedMessage.toString());
