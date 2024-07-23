@@ -50,7 +50,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 
@@ -72,8 +71,8 @@ public class PaxBbsNode extends PaxNode {
     private int messageIndex = 0;
     private int numMessages = 0;
 
-    public PaxBbsNode(GameState gs, ResourceManager rm) {
-        super(gs);
+    public PaxBbsNode(PaxNodeListener l, GameState gs, ResourceManager rm) {
+        super(l, gs);
         this.resourceManager = rm;
 
         messageListPage();
@@ -83,15 +82,19 @@ public class PaxBbsNode extends PaxNode {
         getChildren().clear();
         mode = Mode.LIST;
 
-        Text header = new Text("     Bulletin Board\n"
-                + "   date     to            from");
+        Text header = new Text("Bulletin Board\n"
+                + "       date to            from");
+        Text previous = new Text("previous");
+        previous.setVisible(messageIndex > 0);
         Text exit = new Text("exit");
         Text more = new Text("more");
+        more.setVisible(messageIndex < numAvailMessages() - NUM_MESSAGES);
         HBox gapBox = new HBox(new Region());
-        HBox navBox = new HBox(exit, more);
-        navBox.setAlignment(Pos.BASELINE_CENTER);
+        HBox navBox = new HBox(previous, exit, more);
+        //navBox.setAlignment(Pos.BASELINE_CENTER);
         navBox.setSpacing(20);
-        exit.setTextAlignment(TextAlignment.CENTER);
+        navBox.setPadding(new Insets(0, 0, 0, 130));
+        //exit.setTextAlignment(TextAlignment.CENTER);
         TextFlow tf = new TextFlow();
         tf.setLineSpacing(-8);
         VBox box = new VBox(
@@ -112,6 +115,16 @@ public class PaxBbsNode extends PaxNode {
         buildMessageList(tf);
 
         getChildren().add(box);
+
+        previous.setOnMouseClicked((t) -> {
+            handleEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, UP, true, true, true, true));
+        });
+        exit.setOnMouseClicked((t) -> {
+            listener.paxNodeExit();
+        });
+        more.setOnMouseClicked((t) -> {
+            handleEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, DOWN, true, true, true, true));
+        });
     }
 
     private void buildMessageList(TextFlow tf) {
@@ -121,7 +134,12 @@ public class PaxBbsNode extends PaxNode {
             if (i + messageIndex < articles.size()) {
                 BbsMessage article = articles.get(i + messageIndex);
                 if (article.show) {
-                    tf.getChildren().add(new Text((i + 1) + ". " + article.toListString() + "\n"));
+                    Text messageItem = new Text((i + 1) + ". " + article.toListString() + "\n");
+                    tf.getChildren().add(messageItem);
+                    final int n = i + 1;
+                    messageItem.setOnMouseClicked((t) -> {
+                        showMessage(gameState.bbs.get(n));
+                    });
                 }
             }
         }
@@ -133,6 +151,9 @@ public class PaxBbsNode extends PaxNode {
         getChildren().clear();
         mode = Mode.MESSAGE;
         Text heading = new Text(message.date);
+        Text back = new Text("back");
+        HBox navBox = new HBox(back);
+        navBox.setAlignment(Pos.BASELINE_CENTER);
         Text toText = new Text("TO: " + message.to + "\n");
         Text fromtext = new Text("FROM: " + message.from + "\n");
         TextFlow tf = new TextFlow(toText, fromtext, new Text(message.body));
@@ -140,17 +161,21 @@ public class PaxBbsNode extends PaxNode {
         tf.setLineSpacing(-8);
 
         ScrollPane sp = new ScrollPane(tf);
-        sp.setPrefSize(470, 176);
+        sp.setPrefSize(470, 180);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        VBox box = new VBox(heading, sp);
+        VBox box = new VBox(heading, sp, navBox);
         box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinSize(470, 204);
-        box.setMaxSize(470, 204);
+        box.setMinSize(470, 202);
+        box.setMaxSize(470, 202);
         box.setPadding(new Insets(0, 0, 0, 10));
 
         getChildren().add(box);
+
+        back.setOnMouseClicked((t) -> {
+            handleEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, X, true, true, true, true));
+        });
     }
 
     @Override
@@ -160,7 +185,7 @@ public class PaxBbsNode extends PaxNode {
                 try {
                     switch (ke.getCode()) {
                         case X -> {
-                            return true;
+                            listener.paxNodeExit();
                         }
                         case DIGIT1 -> {
                             showMessage(gameState.bbs.get(messageIndex));
@@ -178,15 +203,15 @@ public class PaxBbsNode extends PaxNode {
                             showMessage(gameState.bbs.get(messageIndex + 4));
                         }
                         case UP -> {
-                            if (messageIndex > 0) {
-                                messageIndex--;
+                            if (messageIndex >= NUM_MESSAGES) {
+                                messageIndex -= NUM_MESSAGES;
                                 LOGGER.log(Level.FINEST, "BBS Message Index: {0}/{1}", new Object[]{messageIndex, gameState.news.size()});
                                 messageListPage();
                             }
                         }
                         case DOWN -> {
                             if (messageIndex < numAvailMessages() - NUM_MESSAGES) {
-                                messageIndex++;
+                                messageIndex += NUM_MESSAGES;
                                 LOGGER.log(Level.FINEST, "BBS Message Index: {0}/{1}", new Object[]{messageIndex, gameState.news.size()});
                                 messageListPage();
                             }
