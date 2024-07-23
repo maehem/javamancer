@@ -170,6 +170,11 @@ public class PaxPopupPane extends PopupPane {
                     }
                     case DIGIT4 -> {
                         LOGGER.log(Level.CONFIG, "BBS.");
+                        getChildren().clear();
+                        mode = Mode.BBS;
+                        paxNode = new PaxBbsNode(getGameState(), resourceManager);
+                        getChildren().add(paxNode);
+                        return false;
                     }
                 }
             }
@@ -192,6 +197,15 @@ public class PaxPopupPane extends PopupPane {
                 return false;
             }
             case NEWS -> {
+                if (paxNode.handleEvent(keyEvent)) {
+                    // Exit bank menu
+                    getChildren().clear();
+                    mode = Mode.MENU;
+                    getChildren().add(modeMenu());
+                }
+                return false;
+            }
+            case BBS -> {
                 if (paxNode.handleEvent(keyEvent)) {
                     // Exit bank menu
                     getChildren().clear();
