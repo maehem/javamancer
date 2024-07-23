@@ -115,7 +115,7 @@ public class PaxBbsNode extends PaxNode {
     }
 
     private void buildMessageList(TextFlow tf) {
-        LOGGER.log(Level.SEVERE, "Build BBS Message List");
+        LOGGER.log(Level.FINER, "Build BBS Message List");
         ArrayList<BbsMessage> articles = gameState.bbs;
         for (int i = 0; i < NUM_MESSAGES; i++) {
             if (i + messageIndex < articles.size()) {
@@ -126,7 +126,7 @@ public class PaxBbsNode extends PaxNode {
             }
         }
         numMessages = tf.getChildren().size();
-        LOGGER.log(Level.SEVERE, "Num Messages: {0}", numMessages);
+        LOGGER.log(Level.FINER, "Num Messages: {0}", numMessages);
     }
 
     private void showMessage(BbsMessage message) {
@@ -180,14 +180,14 @@ public class PaxBbsNode extends PaxNode {
                         case UP -> {
                             if (messageIndex > 0) {
                                 messageIndex--;
-                                LOGGER.log(Level.SEVERE, "News Index: {0}/{1}", new Object[]{messageIndex, gameState.news.size()});
+                                LOGGER.log(Level.FINEST, "BBS Message Index: {0}/{1}", new Object[]{messageIndex, gameState.news.size()});
                                 messageListPage();
                             }
                         }
                         case DOWN -> {
                             if (messageIndex < numAvailMessages() - NUM_MESSAGES) {
                                 messageIndex++;
-                                LOGGER.log(Level.SEVERE, "News Index: {0}/{1}", new Object[]{messageIndex, gameState.news.size()});
+                                LOGGER.log(Level.FINEST, "BBS Message Index: {0}/{1}", new Object[]{messageIndex, gameState.news.size()});
                                 messageListPage();
                             }
                         }

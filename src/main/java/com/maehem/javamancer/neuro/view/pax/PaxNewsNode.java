@@ -111,7 +111,7 @@ public class PaxNewsNode extends PaxNode {
     }
 
     private void buildNewsList(TextFlow tf) {
-        LOGGER.log(Level.SEVERE, "Build News List");
+        LOGGER.log(Level.FINER, "Build News List");
         ArrayList<NewsArticle> articles = gameState.news;
         for (int i = 0; i < NUM_ARTICLES; i++) {
             if (i + newsIndex < articles.size()) {
@@ -122,7 +122,7 @@ public class PaxNewsNode extends PaxNode {
             }
         }
         numArticles = tf.getChildren().size();
-        LOGGER.log(Level.SEVERE, "Num Articles: {0}", numArticles);
+        LOGGER.log(Level.FINER, "Num Articles: {0}", numArticles);
     }
 
     @Override
@@ -152,14 +152,14 @@ public class PaxNewsNode extends PaxNode {
                         case UP -> {
                             if (newsIndex > 0) {
                                 newsIndex--;
-                                LOGGER.log(Level.SEVERE, "News Index: {0}/{1}", new Object[]{newsIndex, gameState.news.size()});
+                                LOGGER.log(Level.FINEST, "News Index: {0}/{1}", new Object[]{newsIndex, gameState.news.size()});
                                 newsListPage();
                             }
                         }
                         case DOWN -> {
                             if (newsIndex < numAvailArticles() - NUM_ARTICLES) {
                                 newsIndex++;
-                                LOGGER.log(Level.SEVERE, "News Index: {0}/{1}", new Object[]{newsIndex, gameState.news.size()});
+                                LOGGER.log(Level.FINEST, "News Index: {0}/{1}", new Object[]{newsIndex, gameState.news.size()});
                                 newsListPage();
                             }
                         }
