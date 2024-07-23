@@ -185,6 +185,5 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                 gameState.name,
                 gameState.getDateString()
         );
-        int a = 0;
     }
 }
