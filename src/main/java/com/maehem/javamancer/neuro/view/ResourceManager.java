@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.NewsArticle;
 import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.TextResource;
@@ -194,6 +195,58 @@ public class ResourceManager {
                                 body,
                                 index < NewsArticle.defaultShow // Show if index less than defaultShow number.
                         ));
+
+                        index++;
+                    }
+                }
+            }
+            in.close();
+        } catch (FileNotFoundException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ResourceManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void initBbsMessages(ArrayList<BbsMessage> messages, String playerName, String dateString) {
+        BufferedReader in;
+        int index = 0;
+        try {
+            File txtFile = new File(bihFolder, "PAXBBS_meta.txt");
+            in = new BufferedReader(new FileReader(txtFile), 16 * 1024);
+            try (Scanner read = new Scanner(in)) {
+                read.useDelimiter("\n");
+
+                while (read.hasNext()) {
+                    String txt = read.next();
+                    if (txt.startsWith("// Ancillary")) {
+                        break; // End of items
+                    } else if (txt.startsWith("//")) {
+                        // Comment line, ignore
+                    } else if (txt.isEmpty()) {
+                        // Comment line, ignore
+                    } else {
+                        //LOGGER.log(Level.SEVERE, "Process: " + txt.substring(0, 12));
+                        String[] split = txt.split("\r");
+                        String to = "???";
+                        String from = "???";
+                        String body = "";
+                        for (String item : split) {
+                            if (item.startsWith("TO:")) {
+                                to = item.split(":")[1].replaceAll("\01", playerName).trim();
+                            } else if (item.startsWith("FROM:")) { // TODO: replace \01 might not be needed for 'from'.
+                                from = item.split(":")[1].replaceAll("\01", playerName).trim();
+                            } else {
+                                body += item + "\n";
+                            }
+                        }
+
+                        BbsMessage message = new BbsMessage((index < BbsMessage.defaultShow) ? dateString : "XX/XX/XX",
+                                to, from, body, true
+                        );
+
+                        messages.add(message);
 
                         index++;
                     }

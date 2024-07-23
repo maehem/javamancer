@@ -48,6 +48,7 @@ public class GameState {
     public int cashWithdrawal = 0;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<BankTransaction>();
     public final ArrayList<NewsArticle> news = new ArrayList<>();
+    public final ArrayList<BbsMessage> bbs = new ArrayList<>();
 
     public int timeMinute = 0;
     public int timeHour = 12;
@@ -60,6 +61,7 @@ public class GameState {
     public int roomPosX = 160;
     public int roomPosY = 0x69;
     public RoomBounds.Door useDoor = RoomBounds.Door.NONE;
+    // TODO: Use ArrayList for roomsVisited
     public final boolean roomIsVisited[] = { // 58 Slots  [0..57]
         false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false,
