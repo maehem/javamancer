@@ -51,7 +51,7 @@ import javafx.scene.transform.Scale;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class RoomMode extends NeuroModePane {
+public class RoomMode extends NeuroModePane implements PopupListener {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
@@ -59,7 +59,9 @@ public class RoomMode extends NeuroModePane {
         DATE, TIME, CREDIT, CONSTITUTION
     }
 
-    private enum Popup { INVENTORY, PAX, TALK, SKILLS, ROM, DISK }
+    private enum Popup {
+        INVENTORY, PAX, TALK, SKILLS, ROM, DISK
+    }
 
     private static final int ROW_1_Y = 292;
     private static final int ROW_2_Y = 340;
@@ -211,10 +213,7 @@ public class RoomMode extends NeuroModePane {
         setOnKeyPressed((keyEvent) -> {
             if (popup != null) {
                 if (popup.handleKeyEvent(keyEvent)) { // Returns true on X or ESC.
-                    popup.setVisible(false);
-                    getChildren().remove(popup);
-                    popup = null;
-                    getGameState().pause = false;
+                    paxExit();
                 }
             } else {
                 switch (keyEvent.getCode()) {
@@ -279,25 +278,25 @@ public class RoomMode extends NeuroModePane {
         roomPane.tick(getGameState());
     }
 
-    private void showPopup( Popup pop) {
-        switch( pop ) {
+    private void showPopup(Popup pop) {
+        switch (pop) {
             case INVENTORY -> {
-                popup = new PaxPopupPane(getGameState(), getResourceManager());
+                popup = new PaxPopupPane(this, getGameState(), getResourceManager());
             }
             case PAX -> {
-                popup = new PaxPopupPane(getGameState(), getResourceManager());
+                popup = new PaxPopupPane(this, getGameState(), getResourceManager());
             }
             case TALK -> {
-                popup = new PaxPopupPane(getGameState(), getResourceManager());
+                popup = new PaxPopupPane(this, getGameState(), getResourceManager());
             }
             case SKILLS -> {
-                popup = new PaxPopupPane(getGameState(), getResourceManager());
+                popup = new PaxPopupPane(this, getGameState(), getResourceManager());
             }
             case ROM -> {
-                popup = new PaxPopupPane(getGameState(), getResourceManager());
+                popup = new PaxPopupPane(this, getGameState(), getResourceManager());
             }
             case DISK -> {
-                popup = new PaxPopupPane(getGameState(), getResourceManager());
+                popup = new PaxPopupPane(this, getGameState(), getResourceManager());
             }
         }
         getChildren().add(popup);
@@ -352,6 +351,14 @@ public class RoomMode extends NeuroModePane {
             r.setOpacity(0.01);
         });
         return r;
+    }
+
+    @Override
+    public void paxExit() {
+        popup.setVisible(false);
+        getChildren().remove(popup);
+        popup = null;
+        getGameState().pause = false;
     }
 
 }
