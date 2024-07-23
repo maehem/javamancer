@@ -30,6 +30,8 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.logging.Logger;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -39,10 +41,12 @@ import javafx.scene.transform.Scale;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class PaxFirstTimeNode extends VBox {
+public class PaxFirstTimeNode extends PaxNode {
 
     public static final Logger LOGGER = Logging.LOGGER;
-    public PaxFirstTimeNode(ResourceManager rm) {
+    public PaxFirstTimeNode(PaxNodeListener l, ResourceManager rm) {
+        super(l, null);
+
         getTransforms().add(new Scale(1.333, 1.0));
         setLayoutX(20);
         setLayoutY(0);
@@ -66,8 +70,21 @@ public class PaxFirstTimeNode extends VBox {
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        getChildren().addAll(title, sp);
+        VBox box = new VBox(title, sp);
+        VBox.setVgrow(sp, Priority.ALWAYS);
 
+        getChildren().addAll(box);
+
+        setOnMouseClicked((t) -> {
+            listener.paxNodeExit();
+        });
+
+    }
+
+    @Override
+    public boolean handleEvent(KeyEvent ke) {
+        listener.paxNodeExit();
+        return false;
     }
 
 }

@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.view.pax;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.PopupPane;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.logging.Level;
@@ -36,6 +37,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import static javafx.scene.input.KeyCode.DIGIT1;
+import static javafx.scene.input.KeyCode.DIGIT2;
+import static javafx.scene.input.KeyCode.DIGIT3;
+import static javafx.scene.input.KeyCode.DIGIT4;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -52,6 +56,7 @@ public class PaxPopupPane extends PopupPane implements PaxNodeListener {
 
     public static final Logger LOGGER = Logging.LOGGER;
     private final ResourceManager resourceManager;
+    private final PopupListener listener;
 
     private enum Mode {
         ACCESS, MENU, FIRST, BANKING, NEWS, BBS
@@ -65,8 +70,9 @@ public class PaxPopupPane extends PopupPane implements PaxNodeListener {
     private Mode mode = Mode.ACCESS;
     private PaxNode paxNode = null;
 
-    public PaxPopupPane(GameState gs, ResourceManager rm) {
+    public PaxPopupPane(PopupListener l, GameState gs, ResourceManager rm) {
         super(gs);
+        this.listener = l;
         this.resourceManager = rm;
 
         getChildren().add(modeAccess());
@@ -113,14 +119,28 @@ public class PaxPopupPane extends PopupPane implements PaxNodeListener {
 
         VBox box = new VBox(
                 menuItems,
-                new Text("          " + "choose a function")
+                new Text("\n          " + "choose a function")
         );
         box.setSpacing(6);
-        box.setPadding(new Insets(0));
         box.getTransforms().add(new Scale(1.3, 1.0));
         box.setLayoutX(30);
         box.setLayoutY(20);
 
+        exitItem.setOnMouseClicked((t) -> {
+            listener.paxExit();
+        });
+        firstTimeItem.setOnMouseClicked((t) -> {
+            handleKeyEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, DIGIT1, true, true, true, true));
+        });
+        bankItem.setOnMouseClicked((t) -> {
+            handleKeyEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, DIGIT2, true, true, true, true));
+        });
+        newsItem.setOnMouseClicked((t) -> {
+            handleKeyEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, DIGIT3, true, true, true, true));
+        });
+        bbsItem.setOnMouseClicked((t) -> {
+            handleKeyEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, DIGIT4, true, true, true, true));
+        });
         return box;
     }
 
@@ -149,7 +169,7 @@ public class PaxPopupPane extends PopupPane implements PaxNodeListener {
                         LOGGER.log(Level.CONFIG, "First Time User.");
                         getChildren().clear();
                         mode = Mode.FIRST;
-                        getChildren().add(new PaxFirstTimeNode(resourceManager));
+                        getChildren().add(new PaxFirstTimeNode(this, resourceManager));
                         return false;
                     }
                     case DIGIT2 -> {

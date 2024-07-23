@@ -121,7 +121,12 @@ public class PaxNewsNode extends PaxNode {
             if (i + newsIndex < articles.size()) {
                 NewsArticle article = articles.get(i + newsIndex);
                 if (article.show) {
-                    tf.getChildren().add(new Text((i + 1) + ". " + article.toListString() + "\n"));
+                    final int n = i;
+                    Text lineItem = new Text((n + 1) + ". " + article.toListString() + "\n");
+                    tf.getChildren().add(lineItem);
+                    lineItem.setOnMouseClicked((t) -> {
+                        showArticle(gameState.news.get(newsIndex + n));
+                    });
                 }
             }
         }
@@ -197,22 +202,29 @@ public class PaxNewsNode extends PaxNode {
         getChildren().clear();
         mode = Mode.ARTICLE;
         Text heading = new Text(article.headline);
+        Text back = new Text("back");
+        HBox navBox = new HBox(back);
+        navBox.setAlignment(Pos.BASELINE_CENTER);
         TextFlow tf = new TextFlow(new Text(article.body));
         tf.setPrefWidth(450);
         tf.setLineSpacing(-8);
 
         ScrollPane sp = new ScrollPane(tf);
-        sp.setPrefSize(470, 176);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        VBox.setVgrow(sp, Priority.ALWAYS);
 
-        VBox box = new VBox(heading, sp);
+        VBox box = new VBox(heading, sp, navBox);
         box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinSize(470, 204);
-        box.setMaxSize(470, 204);
+        box.setMinSize(470, 200);
+        box.setMaxSize(470, 200);
         box.setPadding(new Insets(0, 0, 0, 10));
 
         getChildren().add(box);
+
+        back.setOnMouseClicked((t) -> {
+            handleEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, X, true, true, true, true));
+        });
     }
 
     private int numAvailArticles() {
