@@ -31,6 +31,13 @@ package com.maehem.javamancer.neuro.model;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class BbsMessage {
+
+    public static final String msgDates[] = {
+        "11/14/58", "11/14/58", "11/14/58", "11/14/58", "11/14/58",
+        "11/15/58", "11/15/58", "11/16/58", "11/16/58", "11/16/58",
+        "11/16/58", "11/16/58"
+    };
+
     public String date;
     public final String to;
     public final String from;

@@ -209,7 +209,7 @@ public class ResourceManager {
 
     }
 
-    public void initBbsMessages(ArrayList<BbsMessage> messages, String playerName, String dateString) {
+    public void initBbsMessages(ArrayList<BbsMessage> messages, String playerName) {
         BufferedReader in;
         int index = 0;
         try {
@@ -242,8 +242,18 @@ public class ResourceManager {
                             }
                         }
 
-                        BbsMessage message = new BbsMessage((index < BbsMessage.defaultShow) ? dateString : "XX/XX/XX",
-                                to, from, body, true
+                        String dateString;
+                        boolean showMessage;
+                        if (index < BbsMessage.msgDates.length) {
+                            dateString = BbsMessage.msgDates[index];
+                            showMessage = true;
+                        } else {
+                            dateString = "XX/XX/XX"; // To be filled in by game actions.
+                            showMessage = false;
+                        }
+
+                        BbsMessage message = new BbsMessage(dateString,
+                                to, from, body, showMessage
                         );
 
                         messages.add(message);
