@@ -70,8 +70,8 @@ public class PaxNewsNode extends PaxNode {
 
     private Mode mode = Mode.LIST;
 
-    public PaxNewsNode(GameState gs, ResourceManager rm) {
-        super(gs);
+    public PaxNewsNode(PaxNodeListener l, GameState gs, ResourceManager rm) {
+        super(l, gs);
         this.resourceManager = rm;
 
         newsListPage();
@@ -108,6 +108,10 @@ public class PaxNewsNode extends PaxNode {
         buildNewsList(tf);
 
         getChildren().add(box);
+
+        exit.setOnMouseClicked((t) -> {
+            listener.paxNodeExit();
+        });
     }
 
     private void buildNewsList(TextFlow tf) {
@@ -132,7 +136,7 @@ public class PaxNewsNode extends PaxNode {
                 try {
                     switch (ke.getCode()) {
                         case X -> {
-                            return true;
+                            listener.paxNodeExit();
                         }
                         case DIGIT1 -> {
                             showArticle(gameState.news.get(newsIndex));

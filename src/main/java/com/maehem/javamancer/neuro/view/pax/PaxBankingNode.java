@@ -60,8 +60,8 @@ public class PaxBankingNode extends PaxNode {
     private final Text insufficientFunds = new Text("Insufficient Funds!");
     StringBuilder enteredNumber = new StringBuilder();
 
-    public PaxBankingNode(GameState gameState) {
-        super(gameState);
+    public PaxBankingNode(PaxNodeListener l, GameState gameState) {
+        super(l, gameState);
 
         insufficientFunds.setVisible(false);
 

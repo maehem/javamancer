@@ -26,28 +26,11 @@
  */
 package com.maehem.javamancer.neuro.view.pax;
 
-import com.maehem.javamancer.logging.Logging;
-import com.maehem.javamancer.neuro.model.GameState;
-import java.util.logging.Logger;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class PaxNode extends Pane {
+public interface PaxNodeListener {
 
-    public static final Logger LOGGER = Logging.LOGGER;
-    protected final GameState gameState;
-    public final PaxNodeListener listener;
-
-    public PaxNode(PaxNodeListener listener, GameState gs) {
-        this.listener = listener;
-        this.gameState = gs;
-    }
-
-    public abstract boolean handleEvent(KeyEvent ke);
-
-
+    public void paxNodeExit();
 }
