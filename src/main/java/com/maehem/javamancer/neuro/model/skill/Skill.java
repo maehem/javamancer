@@ -24,28 +24,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro.model;
+package com.maehem.javamancer.neuro.model.skill;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum Skill {
-    NONE,
-    BARGAINING,
-    COPTALK,
-    WAREZ_ANALYSIS,
-    DEBUG,
-    HW_REPAIR,
-    ICE_BRAKING,
-    EVASION,
-    CRYPTOLOGY,
-    JAPANESE,
-    LOGIC,
-    PSYCHOANALYSIS,
-    PHENOMENOLOGY,
-    PHILOSOPHY,
-    SOPHISTRY,
-    ZEN,
-    MUSICIANSHIP;
+public abstract class Skill {
+
+    public enum Type {
+        NONE,
+        BARGAINING,
+        COPTALK,
+        WAREZ_ANALYSIS,
+        DEBUG,
+        HW_REPAIR,
+        ICE_BRAKING,
+        EVASION,
+        CRYPTOLOGY,
+        JAPANESE,
+        LOGIC,
+        PSYCHOANALYSIS,
+        PHENOMENOLOGY,
+        PHILOSOPHY,
+        SOPHISTRY,
+        ZEN,
+        MUSICIANSHIP
+    };
+
+    public abstract void use();
 }
