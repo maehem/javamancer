@@ -49,6 +49,7 @@ public class GameState {
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
     public final ArrayList<NewsArticle> news = new ArrayList<>();
     public final ArrayList<BbsMessage> bbs = new ArrayList<>();
+    public final ArrayList<InventoryItem> inventory = new ArrayList<>();
 
     public int timeMinute = 0;
     public int timeHour = 12;
