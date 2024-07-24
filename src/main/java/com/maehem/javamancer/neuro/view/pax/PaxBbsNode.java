@@ -85,6 +85,8 @@ public class PaxBbsNode extends PaxNode {
     private final StringBuilder typedMessage = new StringBuilder();
     private final Text sendToText = new Text("");
     private final Text sendMsgText = new Text("");
+    private boolean sendYNShowing = false;
+    private Text sendYN = new Text("Send message? Y/N");
 
     public PaxBbsNode(PaxNodeListener l, GameState gs, ResourceManager rm) {
         super(l, gs);
@@ -235,6 +237,11 @@ public class PaxBbsNode extends PaxNode {
         getChildren().clear();
         mode = Mode.SEND;
         sendMode = SendMode.TO;
+        sendToText.setText("");
+        sendMsgText.setText("");
+        typedTo.setLength(0);
+        typedMessage.setLength(0);
+        sendYN.setVisible(false);
 
         Text header = new Text("     Send Message\nPress ESC when done");
 
@@ -257,6 +264,7 @@ public class PaxBbsNode extends PaxNode {
         tf.setMaxSize(460, 138);
         VBox box = new VBox(
                 header,
+                sendYN,
                 tf
         );
         box.setSpacing(8);
@@ -344,34 +352,47 @@ public class PaxBbsNode extends PaxNode {
                 }
             }
             case SEND -> {
-                switch (ke.getCode()) {
-                    case ESCAPE -> {
-                        // Send message
-                        sendMessage();
-                        modeMenu();
-                    }
-                    case TAB -> { // Toggle send sub-mode
-                        if (sendMode.equals(SendMode.TO)) {
-                            updateSendMode(SendMode.MESSAGE);
-                        } else {
-                            updateSendMode(SendMode.TO);
+                if (sendYN.isVisible()) {
+                    switch (ke.getCode()) {
+                        case Y -> {
+                            sendMessage();
+                            modeMenu();
+                        }
+                        case N -> {
+                            sendYN.setVisible(false);
                         }
                     }
-                    case ENTER -> { // Toggle send sub-mode
-                        if (sendMode.equals(SendMode.TO)) {
-                            updateSendMode(SendMode.MESSAGE);
-                        } else {
-                            handleTypedMsg(ke);
-                        }
-                    }
-                    default -> {
-                        // Typed value
-                        switch (sendMode) {
-                            case TO -> {
-                                handleTypedTo(ke);
+                } else {
+                    switch (ke.getCode()) {
+                        case ESCAPE -> {
+                            // Send message
+                            if (!sendYN.isVisible()) {
+                                sendYN.setVisible(true);
                             }
-                            case MESSAGE -> {
+                        }
+                        case TAB -> { // Toggle send sub-mode
+                            if (sendMode.equals(SendMode.TO)) {
+                                updateSendMode(SendMode.MESSAGE);
+                            } else {
+                                updateSendMode(SendMode.TO);
+                            }
+                        }
+                        case ENTER -> { // Toggle send sub-mode
+                            if (sendMode.equals(SendMode.TO)) {
+                                updateSendMode(SendMode.MESSAGE);
+                            } else {
                                 handleTypedMsg(ke);
+                            }
+                        }
+                        default -> {
+                            // Typed value
+                            switch (sendMode) {
+                                case TO -> {
+                                    handleTypedTo(ke);
+                                }
+                                case MESSAGE -> {
+                                    handleTypedMsg(ke);
+                                }
                             }
                         }
                     }
@@ -486,5 +507,31 @@ public class PaxBbsNode extends PaxNode {
 
         LOGGER.log(Level.SEVERE, "Message sent to: {0}", typedTo);
         // Check if to armitage and contains BAMA id.
+        if ("armitage".equals(typedTo.toString().toLowerCase())
+                && typedMessage.indexOf(gameState.bamaId) >= 0) {
+            LOGGER.log(Level.SEVERE, "Found message to armitage with bama ID!");
+            if (!gameState.msgToArmitageSent) {
+                gameState.msgToArmitageSent = true;
+
+                // Activate Armitage message
+                BbsMessage toMove = null;
+                for (BbsMessage m : gameState.bbs) {
+                    if (m.from.equals("Armitage") && m.body.startsWith("Thanks")) {
+                        m.show = true;
+                        m.date = gameState.getDateString();
+                        toMove = m;
+                        break;
+                    }
+                }
+                if (toMove != null) {
+                    gameState.bbs.remove(toMove);
+                    gameState.bbs.add(index + 2, toMove);
+                    gameState.bankBalance += 10000;
+                    LOGGER.log(Level.CONFIG, "Armitage response sent to player.");
+                } else {
+                    LOGGER.log(Level.SEVERE, "Unexpected issue happened while configuring Armitage response message!");
+                }
+            }
+        }
     }
 }
