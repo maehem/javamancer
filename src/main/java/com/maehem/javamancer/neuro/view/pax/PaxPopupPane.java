@@ -127,7 +127,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
         box.setLayoutY(20);
 
         exitItem.setOnMouseClicked((t) -> {
-            listener.paxExit();
+            listener.popupExit();
         });
         firstTimeItem.setOnMouseClicked((t) -> {
             handleKeyEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, DIGIT1, true, true, true, true));

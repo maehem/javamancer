@@ -32,5 +32,5 @@ package com.maehem.javamancer.neuro.view;
  */
 public interface PopupListener {
 
-    public void paxExit();
+    public void popupExit();
 }

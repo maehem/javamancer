@@ -213,7 +213,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         setOnKeyPressed((keyEvent) -> {
             if (popup != null) {
                 if (popup.handleKeyEvent(keyEvent)) { // Returns true on X or ESC.
-                    paxExit();
+                    popupExit();
                 }
             } else {
                 switch (keyEvent.getCode()) {
@@ -281,7 +281,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     private void showPopup(Popup pop) {
         switch (pop) {
             case INVENTORY -> {
-                popup = new InventoryPopup(getGameState());
+                popup = new InventoryPopup(this, getGameState());
             }
             case PAX -> {
                 popup = new PaxPopupPane(this, getGameState(), getResourceManager());
@@ -354,7 +354,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     }
 
     @Override
-    public void paxExit() {
+    public void popupExit() {
         popup.setVisible(false);
         getChildren().remove(popup);
         popup = null;
