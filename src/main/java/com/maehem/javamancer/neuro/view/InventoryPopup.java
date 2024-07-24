@@ -27,8 +27,8 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.InventoryItem;
-import com.maehem.javamancer.neuro.model.ItemCatalog;
+import com.maehem.javamancer.neuro.model.item.InventoryItem;
+import com.maehem.javamancer.neuro.model.item.ItemCatalog;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
