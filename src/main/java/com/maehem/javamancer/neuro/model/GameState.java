@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model;
 
-import com.maehem.javamancer.neuro.model.item.InventoryItem;
+import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.ItemCatalog;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class GameState {
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
     public final ArrayList<NewsArticle> news = new ArrayList<>();
     public final ArrayList<BbsMessage> bbs = new ArrayList<>();
-    public final ArrayList<InventoryItem> inventory = new ArrayList<>();
+    public final ArrayList<Item> inventory = new ArrayList<>();
     public final ArrayList<Skill> skills = new ArrayList<>();
 
     public int timeMinute = 0;

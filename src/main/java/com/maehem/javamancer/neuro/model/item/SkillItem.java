@@ -30,19 +30,10 @@ package com.maehem.javamancer.neuro.model.item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class InventoryItem {
+public class SkillItem extends Item {
 
-    public final ItemCatalog item;
-
-    // Condition?
-    public InventoryItem(ItemCatalog item) {
-        this.item = item;
+    public SkillItem(Catalog item) {
+        super(item);
     }
-
-    @Override
-    public String toString() {
-        return item.itemName;
-    }
-
 
 }

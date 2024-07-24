@@ -27,7 +27,7 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.InventoryItem;
+import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.ItemCatalog;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -58,7 +58,7 @@ public class InventoryPopup extends SmallPopupPane {
     private int itemIndex = 0;
     private int numItems = 0;
     private Mode mode = Mode.MENU;
-    private InventoryItem currentItem = null;
+    private Item currentItem = null;
 
     public InventoryPopup(PopupListener l, GameState gs) {
         super(gs);
@@ -120,11 +120,11 @@ public class InventoryPopup extends SmallPopupPane {
 
     private void populateList(TextFlow tf) {
         LOGGER.log(Level.FINER, "Build Inventory List");
-        ArrayList<InventoryItem> articles = gameState.inventory;
+        ArrayList<Item> articles = gameState.inventory;
         for (int i = 0; i < NUM_ITEMS; i++) {
             if (i + itemIndex < articles.size()) {
                 String newLine = i > 0 ? "\n" : "";
-                InventoryItem item = articles.get(i + itemIndex);
+                Item item = articles.get(i + itemIndex);
                 Text listItem;
                 if (item.item.equals(ItemCatalog.CREDITS)) {
                     listItem = new Text(newLine + (i + 1) + ". " + item.item.itemName + " " + gameState.chipBalance);
