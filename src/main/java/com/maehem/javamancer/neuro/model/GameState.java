@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model;
 
+import com.maehem.javamancer.neuro.model.item.InventoryItem;
+import com.maehem.javamancer.neuro.model.item.ItemCatalog;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import java.util.ArrayList;
 
