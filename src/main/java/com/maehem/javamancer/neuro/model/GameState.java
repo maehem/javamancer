@@ -46,7 +46,7 @@ public class GameState {
     public String bamaId = "056306118";
     public int constitution = 2000;
     public int cashWithdrawal = 0;
-    public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<BankTransaction>();
+    public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
     public final ArrayList<NewsArticle> news = new ArrayList<>();
     public final ArrayList<BbsMessage> bbs = new ArrayList<>();
 
