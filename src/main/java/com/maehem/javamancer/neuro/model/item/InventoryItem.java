@@ -26,8 +26,6 @@
  */
 package com.maehem.javamancer.neuro.model.item;
 
-import com.maehem.javamancer.neuro.model.item.ItemCatalog;
-
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
