@@ -28,8 +28,8 @@ package com.maehem.javamancer.neuro.view.pax;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.view.LargePopupPane;
 import com.maehem.javamancer.neuro.view.PopupListener;
-import com.maehem.javamancer.neuro.view.PopupPane;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +52,7 @@ import javafx.scene.transform.Scale;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class PaxPopupPane extends PopupPane implements PaxNodeListener {
+public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
 
     public static final Logger LOGGER = Logging.LOGGER;
     private final ResourceManager resourceManager;
@@ -176,7 +176,7 @@ public class PaxPopupPane extends PopupPane implements PaxNodeListener {
                         LOGGER.log(Level.CONFIG, "Banking.");
                         getChildren().clear();
                         mode = Mode.BANKING;
-                        paxNode = new PaxBankingNode(this, getGameState());
+                        paxNode = new PaxBankingNode(this, gameState);
                         getChildren().add(paxNode);
                         return false;
                     }
@@ -184,7 +184,7 @@ public class PaxPopupPane extends PopupPane implements PaxNodeListener {
                         LOGGER.log(Level.CONFIG, "News.");
                         getChildren().clear();
                         mode = Mode.NEWS;
-                        paxNode = new PaxNewsNode(this, getGameState(), resourceManager);
+                        paxNode = new PaxNewsNode(this, gameState, resourceManager);
                         getChildren().add(paxNode);
                         return false;
                     }
@@ -192,7 +192,7 @@ public class PaxPopupPane extends PopupPane implements PaxNodeListener {
                         LOGGER.log(Level.CONFIG, "BBS.");
                         getChildren().clear();
                         mode = Mode.BBS;
-                        paxNode = new PaxBbsNode(this, getGameState(), resourceManager);
+                        paxNode = new PaxBbsNode(this, gameState, resourceManager);
                         getChildren().add(paxNode);
                         return false;
                     }
