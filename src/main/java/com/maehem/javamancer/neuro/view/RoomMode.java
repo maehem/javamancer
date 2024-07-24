@@ -281,7 +281,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     private void showPopup(Popup pop) {
         switch (pop) {
             case INVENTORY -> {
-                popup = new PaxPopupPane(this, getGameState(), getResourceManager());
+                popup = new InventoryPopup(getGameState());
             }
             case PAX -> {
                 popup = new PaxPopupPane(this, getGameState(), getResourceManager());
