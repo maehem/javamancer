@@ -44,16 +44,20 @@ import javafx.scene.transform.Scale;
  */
 public class InventoryPopup extends SmallPopupPane {
 
-    private enum Mode { MENU, DISCARD, OPERATE }
+    private final PopupListener listener;
+
+    private enum Mode {
+        MENU, DISCARD, OPERATE
+    }
 
     private static final int NUM_ITEMS = 4;
     private int itemIndex = 0;
     private int numItems = 0;
     private Mode mode = Mode.MENU;
 
-    public InventoryPopup(GameState gs) {
+    public InventoryPopup(PopupListener l, GameState gs) {
         super(gs);
-
+        this.listener = l;
         itemListPage();
     }
 
@@ -89,6 +93,10 @@ public class InventoryPopup extends SmallPopupPane {
         populateList(tf);
 
         getChildren().add(box);
+
+        exit.setOnMouseClicked((t) -> {
+            listener.popupExit();
+        });
     }
 
     private void populateList(TextFlow tf) {
