@@ -28,6 +28,8 @@ package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.InventoryItem;
+import com.maehem.javamancer.neuro.model.Item;
 import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.RoomPosition;
 import java.io.File;
@@ -184,5 +186,9 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                 gameState.bbs,
                 gameState.name
         );
+        gameState.inventory.add(new InventoryItem(Item.CREDITS));
+        gameState.inventory.add(new InventoryItem(Item.PAWNTICKET));
+        gameState.inventory.add(new InventoryItem(Item.SAKE));
+        gameState.inventory.add(new InventoryItem(Item.CAVIAR));
     }
 }
