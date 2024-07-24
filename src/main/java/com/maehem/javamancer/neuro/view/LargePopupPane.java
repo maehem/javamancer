@@ -26,41 +26,25 @@
  */
 package com.maehem.javamancer.neuro.view;
 
-import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import static com.maehem.javamancer.neuro.view.PopupPane.LOGGER;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static javafx.scene.input.KeyCode.ESCAPE;
-import static javafx.scene.input.KeyCode.X;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class PopupPane extends Pane {
+public abstract class LargePopupPane extends PopupPane {
 
-    public static final Logger LOGGER = Logging.LOGGER;
+    private static final int WIDTH = 632;
+    private static final int HEIGHT = 200;
 
-    public final GameState gameState;
-
-    public PopupPane(GameState gameState) {
-        this.gameState = gameState;
+    public LargePopupPane(GameState gs) {
+        super(gs);
+        setPrefSize(WIDTH, HEIGHT);
+        setMinSize(WIDTH, HEIGHT);
+        setLayoutX(4);
+        setLayoutY(16);
+        setId("neuro-popup");
     }
 
-    public boolean handleKeyEvent(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case X, ESCAPE -> {
-                LOGGER.log(Level.FINER, "User pressed X or ESC Key.");
-                return true;
-            }
-            default -> {
-            }
-        }
-
-        return false;
-    }
 
 }
