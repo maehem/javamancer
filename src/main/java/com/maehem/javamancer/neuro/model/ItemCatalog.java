@@ -30,7 +30,7 @@ package com.maehem.javamancer.neuro.model;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum Item {
+public enum ItemCatalog {
 
     /* 0x4469 */
 //static char *g_item_names[104] = {
@@ -149,7 +149,7 @@ public enum Item {
     public String itemName;
     public final Type type;
 
-    private Item(int num, String name, Type type) {
+    private ItemCatalog(int num, String name, Type type) {
         this.num = num;
         this.itemName = name;
         this.type = type;

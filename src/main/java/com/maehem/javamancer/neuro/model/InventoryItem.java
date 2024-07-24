@@ -32,10 +32,10 @@ package com.maehem.javamancer.neuro.model;
  */
 public class InventoryItem {
 
-    public final Item item;
+    public final ItemCatalog item;
 
     // Condition?
-    public InventoryItem(Item item) {
+    public InventoryItem(ItemCatalog item) {
         this.item = item;
     }
 

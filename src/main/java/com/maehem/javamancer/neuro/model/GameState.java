@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model;
 
+import com.maehem.javamancer.neuro.model.skill.Skill;
 import java.util.ArrayList;
 
 /**
@@ -38,8 +39,8 @@ public class GameState {
     public boolean pause = true;
     public int levelNumber = 0; // "Rn" = levelNumber + 1
     public boolean gasMaskIsOn = false;
-    public Item activeItem = Item.NONE;
-    public Skill activeSkill = Skill.NONE;
+    public ItemCatalog activeItem = ItemCatalog.NONE;
+    public Skill activeSkill = null;
     public int activeSkillLevel = 0;
     public int chipBalance = 6;
     public int bankBalance = 2000;
