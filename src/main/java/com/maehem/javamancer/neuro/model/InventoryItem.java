@@ -39,4 +39,10 @@ public class InventoryItem {
         this.item = item;
     }
 
+    @Override
+    public String toString() {
+        return item.itemName;
+    }
+
+
 }
