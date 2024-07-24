@@ -173,10 +173,12 @@ public class SkillsPopup extends SmallPopupPane {
 
     private Node itemUse(Skill skill) {
         Text text = new Text("Using item:\n");
-        Text text2 = new Text(skill.type.itemName);
+        Text text2 = new Text(skill.type.description);
 
         TextFlow tf = new TextFlow(text, text2);
 
+        tf.setMinHeight(78);
+        tf.setMaxHeight(78);
         return tf;
     }
 
