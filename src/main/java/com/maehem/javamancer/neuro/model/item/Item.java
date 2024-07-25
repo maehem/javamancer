@@ -26,119 +26,128 @@
  */
 package com.maehem.javamancer.neuro.model.item;
 
+import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.deck.Deck;
+import com.maehem.javamancer.neuro.model.skill.CopTalkSkill;
+import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.model.warez.Warez;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public abstract class Item {
 
+    public static final Logger LOGGER = Logging.LOGGER;
+
     public enum Catalog {
-        MIMIC(0, "Mimic", Type.SOFTWARE),
-        JAMMIES(1, "Jammies", Type.SOFTWARE),
-        THUNDERHEAD(2, "ThunderHead", Type.SOFTWARE),
-        VACCINE(3, "Vaccine", Type.SOFTWARE),
-        BLAMMO(4, "Blammo", Type.SOFTWARE),
-        DOORSTOP(5, "DoorStop", Type.SOFTWARE),
-        DECODER(6, "Decoder", Type.SOFTWARE),
-        SEQUENCER(7, "Sequencer", Type.SOFTWARE),
-        ARMORALL(8, "ArmorAll", Type.SOFTWARE),
-        KGB(9, "KGB", Type.SOFTWARE),
-        COMLINK(10, "Comlink", Type.SOFTWARE),
-        BLOWTORCH(11, "BlowTorch", Type.SOFTWARE),
-        PROBE(12, "Probe", Type.SOFTWARE),
-        DRILL(13, "Drill", Type.SOFTWARE),
-        HAMMER(14, "Hammer", Type.SOFTWARE),
-        PYTHON(15, "Python", Type.SOFTWARE),
-        ACID(16, "Acid", Type.SOFTWARE),
-        INJECTOR(17, "Injector", Type.SOFTWARE),
-        DEPTHCHARGE(18, "DepthCharge", Type.SOFTWARE),
-        CONCRETE(19, "Concrete", Type.SOFTWARE),
-        EASYRIDER(20, "EasyRider", Type.SOFTWARE),
-        LOGICBOMB(21, "LogicBomb", Type.SOFTWARE),
-        CYBERSPACE(22, "Cyberspace", Type.SOFTWARE),
-        SLOW(23, "Slow", Type.SOFTWARE),
-        BATTLECHESS(24, "BattleChess", Type.SOFTWARE),
-        BATTLECHESS2(25, "BattleChess II", Type.SOFTWARE),
-        SCOUT(26, "Scout", Type.SOFTWARE),
-        HEMLOCK(27, "Hemlock", Type.SOFTWARE),
-        KUANGELEVEN(28, "KuangEleven", Type.SOFTWARE),
-        HIKIGAERU(29, "Hiki Gaeru", Type.SOFTWARE),
-        GAIJIN(30, "Gaijin", Type.SOFTWARE),
-        BUSHIDO(31, "Bushido", Type.SOFTWARE),
-        EDOKKO(32, "Edokko", Type.SOFTWARE),
-        KATANA(33, "Katana", Type.SOFTWARE),
-        TOFU(34, "Tofu", Type.SOFTWARE),
-        SHOGUN(35, "Shogun", Type.SOFTWARE),
-        _188BJB(36, "188BJB", Type.SOFTWARE),
-        _350SL(37, "350SL", Type.SOFTWARE),
-        UNK01(38, "", Type.UNKNOWN),
-        UNK02(39, "", Type.UNKNOWN),
-        UXB(40, "UXB", Type.DECK),
-        UNK03(41, "", Type.UNKNOWN),
-        ZXB(42, "ZXB", Type.DECK),
-        CYBERSPACEII(43, "Cyberspace II", Type.DECK),
-        CYBERSPACEIII(44, "Cyberspace III", Type.DECK),
-        UNK04(45, "", Type.UNKNOWN),
-        CYBERSPACEVII(46, "Cyberspace VII", Type.DECK),
-        NINJA2000(47, "Ninja 2000", Type.DECK),
-        NINJA3000(48, "Ninja 3000", Type.DECK),
-        NINJA4000(49, "Ninja 4000", Type.DECK),
-        NINJA5000(50, "Ninja 5000", Type.DECK),
-        BLUELIGHTSPEC(51, "Blue Light Spec.", Type.DECK),
-        SAMURAISEVEN(52, "Samurai Seven", Type.DECK),
-        UNK05(53, "", Type.UNKNOWN),
-        UNK06(54, "", Type.UNKNOWN),
-        UNK07(55, "", Type.UNKNOWN),
-        UNK08(56, "", Type.UNKNOWN),
-        UNK09(57, "", Type.UNKNOWN),
-        UNK10(58, "", Type.UNKNOWN),
-        UNK11(59, "", Type.UNKNOWN),
-        UNK12(60, "", Type.UNKNOWN),
-        UNK13(61, "", Type.UNKNOWN),
-        UNK14(62, "", Type.UNKNOWN),
-        UNK15(63, "", Type.UNKNOWN),
-        UNK16(64, "", Type.UNKNOWN),
-        UNK17(65, "", Type.UNKNOWN),
-        UNK18(66, "", Type.UNKNOWN),
-        BARGANING(67, "Bargaining", Type.SKILL),
-        COPTALK(68, "CopTalk", Type.SKILL),
-        WAREZANALYSIS(69, "Warez Analysis", Type.SKILL),
-        DEBUG(70, "Debug", Type.SKILL),
-        HARDWAREREPAIR(71, "Hardware Repair", Type.SKILL),
-        ICEBREAKING(72, "ICE Breaking", Type.SKILL),
-        EVASION(73, "Evasion", Type.SKILL),
-        CRYPTOLOGY(74, "Cryptology", Type.SKILL),
-        JAPANESE(75, "Japanese", Type.SKILL),
-        LOGIC(76, "Logic", Type.SKILL),
-        PSYCHOANALYSIS(77, "Psychoanalysis", Type.SKILL),
-        PHENOMENOLOGY(78, "Phenomenology", Type.SKILL),
-        PHILOSOPHY(79, "Philosophy", Type.SKILL),
-        SOPHISTRY(80, "Sophistry", Type.SKILL),
-        ZEN(81, "Zen", Type.SKILL),
-        MUSICIANSHIP(82, "Musicianship", Type.SKILL),
-        CYBEREYES(83, "CyberEyes", Type.REAL),
-        UNK19(84, "", Type.UNKNOWN),
-        UNK20(85, "", Type.UNKNOWN),
-        GUESTPASS(86, "guest pass", Type.REAL),
-        UNK21(87, "", Type.UNKNOWN),
-        UNK22(88, "", Type.UNKNOWN),
-        JOYSTICK(89, "joystick", Type.REAL),
-        UNK23(90, "", Type.UNKNOWN),
-        UNK24(91, "", Type.UNKNOWN),
-        UNK25(92, "", Type.UNKNOWN),
-        UNK26(93, "", Type.UNKNOWN),
-        CAVIAR(94, "caviar", Type.REAL),
-        PAWNTICKET(95, "pawn ticket", Type.REAL),
-        SECURITYPASS(96, "Security Pass", Type.REAL),
-        ZIONTICKET(97, "Zion ticket", Type.REAL),
-        FREESIDETICKET(98, "Freeside ticket", Type.REAL),
-        UNK27(99, "", Type.UNKNOWN),
-        CHIBATICKET(100, "Chiba ticket", Type.REAL),
-        GASMASK(101, "gas mask", Type.REAL),
-        UNK28(102, "", Type.UNKNOWN),
-        SAKE(103, "sake", Type.REAL),
-        CREDITS(666, "Credits", Type.CREDITS),
-        NONE(999, "none", Type.UNKNOWN);
+        MIMIC(0, "Mimic", Warez.class),
+        JAMMIES(1, "Jammies", Warez.class),
+        THUNDERHEAD(2, "ThunderHead", Warez.class),
+        VACCINE(3, "Vaccine", Warez.class),
+        BLAMMO(4, "Blammo", Warez.class),
+        DOORSTOP(5, "DoorStop", Warez.class),
+        DECODER(6, "Decoder", Warez.class),
+        SEQUENCER(7, "Sequencer", Warez.class),
+        ARMORALL(8, "ArmorAll", Warez.class),
+        KGB(9, "KGB", Warez.class),
+        COMLINK(10, "Comlink", Warez.class),
+        BLOWTORCH(11, "BlowTorch", Warez.class),
+        PROBE(12, "Probe", Warez.class),
+        DRILL(13, "Drill", Warez.class),
+        HAMMER(14, "Hammer", Warez.class),
+        PYTHON(15, "Python", Warez.class),
+        ACID(16, "Acid", Warez.class),
+        INJECTOR(17, "Injector", Warez.class),
+        DEPTHCHARGE(18, "DepthCharge", Warez.class),
+        CONCRETE(19, "Concrete", Warez.class),
+        EASYRIDER(20, "EasyRider", Warez.class),
+        LOGICBOMB(21, "LogicBomb", Warez.class),
+        CYBERSPACE(22, "Cyberspace", Warez.class),
+        SLOW(23, "Slow", Warez.class),
+        BATTLECHESS(24, "BattleChess", Warez.class),
+        BATTLECHESS2(25, "BattleChess II", Warez.class),
+        SCOUT(26, "Scout", Warez.class),
+        HEMLOCK(27, "Hemlock", Warez.class),
+        KUANGELEVEN(28, "KuangEleven", Warez.class),
+        HIKIGAERU(29, "Hiki Gaeru", Warez.class),
+        GAIJIN(30, "Gaijin", Warez.class),
+        BUSHIDO(31, "Bushido", Warez.class),
+        EDOKKO(32, "Edokko", Warez.class),
+        KATANA(33, "Katana", Warez.class),
+        TOFU(34, "Tofu", Warez.class),
+        SHOGUN(35, "Shogun", Warez.class),
+        _188BJB(36, "188BJB", Warez.class), // Deck?
+        _350SL(37, "350SL", Warez.class), // Deck?
+        UNK01(38, "", Object.class),
+        UNK02(39, "", Object.class),
+        UXB(40, "UXB", Deck.class),
+        UNK03(41, "", Object.class),
+        ZXB(42, "ZXB", Deck.class),
+        CYBERSPACEII(43, "Cyberspace II", Deck.class),
+        CYBERSPACEIII(44, "Cyberspace III", Deck.class),
+        UNK04(45, "", Object.class),
+        CYBERSPACEVII(46, "Cyberspace VII", Deck.class),
+        NINJA2000(47, "Ninja 2000", Deck.class),
+        NINJA3000(48, "Ninja 3000", Deck.class),
+        NINJA4000(49, "Ninja 4000", Deck.class),
+        NINJA5000(50, "Ninja 5000", Deck.class),
+        BLUELIGHTSPEC(51, "Blue Light Spec.", Deck.class),
+        SAMURAISEVEN(52, "Samurai Seven", Deck.class),
+        UNK05(53, "", Object.class),
+        UNK06(54, "", Object.class),
+        UNK07(55, "", Object.class),
+        UNK08(56, "", Object.class),
+        UNK09(57, "", Object.class),
+        UNK10(58, "", Object.class),
+        UNK11(59, "", Object.class),
+        UNK12(60, "", Object.class),
+        UNK13(61, "", Object.class),
+        UNK14(62, "", Object.class),
+        UNK15(63, "", Object.class),
+        UNK16(64, "", Object.class),
+        UNK17(65, "", Object.class),
+        UNK18(66, "", Object.class),
+        BARGANING(67, "Bargaining", Skill.class),
+        COPTALK(68, "CopTalk", CopTalkSkill.class),
+        WAREZANALYSIS(69, "Warez Analysis", Skill.class),
+        DEBUG(70, "Debug", Skill.class),
+        HARDWAREREPAIR(71, "Hardware Repair", Skill.class),
+        ICEBREAKING(72, "ICE Breaking", Skill.class),
+        EVASION(73, "Evasion", Skill.class),
+        CRYPTOLOGY(74, "Cryptology", Skill.class),
+        JAPANESE(75, "Japanese", Skill.class),
+        LOGIC(76, "Logic", Skill.class),
+        PSYCHOANALYSIS(77, "Psychoanalysis", Skill.class),
+        PHENOMENOLOGY(78, "Phenomenology", Skill.class),
+        PHILOSOPHY(79, "Philosophy", Skill.class),
+        SOPHISTRY(80, "Sophistry", Skill.class),
+        ZEN(81, "Zen", Skill.class),
+        MUSICIANSHIP(82, "Musicianship", Skill.class),
+        CYBEREYES(83, "CyberEyes", RealItem.class),
+        UNK19(84, "", Object.class),
+        UNK20(85, "", Object.class),
+        GUESTPASS(86, "guest pass", RealItem.class),
+        UNK21(87, "", Object.class),
+        UNK22(88, "", Object.class),
+        JOYSTICK(89, "joystick", RealItem.class),
+        UNK23(90, "", Object.class),
+        UNK24(91, "", Object.class),
+        UNK25(92, "", Object.class),
+        UNK26(93, "", Object.class),
+        CAVIAR(94, "caviar", RealItem.class),
+        PAWNTICKET(95, "pawn ticket", RealItem.class),
+        SECURITYPASS(96, "Security Pass", RealItem.class),
+        ZIONTICKET(97, "Zion ticket", RealItem.class),
+        FREESIDETICKET(98, "Freeside ticket", RealItem.class),
+        UNK27(99, "", Object.class),
+        CHIBATICKET(100, "Chiba ticket", RealItem.class),
+        GASMASK(101, "gas mask", RealItem.class),
+        UNK28(102, "", Object.class),
+        SAKE(103, "sake", RealItem.class),
+        CREDITS(666, "Credits", Object.class),
+        NONE(999, "none", Object.class);
 
         public enum Type {
             REAL, SOFTWARE, DECK, SKILL, CREDITS, UNKNOWN
@@ -146,12 +155,12 @@ public abstract class Item {
 
         public int num;
         public String itemName;
-        public final Type type;
+        public final Class clazz;
 
-        private Catalog(int num, String name, Type type) {
+        private Catalog(int num, String name, Class clazz) {
             this.num = num;
             this.itemName = name;
-            this.type = type;
+            this.clazz = clazz;
         }
 
     }
@@ -162,6 +171,12 @@ public abstract class Item {
     public Item(Catalog item) {
         this.item = item;
     }
+
+    public String getName() {
+        return item.itemName;
+    }
+
+    public abstract void use();
 
     @Override
     public String toString() {
