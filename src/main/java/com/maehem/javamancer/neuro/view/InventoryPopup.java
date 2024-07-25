@@ -29,13 +29,13 @@ package com.maehem.javamancer.neuro.view;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
-import com.maehem.javamancer.neuro.model.item.ItemCatalog;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import static javafx.scene.input.KeyCode.DIGIT1;
 import static javafx.scene.input.KeyCode.N;
@@ -77,36 +77,22 @@ public class InventoryPopup extends SmallPopupPane {
         mode = Mode.MENU;
         currentItem = null;
 
-        Text heading = new Text("Inventory");
+        Text heading = new Text("      Items");
         Text previous = new Text("previous");
         previous.setVisible(itemIndex > 0);
         Text exit = new Text("exit");
         Text more = new Text("more");
         more.setVisible(itemIndex < gameState.inventory.size() - NUM_ITEMS);
         HBox navBox = new HBox(previous, exit, more);
-        //navBox.setAlignment(Pos.BASELINE_CENTER);
         navBox.setSpacing(20);
         navBox.setPadding(new Insets(0, 0, 0, 10));
-        //exit.setTextAlignment(TextAlignment.CENTER);
         TextFlow tf = new TextFlow();
         tf.setLineSpacing(-10);
         tf.setMinHeight(76);
-        VBox box = new VBox(
-                heading,
-                tf,
-                navBox
-        );
-        box.setSpacing(0);
-        box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinWidth(400);
-        box.setPrefWidth(400);
-        box.setMinHeight(160);
-        box.setMaxHeight(160);
-        box.setPadding(new Insets(0, 0, 0, 10));
+
+        addBox(heading, tf, navBox);
 
         populateList(tf);
-
-        getChildren().add(box);
 
         exit.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Clicked Inventory Exit.");
@@ -132,10 +118,10 @@ public class InventoryPopup extends SmallPopupPane {
                 String newLine = i > 0 ? "\n" : "";
                 Item item = articles.get(i + itemIndex);
                 Text listItem;
-                if (item.item.equals(ItemCatalog.CREDITS)) {
-                    listItem = new Text(newLine + (i + 1) + ". " + item.item.itemName + " " + gameState.chipBalance);
+                if (item.item.equals(Catalog.CREDITS)) {
+                    listItem = new Text(newLine + (i + 1) + ".  " + item.item.itemName + " " + gameState.chipBalance);
                 } else {
-                    listItem = new Text(newLine + (i + 1) + ". " + item.item.itemName);
+                    listItem = new Text(newLine + (i + 1) + ".  " + item.item.itemName);
                 }
 
                 tf.getChildren().add(listItem);
@@ -173,19 +159,7 @@ public class InventoryPopup extends SmallPopupPane {
         TextFlow tf = new TextFlow(exitText, operateText, discardText, giveText);
         tf.setLineSpacing(-10);
 
-        VBox box = new VBox(
-                heading,
-                tf
-        );
-        box.setSpacing(0);
-        box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinWidth(400);
-        box.setPrefWidth(400);
-        box.setMinHeight(160);
-        box.setMaxHeight(160);
-        box.setPadding(new Insets(0, 0, 0, 10));
-
-        getChildren().add(box);
+        addBox(heading, tf);
 
         exitText.setOnMouseClicked((t) -> {
             itemListPage();
@@ -199,7 +173,6 @@ public class InventoryPopup extends SmallPopupPane {
         giveText.setOnMouseClicked((t) -> {
             giveItem();
         });
-
     }
 
     @Override
@@ -303,19 +276,7 @@ public class InventoryPopup extends SmallPopupPane {
         tf.setLineSpacing(-10);
         tf.setPadding(new Insets(0, 0, 0, 110));
 
-        VBox box = new VBox(
-                heading, heading2,
-                tf
-        );
-        box.setSpacing(20);
-        box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinWidth(400);
-        box.setPrefWidth(400);
-        box.setMinHeight(160);
-        box.setMaxHeight(160);
-        box.setPadding(new Insets(0, 0, 0, 10));
-
-        getChildren().add(box);
+        addBox(heading, heading2, tf);
 
         yesText.setOnMouseClicked((t) -> {
             installSkillItem();
@@ -323,7 +284,6 @@ public class InventoryPopup extends SmallPopupPane {
         noText.setOnMouseClicked((t) -> {
             effectItem(); // Back to item's menu.
         });
-
     }
 
     private void installSkillItem() {
@@ -395,19 +355,7 @@ public class InventoryPopup extends SmallPopupPane {
         TextFlow tf = new TextFlow(statusText);
         tf.setLineSpacing(-8);
 
-        VBox box = new VBox(
-                heading, heading2,
-                tf
-        );
-        box.setSpacing(10);
-        box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinWidth(400);
-        box.setPrefWidth(400);
-        box.setMinHeight(160);
-        box.setMaxHeight(160);
-        box.setPadding(new Insets(0, 0, 0, 10));
-
-        getChildren().add(box);
+        VBox box = addBox(heading, heading2, tf);
 
         box.setOnMouseClicked((t) -> {
             itemListPage();
@@ -427,22 +375,9 @@ public class InventoryPopup extends SmallPopupPane {
         Text noText = new Text("N");
 
         TextFlow tf = new TextFlow(yesText, slashText, noText);
-        tf.setLineSpacing(-10);
         tf.setPadding(new Insets(0, 0, 0, 110));
 
-        VBox box = new VBox(
-                heading, heading2,
-                tf
-        );
-        box.setSpacing(20);
-        box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinWidth(400);
-        box.setPrefWidth(400);
-        box.setMinHeight(160);
-        box.setMaxHeight(160);
-        box.setPadding(new Insets(0, 0, 0, 10));
-
-        getChildren().add(box);
+        addBox(heading, heading2, tf).setSpacing(20);
 
         yesText.setOnMouseClicked((t) -> {
             disposeItem();
@@ -470,12 +405,20 @@ public class InventoryPopup extends SmallPopupPane {
         }
 
         TextFlow tf = new TextFlow(statusText);
-        tf.setLineSpacing(-8);
-        VBox box = new VBox(
-                heading, heading2,
-                tf
-        );
-        box.setSpacing(10);
+        //tf.setLineSpacing(30);
+
+        VBox box = addBox(heading, heading2, tf);
+        box.setSpacing(20);
+
+        box.setOnMouseClicked((t) -> {
+            itemListPage();
+        });
+
+    }
+
+    private VBox addBox(Node... nodes) {
+        VBox box = new VBox(nodes);
+        box.setSpacing(0);
         box.getTransforms().add(new Scale(1.33, 1.0));
         box.setMinWidth(400);
         box.setPrefWidth(400);
@@ -485,10 +428,7 @@ public class InventoryPopup extends SmallPopupPane {
 
         getChildren().add(box);
 
-        box.setOnMouseClicked((t) -> {
-            itemListPage();
-        });
-
+        return box;
     }
 
 }
