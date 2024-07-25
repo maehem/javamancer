@@ -28,7 +28,11 @@ package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.ItemCatalog;
+import com.maehem.javamancer.neuro.model.skill.Skill;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
@@ -51,7 +55,7 @@ public class InventoryPopup extends SmallPopupPane {
     private final PopupListener listener;
 
     private enum Mode {
-        MENU, EFFECT
+        MENU, EFFECT, INSTALL, INSTALL_SUMMARY
     }
 
     private static final int NUM_ITEMS = 4;
@@ -146,50 +150,54 @@ public class InventoryPopup extends SmallPopupPane {
     private void effectItem(int index) {
         if (itemIndex + index < gameState.inventory.size()) {
             currentItem = gameState.inventory.get(itemIndex + index);
-
-            getChildren().clear();
-            mode = Mode.EFFECT;
-            Text heading;
-            if (currentItem.item.equals(ItemCatalog.CREDITS)) {
-                heading = new Text(currentItem.item.itemName + " " + gameState.chipBalance);
-            } else {
-                heading = new Text(currentItem.item.itemName);
-            }
-            Text exitText = new Text("X. Exit\n");
-            Text operateText = new Text("O. Operate Item\n");
-            Text discardText = new Text("D. Discard Item\n");
-            Text giveText = new Text("G. Give Item");
-
-            TextFlow tf = new TextFlow(exitText, operateText, discardText, giveText);
-            tf.setLineSpacing(-10);
-
-            VBox box = new VBox(
-                    heading,
-                    tf
-            );
-            box.setSpacing(0);
-            box.getTransforms().add(new Scale(1.33, 1.0));
-            box.setMinWidth(400);
-            box.setPrefWidth(400);
-            box.setMinHeight(160);
-            box.setMaxHeight(160);
-            box.setPadding(new Insets(0, 0, 0, 10));
-
-            getChildren().add(box);
-
-            exitText.setOnMouseClicked((t) -> {
-                itemListPage();
-            });
-            operateText.setOnMouseClicked((t) -> {
-                operateItem();
-            });
-            discardText.setOnMouseClicked((t) -> {
-                discardItem();
-            });
-            giveText.setOnMouseClicked((t) -> {
-                giveItem();
-            });
+            effectItem();
         }
+    }
+
+    private void effectItem() {
+        getChildren().clear();
+        mode = Mode.EFFECT;
+        Text heading;
+        if (currentItem.item.equals(Catalog.CREDITS)) {
+            heading = new Text(currentItem.item.itemName + " " + gameState.chipBalance);
+        } else {
+            heading = new Text(currentItem.item.itemName);
+        }
+        Text exitText = new Text("X. Exit\n");
+        Text operateText = new Text("O. Operate Item\n");
+        Text discardText = new Text("D. Discard Item\n");
+        Text giveText = new Text("G. Give Item");
+
+        TextFlow tf = new TextFlow(exitText, operateText, discardText, giveText);
+        tf.setLineSpacing(-10);
+
+        VBox box = new VBox(
+                heading,
+                tf
+        );
+        box.setSpacing(0);
+        box.getTransforms().add(new Scale(1.33, 1.0));
+        box.setMinWidth(400);
+        box.setPrefWidth(400);
+        box.setMinHeight(160);
+        box.setMaxHeight(160);
+        box.setPadding(new Insets(0, 0, 0, 10));
+
+        getChildren().add(box);
+
+        exitText.setOnMouseClicked((t) -> {
+            itemListPage();
+        });
+        operateText.setOnMouseClicked((t) -> {
+            operateItem();
+        });
+        discardText.setOnMouseClicked((t) -> {
+            discardItem();
+        });
+        giveText.setOnMouseClicked((t) -> {
+            giveItem();
+        });
+
     }
 
     @Override
@@ -232,13 +240,31 @@ public class InventoryPopup extends SmallPopupPane {
                     }
                 }
             }
+            case INSTALL -> {
+                switch (code) {
+                    case Y -> {
+                        installSkillItem();
+                    }
+                    case N -> {
+                        effectItem();
+                    }
+                }
+            }
+            case INSTALL_SUMMARY -> {
+                itemListPage();  // Any key event
+            }
         }
 
         return false;
     }
 
     private void operateItem() {
-        LOGGER.log(Level.CONFIG, "Operate: {0}", currentItem);
+        if (currentItem != null) {
+            if (Skill.class.isAssignableFrom(currentItem.item.clazz)) {
+                LOGGER.log(Level.CONFIG, "Install: {0}", currentItem);
+                askInstallSkillItem();
+            }
+        }
     }
 
     private void discardItem() {
@@ -247,5 +273,131 @@ public class InventoryPopup extends SmallPopupPane {
 
     private void giveItem() {
         LOGGER.log(Level.CONFIG, "Give: {0}", currentItem);
+    }
+
+    private void askInstallSkillItem() {
+        getChildren().clear();
+        mode = Mode.INSTALL;
+        Text heading = new Text("     Install Skill");
+        int length = currentItem.getName().length();
+        Text heading2 = new Text(String.format("%1$" + (23 - length) + "s", currentItem.getName() + "?"));
+        Text yesText = new Text("Y");
+        Text slashText = new Text("/");
+        Text noText = new Text("N");
+
+        TextFlow tf = new TextFlow(yesText, slashText, noText);
+        tf.setLineSpacing(-10);
+        tf.setPadding(new Insets(0, 0, 0, 110));
+
+        VBox box = new VBox(
+                heading, heading2,
+                tf
+        );
+        box.setSpacing(20);
+        box.getTransforms().add(new Scale(1.33, 1.0));
+        box.setMinWidth(400);
+        box.setPrefWidth(400);
+        box.setMinHeight(160);
+        box.setMaxHeight(160);
+        box.setPadding(new Insets(0, 0, 0, 10));
+
+        getChildren().add(box);
+
+        yesText.setOnMouseClicked((t) -> {
+            installSkillItem();
+        });
+        noText.setOnMouseClicked((t) -> {
+            effectItem(); // Back to item's menu.
+        });
+
+    }
+
+    private void installSkillItem() {
+        LOGGER.log(Level.CONFIG, "Start install skill item.");
+        ArrayList<Skill> skills = gameState.skills;
+        boolean hasSkill = false;
+        for (Skill skill : skills) {
+            if (skill.getClass().equals(currentItem.item.clazz)) {
+                LOGGER.log(Level.CONFIG, "{0} already installed.", skill.type.itemName);
+                installSkillSummary(skill, false);
+                hasSkill = true;
+                break;
+            }
+        }
+
+        if (!hasSkill) {
+            LOGGER.log(Level.FINER, "Skill OK to install.");
+            try {
+                @SuppressWarnings("unchecked")
+                Constructor<?> ctor = currentItem.item.clazz.getConstructor();
+
+                Object object = ctor.newInstance(new Object[]{});
+                LOGGER.log(Level.FINER, "Object created.");
+                if (object instanceof Skill) {
+                    LOGGER.log(Level.FINER, "Try to install Skill...");
+                    skills.add((Skill) object);
+                    gameState.inventory.remove(currentItem);
+                    installSkillSummary((Skill) object, true);
+                } else {
+                    LOGGER.log(Level.SEVERE, "Thing is not a Skill.");
+                }
+            } catch (
+                    InstantiationException
+                            | IllegalAccessException
+                            | IllegalArgumentException
+                            | InvocationTargetException
+                            | NoSuchMethodException
+                            | SecurityException ex) {
+                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+                ex.printStackTrace();
+                installSkillSummary(null, false);
+            }
+        } else {
+            LOGGER.log(Level.WARNING, "Seem to have the skill aready?");
+        }
+    }
+
+    private void installSkillSummary(Skill skill, boolean state) {
+        LOGGER.log(Level.SEVERE, "Install Summary: {0}  {1}", new Object[]{skill == null ? "null" : "OK", state ? "YES" : "NO"});
+        // Skill == null ==  FUBAR
+        // state == true == installed.
+        // state == false == already exists, not installed.
+        getChildren().clear();
+        mode = Mode.INSTALL_SUMMARY;
+        Text heading = new Text("        Install ");
+        int length = currentItem.getName().length();
+        Text heading2 = new Text(String.format("%1$" + (22 - length) + "s", currentItem.getName()));
+        Text statusText;
+        if ( skill == null ) {
+            statusText = new Text("       ERROR!");
+        } else {
+            if (state) {
+                statusText = new Text("        SUCCESS!");
+            } else {
+                statusText = new Text("        NOT ADDED\n    ALREADY INSTALLED");
+            }
+        }
+
+        TextFlow tf = new TextFlow(statusText);
+        tf.setLineSpacing(-8);
+
+        VBox box = new VBox(
+                heading, heading2,
+                tf
+        );
+        box.setSpacing(10);
+        box.getTransforms().add(new Scale(1.33, 1.0));
+        box.setMinWidth(400);
+        box.setPrefWidth(400);
+        box.setMinHeight(160);
+        box.setMaxHeight(160);
+        box.setPadding(new Insets(0, 0, 0, 10));
+
+        getChildren().add(box);
+
+        box.setOnMouseClicked((t) -> {
+            itemListPage();
+        });
+
     }
 }
