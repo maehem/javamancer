@@ -28,10 +28,16 @@ package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.InventoryItem;
-import com.maehem.javamancer.neuro.model.Item;
 import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.RoomPosition;
+import com.maehem.javamancer.neuro.model.item.Item.Catalog;
+import com.maehem.javamancer.neuro.model.item.RealItem;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.skill.BarganingSkill;
+import com.maehem.javamancer.neuro.model.skill.DebugSkill;
+import com.maehem.javamancer.neuro.model.skill.IceBreakingSkill;
+import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
+import com.maehem.javamancer.neuro.model.skill.WarezAnalysisSkill;
 import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -186,9 +192,18 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                 gameState.bbs,
                 gameState.name
         );
-        gameState.inventory.add(new InventoryItem(Item.CREDITS));
-        gameState.inventory.add(new InventoryItem(Item.PAWNTICKET));
-        gameState.inventory.add(new InventoryItem(Item.SAKE));
-        gameState.inventory.add(new InventoryItem(Item.CAVIAR));
+        gameState.inventory.add(new RealItem(Catalog.CREDITS));
+        gameState.inventory.add(new RealItem(Catalog.PAWNTICKET));
+        gameState.inventory.add(new RealItem(Catalog.SAKE));
+        gameState.inventory.add(new RealItem(Catalog.CAVIAR));
+        gameState.inventory.add(new SkillItem(Catalog.HARDWAREREPAIR));
+        gameState.inventory.add(new SkillItem(Catalog.COPTALK));
+
+        gameState.skills.add(new BarganingSkill());
+        gameState.skills.add(new DebugSkill());
+        gameState.skills.add(new IceBreakingSkill());
+        gameState.skills.add(new SophistrySkill());
+        gameState.skills.add(new WarezAnalysisSkill());
+
     }
 }
