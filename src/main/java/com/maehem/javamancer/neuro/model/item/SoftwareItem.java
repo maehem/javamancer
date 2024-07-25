@@ -36,4 +36,9 @@ public class SoftwareItem extends Item {
         super(item);
     }
 
+    @Override
+    public void use() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

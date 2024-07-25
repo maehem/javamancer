@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.item;
 
+import java.util.logging.Level;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -34,6 +36,12 @@ public class SkillItem extends Item {
 
     public SkillItem(Catalog item) {
         super(item);
+    }
+
+    @Override
+    public void use() {
+        // Install into Skills.
+        LOGGER.log(Level.SEVERE, "Install Skill Item: " + item.itemName);
     }
 
 }
