@@ -69,10 +69,10 @@ public class InventoryPopup extends SmallPopupPane {
     public InventoryPopup(PopupListener l, GameState gs) {
         super(gs);
         this.listener = l;
-        itemListPage();
+        listItems();
     }
 
-    private void itemListPage() {
+    private void listItems() {
         getChildren().clear();
         mode = Mode.MENU;
         currentItem = null;
@@ -101,12 +101,12 @@ public class InventoryPopup extends SmallPopupPane {
         more.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Clicked Inventory More.");
             itemIndex += NUM_ITEMS;
-            itemListPage();
+            listItems();
         });
         previous.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Clicked Inventory Previous.");
             itemIndex -= NUM_ITEMS;
-            itemListPage();
+            listItems();
         });
     }
 
@@ -127,7 +127,7 @@ public class InventoryPopup extends SmallPopupPane {
                 tf.getChildren().add(listItem);
                 final int n = i;
                 listItem.setOnMouseClicked((t) -> {
-                    effectItem(n);
+                    itemOptions(n);
                 });
             }
         }
@@ -135,14 +135,14 @@ public class InventoryPopup extends SmallPopupPane {
         LOGGER.log(Level.SEVERE, "Num Messages: {0}", numItems);
     }
 
-    private void effectItem(int index) {
+    private void itemOptions(int index) {
         if (itemIndex + index < gameState.inventory.size()) {
             currentItem = gameState.inventory.get(itemIndex + index);
-            effectItem();
+            itemOptions();
         }
     }
 
-    private void effectItem() {
+    private void itemOptions() {
         getChildren().clear();
         mode = Mode.EFFECT;
         Text heading;
@@ -162,7 +162,7 @@ public class InventoryPopup extends SmallPopupPane {
         addBox(heading, tf);
 
         exitText.setOnMouseClicked((t) -> {
-            itemListPage();
+            listItems();
         });
         operateText.setOnMouseClicked((t) -> {
             operateItem();
@@ -183,16 +183,16 @@ public class InventoryPopup extends SmallPopupPane {
             case MENU -> {
                 switch (code) {
                     case DIGIT1 -> {
-                        effectItem(0);
+                        itemOptions(0);
                     }
                     case DIGIT2 -> {
-                        effectItem(1);
+                        itemOptions(1);
                     }
                     case DIGIT3 -> {
-                        effectItem(2);
+                        itemOptions(2);
                     }
                     case DIGIT4 -> {
-                        effectItem(3);
+                        itemOptions(3);
                     }
                     case X -> {
                         return super.handleKeyEvent(keyEvent);
@@ -202,7 +202,7 @@ public class InventoryPopup extends SmallPopupPane {
             case EFFECT -> {
                 switch (code) {
                     case X -> {
-                        itemListPage();
+                        listItems();
                     }
                     case O -> {
                         operateItem();
@@ -221,12 +221,12 @@ public class InventoryPopup extends SmallPopupPane {
                         installSkillItem();
                     }
                     case N -> {
-                        effectItem();
+                        itemOptions();
                     }
                 }
             }
             case INSTALL_SUMMARY, DISCARD_SUMMARY -> {
-                itemListPage();  // Any key event
+                listItems();  // Any key event
             }
             case DISCARD -> {
                 switch (code) {
@@ -234,7 +234,7 @@ public class InventoryPopup extends SmallPopupPane {
                         discardItem();
                     }
                     case N -> {
-                        effectItem();
+                        itemOptions();
                     }
                 }
             }
@@ -282,7 +282,7 @@ public class InventoryPopup extends SmallPopupPane {
             installSkillItem();
         });
         noText.setOnMouseClicked((t) -> {
-            effectItem(); // Back to item's menu.
+            itemOptions(); // Back to item's menu.
         });
     }
 
@@ -358,7 +358,7 @@ public class InventoryPopup extends SmallPopupPane {
         VBox box = addBox(heading, heading2, tf);
 
         box.setOnMouseClicked((t) -> {
-            itemListPage();
+            listItems();
         });
 
     }
@@ -383,7 +383,7 @@ public class InventoryPopup extends SmallPopupPane {
             disposeItem();
         });
         noText.setOnMouseClicked((t) -> {
-            effectItem(); // Back to item's menu.
+            itemOptions(); // Back to item's menu.
         });
 
     }
@@ -411,7 +411,7 @@ public class InventoryPopup extends SmallPopupPane {
         box.setSpacing(20);
 
         box.setOnMouseClicked((t) -> {
-            itemListPage();
+            listItems();
         });
 
     }
