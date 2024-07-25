@@ -38,7 +38,9 @@ import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import static javafx.scene.input.KeyCode.DIGIT1;
+import static javafx.scene.input.KeyCode.N;
 import static javafx.scene.input.KeyCode.O;
+import static javafx.scene.input.KeyCode.Y;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -55,7 +57,7 @@ public class InventoryPopup extends SmallPopupPane {
     private final PopupListener listener;
 
     private enum Mode {
-        MENU, EFFECT, INSTALL, INSTALL_SUMMARY
+        MENU, EFFECT, INSTALL, INSTALL_SUMMARY, DISCARD, DISCARD_SUMMARY
     }
 
     private static final int NUM_ITEMS = 4;
@@ -250,8 +252,18 @@ public class InventoryPopup extends SmallPopupPane {
                     }
                 }
             }
-            case INSTALL_SUMMARY -> {
+            case INSTALL_SUMMARY, DISCARD_SUMMARY -> {
                 itemListPage();  // Any key event
+            }
+            case DISCARD -> {
+                switch (code) {
+                    case Y -> {
+                        discardItem();
+                    }
+                    case N -> {
+                        effectItem();
+                    }
+                }
             }
         }
 
@@ -269,6 +281,8 @@ public class InventoryPopup extends SmallPopupPane {
 
     private void discardItem() {
         LOGGER.log(Level.CONFIG, "Discard: {0}", currentItem);
+        // TODO: Don't allow discard of CREDITS. Test on actual game.
+        askDiscardItem();
     }
 
     private void giveItem() {
@@ -333,21 +347,20 @@ public class InventoryPopup extends SmallPopupPane {
 
                 Object object = ctor.newInstance(new Object[]{});
                 LOGGER.log(Level.FINER, "Object created.");
-                if (object instanceof Skill) {
+                if (object instanceof Skill skill) {
                     LOGGER.log(Level.FINER, "Try to install Skill...");
-                    skills.add((Skill) object);
+                    skills.add(skill);
                     gameState.inventory.remove(currentItem);
-                    installSkillSummary((Skill) object, true);
+                    installSkillSummary(skill, true);
                 } else {
                     LOGGER.log(Level.SEVERE, "Thing is not a Skill.");
                 }
-            } catch (
-                    InstantiationException
-                            | IllegalAccessException
-                            | IllegalArgumentException
-                            | InvocationTargetException
-                            | NoSuchMethodException
-                            | SecurityException ex) {
+            } catch (InstantiationException
+                    | IllegalAccessException
+                    | IllegalArgumentException
+                    | InvocationTargetException
+                    | NoSuchMethodException
+                    | SecurityException ex) {
                 LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
                 ex.printStackTrace();
                 installSkillSummary(null, false);
@@ -366,9 +379,10 @@ public class InventoryPopup extends SmallPopupPane {
         mode = Mode.INSTALL_SUMMARY;
         Text heading = new Text("        Install ");
         int length = currentItem.getName().length();
-        Text heading2 = new Text(String.format("%1$" + (22 - length) + "s", currentItem.getName()));
+        int nSpaces = ((24 - length) / 2) + length;
+        Text heading2 = new Text(String.format("%" + nSpaces + "s", currentItem.getName()));
         Text statusText;
-        if ( skill == null ) {
+        if (skill == null) {
             statusText = new Text("       ERROR!");
         } else {
             if (state) {
@@ -400,4 +414,81 @@ public class InventoryPopup extends SmallPopupPane {
         });
 
     }
+
+    private void askDiscardItem() {
+        getChildren().clear();
+        mode = Mode.DISCARD;
+        Text heading = new Text("     DISCARD ITEM?");
+        int length = currentItem.getName().length();
+        int nSpaces = ((24 - length) / 2) + length;
+        Text heading2 = new Text(String.format("%" + nSpaces + "s", currentItem.getName()));
+        Text yesText = new Text("Y");
+        Text slashText = new Text("/");
+        Text noText = new Text("N");
+
+        TextFlow tf = new TextFlow(yesText, slashText, noText);
+        tf.setLineSpacing(-10);
+        tf.setPadding(new Insets(0, 0, 0, 110));
+
+        VBox box = new VBox(
+                heading, heading2,
+                tf
+        );
+        box.setSpacing(20);
+        box.getTransforms().add(new Scale(1.33, 1.0));
+        box.setMinWidth(400);
+        box.setPrefWidth(400);
+        box.setMinHeight(160);
+        box.setMaxHeight(160);
+        box.setPadding(new Insets(0, 0, 0, 10));
+
+        getChildren().add(box);
+
+        yesText.setOnMouseClicked((t) -> {
+            disposeItem();
+        });
+        noText.setOnMouseClicked((t) -> {
+            effectItem(); // Back to item's menu.
+        });
+
+    }
+
+    private void disposeItem() {
+        boolean status = gameState.inventory.remove(currentItem);
+
+        getChildren().clear();
+        mode = Mode.DISCARD_SUMMARY;
+        Text heading = new Text("      DISCARD ITEM");
+        int length = currentItem.getName().length();
+        int nSpaces = ((24 - length) / 2) + length;
+        Text heading2 = new Text(String.format("%" + nSpaces + "s", currentItem.getName()));
+        Text statusText;
+        if (status) {
+            statusText = new Text("        SUCCESS!");
+        } else {
+            statusText = new Text("         ERROR!");
+        }
+
+        TextFlow tf = new TextFlow(statusText);
+        tf.setLineSpacing(-8);
+        VBox box = new VBox(
+                heading, heading2,
+                tf
+        );
+        box.setSpacing(10);
+        box.getTransforms().add(new Scale(1.33, 1.0));
+        box.setMinWidth(400);
+        box.setPrefWidth(400);
+        box.setMinHeight(160);
+        box.setMaxHeight(160);
+        box.setPadding(new Insets(0, 0, 0, 10));
+
+        getChildren().add(box);
+
+        box.setOnMouseClicked((t) -> {
+            itemListPage();
+        });
+
+    }
+
 }
