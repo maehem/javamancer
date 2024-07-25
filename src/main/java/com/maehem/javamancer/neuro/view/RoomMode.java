@@ -296,7 +296,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 popup = new PaxPopupPane(this, getGameState(), getResourceManager());
             }
             case DISK -> {
-                popup = new PaxPopupPane(this, getGameState(), getResourceManager());
+                popup = new DiskPopup(this, getGameState());
             }
         }
         getChildren().add(popup);

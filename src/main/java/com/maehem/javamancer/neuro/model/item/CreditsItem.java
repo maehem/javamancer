@@ -24,47 +24,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro.view;
-
-import com.maehem.javamancer.logging.Logging;
-import com.maehem.javamancer.neuro.model.GameState;
-import static com.maehem.javamancer.neuro.view.PopupPane.LOGGER;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static javafx.scene.input.KeyCode.ESCAPE;
-import static javafx.scene.input.KeyCode.X;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
+package com.maehem.javamancer.neuro.model.item;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class PopupPane extends Pane {
+public class CreditsItem extends Item {
 
-    public static final Logger LOGGER = Logging.LOGGER;
-
-    public final GameState gameState;
-
-    public PopupPane(GameState gameState) {
-        this.gameState = gameState;
+    public CreditsItem() {
+        super(Catalog.CREDITS);
     }
 
-    public boolean handleKeyEvent(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case X, ESCAPE -> {
-                LOGGER.log(Level.FINER, "User pressed X or ESC Key.");
-                return true;
-            }
-            default -> {
-            }
-        }
-
-        return false;
-    }
-
-    protected void quitGame() {
-        gameState.requestQuit = true;
+    @Override
+    public void use() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

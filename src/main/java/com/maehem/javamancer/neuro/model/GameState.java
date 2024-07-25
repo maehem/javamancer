@@ -80,6 +80,7 @@ public class GameState {
     public boolean msgToArmitageSent = false;
 
     int x4bbf = 0xFF;
+    public boolean requestQuit = false; // Set by Disk Menu Quit option.
 
     public GameState() {
         bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 120));

@@ -27,6 +27,10 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.layout.VBox;
+import javafx.scene.transform.Scale;
 
 /**
  *
@@ -36,14 +40,40 @@ public abstract class SmallPopupPane extends PopupPane {
 
     private static final int WIDTH = 360;
     private static final int HEIGHT = 130;
+    private static final int X = 116;
+    private static final int Y = 256;
 
     public SmallPopupPane(GameState gs) {
+        this(gs, WIDTH);
+    }
+
+    public SmallPopupPane(GameState gs, int width) {
+        this(gs, width, HEIGHT, X, Y);
+    }
+
+    public SmallPopupPane(GameState gs, int width, int height, int x, int y) {
         super(gs);
-        setPrefSize(WIDTH, HEIGHT);
-        setMinSize(WIDTH, HEIGHT);
-        setLayoutX(116);
-        setLayoutY(256);
+        setPrefSize(width, height);
+        setMinSize(width, height);
+        setMaxSize(width, height);
+        setLayoutX(x);
+        setLayoutY(y);
         setId("neuro-popup");
+    }
+
+    protected VBox addBox(Node... nodes) {
+        VBox box = new VBox(nodes);
+        box.setSpacing(0);
+        box.getTransforms().add(new Scale(1.33, 1.0));
+        box.setMinWidth(getPrefWidth());
+        box.setPrefWidth(getPrefWidth());
+        box.setMinHeight(getPrefHeight());
+        box.setMaxHeight(getPrefWidth());
+        box.setPadding(new Insets(0, 0, 0, 10));
+
+        getChildren().add(box);
+
+        return box;
     }
 
 }

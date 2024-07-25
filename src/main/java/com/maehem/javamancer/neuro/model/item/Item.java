@@ -146,7 +146,7 @@ public abstract class Item {
         GASMASK(101, "gas mask", RealItem.class),
         UNK28(102, "", Object.class),
         SAKE(103, "sake", RealItem.class),
-        CREDITS(666, "Credits", Object.class),
+        CREDITS(666, "Credits", CreditsItem.class),
         NONE(999, "none", Object.class);
 
         public enum Type {

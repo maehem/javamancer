@@ -106,6 +106,10 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     }
 
     private void loop() {
+        if (gameState.requestQuit) {
+            neuroModeActionPerformed(Action.QUIT, null);
+        }
+
         if (!gameState.pause) {
             // Handlemusic state.
             if (++frameCount > 15) {

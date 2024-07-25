@@ -35,7 +35,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import static javafx.scene.input.KeyCode.DIGIT1;
 import static javafx.scene.input.KeyCode.N;
@@ -46,7 +45,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -414,21 +412,6 @@ public class InventoryPopup extends SmallPopupPane {
             listItems();
         });
 
-    }
-
-    private VBox addBox(Node... nodes) {
-        VBox box = new VBox(nodes);
-        box.setSpacing(0);
-        box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinWidth(400);
-        box.setPrefWidth(400);
-        box.setMinHeight(160);
-        box.setMaxHeight(160);
-        box.setPadding(new Insets(0, 0, 0, 10));
-
-        getChildren().add(box);
-
-        return box;
     }
 
 }
