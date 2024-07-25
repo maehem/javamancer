@@ -45,7 +45,7 @@ public abstract class Skill {
         WAREZ_ANALYSIS("Warez Analysis", "What version of PowerPoint is this?"),
         DEBUG("Debug", "More like whack-a-mole."),
         HW_REPAIR("Hardware Repair", "Turn it off and then turn it back on."),
-        ICE_BREAKING("I.C.E. Breaking.", "I'm in!"),
+        ICE_BREAKING("I.C.E. Breaking", "I'm in!"),
         EVASION("Evasion", "Slippery little bugger!"),
         CRYPTOLOGY("Cryptology", "I know PGP!"),
         JAPANESE("Japanese", "In Ohio, goats are a mess."),
