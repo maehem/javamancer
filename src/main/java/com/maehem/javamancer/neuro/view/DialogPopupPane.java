@@ -26,47 +26,54 @@
  */
 package com.maehem.javamancer.neuro.view;
 
-import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import static com.maehem.javamancer.neuro.view.PopupPane.LOGGER;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static javafx.scene.input.KeyCode.ESCAPE;
-import static javafx.scene.input.KeyCode.X;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.layout.VBox;
+import javafx.scene.transform.Scale;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class PopupPane extends Pane {
+public abstract class DialogPopupPane extends PopupPane {
 
-    public static final Logger LOGGER = Logging.LOGGER;
+    private static final int WIDTH = (int) (640);
+    private static final int HEIGHT = 80;
+    private static final int X = 0;
+    private static final int Y = 8;
 
-    protected static final double TEXT_SCALE = 1.55;
-
-    public final GameState gameState;
-
-    public PopupPane(GameState gameState) {
-        this.gameState = gameState;
+    public DialogPopupPane(GameState gs) {
+        this(gs, WIDTH);
     }
 
-    public boolean handleKeyEvent(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case X, ESCAPE -> {
-                LOGGER.log(Level.FINER, "User pressed X or ESC Key.");
-                return true;
-            }
-            default -> {
-            }
-        }
-
-        return false;
+    public DialogPopupPane(GameState gs, int width) {
+        this(gs, width, HEIGHT, X, Y);
     }
 
-    protected void quitGame() {
-        gameState.requestQuit = true;
+    public DialogPopupPane(GameState gs, int width, int height, int x, int y) {
+        super(gs);
+        setPrefSize(width, height);
+        setMinSize(width, height);
+        setMaxSize(width, height);
+        setLayoutX(x);
+        setLayoutY(y);
+        setId("neuro-popup");
+    }
+
+    protected VBox addBox(Node... nodes) {
+        VBox box = new VBox(nodes);
+        box.setSpacing(0);
+        box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
+        box.setMinWidth(getPrefWidth());
+        box.setPrefWidth(getPrefWidth());
+        box.setMinHeight(getPrefHeight());
+        box.setMaxHeight(getPrefWidth());
+        box.setPadding(new Insets(0, 0, 0, 10));
+
+        getChildren().add(box);
+
+        return box;
     }
 
 }

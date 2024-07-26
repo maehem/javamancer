@@ -26,47 +26,34 @@
  */
 package com.maehem.javamancer.neuro.view;
 
-import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import static com.maehem.javamancer.neuro.view.PopupPane.LOGGER;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static javafx.scene.input.KeyCode.ESCAPE;
-import static javafx.scene.input.KeyCode.X;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.scene.transform.Scale;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class PopupPane extends Pane {
+public class DialogPopup extends DialogPopupPane {
 
-    public static final Logger LOGGER = Logging.LOGGER;
+    private final TextFlow words = new TextFlow();
 
-    protected static final double TEXT_SCALE = 1.55;
+    public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
+        super(gs);
 
-    public final GameState gameState;
+        getChildren().add(words);
+        words.setLayoutX(6);
+        words.setLayoutY(6);
+        words.setLineSpacing(-8);
+        words.setMaxWidth(getPrefWidth() / TEXT_SCALE - 10);
+        words.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
 
-    public PopupPane(GameState gameState) {
-        this.gameState = gameState;
+        npcBlurt("I don't care if you eat that spaghetti or sleep in it, you still gotta pay for it.  46 credits.");
+
     }
 
-    public boolean handleKeyEvent(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case X, ESCAPE -> {
-                LOGGER.log(Level.FINER, "User pressed X or ESC Key.");
-                return true;
-            }
-            default -> {
-            }
-        }
-
-        return false;
+    private void npcBlurt(String blurt) {
+        words.getChildren().add(new Text(blurt));
     }
-
-    protected void quitGame() {
-        gameState.requestQuit = true;
-    }
-
 }

@@ -287,7 +287,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 popup = new PaxPopupPane(this, getGameState(), getResourceManager());
             }
             case TALK -> {
-                popup = new PaxPopupPane(this, getGameState(), getResourceManager());
+                popup = new DialogPopup(this, getGameState(), getResourceManager());
             }
             case SKILLS -> {
                 popup = new SkillsPopup(this, getGameState());
