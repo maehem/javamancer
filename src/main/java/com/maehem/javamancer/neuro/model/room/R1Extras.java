@@ -28,22 +28,14 @@ package com.maehem.javamancer.neuro.model.room;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.RoomExtras;
+import com.maehem.javamancer.neuro.model.item.CreditsItem;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class R1Extras extends RoomExtras {
-
-    @Override
-    public boolean give() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public int[][] getDialogChain() {
-        return DIALOG_CHAIN;
-    }
 
     protected static final int[][] DIALOG_CHAIN = {
         {}, {}, // 0, 1
@@ -79,6 +71,24 @@ public class R1Extras extends RoomExtras {
         {31}, //31  87 = player gives npc less than 46 credits.
         {2} // 32 Response to underpayment.
     };
+
+    @Override
+    public int give(GameState gs, Item item, int aux) {
+        // Player give is credits.
+        if (item instanceof CreditsItem cr) {
+            // Credit amount is 46
+            if (aux == 46) {
+                return 11;
+            }
+        }
+
+        return 31;
+    }
+
+    @Override
+    public int[][] getDialogChain() {
+        return DIALOG_CHAIN;
+    }
 
     @Override
     public int dialogWarmUp(GameState gs) {

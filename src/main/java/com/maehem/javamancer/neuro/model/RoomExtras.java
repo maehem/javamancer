@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model;
 
+import com.maehem.javamancer.neuro.model.item.Item;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -34,7 +36,15 @@ public abstract class RoomExtras {
 
     public static final int DIALOG_END = 99;
 
-    public abstract boolean give();
+    /**
+     * Called when player gives item to NPC.
+     *
+     * @param item usually RealItem,SkillItem or CreditsItem
+     * @param aux if CreditsItem, amount to give NPC.
+     *
+     * @return index of dialog.
+     */
+    public abstract int give(GameState gs, Item item, int aux); // aux == credits amount if item is Credits.
 
     public abstract int[][] getDialogChain();
 
