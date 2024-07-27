@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.skill.Skill;
@@ -55,10 +56,14 @@ public class InventoryPopup extends SmallPopupPane {
     private final PopupListener listener;
 
     private enum Mode {
-        MENU, EFFECT, INSTALL, INSTALL_SUMMARY, DISCARD, DISCARD_SUMMARY
+        MENU, EFFECT, INSTALL, INSTALL_SUMMARY, DISCARD, DISCARD_SUMMARY, CREDITS
     }
 
     private static final int NUM_ITEMS = 4;
+    private final StringBuilder enteredNumber = new StringBuilder();
+    private final Text enteredNumberText = new Text();
+    private final Text insufficientFunds = new Text("Insufficient Funds!");
+
     private int itemIndex = 0;
     private int numItems = 0;
     private Mode mode = Mode.MENU;
@@ -68,6 +73,7 @@ public class InventoryPopup extends SmallPopupPane {
         super(gs);
         this.listener = l;
         listItems();
+        insufficientFunds.setVisible(false);
     }
 
     private void listItems() {
@@ -236,6 +242,15 @@ public class InventoryPopup extends SmallPopupPane {
                     }
                 }
             }
+            case CREDITS -> {
+                switch (code) {
+                    case X -> {
+                        listItems();
+                    }
+                    default ->
+                        handleEnteredNumber(keyEvent);
+                }
+            }
         }
 
         return false;
@@ -258,6 +273,27 @@ public class InventoryPopup extends SmallPopupPane {
 
     private void giveItem() {
         LOGGER.log(Level.CONFIG, "Give: {0}", currentItem);
+        if (currentItem instanceof CreditsItem cr) {
+            LOGGER.log(Level.SEVERE, "Give Credits selected.");
+            giveCreditsEnterAmount();
+        } else {
+            LOGGER.log(Level.SEVERE, "Give Item selected.");
+            gameState.room.getExtras().give(gameState, currentItem, 0);
+        }
+    }
+
+    private void giveCreditsEnterAmount() {
+        getChildren().clear();
+        mode = Mode.CREDITS;
+        Text heading = new Text("  Give Credits");
+        int length = currentItem.getName().length();
+        Text heading2 = new Text("enter amount");
+
+        TextFlow tf = new TextFlow(enteredNumberText, new Text("<"));
+        tf.setLineSpacing(-10);
+        tf.setPadding(new Insets(0, 0, 0, 30));
+
+        addBox(heading, heading2, tf);
     }
 
     private void askInstallSkillItem() {
@@ -405,7 +441,7 @@ public class InventoryPopup extends SmallPopupPane {
         TextFlow tf = new TextFlow(statusText);
         //tf.setLineSpacing(30);
 
-        VBox box = addBox(heading, heading2, tf);
+        VBox box = addBox(heading, heading2, tf, insufficientFunds);
         box.setSpacing(20);
 
         box.setOnMouseClicked((t) -> {
@@ -414,4 +450,46 @@ public class InventoryPopup extends SmallPopupPane {
 
     }
 
+    private void handleEnteredNumber(KeyEvent ke) {
+        if (enteredNumber.length() < 12 && ke.getCode().isDigitKey()) {
+            LOGGER.log(Level.FINEST, "Typed: {0}", ke.getText());
+            enteredNumber.append(ke.getText());
+            enteredNumberText.setText(enteredNumber.toString());
+            //enterCode.setText(enterPrefix + enteredNumber.toString() + enterCursor);
+            checkAmount(Integer.parseInt(enteredNumber.toString()));
+        } else if (enteredNumber.length() > 0 && ke.getCode().equals(KeyCode.BACK_SPACE)) {
+            LOGGER.log(Level.FINEST, "Backspace.");
+            enteredNumber.delete(enteredNumber.length() - 1, enteredNumber.length());
+            enteredNumberText.setText(enteredNumber.toString());
+            //enterCode.setText(enterPrefix + enteredNumber.toString() + enterCursor);
+            if (enteredNumber.isEmpty()) {
+                checkAmount(0);
+            } else {
+                checkAmount(Integer.parseInt(enteredNumber.toString()));
+            }
+        } else if (ke.getCode().equals(KeyCode.ENTER)) {
+            int value = Integer.parseInt(enteredNumber.toString());
+            if (gameState.chipBalance >= value) {
+                if (gameState.room.getExtras().give(gameState, currentItem, value)) {
+                    listItems();
+                }
+            } else {
+                LOGGER.log(Level.INFO, "Insufficient Funds!");
+            }
+        }
+    }
+
+    private boolean checkAmount(int amount) {
+        LOGGER.log(Level.FINER, "Check Give credits amount: {0}", amount);
+        // Move to bank
+        if (gameState.chipBalance < amount) {
+            // can't do it.
+            LOGGER.log(Level.INFO, "Not enough money on chip!");
+            insufficientFunds.setVisible(true);
+            return false;
+        } else {
+            insufficientFunds.setVisible(false);
+        }
+        return true;
+    }
 }

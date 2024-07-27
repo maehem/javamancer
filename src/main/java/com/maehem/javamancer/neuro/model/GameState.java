@@ -44,7 +44,7 @@ public class GameState {
     public ItemCatalog activeItem = ItemCatalog.NONE;
     public Skill activeSkill = null;
     public int activeSkillLevel = 0;
-    public int chipBalance = 6;
+    public int chipBalance = 46;
     public int bankBalance = 2000;
     public String bamaId = "056306118";
     public int constitution = 2000;
@@ -91,8 +91,7 @@ public class GameState {
 
     int x4bbf = 0xFF;
     public boolean requestQuit = false; // Set by Disk Menu Quit option.
-    public boolean ratzPaid = true; // Player must give Ratz 46 credits.
-    //public boolean ratzDone = false; // Ratz finished all dialog.
+    public boolean ratzPaid = false; // Player must give Ratz 46 credits.
 
     public GameState() {
         bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 120));

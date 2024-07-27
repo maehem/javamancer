@@ -58,7 +58,7 @@ public class PaxBankingNode extends PaxNode {
     private final String enterCursor = "<";
     private final Text enterCode = new Text();
     private final Text insufficientFunds = new Text("Insufficient Funds!");
-    StringBuilder enteredNumber = new StringBuilder();
+    private final StringBuilder enteredNumber = new StringBuilder();
 
     public PaxBankingNode(PaxNodeListener l, GameState gameState) {
         super(l, gameState);
@@ -221,10 +221,6 @@ public class PaxBankingNode extends PaxNode {
             }
         } else if (ke.getCode().equals(KeyCode.ENTER)) {
             int value = Integer.parseInt(enteredNumber.toString());
-//            if (mode.equals(Mode.UPLOAD)) {
-//                value = -value;
-//                LOGGER.log(Level.SEVERE, "upload to bank");
-//            }
             if (moveMoney(value)) {
                 getChildren().clear();
                 mode = Mode.MAIN;

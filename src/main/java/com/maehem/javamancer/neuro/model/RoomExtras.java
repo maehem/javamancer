@@ -44,7 +44,7 @@ public abstract class RoomExtras {
      *
      * @return index of dialog.
      */
-    public abstract int give(GameState gs, Item item, int aux); // aux == credits amount if item is Credits.
+    public abstract boolean give(GameState gs, Item item, int aux); // aux == credits amount if item is Credits.
 
     public abstract int[][] getDialogChain();
 

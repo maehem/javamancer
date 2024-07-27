@@ -73,16 +73,18 @@ public class R1Extras extends RoomExtras {
     };
 
     @Override
-    public int give(GameState gs, Item item, int aux) {
+    public boolean give(GameState gs, Item item, int aux) {
         // Player give is credits.
         if (item instanceof CreditsItem cr) {
             // Credit amount is 46
             if (aux == 46) {
-                return 11;
+                gs.ratzPaid = true;
+                gs.chipBalance -= 46;
+                return true;
             }
         }
 
-        return 31;
+        return false;
     }
 
     @Override

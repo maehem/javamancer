@@ -30,6 +30,7 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.RoomPosition;
+import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
@@ -197,7 +198,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                 gameState.bbs,
                 gameState.name
         );
-        gameState.inventory.add(new RealItem(Catalog.CREDITS));
+        gameState.inventory.add(new CreditsItem());
         gameState.inventory.add(new RealItem(Catalog.PAWNTICKET));
         gameState.inventory.add(new RealItem(Catalog.SAKE));
         gameState.inventory.add(new RealItem(Catalog.CAVIAR));
