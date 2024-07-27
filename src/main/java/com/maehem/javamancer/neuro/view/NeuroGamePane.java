@@ -117,8 +117,8 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                 frameCount = 0;
                 mode.updateStatus();
             }
-            mode.tick();
         }
+        mode.tick();
     }
 
     public void pushProperties(Properties properties) {
@@ -153,7 +153,8 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                     initGame();
 
                     // Change mode to Room 1.
-                    setMode(new RoomMode(this, resourceManager, gameState, Room.R1));
+                    gameState.room = Room.R1;
+                    setMode(new RoomMode(this, resourceManager, gameState));
                     gameState.roomPosX = RoomPosition.R1.playerX;
                     gameState.roomPosY = RoomPosition.R1.playerY;
                     LOGGER.log(Level.SEVERE, "Set default player position: {0},{1}",
