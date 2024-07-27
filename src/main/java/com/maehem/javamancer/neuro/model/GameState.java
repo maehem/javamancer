@@ -64,11 +64,21 @@ public class GameState {
     public final ArrayList<BodyParts> soldBodyParts = new ArrayList<>();
 
     public int roomPosX = 160;
-    public int roomPosY = 0x69;
+    public int roomPosY = 90;
+    public Room room = null;
     public RoomBounds.Door useDoor = RoomBounds.Door.NONE;
     // TODO: Use ArrayList for roomsVisited
     public final boolean roomIsVisited[] = { // 58 Slots  [0..57]
         false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false,
+        false, false, false, false
+    };
+    public final boolean roomNpcTalk[] = { // 58 Slots  [0..57]
+        true, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false,
@@ -81,6 +91,8 @@ public class GameState {
 
     int x4bbf = 0xFF;
     public boolean requestQuit = false; // Set by Disk Menu Quit option.
+    public boolean ratzPaid = true; // Player must give Ratz 46 credits.
+    //public boolean ratzDone = false; // Ratz finished all dialog.
 
     public GameState() {
         bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 120));
