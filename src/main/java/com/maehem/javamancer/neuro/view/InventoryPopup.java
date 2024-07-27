@@ -471,7 +471,7 @@ public class InventoryPopup extends SmallPopupPane {
             int value = Integer.parseInt(enteredNumber.toString());
             if (gameState.chipBalance >= value) {
                 if (gameState.room.getExtras().give(gameState, currentItem, value)) {
-                    listItems();
+                    listener.popupExit(true);
                 }
             } else {
                 LOGGER.log(Level.INFO, "Insufficient Funds!");

@@ -44,8 +44,8 @@ public class R1Extras extends RoomExtras {
         {7}, // 4
         {7}, // 5
         {8}, // 6
-        {2}, // 7
-        {2}, // 8
+        {3, 4, 5, 6}, // 7
+        {3, 4, 5, 6}, // 8
         {}, // 9
         {}, // 10
         {12, 13, 14}, // 11
@@ -107,6 +107,7 @@ public class R1Extras extends RoomExtras {
     @Override
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
+        // Unlock door.
     }
 
 }

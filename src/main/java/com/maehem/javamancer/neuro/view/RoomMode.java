@@ -301,7 +301,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case TALK -> {
                 GameState gs = getGameState();
                 if (gs.roomNpcTalk[gs.room.getIndex()]) {
-                    popup = new DialogPopup(this, getGameState(), getResourceManager());
+                    popup = new DialogPopup(this, gs, getResourceManager());
+                } else {
+                    LOGGER.log(Level.SEVERE, "No NPC or NPC has no more to talk about.");
                 }
             }
             case SKILLS -> {
@@ -314,8 +316,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 popup = new DiskPopup(this, getGameState());
             }
         }
-        getChildren().add(popup);
-        getGameState().pause = true;
+        if (popup != null) {
+            getChildren().add(popup);
+            getGameState().pause = true;
+        }
     }
 
     @Override
@@ -376,6 +380,14 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         getChildren().remove(popup);
         popup = null;
         getGameState().pause = false;
+    }
+
+    @Override
+    public void popupExit(boolean talk) {
+        popupExit();
+        if (talk) {
+            showPopup(RoomMode.Popup.TALK);
+        }
     }
 
 }
