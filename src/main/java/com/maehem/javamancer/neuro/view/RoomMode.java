@@ -101,9 +101,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     private Status statusMode = Status.DATE;
     private boolean firstTime = true;
 
-    public RoomMode(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState, Room room) {
+    public RoomMode(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState) {
         super(listener, resourceManager, gameState);
-        this.room = room;
+
+        // TODO: generate Room from gameState.roomNumber
+        this.room = gameState.room;
         if (gameState.roomIsVisited[room.getIndex()]) {
             firstTime = false;
         }
@@ -168,6 +170,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         });
         paxButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked PAX.");
+
             showPopup(Popup.PAX);
         });
         talkButton.setOnMouseClicked((t) -> {
@@ -275,10 +278,19 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         //     * Second view (room visited). Show second description.
         // }
         // then allow
-        roomPane.tick(getGameState());
+        if (popup != null && popup instanceof DialogPopup dp) {
+            //LOGGER.log(Level.SEVERE, "Dialog tick.");
+            dp.dialogCounter();
+        }
+        if (popup == null) {
+            roomPane.tick(getGameState());
+        }
     }
 
     private void showPopup(Popup pop) {
+        if (popup != null) {
+            return; // User must exit current popup first!
+        }
         switch (pop) {
             case INVENTORY -> {
                 popup = new InventoryPopup(this, getGameState());
@@ -287,7 +299,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 popup = new PaxPopupPane(this, getGameState(), getResourceManager());
             }
             case TALK -> {
-                popup = new DialogPopup(this, getGameState(), getResourceManager());
+                GameState gs = getGameState();
+                if (gs.roomNpcTalk[gs.room.getIndex()]) {
+                    popup = new DialogPopup(this, getGameState(), getResourceManager());
+                }
             }
             case SKILLS -> {
                 popup = new SkillsPopup(this, getGameState());
@@ -334,8 +349,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         LOGGER.log(Level.SEVERE, "Mouse Click at: {0},{1}", new Object[]{x, y});
         if ((y > 16 && y < 240) && (x > 16 && x < 624)) {
             // User clicked in room scene.
-            LOGGER.log(Level.SEVERE, "User clicked roomPane at: {0},{1}", new Object[]{x, y});
-            roomPane.mouseClick(x - RoomPane.PANE_X, y - RoomPane.PANE_Y, getGameState());
+            if (popup == null) {
+                LOGGER.log(Level.SEVERE, "User clicked roomPane at: {0},{1}", new Object[]{x, y});
+                roomPane.mouseClick(x - RoomPane.PANE_X, y - RoomPane.PANE_Y, getGameState());
+            }
         }
     }
 

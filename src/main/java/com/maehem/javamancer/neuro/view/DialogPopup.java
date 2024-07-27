@@ -27,6 +27,10 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.TextResource;
+import java.util.logging.Level;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
@@ -37,23 +41,133 @@ import javafx.scene.transform.Scale;
  */
 public class DialogPopup extends DialogPopupPane {
 
-    private final TextFlow words = new TextFlow();
+    private static final int DIALOG_COUNT = 30;
+
+    private final TextResource textResource;
+
+    private enum Mode {
+        NPC, PLAYER
+    };
+
+    private final TextFlow textFlow = new TextFlow();
+    private final Text wordText = new Text();
+    private Mode mode = Mode.NPC;
+    private final PopupListener listener;
+    private final int[][] dialogChain;
+    private int dialogIndex = 2;
+    private int dialogSubIndex = -1;
+    private int dialogCountDown = 0;
 
     public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
         super(gs);
+        this.listener = l;
 
-        getChildren().add(words);
-        words.setLayoutX(6);
-        words.setLayoutY(6);
-        words.setLineSpacing(-8);
-        words.setMaxWidth(getPrefWidth() / TEXT_SCALE - 10);
-        words.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
+        dialogChain = gameState.room.getExtras().getDialogChain();
 
-        npcBlurt("I don't care if you eat that spaghetti or sleep in it, you still gotta pay for it.  46 credits.");
+        dialogIndex = gameState.room.getExtras().dialogWarmUp(gameState);
 
+        textResource = rm.getText(gameState.room);
+
+        getChildren().add(textFlow);
+        textFlow.setLayoutX(6);
+        textFlow.setLayoutY(6);
+        textFlow.setLineSpacing(-8);
+        textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 10);
+        textFlow.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
+        textFlow.getChildren().add(wordText);
+
+        wordText.setText(textResource.get(dialogIndex));
     }
 
-    private void npcBlurt(String blurt) {
-        words.getChildren().add(new Text(blurt));
+    public void dialogCounter() {
+        if (mode == Mode.PLAYER) {
+            if (dialogCountDown < 0) {
+                return;
+            }
+            if (dialogCountDown > 0) {
+                //LOGGER.log(Level.SEVERE, "Dialog counts down...");
+                dialogCountDown--;
+            } else {
+                mode = Mode.NPC;
+                dialogSubIndex = 0;
+                dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
+                wordText.setText(textResource.get(dialogIndex));
+                LOGGER.log(Level.SEVERE, "Countdown finished: mode: NPC: d[{0}][{1}] = {2}",
+                        new Object[]{dialogIndex, dialogSubIndex, dialogChain[dialogIndex][dialogSubIndex]});
+                dialogCountDown = -1;
+                //dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
+                dialogSubIndex = -1;
+                LOGGER.log(Level.SEVERE, "Set dialog index to: " + dialogIndex);
+            }
+        }
     }
+
+    @Override
+    public boolean handleKeyEvent(KeyEvent keyEvent) {
+        KeyCode code = keyEvent.getCode();
+
+        if (dialogCountDown > 0) {
+            LOGGER.log(Level.SEVERE, "KEY IGNORED: Events not allowed during countdown.");
+            return false;
+        }
+
+        switch (code) {
+            case SPACE -> {
+                //LOGGER.log(Level.SEVERE, "SPACE BAR");
+                switch (mode) {
+                    case NPC -> {
+                        mode = Mode.PLAYER;
+                        LOGGER.log(Level.SEVERE, "Toggle to PLAYER next bubble response.");
+                    }
+                    case PLAYER -> {
+                        // Nothing to do.
+                    }
+                }
+                dialogSubIndex++; //  array[2][0]
+                if (dialogSubIndex < 0 || dialogSubIndex >= dialogChain[dialogIndex].length) {
+                    dialogSubIndex = 0;
+                }
+                if (dialogChain[dialogIndex][dialogSubIndex] == 99) { // NPC no longer talks.
+                    gameState.room.getExtras().dialogNoMore(gameState);
+                    LOGGER.log(Level.CONFIG, "End of dialog chain reached. NPC has nothing more to say.");
+                    listener.popupExit();
+                    return false;
+                }
+                // Get response for NPC dialog.
+                // Display bubbles.
+                LOGGER.log(Level.SEVERE, "SPACE: Show new player response. d[{0}][{1}] = {2}",
+                        new Object[]{dialogIndex, dialogSubIndex, dialogChain[dialogIndex][dialogSubIndex]});
+                wordText.setText(textResource.get(dialogChain[dialogIndex][dialogSubIndex]));
+                dialogCountDown = -1; // No count down until ENTER pressed.
+            }
+            case ENTER -> {
+                switch (mode) {
+                    case NPC -> {
+                        // Nothing happens.
+                    }
+                    case PLAYER -> {
+
+                        //LOGGER.log(Level.SEVERE, "ENTER PRESSED. Begin countdown...");
+                        // Start one second countdown to show response.
+                        dialogCountDown = DIALOG_COUNT;
+                        // Display say graphic.
+
+                        dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
+                        dialogSubIndex = 0;
+                        LOGGER.log(Level.SEVERE, "ENTER: start countdown. current dialog index: {0}   next NPC response. d[{1}][{2}] = {3}",
+                                new Object[]{
+                                    dialogIndex,
+                                    dialogIndex, dialogSubIndex,
+                                    dialogChain[dialogIndex][dialogSubIndex]
+                                });
+                    }
+                }
+            }
+            case ESCAPE -> {
+                listener.popupExit();
+            }
+        }
+        return false;
+    }
+
 }

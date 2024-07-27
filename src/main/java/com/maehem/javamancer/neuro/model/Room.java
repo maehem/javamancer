@@ -7,7 +7,7 @@
  * derived from their project: https://github.com/HenadziMatuts/Reuromancer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * of this software and associated documentation files (the "Software", null), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
@@ -26,78 +26,119 @@
  */
 package com.maehem.javamancer.neuro.model;
 
+import static com.maehem.javamancer.logging.Logging.LOGGER;
+import com.maehem.javamancer.neuro.model.room.R1Extras;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public enum Room {
 
-    R1("Chatsubo"),
-    R2("Street Chatsubo"),
-    R3("Cyber Justice"),
-    R4("Body Shop"),
-    R5("Street Body Shop"),
-    R6("Donut World"),
-    R7("Cheap Hotel"),
-    R8("Gentleman Loser"),
-    R9("Maas Biolabs"),
-    R10("JAL Shuttle"),
-    R11("Zion"),
-    R12("Larry's Software"),
-    R13("Street Microsofts"),
-    R14("Street Shin's"),
-    R15("Street Cheap Hotel"),
-    R16("Street G-Loser"),
-    R17("Street Maas Biolabs"),
-    R18("Street Spaceport"),
-    R19("Spaceport"),
-    R20("Marcus Garvey"),
-    R21("Villa Straylight, Ext."),
-    R22("Villa Straylight"),
-    R23("Panther Moderns"),
-    R24("Brothel"),
-    R25("Shin's Pawn Shop"),
-    R26("Street Light Pole"),
-    R27("Julius Dean"),
-    R28("JAL Shuttle"),
-    R29("Freeside Spacedock"),
-    R30("SpaceDock Ext."),
-    R31("Street Metro Holographix"),
-    R32("Metro Holographix"),
-    R33("Bank of Berne Ext."),
-    R34("Bank of Berne Lobby"),
-    R35("Bank Manager's Office"),
-    R36("House of Pong"),
-    R37("Street House of Pong"),
-    R38("Street Asano's"),
-    R39("Street Matrix Restaurant"),
-    R40("Crazy Edo's"),
-    R41("Bank Gemeinschaft"),
-    R42("Bank Gemeinschaft Ext."),
-    R43("Unused"),
-    R44("Asano's"),
-    R45("Street Security Robot"),
-    R46("Matrix Restaurant"),
-    R47("Bank Gemeinschaft Vault"),
-    R48("Unused"),
-    R49("Street Burned Building"),
-    R50("Cyberspace Beach"),
-    R51("Fuji Electric"),
-    R52("Security Gate"),
-    R53("Hitachi Biotech"),
-    R54("High Tech Area 2"),
-    R55("High Tech Area 2"),
-    R56("SenseNet Headquarters"),
-    R57("Hosaka Headquarters"),
-    R58("Musabori Headquarters");
+    R1("Chatsubo", R1Extras.class),
+    R2("Street Chatsubo", null),
+    R3("Cyber Justice", null),
+    R4("Body Shop", null),
+    R5("Street Body Shop", null),
+    R6("Donut World", null),
+    R7("Cheap Hotel", null),
+    R8("Gentleman Loser", null),
+    R9("Maas Biolabs", null),
+    R10("JAL Shuttle", null),
+    R11("Zion", null),
+    R12("Larry's Software", null),
+    R13("Street Microsofts", null),
+    R14("Street Shin's", null),
+    R15("Street Cheap Hotel", null),
+    R16("Street G-Loser", null),
+    R17("Street Maas Biolabs", null),
+    R18("Street Spaceport", null),
+    R19("Spaceport", null),
+    R20("Marcus Garvey", null),
+    R21("Villa Straylight, Ext.", null),
+    R22("Villa Straylight", null),
+    R23("Panther Moderns", null),
+    R24("Brothel", null),
+    R25("Shin's Pawn Shop", null),
+    R26("Street Light Pole", null),
+    R27("Julius Dean", null),
+    R28("JAL Shuttle", null),
+    R29("Freeside Spacedock", null),
+    R30("SpaceDock Ext.", null),
+    R31("Street Metro Holographix", null),
+    R32("Metro Holographix", null),
+    R33("Bank of Berne Ext.", null),
+    R34("Bank of Berne Lobby", null),
+    R35("Bank Manager's Office", null),
+    R36("House of Pong", null),
+    R37("Street House of Pong", null),
+    R38("Street Asano's", null),
+    R39("Street Matrix Restaurant", null),
+    R40("Crazy Edo's", null),
+    R41("Bank Gemeinschaft", null),
+    R42("Bank Gemeinschaft Ext.", null),
+    R43("Unused", null),
+    R44("Asano's", null),
+    R45("Street Security Robot", null),
+    R46("Matrix Restaurant", null),
+    R47("Bank Gemeinschaft Vault", null),
+    R48("Unused", null),
+    R49("Street Burned Building", null),
+    R50("Cyberspace Beach", null),
+    R51("Fuji Electric", null),
+    R52("Security Gate", null),
+    R53("Hitachi Biotech", null),
+    R54("High Tech Area 2", null),
+    R55("High Tech Area 2", null),
+    R56("SenseNet Headquarters", null),
+    R57("Hosaka Headquarters", null),
+    R58("Musabori Headquarters", null);
 
     public final String roomName;
+    public final Class<? extends RoomExtras> extraClazz;
+    public RoomExtras extras = null;
 
-    private Room(String name) {
+    private Room(String name, Class<? extends RoomExtras> extra) {
         this.roomName = name;
+        this.extraClazz = extra;
+
     }
 
     public int getIndex() {
         return Integer.parseInt(name().substring(1)) - 1;
+    }
+
+    public RoomExtras getExtras() {
+        if (extras != null) {
+            return extras;
+        }
+
+        if (extraClazz != null) {
+            try {
+                Constructor<?> ctor = extraClazz.getConstructor();
+                Object object = ctor.newInstance(new Object[]{});
+                LOGGER.log(Level.SEVERE, "Extras Room Object created.");
+                if (object instanceof RoomExtras re) {
+                    extras = re;
+                } else {
+                    LOGGER.log(Level.SEVERE, "Extras Creation Failed.");
+                    extras = null;
+                }
+            } catch (InstantiationException
+                    | IllegalAccessException
+                    | IllegalArgumentException
+                    | InvocationTargetException
+                    | NoSuchMethodException
+                    | SecurityException ex) {
+                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+                ex.printStackTrace();
+
+            }
+        }
+
+        return extras;
     }
 }
