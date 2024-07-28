@@ -24,34 +24,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro.model;
+package com.maehem.javamancer.neuro.model.room;
+
+import com.maehem.javamancer.neuro.model.Room;
+import com.maehem.javamancer.neuro.model.RoomBounds;
 
 /**
- * Start position (upper left) for player and face position for NPC.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum RoomPosition {
+public enum RoomMap {
+    R1(Room.R1, null, null, Room.R2, null),
+    R2(Room.R2, null, null, null, Room.R1);
 
-    R1(300, 216, 60, 40),
-    R2(300, 216, 20, 150);
+    public final Room room;
+    public final Room t;
+    public final Room r;
+    public final Room b;
+    public final Room l;
 
-    public final int playerX;
-    public final int playerY;
-    public final int npcX;
-    public final int npcY;
-
-    private RoomPosition(int pX, int pY, int npcX, int npcY ) {
-        this.playerX = pX;
-        this.playerY = pY;
-        this.npcX = npcX;
-        this.npcY = npcY;
+    private RoomMap(Room room, Room t, Room r, Room b, Room l) {
+        this.room = room;
+        this.t = t;
+        this.r = r;
+        this.b = b;
+        this.l = l;
     }
 
-    public static RoomPosition get(Room room) {
-        for (RoomPosition rp : values()) {
-            if (rp.name().equals(room.name())) {
-                return rp;
+    public static Room getRoom(Room r, RoomBounds.Door d) {
+        for (RoomMap rm : values()) {
+            if (r.equals(rm.room)) {
+                switch (d) {
+                    case TOP -> {
+                        return rm.t;
+                    }
+                    case RIGHT -> {
+                        return rm.r;
+                    }
+                    case BOTTOM -> {
+                        return rm.b;
+                    }
+                    case LEFT -> {
+                        return rm.l;
+                    }
+                }
             }
         }
         return null;

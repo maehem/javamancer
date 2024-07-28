@@ -62,9 +62,9 @@ public class DialogPopup extends DialogPopupPane {
         super(gs);
         this.listener = l;
 
-        dialogChain = gameState.room.getExtras().getDialogChain();
+        dialogChain = gs.room.getExtras().getDialogChain();
 
-        dialogIndex = gameState.room.getExtras().dialogWarmUp(gameState);
+        dialogIndex = gs.room.getExtras().dialogWarmUp(gs);
 
         textResource = rm.getText(gameState.room);
 

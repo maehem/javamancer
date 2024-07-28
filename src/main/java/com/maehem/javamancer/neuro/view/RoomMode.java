@@ -106,6 +106,15 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
         // TODO: generate Room from gameState.roomNumber
         this.room = gameState.room;
+        gameState.doorTopLocked = false;
+        gameState.doorRightLocked = false;
+        gameState.doorBottomLocked = false;
+        gameState.doorLeftLocked = false;
+
+        if (room.getExtras() != null) {
+            room.getExtras().initRoom(gameState);
+        }
+
         if (gameState.roomIsVisited[room.getIndex()]) {
             firstTime = false;
         }
@@ -263,6 +272,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     @Override
     public void tick() {
+//        GameState gs = getGameState();
+//        if (gs.useDoor != null) {
+//
+//        }
         if (firstTime) {
             // We are scrolling the description and may not yet be done
             // incrementing through it.

@@ -73,6 +73,12 @@ public class R1Extras extends RoomExtras {
     };
 
     @Override
+    public void initRoom(GameState gs) {
+        // lock door if still talking to Ratz.
+        gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
+    }
+
+    @Override
     public boolean give(GameState gs, Item item, int aux) {
         // Player give is credits.
         if (item instanceof CreditsItem cr) {
@@ -107,7 +113,7 @@ public class R1Extras extends RoomExtras {
     @Override
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
-        // Unlock door.
+        gs.doorBottomLocked = false; // Unlock door.
     }
 
 }

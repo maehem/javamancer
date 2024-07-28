@@ -142,6 +142,7 @@ public class RoomPane extends Pane {
                 y = rb.bBound - DOOR_THICK;
                 w = rb.bw;
                 h = DOOR_THICK;
+                LOGGER.log(Level.SEVERE, "Add Bottom Door.");
             }
             case LEFT -> {
                 if (rb.ly == 0 || rb.lw == 0) {
@@ -221,16 +222,16 @@ public class RoomPane extends Pane {
     }
 
     private void updateDoors(GameState gs) {
-        if (topDoor != null
+        if (topDoor != null && !gs.doorTopLocked
                 && Shape.intersect(playerFeet, topDoor).getBoundsInLocal().getWidth() != -1) {
             gs.useDoor = Door.TOP;
-        } else if (rightDoor != null
+        } else if (rightDoor != null && !gs.doorRightLocked
                 && Shape.intersect(playerFeet, rightDoor).getBoundsInLocal().getWidth() != -1) {
             gs.useDoor = Door.RIGHT;
-        } else if (bottomDoor != null
+        } else if (bottomDoor != null && !gs.doorBottomLocked
                 && Shape.intersect(playerFeet, bottomDoor).getBoundsInLocal().getWidth() != -1) {
             gs.useDoor = Door.BOTTOM;
-        } else if (leftDoor != null
+        } else if (leftDoor != null && !gs.doorLeftLocked
                 && Shape.intersect(playerFeet, leftDoor).getBoundsInLocal().getWidth() != -1) {
             gs.useDoor = Door.LEFT;
         } else {

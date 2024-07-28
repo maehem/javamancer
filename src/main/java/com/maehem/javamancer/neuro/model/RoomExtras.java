@@ -51,4 +51,6 @@ public abstract class RoomExtras {
     public abstract int dialogWarmUp(GameState gs);
 
     public abstract void dialogNoMore(GameState gs);
+
+    public abstract void initRoom(GameState gs);
 }

@@ -29,11 +29,13 @@ package com.maehem.javamancer.neuro.view;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;
+import com.maehem.javamancer.neuro.model.RoomBounds.Door;
 import com.maehem.javamancer.neuro.model.RoomPosition;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.room.RoomMap;
 import com.maehem.javamancer.neuro.model.skill.BarganingSkill;
 import com.maehem.javamancer.neuro.model.skill.DebugSkill;
 import com.maehem.javamancer.neuro.model.skill.IceBreakingSkill;
@@ -69,7 +71,6 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     private int frameCount = 0;
 
     //private boolean pause = false;
-
     public NeuroGamePane(File resourceFolder) {
         this.setPrefSize(WIDTH, HEIGHT);
         this.setWidth(WIDTH);
@@ -111,15 +112,30 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
             neuroModeActionPerformed(Action.QUIT, null);
         }
 
-        if (!gameState.pause) {
-            // Handlemusic state.
-            if (++frameCount > 15) {
-                gameState.addMinute();
-                frameCount = 0;
-                mode.updateStatus();
+        if (!gameState.useDoor.equals(Door.NONE)) {
+            // Switch room
+            LOGGER.log(Level.SEVERE, "Use Door: " + gameState.useDoor.name());
+            gameState.room = RoomMap.getRoom(gameState.room, gameState.useDoor);
+            LOGGER.log(Level.CONFIG, "Move to new room: {0} from door {1}",
+                    new Object[]{gameState.room.name(), gameState.useDoor.name()}
+            );
+            setMode(new RoomMode(this, resourceManager, gameState));
+            gameState.roomPosX = RoomPosition.R1.playerX;
+            gameState.roomPosY = RoomPosition.R1.playerY;
+            LOGGER.log(Level.SEVERE, "Set default player position: {0},{1}",
+                    new Object[]{RoomPosition.R1.playerX, RoomPosition.R1.playerY}
+            );
+        } else {
+            if (!gameState.pause) {
+                // Handlemusic state.
+                if (++frameCount > 15) {
+                    gameState.addMinute();
+                    frameCount = 0;
+                    mode.updateStatus();
+                }
             }
+            mode.tick();
         }
-        mode.tick();
     }
 
     public void pushProperties(Properties properties) {
@@ -172,6 +188,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         if (this.mode == null || !this.mode.equals(newMode)) {
             // tell current mode to de-init.
             gameState.pause = true;
+            gameState.useDoor = Door.NONE; // Clear any just used door.
             if (this.mode != null) {
                 this.mode.destroy();
             }

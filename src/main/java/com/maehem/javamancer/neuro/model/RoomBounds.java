@@ -37,7 +37,8 @@ package com.maehem.javamancer.neuro.model;
  */
 public enum RoomBounds { // and Doors
 
-    R1(184, 580, 224, 40, 0, 0, 0, 0, 436, 144, 0, 0);
+    R1(184, 580, 224, 40, 0, 0, 0, 0, 436, 144, 0, 0),
+    R2(174, 580, 224, 40, 0, 0, 0, 0, 0, 0, 174, 50);
 
     public enum Door {
         NONE, TOP, RIGHT, BOTTOM, LEFT
