@@ -33,8 +33,9 @@ package com.maehem.javamancer.neuro.model;
  */
 public enum RoomPosition {
 
-    R1(300, 216, 60, 40),
-    R2(300, 216, 20, 150);
+    R1(300, 210, 60, 40),
+    R2(300, 210, 20, 150),
+    DEFAULT(300, 200, 0, 0);
 
     public final int playerX;
     public final int playerY;
@@ -54,6 +55,6 @@ public enum RoomPosition {
                 return rp;
             }
         }
-        return null;
+        return DEFAULT;
     }
 }

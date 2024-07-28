@@ -37,8 +37,8 @@ public enum RoomMap {
     R1(Room.R1, null, null, Room.R2, null),
     R2(Room.R2, null, Room.R5, null, null),
     R3(Room.R3, null, null, null, null), // Justice
-    R4(Room.R4, null, null, Room.R3, null), // Body Shop
-    R5(Room.R5, Room.R4, Room.R13, Room.R6, Room.R1), // Street Body Shop
+    R4(Room.R4, null, null, Room.R5, null), // Body Shop
+    R5(Room.R5, Room.R4, Room.R13, Room.R6, Room.R2), // Street Body Shop
     R6(Room.R6, Room.R5, null, null, null), // Donut World
     R7(Room.R7, null, Room.R15, null, null), // Cheap Hotel
     R8(Room.R8, null, Room.R16, null, null), // Gentleman Loser
@@ -47,7 +47,7 @@ public enum RoomMap {
     R11(Room.R11, null, null, null, null), // Zion
     R12(Room.R12, Room.R23, null, Room.R13, null), // Larrys
     R13(Room.R13, Room.R12, Room.R24, Room.R14, Room.R5), // Street Microsofts
-    R14(Room.R14, Room.R13, Room.R25, Room.R16, null), // Street Shin's
+    R14(Room.R14, Room.R13, Room.R25, Room.R15, null), // Street Shin's
     R15(Room.R15, Room.R14, Room.R26, Room.R16, Room.R7), // Street Cheap Hotel
     R16(Room.R16, Room.R15, null, Room.R17, Room.R8), // Street G-Loser
     R17(Room.R17, Room.R16, Room.R27, Room.R18, Room.R9), // Street Maas Bio
@@ -86,13 +86,13 @@ public enum RoomMap {
     R50(Room.R50, null, null, null, null), // Cyberspace Beach
     R51(Room.R51, null, Room.R54, null, null), // Fuji Electric
     R52(Room.R52, null, Room.R55, null, null), // Security Gate
-    R53(Room.R53, null, null, null, null), // Hitachi Biotech
-    R54(Room.R54, Room.R53, Room.R57, null, Room.R51), // High tech Area 1
-    R55(Room.R55, null, Room.R58, Room.R56, Room.R52), // High tech Area 2
+    R53(Room.R53, null, null, Room.R54, null), // Hitachi Biotech
+    R54(Room.R54, Room.R53, Room.R57, Room.R55, Room.R51), // High tech Area 1
+    R55(Room.R55, Room.R54, Room.R58, Room.R56, Room.R52), // High tech Area 2
     R56(Room.R56, Room.R55, null, null, null), // SenseNet HQ
     R57(Room.R57, null, null, null, Room.R54), // Hosaka HQ
     R58(Room.R58, null, null, null, Room.R55), // Musabori HQ
-    ; // Donut World
+    ;
 
     public final Room room;
     public final Room t;
