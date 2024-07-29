@@ -38,53 +38,52 @@ import java.util.ArrayList;
 public class GameState {
 
     public String name = "Case";
-    public boolean pause = true;
-    public int levelNumber = 0; // "Rn" = levelNumber + 1
-    public boolean gasMaskIsOn = false;
-    public ItemCatalog activeItem = ItemCatalog.NONE;
-    public Skill activeSkill = null;
-    public int activeSkillLevel = 0;
-    public int chipBalance = 46;
-    public int bankBalance = 2000;
-    public String bamaId = "056306118";
-    public int constitution = 2000;
-    public int cashWithdrawal = 0;
-    public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
-    public final ArrayList<NewsArticle> news = new ArrayList<>();
-    public final ArrayList<BbsMessage> bbs = new ArrayList<>();
-    public final ArrayList<Item> inventory = new ArrayList<>();
-    public final ArrayList<Skill> skills = new ArrayList<>();
 
+    // Money
+    public String bamaId = "056306118"; // Final?
+    public int chipBalance = 6;
+    public int bankBalance = 2000;
+    public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
+
+    // Health
+    public int constitution = 2000;
+
+    // Time/Date
     public int timeMinute = 0;
     public int timeHour = 12;
     public int dateMonth = 11;
     public int dateDay = 16;
     public int dateYear = 2058;
 
+    public final ArrayList<NewsArticle> news = new ArrayList<>();
+    public final ArrayList<BbsMessage> bbs = new ArrayList<>();
+    public final ArrayList<Item> inventory = new ArrayList<>();
+    public final ArrayList<Skill> skills = new ArrayList<>();
     public final ArrayList<BodyParts> soldBodyParts = new ArrayList<>();
 
     public int roomPosX = 160;
     public int roomPosY = 90;
     public Room room = null;
 
-    public RoomBounds.Door useDoor = RoomBounds.Door.NONE;
+    public RoomBounds.Door useDoor = RoomBounds.Door.NONE; // Set when player collides with door.
     public boolean doorTopLocked = false;
     public boolean doorRightLocked = false;
     public boolean doorBottomLocked = false;
     public boolean doorLeftLocked = false;
 
     // TODO: Use ArrayList for roomsVisited
-    public final boolean roomIsVisited[] = { // 58 Slots  [0..57]
-        false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false,
-        false, false, false, false
-    };
+    public final ArrayList<Room> visited = new ArrayList<>();
+//    public final boolean roomIsVisited[] = { // 58 Slots  [0..57]
+//        false, false, false, false, false, false, false, false, false,
+//        false, false, false, false, false, false, false, false, false,
+//        false, false, false, false, false, false, false, false, false,
+//        false, false, false, false, false, false, false, false, false,
+//        false, false, false, false, false, false, false, false, false,
+//        false, false, false, false, false, false, false, false, false,
+//        false, false, false, false
+//    };
     public final boolean roomNpcTalk[] = { // 58 Slots  [0..57]
-        false, false, false, false, false, false, false, false, false,
+        true, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false,
@@ -94,10 +93,15 @@ public class GameState {
     };
 
     public boolean msgToArmitageSent = false;
+    public boolean ratzPaid = false; // Player must give Ratz 46 credits.
+    public boolean gasMaskIsOn = false;
+    public ItemCatalog activeItem = ItemCatalog.NONE;
+    public Skill activeSkill = null;
+    public int activeSkillLevel = 0;
 
-    int x4bbf = 0xFF;
+    // Ephemeral -- Not saved
+    public boolean pause = true;
     public boolean requestQuit = false; // Set by Disk Menu Quit option.
-    public boolean ratzPaid = true; // Player must give Ratz 46 credits.
 
     public GameState() {
         bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 120));
