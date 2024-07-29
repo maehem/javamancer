@@ -115,9 +115,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             room.getExtras().initRoom(gameState);
         }
 
-        if (gameState.roomIsVisited[room.getIndex()]) {
-            firstTime = false;
-        }
+        // A room is 'visited' once player fully reads/scrolls the room description.
+        firstTime = !gameState.visited.contains(room);
 
         roomText = resourceManager.getText(room);
 
@@ -166,6 +165,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
                     LOGGER.log(Level.FINEST, "Description Scroll: " + newValue);
                     scrollHint.setVisible(newValue.doubleValue() != 1.0);
+                    if (newValue.doubleValue() == 1.0 && !gameState.visited.contains(room)) {
+                        gameState.visited.add(room);
+                    }
                 });
 
         setFocusTraversable(true);
