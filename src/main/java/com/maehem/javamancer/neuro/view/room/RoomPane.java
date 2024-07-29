@@ -142,7 +142,6 @@ public class RoomPane extends Pane {
                 y = rb.bBound - DOOR_THICK;
                 w = rb.bw;
                 h = DOOR_THICK;
-                LOGGER.log(Level.SEVERE, "Add Bottom Door.");
             }
             case LEFT -> {
                 if (rb.ly == 0 || rb.lw == 0) {
@@ -237,7 +236,7 @@ public class RoomPane extends Pane {
         } else {
             gs.useDoor = Door.NONE;
         }
-        LOGGER.log(Level.SEVERE, "Door State: {0}", gs.useDoor.name());
+        LOGGER.log(Level.FINE, "Door State: {0}", gs.useDoor.name());
     }
 
     public boolean updatePlayerPosition(GameState gs, int newPosX, int newPosY) {
@@ -257,7 +256,7 @@ public class RoomPane extends Pane {
             playerGroup.setLayoutY(gs.roomPosY);
             retVal = false;
         }
-        LOGGER.log(Level.SEVERE, "Player Position: {0},{1}", new Object[]{gs.roomPosX, gs.roomPosY});
+        LOGGER.log(Level.FINE, "Player Position: {0},{1}", new Object[]{gs.roomPosX, gs.roomPosY});
         return retVal;
     }
 
