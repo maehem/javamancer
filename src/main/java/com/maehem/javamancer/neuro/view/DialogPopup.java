@@ -41,7 +41,7 @@ import javafx.scene.transform.Scale;
  */
 public class DialogPopup extends DialogPopupPane {
 
-    private static final int DIALOG_COUNT = 30;
+    private static final int DIALOG_COUNT = 15;
 
     private final TextResource textResource;
 
