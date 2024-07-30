@@ -91,7 +91,8 @@ public class DialogPopup extends DialogPopupPane {
                 mode = Mode.NPC;
                 dialogSubIndex = 0;
                 dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
-                wordText.setText(textResource.get(dialogIndex));
+                // Control character '01' is a token for the player's name. Replace it here.
+                wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name));
                 LOGGER.log(Level.SEVERE, "Countdown finished: mode: NPC: d[{0}][{1}] = {2}",
                         new Object[]{dialogIndex, dialogSubIndex, dialogChain[dialogIndex][dialogSubIndex]});
                 dialogCountDown = -1;
