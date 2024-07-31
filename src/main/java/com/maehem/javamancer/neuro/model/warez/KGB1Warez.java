@@ -30,11 +30,10 @@ package com.maehem.javamancer.neuro.model.warez;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class Warez {
-    public final String name;
+public class KGB1Warez extends Warez {
 
-    public Warez(String name) {
-        this.name = name;
+    public KGB1Warez() {
+        super("KGB 1.0");
     }
 
 }

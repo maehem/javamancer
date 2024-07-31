@@ -30,11 +30,10 @@ package com.maehem.javamancer.neuro.model.warez;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class Warez {
-    public final String name;
+public class Hammer2Warez extends Warez {
 
-    public Warez(String name) {
-        this.name = name;
+    public Hammer2Warez() {
+        super("Hammer 2.0");
     }
 
 }

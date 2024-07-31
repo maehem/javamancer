@@ -30,11 +30,10 @@ package com.maehem.javamancer.neuro.model.warez;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class Warez {
-    public final String name;
+public class ComLink4Warez extends Warez {
 
-    public Warez(String name) {
-        this.name = name;
+    public ComLink4Warez() {
+        super("ComLink 4.0");
     }
 
 }

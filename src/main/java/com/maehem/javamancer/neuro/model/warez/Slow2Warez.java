@@ -30,11 +30,10 @@ package com.maehem.javamancer.neuro.model.warez;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class Warez {
-    public final String name;
+public class Slow2Warez extends Warez {
 
-    public Warez(String name) {
-        this.name = name;
+    public Slow2Warez() {
+        super("Slow 2.0");
     }
 
 }
