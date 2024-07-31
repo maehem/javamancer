@@ -41,7 +41,7 @@ import javafx.scene.transform.Scale;
  */
 public class DialogPopup extends DialogPopupPane {
 
-    private static final int DIALOG_COUNT = 15;
+    private static final int DIALOG_COUNT = 15; // 15 frames == 1 second
 
     private final TextResource textResource;
 
@@ -85,7 +85,6 @@ public class DialogPopup extends DialogPopupPane {
                 return;
             }
             if (dialogCountDown > 0) {
-                //LOGGER.log(Level.SEVERE, "Dialog counts down...");
                 dialogCountDown--;
             } else {
                 mode = Mode.NPC;
@@ -93,12 +92,11 @@ public class DialogPopup extends DialogPopupPane {
                 dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
                 // Control character '01' is a token for the player's name. Replace it here.
                 wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name));
-                LOGGER.log(Level.SEVERE, "Countdown finished: mode: NPC: d[{0}][{1}] = {2}",
+                LOGGER.log(Level.FINER, "Countdown finished: mode: NPC: d[{0}][{1}] = {2}",
                         new Object[]{dialogIndex, dialogSubIndex, dialogChain[dialogIndex][dialogSubIndex]});
                 dialogCountDown = -1;
-                //dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
                 dialogSubIndex = -1;
-                LOGGER.log(Level.SEVERE, "Set dialog index to: " + dialogIndex);
+                LOGGER.log(Level.FINER, "Set dialog index to: " + dialogIndex);
             }
         }
     }
@@ -108,7 +106,7 @@ public class DialogPopup extends DialogPopupPane {
         KeyCode code = keyEvent.getCode();
 
         if (dialogCountDown > 0) {
-            LOGGER.log(Level.SEVERE, "KEY IGNORED: Events not allowed during countdown.");
+            LOGGER.log(Level.WARNING, "KEY IGNORED: Events not allowed during countdown.");
             return false;
         }
 
@@ -118,7 +116,7 @@ public class DialogPopup extends DialogPopupPane {
                 switch (mode) {
                     case NPC -> {
                         mode = Mode.PLAYER;
-                        LOGGER.log(Level.SEVERE, "Toggle to PLAYER next bubble response.");
+                        LOGGER.log(Level.CONFIG, "Toggle to PLAYER next bubble response.");
                     }
                     case PLAYER -> {
                         // Nothing to do.
@@ -136,7 +134,7 @@ public class DialogPopup extends DialogPopupPane {
                 }
                 // Get response for NPC dialog.
                 // Display bubbles.
-                LOGGER.log(Level.SEVERE, "SPACE: Show new player response. d[{0}][{1}] = {2}",
+                LOGGER.log(Level.FINER, "SPACE: Show new player response. d[{0}][{1}] = {2}",
                         new Object[]{dialogIndex, dialogSubIndex, dialogChain[dialogIndex][dialogSubIndex]});
                 wordText.setText(textResource.get(dialogChain[dialogIndex][dialogSubIndex]));
                 dialogCountDown = -1; // No count down until ENTER pressed.
@@ -155,7 +153,7 @@ public class DialogPopup extends DialogPopupPane {
 
                         dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
                         dialogSubIndex = 0;
-                        LOGGER.log(Level.SEVERE, "ENTER: start countdown. current dialog index: {0}   next NPC response. d[{1}][{2}] = {3}",
+                        LOGGER.log(Level.FINER, "ENTER: start countdown. current dialog index: {0}   next NPC response. d[{1}][{2}] = {3}",
                                 new Object[]{
                                     dialogIndex,
                                     dialogIndex, dialogSubIndex,
