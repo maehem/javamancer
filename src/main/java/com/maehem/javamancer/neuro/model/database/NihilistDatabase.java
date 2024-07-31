@@ -1,0 +1,70 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024 Mark J. Koch ( @maehem on GitHub )
+ *
+ * Portions of this software are Copyright (c) 2018 Henadzi Matuts and are
+ * derived from their project: https://github.com/HenadziMatuts/Reuromancer
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+package com.maehem.javamancer.neuro.model.database;
+
+import com.maehem.javamancer.neuro.model.warez.Acid3Warez;
+import com.maehem.javamancer.neuro.model.warez.LogicBomb3Warez;
+import com.maehem.javamancer.neuro.model.warez.Python5Warez;
+import com.maehem.javamancer.neuro.model.warez.Slow4Warez;
+
+/**
+ * <pre>
+ * Name: Nihilist
+ * Zone: 5
+ * ComLink: none
+ * LinkCode/Password: Only reachable from Cyberspace
+ * Warez: Python 5.0, Acid 3.0, Slow 4.0, Logic bomb 3.0
+ * Matrix: 416, 368
+ * AI: none
+ * Weakness: none
+ * ICE: 1000
+ * Content: interesting text
+ * </pre>
+ *
+ * @author Mark J Koch ( @maehem on GitHub )
+ */
+public class NihilistDatabase extends Database {
+
+    public NihilistDatabase() {
+        super(
+                "Nihilist",
+                5,
+                -1,
+                null,
+                null, null, null,
+                416, 368,
+                null, null, null,
+                1000
+        );
+        warez1.add(Python5Warez.class);
+        warez1.add(Acid3Warez.class);
+        warez1.add(Slow4Warez.class);
+        warez1.add(LogicBomb3Warez.class);
+
+    }
+
+}
