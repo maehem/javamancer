@@ -65,11 +65,13 @@ public class PaxBankingNode extends PaxNode {
 
         insufficientFunds.setVisible(false);
 
-        getChildren().add(mainMenu());
+        mainMenu();
     }
 
-    private Node mainMenu() {
+    private void mainMenu() {
 
+        getChildren().clear();
+        mode = Mode.MAIN;
         Text exitItem = new Text("X. Exit to Main\n");
         Text downItem = new Text("D. Download credits.\n");
         Text upItem = new Text("U. Upload credits\n");
@@ -93,12 +95,25 @@ public class PaxBankingNode extends PaxNode {
         box.setLayoutX(30);
         box.setLayoutY(20);
 
-        return box;
+        getChildren().add(box);
+
+        exitItem.setOnMouseClicked((t) -> {
+            listener.paxNodeExit();
+        });
+        downItem.setOnMouseClicked((t) -> {
+            downloadCredit();
+        });
+        upItem.setOnMouseClicked((t) -> {
+            uploadCredit();
+        });
+        transItem.setOnMouseClicked((t) -> {
+            transactionHistory();
+        });
     }
 
     private Node titleItem() {
         Text titleItem = new Text("     First Orbital Bank of Switzerland");
-        titleItem.setLayoutX(40);
+        //titleItem.setLayoutX(40);
 
         return titleItem;
     }
@@ -135,21 +150,15 @@ public class PaxBankingNode extends PaxNode {
                         }
                         case D -> {
                             LOGGER.log(Level.CONFIG, "Main Mode: Download selected.");
-                            getChildren().clear();
-                            mode = Mode.DOWNLOAD;
-                            getChildren().add(downloadCredit());
+                            downloadCredit();
                         }
                         case U -> {
                             LOGGER.log(Level.CONFIG, "Main Mode: Upload selected.");
-                            getChildren().clear();
-                            mode = Mode.UPLOAD;
-                            getChildren().add(uploadCredit());
+                            uploadCredit();
                         }
                         case T -> {
                             LOGGER.log(Level.CONFIG, "Main Mode: Transaction History selected.");
-                            getChildren().clear();
-                            mode = Mode.TRANSACTIONS;
-                            getChildren().add(transactionHistory());
+                            transactionHistory();
                         }
                     }
                 }
@@ -159,9 +168,7 @@ public class PaxBankingNode extends PaxNode {
                 if (ke.getCode().isLetterKey()) {
                     switch (ke.getCode()) {
                         case X -> {
-                            getChildren().clear();
-                            mode = Mode.MAIN;
-                            getChildren().add(mainMenu());
+                            mainMenu();
                             return false;
                         }
                     }
@@ -175,9 +182,7 @@ public class PaxBankingNode extends PaxNode {
                 if (ke.getCode().isLetterKey()) {
                     switch (ke.getCode()) {
                         case X -> {
-                            getChildren().clear();
-                            mode = Mode.MAIN;
-                            getChildren().add(mainMenu());
+                            mainMenu();
                             return false;
                         }
                     }
@@ -191,9 +196,7 @@ public class PaxBankingNode extends PaxNode {
                 if (ke.getCode().isLetterKey()) {
                     switch (ke.getCode()) {
                         case X -> {
-                            getChildren().clear();
-                            mode = Mode.MAIN;
-                            getChildren().add(mainMenu());
+                            mainMenu();
                             return false;
                         }
                     }
@@ -222,17 +225,17 @@ public class PaxBankingNode extends PaxNode {
         } else if (ke.getCode().equals(KeyCode.ENTER)) {
             int value = Integer.parseInt(enteredNumber.toString());
             if (moveMoney(value)) {
-                getChildren().clear();
-                mode = Mode.MAIN;
-                getChildren().add(mainMenu());
+                mainMenu();
             } else {
                 LOGGER.log(Level.INFO, "Insufficient Funds!");
             }
         }
     }
 
-    private Node downloadCredit() {
-        //VBox box = new VBox(new Text("Download Credits"));
+    private void downloadCredit() {
+        getChildren().clear();
+        mode = Mode.DOWNLOAD;
+
         enterCode.setText(enterPrefix + enterCursor);
         VBox box = new VBox(
                 titleItem(),
@@ -246,11 +249,13 @@ public class PaxBankingNode extends PaxNode {
         box.setLayoutX(30);
         box.setLayoutY(20);
 
-        return box;
+        getChildren().add(box);
     }
 
-    private Node uploadCredit() {
-        //VBox box = new VBox(new Text("Upload Credits"));
+    private void uploadCredit() {
+        getChildren().clear();
+        mode = Mode.UPLOAD;
+
         enterCode.setText(enterPrefix + enterCursor);
         VBox box = new VBox(
                 titleItem(),
@@ -264,7 +269,7 @@ public class PaxBankingNode extends PaxNode {
         box.setLayoutX(30);
         box.setLayoutY(20);
 
-        return box;
+        getChildren().add(box);
     }
 
     /**
@@ -306,7 +311,7 @@ public class PaxBankingNode extends PaxNode {
 
     private boolean moveMoney(int amount) {
         if (checkAmount(amount)) {
-            switch ( mode ) {
+            switch (mode) {
                 case DOWNLOAD -> {
                     gameState.chipBalance += amount;
                     gameState.bankBalance -= amount;
@@ -323,7 +328,9 @@ public class PaxBankingNode extends PaxNode {
         return true;
     }
 
-    private Node transactionHistory() {
+    private void transactionHistory() {
+        getChildren().clear();
+        mode = Mode.TRANSACTIONS;
         Text header = new Text("    day       type         amount");
         VBox box = new VBox(
                 titleItem(),
@@ -332,12 +339,9 @@ public class PaxBankingNode extends PaxNode {
                 transactionList()
         );
         box.setSpacing(0);
-        //box.setPadding(new Insets(0, 0, 0, 20));
         box.getTransforms().add(new Scale(1.3, 1.0));
-        //box.setLayoutX(30);
-        //box.setLayoutY(20);
 
-        return box;
+        getChildren().add(box);
     }
 
     private Node transactionList() {
@@ -346,16 +350,6 @@ public class PaxBankingNode extends PaxNode {
             list.getChildren().add(new Text(bt.toString() + "\n"));
         });
 
-//        Text t1 = new Text(
-//                "11/16/58  Download          6\n"
-//                + "11/16/58  Download         66\n"
-//                + "11/16/58  Fined           100\n"
-//                + "11/17/58  Download       1000\n"
-//                + "11/17/58  Download         53\n"
-//                + "11/18/58  Upload          433\n"
-//                + "11/18/58  Download       5444\n"
-//                + "11/18/58  Download  221000000"
-//        );
         list.setLineSpacing(-9);
         ScrollPane sp = new ScrollPane(list);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
