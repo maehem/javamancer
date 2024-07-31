@@ -28,6 +28,14 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.LuciferAI;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
+import com.maehem.javamancer.neuro.model.warez.Armorall4Warez;
+import com.maehem.javamancer.neuro.model.warez.Concrete5Warez;
+import com.maehem.javamancer.neuro.model.warez.DepthCharge8Warez;
+import com.maehem.javamancer.neuro.model.warez.Injector5Warez;
+import com.maehem.javamancer.neuro.model.warez.Jammies4Warez;
+import com.maehem.javamancer.neuro.model.warez.LogicBomb6Warez;
+import com.maehem.javamancer.neuro.model.warez.Probe15Warez;
+import com.maehem.javamancer.neuro.model.warez.Slow5Warez;
 
 /**
  * <pre>
@@ -57,6 +65,15 @@ public class KGBDatabase extends Database {
                 112, 416,
                 LuciferAI.class, LogicSkill.class, null,
                 1100);
+        warez1.add(Slow5Warez.class);
+        warez1.add(Jammies4Warez.class);
+        warez1.add(Armorall4Warez.class);
+        warez1.add(Injector5Warez.class);
+        warez1.add(Probe15Warez.class);
+        warez1.add(Concrete5Warez.class);
+        warez1.add(LogicBomb6Warez.class);
+        warez1.add(DepthCharge8Warez.class);
+
     }
 
 }
