@@ -30,14 +30,26 @@ package com.maehem.javamancer.resource.file;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum FtUserResource implements Resource {
+public enum TxhResource implements Resource {
 
-    TXT; // Only one thing.
+    PAXCODES(0, 0x3C159, 0x018A),
+    FTUSER(0, 0x3C2E3, 0x362),
+    ROMCON0(0, 0x3C645, 0x014D),
+    ROMCON1(0, 0x3C792, 0x010F),
+    ROMCON2(0, 0x3C8A1, 0x00CD),
+    ICE(1, 0x32762, 0x0451),
+    AITALK(1, 0x31DCE, 0x059B),
+    ENDGAME(1, 0x32369, 0x03F9),;
 
-    public final static String name = "FTUSER.TXH";
-    public final static int fileNum = 0;
-    public final static int offset = 0x3C2E3;
-    public final static int size = 0x362;
+    public final int fileNum;
+    public final int offset; // DOS long == Java int (32-bits)
+    public final int size;
+
+    private TxhResource(int fileNum, int offset, int size) {
+        this.fileNum = fileNum;
+        this.offset = offset;
+        this.size = size;
+    }
 
     @Override
     public int getFileNum() {
@@ -61,6 +73,6 @@ public enum FtUserResource implements Resource {
 
     @Override
     public String getName() {
-        return name;
+        return name();
     }
 }
