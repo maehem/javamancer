@@ -109,6 +109,12 @@ public class BIHThing {
                     unknown = new byte[txtOffset];
                     System.arraycopy(data, 0, unknown, 0, txtOffset);
                     initText(txtOffset);
+                } else if (name.startsWith("COPEN")) {
+                    cbOffset = 0;
+                    cbSegment = 0;
+                    ctrlStructAddr = 0;
+                    unknown = new byte[0];
+                    initText(0);
                 } else if (!name.startsWith("R")) {
                     LOGGER.log(Level.FINER, "Special DB BIH \"{0}\" found.", name);
                     cbOffset = 0;
