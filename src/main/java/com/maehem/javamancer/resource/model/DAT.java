@@ -38,7 +38,8 @@ public class DAT {
     public final ArrayList<PICThing> pic = new ArrayList<>();
     public final ArrayList<BIHThing> bih = new ArrayList<>();
     public final ArrayList<ANHThing> anh = new ArrayList<>();
-    public FTUserThing ftuser;
+    public final ArrayList<FTUserThing> txh = new ArrayList<>();
+    //public FTUserThing ftuser;
     public GameSaveThing gamesave;
 
     public DAT() {

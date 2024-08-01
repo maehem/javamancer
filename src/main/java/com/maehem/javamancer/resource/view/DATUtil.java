@@ -107,17 +107,30 @@ public class DATUtil {
             LOG.log(Level.CONFIG, "Cache 'pic' folder found.");
         }
 
-        File ftuFile = new File(cacheFolder, "ftUser.txt");
-        if (!ftuFile.isFile()) {
-            if (ftuFile.exists()) {
-                LOG.log(Level.CONFIG, "Cache ''{0}'' delete.", ftuFile.getName());
-                ftuFile.delete();
+        File txhDir = new File(cacheFolder, "txh");
+        if (!txhDir.isDirectory()) {
+            if (txhDir.exists()) {
+                LOG.log(Level.CONFIG, "Cache 'txh' folder is not a folder. Deleting.");
+                txhDir.delete();
             }
-        } else {
-            LOG.log(Level.CONFIG, "Cache ''{0}'' file found.", ftuFile.getName());
-        }
-        populateFTU(dat, ftuFile);
+            LOG.log(Level.CONFIG, "Cache 'txh' folder created.");
+            txhDir.mkdir();
 
+            populateTXH(dat, txhDir);
+        } else {
+            LOG.log(Level.CONFIG, "Cache 'txh' folder found.");
+        }
+
+//        File ftuFile = new File(cacheFolder, "ftUser.txt");
+//        if (!ftuFile.isFile()) {
+//            if (ftuFile.exists()) {
+//                LOG.log(Level.CONFIG, "Cache ''{0}'' delete.", ftuFile.getName());
+//                ftuFile.delete();
+//            }
+//        } else {
+//            LOG.log(Level.CONFIG, "Cache ''{0}'' file found.", ftuFile.getName());
+//        }
+//        populateFTU(dat, ftuFile);
         File gSaveFile = new File(cacheFolder, "gamesave.bin");
         if (!gSaveFile.isFile()) {
             if (gSaveFile.exists()) {
@@ -362,17 +375,24 @@ public class DATUtil {
         return true;
     }
 
-    private static void populateFTU(DAT dat, File ftuFile) {
-        try (RandomAccessFile writer = new RandomAccessFile(ftuFile, "rw")) {
-            writer.getChannel().truncate(0L);
-            writer.writeBytes("// Text for FTUser: " + dat.ftuser.name + "\n");
-            writer.write(dat.ftuser.data);
-            writer.close();
-        } catch (FileNotFoundException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        }
+    private static void populateTXH(DAT dat, File folder) {
+        dat.txh.forEach((txhThing) -> {
+            LOG.log(Level.CONFIG, "Process TXH: {0}.", new Object[]{txhThing.name});
+
+            File metaFile = new File(folder, txhThing.name + ".txt");
+            LOG.log(Level.CONFIG, "Create TXT File: {0}", metaFile.getAbsolutePath());
+            try (RandomAccessFile writer = new RandomAccessFile(metaFile, "rw")) {
+                writer.getChannel().truncate(0L);
+                writer.writeBytes("// Text for: " + txhThing.name + "\n");
+                writer.write(txhThing.data);
+                writer.close();
+            } catch (FileNotFoundException ex) {
+                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        });
+
     }
 
     private static void populateGameSave(DAT dat, File gSaveFile) {

@@ -27,7 +27,7 @@
 package com.maehem.javamancer.resource.model;
 
 import com.maehem.javamancer.logging.Logging;
-import com.maehem.javamancer.resource.file.FtUserResource;
+import com.maehem.javamancer.resource.file.TxhResource;
 import java.util.logging.Logger;
 
 /**
@@ -54,7 +54,7 @@ public class FTUserThing {
     public final byte[] data; // Should be the bytes of the string.
     public final String name;
 
-    public FTUserThing(FtUserResource ftUser, byte[] data, int len) {
+    public FTUserThing(TxhResource ftUser, byte[] data, int len) {
         this.name = ftUser.getName();
 
         this.data = new byte[len];
