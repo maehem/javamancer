@@ -49,7 +49,8 @@ import com.maehem.javamancer.neuro.model.warez.KuangEleven1Warez;
 public class AllardTechDatabase extends Database {
 
     public AllardTechDatabase() {
-        super("Allard Technologies", 7, -1,
+        super("Allard Technologies", 38,
+                7, -1,
                 null, null, null, null,
                 432, 464,
                 NeuromancerAI.class,

@@ -48,7 +48,7 @@ import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 public class FreeSexUnionDatabase extends Database {
 
     public FreeSexUnionDatabase() {
-        super("Free Sex Union",
+        super("Free Sex Union", 29,
                 3,
                 -1,
                 null,

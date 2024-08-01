@@ -47,7 +47,7 @@ public class BankGemeinschaftDatabase extends Database {
 
     public BankGemeinschaftDatabase() {
         super(
-                "Bank Gemeinschaft",
+                "Bank Gemeinschaft", 18,
                 5,
                 5,
                 "bankgemein",

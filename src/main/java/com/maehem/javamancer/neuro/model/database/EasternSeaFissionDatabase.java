@@ -49,7 +49,7 @@ import com.maehem.javamancer.neuro.model.warez.Thunderhead2Warez;
 public class EasternSeaFissionDatabase extends Database {
 
     public EasternSeaFissionDatabase() {
-        super("Eastern Seaboard Fission Authority",
+        super("Eastern Seaboard Fission Authority", 14,
                 1,
                 4,
                 "eastseabod",

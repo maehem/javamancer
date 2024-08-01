@@ -45,7 +45,7 @@ public class INSADatabase extends Database {
 
     public INSADatabase() {
         super(
-                "I.N.S.A",
+                "I.N.S.A", 25,
                 5,
                 -1,
                 null,

@@ -47,7 +47,7 @@ public class HitachiBiotechDatabase extends Database {
 
     public HitachiBiotechDatabase() {
         super(
-                "Hitachi Biotech",
+                "Hitachi Biotech", 10,
                 2,
                 3,
                 "hitachibio",

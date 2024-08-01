@@ -47,7 +47,7 @@ public class RegularFellowsDatabase extends Database {
 
     public RegularFellowsDatabase() {
         super(
-                "Regular Fellows",
+                "Regular Fellows", 0,
                 0,
                 1,
                 "regfellow",

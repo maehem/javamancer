@@ -46,7 +46,7 @@ package com.maehem.javamancer.neuro.model.database;
 public class BankZurichDatabase extends Database {
 
     public BankZurichDatabase() {
-        super("Bank of Zurich Orbital",
+        super("Bank of Zurich Orbital", 21,
                 5,
                 6,
                 "bozobank",

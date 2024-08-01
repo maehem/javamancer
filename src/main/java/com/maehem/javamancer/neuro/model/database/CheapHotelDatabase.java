@@ -46,7 +46,7 @@ package com.maehem.javamancer.neuro.model.database;
 public class CheapHotelDatabase extends Database {
 
     public CheapHotelDatabase() {
-        super("Cheap Hotel",
+        super("Cheap Hotel", 4,
                 0,
                 1,
                 null, null, null, null,

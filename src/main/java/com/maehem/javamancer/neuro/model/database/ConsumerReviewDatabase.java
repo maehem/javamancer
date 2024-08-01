@@ -48,7 +48,7 @@ import com.maehem.javamancer.neuro.model.warez.Blammo1Warez;
 public class ConsumerReviewDatabase extends Database {
 
     public ConsumerReviewDatabase() {
-        super("Consumer Review",
+        super("Consumer Review", 1,
                 0,
                 1,
                 "consumerev",

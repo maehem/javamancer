@@ -46,7 +46,7 @@ package com.maehem.javamancer.neuro.model.database;
 public class AsanosDatabase extends Database {
 
     public AsanosDatabase() {
-        super("Asano's",
+        super("Asano's", 2,
                 0,
                 1,
                 "asanocomp",

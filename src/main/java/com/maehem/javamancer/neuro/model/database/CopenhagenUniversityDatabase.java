@@ -51,7 +51,7 @@ public class CopenhagenUniversityDatabase extends Database {
 
     public CopenhagenUniversityDatabase() {
         super(
-                "Copenhagen University",
+                "Copenhagen University", 11,
                 1,
                 3,
                 "brainstorm",

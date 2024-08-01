@@ -46,7 +46,7 @@ package com.maehem.javamancer.neuro.model.database;
 public class ChibaCityPoliceDatabase extends Database {
 
     public ChibaCityPoliceDatabase() {
-        super("Chiba City Tactical Police",
+        super("Chiba City Tactical Police", 9,
                 1,
                 3,
                 "keisatsu",

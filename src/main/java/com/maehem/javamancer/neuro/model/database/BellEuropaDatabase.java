@@ -45,7 +45,7 @@ public class BellEuropaDatabase extends Database {
 
     public BellEuropaDatabase() {
         super(
-                "Bell Europe",
+                "Bell Europe", 23,
                 5,
                 -1,
                 null, null, null, null,

@@ -51,7 +51,7 @@ public class PhantomDatabase extends Database {
 
     public PhantomDatabase() {
         super(
-                "Phantom",
+                "Phantom", 36,
                 7,
                 -1,
                 null,

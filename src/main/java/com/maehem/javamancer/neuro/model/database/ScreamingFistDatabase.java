@@ -53,7 +53,7 @@ public class ScreamingFistDatabase extends Database {
 
     public ScreamingFistDatabase() {
         super(
-                "Screaming Fist",
+                "Screaming Fist", 33,
                 3,
                 -1,
                 null,

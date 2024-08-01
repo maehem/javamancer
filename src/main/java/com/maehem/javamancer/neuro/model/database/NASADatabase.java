@@ -50,7 +50,7 @@ public class NASADatabase extends Database {
 
     public NASADatabase() {
         super(
-                "NASA",
+                "NASA", 20,
                 1,
                 6,
                 "voyager",

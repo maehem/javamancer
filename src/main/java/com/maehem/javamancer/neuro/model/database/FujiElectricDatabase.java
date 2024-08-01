@@ -46,7 +46,7 @@ package com.maehem.javamancer.neuro.model.database;
 public class FujiElectricDatabase extends Database {
 
     public FujiElectricDatabase() {
-        super("Fuji Electric",
+        super("Fuji Electric", 8,
                 2,
                 2,
                 "fuji",

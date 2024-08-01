@@ -26,46 +26,37 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.BlowTorch3Warez;
-import com.maehem.javamancer.neuro.model.warez.ComLink3Warez;
-import com.maehem.javamancer.neuro.model.warez.Decoder2Warez;
-import com.maehem.javamancer.neuro.model.warez.Thunderhead1Warez;
-
 /**
  * <pre>
- * Name: Panther Moderns
- * Zone: 0
- * ComLink: 2.0
- * LinkCode: chaos
- * Passwords: (1) mainline (2) only from Cyberspace
- * Warez: Comlink 3.0, Blowtorch 3.0 (level 2), Decoder 2.0 (lvl 2), Thunderhead 1.0 (level 2)
- * Matrix: 224, 112
+ * TODO:  Extracted from DAT files but does not appear in any game walkthrough.
+ * Player can manipulate or disable a satellite in orbit. Was it used in the game?
+ *
+ * Name: Satellite Mission Control Facility
+ * Zone: 7
+ * ComLink, linkcode, password: Only reachable from Cyberspace
+ * Warez: none
+ * Matrix: 460, 320  // Need to figure out actual site data.
  * AI: none
  * Weakness: none
- * ICE: 84
- * Content: learn about Lupus and Gemeinschaft, linkcodes for Sea and Hitachi
+ * ICE: 1000
+ * Content: interesting text
  * </pre>
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class PantherModernsDatabase extends Database {
+public class SatelliteMissionControlDatabase extends Database {
 
-    public PantherModernsDatabase() {
+    public SatelliteMissionControlDatabase() {
         super(
-                "Panther Moderns", 6,
-                0,
-                2,
-                "chaos",
-                "mainline", null, null,
-                224, 112,
+                "Satellite Mission Control Facility", 28,
+                7,
+                -1,
+                null,
                 null, null, null,
-                84
+                460, 320, // TODO: Need correct coords and other data.
+                null, null, null,
+                1000
         );
-
-        warez1.add(ComLink3Warez.class);
-        warez2.add(BlowTorch3Warez.class);
-        warez2.add(Decoder2Warez.class);
-        warez2.add(Thunderhead1Warez.class);
     }
 
 }

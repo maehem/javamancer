@@ -57,7 +57,7 @@ public class KGBDatabase extends Database {
 
     public KGBDatabase() {
         super(
-                "KGB",
+                "KGB", 35,
                 6,
                 -1,
                 null,

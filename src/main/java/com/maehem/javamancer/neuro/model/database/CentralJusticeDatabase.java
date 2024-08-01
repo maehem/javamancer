@@ -46,7 +46,7 @@ package com.maehem.javamancer.neuro.model.database;
 public class CentralJusticeDatabase extends Database {
 
     public CentralJusticeDatabase() {
-        super("Central Justice",
+        super("Central Justice", 22,
                 1,
                 6,
                 "justice",

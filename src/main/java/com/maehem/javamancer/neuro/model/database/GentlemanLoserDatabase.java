@@ -47,7 +47,7 @@ public class GentlemanLoserDatabase extends Database {
 
     public GentlemanLoserDatabase() {
         super(
-                "Gentleman Loser",
+                "Gentleman Loser", 15,
                 1,
                 4,
                 "loser",

@@ -50,7 +50,7 @@ public class MusaboriDatabase extends Database {
 
     public MusaboriDatabase() {
         super(
-                "Musabori",
+                "Musabori", 19,
                 2,
                 5,
                 "musaborind",

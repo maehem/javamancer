@@ -49,7 +49,7 @@ public class TessierAshpoolDatabase extends Database {
 
     public TessierAshpoolDatabase() {
         super(
-                "Tessier-Ashpool",
+                "Tessier-Ashpool", 37,
                 7,
                 -1,
                 null,

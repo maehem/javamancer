@@ -48,7 +48,7 @@ import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 public class MaasBiolabsDatabase extends Database {
 
     public MaasBiolabsDatabase() {
-        super("Maas Biolabs",
+        super("Maas Biolabs", 34,
                 6,
                 -1,
                 null,

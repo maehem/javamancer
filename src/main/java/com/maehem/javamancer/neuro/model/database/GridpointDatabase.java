@@ -53,7 +53,7 @@ public class GridpointDatabase extends Database {
 
     public GridpointDatabase() {
         super(
-                "Gridpoint",
+                "Gridpoint", 27,
                 4,
                 -1,
                 null,

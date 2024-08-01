@@ -50,7 +50,7 @@ public class WorldChessDatabase extends Database {
 
     public WorldChessDatabase() {
         super(
-                "World Chess",
+                "World Chess", 3,
                 0,
                 1,
                 "worldchess",

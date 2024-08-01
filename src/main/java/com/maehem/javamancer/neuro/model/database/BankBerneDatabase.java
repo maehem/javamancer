@@ -51,7 +51,7 @@ public class BankBerneDatabase extends Database {
 
     public BankBerneDatabase() {
         super(
-                "Bank of Berne",
+                "Bank of Berne", 30,
                 3,
                 -1,
                 null,

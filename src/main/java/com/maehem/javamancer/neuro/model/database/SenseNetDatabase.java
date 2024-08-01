@@ -46,7 +46,7 @@ public class SenseNetDatabase extends Database {
 
     public SenseNetDatabase() {
         super(
-                "Sense/Net",
+                "Sense/Net", 26,
                 4,
                 -1,
                 null,

@@ -55,7 +55,7 @@ public class HosakaDatabase extends Database {
 
     public HosakaDatabase() {
         super(
-                "Hosaka Corporation",
+                "Hosaka Corporation", 17,
                 2,
                 5,
                 "hosakacorp",

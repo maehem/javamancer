@@ -47,7 +47,7 @@ public class TozokuImportsDatabase extends Database {
 
     public TozokuImportsDatabase() {
         super(
-                "Tozoku Imports",
+                "Tozoku Imports", 16,
                 1,
                 5,
                 "yakuza",

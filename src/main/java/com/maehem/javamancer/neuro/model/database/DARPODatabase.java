@@ -53,7 +53,7 @@ import com.maehem.javamancer.neuro.model.warez.Thunderhead3Warez;
 public class DARPODatabase extends Database {
 
     public DARPODatabase() {
-        super(null,
+        super("DARPO", 31, // 33 as well?
                 3,
                 -1,
                 null, null, null, null,

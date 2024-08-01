@@ -50,7 +50,7 @@ public class PsychologistDatabase extends Database {
 
     public PsychologistDatabase() {
         super(
-                "Psychologist",
+                "Psychologist", 5,
                 0,
                 2,
                 "psycho",

@@ -51,7 +51,7 @@ public class IRSDatabase extends Database {
 
     public IRSDatabase() {
         super(
-                "IRS",
+                "IRS", 7,
                 1,
                 2,
                 "irs",

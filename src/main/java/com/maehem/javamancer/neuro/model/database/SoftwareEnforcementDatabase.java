@@ -51,7 +51,7 @@ public class SoftwareEnforcementDatabase extends Database {
 
     public SoftwareEnforcementDatabase() {
         super(
-                "Software Enforcement Agency (SEA)",
+                "Software Enforcement Agency (SEA)", 12,
                 1,
                 3,
                 "soften",

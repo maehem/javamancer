@@ -50,7 +50,7 @@ import com.maehem.javamancer.neuro.model.warez.Blammo1Warez;
 public class FreeMatrixDatabase extends Database {
 
     public FreeMatrixDatabase() {
-        super("Citizens for a Free Matrix",
+        super("Citizens for a Free Matrix", 13,
                 1,
                 4,
                 "freematrix",

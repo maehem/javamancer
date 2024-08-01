@@ -37,6 +37,7 @@ import java.util.ArrayList;
  */
 public abstract class Database {
     public final String name;
+    public final int number;
     public final int zone;
     public final int comlink;
     public final String linkCode;
@@ -54,7 +55,7 @@ public abstract class Database {
     public final int ice;
     // content();
 
-    public Database(String name, int zone, int comlink,
+    public Database(String name, int number, int zone, int comlink,
             String linkCode, String password1, String password2, String password3,
             int matrixX, int matrixY,
             Class<? extends AI> ai,
@@ -63,6 +64,7 @@ public abstract class Database {
             int ice
     ) {
         this.name = name;
+        this.number = number;
         this.zone = zone;
         this.comlink = comlink;
         this.linkCode = linkCode;

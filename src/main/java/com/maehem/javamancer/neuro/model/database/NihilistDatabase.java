@@ -51,7 +51,7 @@ public class NihilistDatabase extends Database {
 
     public NihilistDatabase() {
         super(
-                "Nihilist",
+                "Nihilist", 24,
                 5,
                 -1,
                 null,

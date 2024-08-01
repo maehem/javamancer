@@ -46,7 +46,7 @@ public class TuringRegistryDatabase extends Database {
 
     public TuringRegistryDatabase() {
         super(
-                "Turing Registry",
+                "Turing Registry", 32,
                 3,
                 -1,
                 null,
