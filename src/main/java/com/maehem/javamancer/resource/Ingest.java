@@ -105,17 +105,21 @@ public class Ingest {
             dat.bih.add(thing);
         }
 
-        // Ingest FTUSER
-        byte[] dest = new byte[64000];
+        // Ingest TXH
+        for (TxhResource txh : TxhResource.values()) {
+            byte[] dest = new byte[64000];
 
-        int len = decompressResource(raf[FtUserResource.fileNum], FtUserResource.TXT, dest);
-        FTUserThing thing = new FTUserThing(FtUserResource.TXT, dest, len);
-        dat.ftuser = thing;
+            int len = decompressResource(raf[txh.fileNum], txh, dest);
+            FTUserThing thing = new FTUserThing(txh, dest, len);
+
+            dat.txh.add(thing);
+            //dat.ftuser = thing;
+        }
 
         // Ingest Game Save default data.
-        dest = new byte[GameSaveResource.size];
+        byte[] dest = new byte[GameSaveResource.size];
 
-        len = decompressResource(raf[GameSaveResource.fileNum], GameSaveResource.DATA, dest);
+        int len = decompressResource(raf[GameSaveResource.fileNum], GameSaveResource.DATA, dest);
         GameSaveThing gsThing = new GameSaveThing(GameSaveResource.DATA, dest, len);
         dat.gamesave = gsThing;
 
