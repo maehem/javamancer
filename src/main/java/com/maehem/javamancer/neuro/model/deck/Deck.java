@@ -1,5 +1,8 @@
 package com.maehem.javamancer.neuro.model.deck;
 
+import com.maehem.javamancer.neuro.model.warez.Warez;
+import java.util.ArrayList;
+
 /*
  * MIT License
  *
@@ -32,5 +35,12 @@ package com.maehem.javamancer.neuro.model.deck;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public abstract class Deck {
+
+    public final String name;
+    public final ArrayList<Warez> softwarez = new ArrayList<>();
+
+    public Deck(String name) {
+        this.name = name;
+    }
 
 }
