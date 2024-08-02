@@ -26,9 +26,9 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.DoorStop1Warez;
-import com.maehem.javamancer.neuro.model.warez.Jammies1Warez;
-import com.maehem.javamancer.neuro.model.warez.Probe4Warez;
+import com.maehem.javamancer.neuro.model.warez.DoorStopWarez;
+import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
+import com.maehem.javamancer.neuro.model.warez.ProbeWarez;
 
 /**
  * <pre>
@@ -62,9 +62,9 @@ public class CopenhagenUniversityDatabase extends Database {
                 150
         );
 
-        getWarez2().add(Probe4Warez.class);
-        getWarez2().add(Jammies1Warez.class);
-        getWarez2().add(DoorStop1Warez.class);
+        warez2.put(ProbeWarez.class, 4);
+        warez2.put(JammiesWarez.class, 1);
+        warez2.put(DoorStopWarez.class, 1);
     }
 
 }

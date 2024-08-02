@@ -28,14 +28,14 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.LuciferAI;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
-import com.maehem.javamancer.neuro.model.warez.Armorall4Warez;
-import com.maehem.javamancer.neuro.model.warez.Concrete5Warez;
-import com.maehem.javamancer.neuro.model.warez.DepthCharge8Warez;
-import com.maehem.javamancer.neuro.model.warez.Injector5Warez;
-import com.maehem.javamancer.neuro.model.warez.Jammies4Warez;
-import com.maehem.javamancer.neuro.model.warez.LogicBomb6Warez;
-import com.maehem.javamancer.neuro.model.warez.Probe15Warez;
-import com.maehem.javamancer.neuro.model.warez.Slow5Warez;
+import com.maehem.javamancer.neuro.model.warez.ArmorallWarez;
+import com.maehem.javamancer.neuro.model.warez.ConcreteWarez;
+import com.maehem.javamancer.neuro.model.warez.DepthChargeWarez;
+import com.maehem.javamancer.neuro.model.warez.InjectorWarez;
+import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
+import com.maehem.javamancer.neuro.model.warez.LogicBombWarez;
+import com.maehem.javamancer.neuro.model.warez.ProbeWarez;
+import com.maehem.javamancer.neuro.model.warez.SlowWarez;
 
 /**
  * <pre>
@@ -65,14 +65,14 @@ public class KGBDatabase extends Database {
                 112, 416,
                 LuciferAI.class, LogicSkill.class, null,
                 1100);
-        warez1.add(Slow5Warez.class);
-        warez1.add(Jammies4Warez.class);
-        warez1.add(Armorall4Warez.class);
-        warez1.add(Injector5Warez.class);
-        warez1.add(Probe15Warez.class);
-        warez1.add(Concrete5Warez.class);
-        warez1.add(LogicBomb6Warez.class);
-        warez1.add(DepthCharge8Warez.class);
+        warez1.put(SlowWarez.class, 5);
+        warez1.put(JammiesWarez.class, 4);
+        warez1.put(ArmorallWarez.class, 4);
+        warez1.put(InjectorWarez.class, 5);
+        warez1.put(ProbeWarez.class, 15);
+        warez1.put(ConcreteWarez.class, 5);
+        warez1.put(LogicBombWarez.class, 6);
+        warez1.put(DepthChargeWarez.class, 8);
 
     }
 

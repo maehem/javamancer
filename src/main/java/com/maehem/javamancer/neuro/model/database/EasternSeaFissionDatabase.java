@@ -26,8 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.ComLink5Warez;
-import com.maehem.javamancer.neuro.model.warez.Thunderhead2Warez;
+import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
+import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
 
 /**
  * <pre>
@@ -59,8 +59,8 @@ public class EasternSeaFissionDatabase extends Database {
                 150
         );
 
-        warez1.add(ComLink5Warez.class);
-        warez1.add(Thunderhead2Warez.class);
+        warez1.put(ComLinkWarez.class, 5);
+        warez1.put(ThunderheadWarez.class, 2);
     }
 
 }

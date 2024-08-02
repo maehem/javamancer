@@ -27,7 +27,7 @@
 package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.NeuromancerAI;
-import com.maehem.javamancer.neuro.model.warez.KuangEleven1Warez;
+import com.maehem.javamancer.neuro.model.warez.KuangElevenWarez;
 
 /**
  * <pre>
@@ -54,7 +54,7 @@ public class AllardTechDatabase extends Database {
                 null, null, null, null,
                 432, 464,
                 NeuromancerAI.class,
-                null, KuangEleven1Warez.class,
+                null, KuangElevenWarez.class,
                 2000
         );
     }

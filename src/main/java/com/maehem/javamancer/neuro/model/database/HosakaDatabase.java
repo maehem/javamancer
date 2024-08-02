@@ -26,12 +26,12 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.ComLink5Warez;
-import com.maehem.javamancer.neuro.model.warez.Concrete1Warez;
-import com.maehem.javamancer.neuro.model.warez.Hammer4Warez;
-import com.maehem.javamancer.neuro.model.warez.Injector2Warez;
-import com.maehem.javamancer.neuro.model.warez.Mimic2Warez;
-import com.maehem.javamancer.neuro.model.warez.Slow2Warez;
+import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
+import com.maehem.javamancer.neuro.model.warez.ConcreteWarez;
+import com.maehem.javamancer.neuro.model.warez.HammerWarez;
+import com.maehem.javamancer.neuro.model.warez.InjectorWarez;
+import com.maehem.javamancer.neuro.model.warez.MimicWarez;
+import com.maehem.javamancer.neuro.model.warez.SlowWarez;
 
 /**
  * <pre>
@@ -65,12 +65,12 @@ public class HosakaDatabase extends Database {
                 260
         );
 
-        warez1.add(ComLink5Warez.class);
-        warez2.add(Slow2Warez.class);
-        warez2.add(Hammer4Warez.class);
-        warez2.add(Concrete1Warez.class);
-        warez2.add(Mimic2Warez.class);
-        warez2.add(Injector2Warez.class);
+        warez1.put(ComLinkWarez.class, 5);
+        warez2.put(SlowWarez.class, 2);
+        warez2.put(HammerWarez.class, 4);
+        warez2.put(ConcreteWarez.class, 1);
+        warez2.put(MimicWarez.class, 2);
+        warez2.put(InjectorWarez.class, 2);
     }
 
 }

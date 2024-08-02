@@ -28,9 +28,9 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.GoldAI;
 import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
-import com.maehem.javamancer.neuro.model.warez.Armorall1Warez;
-import com.maehem.javamancer.neuro.model.warez.Probe1Warez;
-import com.maehem.javamancer.neuro.model.warez.Slow3Warez;
+import com.maehem.javamancer.neuro.model.warez.ArmorallWarez;
+import com.maehem.javamancer.neuro.model.warez.ProbeWarez;
+import com.maehem.javamancer.neuro.model.warez.SlowWarez;
 
 /**
  * <pre>
@@ -63,9 +63,10 @@ public class BankBerneDatabase extends Database {
                 400
         );
 
-        getWarez1().add(Slow3Warez.class);
-        getWarez1().add(Probe1Warez.class);
-        getWarez1().add(Armorall1Warez.class);
+        warez1.put(SlowWarez.class, 3);
+        warez1.put(ProbeWarez.class, 1);
+        warez1.put(ArmorallWarez.class, 1);
+
     }
 
 }

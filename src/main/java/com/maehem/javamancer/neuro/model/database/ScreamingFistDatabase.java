@@ -26,12 +26,12 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.Armorall1Warez;
-import com.maehem.javamancer.neuro.model.warez.DepthCharge3Warez;
-import com.maehem.javamancer.neuro.model.warez.EasyRider1Warez;
-import com.maehem.javamancer.neuro.model.warez.KGB1Warez;
-import com.maehem.javamancer.neuro.model.warez.Python3Warez;
-import com.maehem.javamancer.neuro.model.warez.Slow3Warez;
+import com.maehem.javamancer.neuro.model.warez.ArmorallWarez;
+import com.maehem.javamancer.neuro.model.warez.DepthChargeWarez;
+import com.maehem.javamancer.neuro.model.warez.EasyRiderWarez;
+import com.maehem.javamancer.neuro.model.warez.KGBWarez;
+import com.maehem.javamancer.neuro.model.warez.PythonWarez;
+import com.maehem.javamancer.neuro.model.warez.SlowWarez;
 
 /**
  * <pre>
@@ -62,12 +62,12 @@ public class ScreamingFistDatabase extends Database {
                 null, null, null,
                 400
         );
-        warez1.add(KGB1Warez.class);
-        warez1.add(EasyRider1Warez.class);
-        warez1.add(Python3Warez.class);
-        warez1.add(Slow3Warez.class);
-        warez1.add(Armorall1Warez.class);
-        warez1.add(DepthCharge3Warez.class);
+        warez1.put(KGBWarez.class, 1);
+        warez1.put(EasyRiderWarez.class, 1);
+        warez1.put(PythonWarez.class, 3);
+        warez1.put(SlowWarez.class, 3);
+        warez1.put(ArmorallWarez.class, 1);
+        warez1.put(DepthChargeWarez.class, 3);
     }
 
 }

@@ -26,9 +26,9 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.ComLink4Warez;
-import com.maehem.javamancer.neuro.model.warez.Sequencer1Warez;
-import com.maehem.javamancer.neuro.model.warez.Thunderhead2Warez;
+import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
+import com.maehem.javamancer.neuro.model.warez.SequencerWarez;
+import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
 
 /**
  * <pre>
@@ -61,9 +61,9 @@ public class SoftwareEnforcementDatabase extends Database {
                 150
         );
 
-        warez1.add(ComLink4Warez.class);
-        warez1.add(Sequencer1Warez.class);
-        warez2.add(Thunderhead2Warez.class);
+        warez1.put(ComLinkWarez.class, 4);
+        warez1.put(SequencerWarez.class, 1);
+        warez2.put(ThunderheadWarez.class, 2);
     }
 
 }

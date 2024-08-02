@@ -26,11 +26,11 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.Armorall2Warez;
-import com.maehem.javamancer.neuro.model.warez.Hammer5Warez;
-import com.maehem.javamancer.neuro.model.warez.Injector3Warez;
-import com.maehem.javamancer.neuro.model.warez.Jammies3Warez;
-import com.maehem.javamancer.neuro.model.warez.Thunderhead3Warez;
+import com.maehem.javamancer.neuro.model.warez.ArmorallWarez;
+import com.maehem.javamancer.neuro.model.warez.HammerWarez;
+import com.maehem.javamancer.neuro.model.warez.InjectorWarez;
+import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
+import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
 
 /**
  * <pre>
@@ -62,11 +62,11 @@ public class GridpointDatabase extends Database {
                 null, null, null,
                 0);
 
-        warez1.add(Thunderhead3Warez.class);
-        warez1.add(Injector3Warez.class);
-        warez1.add(Jammies3Warez.class);
-        warez1.add(Hammer5Warez.class);
-        warez1.add(Armorall2Warez.class);
+        warez1.put(ThunderheadWarez.class, 3);
+        warez1.put(InjectorWarez.class, 3);
+        warez1.put(JammiesWarez.class, 3);
+        warez1.put(HammerWarez.class, 5);
+        warez1.put(ArmorallWarez.class, 2);
 
     }
 

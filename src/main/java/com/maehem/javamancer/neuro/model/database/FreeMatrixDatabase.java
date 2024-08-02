@@ -28,7 +28,7 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.SaphireAI;
 import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
-import com.maehem.javamancer.neuro.model.warez.Blammo1Warez;
+import com.maehem.javamancer.neuro.model.warez.BlammoWarez;
 
 /**
  * <pre>
@@ -60,7 +60,7 @@ public class FreeMatrixDatabase extends Database {
                 150
         );
 
-        warez1.add(Blammo1Warez.class);
+        warez1.put(BlammoWarez.class, 1);
         // Add fake ones?
     }
 

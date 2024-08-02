@@ -26,9 +26,9 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.Hammer2Warez;
-import com.maehem.javamancer.neuro.model.warez.Jammies1Warez;
-import com.maehem.javamancer.neuro.model.warez.Mimic1Warez;
+import com.maehem.javamancer.neuro.model.warez.HammerWarez;
+import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
+import com.maehem.javamancer.neuro.model.warez.MimicWarez;
 
 /**
  * <pre>
@@ -61,9 +61,9 @@ public class IRSDatabase extends Database {
                 150
         );
 
-        warez3.add(Jammies1Warez.class);
-        warez3.add(Hammer2Warez.class);
-        warez3.add(Mimic1Warez.class);
+        warez3.put(JammiesWarez.class, 1);
+        warez3.put(HammerWarez.class, 2);
+        warez3.put(MimicWarez.class, 1);
     }
 
 }

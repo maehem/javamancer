@@ -27,7 +27,7 @@
 package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.GreystokeAI;
-import com.maehem.javamancer.neuro.model.warez.Hemlock1Warez;
+import com.maehem.javamancer.neuro.model.warez.HemlockWarez;
 
 /**
  * <pre>
@@ -49,14 +49,13 @@ import com.maehem.javamancer.neuro.model.warez.Hemlock1Warez;
 public class MusaboriDatabase extends Database {
 
     public MusaboriDatabase() {
-        super(
-                "Musabori", 19,
+        super("Musabori", 19,
                 2,
                 5,
                 "musaborind",
                 "subaru", null, null,
                 208, 208,
-                GreystokeAI.class, null, Hemlock1Warez.class,
+                GreystokeAI.class, null, HemlockWarez.class,
                 260
         );
     }

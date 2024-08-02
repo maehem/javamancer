@@ -29,7 +29,7 @@ package com.maehem.javamancer.neuro.model.database;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.warez.Warez;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -44,9 +44,13 @@ public abstract class Database {
     public final String password1;
     public final String password2;
     public final String password3;
-    public final ArrayList<Class<? extends Warez>> warez1 = new ArrayList<>();
-    public final ArrayList<Class<? extends Warez>> warez2 = new ArrayList<>();
-    public final ArrayList<Class<? extends Warez>> warez3 = new ArrayList<>();
+    public final HashMap<Class<? extends Warez>, Integer> warez1 = new HashMap<>();
+    public final HashMap<Class<? extends Warez>, Integer> warez2 = new HashMap<>();
+    public final HashMap<Class<? extends Warez>, Integer> warez3 = new HashMap<>();
+
+    //public final ArrayList<Class<? extends Warez>> warez1 = new ArrayList<>();
+    //public final ArrayList<Class<? extends Warez>> warez2 = new ArrayList<>();
+    //public final ArrayList<Class<? extends Warez>> warez3 = new ArrayList<>();
     public final int matrixX;
     public final int matrixY;
     public final Class<? extends AI> ai;
@@ -79,25 +83,25 @@ public abstract class Database {
         this.ice = ice;
     }
 
-    /**
-     * @return the warez for level 1
-     */
-    public ArrayList<Class<? extends Warez>> getWarez1() {
-        return warez1;
-    }
-
-    /**
-     * @return the warez for level 2
-     */
-    public ArrayList<Class<? extends Warez>> getWarez2() {
-        return warez2;
-    }
-
-    /**
-     * @return the warez for level 2
-     */
-    public ArrayList<Class<? extends Warez>> getWarez3() {
-        return warez3;
-    }
+//    /**
+//     * @return the warez for level 1
+//     */
+//    public ArrayList<Class<? extends Warez>> getWarez1() {
+//        return warez1;
+//    }
+//
+//    /**
+//     * @return the warez for level 2
+//     */
+//    public ArrayList<Class<? extends Warez>> getWarez2() {
+//        return warez2;
+//    }
+//
+//    /**
+//     * @return the warez for level 2
+//     */
+//    public ArrayList<Class<? extends Warez>> getWarez3() {
+//        return warez3;
+//    }
 
 }

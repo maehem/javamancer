@@ -26,10 +26,10 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.BlowTorch3Warez;
-import com.maehem.javamancer.neuro.model.warez.ComLink3Warez;
-import com.maehem.javamancer.neuro.model.warez.Decoder2Warez;
-import com.maehem.javamancer.neuro.model.warez.Thunderhead1Warez;
+import com.maehem.javamancer.neuro.model.warez.BlowTorchWarez;
+import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
+import com.maehem.javamancer.neuro.model.warez.DecoderWarez;
+import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
 
 /**
  * <pre>
@@ -62,10 +62,10 @@ public class PantherModernsDatabase extends Database {
                 84
         );
 
-        warez1.add(ComLink3Warez.class);
-        warez2.add(BlowTorch3Warez.class);
-        warez2.add(Decoder2Warez.class);
-        warez2.add(Thunderhead1Warez.class);
+        warez1.put(ComLinkWarez.class, 3);
+        warez2.put(BlowTorchWarez.class, 3);
+        warez2.put(DecoderWarez.class, 2);
+        warez2.put(ThunderheadWarez.class, 1);
     }
 
 }

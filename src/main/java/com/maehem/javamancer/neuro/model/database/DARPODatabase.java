@@ -26,11 +26,11 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.Concrete2Warez;
-import com.maehem.javamancer.neuro.model.warez.Drill3Warez;
-import com.maehem.javamancer.neuro.model.warez.Injector3Warez;
-import com.maehem.javamancer.neuro.model.warez.Jammies2Warez;
-import com.maehem.javamancer.neuro.model.warez.Thunderhead3Warez;
+import com.maehem.javamancer.neuro.model.warez.ConcreteWarez;
+import com.maehem.javamancer.neuro.model.warez.DrillWarez;
+import com.maehem.javamancer.neuro.model.warez.InjectorWarez;
+import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
+import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
 
 /**
  * <pre>
@@ -64,11 +64,11 @@ public class DARPODatabase extends Database {
                 400
         );
 
-        warez1.add(Thunderhead3Warez.class);
-        warez1.add(Injector3Warez.class);
-        warez1.add(Jammies2Warez.class);
-        warez1.add(Concrete2Warez.class);
-        warez1.add(Drill3Warez.class);
+        warez1.put(ThunderheadWarez.class, 3);
+        warez1.put(InjectorWarez.class, 3);
+        warez1.put(JammiesWarez.class, 2);
+        warez1.put(ConcreteWarez.class, 2);
+        warez1.put(DrillWarez.class, 3);
 
     }
 

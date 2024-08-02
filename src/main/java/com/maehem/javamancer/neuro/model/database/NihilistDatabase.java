@@ -26,10 +26,10 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.Acid3Warez;
-import com.maehem.javamancer.neuro.model.warez.LogicBomb3Warez;
-import com.maehem.javamancer.neuro.model.warez.Python5Warez;
-import com.maehem.javamancer.neuro.model.warez.Slow4Warez;
+import com.maehem.javamancer.neuro.model.warez.AcidWarez;
+import com.maehem.javamancer.neuro.model.warez.LogicBombWarez;
+import com.maehem.javamancer.neuro.model.warez.PythonWarez;
+import com.maehem.javamancer.neuro.model.warez.SlowWarez;
 
 /**
  * <pre>
@@ -60,10 +60,10 @@ public class NihilistDatabase extends Database {
                 null, null, null,
                 1000
         );
-        warez1.add(Python5Warez.class);
-        warez1.add(Acid3Warez.class);
-        warez1.add(Slow4Warez.class);
-        warez1.add(LogicBomb3Warez.class);
+        warez1.put(PythonWarez.class, 5);
+        warez1.put(AcidWarez.class, 3);
+        warez1.put(SlowWarez.class, 4);
+        warez1.put(LogicBombWarez.class, 3);
 
     }
 

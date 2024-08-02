@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.warez.Blammo1Warez;
+import com.maehem.javamancer.neuro.model.warez.BlammoWarez;
 
 /**
  * <pre>
@@ -58,7 +58,7 @@ public class ConsumerReviewDatabase extends Database {
                 84
         );
 
-        warez1.add(Blammo1Warez.class);
+        warez1.put(BlammoWarez.class, 1);
     }
 
 }
