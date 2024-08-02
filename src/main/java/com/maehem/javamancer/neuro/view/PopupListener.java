@@ -34,5 +34,5 @@ public interface PopupListener {
 
     public void popupExit();
 
-    public void popupExit(boolean talk);
+    public void popupExit(RoomMode.Popup newPopup);
 }
