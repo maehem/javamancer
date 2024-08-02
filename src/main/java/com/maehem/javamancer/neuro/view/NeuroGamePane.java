@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.RoomBounds.Door;
 import com.maehem.javamancer.neuro.model.RoomPosition;
+import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.RealItem;
@@ -78,8 +79,9 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         this.setClip(new Rectangle(WIDTH, HEIGHT));
 
         this.resourceManager = new ResourceManager(resourceFolder);
-        this.gameState = new GameState();
+        this.gameState = new GameState(resourceManager);
 
+        // TODO: refernce resource manager from gamestate.
         setMode(new TitleMode(this, resourceManager, gameState));
 
         initGameLoop();
@@ -217,7 +219,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         );
         gameState.inventory.add(new CreditsItem());
         gameState.inventory.add(new RealItem(Catalog.PAWNTICKET));
-        gameState.inventory.add(new RealItem(Catalog.SAKE));
+        gameState.inventory.add(new UXBDeckItem());
         gameState.inventory.add(new RealItem(Catalog.CAVIAR));
         gameState.inventory.add(new SkillItem(Catalog.HARDWAREREPAIR));
         gameState.inventory.add(new SkillItem(Catalog.COPTALK));
