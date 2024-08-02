@@ -113,11 +113,19 @@ public class ResourceManager {
         return null;
     }
 
-    public TextResource getText(Room room) {
+    public TextResource getRoomText(Room room) {
+        return getTextResource(room.name() + "_meta.txt");
+    }
+
+    public TextResource getDatabaseText(int dbNum) {
+        return getTextResource("DB" + dbNum + "_meta.txt");
+    }
+
+    public TextResource getTextResource( String fileName ) {
         BufferedReader in = null;
         TextResource tr = new TextResource();
         try {
-            File txtFile = new File(bihFolder, room.name() + "_meta.txt");
+            File txtFile = new File(bihFolder, fileName);
             in = new BufferedReader(new FileReader(txtFile), 16 * 1024);
             try (Scanner read = new Scanner(in)) {
                 read.useDelimiter("\n");
