@@ -32,21 +32,10 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class Warez {
+public class KuangElevenWarez extends Warez {
 
-    public final Item.Catalog item;
-    public final int version;
-
-    public Warez(Item.Catalog catItem, int version) {
-        this.item = catItem;
-        this.version = version;
-    }
-
-    public String getMenuString() {
-        int length = item.itemName.length();
-        return String.format("%-16s", item.itemName)
-                + String.format("%2s", String.valueOf(version))
-                + ".0";
+    public KuangElevenWarez(int version) {
+        super(Item.Catalog.KUANGELEVEN, version);
     }
 
 }
