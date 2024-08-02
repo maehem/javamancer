@@ -27,10 +27,9 @@
 package com.maehem.javamancer.neuro.model.item;
 
 import com.maehem.javamancer.logging.Logging;
-import com.maehem.javamancer.neuro.model.deck.Deck;
-import com.maehem.javamancer.neuro.model.skill.CopTalkSkill;
-import com.maehem.javamancer.neuro.model.skill.Skill;
-import com.maehem.javamancer.neuro.model.warez.Warez;
+import com.maehem.javamancer.neuro.model.deck.*;
+import com.maehem.javamancer.neuro.model.skill.*;
+import com.maehem.javamancer.neuro.model.warez.*;
 import java.util.logging.Logger;
 
 /**
@@ -78,23 +77,23 @@ public abstract class Item {
         KATANA(33, "Katana", Warez.class),
         TOFU(34, "Tofu", Warez.class),
         SHOGUN(35, "Shogun", Warez.class),
-        _188BJB(36, "188BJB", Warez.class), // Deck?
-        _350SL(37, "350SL", Warez.class), // Deck?
+        _188BJB(36, "188BJB", Warez.class), // DeckItem?
+        _350SL(37, "350SL", Warez.class), // DeckItem?
         UNK01(38, "", Object.class),
         UNK02(39, "", Object.class),
-        UXB(40, "UXB", Deck.class),
+        UXB(40, "UXB", UXBDeckItem.class),
         UNK03(41, "", Object.class),
-        ZXB(42, "ZXB", Deck.class),
-        CYBERSPACEII(43, "Cyberspace II", Deck.class),
-        CYBERSPACEIII(44, "Cyberspace III", Deck.class),
+        ZXB(42, "ZXB", DeckItem.class),
+        CYBERSPACEII(43, "Cyberspace II", DeckItem.class),
+        CYBERSPACEIII(44, "Cyberspace III", DeckItem.class),
         UNK04(45, "", Object.class),
-        CYBERSPACEVII(46, "Cyberspace VII", Deck.class),
-        NINJA2000(47, "Ninja 2000", Deck.class),
-        NINJA3000(48, "Ninja 3000", Deck.class),
-        NINJA4000(49, "Ninja 4000", Deck.class),
-        NINJA5000(50, "Ninja 5000", Deck.class),
-        BLUELIGHTSPEC(51, "Blue Light Spec.", Deck.class),
-        SAMURAISEVEN(52, "Samurai Seven", Deck.class),
+        CYBERSPACEVII(46, "Cyberspace VII", DeckItem.class),
+        NINJA2000(47, "Ninja 2000", DeckItem.class),
+        NINJA3000(48, "Ninja 3000", DeckItem.class),
+        NINJA4000(49, "Ninja 4000", DeckItem.class),
+        NINJA5000(50, "Ninja 5000", DeckItem.class),
+        BLUELIGHTSPEC(51, "Blue Light Spec.", DeckItem.class),
+        SAMURAISEVEN(52, "Samurai Seven", DeckItem.class),
         UNK05(53, "", Object.class),
         UNK06(54, "", Object.class),
         UNK07(55, "", Object.class),
