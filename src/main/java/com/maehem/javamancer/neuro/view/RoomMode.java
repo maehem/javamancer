@@ -30,6 +30,7 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.TextResource;
+import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
 import com.maehem.javamancer.neuro.view.room.RoomDescriptionPane;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
@@ -59,8 +60,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         DATE, TIME, CREDIT, CONSTITUTION
     }
 
-    private enum Popup {
-        INVENTORY, PAX, TALK, SKILLS, ROM, DISK
+    public enum Popup {
+        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK
     }
 
     private static final int ROW_1_Y = 292;
@@ -118,7 +119,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         // A room is 'visited' once player fully reads/scrolls the room description.
         firstTime = !gameState.visited.contains(room);
 
-        roomText = resourceManager.getText(room);
+        roomText = resourceManager.getRoomText(room);
 
         ImageView cPanelView = new ImageView(getResourceManager().getSprite("NEURO_1"));
         roomPane = new RoomPane(resourceManager, room);
@@ -330,6 +331,17 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case DISK -> {
                 popup = new DiskPopup(this, getGameState());
             }
+            case DECK -> {
+                // Let's do matrix stuff.
+                DeckItem deck = getGameState().usingDeck;
+                if (deck != null) {
+                    LOGGER.log(Level.CONFIG, "Popup created for Deck: " + deck.getName());
+                    popup = new DeckPopup(this, deck, getGameState());
+                } else {
+                    LOGGER.log(Level.SEVERE, "Room tried to use a null deck!  Did something go wrong?");
+                    popup = null;
+                }
+            }
         }
         if (popup != null) {
             getChildren().add(popup);
@@ -395,14 +407,20 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         getChildren().remove(popup);
         popup = null;
         getGameState().pause = false;
+
+        if (getGameState().usingDeck != null) {
+            LOGGER.log(Level.SEVERE, "Previous Popup wants to open Deck Popup.");
+            showPopup(Popup.DECK);
+        }
     }
 
     @Override
-    public void popupExit(boolean talk) {
+    public void popupExit(Popup newPopup) {
         popupExit();
-        if (talk) {
-            showPopup(RoomMode.Popup.TALK);
-        }
+        showPopup(newPopup);
+//        if (newPopup.equals(Popup.TALK)) {
+//            showPopup(RoomMode.Popup.TALK);
+//        }
     }
 
 }
