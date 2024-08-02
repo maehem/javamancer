@@ -26,9 +26,12 @@
  */
 package com.maehem.javamancer.neuro.model;
 
+import com.maehem.javamancer.neuro.model.database.Database;
+import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.ItemCatalog;
 import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.ArrayList;
 
 /**
@@ -37,11 +40,13 @@ import java.util.ArrayList;
  */
 public class GameState {
 
+    public final ResourceManager resourceManager;
+
     public String name = "Case";
 
     // Money
     public String bamaId = "056306118"; // Final?
-    public int chipBalance = 6;
+    public int chipBalance = 46;
     public int bankBalance = 2000;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
 
@@ -64,6 +69,8 @@ public class GameState {
     public int roomPosX = 160;
     public int roomPosY = 90;
     public Room room = null;
+    public Database database = null;
+    public DeckItem usingDeck = null;
 
     public RoomBounds.Door useDoor = RoomBounds.Door.NONE; // Set when player collides with door.
     public boolean doorTopLocked = false;
@@ -103,7 +110,9 @@ public class GameState {
     public boolean pause = true;
     public boolean requestQuit = false; // Set by Disk Menu Quit option.
 
-    public GameState() {
+    public GameState(ResourceManager rm) {
+        this.resourceManager = rm;
+
         bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 120));
         bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 56));
         bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 75));
