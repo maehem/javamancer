@@ -47,8 +47,6 @@ import javafx.scene.transform.Scale;
  */
 public class SkillsPopup extends SmallPopupPane {
 
-    private final PopupListener listener;
-
     private enum Mode {
         MENU, USE
     }
@@ -60,8 +58,7 @@ public class SkillsPopup extends SmallPopupPane {
     //private Skill currentItem = null;
 
     public SkillsPopup(PopupListener l, GameState gs) {
-        super(gs);
-        this.listener = l;
+        super(l, gs);
         itemListPage();
     }
 

@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
+import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.skill.Skill;
@@ -53,8 +54,6 @@ import javafx.scene.text.TextFlow;
  */
 public class InventoryPopup extends SmallPopupPane {
 
-    private final PopupListener listener;
-
     private enum Mode {
         MENU, EFFECT, INSTALL, INSTALL_SUMMARY, DISCARD, DISCARD_SUMMARY, CREDITS
     }
@@ -70,8 +69,7 @@ public class InventoryPopup extends SmallPopupPane {
     private Item currentItem = null;
 
     public InventoryPopup(PopupListener l, GameState gs) {
-        super(gs);
-        this.listener = l;
+        super(l, gs);
         listItems();
         insufficientFunds.setVisible(false);
     }
@@ -261,6 +259,11 @@ public class InventoryPopup extends SmallPopupPane {
             if (Skill.class.isAssignableFrom(currentItem.item.clazz)) {
                 LOGGER.log(Level.CONFIG, "Install: {0}", currentItem);
                 askInstallSkillItem();
+            } else if (DeckItem.class.isAssignableFrom(currentItem.item.clazz)) {
+                LOGGER.log(Level.SEVERE, "Use Deck: {0}", currentItem);
+                gameState.usingDeck = DeckItem.getInstance(currentItem.item.clazz);  // Set before exit.
+                // Exit inventory
+                listener.popupExit();
             }
         }
     }
@@ -471,7 +474,7 @@ public class InventoryPopup extends SmallPopupPane {
             int value = Integer.parseInt(enteredNumber.toString());
             if (gameState.chipBalance >= value) {
                 if (gameState.room.getExtras().give(gameState, currentItem, value)) {
-                    listener.popupExit(true);
+                    listener.popupExit(RoomMode.Popup.TALK); // Talk to NPC now.
                 }
             } else {
                 LOGGER.log(Level.INFO, "Insufficient Funds!");

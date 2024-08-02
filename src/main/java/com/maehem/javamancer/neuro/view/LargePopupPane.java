@@ -37,8 +37,8 @@ public abstract class LargePopupPane extends PopupPane {
     private static final int WIDTH = 632;
     private static final int HEIGHT = 200;
 
-    public LargePopupPane(GameState gs) {
-        super(gs);
+    public LargePopupPane(PopupListener l, GameState gs) {
+        super(l, gs);
         setPrefSize(WIDTH, HEIGHT);
         setMinSize(WIDTH, HEIGHT);
         setLayoutX(4);

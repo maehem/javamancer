@@ -52,21 +52,21 @@ public class DialogPopup extends DialogPopupPane {
     private final TextFlow textFlow = new TextFlow();
     private final Text wordText = new Text();
     private Mode mode = Mode.NPC;
-    private final PopupListener listener;
+    //private final PopupListener listener;
     private final int[][] dialogChain;
     private int dialogIndex = 2;
     private int dialogSubIndex = -1;
     private int dialogCountDown = 0;
 
     public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
-        super(gs);
-        this.listener = l;
+        super(l, gs);
+        //this.listener = l;
 
         dialogChain = gs.room.getExtras().getDialogChain();
 
         dialogIndex = gs.room.getExtras().dialogWarmUp(gs);
 
-        textResource = rm.getText(gameState.room);
+        textResource = rm.getRoomText(gameState.room);
 
         getChildren().add(textFlow);
         textFlow.setLayoutX(6);

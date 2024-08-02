@@ -43,16 +43,16 @@ public abstract class SmallPopupPane extends PopupPane {
     private static final int X = 116;
     private static final int Y = 256;
 
-    public SmallPopupPane(GameState gs) {
-        this(gs, WIDTH);
+    public SmallPopupPane(PopupListener l, GameState gs) {
+        this(l, gs, WIDTH);
     }
 
-    public SmallPopupPane(GameState gs, int width) {
-        this(gs, width, HEIGHT, X, Y);
+    public SmallPopupPane(PopupListener l, GameState gs, int width) {
+        this(l, gs, width, HEIGHT, X, Y);
     }
 
-    public SmallPopupPane(GameState gs, int width, int height, int x, int y) {
-        super(gs);
+    public SmallPopupPane(PopupListener l, GameState gs, int width, int height, int x, int y) {
+        super(l, gs);
         setPrefSize(width, height);
         setMinSize(width, height);
         setMaxSize(width, height);

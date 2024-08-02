@@ -43,16 +43,16 @@ public abstract class DialogPopupPane extends PopupPane {
     private static final int X = 0;
     private static final int Y = 8;
 
-    public DialogPopupPane(GameState gs) {
-        this(gs, WIDTH);
+    public DialogPopupPane(PopupListener l, GameState gs) {
+        this(l, gs, WIDTH);
     }
 
-    public DialogPopupPane(GameState gs, int width) {
-        this(gs, width, HEIGHT, X, Y);
+    public DialogPopupPane(PopupListener l, GameState gs, int width) {
+        this(l, gs, width, HEIGHT, X, Y);
     }
 
-    public DialogPopupPane(GameState gs, int width, int height, int x, int y) {
-        super(gs);
+    public DialogPopupPane(PopupListener l, GameState gs, int width, int height, int x, int y) {
+        super(l, gs);
         setPrefSize(width, height);
         setMinSize(width, height);
         setMaxSize(width, height);

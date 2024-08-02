@@ -47,8 +47,10 @@ public abstract class PopupPane extends Pane {
     protected static final double TEXT_SCALE = 1.55;
 
     public final GameState gameState;
+    public final PopupListener listener;
 
-    public PopupPane(GameState gameState) {
+    public PopupPane(PopupListener l, GameState gameState) {
+        this.listener = l;
         this.gameState = gameState;
     }
 

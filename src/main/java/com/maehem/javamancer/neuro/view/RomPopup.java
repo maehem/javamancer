@@ -47,7 +47,7 @@ public class RomPopup extends SmallPopupPane {
 
     private final static int WIDTH = 360;
 
-    private final PopupListener listener;
+    //private final PopupListener listener;
 
     private enum Mode {
         INTRO, MAIN, DEBUG, ANALYSIS, MONITOR
@@ -56,8 +56,7 @@ public class RomPopup extends SmallPopupPane {
     private Mode mode = Mode.INTRO;
 
     public RomPopup(PopupListener l, GameState gs) {
-        super(gs, WIDTH, 128, 80, 256);
-        this.listener = l;
+        super(l, gs, WIDTH, 128, 80, 256);
         romInit();
     }
 

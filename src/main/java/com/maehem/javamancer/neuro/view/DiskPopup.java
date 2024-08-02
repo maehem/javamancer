@@ -53,7 +53,7 @@ import javafx.scene.text.TextFlow;
  */
 public class DiskPopup extends SmallPopupPane {
 
-    private final PopupListener listener;
+    //private final PopupListener listener;
 
     private enum Mode {
         DISK_OPTIONS, LOAD_SCREEN, SAVE_SCREEN, LOAD_SAVE_SUMMARY, LOAD_SUMMARY, PAUSE, QUIT
@@ -62,8 +62,8 @@ public class DiskPopup extends SmallPopupPane {
     private Mode mode = Mode.DISK_OPTIONS;
 
     public DiskPopup(PopupListener l, GameState gs) {
-        super(gs, 280, 128, 110, 240);
-        this.listener = l;
+        super(l, gs, 280, 128, 110, 240);
+        //this.listener = l;
         mainMenu();
     }
 

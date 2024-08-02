@@ -56,7 +56,6 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
 
     public static final Logger LOGGER = Logging.LOGGER;
     private final ResourceManager resourceManager;
-    private final PopupListener listener;
 
     private enum Mode {
         ACCESS, MENU, FIRST, BANKING, NEWS, BBS
@@ -71,8 +70,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
     private PaxNode paxNode = null;
 
     public PaxPopupPane(PopupListener l, GameState gs, ResourceManager rm) {
-        super(gs);
-        this.listener = l;
+        super(l, gs);
         this.resourceManager = rm;
 
         getChildren().add(modeAccess());
