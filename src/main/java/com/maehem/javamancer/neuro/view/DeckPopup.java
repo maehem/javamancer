@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
+import static javafx.scene.input.KeyCode.X;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -44,10 +45,17 @@ import javafx.scene.transform.Scale;
  */
 public class DeckPopup extends PopupPane {
 
-    private static final int SMALL_WIDTH = 360;
-    private static final int SMALL_HEIGHT = 130;
-    private static final int SMALL_X = 114;
-    private static final int SMALL_Y = 256;
+    private static final int SOFT_LIST_WIDTH = 360;
+    private static final int SOFT_LIST_HEIGHT = 130;
+    private static final int SOFT_LIST_X = 114;
+    private static final int SOFT_LIST_Y = 256;
+
+    private static final int LINK_CODE_WIDTH = 350;
+    private static final int LINK_CODE_HEIGHT = 70;
+    private static final int LINK_CODE_X = 0;
+    private static final int LINK_CODE_Y = 256;
+    private static final String LINK_CODE_ENTER_CODE = "\nEnter link code:\n";
+    private static final String LINK_CODE_UNKOWN_LINK = "\nUnknown link.\n";
 
     private static final int LARGE_WIDTH = 600;
     private static final int LARGE_HEIGHT = 320;
@@ -57,12 +65,17 @@ public class DeckPopup extends PopupPane {
     private static final int SOFT_LIST_SIZE = 4;
 
     private final DeckItem deck;
+    private final StringBuilder typedLinkCode = new StringBuilder();
+    private final Text typedLinkCodeText = new Text();
+
     private Mode mode = Mode.SOFTWARE;
 
     private int slotBase = 0; // Slot menu in groups of 4.
+    private final Text heading = new Text(LINK_CODE_ENTER_CODE);
+    private boolean linkCodeErr;
 
     enum Mode {
-        SOFTWARE, PASSWORD, DATABASE
+        SOFTWARE, ENTER_LINKCODE, RESPONSE, DATABASE
     }
 
     public DeckPopup(PopupListener l, DeckItem deck, GameState gameState) {
@@ -76,22 +89,16 @@ public class DeckPopup extends PopupPane {
         LOGGER.log(Level.SEVERE, "Show Deck Popup Software Prompt");
         mode = Mode.SOFTWARE;
 
-        setPrefSize(SMALL_WIDTH, SMALL_HEIGHT);
-        setMinSize(SMALL_WIDTH, SMALL_HEIGHT);
-        setMaxSize(SMALL_WIDTH, SMALL_HEIGHT);
-        setLayoutX(SMALL_X);
-        setLayoutY(SMALL_Y);
-        setId("neuro-popup");
-
+        configSmallWindow();
 
         getChildren().clear();
-        Text heading = new Text("Software");
+        Text softwareHeading = new Text("Software");
         Text exitButton = new Text("exit");
         Text prevButton = new Text("prev");
         Text nextButton = new Text("next");
-        TextFlow tf = new TextFlow(heading);
+        TextFlow tf = new TextFlow(softwareHeading);
         tf.setLineSpacing(-8);
-        tf.setPrefSize(SMALL_WIDTH, SMALL_HEIGHT);
+        tf.setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
         tf.setPadding(new Insets(4, 0, 0, 16));
         tf.getTransforms().add(new Scale(1.333, 1.0));
 
@@ -101,12 +108,16 @@ public class DeckPopup extends PopupPane {
 
         for (int i = 0; i < SOFT_LIST_SIZE; i++) {
             try {
-                    Warez w = deck.softwarez.get(slotBase + i);
+                Warez w = deck.softwarez.get(slotBase + i);
                 Text itemText = new Text("\n" + (i + 1) + ". " + w.getMenuString());
-                    tf.getChildren().add(itemText);
+                tf.getChildren().add(itemText);
 
-                    // Add onMouseClick()
-                } catch (IndexOutOfBoundsException ex) {
+                // Add onMouseClick()
+                itemText.setOnMouseClicked((t) -> {
+                    useSoftware(w);
+                });
+            } catch (IndexOutOfBoundsException ex) {
+                tf.getChildren().add(new Text("\n"));
             }
         }
         tf.getChildren().add(new Text("\n"));
@@ -137,6 +148,69 @@ public class DeckPopup extends PopupPane {
 
     }
 
+    private void useSoftware(Warez w) {
+        String useReponse = w.use(gameState);
+        if (!useReponse.equals(Warez.USE_OK)) {
+            useResponse(useReponse);
+        } else {
+            deck.setCurrentWarez(w);
+            enterLinkCode();
+        }
+    }
+
+    private void enterLinkCode() {
+        LOGGER.log(Level.SEVERE, "Show Deck Link Code Prompt");
+        mode = Mode.ENTER_LINKCODE;
+
+        configEntryWindow();
+
+        getChildren().clear();
+        Text currentSoft = new Text("       " + gameState.usingDeck.getCurrentWarez().getMenuString());
+        Text cursor = new Text("<\n");
+        TextFlow tf = new TextFlow(currentSoft, heading, typedLinkCodeText, cursor);
+        tf.setLineSpacing(-8);
+        //tf.setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
+        tf.setPadding(new Insets(4, 0, 0, 4));
+        tf.getTransforms().add(new Scale(1.333, 1.0));
+
+        getChildren().add(tf);
+
+    }
+
+    private void useResponse(String response) {
+        LOGGER.log(Level.SEVERE, "Show Deck use() response");
+        configSmallWindow();
+
+        mode = Mode.RESPONSE;
+
+        getChildren().clear();
+        Text heading = new Text(response);
+        TextFlow tf = new TextFlow(heading);
+        tf.setLineSpacing(-8);
+        tf.setPadding(new Insets(4, 0, 0, 4));
+        tf.getTransforms().add(new Scale(1.333, 1.0));
+
+        getChildren().add(tf);
+    }
+
+    private void configSmallWindow() {
+        setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
+        setMinSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
+        setMaxSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
+        setLayoutX(SOFT_LIST_X);
+        setLayoutY(SOFT_LIST_Y);
+        setId("neuro-popup");
+    }
+
+    private void configEntryWindow() {
+        setPrefSize(LINK_CODE_WIDTH, LINK_CODE_HEIGHT);
+        setMinSize(LINK_CODE_WIDTH, LINK_CODE_HEIGHT);
+        setMaxSize(LINK_CODE_WIDTH, LINK_CODE_HEIGHT);
+        setLayoutX(LINK_CODE_X);
+        setLayoutY(LINK_CODE_Y);
+        setId("neuro-popup");
+    }
+
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
@@ -146,8 +220,19 @@ public class DeckPopup extends PopupPane {
                 if (code.equals(KeyCode.X)) {
                     gameState.usingDeck = null;
                     LOGGER.log(Level.SEVERE, "Exit Deck (via key event).");
+                    return true;
                 } else if (code.equals(KeyCode.DIGIT1)) {
                     // Item 1
+                }
+            }
+            case ENTER_LINKCODE -> {
+                switch (code) {
+                    case X -> {
+                        gameState.usingDeck = null;
+                        return true;
+                    }
+                    default ->
+                        handleEnteredLinkCode(keyEvent);
                 }
             }
 
@@ -155,4 +240,26 @@ public class DeckPopup extends PopupPane {
         return false;
     }
 
+    private void handleEnteredLinkCode(KeyEvent ke) {
+        LOGGER.log(Level.SEVERE, "Handle Link Code entry key typed.");
+        if (typedLinkCode.length() < 12 && ke.getCode().isLetterKey()) {
+            LOGGER.log(Level.CONFIG, "Typed: {0}", ke.getText());
+            typedLinkCode.append(ke.getText());
+            typedLinkCodeText.setText(typedLinkCode.toString());
+        } else if (typedLinkCode.length() > 0 && ke.getCode().equals(KeyCode.BACK_SPACE)) {
+            LOGGER.log(Level.CONFIG, "Backspace.");
+            if ( linkCodeErr ) {
+                typedLinkCode.setLength(0);
+                linkCodeErr = false;
+                heading.setText(LINK_CODE_ENTER_CODE);
+            } else {
+                typedLinkCode.delete(typedLinkCode.length() - 1, typedLinkCode.length());
+            }
+            typedLinkCodeText.setText(typedLinkCode.toString());
+        } else if (ke.getCode().equals(KeyCode.ENTER)) {
+            // TODO: Check Link Code Valid
+            heading.setText(LINK_CODE_UNKOWN_LINK);
+            linkCodeErr = true;
+        }
+    }
 }
