@@ -41,6 +41,7 @@ public abstract class DeckItem extends Item {
 
     public final int nSlots;
     public final ArrayList<Warez> softwarez = new ArrayList<>();
+    private Warez currentSoftwarez = null;
 
     public DeckItem(Item.Catalog cat, int nSlots) {
         super(cat);
@@ -53,8 +54,9 @@ public abstract class DeckItem extends Item {
             Constructor<?> ctor = d.getConstructor();
 
             Object object = ctor.newInstance(new Object[]{});
-            LOGGER.log(Level.CONFIG, "Deck Object created.");
             if (object instanceof DeckItem deckItem) {
+                LOGGER.log(Level.SEVERE, "Instance Deck: {0} with {1} slots.",
+                        new Object[]{deckItem.getName(), deckItem.nSlots});
                 return deckItem;
             } else {
                 LOGGER.log(Level.SEVERE, "Thing is not a Deck.");
@@ -70,6 +72,14 @@ public abstract class DeckItem extends Item {
         }
         LOGGER.log(Level.SEVERE, "Could not get instance for DeckItem: " + d.getSimpleName());
         return null;
+    }
+
+    public Warez getCurrentWarez() {
+        return currentSoftwarez;
+    }
+
+    public void setCurrentWarez(Warez w) {
+        currentSoftwarez = w;
     }
 
 }
