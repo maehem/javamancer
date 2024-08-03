@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
@@ -34,8 +35,30 @@ import com.maehem.javamancer.neuro.model.item.Item;
  */
 public class ComLinkWarez extends Warez {
 
+    public static final String USE_NO_JACK = "No jack found.";
+
     public ComLinkWarez(int version) {
         super(Item.Catalog.COMLINK, version);
+    }
+
+    @Override
+    public String use(GameState gs) {
+        String superUse = super.use(gs);
+        if (!superUse.equals(Warez.USE_OK)) {
+            return superUse;
+        }
+
+        if (gs.room.extras != null) {
+            // Must be jack in room.
+            int jackZone = gs.room.extras.jackZone();
+            if (jackZone < 0) {
+                // Fail.
+                return USE_NO_JACK;
+            }
+
+            return Warez.USE_OK;
+        }
+        return USE_NO_JACK;
     }
 
 }
