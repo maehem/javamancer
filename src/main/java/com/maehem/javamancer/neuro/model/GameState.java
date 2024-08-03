@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model;
 
 import com.maehem.javamancer.neuro.model.database.Database;
+import com.maehem.javamancer.neuro.model.database.DatabaseList;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.ItemCatalog;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
 public class GameState {
 
     public final ResourceManager resourceManager;
+    public final DatabaseList dbList = new DatabaseList();
 
     public String name = "Case";
 
