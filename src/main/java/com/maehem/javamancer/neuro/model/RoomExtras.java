@@ -53,4 +53,9 @@ public abstract class RoomExtras {
     public abstract void dialogNoMore(GameState gs);
 
     public abstract void initRoom(GameState gs);
+
+    public abstract int jackZone();
+
+    public abstract boolean hasPAX();
+
 }

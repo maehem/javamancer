@@ -116,4 +116,14 @@ public class R1Extras extends RoomExtras {
         //gs.doorBottomLocked = false; // Unlock door.
     }
 
+    @Override
+    public int jackZone() {
+        return 0;
+    }
+
+    @Override
+    public boolean hasPAX() {
+        return true;
+    }
+
 }
