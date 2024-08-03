@@ -48,9 +48,6 @@ public abstract class Database {
     public final HashMap<Class<? extends Warez>, Integer> warez2 = new HashMap<>();
     public final HashMap<Class<? extends Warez>, Integer> warez3 = new HashMap<>();
 
-    //public final ArrayList<Class<? extends Warez>> warez1 = new ArrayList<>();
-    //public final ArrayList<Class<? extends Warez>> warez2 = new ArrayList<>();
-    //public final ArrayList<Class<? extends Warez>> warez3 = new ArrayList<>();
     public final int matrixX;
     public final int matrixY;
     public final Class<? extends AI> ai;
@@ -82,26 +79,5 @@ public abstract class Database {
         this.weaknessWarez = weaknessWarez;
         this.ice = ice;
     }
-
-//    /**
-//     * @return the warez for level 1
-//     */
-//    public ArrayList<Class<? extends Warez>> getWarez1() {
-//        return warez1;
-//    }
-//
-//    /**
-//     * @return the warez for level 2
-//     */
-//    public ArrayList<Class<? extends Warez>> getWarez2() {
-//        return warez2;
-//    }
-//
-//    /**
-//     * @return the warez for level 2
-//     */
-//    public ArrayList<Class<? extends Warez>> getWarez3() {
-//        return warez3;
-//    }
 
 }
