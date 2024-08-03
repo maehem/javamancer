@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
@@ -33,6 +34,8 @@ import com.maehem.javamancer.neuro.model.item.Item;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public abstract class Warez {
+
+    public static final String USE_OK = "OK";
 
     public final Item.Catalog item;
     public final int version;
@@ -44,9 +47,13 @@ public abstract class Warez {
 
     public String getMenuString() {
         int length = item.itemName.length();
-        return String.format("%-16s", item.itemName)
+        return String.format("%-12s", item.itemName)
                 + String.format("%2s", String.valueOf(version))
                 + ".0";
+    }
+
+    public String use(GameState gs) {
+        return USE_OK;
     }
 
 }
