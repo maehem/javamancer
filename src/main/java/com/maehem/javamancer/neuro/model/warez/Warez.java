@@ -46,7 +46,6 @@ public abstract class Warez {
     }
 
     public String getMenuString() {
-        int length = item.itemName.length();
         return String.format("%-12s", item.itemName)
                 + String.format("%2s", String.valueOf(version))
                 + ".0";
