@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.util.logging.Level;
@@ -241,13 +242,13 @@ public class DeckPopup extends PopupPane {
     }
 
     private void handleEnteredLinkCode(KeyEvent ke) {
-        LOGGER.log(Level.SEVERE, "Handle Link Code entry key typed.");
+        LOGGER.log(Level.FINEST, "Handle Link Code entry key typed.");
         if (typedLinkCode.length() < 12 && ke.getCode().isLetterKey()) {
-            LOGGER.log(Level.CONFIG, "Typed: {0}", ke.getText());
+            LOGGER.log(Level.FINEST, "Typed: {0}", ke.getText());
             typedLinkCode.append(ke.getText());
             typedLinkCodeText.setText(typedLinkCode.toString());
         } else if (typedLinkCode.length() > 0 && ke.getCode().equals(KeyCode.BACK_SPACE)) {
-            LOGGER.log(Level.CONFIG, "Backspace.");
+            LOGGER.log(Level.FINEST, "Backspace.");
             if ( linkCodeErr ) {
                 typedLinkCode.setLength(0);
                 linkCodeErr = false;
@@ -258,8 +259,25 @@ public class DeckPopup extends PopupPane {
             typedLinkCodeText.setText(typedLinkCode.toString());
         } else if (ke.getCode().equals(KeyCode.ENTER)) {
             // TODO: Check Link Code Valid
-            heading.setText(LINK_CODE_UNKOWN_LINK);
-            linkCodeErr = true;
+
+            // TODO: Find link.
+            Database whoIs = gameState.dbList.whoIs(typedLinkCode.toString());
+            if (whoIs != null) {
+                // Connect
+                if (whoIs.password1 != null) {
+                    // Password prompt
+                    LOGGER.log(Level.SEVERE, "Password prompt for: " + whoIs.name);
+
+                    // Check if proper zone.
+                } else {
+                    // Should never get here. If there is a link code, there should
+                    // be at least one passowrd.
+                    LOGGER.log(Level.SEVERE, "Only from cyberspace");
+                }
+            } else {
+                heading.setText(LINK_CODE_UNKOWN_LINK);
+                linkCodeErr = true;
+            }
         }
     }
 }
