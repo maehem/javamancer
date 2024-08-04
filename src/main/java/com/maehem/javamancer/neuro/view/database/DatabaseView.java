@@ -57,7 +57,7 @@ public abstract class DatabaseView {
 
     private final StringBuilder typedPassword = new StringBuilder();
     protected final Text enteredText = new Text();
-    protected final Text accessDeniedText = new Text("\n" + centeredText("Access denied."));
+    protected final Text accessDeniedText = new Text("\n\n" + centeredText("Access denied."));
     protected boolean accessDenied = false;
 
     protected static final String CONTINUE_TEXT = "    Button or [space] to continue.";
@@ -135,16 +135,16 @@ public abstract class DatabaseView {
     protected TextFlow passwordFoo() {
 
         String leadingSpace = "        ";
-        Text instructionsText = new Text("\n" + centeredText("Enter password:") + "\n");
+        Text instructionsText = new Text("\n" + centeredText("Enter password:") + "\n\n");
         Text leadingText1 = new Text(leadingSpace);
         Text leadingText2 = new Text(leadingSpace);
-        Text cursorText = new Text("<");
+        Text cursorText = new Text("<\n");
 
         TextFlow tf = new TextFlow(
                 leadingText1, instructionsText,
                 leadingText2, enteredText, cursorText,
-                accessDeniedText,
-                new Text("\n\n\n\n\n\n" + centeredText(CONTINUE_TEXT))
+                new Text(), accessDeniedText, // need blank Text() or FX has rendering issue.
+                new Text("\n\n\n\n" + centeredText(CONTINUE_TEXT))
         );
         tf.getTransforms().add(TEXT_SCALE);
         tf.setPadding(TF_PADDING);
