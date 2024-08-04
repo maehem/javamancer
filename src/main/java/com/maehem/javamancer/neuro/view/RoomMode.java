@@ -298,9 +298,14 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             //LOGGER.log(Level.SEVERE, "Dialog tick.");
             dp.dialogCounter();
         }
+        if (popup != null && popup instanceof DeckPopup dp) {
+            //LOGGER.log(Level.SEVERE, "Dialog tick.");
+            dp.tick();
+        }
         if (popup == null) {
             roomPane.tick(getGameState());
         }
+
     }
 
     private void showPopup(Popup pop) {
