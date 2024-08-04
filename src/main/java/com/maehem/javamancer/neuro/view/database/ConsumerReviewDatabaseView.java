@@ -27,8 +27,9 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.database.ConsumerReviewDatabase;
-import javafx.scene.layout.VBox;
+import com.maehem.javamancer.neuro.model.TextResource;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -36,7 +37,7 @@ import javafx.scene.text.TextFlow;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class ConsumerReviewDatabasePane extends DatabasePane {
+public class ConsumerReviewDatabaseView extends DatabaseView {
 
     private enum Mode {
         LANDING, MAIN_1
@@ -45,11 +46,10 @@ public class ConsumerReviewDatabasePane extends DatabasePane {
     private final Text headingText = new Text();
     private final Text continueText = new Text();
 
-
     private Mode mode = Mode.LANDING;
 
-    public ConsumerReviewDatabasePane(GameState gameState, DatabaseNodeListener listener) {
-        super(new ConsumerReviewDatabase(), gameState, listener);
+    public ConsumerReviewDatabaseView(GameState gameState, Pane pane) {
+        super(gameState, pane);
         //headingText.setText(MSG.getString("HEADING"));
         //continueText.setText(MSG.getString("CONTINUE"));
 
@@ -57,13 +57,31 @@ public class ConsumerReviewDatabasePane extends DatabasePane {
     }
 
     private void landingPage() {
-        getChildren().clear();
+        pane.getChildren().clear();
         mode = Mode.LANDING;
 
-        TextFlow tf = new TextFlow(new Text("Landing Page"));
+        TextResource dbTextResource = gameState.resourceManager.getDatabaseText(gameState.database.number);
+        //36
+        //String headingStr = dbTextResource.get(0);
+        //int pad = headingStr.length() + (CHAR_W - headingStr.length()) / 2;
+        //headingText.setText(String.format("%" + pad + "s", headingStr) + "\n\n");
+        headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
 
-        VBox box = new VBox(headingText, tf, continueText);
+        Text helloText = new Text(dbTextResource.get(2) + "\n\n\n");
+        Text continueText = new Text(CONTINUE_TEXT);
 
+        TextFlow tf = new TextFlow(headingText, helloText, continueText);
+        tf.getTransforms().add(TEXT_SCALE);
+        tf.setPadding(TF_PADDING);
+        tf.setLineSpacing(LINE_SPACING);
+        tf.setPrefWidth(TF_W);
+
+        pane.getChildren().add(tf);
+    }
+
+    @Override
+    public boolean handleKeyEvent(KeyEvent keyEvent) {
+        return super.handleKeyEvent(keyEvent);
     }
 
 }
