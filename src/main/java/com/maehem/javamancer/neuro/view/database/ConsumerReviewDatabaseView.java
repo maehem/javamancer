@@ -28,6 +28,8 @@ package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
+import java.util.logging.Level;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -40,7 +42,7 @@ import javafx.scene.text.TextFlow;
 public class ConsumerReviewDatabaseView extends DatabaseView {
 
     private enum Mode {
-        LANDING, MAIN_1
+        LANDING, PASSWORD, MAIN_1
     }
 
     private final Text headingText = new Text();
@@ -70,18 +72,46 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         Text helloText = new Text(dbTextResource.get(2) + "\n\n\n");
         Text continueText = new Text(CONTINUE_TEXT);
 
-        TextFlow tf = new TextFlow(headingText, helloText, continueText);
-        tf.getTransforms().add(TEXT_SCALE);
-        tf.setPadding(TF_PADDING);
-        tf.setLineSpacing(LINE_SPACING);
-        tf.setPrefWidth(TF_W);
-
+//        TextFlow tf = new TextFlow(headingText, helloText, continueText);
+//        tf.getTransforms().add(TEXT_SCALE);
+//        tf.setPadding(TF_PADDING);
+//        tf.setLineSpacing(LINE_SPACING);
+//        tf.setPrefWidth(TF_W);
+        TextFlow tf = pageTextFlow();
+        tf.getChildren().addAll(headingText, helloText, continueText);
         pane.getChildren().add(tf);
+    }
+
+    private void passwordPage() {
+        mode = Mode.PASSWORD;
+        pane.getChildren().clear();
+        pane.getChildren().add(passwordFoo());
     }
 
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
+        KeyCode code = keyEvent.getCode();
+
+        switch (mode) {
+            case LANDING -> {
+                if (code.equals(KeyCode.SPACE)) {
+                    passwordPage();
+                }
+            }
+            case PASSWORD -> {
+                handleEnteredPassword(keyEvent);
+            }
+        }
         return super.handleKeyEvent(keyEvent);
+    }
+
+    @Override
+    protected void siteContent() {
+        LOGGER.log(Level.SEVERE, "Do site content main_1.");
+        mode = Mode.MAIN_1;
+        pane.getChildren().clear();
+
+        pane.getChildren().add(new Text("Main 1"));
     }
 
 }

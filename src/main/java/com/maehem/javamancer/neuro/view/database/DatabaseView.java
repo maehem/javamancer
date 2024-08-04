@@ -34,16 +34,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class DatabaseView {
+public abstract class DatabaseView {
 
     public static final Logger LOGGER = Logging.LOGGER;
     //protected static final double TEXT_SCALE = 1.5;
@@ -51,8 +53,12 @@ public class DatabaseView {
     protected static final double LINE_SPACING = -8.8;
     protected static final Scale TEXT_SCALE = new Scale(1.5, 1.0);
     protected static final double TF_W = 640 / TEXT_SCALE.getX();
-    protected static final Insets TF_PADDING = new Insets( 8 );
+    protected static final Insets TF_PADDING = new Insets(8);
 
+    private final StringBuilder typedPassword = new StringBuilder();
+    protected final Text enteredText = new Text();
+    protected final Text accessDeniedText = new Text("\n" + centeredText("Access denied."));
+    protected boolean accessDenied = false;
 
     protected static final String CONTINUE_TEXT = "    Button or [space] to continue.";
 
@@ -60,10 +66,14 @@ public class DatabaseView {
     protected final GameState gameState;
     protected final Pane pane;
 
+    protected int accessLevel = 0;
+
     public DatabaseView(GameState gs, Pane p) {
         this.database = gs.database;
         this.gameState = gs;
         this.pane = p;
+
+        accessDeniedText.setVisible(false);
     }
 
     public boolean handleKeyEvent(KeyEvent keyEvent) {
@@ -77,10 +87,6 @@ public class DatabaseView {
         }
 
         return false;
-    }
-
-    protected Text NL() {
-        return new Text("\n");
     }
 
     public static DatabaseView getView(GameState gs, Pane p) {
@@ -115,4 +121,79 @@ public class DatabaseView {
         int pad = str.length() + (CHAR_W - str.length()) / 2;
         return String.format("%" + pad + "s", str);
     }
+
+    protected TextFlow pageTextFlow() {
+        TextFlow tf = new TextFlow();
+        tf.getTransforms().add(TEXT_SCALE);
+        tf.setPadding(TF_PADDING);
+        tf.setLineSpacing(LINE_SPACING);
+        tf.setPrefWidth(TF_W);
+
+        return tf;
+    }
+
+    protected TextFlow passwordFoo() {
+
+        String leadingSpace = "        ";
+        Text instructionsText = new Text("\n" + centeredText("Enter password:") + "\n");
+        Text leadingText1 = new Text(leadingSpace);
+        Text leadingText2 = new Text(leadingSpace);
+        Text cursorText = new Text("<");
+
+        TextFlow tf = new TextFlow(
+                leadingText1, instructionsText,
+                leadingText2, enteredText, cursorText,
+                accessDeniedText,
+                new Text("\n\n\n\n\n\n" + centeredText(CONTINUE_TEXT))
+        );
+        tf.getTransforms().add(TEXT_SCALE);
+        tf.setPadding(TF_PADDING);
+        tf.setLineSpacing(LINE_SPACING);
+        tf.setPrefWidth(TF_W);
+
+        return tf;
+    }
+
+    protected void handleEnteredPassword(KeyEvent ke) {
+        LOGGER.log(Level.FINEST, "Handle password key typed.");
+        if (typedPassword.length() < 12 && ke.getCode().isLetterKey()) {
+            LOGGER.log(Level.FINEST, "Typed: {0}", ke.getText());
+            typedPassword.append(ke.getText());
+            enteredText.setText(typedPassword.toString());
+        } else if (typedPassword.length() > 0 && ke.getCode().equals(KeyCode.BACK_SPACE)) {
+            LOGGER.log(Level.FINEST, "Backspace.");
+            if (accessDenied) {
+                typedPassword.setLength(0);
+                accessDenied = false;
+                accessDeniedText.setVisible(false);
+            } else {
+                typedPassword.delete(typedPassword.length() - 1, typedPassword.length());
+            }
+            enteredText.setText(typedPassword.toString());
+        } else if (ke.getCode().equals(KeyCode.ENTER)) {
+            LOGGER.log(Level.SEVERE, "entered: {0}  passwords: {1}, {2}",
+                    new Object[]{
+                        typedPassword,
+                        gameState.database.password1,
+                        gameState.database.password2 == null ? "none" : gameState.database.password2
+                    });
+            // Check password valid.
+            if (gameState.database.password1.equals(typedPassword.toString())) {
+                accessLevel = 1;
+                accessDenied = false;
+                siteContent();
+            } else if (gameState.database.password2 != null
+                    && gameState.database.password2.equals(typedPassword.toString())) {
+                accessLevel = 2;
+                accessDenied = false;
+                siteContent();
+            } else {
+                accessDenied = true;
+                accessDeniedText.setVisible(true);
+            }
+
+        }
+    }
+
+    protected abstract void siteContent();
 }
