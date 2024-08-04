@@ -30,6 +30,7 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.warez.Warez;
+import com.maehem.javamancer.neuro.view.database.DatabaseView;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
@@ -46,6 +47,12 @@ import javafx.scene.transform.Scale;
  */
 public class DeckPopup extends PopupPane {
 
+    private DatabaseView databaseView;
+
+    enum Mode {
+        SOFTWARE, ENTER_LINKCODE, ENTER_PASSWORD, RESPONSE, DATABASE
+    }
+
     private static final int SOFT_LIST_WIDTH = 360;
     private static final int SOFT_LIST_HEIGHT = 130;
     private static final int SOFT_LIST_X = 114;
@@ -58,26 +65,22 @@ public class DeckPopup extends PopupPane {
     private static final String LINK_CODE_ENTER_CODE = "\nEnter link code:\n";
     private static final String LINK_CODE_UNKOWN_LINK = "\nUnknown link.\n";
 
-    private static final int LARGE_WIDTH = 600;
-    private static final int LARGE_HEIGHT = 320;
-    private static final int LARGE_X = 16;
-    private static final int LARGE_Y = 16;
+    private static final int LARGE_WIDTH = 640;
+    private static final int LARGE_HEIGHT = 288;
+    private static final int LARGE_X = 0;
+    private static final int LARGE_Y = 0;
 
     private static final int SOFT_LIST_SIZE = 4;
+    private final Text linkEnterheading = new Text(LINK_CODE_ENTER_CODE);
 
     private final DeckItem deck;
     private final StringBuilder typedLinkCode = new StringBuilder();
-    private final Text typedLinkCodeText = new Text();
+    private final Text typedLinkEntryText = new Text();
 
-    private Mode mode = Mode.SOFTWARE;
 
     private int slotBase = 0; // Slot menu in groups of 4.
-    private final Text heading = new Text(LINK_CODE_ENTER_CODE);
+    private Mode mode = Mode.SOFTWARE;
     private boolean linkCodeErr;
-
-    enum Mode {
-        SOFTWARE, ENTER_LINKCODE, RESPONSE, DATABASE
-    }
 
     public DeckPopup(PopupListener l, DeckItem deck, GameState gameState) {
         super(l, gameState);
@@ -168,14 +171,12 @@ public class DeckPopup extends PopupPane {
         getChildren().clear();
         Text currentSoft = new Text("       " + gameState.usingDeck.getCurrentWarez().getMenuString());
         Text cursor = new Text("<\n");
-        TextFlow tf = new TextFlow(currentSoft, heading, typedLinkCodeText, cursor);
+        TextFlow tf = new TextFlow(currentSoft, linkEnterheading, typedLinkEntryText, cursor);
         tf.setLineSpacing(-8);
-        //tf.setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
         tf.setPadding(new Insets(4, 0, 0, 4));
         tf.getTransforms().add(new Scale(1.333, 1.0));
 
         getChildren().add(tf);
-
     }
 
     private void useResponse(String response) {
@@ -193,6 +194,47 @@ public class DeckPopup extends PopupPane {
 
         getChildren().add(tf);
     }
+
+    private void siteContent() {
+        LOGGER.log(Level.SEVERE, "Open site: " + gameState.database.name);
+        mode = Mode.DATABASE;
+        configDatabaseWindow();
+
+        getChildren().clear();
+
+        // Database View takes over content and keyevents until it exits.
+        this.databaseView = DatabaseView.getView(gameState, this);
+    }
+
+//    private DatabaseView getDatabaseView() {
+//        Class<? extends DatabaseView> viewClass = DatabaseViewList.getViewClass(gameState.database.getClass());
+//            try {
+//                Constructor<?> ctor = viewClass.getConstructor(new Class[]{
+//                    GameState.class,
+//                    Pane.class
+//                });
+//                Object object = ctor.newInstance(new Object[]{gameState, (Pane) this});
+//                LOGGER.log(Level.SEVERE, "Database View created.");
+//                if (object instanceof DatabaseView re) {
+//                    return re;
+//                } else {
+//                    LOGGER.log(Level.SEVERE, "Database View Creation Failed.");
+//                    return null;
+//                }
+//            } catch (InstantiationException
+//                    | IllegalAccessException
+//                    | IllegalArgumentException
+//                    | InvocationTargetException
+//                    | NoSuchMethodException
+//                    | SecurityException ex) {
+//                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+//                ex.printStackTrace();
+//            }
+//        LOGGER.log(Level.SEVERE, "Was not able to create a view for {0}", gameState.database.name);
+//            return null;
+//        }
+//
+
 
     private void configSmallWindow() {
         setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
@@ -212,6 +254,15 @@ public class DeckPopup extends PopupPane {
         setId("neuro-popup");
     }
 
+    private void configDatabaseWindow() {
+        setPrefSize(LARGE_WIDTH, LARGE_HEIGHT);
+        setMinSize(LARGE_WIDTH, LARGE_HEIGHT);
+        setMaxSize(LARGE_WIDTH, LARGE_HEIGHT);
+        setLayoutX(LARGE_X);
+        setLayoutY(LARGE_Y);
+        setId("neuro-popup");
+    }
+
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
@@ -220,6 +271,7 @@ public class DeckPopup extends PopupPane {
             case SOFTWARE -> {
                 if (code.equals(KeyCode.X)) {
                     gameState.usingDeck = null;
+                    gameState.database = null;
                     LOGGER.log(Level.SEVERE, "Exit Deck (via key event).");
                     return true;
                 } else if (code.equals(KeyCode.DIGIT1)) {
@@ -230,10 +282,20 @@ public class DeckPopup extends PopupPane {
                 switch (code) {
                     case X -> {
                         gameState.usingDeck = null;
+                        gameState.database = null;
                         return true;
                     }
                     default ->
                         handleEnteredLinkCode(keyEvent);
+                }
+            }
+            case DATABASE -> {
+                if (databaseView != null) {
+                    if (databaseView.handleKeyEvent(keyEvent)) {
+                        databaseView = null;
+                        gameState.usingDeck = null;
+                        gameState.database = null;
+                    }
                 }
             }
 
@@ -246,17 +308,17 @@ public class DeckPopup extends PopupPane {
         if (typedLinkCode.length() < 12 && ke.getCode().isLetterKey()) {
             LOGGER.log(Level.FINEST, "Typed: {0}", ke.getText());
             typedLinkCode.append(ke.getText());
-            typedLinkCodeText.setText(typedLinkCode.toString());
+            typedLinkEntryText.setText(typedLinkCode.toString());
         } else if (typedLinkCode.length() > 0 && ke.getCode().equals(KeyCode.BACK_SPACE)) {
             LOGGER.log(Level.FINEST, "Backspace.");
             if ( linkCodeErr ) {
                 typedLinkCode.setLength(0);
                 linkCodeErr = false;
-                heading.setText(LINK_CODE_ENTER_CODE);
+                linkEnterheading.setText(LINK_CODE_ENTER_CODE);
             } else {
                 typedLinkCode.delete(typedLinkCode.length() - 1, typedLinkCode.length());
             }
-            typedLinkCodeText.setText(typedLinkCode.toString());
+            typedLinkEntryText.setText(typedLinkCode.toString());
         } else if (ke.getCode().equals(KeyCode.ENTER)) {
             // TODO: Check Link Code Valid
 
@@ -264,18 +326,10 @@ public class DeckPopup extends PopupPane {
             Database whoIs = gameState.dbList.whoIs(typedLinkCode.toString());
             if (whoIs != null) {
                 // Connect
-                if (whoIs.password1 != null) {
-                    // Password prompt
-                    LOGGER.log(Level.SEVERE, "Password prompt for: " + whoIs.name);
-
-                    // Check if proper zone.
-                } else {
-                    // Should never get here. If there is a link code, there should
-                    // be at least one passowrd.
-                    LOGGER.log(Level.SEVERE, "Only from cyberspace");
-                }
+                gameState.database = whoIs;
+                siteContent(); // hand off to custom site handler.
             } else {
-                heading.setText(LINK_CODE_UNKOWN_LINK);
+                linkEnterheading.setText(LINK_CODE_UNKOWN_LINK);
                 linkCodeErr = true;
             }
         }
