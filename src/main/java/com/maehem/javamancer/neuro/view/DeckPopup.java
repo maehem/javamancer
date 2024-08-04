@@ -334,4 +334,10 @@ public class DeckPopup extends PopupPane {
             }
         }
     }
+
+    public void tick() {
+        if (mode == Mode.DATABASE && databaseView != null) {
+            databaseView.tick();
+        }
+    }
 }
