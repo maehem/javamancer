@@ -29,7 +29,6 @@ package com.maehem.javamancer.neuro.view.database;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
 import java.util.logging.Level;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -42,66 +41,38 @@ import javafx.scene.text.TextFlow;
 public class ConsumerReviewDatabaseView extends DatabaseView {
 
     private enum Mode {
-        LANDING, PASSWORD, MAIN_1
+        SUB, MAIN_1
     }
 
     private final Text headingText = new Text();
-    private final Text continueText = new Text();
+    private final Text continueText = new Text(CONTINUE_TEXT);
 
-    private Mode mode = Mode.LANDING;
+    private Mode mode = Mode.SUB;
 
     public ConsumerReviewDatabaseView(GameState gameState, Pane pane) {
         super(gameState, pane);
-        //headingText.setText(MSG.getString("HEADING"));
-        //continueText.setText(MSG.getString("CONTINUE"));
 
         landingPage();
     }
 
-    private void landingPage() {
+    @Override
+    protected void landingPage() {
         pane.getChildren().clear();
-        mode = Mode.LANDING;
+        mode = Mode.SUB;
 
         TextResource dbTextResource = gameState.resourceManager.getDatabaseText(gameState.database.number);
-        //36
-        //String headingStr = dbTextResource.get(0);
-        //int pad = headingStr.length() + (CHAR_W - headingStr.length()) / 2;
-        //headingText.setText(String.format("%" + pad + "s", headingStr) + "\n\n");
         headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
 
         Text helloText = new Text(dbTextResource.get(2) + "\n\n\n");
-        Text continueText = new Text(CONTINUE_TEXT);
 
-//        TextFlow tf = new TextFlow(headingText, helloText, continueText);
-//        tf.getTransforms().add(TEXT_SCALE);
-//        tf.setPadding(TF_PADDING);
-//        tf.setLineSpacing(LINE_SPACING);
-//        tf.setPrefWidth(TF_W);
         TextFlow tf = pageTextFlow();
         tf.getChildren().addAll(headingText, helloText, continueText);
         pane.getChildren().add(tf);
     }
 
-    private void passwordPage() {
-        mode = Mode.PASSWORD;
-        pane.getChildren().clear();
-        pane.getChildren().add(passwordFoo());
-    }
-
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
-        KeyCode code = keyEvent.getCode();
 
-        switch (mode) {
-            case LANDING -> {
-                if (code.equals(KeyCode.SPACE)) {
-                    passwordPage();
-                }
-            }
-            case PASSWORD -> {
-                handleEnteredPassword(keyEvent);
-            }
-        }
         return super.handleKeyEvent(keyEvent);
     }
 
@@ -111,7 +82,9 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         mode = Mode.MAIN_1;
         pane.getChildren().clear();
 
-        pane.getChildren().add(new Text("Main 1"));
+        TextFlow tf = pageTextFlow();
+        tf.getChildren().add(new Text("Main 1"));
+        pane.getChildren().add(tf);
     }
 
 }

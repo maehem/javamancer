@@ -35,6 +35,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
+import static javafx.scene.input.KeyCode.ESCAPE;
+import static javafx.scene.input.KeyCode.X;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -48,6 +50,15 @@ import javafx.scene.transform.Scale;
 public abstract class DatabaseView {
 
     public static final Logger LOGGER = Logging.LOGGER;
+
+    protected enum SubMode {
+        LANDING, PASSWORD, CLEAR_WAIT, MAIN
+    }
+
+    private enum AccessText {
+        NONE, DENIED, CLEARED_1, CLEARED_2
+    }
+
     //protected static final double TEXT_SCALE = 1.5;
     protected static final int CHAR_W = 38; // This many chars accross.
     protected static final double LINE_SPACING = -8.8;
@@ -57,7 +68,7 @@ public abstract class DatabaseView {
 
     private final StringBuilder typedPassword = new StringBuilder();
     protected final Text enteredText = new Text();
-    protected final Text accessDeniedText = new Text("\n\n" + centeredText("Access denied."));
+    protected final Text accessStatusText = new Text();
     protected boolean accessDenied = false;
 
     protected static final String CONTINUE_TEXT = "    Button or [space] to continue.";
@@ -67,22 +78,33 @@ public abstract class DatabaseView {
     protected final Pane pane;
 
     protected int accessLevel = 0;
+    protected SubMode subMode = SubMode.LANDING;
+    private int clearWait = 0;
 
     public DatabaseView(GameState gs, Pane p) {
         this.database = gs.database;
         this.gameState = gs;
         this.pane = p;
 
-        accessDeniedText.setVisible(false);
+        setAccessText(AccessText.NONE);
     }
 
     public boolean handleKeyEvent(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case X, ESCAPE -> {
-                LOGGER.log(Level.FINER, "User pressed X or ESC Key.");
-                return true;
+        KeyCode code = keyEvent.getCode();
+        switch (subMode) {
+            case LANDING -> {
+                switch (code) {
+                    case KeyCode.SPACE -> {
+                        passwordPage();
+                    }
+                    case X, ESCAPE -> {
+                        LOGGER.log(Level.FINER, "User pressed X or ESC Key.");
+                        return true;
+                    }
+                }
             }
-            default -> {
+            case PASSWORD -> {
+                handleEnteredPassword(keyEvent);
             }
         }
 
@@ -132,6 +154,12 @@ public abstract class DatabaseView {
         return tf;
     }
 
+    private void passwordPage() {
+        subMode = SubMode.PASSWORD;
+        pane.getChildren().clear();
+        pane.getChildren().add(passwordFoo());
+    }
+
     protected TextFlow passwordFoo() {
 
         String leadingSpace = "        ";
@@ -143,7 +171,7 @@ public abstract class DatabaseView {
         TextFlow tf = new TextFlow(
                 leadingText1, instructionsText,
                 leadingText2, enteredText, cursorText,
-                new Text(), accessDeniedText, // need blank Text() or FX has rendering issue.
+                new Text("\n\n"), accessStatusText, // need blank Text() or FX has rendering issue.
                 new Text("\n\n\n\n" + centeredText(CONTINUE_TEXT))
         );
         tf.getTransforms().add(TEXT_SCALE);
@@ -165,7 +193,7 @@ public abstract class DatabaseView {
             if (accessDenied) {
                 typedPassword.setLength(0);
                 accessDenied = false;
-                accessDeniedText.setVisible(false);
+                setAccessText(AccessText.NONE);
             } else {
                 typedPassword.delete(typedPassword.length() - 1, typedPassword.length());
             }
@@ -180,20 +208,59 @@ public abstract class DatabaseView {
             // Check password valid.
             if (gameState.database.password1.equals(typedPassword.toString())) {
                 accessLevel = 1;
-                accessDenied = false;
-                siteContent();
+                setAccessText(AccessText.CLEARED_1);
+                // set cleared for access text.
+                accessCleared(2);
             } else if (gameState.database.password2 != null
                     && gameState.database.password2.equals(typedPassword.toString())) {
                 accessLevel = 2;
-                accessDenied = false;
-                siteContent();
+                setAccessText(AccessText.CLEARED_2);
+                accessCleared(2);
+                // set cleared for access text.
             } else {
                 accessDenied = true;
-                accessDeniedText.setVisible(true);
+                setAccessText(AccessText.DENIED);
+                accessStatusText.setVisible(true);
+            }
+        }
+    }
+
+    private void setAccessText(AccessText state) {
+        switch (state) {
+            case NONE -> {
+                accessStatusText.setText("");
+            }
+            case DENIED -> {
+                accessStatusText.setText(centeredText("Access denied."));
+            }
+            case CLEARED_1 -> {
+                accessStatusText.setText(centeredText("Cleared for Level 1 access."));
+            }
+            case CLEARED_2 -> {
+                accessStatusText.setText(centeredText("Cleared for Level 2 access."));
+            }
+        }
+    }
+
+    protected void accessCleared(int wait) {
+        LOGGER.log(Level.SEVERE, "Access Cleared.");
+        subMode = SubMode.CLEAR_WAIT;
+        clearWait = 30; // 2 seconds.
+    }
+
+    protected abstract void landingPage();
+    protected abstract void siteContent();
+
+    public void tick() {
+        if (subMode.equals(SubMode.CLEAR_WAIT)) {
+            clearWait--;
+            if (clearWait <= 0) {
+                clearWait = 0;
+                subMode = SubMode.MAIN;
+                LOGGER.log(Level.SEVERE, "ClearWait finished. Load site content.");
+                siteContent();
             }
 
         }
     }
-
-    protected abstract void siteContent();
 }
