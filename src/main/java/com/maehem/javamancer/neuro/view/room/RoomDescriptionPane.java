@@ -42,7 +42,7 @@ public class RoomDescriptionPane extends ScrollPane {
     public static final Logger LOGGER = Logging.LOGGER;
 
     private final Text text = new Text("...");
-    private TextFlow textFlow = new TextFlow(text);
+    private final TextFlow textFlow = new TextFlow(text);
 
     public RoomDescriptionPane() {
         super();
