@@ -308,6 +308,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     }
 
+    /**
+     * Note to future self: Deck cannot open another deck.
+     *
+     * @param pop
+     */
     private void showPopup(Popup pop) {
         if (popup != null) {
             return; // User must exit current popup first!
@@ -410,6 +415,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     public void popupExit() {
         popup.setVisible(false);
         getChildren().remove(popup);
+        if (popup instanceof DeckPopup dp) {
+            dp.cleanUp();
+        }
         popup = null;
         getGameState().pause = false;
 
