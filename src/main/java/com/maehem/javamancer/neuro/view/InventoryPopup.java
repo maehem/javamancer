@@ -254,6 +254,7 @@ public class InventoryPopup extends SmallPopupPane {
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     private void operateItem() {
         if (currentItem != null) {
             if (Skill.class.isAssignableFrom(currentItem.item.clazz)) {
