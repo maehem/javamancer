@@ -295,6 +295,7 @@ public class DeckPopup extends PopupPane {
                         databaseView = null;
                         gameState.usingDeck = null;
                         gameState.database = null;
+                        return true;
                     }
                 }
             }
