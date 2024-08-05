@@ -77,7 +77,6 @@ public class DeckPopup extends PopupPane {
     private final StringBuilder typedLinkCode = new StringBuilder();
     private final Text typedLinkEntryText = new Text();
 
-
     private int slotBase = 0; // Slot menu in groups of 4.
     private Mode mode = Mode.SOFTWARE;
     private boolean linkCodeErr;
@@ -144,7 +143,7 @@ public class DeckPopup extends PopupPane {
             });
         }
         exitButton.setOnMouseClicked((t) -> {
-            gameState.usingDeck = null;
+            cleanUp();
             LOGGER.log(Level.SEVERE, "Exit Deck (via mouse click).");
 
             listener.popupExit();
@@ -203,7 +202,7 @@ public class DeckPopup extends PopupPane {
         getChildren().clear();
 
         // Database View takes over content and keyevents until it exits.
-        this.databaseView = DatabaseView.getView(gameState, this);
+        this.databaseView = DatabaseView.getView(gameState, this, listener);
     }
 
 //    private DatabaseView getDatabaseView() {
@@ -234,8 +233,6 @@ public class DeckPopup extends PopupPane {
 //            return null;
 //        }
 //
-
-
     private void configSmallWindow() {
         setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
         setMinSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
@@ -270,8 +267,7 @@ public class DeckPopup extends PopupPane {
         switch (mode) {
             case SOFTWARE -> {
                 if (code.equals(KeyCode.X)) {
-                    gameState.usingDeck = null;
-                    gameState.database = null;
+                    cleanUp();
                     LOGGER.log(Level.SEVERE, "Exit Deck (via key event).");
                     return true;
                 } else if (code.equals(KeyCode.DIGIT1)) {
@@ -281,8 +277,7 @@ public class DeckPopup extends PopupPane {
             case ENTER_LINKCODE -> {
                 switch (code) {
                     case X -> {
-                        gameState.usingDeck = null;
-                        gameState.database = null;
+                        cleanUp();
                         return true;
                     }
                     default ->
@@ -293,8 +288,7 @@ public class DeckPopup extends PopupPane {
                 if (databaseView != null) {
                     if (databaseView.handleKeyEvent(keyEvent)) {
                         databaseView = null;
-                        gameState.usingDeck = null;
-                        gameState.database = null;
+                        cleanUp();
                         return true;
                     }
                 }
@@ -312,7 +306,7 @@ public class DeckPopup extends PopupPane {
             typedLinkEntryText.setText(typedLinkCode.toString());
         } else if (typedLinkCode.length() > 0 && ke.getCode().equals(KeyCode.BACK_SPACE)) {
             LOGGER.log(Level.FINEST, "Backspace.");
-            if ( linkCodeErr ) {
+            if (linkCodeErr) {
                 typedLinkCode.setLength(0);
                 linkCodeErr = false;
                 linkEnterheading.setText(LINK_CODE_ENTER_CODE);
@@ -340,5 +334,10 @@ public class DeckPopup extends PopupPane {
         if (mode == Mode.DATABASE && databaseView != null) {
             databaseView.tick();
         }
+    }
+
+    public void cleanUp() {
+        gameState.usingDeck = null;
+        gameState.database = null;
     }
 }

@@ -28,11 +28,15 @@ package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
+import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.Map;
 import java.util.logging.Level;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -45,30 +49,29 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
     private final TextResource dbTextResource;
 
     private enum Mode {
-        SUB, PAYMENT, MENU, ITEM
+        SUB, PAYMENT, OUT_OF_CREDITS, MENU, ITEM
     }
 
     private final Text headingText = new Text();
-    private final Text continueText = new Text(CONTINUE_TEXT);
 
-    static final Map<String, Integer> MENU_MAP = Map.of( // limit 10 items. :(
-            "1", 24,
-            "2", 10,
-            "3", 11,
-            "A", 120, // we add 100 if item has more text at next index (20 and 21).
-            "B", 12,
-            "M", 122,
-            "N", 114,
-            "O", 116,
-            "S", 13,
-            "Y", 118
+    static final Map<String, int[]> MENU_MAP = Map.of( // limit 10 items. :(
+            "1", new int[]{24},
+            "2", new int[]{10, 3, 4, 5},
+            "3", new int[]{11, 6, 7, 8},
+            "A", new int[]{20, 4, 21},
+            "B", new int[]{12, 5},
+            "M", new int[]{22, 9, 23},
+            "N", new int[]{14, 8, 15},
+            "O", new int[]{16, 6, 17},
+            "S", new int[]{13, 7},
+            "Y", new int[]{18, 3, 19}
     );
 
     private Mode mode = Mode.SUB;
     private int paymentWait = 0;
 
-    public ConsumerReviewDatabaseView(GameState gameState, Pane pane) {
-        super(gameState, pane);
+    public ConsumerReviewDatabaseView(GameState gameState, Pane pane, PopupListener l) {
+        super(gameState, pane, l);
 
         dbTextResource = gameState.resourceManager.getDatabaseText(gameState.database.number);
         headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
@@ -83,7 +86,7 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         Text helloText = new Text(dbTextResource.get(2) + "\n\n\n");
 
         TextFlow tf = pageTextFlow();
-        tf.getChildren().addAll(headingText, helloText, continueText);
+        tf.getChildren().addAll(headingText, helloText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
     }
 
@@ -99,7 +102,7 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
                     LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
                     return true;
                 } else {
-                    if ( code.isDigitKey() ) {
+                    if (code.isDigitKey()) {
                         itemPage(code.getChar());
                     } else {
                         itemPage(code.getChar().toUpperCase());
@@ -114,6 +117,14 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
                     return false;
                 }
             }
+            case OUT_OF_CREDITS -> {
+                if (code.equals(KeyCode.X)
+                        || code.equals(KeyCode.SPACE)
+                        || code.equals(KeyCode.ESCAPE)) {
+                    LOGGER.log(Level.SEVERE, "Out of credits wants to exit system.");
+                    return true;
+                }
+            }
         }
         return super.handleKeyEvent(keyEvent);
     }
@@ -125,17 +136,22 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         pane.getChildren().clear();
 
         Text creditDeduct = new Text();
-        Text newLines = new Text("\n\n\n\n");
+        Text newLines = new Text("\n\n\n\n\n\n\n\n\n\n");
         if (gameState.chipBalance >= 200) {
             gameState.chipBalance -= 200;
+            LOGGER.log(Level.SEVERE, "Deducted 200 credits from player.");
             creditDeduct.setText(dbTextResource.get(25));
             paymentWait = 30; // timer, then proceed to next page (menu).
         } else {
-            creditDeduct.setText(dbTextResource.get(26));
+            LOGGER.log(Level.SEVERE, "Player does not have credits to pay.");
+            //creditDeduct.setText(dbTextResource.get(26));
             // Don't proceed.
+            outOfCredits();
+            return;
         }
         TextFlow tf = pageTextFlow();
         tf.getChildren().addAll(headingText, newLines, creditDeduct);
+        LOGGER.log(Level.SEVERE, "Add text flow for payment wait.");
         pane.getChildren().add(tf);
     }
 
@@ -167,6 +183,7 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
             case PAYMENT -> {
                 if (paymentWait > 0) {
                     paymentWait--;
+                    LOGGER.log(Level.SEVERE, "Payment wait tick.");
                 } else {
                     LOGGER.log(Level.SEVERE, "Payment wait done.");
                     mainMenu();
@@ -180,27 +197,74 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         mode = Mode.ITEM;
         pane.getChildren().clear();
 
+        // Plus (+) character appears if user has not scrolled to bottom of
+        // item description.
+        Text scrollHint = new Text("+");
+        scrollHint.setLayoutX(620);
+        scrollHint.setLayoutY(280);
+        scrollHint.setScaleX(1.5);
+
+        Text headText = new Text(centeredText(dbTextResource.get(0)));
+        headText.getTransforms().add(TEXT_SCALE);
+
         TextFlow tf = pageTextFlow();
-        tf.getChildren().add(headingText);
+        //tf.getChildren().add(headingText);
+        ScrollPane sp = new ScrollPane(tf);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        sp.setMinSize(628, 256);
+        sp.setMaxSize(628, 256);
 
         // TODO: Condense into a haskmap <Str, int>
         if (itemLetter.equals("X")) {
             // Exit system
             LOGGER.log(Level.SEVERE, "Exit system");
+            listener.popupExit();
         } else {
-            Integer index = MENU_MAP.get(itemLetter);
+            int index[] = MENU_MAP.get(itemLetter);
             if (index != null) {
-                if (index > 100) {
-                    tf.getChildren().add(new Text(dbTextResource.get(index - 100)));
-                    // Other models text.
-                    tf.getChildren().add(new Text(dbTextResource.get(index - 99)));
-                } else {
-                    tf.getChildren().add(new Text(dbTextResource.get(index)));
+                for (int ix : index) {
+                    tf.getChildren().add(new Text(dbTextResource.get(ix)));
                 }
             }
         }
 
+        VBox box = new VBox(headText, sp);
+        //box.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        pane.getChildren().addAll(box, scrollHint);
+        scrollHint.setVisible(sp.getVvalue() != 1.0);
+
+        sp.vvalueProperty().addListener(
+                (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+                    LOGGER.log(Level.FINEST, "Item Scroll: " + newValue);
+                    scrollHint.setVisible(newValue.doubleValue() != 1.0);
+                }
+        );
+
+        box.setOnMouseClicked((t) -> {
+            mainMenu();
+        });
+    }
+
+    private void outOfCredits() {
+        mode = Mode.OUT_OF_CREDITS;
+        pane.getChildren().clear();
+
+        Text message = new Text(
+                "\n\n\n\n"
+                + centeredText(dbTextResource.get(26))
+                + "\n\n\n\n\n\n\n\n\n\n"
+        );
+
+        TextFlow tf = pageTextFlow();
+        tf.getChildren().addAll(message, CONTINUE_TEXT);
+
         pane.getChildren().add(tf);
+
+        tf.setOnMouseClicked((t) -> {
+            // Exit deck.
+            listener.popupExit();
+        });
     }
 
 }

@@ -48,7 +48,7 @@ public class GameState {
 
     // Money
     public String bamaId = "056306118"; // Final?
-    public int chipBalance = 46;
+    public int chipBalance = 346;
     public int bankBalance = 2000;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
 

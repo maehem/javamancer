@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.database;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.database.Database;
+import com.maehem.javamancer.neuro.view.PopupListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
@@ -71,20 +72,22 @@ public abstract class DatabaseView {
     protected final Text accessStatusText = new Text();
     protected boolean accessDenied = false;
 
-    protected static final String CONTINUE_TEXT = "    Button or [space] to continue.";
+    protected final Text CONTINUE_TEXT = new Text(centeredText("    Button or [space] to continue."));
 
     protected final Database database;
     protected final GameState gameState;
     protected final Pane pane;
+    protected final PopupListener listener;
 
     protected int accessLevel = 0;
     protected SubMode subMode = SubMode.LANDING;
     private int clearWait = 0;
 
-    public DatabaseView(GameState gs, Pane p) {
+    public DatabaseView(GameState gs, Pane p, PopupListener l) {
         this.database = gs.database;
         this.gameState = gs;
         this.pane = p;
+        this.listener = l;
 
         setAccessText(AccessText.NONE);
     }
@@ -111,14 +114,15 @@ public abstract class DatabaseView {
         return false;
     }
 
-    public static DatabaseView getView(GameState gs, Pane p) {
+    public static DatabaseView getView(GameState gs, Pane p, PopupListener l) {
         Class<? extends DatabaseView> viewClass = DatabaseViewList.getViewClass(gs.database.getClass());
         try {
             Constructor<?> ctor = viewClass.getConstructor(new Class[]{
                 GameState.class,
-                Pane.class
+                Pane.class,
+                PopupListener.class
             });
-            Object object = ctor.newInstance(new Object[]{gs, p});
+            Object object = ctor.newInstance(new Object[]{gs, p, l});
             LOGGER.log(Level.SEVERE, "Database View created.");
             if (object instanceof DatabaseView re) {
                 return re;
@@ -172,7 +176,7 @@ public abstract class DatabaseView {
                 leadingText1, instructionsText,
                 leadingText2, enteredText, cursorText,
                 new Text("\n\n"), accessStatusText, // need blank Text() or FX has rendering issue.
-                new Text("\n\n\n\n" + centeredText(CONTINUE_TEXT))
+                new Text("\n\n\n\n"), CONTINUE_TEXT
         );
         tf.getTransforms().add(TEXT_SCALE);
         tf.setPadding(TF_PADDING);
