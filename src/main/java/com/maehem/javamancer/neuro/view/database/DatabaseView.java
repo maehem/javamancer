@@ -60,7 +60,7 @@ public abstract class DatabaseView {
     }
 
     //protected static final double TEXT_SCALE = 1.5;
-    protected static final int CHAR_W = 38; // This many chars accross.
+    protected static final int CHAR_W = 39; // This many chars accross.
     protected static final double LINE_SPACING = -8.8;
     protected static final Scale TEXT_SCALE = new Scale(1.5, 1.0);
     protected static final double TF_W = 640 / TEXT_SCALE.getX();
