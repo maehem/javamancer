@@ -31,7 +31,6 @@ import com.maehem.javamancer.neuro.model.NewsArticle;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.ArrayList;
 import java.util.logging.Level;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import static javafx.scene.input.KeyCode.DIGIT1;
@@ -50,7 +49,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -89,25 +87,26 @@ public class PaxNewsNode extends PaxNode {
         exitBox.setAlignment(Pos.BASELINE_CENTER);
         exit.setTextAlignment(TextAlignment.CENTER);
         TextFlow tf = new TextFlow();
-        tf.setLineSpacing(-8);
-        VBox box = new VBox(
-                header,
-                tf,
-                gapBox,
-                exitBox
-        );
-        box.setSpacing(0);
-        box.getTransforms().add(new Scale(1.25, 1.0));
-        box.setMinWidth(518);
-        box.setPrefWidth(518);
-        box.setMinHeight(200);
-        box.setMaxHeight(200);
-        box.setPadding(new Insets(0, 0, 0, 6));
+        tf.setLineSpacing(LINE_SPACING);
+        addBox(header, tf, gapBox, exitBox);
+//        VBox box = new VBox(
+//                header,
+//                tf,
+//                gapBox,
+//                exitBox
+//        );
+//        box.setSpacing(0);
+//        box.getTransforms().add(new Scale(1.25, 1.0));
+//        box.setMinWidth(518);
+//        box.setPrefWidth(518);
+//        box.setMinHeight(200);
+//        box.setMaxHeight(200);
+//        box.setPadding(new Insets(0, 0, 0, 6));
         VBox.setVgrow(gapBox, Priority.ALWAYS);
 
         buildNewsList(tf);
 
-        getChildren().add(box);
+//        getChildren().add(box);
 
         exit.setOnMouseClicked((t) -> {
             listener.paxNodeExit();
@@ -206,21 +205,23 @@ public class PaxNewsNode extends PaxNode {
         HBox navBox = new HBox(back);
         navBox.setAlignment(Pos.BASELINE_CENTER);
         TextFlow tf = new TextFlow(new Text(article.body));
-        tf.setPrefWidth(450);
-        tf.setLineSpacing(-8);
+        tf.setPrefWidth(380);
+        tf.setPrefHeight(140);
+        tf.setLineSpacing(LINE_SPACING);
 
         ScrollPane sp = new ScrollPane(tf);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         VBox.setVgrow(sp, Priority.ALWAYS);
 
-        VBox box = new VBox(heading, sp, navBox);
-        box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinSize(470, 200);
-        box.setMaxSize(470, 200);
-        box.setPadding(new Insets(0, 0, 0, 10));
-
-        getChildren().add(box);
+        addBox(heading, sp, navBox);
+//        VBox box = new VBox(heading, sp, navBox);
+//        //box.getTransforms().add(new Scale(1.33, 1.0));
+//        box.setMinSize(470, 200);
+//        box.setMaxSize(470, 200);
+//        box.setPadding(new Insets(0, 0, 0, 10));
+//
+//        getChildren().add(box);
 
         back.setOnMouseClicked((t) -> {
             handleEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, X, true, true, true, true));

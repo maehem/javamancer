@@ -67,11 +67,11 @@ public class RomPopup extends SmallPopupPane {
         Text continueText = new Text("   Button or [space]");
 
         TextFlow tf = new TextFlow(romSays);
-        tf.setLineSpacing(-10);
+        tf.setLineSpacing(-7);
 
         VBox box = addBox(tf, continueText);
         box.setSpacing(30);
-        tf.setMaxWidth(WIDTH / 1.333 - 10);
+        tf.setMaxWidth(WIDTH / TEXT_SCALE - 20);
 
         box.setOnMouseClicked((t) -> {
             mainMenu();
@@ -81,7 +81,7 @@ public class RomPopup extends SmallPopupPane {
     private void mainMenu() {
         getChildren().clear();
         mode = Mode.MAIN;
-        Text heading = new Text(" --- Dixie Flatline ---");
+        Text heading = new Text("--- Dixie Flatline ---");
 
         Text exitText = new Text("X. Exit ROM Construct\n");
         Text oneText = new Text("1. Software Debug\n");
@@ -89,7 +89,7 @@ public class RomPopup extends SmallPopupPane {
         Text threeText = new Text("3. Monitor Mode");
 
         TextFlow tf = new TextFlow(exitText, oneText, twoText, threeText);
-        tf.setLineSpacing(-10);
+        tf.setLineSpacing(-7);
 
         addBox(heading, tf);
 

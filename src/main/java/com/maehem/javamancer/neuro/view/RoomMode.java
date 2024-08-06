@@ -46,7 +46,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -124,13 +123,13 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         ImageView cPanelView = new ImageView(getResourceManager().getSprite("NEURO_1"));
         roomPane = new RoomPane(resourceManager, room);
 
-        roomDescriptionPane = new RoomDescriptionPane();
+        roomDescriptionPane = new RoomDescriptionPane(TEXT_SCALE);
 
         // Plus (+) character appears if user has not scrolled to bottom of
         // scene description.
-        scrollHint.setLayoutX(616);
+        scrollHint.setLayoutX(614);
         scrollHint.setLayoutY(388);
-        scrollHint.setScaleX(1.333);
+        scrollHint.getTransforms().add(TEXT_SCALE);
 
         getChildren().addAll(
                 cPanelView, roomPane, statusText, roomDescriptionPane, scrollHint,
@@ -142,7 +141,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         statusText.setId("neuro-status");
         statusText.setLayoutX(190);
         statusText.setLayoutY(313);
-        statusText.getTransforms().add(new Scale(1.333, 1.0));
+        statusText.getTransforms().add(TEXT_SCALE);
 
         setOnMouseClicked((t) -> {
             handleMouseClick(t.getX(), t.getY());

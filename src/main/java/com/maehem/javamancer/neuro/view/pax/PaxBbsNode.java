@@ -54,7 +54,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -110,15 +109,9 @@ public class PaxBbsNode extends PaxNode {
                 viewItem,
                 sendItem
         );
-        menuItems.setLineSpacing(-6);
+        menuItems.setLineSpacing(LINE_SPACING);
 
-        VBox box = new VBox(
-                header,
-                menuItems
-        );
-        box.getTransforms().add(new Scale(1.3, 1.0));
-        box.setSpacing(8);
-        box.setLayoutX(10);
+        addBox(header, menuItems);
 
         exitItem.setOnMouseClicked((t) -> {
             listener.paxNodeExit();
@@ -130,7 +123,6 @@ public class PaxBbsNode extends PaxNode {
             sendPage();
         });
 
-        getChildren().add(box);
     }
 
     private void viewpage() {
@@ -148,28 +140,15 @@ public class PaxBbsNode extends PaxNode {
         HBox navBox = new HBox(previous, exit, more);
         //navBox.setAlignment(Pos.BASELINE_CENTER);
         navBox.setSpacing(20);
-        navBox.setPadding(new Insets(0, 0, 0, 130));
+        navBox.setPadding(new Insets(0, 0, 0, 86));
         //exit.setTextAlignment(TextAlignment.CENTER);
         TextFlow tf = new TextFlow();
-        tf.setLineSpacing(-8);
-        VBox box = new VBox(
-                header,
-                tf,
-                gapBox,
-                navBox
-        );
-        box.setSpacing(0);
-        box.getTransforms().add(new Scale(1.25, 1.0));
-        box.setMinWidth(518);
-        box.setPrefWidth(518);
-        box.setMinHeight(200);
-        box.setMaxHeight(200);
-        box.setPadding(new Insets(0, 0, 0, 6));
+        tf.setLineSpacing(LINE_SPACING);
+        addBox(header, tf, gapBox, navBox);
+
         VBox.setVgrow(gapBox, Priority.ALWAYS);
 
         buildMessageList(tf);
-
-        getChildren().add(box);
 
         previous.setOnMouseClicked((t) -> {
             handleEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, UP, true, true, true, true));
@@ -208,25 +187,20 @@ public class PaxBbsNode extends PaxNode {
         Text heading = new Text(message.date);
         Text back = new Text("back");
         HBox navBox = new HBox(back);
-        navBox.setAlignment(Pos.BASELINE_CENTER);
+        navBox.setAlignment(Pos.BASELINE_LEFT);
+        navBox.setPadding(new Insets(0, 0, 0, 176));
         Text toText = new Text("TO: " + message.to + "\n");
         Text fromtext = new Text("FROM: " + message.from + "\n");
         TextFlow tf = new TextFlow(toText, fromtext, new Text(message.body));
-        tf.setPrefWidth(450);
-        tf.setLineSpacing(-8);
+        tf.setPrefWidth(386);
+        tf.setLineSpacing(LINE_SPACING);
 
         ScrollPane sp = new ScrollPane(tf);
-        sp.setPrefSize(470, 180);
+        sp.setPrefSize(410, 140);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        VBox box = new VBox(heading, sp, navBox);
-        box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinSize(470, 202);
-        box.setMaxSize(470, 202);
-        box.setPadding(new Insets(0, 0, 0, 10));
-
-        getChildren().add(box);
+        addBox(heading, sp, navBox);
 
         back.setOnMouseClicked((t) -> {
             handleEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, X, true, true, true, true));
@@ -259,24 +233,12 @@ public class PaxBbsNode extends PaxNode {
                 sendMsgText, msgCaretText,
                 newLineText2
         );
-        tf.setLineSpacing(-8);
+        tf.setLineSpacing(LINE_SPACING);
         tf.setMinHeight(138);
         tf.setMaxSize(460, 138);
-        VBox box = new VBox(
-                header,
-                sendYN,
-                tf
-        );
-        box.setSpacing(8);
-        box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinWidth(480);
-        box.setPrefWidth(480);
-        box.setMinHeight(200);
-        box.setPadding(new Insets(0, 0, 0, 6));
+        addBox(header, sendYN, tf);
+
         VBox.setVgrow(tf, Priority.ALWAYS);
-
-        getChildren().add(box);
-
     }
 
     @Override

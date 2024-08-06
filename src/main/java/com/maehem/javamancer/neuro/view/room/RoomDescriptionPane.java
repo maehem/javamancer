@@ -44,13 +44,12 @@ public class RoomDescriptionPane extends ScrollPane {
     private final Text text = new Text("...");
     private final TextFlow textFlow = new TextFlow(text);
 
-    public RoomDescriptionPane() {
+    public RoomDescriptionPane(Scale scale) {
         super();
         setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        getTransforms().add(new Scale(1.333, 1.0));
-        //setScaleX(1.2);
+        getTransforms().add(scale);
         setMinWidth(200);
         setMaxWidth(200);
         setMinHeight(120);
@@ -58,9 +57,9 @@ public class RoomDescriptionPane extends ScrollPane {
         setLayoutX(354);
         setLayoutY(268);
 
-        textFlow.setLineSpacing(-10);
-        textFlow.setPrefWidth(200);
-        //text.setLineSpacing(-10);
+        textFlow.setLineSpacing(-7);
+        textFlow.setPrefWidth(180);
+        text.setLineSpacing(-7);
         setContent(textFlow);
 
         setOnMouseClicked((t) -> {

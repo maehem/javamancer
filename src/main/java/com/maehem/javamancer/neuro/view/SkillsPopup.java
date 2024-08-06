@@ -55,7 +55,6 @@ public class SkillsPopup extends SmallPopupPane {
     private int itemIndex = 0;
     private int numItems = 0;
     private Mode mode = Mode.MENU;
-    //private Skill currentItem = null;
 
     public SkillsPopup(PopupListener l, GameState gs) {
         super(l, gs);
@@ -65,7 +64,6 @@ public class SkillsPopup extends SmallPopupPane {
     private void itemListPage() {
         getChildren().clear();
         mode = Mode.MENU;
-        //currentItem = null;
 
         Text heading = new Text("Skills");
         Text previous = new Text("previous");
@@ -74,29 +72,15 @@ public class SkillsPopup extends SmallPopupPane {
         Text more = new Text("more");
         more.setVisible(itemIndex < gameState.skills.size() - NUM_ITEMS);
         HBox navBox = new HBox(previous, exit, more);
-        //navBox.setAlignment(Pos.BASELINE_CENTER);
         navBox.setSpacing(20);
         navBox.setPadding(new Insets(0, 0, 0, 10));
-        //exit.setTextAlignment(TextAlignment.CENTER);
         TextFlow tf = new TextFlow();
-        tf.setLineSpacing(-10);
+        tf.setLineSpacing(LINE_SPACING);
         tf.setMinHeight(76);
-        VBox box = new VBox(
-                heading,
-                tf,
-                navBox
-        );
-        box.setSpacing(0);
-        box.getTransforms().add(new Scale(1.33, 1.0));
-        box.setMinWidth(400);
-        box.setPrefWidth(400);
-        box.setMinHeight(160);
-        box.setMaxHeight(160);
-        box.setPadding(new Insets(0, 0, 0, 10));
+
+        addBox(heading, tf, navBox);
 
         populateList(tf);
-
-        getChildren().add(box);
 
         exit.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Clicked Skill Exit.");
@@ -129,7 +113,6 @@ public class SkillsPopup extends SmallPopupPane {
                 listItem.setOnMouseClicked((t) -> {
 
                     use(n);
-                    //effectItem(n);
                 });
             }
         }
@@ -153,7 +136,7 @@ public class SkillsPopup extends SmallPopupPane {
                     exitText
             );
             box.setSpacing(0);
-            box.getTransforms().add(new Scale(1.33, 1.0));
+            box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
             box.setMinWidth(400);
             box.setPrefWidth(400);
             box.setMinHeight(160);

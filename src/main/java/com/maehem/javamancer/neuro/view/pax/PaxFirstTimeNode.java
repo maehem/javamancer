@@ -31,11 +31,8 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.logging.Logger;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -47,13 +44,9 @@ public class PaxFirstTimeNode extends PaxNode {
     public PaxFirstTimeNode(PaxNodeListener l, ResourceManager rm) {
         super(l, null);
 
-        getTransforms().add(new Scale(1.333, 1.0));
-        setLayoutX(20);
-        setLayoutY(0);
         String firstTimeText = rm.getFirstTimeText();
 
         int indexOfLF = firstTimeText.indexOf(0x0a) + 1;
-        //firstTimeText = firstTimeText.substring(indexOfLF); // Remove comment at top
 
         int indexOfZero = firstTimeText.indexOf(0);
         String titleString = firstTimeText.substring(indexOfLF, indexOfZero);
@@ -62,23 +55,18 @@ public class PaxFirstTimeNode extends PaxNode {
 
         Text contentText = new Text(firstTimeText.substring(indexOfZero));
         TextFlow tf = new TextFlow(contentText);
-        tf.setLineSpacing(-8);
-        tf.setPrefSize(444, 170);
+        tf.setLineSpacing(LINE_SPACING);
+        tf.setPrefSize(380, 164);
 
         ScrollPane sp = new ScrollPane(tf);
-        //sp.setMaxSize(460, 180);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        VBox box = new VBox(title, sp);
-        VBox.setVgrow(sp, Priority.ALWAYS);
-
-        getChildren().addAll(box);
+        addBox(title, sp);
 
         setOnMouseClicked((t) -> {
             listener.paxNodeExit();
         });
-
     }
 
     @Override

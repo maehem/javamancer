@@ -81,7 +81,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
         Text words = new Text("Matt Shaw\nComlink\nChiba City");
         enterCode.setText(enterPrefix + enterCursor);
 
-        words.setLineSpacing(-8);
+        words.setLineSpacing(LINE_SPACING);
 
         Region region = new Region();
         region.setPrefSize(100, 6);
@@ -93,7 +93,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
                 enterCode);
         box.setSpacing(6);
         box.setPadding(new Insets(0));
-        box.getTransforms().add(new Scale(1.3, 1.0));
+        box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
         box.setLayoutX(30);
         box.setLayoutY(20);
 
@@ -101,10 +101,10 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
     }
 
     private Node modeMenu() {
-        Text exitItem = new Text("X. Exit\n");
+        Text exitItem = new Text("X. Exit System\n");
         Text firstTimeItem = new Text("1. First Time PAX User Info.\n");
         Text bankItem = new Text("2. Access Banking Interlink\n");
-        Text newsItem = new Text("3. Might City News\n");
+        Text newsItem = new Text("3. Night City News\n");
         Text bbsItem = new Text("4. Bulletin Board");
         TextFlow menuItems = new TextFlow(
                 exitItem,
@@ -113,14 +113,14 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
                 newsItem,
                 bbsItem
         );
-        menuItems.setLineSpacing(-6);
+        menuItems.setLineSpacing(LINE_SPACING);
 
         VBox box = new VBox(
                 menuItems,
                 new Text("\n          " + "choose a function")
         );
         box.setSpacing(6);
-        box.getTransforms().add(new Scale(1.3, 1.0));
+        box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
         box.setLayoutX(30);
         box.setLayoutY(20);
 

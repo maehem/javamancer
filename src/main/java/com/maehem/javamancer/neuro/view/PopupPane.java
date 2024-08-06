@@ -31,10 +31,14 @@ import com.maehem.javamancer.neuro.model.GameState;
 import static com.maehem.javamancer.neuro.view.PopupPane.LOGGER;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import static javafx.scene.input.KeyCode.ESCAPE;
 import static javafx.scene.input.KeyCode.X;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.transform.Scale;
 
 /**
  *
@@ -44,7 +48,8 @@ public abstract class PopupPane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
-    protected static final double TEXT_SCALE = 1.55;
+    protected static final double TEXT_SCALE = 1.5;
+    protected static final double LINE_SPACING = -7;
 
     public final GameState gameState;
     public final PopupListener listener;
@@ -71,4 +76,18 @@ public abstract class PopupPane extends Pane {
         gameState.requestQuit = true;
     }
 
+    protected VBox addBox(Node... nodes) {
+        VBox box = new VBox(nodes);
+        box.setSpacing(0);
+        box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
+        box.setMinWidth(getPrefWidth());
+        box.setPrefWidth(getPrefWidth());
+        box.setMinHeight(getPrefHeight());
+        box.setMaxHeight(getPrefWidth());
+        box.setPadding(new Insets(0, 0, 0, 10));
+
+        getChildren().add(box);
+
+        return box;
+    }
 }
