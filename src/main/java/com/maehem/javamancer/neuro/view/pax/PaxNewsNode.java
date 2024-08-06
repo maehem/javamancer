@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.view.pax;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.NewsArticle;
-import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.geometry.Pos;
@@ -59,7 +58,6 @@ public class PaxNewsNode extends PaxNode {
     private int newsIndex = 0;
     private static int NUM_ARTICLES = 5;
 
-    private final ResourceManager resourceManager;
     private int numArticles = 0;
 
     private enum Mode {
@@ -68,9 +66,8 @@ public class PaxNewsNode extends PaxNode {
 
     private Mode mode = Mode.LIST;
 
-    public PaxNewsNode(PaxNodeListener l, GameState gs, ResourceManager rm) {
+    public PaxNewsNode(PaxNodeListener l, GameState gs) {
         super(l, gs);
-        this.resourceManager = rm;
 
         newsListPage();
     }
@@ -89,24 +86,9 @@ public class PaxNewsNode extends PaxNode {
         TextFlow tf = new TextFlow();
         tf.setLineSpacing(LINE_SPACING);
         addBox(header, tf, gapBox, exitBox);
-//        VBox box = new VBox(
-//                header,
-//                tf,
-//                gapBox,
-//                exitBox
-//        );
-//        box.setSpacing(0);
-//        box.getTransforms().add(new Scale(1.25, 1.0));
-//        box.setMinWidth(518);
-//        box.setPrefWidth(518);
-//        box.setMinHeight(200);
-//        box.setMaxHeight(200);
-//        box.setPadding(new Insets(0, 0, 0, 6));
         VBox.setVgrow(gapBox, Priority.ALWAYS);
 
         buildNewsList(tf);
-
-//        getChildren().add(box);
 
         exit.setOnMouseClicked((t) -> {
             listener.paxNodeExit();
@@ -126,7 +108,10 @@ public class PaxNewsNode extends PaxNode {
                     lineItem.setOnMouseClicked((t) -> {
                         showArticle(gameState.news.get(newsIndex + n));
                     });
+                } else {
+                    tf.getChildren().add(new Text("\n"));
                 }
+
             }
         }
         numArticles = tf.getChildren().size();
@@ -201,12 +186,9 @@ public class PaxNewsNode extends PaxNode {
         getChildren().clear();
         mode = Mode.ARTICLE;
         Text heading = new Text(article.headline);
-        Text back = new Text("back");
-        HBox navBox = new HBox(back);
-        navBox.setAlignment(Pos.BASELINE_CENTER);
         TextFlow tf = new TextFlow(new Text(article.body));
         tf.setPrefWidth(380);
-        tf.setPrefHeight(140);
+        tf.setPrefHeight(164);
         tf.setLineSpacing(LINE_SPACING);
 
         ScrollPane sp = new ScrollPane(tf);
@@ -214,16 +196,9 @@ public class PaxNewsNode extends PaxNode {
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         VBox.setVgrow(sp, Priority.ALWAYS);
 
-        addBox(heading, sp, navBox);
-//        VBox box = new VBox(heading, sp, navBox);
-//        //box.getTransforms().add(new Scale(1.33, 1.0));
-//        box.setMinSize(470, 200);
-//        box.setMaxSize(470, 200);
-//        box.setPadding(new Insets(0, 0, 0, 10));
-//
-//        getChildren().add(box);
+        VBox box = addBox(heading, sp);
 
-        back.setOnMouseClicked((t) -> {
+        box.setOnMouseClicked((t) -> {
             handleEvent(new KeyEvent(KeyEvent.KEY_PRESSED, null, null, X, true, true, true, true));
         });
     }
