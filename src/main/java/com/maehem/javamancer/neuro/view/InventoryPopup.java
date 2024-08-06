@@ -89,7 +89,7 @@ public class InventoryPopup extends SmallPopupPane {
         navBox.setSpacing(20);
         navBox.setPadding(new Insets(0, 0, 0, 10));
         TextFlow tf = new TextFlow();
-        tf.setLineSpacing(-10);
+        tf.setLineSpacing(LINE_SPACING);
         tf.setMinHeight(76);
 
         addBox(heading, tf, navBox);
@@ -159,7 +159,7 @@ public class InventoryPopup extends SmallPopupPane {
         Text giveText = new Text("G. Give Item");
 
         TextFlow tf = new TextFlow(exitText, operateText, discardText, giveText);
-        tf.setLineSpacing(-10);
+        tf.setLineSpacing(LINE_SPACING);
 
         addBox(heading, tf);
 
@@ -294,7 +294,7 @@ public class InventoryPopup extends SmallPopupPane {
         Text heading2 = new Text("enter amount");
 
         TextFlow tf = new TextFlow(enteredNumberText, new Text("<"));
-        tf.setLineSpacing(-10);
+        tf.setLineSpacing(LINE_SPACING);
         tf.setPadding(new Insets(0, 0, 0, 30));
 
         addBox(heading, heading2, tf);
@@ -391,7 +391,7 @@ public class InventoryPopup extends SmallPopupPane {
         }
 
         TextFlow tf = new TextFlow(statusText);
-        tf.setLineSpacing(-8);
+        tf.setLineSpacing(LINE_SPACING);
 
         VBox box = addBox(heading, heading2, tf);
 
