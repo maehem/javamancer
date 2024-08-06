@@ -42,7 +42,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -60,11 +59,9 @@ public abstract class DatabaseView {
         NONE, DENIED, CLEARED_1, CLEARED_2
     }
 
-    //protected static final double TEXT_SCALE = 1.5;
     protected static final int CHAR_W = 39; // This many chars accross.
     protected static final double LINE_SPACING = -8.8;
-    protected static final Scale TEXT_SCALE = new Scale(1.5, 1.0);
-    protected static final double TF_W = 640 / TEXT_SCALE.getX();
+    protected static final double TF_W = 640;
     protected static final Insets TF_PADDING = new Insets(8);
 
     private final StringBuilder typedPassword = new StringBuilder();
@@ -150,7 +147,6 @@ public abstract class DatabaseView {
 
     protected TextFlow pageTextFlow() {
         TextFlow tf = new TextFlow();
-        tf.getTransforms().add(TEXT_SCALE);
         tf.setPadding(TF_PADDING);
         tf.setLineSpacing(LINE_SPACING);
         tf.setPrefWidth(TF_W);
@@ -178,7 +174,6 @@ public abstract class DatabaseView {
                 new Text("\n\n"), accessStatusText, // need blank Text() or FX has rendering issue.
                 new Text("\n\n\n\n"), CONTINUE_TEXT
         );
-        tf.getTransforms().add(TEXT_SCALE);
         tf.setPadding(TF_PADDING);
         tf.setLineSpacing(LINE_SPACING);
         tf.setPrefWidth(TF_W);
