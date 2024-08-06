@@ -66,6 +66,7 @@ public class ResourceManager {
     private final File picFolder;
     private final File anhFolder;
     private final File bihFolder;
+    private final File txhFolder;
 
     public ResourceManager(File resourceFolder) {
 
@@ -74,6 +75,7 @@ public class ResourceManager {
         this.picFolder = new File(resourceFolder, "pic");
         this.imhFolder = new File(resourceFolder, "imh");
         this.bihFolder = new File(resourceFolder, "bih");
+        this.txhFolder = new File(resourceFolder, "txh");
     }
 
     public Image getSprite(String name) {
@@ -157,7 +159,7 @@ public class ResourceManager {
 
     public String getFirstTimeText() {
         try {
-            File txtFile = new File(resourceFolder, "ftUser.txt");
+            File txtFile = new File(txhFolder, "FTUSER.txt");
             return Files.readString(txtFile.toPath());
         } catch (FileNotFoundException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
