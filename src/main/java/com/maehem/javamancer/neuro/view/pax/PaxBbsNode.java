@@ -84,8 +84,7 @@ public class PaxBbsNode extends PaxNode {
     private final StringBuilder typedMessage = new StringBuilder();
     private final Text sendToText = new Text("");
     private final Text sendMsgText = new Text("");
-    private boolean sendYNShowing = false;
-    private Text sendYN = new Text("Send message? Y/N");
+    private final Text sendYN = new Text("Send message? Y/N");
 
     public PaxBbsNode(PaxNodeListener l, GameState gs, ResourceManager rm) {
         super(l, gs);
@@ -129,8 +128,9 @@ public class PaxBbsNode extends PaxNode {
         getChildren().clear();
         mode = Mode.LIST;
 
-        Text header = new Text("Bulletin Board\n"
-                + "       date to            from");
+        Text header = new Text(
+                "Bulletin Board"
+                + "\n       date to            from");
         Text previous = new Text("previous");
         previous.setVisible(messageIndex > 0);
         Text exit = new Text("exit");
