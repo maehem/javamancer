@@ -103,11 +103,13 @@ public class PaxBankingNode extends PaxNode {
     private Node infoBox2() {
 
         Text row1 = new Text(
-                String.format("%-21s", "   name = " + gameState.name)
+                "   "
+                + String.format("%-20s", "name = " + gameState.name)
                 + "id = " + gameState.bamaId + "\n"
         );
         Text row2 = new Text(
-                String.format("%-16s", "   chip = " + gameState.chipBalance)
+                "   "
+                + String.format("%-15s", "chip = " + gameState.chipBalance)
                 + "account = " + gameState.bankBalance
         );
 
