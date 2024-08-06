@@ -34,6 +34,7 @@ import javafx.scene.ImageCursor;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.scene.transform.Scale;
 
 /**
  *
@@ -42,8 +43,9 @@ import javafx.scene.text.Font;
 public abstract class NeuroModePane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
-    public static final double BUTTON_FONT_SIZE = 24;
-    public static final Font VT_FONT = Font.loadFont(TitleMode.class.getResourceAsStream("/fonts/VT323-Regular.ttf"), BUTTON_FONT_SIZE);
+    public static final Scale TEXT_SCALE = new Scale(1.5, 1.0);
+    public static final double FONT_SIZE = 22;
+    public static final Font VT_FONT = Font.loadFont(TitleMode.class.getResourceAsStream("/fonts/VT323-Regular.ttf"), FONT_SIZE);
 
     private final NeuroModePaneListener listener;
     private final ResourceManager resourceManager;
