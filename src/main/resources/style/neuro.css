@@ -1,6 +1,6 @@
 
 Text {
-    -fx-font-size: 26;
+    -fx-font-size: 24;
     -fx-font-family: VT323;
     -fx-fill: black;
 }
@@ -21,16 +21,16 @@ Text {
     -fx-background-color: white;
 }
 .neuroDialog > *.label.content{
-    -fx-font-size: 30;
+    -fx-font-size: 24;
     -fx-font-weight: bold;
 }
 .neuroDialog:header *.header-panel{
     -fx-background-color: white;
-    -fx-font-size: 30;
+    -fx-font-size: 24;
 }
 .neuroDialog:header *.header-panel *.label{
     -fx-font-family: VT323;
-    -fx-font-size: 30;
+    -fx-font-size: 24;
     -fx-text-fill: black;
 }
 
@@ -44,7 +44,7 @@ Text {
 
 .neuroDialog .button .text {
     -fx-font-family: VT323;
-    -fx-font-size: 30;
+    -fx-font-size: 24;
     -fx-fill: black;
 }
 
@@ -70,7 +70,7 @@ Text {
 
 .button .text {
     -fx-font-family: VT323;
-    -fx-font-size: 26;
+    -fx-font-size: 24;
     -fx-fill: black; 
 }
 
@@ -80,7 +80,7 @@ Text {
 }
 
 #neuro-status {
-    -fx-font-size: 24;
+    -fx-font-size: 22;
 }
 #neuro-button-box {
     /*
@@ -108,7 +108,7 @@ Text {
 }
 
 .scroll-pane > .viewport  Text {
-   -fx-font-size: 26;
+   -fx-font-size: 24;
 }
 
 #neuro-popup {
