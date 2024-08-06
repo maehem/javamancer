@@ -202,10 +202,8 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         Text scrollHint = new Text("+");
         scrollHint.setLayoutX(620);
         scrollHint.setLayoutY(280);
-        scrollHint.setScaleX(1.5);
 
         Text headText = new Text(centeredText(dbTextResource.get(0)));
-        headText.getTransforms().add(TEXT_SCALE);
 
         TextFlow tf = pageTextFlow();
         //tf.getChildren().add(headingText);
@@ -215,7 +213,6 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         sp.setMinSize(628, 256);
         sp.setMaxSize(628, 256);
 
-        // TODO: Condense into a haskmap <Str, int>
         if (itemLetter.equals("X")) {
             // Exit system
             LOGGER.log(Level.SEVERE, "Exit system");
@@ -230,13 +227,12 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         }
 
         VBox box = new VBox(headText, sp);
-        //box.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         pane.getChildren().addAll(box, scrollHint);
         scrollHint.setVisible(sp.getVvalue() != 1.0);
 
         sp.vvalueProperty().addListener(
                 (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-                    LOGGER.log(Level.FINEST, "Item Scroll: " + newValue);
+                    LOGGER.log(Level.FINEST, "Item Scroll: {0}", newValue);
                     scrollHint.setVisible(newValue.doubleValue() != 1.0);
                 }
         );
