@@ -32,21 +32,25 @@ import com.maehem.javamancer.neuro.view.ui.LoadSaveDialog;
 import com.maehem.javamancer.neuro.view.ui.NakedButton;
 import java.util.Optional;
 import java.util.logging.Level;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.StageStyle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.scene.transform.Scale;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class TitleMode extends NeuroModePane {
+
+    private NewGameDialog newGameDialog = null;
 
     public TitleMode(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState) {
         super(listener, resourceManager, gameState);
@@ -61,44 +65,55 @@ public class TitleMode extends NeuroModePane {
 
         Button newButton = new NakedButton(" New");
         newButton.setOnAction((t) -> {
-            doNewplayerDialog();
+            if (newGameDialog != null) {
+                getChildren().remove(newGameDialog);
+                newGameDialog = null;
+            }
+            newGameDialog = new NewGameDialog(this);
+            getChildren().add(newGameDialog);
         });
-        Button loadButton = new NakedButton("/Load ");
+        Button loadButton = new NakedButton("Load ");
         loadButton.setOnAction((t) -> {
             doLoadDialog();
         });
 
-        HBox newLoadBox = new HBox(newButton, loadButton);
-        newLoadBox.setSpacing(0);
-        newLoadBox.setLayoutX(100);
-        newLoadBox.setLayoutY(310);
+        TextFlow newLoadBox2 = new TextFlow(newButton, new Text("/"), loadButton);
+        newLoadBox2.setId("neuro-popup");
+        newLoadBox2.setLayoutX(80);
+        newLoadBox2.setLayoutY(310);
+        newLoadBox2.getTransforms().add(TEXT_SCALE);
 
-        Button quit = new BorderButton("Quit", 482, 310);
+        Button quit = new BorderButton("Quit", 476, 310);
+        quit.getTransforms().add(TEXT_SCALE);
 
         quit.setOnAction((t) -> {
             getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.QUIT, null);
         });
 
-        getChildren().addAll(newLoadBox, quit);
+        getChildren().addAll(newLoadBox2, quit);
+
+        setOnKeyPressed((t) -> {
+            if (newGameDialog != null) {
+                newGameDialog.keyEvent(t);
+            } else {
+                switch (t.getCode()) {
+                    case KeyCode.N -> {
+                        newButton.fire();
+                    }
+                    case L -> {
+                        loadButton.fire();
+                    }
+                    case Q, X -> {
+                        quit.fire();
+                    }
+                }
+            }
+        });
+
     }
 
-    private void doNewplayerDialog() {
-        TextInputDialog dialog = new TextInputDialog();
-
-        dialog.initOwner(getScene().getWindow());
-        dialog.initStyle(StageStyle.UNDECORATED);
-        //dialog.getEditor().setCursor(Cursor.DEFAULT);
-        DialogPane dialogPane = dialog.getDialogPane();
-        dialogPane.getStylesheets().add(
-                getClass().getResource("/style/neuro.css").toExternalForm());
-        dialogPane.getStyleClass().add("neuroDialog");
-        dialog.setGraphic(null);
-        dialog.setHeaderText("YOUR NAME?");
-        dialog.showAndWait();
-
-        if (dialog.getResult() != null) {
-            getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.NEW_GAME, new Object[]{dialog.getResult()});
-        }
+    public void acceptName(String name) {
+        getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.NEW_GAME, new Object[]{name});
     }
 
     private void doLoadDialog() {
@@ -151,7 +166,6 @@ public class TitleMode extends NeuroModePane {
             random += Math.random() * 1.0;
         }
 
-
         double grey = random * random * intensity / 64;
         return new Color(grey, grey, grey, 1.0);
     }
@@ -172,6 +186,50 @@ public class TitleMode extends NeuroModePane {
      */
     @Override
     public void updateStatus() {
+
+    }
+
+    private class NewGameDialog extends SmallPopupPane {
+
+        private final StringBuilder typedName = new StringBuilder();
+        private final Text typedText = new Text();
+        private final TitleMode titleMode;
+
+        public NewGameDialog(TitleMode l) {
+            super(null, null);
+            this.titleMode = l;
+
+            setLayoutX(146);
+            setLayoutY(106);
+
+
+            TextFlow tf = new TextFlow(
+                    new Text("YOUR NAME?\n\n"),
+                    typedText, new Text("<")
+            );
+            tf.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
+            tf.setPadding(new Insets(10));
+            getChildren().add(tf);
+        }
+
+        public void keyEvent(KeyEvent ke) {
+            KeyCode code = ke.getCode();
+            if ((code.isLetterKey() | code.isDigitKey()) && typedName.length() < 12) {
+                typedName.append(code.getChar().toUpperCase());
+                typedText.setText(typedName.toString());
+            } else if (code.equals(KeyCode.ENTER)) {
+                // Accept and finish
+                titleMode.acceptName(typedName.toString());
+            } else if (code.equals(KeyCode.ESCAPE)) {
+                // Escape
+                setVisible(false);
+            } else if (code.equals(KeyCode.BACK_SPACE)) {
+                if (typedName.length() > 0) {
+                    typedName.delete(typedName.length() - 1, typedName.length());
+                    typedText.setText(typedName.toString());
+                }
+            }
+        }
 
     }
 
