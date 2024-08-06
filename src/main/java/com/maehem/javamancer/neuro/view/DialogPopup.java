@@ -33,7 +33,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -52,7 +51,6 @@ public class DialogPopup extends DialogPopupPane {
     private final TextFlow textFlow = new TextFlow();
     private final Text wordText = new Text();
     private Mode mode = Mode.NPC;
-    //private final PopupListener listener;
     private final int[][] dialogChain;
     private int dialogIndex = 2;
     private int dialogSubIndex = -1;
@@ -60,7 +58,6 @@ public class DialogPopup extends DialogPopupPane {
 
     public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
         super(l, gs);
-        //this.listener = l;
 
         dialogChain = gs.room.getExtras().getDialogChain();
 
@@ -72,8 +69,7 @@ public class DialogPopup extends DialogPopupPane {
         textFlow.setLayoutX(6);
         textFlow.setLayoutY(6);
         textFlow.setLineSpacing(-8);
-        textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 10);
-        textFlow.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
+        textFlow.setMaxWidth(getPrefWidth() - 10);
         textFlow.getChildren().add(wordText);
 
         wordText.setText(textResource.get(dialogIndex));
