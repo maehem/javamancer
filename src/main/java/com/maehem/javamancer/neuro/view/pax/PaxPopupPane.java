@@ -182,7 +182,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
                         LOGGER.log(Level.CONFIG, "News.");
                         getChildren().clear();
                         mode = Mode.NEWS;
-                        paxNode = new PaxNewsNode(this, gameState, resourceManager);
+                        paxNode = new PaxNewsNode(this, gameState);
                         getChildren().add(paxNode);
                         return false;
                     }
