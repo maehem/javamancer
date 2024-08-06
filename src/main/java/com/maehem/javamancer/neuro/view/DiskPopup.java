@@ -79,7 +79,7 @@ public class DiskPopup extends SmallPopupPane {
         Text exitText = new Text("       exit");
 
         TextFlow tf = new TextFlow(loadText, saveText, pauseText, quitText);
-        tf.setLineSpacing(-10);
+        tf.setLineSpacing(LINE_SPACING);
 
         addBox(heading, tf, exitText);
 
@@ -110,7 +110,7 @@ public class DiskPopup extends SmallPopupPane {
         Text noText = new Text("N");
 
         TextFlow tf = new TextFlow(okToQuitText, yesText, slashText, noText);
-        tf.setLineSpacing(-10);
+        tf.setLineSpacing(LINE_SPACING);
         tf.setPadding(new Insets(0, 0, 0, 18));
 
         addBox(heading, tf).setSpacing(20);
