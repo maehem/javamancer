@@ -248,6 +248,9 @@ public class DATUtil {
     }
 
     private static void populateBIH(DAT dat, File folder) {
+        // TODO:  Inject Credits for original game and also inject credits for
+        // this Java port of the game.
+
         dat.bih.forEach((bihThing) -> {
             LOG.log(Level.CONFIG, "Process BIH: {0}.", new Object[]{bihThing.name});
 
