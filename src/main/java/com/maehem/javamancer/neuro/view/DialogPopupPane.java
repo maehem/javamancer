@@ -30,7 +30,6 @@ import com.maehem.javamancer.neuro.model.GameState;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -64,7 +63,6 @@ public abstract class DialogPopupPane extends PopupPane {
     protected VBox addBox(Node... nodes) {
         VBox box = new VBox(nodes);
         box.setSpacing(0);
-        box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
         box.setMinWidth(getPrefWidth());
         box.setPrefWidth(getPrefWidth());
         box.setMinHeight(getPrefHeight());
