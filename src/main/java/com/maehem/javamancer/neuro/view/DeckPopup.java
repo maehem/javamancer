@@ -39,7 +39,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -103,7 +102,6 @@ public class DeckPopup extends PopupPane {
         tf.setLineSpacing(-8);
         tf.setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
         tf.setPadding(new Insets(4, 0, 0, 16));
-        tf.getTransforms().add(new Scale(1.333, 1.0));
 
         HBox navBox = new HBox(prevButton, exitButton, nextButton);
         navBox.setSpacing(20);
@@ -173,7 +171,6 @@ public class DeckPopup extends PopupPane {
         TextFlow tf = new TextFlow(currentSoft, linkEnterheading, typedLinkEntryText, cursor);
         tf.setLineSpacing(-8);
         tf.setPadding(new Insets(4, 0, 0, 4));
-        tf.getTransforms().add(new Scale(1.333, 1.0));
 
         getChildren().add(tf);
     }
@@ -189,7 +186,6 @@ public class DeckPopup extends PopupPane {
         TextFlow tf = new TextFlow(heading);
         tf.setLineSpacing(-8);
         tf.setPadding(new Insets(4, 0, 0, 4));
-        tf.getTransforms().add(new Scale(1.333, 1.0));
 
         getChildren().add(tf);
     }
@@ -205,34 +201,6 @@ public class DeckPopup extends PopupPane {
         this.databaseView = DatabaseView.getView(gameState, this, listener);
     }
 
-//    private DatabaseView getDatabaseView() {
-//        Class<? extends DatabaseView> viewClass = DatabaseViewList.getViewClass(gameState.database.getClass());
-//            try {
-//                Constructor<?> ctor = viewClass.getConstructor(new Class[]{
-//                    GameState.class,
-//                    Pane.class
-//                });
-//                Object object = ctor.newInstance(new Object[]{gameState, (Pane) this});
-//                LOGGER.log(Level.SEVERE, "Database View created.");
-//                if (object instanceof DatabaseView re) {
-//                    return re;
-//                } else {
-//                    LOGGER.log(Level.SEVERE, "Database View Creation Failed.");
-//                    return null;
-//                }
-//            } catch (InstantiationException
-//                    | IllegalAccessException
-//                    | IllegalArgumentException
-//                    | InvocationTargetException
-//                    | NoSuchMethodException
-//                    | SecurityException ex) {
-//                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-//                ex.printStackTrace();
-//            }
-//        LOGGER.log(Level.SEVERE, "Was not able to create a view for {0}", gameState.database.name);
-//            return null;
-//        }
-//
     private void configSmallWindow() {
         setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
         setMinSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
