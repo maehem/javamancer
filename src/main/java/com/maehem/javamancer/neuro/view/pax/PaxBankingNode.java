@@ -54,6 +54,7 @@ public class PaxBankingNode extends PaxNode {
     private final Text enterCode = new Text();
     private final Text insufficientFunds = new Text("Insufficient Funds!");
     private final StringBuilder enteredNumber = new StringBuilder();
+    private final Text titleItem = new Text("   First Orbital Bank of Switzerland");
 
     public PaxBankingNode(PaxNodeListener l, GameState gameState) {
         super(l, gameState);
@@ -79,7 +80,7 @@ public class PaxBankingNode extends PaxNode {
         );
         menuItems.setLineSpacing(LINE_SPACING);
 
-        VBox box = addBox(titleItem(),
+        VBox box = addBox(titleItem,
                 infoBox2(),
                 menuItems);
         box.setSpacing(4);
@@ -97,13 +98,6 @@ public class PaxBankingNode extends PaxNode {
         transItem.setOnMouseClicked((t) -> {
             transactionHistory();
         });
-    }
-
-    private Node titleItem() {
-        Text titleItem = new Text("   First Orbital Bank of Switzerland");
-        //titleItem.setLayoutX(40);
-
-        return titleItem;
     }
 
     private Node infoBox2() {
@@ -221,7 +215,7 @@ public class PaxBankingNode extends PaxNode {
         mode = Mode.DOWNLOAD;
 
         enterCode.setText(enterPrefix + enterCursor);
-        VBox box = addBox(titleItem(),
+        VBox box = addBox(titleItem,
                 infoBox2(),
                 enterCode,
                 insufficientFunds);
@@ -234,7 +228,7 @@ public class PaxBankingNode extends PaxNode {
         mode = Mode.UPLOAD;
 
         enterCode.setText(enterPrefix + enterCursor);
-        VBox box = addBox(titleItem(),
+        VBox box = addBox(titleItem,
                 infoBox2(),
                 enterCode,
                 insufficientFunds);
@@ -301,7 +295,7 @@ public class PaxBankingNode extends PaxNode {
         getChildren().clear();
         mode = Mode.TRANSACTIONS;
         Text header = new Text("    day       type         amount");
-        VBox box = addBox(titleItem(),
+        VBox box = addBox(titleItem,
                 infoBox2(),
                 header,
                 transactionList());
