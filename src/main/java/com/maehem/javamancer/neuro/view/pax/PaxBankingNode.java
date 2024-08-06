@@ -33,14 +33,9 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -82,20 +77,13 @@ public class PaxBankingNode extends PaxNode {
                 upItem,
                 transItem
         );
-        menuItems.setLineSpacing(-8);
+        menuItems.setLineSpacing(LINE_SPACING);
 
-        VBox box = new VBox(
-                titleItem(),
-                infoBox(),
-                menuItems
-        );
-        box.setSpacing(10);
-        box.setPadding(new Insets(0, 0, 0, 20));
-        box.getTransforms().add(new Scale(1.3, 1.0));
-        box.setLayoutX(30);
-        box.setLayoutY(20);
+        VBox box = addBox(titleItem(),
+                infoBox2(),
+                menuItems);
+        box.setSpacing(4);
 
-        getChildren().add(box);
 
         exitItem.setOnMouseClicked((t) -> {
             listener.paxNodeExit();
@@ -112,31 +100,27 @@ public class PaxBankingNode extends PaxNode {
     }
 
     private Node titleItem() {
-        Text titleItem = new Text("     First Orbital Bank of Switzerland");
+        Text titleItem = new Text("   First Orbital Bank of Switzerland");
         //titleItem.setLayoutX(40);
 
         return titleItem;
     }
 
-    private Node infoBox() {
-        GridPane infoGrid = new GridPane(2, 2);
+    private Node infoBox2() {
 
-        Text nameItem = new Text("name: " + gameState.name);
-        Text idItem = new Text("id = " + gameState.bamaId);
-        Text chipItem = new Text("chip = " + gameState.chipBalance);
-        Text bankItem = new Text("account = " + gameState.bankBalance);
-        infoGrid.addRow(0, nameItem, idItem);
-        infoGrid.addRow(1, chipItem, bankItem);
-        infoGrid.getColumnConstraints().add(new ColumnConstraints(180));
-        infoGrid.setHgap(10);
-        infoGrid.setVgap(0);
-        infoGrid.setPadding(new Insets(0));
-        Region infoSpacer = new Region();
-        infoSpacer.setPrefSize(40, 20);
-        HBox infoBox = new HBox(infoSpacer, infoGrid);
-        infoBox.setSpacing(0);
+        Text row1 = new Text(
+                String.format("%-21s", "   name = " + gameState.name)
+                + "id = " + gameState.bamaId + "\n"
+        );
+        Text row2 = new Text(
+                String.format("%-16s", "   chip = " + gameState.chipBalance)
+                + "account = " + gameState.bankBalance
+        );
 
-        return infoBox;
+        TextFlow tf = new TextFlow(row1, row2);
+        tf.setLineSpacing(LINE_SPACING);
+
+        return tf;
     }
 
     @Override
@@ -237,19 +221,12 @@ public class PaxBankingNode extends PaxNode {
         mode = Mode.DOWNLOAD;
 
         enterCode.setText(enterPrefix + enterCursor);
-        VBox box = new VBox(
-                titleItem(),
-                infoBox(),
+        VBox box = addBox(titleItem(),
+                infoBox2(),
                 enterCode,
-                insufficientFunds
-        );
-        box.setSpacing(10);
-        box.setPadding(new Insets(0, 0, 0, 20));
-        box.getTransforms().add(new Scale(1.3, 1.0));
-        box.setLayoutX(30);
-        box.setLayoutY(20);
+                insufficientFunds);
+        box.setSpacing(4);
 
-        getChildren().add(box);
     }
 
     private void uploadCredit() {
@@ -257,19 +234,11 @@ public class PaxBankingNode extends PaxNode {
         mode = Mode.UPLOAD;
 
         enterCode.setText(enterPrefix + enterCursor);
-        VBox box = new VBox(
-                titleItem(),
-                infoBox(),
+        VBox box = addBox(titleItem(),
+                infoBox2(),
                 enterCode,
-                insufficientFunds
-        );
-        box.setSpacing(10);
-        box.setPadding(new Insets(0, 0, 0, 20));
-        box.getTransforms().add(new Scale(1.3, 1.0));
-        box.setLayoutX(30);
-        box.setLayoutY(20);
-
-        getChildren().add(box);
+                insufficientFunds);
+        box.setSpacing(4);
     }
 
     /**
@@ -332,16 +301,11 @@ public class PaxBankingNode extends PaxNode {
         getChildren().clear();
         mode = Mode.TRANSACTIONS;
         Text header = new Text("    day       type         amount");
-        VBox box = new VBox(
-                titleItem(),
-                infoBox(),
+        VBox box = addBox(titleItem(),
+                infoBox2(),
                 header,
-                transactionList()
-        );
-        box.setSpacing(0);
-        box.getTransforms().add(new Scale(1.3, 1.0));
-
-        getChildren().add(box);
+                transactionList());
+        box.setSpacing(4);
     }
 
     private Node transactionList() {
