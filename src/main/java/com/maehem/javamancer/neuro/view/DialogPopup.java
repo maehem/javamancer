@@ -29,8 +29,10 @@ package com.maehem.javamancer.neuro.view;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
 import java.util.logging.Level;
+import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -65,14 +67,16 @@ public class DialogPopup extends DialogPopupPane {
 
         textResource = rm.getRoomText(gameState.room);
 
-        getChildren().add(textFlow);
-        textFlow.setLayoutX(6);
-        textFlow.setLayoutY(6);
-        textFlow.setLineSpacing(-8);
-        textFlow.setMaxWidth(getPrefWidth() - 10);
+        textFlow.setLineSpacing(LINE_SPACING + 2.0);
+        textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 60);
         textFlow.getChildren().add(wordText);
+        textFlow.setMinHeight(getPrefHeight());
+
+        VBox box = addBox(textFlow);
+        box.setPadding(new Insets(6, 20, 6, 20));
 
         wordText.setText(textResource.get(dialogIndex));
+
     }
 
     public void dialogCounter() {
