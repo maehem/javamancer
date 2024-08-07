@@ -26,10 +26,58 @@
  */
 package com.maehem.javamancer.neuro.view.ui;
 
+import com.maehem.javamancer.neuro.view.SmallPopupPane;
+import com.maehem.javamancer.neuro.view.TitleMode;
+import javafx.geometry.Insets;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.scene.transform.Scale;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class NameChooserDialog {
+public class NameChooserDialog extends SmallPopupPane {
+
+    private final StringBuilder typedName = new StringBuilder();
+    private final Text typedText = new Text();
+    private final TitleMode titleMode;
+
+    public NameChooserDialog(TitleMode l) {
+        super(null, null);
+        this.titleMode = l;
+
+        setLayoutX(146);
+        setLayoutY(106);
+
+        TextFlow tf = new TextFlow(
+                new Text("YOUR NAME?\n\n"),
+                typedText, new Text("<")
+        );
+        tf.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
+        tf.setPadding(new Insets(10));
+        getChildren().add(tf);
+    }
+
+    public void keyEvent(KeyEvent ke) {
+        KeyCode code = ke.getCode();
+        if ((code.isLetterKey() | code.isDigitKey()) && typedName.length() < 12) {
+            typedName.append(code.getChar().toUpperCase());
+            typedText.setText(typedName.toString());
+        } else if (code.equals(KeyCode.ENTER)) {
+            // Accept and finish
+            titleMode.acceptName(typedName.toString());
+        } else if (code.equals(KeyCode.ESCAPE)) {
+            // Escape
+            setVisible(false);
+        } else if (code.equals(KeyCode.BACK_SPACE)) {
+            if (typedName.length() > 0) {
+                typedName.delete(typedName.length() - 1, typedName.length());
+                typedText.setText(typedName.toString());
+            }
+        }
+    }
 
 }
