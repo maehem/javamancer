@@ -26,35 +26,61 @@
  */
 package com.maehem.javamancer.neuro.view;
 
-import com.maehem.javamancer.neuro.model.GameState;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class DialogPopupPane extends PopupPane {
+public class DialogBubble extends ImageView {
 
-    private static final int WIDTH = (int) (624);
-    private static final int HEIGHT = 80;
-    private static final int X = 8;
-    private static final int Y = 8;
+    private static final int FLIP_X = 300;
+    private int index;
+    private double position;
 
-    public DialogPopupPane(PopupListener l, GameState gs) {
-        this(l, gs, WIDTH);
+    protected enum Mode {
+        NONE, SAY, THINK
     }
 
-    public DialogPopupPane(PopupListener l, GameState gs, int width) {
-        this(l, gs, width, HEIGHT, X, Y);
+    private Mode mode = Mode.NONE;
+    private final Image view[] = new Image[5];
+
+    public DialogBubble(ResourceManager rm, double posX, double posY) {
+        view[0] = null;
+        for (int i = 1; i < view.length; i++) {
+            view[i] = rm.getSprite("BUBBLES_" + i);
+        }
+        this.position = posX;
+        this.setLayoutX(posX + (posX < FLIP_X ? 38 : -38));
+        this.setLayoutY(posY);
+        update();
     }
 
-    public DialogPopupPane(PopupListener l, GameState gs, int width, int height, int x, int y) {
-        super(l, gs);
-        setPrefSize(width, height);
-        setMinSize(width, height);
-        setMaxSize(width, height);
-        setLayoutX(x);
-        setLayoutY(y);
-        setId("neuroDialog");
+    public void setMode(Mode m) {
+        this.mode = m;
+        update();
     }
 
+//    public void setPosition(int pos) {
+//        this.position = pos;
+//        setLayoutX(position);
+//        update();
+//    }
+
+    private void update() {
+        index = 0;
+        switch (mode) {
+            case NONE -> {
+                index = 0;
+            }
+            case SAY -> {
+                index = 1 + (position < FLIP_X ? 1 : 0);
+            }
+            case THINK -> {
+                index = 3 + (position < FLIP_X ? 1 : 0);
+            }
+        }
+        setImage(view[index]);
+    }
 }

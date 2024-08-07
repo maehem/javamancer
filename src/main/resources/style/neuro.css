@@ -5,13 +5,25 @@ Text {
     -fx-fill: black;
 }
 
-.neuroDialog, .button{
+.button {
     -fx-background-color: white;
     -fx-background-insets: 1;
     -fx-border-color: black;
     -fx-border-width: 3;
     -fx-border-radius: 0;
     -fx-background-radius: 0;
+    -fx-padding: 4 10 4 10;
+
+    -fx-text-fill: black;
+}
+
+#neuroDialog {
+    -fx-background-color: white;
+    -fx-background-insets: 1;
+    -fx-border-color: lightgrey;
+    -fx-border-width: 4;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
     -fx-padding: 4 10 4 10;
 
     -fx-text-fill: black;

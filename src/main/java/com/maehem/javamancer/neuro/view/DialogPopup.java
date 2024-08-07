@@ -42,16 +42,21 @@ import javafx.scene.text.TextFlow;
  */
 public class DialogPopup extends DialogPopupPane {
 
-    private static final int DIALOG_COUNT = 15; // 15 frames == 1 second
+    private static final int DIALOG_COUNT = 20; // 15 frames == 1 second
 
     private final TextResource textResource;
 
     private enum Mode {
         NPC, PLAYER
-    };
+    }
 
+//    private enum BubbleMode {
+//        NONE, SAY, THINK
+//    }
+//
     private final TextFlow textFlow = new TextFlow();
     private final Text wordText = new Text();
+    private final DialogBubble bubble;
     private Mode mode = Mode.NPC;
     private final int[][] dialogChain;
     private int dialogIndex = 2;
@@ -61,19 +66,20 @@ public class DialogPopup extends DialogPopupPane {
     public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
         super(l, gs);
 
-        dialogChain = gs.room.getExtras().getDialogChain();
-
-        dialogIndex = gs.room.getExtras().dialogWarmUp(gs);
-
-        textResource = rm.getRoomText(gameState.room);
+        this.bubble = new DialogBubble(rm, gs.roomPosX, getPrefHeight() - 4);
+        this.dialogChain = gs.room.getExtras().getDialogChain();
+        this.dialogIndex = gs.room.getExtras().dialogWarmUp(gs);
+        this.textResource = rm.getRoomText(gameState.room);
 
         textFlow.setLineSpacing(LINE_SPACING + 2.0);
-        textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 60);
+        textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 30);
         textFlow.getChildren().add(wordText);
         textFlow.setMinHeight(getPrefHeight());
 
         VBox box = addBox(textFlow);
         box.setPadding(new Insets(6, 20, 6, 20));
+
+        getChildren().add(bubble);
 
         wordText.setText(textResource.get(dialogIndex));
 
@@ -88,6 +94,7 @@ public class DialogPopup extends DialogPopupPane {
                 dialogCountDown--;
             } else {
                 mode = Mode.NPC;
+                bubble.setMode(DialogBubble.Mode.NONE);
                 dialogSubIndex = 0;
                 dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
                 // Control character '01' is a token for the player's name. Replace it here.
@@ -116,6 +123,7 @@ public class DialogPopup extends DialogPopupPane {
                 switch (mode) {
                     case NPC -> {
                         mode = Mode.PLAYER;
+                        bubble.setMode(DialogBubble.Mode.THINK);
                         LOGGER.log(Level.CONFIG, "Toggle to PLAYER next bubble response.");
                     }
                     case PLAYER -> {
@@ -145,7 +153,7 @@ public class DialogPopup extends DialogPopupPane {
                         // Nothing happens.
                     }
                     case PLAYER -> {
-
+                        bubble.setMode(DialogBubble.Mode.SAY);
                         //LOGGER.log(Level.SEVERE, "ENTER PRESSED. Begin countdown...");
                         // Start one second countdown to show response.
                         dialogCountDown = DIALOG_COUNT;
@@ -169,4 +177,26 @@ public class DialogPopup extends DialogPopupPane {
         return false;
     }
 
+//    private ImageView getBubble(BubbleMode b, int positionX, ResourceManager rm) {
+//        int bSide = positionX < 320 ? 1 : 0;
+//        int bMode = 0;
+//        switch (b) {
+//            case NONE -> {
+//                return new ImageView();
+//            }
+//            case SAY -> {
+//                bMode = 1;
+//            }
+//            case THINK -> {
+//                bMode = 3;
+//            }
+//        }
+//        Image sprite = rm.getSprite("BUBBLES_" + (bMode + bSide));
+//        ImageView im = new ImageView(sprite);
+//
+//        im.setLayoutX(positionX);
+//        im.setLayoutY(getPrefHeight() - 2);
+//
+//        return im;
+//    }
 }
