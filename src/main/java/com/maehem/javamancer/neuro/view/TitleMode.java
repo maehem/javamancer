@@ -27,15 +27,16 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.view.ui.BorderButton;
 import com.maehem.javamancer.neuro.view.ui.LoadSaveDialog;
 import com.maehem.javamancer.neuro.view.ui.NakedButton;
 import com.maehem.javamancer.neuro.view.ui.NameChooserDialog;
+import java.util.logging.Level;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -48,6 +49,7 @@ public class TitleMode extends NeuroModePane {
 
     private NameChooserDialog newGameDialog = null;
     private LoadSaveDialog loadSaveDialog = null;
+    private final TextFlow quitBox;
 
     public TitleMode(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState) {
         super(listener, resourceManager, gameState);
@@ -60,46 +62,52 @@ public class TitleMode extends NeuroModePane {
 
         getChildren().addAll(snowBackground, titleView);
 
-        Button newButton = new NakedButton(" New");
-        newButton.setOnAction((t) -> {
-            if (newGameDialog != null) {
-                getChildren().remove(newGameDialog);
-                newGameDialog = null;
-            }
-            newGameDialog = new NameChooserDialog(this);
-            getChildren().add(newGameDialog);
-        });
-        Button loadButton = new NakedButton("Load ");
-        loadButton.setOnAction((t) -> {
-            if (loadSaveDialog != null) {
-                getChildren().remove(loadSaveDialog);
-                loadSaveDialog = null;
-            }
-            loadSaveDialog = new LoadSaveDialog(LoadSaveDialog.Type.LOAD, gameState);
-            loadSaveDialog.setLayoutX(82);
-            loadSaveDialog.setLayoutY(256);
+        Text quitButton = new Text("Quit");
 
-            getChildren().add(loadSaveDialog);
+        quitButton.setOnMouseClicked((t) -> {
+            getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.QUIT, null);
         });
 
-        TextFlow newLoadBox2 = new TextFlow(newButton, new Text("/"), loadButton);
+        // For reasons I don't understand, the text flow must have an
+        // actual JavaFX Button inside it for any key events to work. No idea
+        // why. Tried all kinds of things.
+        // Had to put one in both text flows for CSS reasons. Not able to
+        // figure out padding numbers that would work for both.
+        Button fakeButton = new NakedButton("");
+        Button fakeButton2 = new NakedButton("");
+        Text newButton = new Text(" New");
+        newButton.setOnMouseClicked((t) -> {
+            doNewGameDialog();
+        });
+        Text loadButton = new Text("Load ");
+        loadButton.setOnMouseClicked((t) -> {
+            doLoadSaveDialog();
+        });
+
+        TextFlow newLoadBox2 = new TextFlow(newButton, new Text("/"), loadButton, fakeButton);
         newLoadBox2.setId("neuro-popup");
         newLoadBox2.setLayoutX(80);
         newLoadBox2.setLayoutY(310);
         newLoadBox2.getTransforms().add(TEXT_SCALE);
 
-        Button quit = new BorderButton("Quit", 476, 310);
-        quit.getTransforms().add(TEXT_SCALE);
+        quitBox = new TextFlow(quitButton, fakeButton2);
+        quitBox.setId("neuro-popup");
+        quitBox.setLayoutX( 476);
+        quitBox.setLayoutY(310);
+        quitBox.getTransforms().add(TEXT_SCALE);
 
-        quit.setOnAction((t) -> {
-            getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.QUIT, null);
-        });
+        getChildren().addAll(newLoadBox2, quitBox);
 
-        getChildren().addAll(newLoadBox2, quit);
-
-        setOnKeyPressed((t) -> {
+        addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent t) -> {
+            LOGGER.log(Level.SEVERE, "TitleMode: Key pressed.");
             if (newGameDialog != null) {
-                newGameDialog.keyEvent(t);
+                if (t.getCode().equals(KeyCode.ESCAPE)) {
+                    getChildren().remove(newGameDialog);
+                    newGameDialog = null;
+                    quitBox.setVisible(true);
+                } else {
+                    newGameDialog.keyEvent(t);
+                }
             } else if (loadSaveDialog != null && loadSaveDialog.isVisible()) {
                 if (loadSaveDialog.keyEvent(t)) {
                     getChildren().remove(loadSaveDialog);
@@ -108,18 +116,41 @@ public class TitleMode extends NeuroModePane {
             } else {
                 switch (t.getCode()) {
                     case KeyCode.N -> {
-                        newButton.fire();
+                        doNewGameDialog();
                     }
                     case L -> {
-                        loadButton.fire();
+                        doLoadSaveDialog();
                     }
                     case Q, X -> {
-                        quit.fire();
+                        //quitButton.fire();
+                        getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.QUIT, null);
                     }
                 }
             }
         });
 
+    }
+
+    private void doNewGameDialog() {
+        if (newGameDialog != null) {
+            getChildren().remove(newGameDialog);
+            newGameDialog = null;
+        }
+        newGameDialog = new NameChooserDialog(this);
+        getChildren().add(newGameDialog);
+        quitBox.setVisible(false);
+    }
+
+    private void doLoadSaveDialog() {
+        if (loadSaveDialog != null) {
+            getChildren().remove(loadSaveDialog);
+            loadSaveDialog = null;
+        }
+        loadSaveDialog = new LoadSaveDialog(LoadSaveDialog.Type.LOAD, getGameState());
+        loadSaveDialog.setLayoutX(82);
+        loadSaveDialog.setLayoutY(256);
+
+        getChildren().add(loadSaveDialog);
     }
 
     public void acceptName(String name) {

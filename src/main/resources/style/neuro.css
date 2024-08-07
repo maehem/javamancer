@@ -12,10 +12,31 @@ Text {
     -fx-border-width: 3;
     -fx-border-radius: 0;
     -fx-background-radius: 0;
-    -fx-padding: 4 10 4 10;
+    -fx-padding: 0;
 
     -fx-text-fill: black;
 }
+
+
+/*
+.button {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 4 10 4 10;
+    
+    -fx-text-fill: black;
+}
+*/
+.button .text {
+    -fx-font-family: VT323;
+    -fx-font-size: 24;
+    -fx-fill: black; 
+}
+
 
 #neuroDialog {
     -fx-background-color: white;
@@ -68,27 +89,9 @@ Text {
     -fx-background-color: transparent;
 }
 
-.button {
-    -fx-background-color: white;
-    -fx-background-insets: 0;
-    -fx-border-color: black;
-    -fx-border-width: 2;
-    -fx-border-radius: 0;
-    -fx-background-radius: 0;
-    -fx-padding: 4 10 4 10;
-    
-    -fx-text-fill: black;
-}
-
-.button .text {
-    -fx-font-family: VT323;
-    -fx-font-size: 24;
-    -fx-fill: black; 
-}
-
 #neuro-button-no-border {
     -fx-border-color: white;
-    -fx-padding: 4 0 4 0;
+    -fx-padding: 0;
 }
 
 #neuro-status {
@@ -127,4 +130,5 @@ Text {
     -fx-background-color: white;
     -fx-border-width: 2;
     -fx-border-color: black;
+    -fx-padding: 6 8 6 8;
 }

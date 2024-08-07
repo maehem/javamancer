@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.view.ui;
 
 import com.maehem.javamancer.neuro.view.SmallPopupPane;
 import com.maehem.javamancer.neuro.view.TitleMode;
+import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -46,11 +47,8 @@ public class NameChooserDialog extends SmallPopupPane {
     private final TitleMode titleMode;
 
     public NameChooserDialog(TitleMode l) {
-        super(null, null);
+        super(null, null, 220, 90, 80, 266);
         this.titleMode = l;
-
-        setLayoutX(146);
-        setLayoutY(106);
 
         TextFlow tf = new TextFlow(
                 new Text("YOUR NAME?\n\n"),
@@ -59,18 +57,26 @@ public class NameChooserDialog extends SmallPopupPane {
         tf.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
         tf.setPadding(new Insets(10));
         getChildren().add(tf);
+
     }
 
     public void keyEvent(KeyEvent ke) {
         KeyCode code = ke.getCode();
-        if ((code.isLetterKey() | code.isDigitKey()) && typedName.length() < 12) {
+        if (code.equals(KeyCode.SPACE)) {
+            // Ignore
+            LOGGER.log(Level.SEVERE, "Name Chooser: SPACE");
+            ke.consume();
+        } else if ((code.isLetterKey() | code.isDigitKey()) && typedName.length() < 12) {
             typedName.append(ke.getText());
             typedText.setText(typedName.toString());
+            ke.consume();
         } else if (code.equals(KeyCode.ENTER)) {
             // Accept and finish
             titleMode.acceptName(typedName.toString());
+            ke.consume();
         } else if (code.equals(KeyCode.ESCAPE)) {
             // Escape
+            LOGGER.log(Level.SEVERE, "Name Chooser: Escape pressed.");
             setVisible(false);
         } else if (code.equals(KeyCode.BACK_SPACE)) {
             if (typedName.length() > 0) {
