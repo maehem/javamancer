@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model;
 public class BankTransaction {
 
     public enum Operation {
-        Download, Upload, Fine
+        Download, Upload, Fine, TransferIn, TransferOut
     }
 
     public final String date;
@@ -48,7 +48,7 @@ public class BankTransaction {
 
     @Override
     public String toString() {
-        return date + " " + String.format("%-8s", op.name()) + " " + String.format("%1$10s", amount);
+        return date + " " + String.format("%-11s", op.name()) + " " + String.format("%1$10s", amount);
     }
 
 
