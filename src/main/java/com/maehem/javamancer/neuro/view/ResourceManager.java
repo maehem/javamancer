@@ -197,7 +197,7 @@ public class ResourceManager {
                         }
 
                         // ASCII code 01 is used as a token for the player's name.
-                        String body = txt.substring(bodyStart + 1).replaceAll("\01", playerName);
+                        String body = txt.substring(bodyStart + 1).replace("\1", playerName);
 
                         articles.add(new NewsArticle(
                                 (index < NewsArticle.defaultShow) ? dateString : "XX/XX/XX",
@@ -244,9 +244,9 @@ public class ResourceManager {
                         String body = "";
                         for (String item : split) {
                             if (item.startsWith("TO:")) {
-                                to = item.split(":")[1].replaceAll("\01", playerName).trim();
+                                to = item.split(":")[1].replace("\01", playerName).trim();
                             } else if (item.startsWith("FROM:")) { // TODO: replace \01 might not be needed for 'from'.
-                                from = item.split(":")[1].replaceAll("\01", playerName).trim();
+                                from = item.split(":")[1].replace("\01", playerName).trim();
                             } else {
                                 body += item + "\n";
                             }
