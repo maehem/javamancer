@@ -76,6 +76,9 @@ public class TitleMode extends NeuroModePane {
                 loadSaveDialog = null;
             }
             loadSaveDialog = new LoadSaveDialog(LoadSaveDialog.Type.LOAD, gameState);
+            loadSaveDialog.setLayoutX(82);
+            loadSaveDialog.setLayoutY(256);
+
             getChildren().add(loadSaveDialog);
         });
 
