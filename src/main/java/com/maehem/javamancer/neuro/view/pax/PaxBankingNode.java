@@ -26,7 +26,10 @@
  */
 package com.maehem.javamancer.neuro.view.pax;
 
+import com.maehem.javamancer.neuro.model.BankTransaction;
 import com.maehem.javamancer.neuro.model.GameState;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -125,7 +128,7 @@ public class PaxBankingNode extends PaxNode {
             case MAIN -> {
                 if (ke.getCode().isLetterKey()) {
                     switch (ke.getCode()) {
-                        case X -> {
+                        case X, ESCAPE -> {
                             return true;
                         }
                         case D -> {
@@ -147,7 +150,7 @@ public class PaxBankingNode extends PaxNode {
             case DOWNLOAD -> {
                 if (ke.getCode().isLetterKey()) {
                     switch (ke.getCode()) {
-                        case X -> {
+                        case X, ESCAPE -> {
                             mainMenu();
                             return false;
                         }
@@ -161,7 +164,7 @@ public class PaxBankingNode extends PaxNode {
             case UPLOAD -> {
                 if (ke.getCode().isLetterKey()) {
                     switch (ke.getCode()) {
-                        case X -> {
+                        case X, ESCAPE -> {
                             mainMenu();
                             return false;
                         }
@@ -175,7 +178,7 @@ public class PaxBankingNode extends PaxNode {
             case TRANSACTIONS -> {
                 if (ke.getCode().isLetterKey()) {
                     switch (ke.getCode()) {
-                        case X -> {
+                        case X, ESCAPE -> {
                             mainMenu();
                             return false;
                         }
@@ -296,22 +299,28 @@ public class PaxBankingNode extends PaxNode {
     private void transactionHistory() {
         getChildren().clear();
         mode = Mode.TRANSACTIONS;
-        Text header = new Text("    day       type         amount");
+        Text header = new Text("    day      type            amount");
         VBox box = addBox(titleItem,
                 infoBox2(),
                 header,
                 transactionList());
         box.setSpacing(4);
+
+        box.setOnMouseClicked((t) -> {
+            mainMenu();
+        });
     }
 
     private Node transactionList() {
-        TextFlow list = new TextFlow();
-        gameState.bankTransactionRecord.forEach((bt) -> {
-            list.getChildren().add(new Text(bt.toString() + "\n"));
+        TextFlow tf = new TextFlow();
+        ArrayList<BankTransaction> list = gameState.bankTransactionRecord;
+        List<BankTransaction> subList = list.subList(list.size() - 4, list.size());
+        subList.forEach((bt) -> {
+            tf.getChildren().add(new Text(bt.toString() + "\n"));
         });
 
-        list.setLineSpacing(-9);
-        ScrollPane sp = new ScrollPane(list);
+        tf.setLineSpacing(LINE_SPACING);
+        ScrollPane sp = new ScrollPane(tf);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setPrefSize(440, 94);
