@@ -30,19 +30,15 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.ui.BorderButton;
 import com.maehem.javamancer.neuro.view.ui.LoadSaveDialog;
 import com.maehem.javamancer.neuro.view.ui.NakedButton;
-import java.util.Optional;
-import java.util.logging.Level;
-import javafx.geometry.Insets;
+import com.maehem.javamancer.neuro.view.ui.NameChooserDialog;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -50,7 +46,8 @@ import javafx.scene.transform.Scale;
  */
 public class TitleMode extends NeuroModePane {
 
-    private NewGameDialog newGameDialog = null;
+    private NameChooserDialog newGameDialog = null;
+    private LoadSaveDialog loadSaveDialog = null;
 
     public TitleMode(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState) {
         super(listener, resourceManager, gameState);
@@ -69,12 +66,17 @@ public class TitleMode extends NeuroModePane {
                 getChildren().remove(newGameDialog);
                 newGameDialog = null;
             }
-            newGameDialog = new NewGameDialog(this);
+            newGameDialog = new NameChooserDialog(this);
             getChildren().add(newGameDialog);
         });
         Button loadButton = new NakedButton("Load ");
         loadButton.setOnAction((t) -> {
-            doLoadDialog();
+            if (loadSaveDialog != null) {
+                getChildren().remove(loadSaveDialog);
+                loadSaveDialog = null;
+            }
+            loadSaveDialog = new LoadSaveDialog(LoadSaveDialog.Type.LOAD, gameState);
+            getChildren().add(loadSaveDialog);
         });
 
         TextFlow newLoadBox2 = new TextFlow(newButton, new Text("/"), loadButton);
@@ -95,6 +97,11 @@ public class TitleMode extends NeuroModePane {
         setOnKeyPressed((t) -> {
             if (newGameDialog != null) {
                 newGameDialog.keyEvent(t);
+            } else if (loadSaveDialog != null && loadSaveDialog.isVisible()) {
+                if (loadSaveDialog.keyEvent(t)) {
+                    getChildren().remove(loadSaveDialog);
+                    loadSaveDialog = null;
+                }
             } else {
                 switch (t.getCode()) {
                     case KeyCode.N -> {
@@ -114,20 +121,6 @@ public class TitleMode extends NeuroModePane {
 
     public void acceptName(String name) {
         getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.NEW_GAME, new Object[]{name});
-    }
-
-    private void doLoadDialog() {
-        LoadSaveDialog dialog = new LoadSaveDialog(LoadSaveDialog.Type.LOAD, getScene().getWindow());
-        Optional<Integer> result = dialog.showAndWait();
-        Integer selected = null;
-        if (result.isPresent()) {
-            selected = result.get();
-            LOGGER.log(Level.SEVERE, "User wants to load {0}.", selected);
-            getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.LOAD, new Object[]{selected});
-        } else if (selected == null) {
-            // Nothing happes.
-            LOGGER.log(Level.SEVERE, "User aborted Load dialog.");
-        }
     }
 
     private ImageView makeSnowBackground(double w, double h, int intensity) {
@@ -177,7 +170,8 @@ public class TitleMode extends NeuroModePane {
 
     @Override
     public void destroy() {
-
+        newGameDialog = null;
+        loadSaveDialog = null;
     }
 
     /**
@@ -186,51 +180,7 @@ public class TitleMode extends NeuroModePane {
      */
     @Override
     public void updateStatus() {
-
-    }
-
-    private class NewGameDialog extends SmallPopupPane {
-
-        private final StringBuilder typedName = new StringBuilder();
-        private final Text typedText = new Text();
-        private final TitleMode titleMode;
-
-        public NewGameDialog(TitleMode l) {
-            super(null, null);
-            this.titleMode = l;
-
-            setLayoutX(146);
-            setLayoutY(106);
-
-
-            TextFlow tf = new TextFlow(
-                    new Text("YOUR NAME?\n\n"),
-                    typedText, new Text("<")
-            );
-            tf.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
-            tf.setPadding(new Insets(10));
-            getChildren().add(tf);
-        }
-
-        public void keyEvent(KeyEvent ke) {
-            KeyCode code = ke.getCode();
-            if ((code.isLetterKey() | code.isDigitKey()) && typedName.length() < 12) {
-                typedName.append(code.getChar().toUpperCase());
-                typedText.setText(typedName.toString());
-            } else if (code.equals(KeyCode.ENTER)) {
-                // Accept and finish
-                titleMode.acceptName(typedName.toString());
-            } else if (code.equals(KeyCode.ESCAPE)) {
-                // Escape
-                setVisible(false);
-            } else if (code.equals(KeyCode.BACK_SPACE)) {
-                if (typedName.length() > 0) {
-                    typedName.delete(typedName.length() - 1, typedName.length());
-                    typedText.setText(typedName.toString());
-                }
-            }
-        }
-
+        // Not used here.
     }
 
 }
