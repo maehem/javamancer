@@ -64,7 +64,7 @@ public class NameChooserDialog extends SmallPopupPane {
     public void keyEvent(KeyEvent ke) {
         KeyCode code = ke.getCode();
         if ((code.isLetterKey() | code.isDigitKey()) && typedName.length() < 12) {
-            typedName.append(code.getChar().toUpperCase());
+            typedName.append(ke.getText());
             typedText.setText(typedName.toString());
         } else if (code.equals(KeyCode.ENTER)) {
             // Accept and finish
