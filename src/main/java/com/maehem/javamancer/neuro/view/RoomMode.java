@@ -178,48 +178,58 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         inventoryButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Inventory.");
             showPopup(Popup.INVENTORY);
+            t.consume();
         });
         paxButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked PAX.");
 
             showPopup(Popup.PAX);
+            t.consume();
         });
         talkButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Talk.");
             showPopup(Popup.TALK);
+            t.consume();
         });
         skillsButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Skills.");
             showPopup(Popup.SKILLS);
+            t.consume();
         });
         romButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked ROM.");
             showPopup(Popup.ROM);
+            t.consume();
         });
         diskButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Disk.");
             showPopup(Popup.DISK);
+            t.consume();
         });
 
         dateButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Date.");
             statusMode = Status.DATE;
             updateStatus();
+            t.consume();
         });
         timeButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Time.");
             statusMode = Status.TIME;
             updateStatus();
-        });
+            t.consume();
+       });
         credButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Credits.");
             statusMode = Status.CREDIT;
             updateStatus();
+            t.consume();
         });
         constButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Constitution.");
             statusMode = Status.CONSTITUTION;
             updateStatus();
+            t.consume();
         });
     }
 
@@ -394,6 +404,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 roomPane.mouseClick(x - RoomPane.PANE_X, y - RoomPane.PANE_Y, getGameState());
             }
         }
+        if (popup instanceof DialogPopup) {
+            popupExit();
+        }
     }
 
     private static Rectangle button(int x, int y, int w, int h) {
@@ -412,6 +425,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     @Override
     public void popupExit() {
+        LOGGER.log(Level.SEVERE, "Popup Exit: {0}", popup.getClass().getSimpleName());
         popup.setVisible(false);
         getChildren().remove(popup);
         if (popup instanceof DeckPopup dp) {

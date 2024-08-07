@@ -83,9 +83,11 @@ public class DialogPopup extends DialogPopupPane {
             switch (mouseEvent.getButton()) {
                 case PRIMARY -> {
                     handleCode(KeyCode.SPACE); // Space bar
+                    mouseEvent.consume();
                 }
                 case SECONDARY -> {
                     handleCode(KeyCode.ENTER); // Enter
+                    mouseEvent.consume();
                 }
             }
         });
