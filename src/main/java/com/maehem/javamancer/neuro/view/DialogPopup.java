@@ -50,10 +50,6 @@ public class DialogPopup extends DialogPopupPane {
         NPC, PLAYER
     }
 
-//    private enum BubbleMode {
-//        NONE, SAY, THINK
-//    }
-//
     private final TextFlow textFlow = new TextFlow();
     private final Text wordText = new Text();
     private final DialogBubble bubble;
@@ -177,26 +173,4 @@ public class DialogPopup extends DialogPopupPane {
         return false;
     }
 
-//    private ImageView getBubble(BubbleMode b, int positionX, ResourceManager rm) {
-//        int bSide = positionX < 320 ? 1 : 0;
-//        int bMode = 0;
-//        switch (b) {
-//            case NONE -> {
-//                return new ImageView();
-//            }
-//            case SAY -> {
-//                bMode = 1;
-//            }
-//            case THINK -> {
-//                bMode = 3;
-//            }
-//        }
-//        Image sprite = rm.getSprite("BUBBLES_" + (bMode + bSide));
-//        ImageView im = new ImageView(sprite);
-//
-//        im.setLayoutX(positionX);
-//        im.setLayoutY(getPrefHeight() - 2);
-//
-//        return im;
-//    }
 }

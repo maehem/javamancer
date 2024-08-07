@@ -62,12 +62,6 @@ public class DialogBubble extends ImageView {
         update();
     }
 
-//    public void setPosition(int pos) {
-//        this.position = pos;
-//        setLayoutX(position);
-//        update();
-//    }
-
     private void update() {
         index = 0;
         switch (mode) {
