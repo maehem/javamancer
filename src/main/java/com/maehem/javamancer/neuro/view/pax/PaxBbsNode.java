@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.view.pax;
 
+import com.maehem.javamancer.neuro.model.BankTransaction;
 import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.ResourceManager;
@@ -489,6 +490,11 @@ public class PaxBbsNode extends PaxNode {
                     gameState.bbs.remove(toMove);
                     gameState.bbs.add(index + 2, toMove);
                     gameState.bankBalance += 10000;
+                    gameState.bankTransactionRecord.add(new BankTransaction(
+                            gameState.getDateString(),
+                            BankTransaction.Operation.TransferIn,
+                            10000
+                    ));
                     LOGGER.log(Level.CONFIG, "Armitage response sent to player.");
                 } else {
                     LOGGER.log(Level.SEVERE, "Unexpected issue happened while configuring Armitage response message!");
