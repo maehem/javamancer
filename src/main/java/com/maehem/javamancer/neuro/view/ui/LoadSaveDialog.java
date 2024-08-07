@@ -26,65 +26,105 @@
  */
 package com.maehem.javamancer.neuro.view.ui;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.stage.StageStyle;
-import javafx.stage.Window;
+import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.view.SmallPopupPane;
+import java.util.Map;
+import java.util.logging.Level;
+import javafx.geometry.Insets;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class LoadSaveDialog extends Dialog<Integer> {
+public class LoadSaveDialog extends SmallPopupPane {
+
+    private final Type type;
 
     public enum Type {
         LOAD, SAVE
     };
 
-    private static final Integer[] OPTIONS
-            = new Integer[]{1, 2, 3, 4};
-    private Integer selectedOption = null;
-    Button applyButton;
+    private static final String SAVE_STR = "Save";
+    private static final String LOAD_STR = "Load";
 
-    public LoadSaveDialog(Type type, Window window) {
-        super();
-        initStyle(StageStyle.UNDECORATED);
-        initOwner(window); // Causes dialog to center on game window.
-        DialogPane dialogPane = getDialogPane();
-        dialogPane.getStylesheets().add(
-                getClass().getResource("/style/neuro.css").toExternalForm());
-        dialogPane.getStyleClass().add("neuroDialog");
-        setGraphic(null);
-        setHeaderText("Load Game");
+    private static final Map<Integer, Text> OPTIONS = Map.of(
+            1, new Text("1"),
+            2, new Text("2"),
+            3, new Text("3"),
+            4, new Text("4")
+    );
+    private static final Text exitButton = new Text("exit");
+    private final static String SPACER = "  ";
+    private final String modeString;
 
-        HBox box = new HBox();
-        box.setSpacing(40);
-        box.getChildren().add(new Region());
-        for (Integer option : OPTIONS) {
-            Button optionButton = new Button(String.valueOf(option));
-            optionButton.setId("neuro-button-no-border");
-            optionButton.setOnAction((event) -> {
-                selectedOption = option;
-                applyButton.fire();
-            });
-            box.getChildren().add(optionButton);
+    public LoadSaveDialog(Type type, GameState gs) {
+        super(null, gs, 240);
+        this.type = type;
+
+        if (type.equals(Type.LOAD)) {
+            modeString = LOAD_STR;
+        } else {
+            modeString = SAVE_STR;
         }
-        box.getChildren().add(new Region());
-        getDialogPane().setContent(box);
-        ButtonType buttonType = new ButtonType("APPLY", ButtonBar.ButtonData.LEFT);
-        getDialogPane().getButtonTypes().add(buttonType);
-        applyButton = (Button) getDialogPane().lookupButton(buttonType);
-        applyButton.setId("neuro-button-no-border");
-        applyButton.setText("exit");
 
-        setResultConverter((dialogButton) -> {
-            return selectedOption;
+        setLayoutX(82);
+        setLayoutY(256);
+
+        TextFlow tf = new TextFlow();
+        tf.setLineSpacing(LINE_SPACING);
+        tf.setPadding(new Insets(10, 0, 0, 20));
+        tf.getChildren().add(new Text(" " + modeString + " Game"));
+        tf.getChildren().add(new Text("\n\n"));
+
+        for (int n = 1; n <= OPTIONS.size(); n++) {
+            Text text = OPTIONS.get(n);
+            final int nn = n;
+            text.setOnMousePressed((event) -> {
+                LOGGER.log(Level.SEVERE, "Mouse Click: {0} game {1}", new Object[]{modeString, nn});
+                select(nn);
+            });
+            tf.getChildren().add(text);
+            tf.getChildren().add(new Text(SPACER));
+        }
+
+        tf.getChildren().add(new Text("\n\n\n   "));
+        tf.getChildren().add(exitButton);
+
+        addBox(tf);
+
+        exitButton.setOnMouseClicked((t) -> {
+            setVisible(false);
         });
     }
 
+    public boolean keyEvent(KeyEvent ke) {
+        KeyCode code = ke.getCode();
+        if (code.isDigitKey()) {
+            return select(Integer.parseInt(code.getChar()));
+        } else if (code.equals(KeyCode.ESCAPE) || code.equals(KeyCode.X)) {
+            setVisible(false);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean select(int n) {
+        if (n > 0 && n <= OPTIONS.size()) {
+            switch (type) {
+                case LOAD -> {
+                    gameState.loadSlot(n);
+                }
+                case SAVE -> {
+                    gameState.saveSlot(n);
+                }
+            }
+            setVisible(false);
+            return true;
+        }
+        return false;
+    }
 }
