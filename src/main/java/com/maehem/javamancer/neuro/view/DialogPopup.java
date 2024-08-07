@@ -79,6 +79,17 @@ public class DialogPopup extends DialogPopupPane {
 
         wordText.setText(textResource.get(dialogIndex));
 
+        setOnMouseClicked((mouseEvent) -> {
+            switch (mouseEvent.getButton()) {
+                case PRIMARY -> {
+                    handleCode(KeyCode.SPACE); // Space bar
+                }
+                case SECONDARY -> {
+                    handleCode(KeyCode.ENTER); // Enter
+                }
+            }
+        });
+
     }
 
     public void dialogCounter() {
@@ -113,6 +124,12 @@ public class DialogPopup extends DialogPopupPane {
             return false;
         }
 
+        handleCode(code);
+        return false;
+    }
+
+    private void handleCode(KeyCode code) {
+
         switch (code) {
             case SPACE -> {
                 //LOGGER.log(Level.SEVERE, "SPACE BAR");
@@ -134,7 +151,7 @@ public class DialogPopup extends DialogPopupPane {
                     gameState.room.getExtras().dialogNoMore(gameState);
                     LOGGER.log(Level.CONFIG, "End of dialog chain reached. NPC has nothing more to say.");
                     listener.popupExit();
-                    return false;
+                    return;
                 }
                 // Get response for NPC dialog.
                 // Display bubbles.
@@ -170,7 +187,6 @@ public class DialogPopup extends DialogPopupPane {
                 listener.popupExit();
             }
         }
-        return false;
     }
 
 }
