@@ -27,9 +27,6 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.layout.VBox;
 
 /**
  *
@@ -58,20 +55,6 @@ public abstract class DialogPopupPane extends PopupPane {
         setLayoutX(x);
         setLayoutY(y);
         setId("neuro-popup");
-    }
-
-    protected VBox addBox(Node... nodes) {
-        VBox box = new VBox(nodes);
-        box.setSpacing(0);
-        box.setMinWidth(getPrefWidth());
-        box.setPrefWidth(getPrefWidth());
-        box.setMinHeight(getPrefHeight());
-        box.setMaxHeight(getPrefWidth());
-        box.setPadding(new Insets(0, 0, 0, 10));
-
-        getChildren().add(box);
-
-        return box;
     }
 
 }
