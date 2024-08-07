@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model;
 
+import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.database.DatabaseList;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
@@ -34,12 +35,16 @@ import com.maehem.javamancer.neuro.model.item.ItemCatalog;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class GameState {
+
+    public static final Logger LOGGER = Logging.LOGGER;
 
     public final ResourceManager resourceManager;
     public final DatabaseList dbList = new DatabaseList();
@@ -143,6 +148,14 @@ public class GameState {
         String year = String.format("%04d", dateYear).substring(2);
 
         return month + "/" + day + "/" + year;
+    }
+
+    public void loadSlot(int i) {
+        LOGGER.log(Level.SEVERE, "Load Slot {0} requested", i);
+    }
+
+    public void saveSlot(int i) {
+        LOGGER.log(Level.SEVERE, "Save Slot {0} requested", i);
     }
 }
 
