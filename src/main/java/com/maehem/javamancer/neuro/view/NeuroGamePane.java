@@ -184,6 +184,10 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                     LOGGER.log(Level.CONFIG, "New Game actionObject[0] was null!");
                 }
             }
+            case MUTE_MUSIC -> {
+                // Toggle music mute state.
+                resourceManager.musicManager.toggleMute();
+            }
         }
     }
 
