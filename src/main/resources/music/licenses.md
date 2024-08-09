@@ -13,3 +13,5 @@
 - Mac Crash           by  Multinational Synth Corporation
 - 2AM-zzZZZ           by  Multinational Synth Corporation
 - (empty)             by  Multinational Synth Corporation
+- Underbelly Deli     by  Multinational Synth Corporation
+- Jupiter Function    by  Multinational Synth Corporation
