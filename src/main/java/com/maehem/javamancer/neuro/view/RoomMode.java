@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
-import com.maehem.javamancer.neuro.view.room.Music;
+import com.maehem.javamancer.neuro.view.room.RoomMusic;
 import com.maehem.javamancer.neuro.view.room.RoomDescriptionPane;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
 import java.util.logging.Level;
@@ -160,7 +160,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         Platform.runLater(() -> {
             updateStatus();
             roomPane.updatePlayerPosition(gameState, gameState.roomPosX, gameState.roomPosY);
-            Music mus = Music.get(room);
+            RoomMusic mus = RoomMusic.get(room);
             if (mus != null) {
                 resourceManager.musicManager.playTrack(mus);
             } else {
@@ -378,7 +378,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     @Override
     public void destroy() {
-        Music mus = Music.get(room);
+        RoomMusic mus = RoomMusic.get(room);
         getGameState().resourceManager.musicManager.fadeOutTrack(mus.track, mus.fadeOut);
         room = null;
     }

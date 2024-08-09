@@ -27,7 +27,7 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.logging.Logging;
-import com.maehem.javamancer.neuro.view.room.Music;
+import com.maehem.javamancer.neuro.view.room.RoomMusic;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -70,7 +70,7 @@ public class MusicManager {
     public MusicManager() {
     }
 
-    public void playTrack(Music m) {
+    public void playTrack(RoomMusic m) {
         playTrack(m.track, m.volume, m.startTime, m.fadeIn, m.fadeOut);
     }
 

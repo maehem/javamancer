@@ -34,7 +34,7 @@ import static com.maehem.javamancer.neuro.view.MusicManager.Track.*;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum Music {
+public enum RoomMusic {
     R1(CHATSUBO, 0.7, 0, 3000, 2000),
     R2(STREET_1, 0.44, 30000, 2000, 2000),
     R5(STREET_1, 0.44, 30000, 2000, 2000),
@@ -61,7 +61,7 @@ public enum Music {
     public final int fadeOut;
     public final long startTime;
 
-    private Music(Track t, double vol, long startTime, int fadeIn, int fadeOut) {
+    private RoomMusic(Track t, double vol, long startTime, int fadeIn, int fadeOut) {
         this.track = t;
         this.volume = vol;
         this.startTime = startTime;
@@ -69,8 +69,8 @@ public enum Music {
         this.fadeOut = fadeOut;
     }
 
-    public static final Music get(Room r) {
-        for (Music m : values()) {
+    public static final RoomMusic get(Room r) {
+        for (RoomMusic m : values()) {
             if (r.name().equals(m.name())) {
                 return m;
             }
