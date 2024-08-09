@@ -54,8 +54,13 @@ public abstract class RoomExtras {
 
     public abstract void initRoom(GameState gs);
 
-    public abstract int jackZone();
+    public int jackZone() {
+        return -1;
+    }
 
-    public abstract boolean hasPAX();
+    public boolean hasPAX() {
+        return false;
+    }
+;
 
 }
