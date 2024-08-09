@@ -47,7 +47,7 @@ public class MusicManager {
     private static final Logger LOGGER = Logging.LOGGER;
 
     public enum Track {
-        TITLE("Daisy"),
+        TITLE("mac_crash"),
         CHATSUBO("isosolation"),
         STREET_1("ketamine-infusion"),
         STREET_2("2AM-zzZZZ"),
