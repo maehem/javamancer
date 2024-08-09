@@ -378,7 +378,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     @Override
     public void destroy() {
-        getGameState().resourceManager.musicManager.fadeOutTrack(MusicManager.Track.CHATSUBO, 4000);
+        Music mus = Music.get(room);
+        getGameState().resourceManager.musicManager.fadeOutTrack(mus.track, mus.fadeOut);
         room = null;
     }
 
