@@ -49,7 +49,10 @@ public class MusicManager {
     public enum Track {
         TITLE("Daisy"),
         CHATSUBO("isosolation"),
-        STREET_1("ketamine-infusion");
+        STREET_1("ketamine-infusion"),
+        STREET_2("2AM-zzZZZ"),
+        STREET_3("Jupiter_Function"),
+        MATRIX_1("(empty)");
 
         public final String fileName;
 
@@ -103,8 +106,9 @@ public class MusicManager {
                 LOGGER.log(Level.SEVERE, e.getMessage(), e);
             }
         } else {
-            LOGGER.log(Level.SEVERE, "Track already active. Play again.");
-            found.player.play();
+            LOGGER.log(Level.SEVERE, "Track already active. Stop fade.");
+            found.fadeOut.stop();
+            found.fadeOut = null;
         }
     }
 
@@ -132,6 +136,7 @@ public class MusicManager {
             };
 
             LOGGER.log(Level.SEVERE, "Begin Track fade out: {0} --> {1}ms", new Object[]{track.name(), milliSeconds});
+            found.setFadeOut(animation);
             animation.play();
         }
     }
