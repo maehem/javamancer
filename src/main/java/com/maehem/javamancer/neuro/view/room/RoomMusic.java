@@ -35,7 +35,7 @@ import static com.maehem.javamancer.neuro.view.MusicManager.Track.*;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public enum RoomMusic {
-    R1(CHATSUBO, 0.7, 0, 3000, 2000),
+    R1(CHATSUBO, 0.5, 8000, 3000, 2000),
     R2(STREET_1, 0.44, 30000, 2000, 2000),
     R5(STREET_1, 0.44, 30000, 2000, 2000),
     R13(STREET_1, 0.44, 30000, 2000, 2000),
