@@ -67,7 +67,7 @@ public class RoomPane extends Pane {
     private int walkToX = 0;
     private int walkToY = 0;
 
-    private final Room room;
+    //private final Room room;
     private final PlayerNode player;
     private final Rectangle playerFeet = new Rectangle(4, 4);
     private final Group playerGroup;
@@ -75,7 +75,7 @@ public class RoomPane extends Pane {
     private final double stepSizeTA = 4.0;
 
     public RoomPane(ResourceManager resourceManager, Room room) {
-        this.room = room;
+        //this.room = room;
         ImageView roomView = new ImageView(resourceManager.getBackdrop(room));
         getChildren().addAll(roomView);
 
