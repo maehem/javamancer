@@ -27,7 +27,7 @@
 package com.maehem.javamancer.neuro.model;
 
 import static com.maehem.javamancer.logging.Logging.LOGGER;
-import com.maehem.javamancer.neuro.model.room.R1Extras;
+import com.maehem.javamancer.neuro.model.room.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
@@ -39,7 +39,7 @@ import java.util.logging.Level;
 public enum Room {
 
     R1("Chatsubo", R1Extras.class),
-    R2("Street Chatsubo", null),
+    R2("Street Chatsubo", R2Extras.class),
     R3("Cyber Justice", null),
     R4("Body Shop", null),
     R5("Street Body Shop", null),

@@ -109,6 +109,9 @@ public enum RoomMap {
     }
 
     public static Room getRoom(Room r, RoomBounds.Door d) {
+        if (d == RoomBounds.Door.JAIL) {
+            return Room.R3;
+        }
         for (RoomMap rm : values()) {
             if (r.equals(rm.room)) {
                 switch (d) {

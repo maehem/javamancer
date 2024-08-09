@@ -97,7 +97,7 @@ public enum RoomBounds { // and Doors
     R58(174, 580, 224, 40, 0, 0, 0, 0, 0, 0, 0, 0);
 
     public enum Door {
-        NONE, TOP, RIGHT, BOTTOM, LEFT
+        NONE, TOP, RIGHT, BOTTOM, LEFT, JAIL
     };
 
     public final int tBound; // Upper walk Line

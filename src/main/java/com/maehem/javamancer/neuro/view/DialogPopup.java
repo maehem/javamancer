@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.RoomBounds;
 import com.maehem.javamancer.neuro.model.TextResource;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
@@ -153,6 +154,12 @@ public class DialogPopup extends DialogPopupPane {
                     gameState.room.getExtras().dialogNoMore(gameState);
                     LOGGER.log(Level.CONFIG, "End of dialog chain reached. NPC has nothing more to say.");
                     listener.popupExit();
+                    return;
+                } else if (dialogChain[dialogIndex][dialogSubIndex] == 69) { // Go to jail now.
+                    //gameState.room.getExtras().dialogNoMore(gameState);
+                    LOGGER.log(Level.CONFIG, "NPC sends player to jail.");
+                    listener.popupExit();
+                    gameState.useDoor = RoomBounds.Door.JAIL;
                     return;
                 }
                 // Get response for NPC dialog.
