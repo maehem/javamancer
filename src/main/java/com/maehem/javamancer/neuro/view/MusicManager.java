@@ -34,8 +34,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import static javafx.scene.media.MediaPlayer.INDEFINITE;
 import javafx.util.Duration;
 
 /**
@@ -48,7 +50,7 @@ public class MusicManager {
 
     public enum Track {
         TITLE("mac_crash"),
-        CHATSUBO("isosolation"),
+        CHATSUBO("Underbelly_Deli"),
         STREET_1("ketamine-infusion"),
         STREET_2("2AM-zzZZZ"),
         STREET_3("Jupiter_Function"),
@@ -95,13 +97,14 @@ public class MusicManager {
                     player.volumeProperty().set(volume);
                 }
                 player.play();
+                player.setCycleCount(INDEFINITE);
                 LOGGER.log(Level.SEVERE, "Track begin: {0}", track.name());
                 activeMedia.add(mediaItem);
 
-                player.setOnEndOfMedia(() -> {
-                    LOGGER.log(Level.SEVERE, "Track end: {0}", track.name());
-                    activeMedia.remove(findTrack(track));
-                });
+//                player.setOnEndOfMedia(() -> {
+//                    LOGGER.log(Level.SEVERE, "Track end: {0}", track.name());
+//                    activeMedia.remove(findTrack(track));
+//                });
             } catch (URISyntaxException e) {
                 LOGGER.log(Level.SEVERE, e.getMessage(), e);
             }
@@ -131,8 +134,15 @@ public class MusicManager {
 
                 @Override
                 protected void interpolate(double frac) {
-                    found.player.volumeProperty().set(startVol * (1.0 - frac));
+                    double vol = startVol * (1.0 - frac);
+                    found.player.volumeProperty().set(vol);
+                    if ( vol <= 0 ) {
+                        LOGGER.log(Level.SEVERE, "{0}: Fade End. Remove from active media.", found.track.name());
+                        found.player.stop();
+                        activeMedia.remove(found);
+                    }
                 }
+
             };
 
             LOGGER.log(Level.SEVERE, "Begin Track fade out: {0} --> {1}ms", new Object[]{track.name(), milliSeconds});
@@ -218,6 +228,13 @@ public class MusicManager {
             });
         }
 
+    }
+
+    public void toggleMute() {
+        for (MediaItem item : activeMedia) {
+            BooleanProperty itemMute = item.player.muteProperty();
+            itemMute.set(!itemMute.get());
+        }
     }
 
 }
