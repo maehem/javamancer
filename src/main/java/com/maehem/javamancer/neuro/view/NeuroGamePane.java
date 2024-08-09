@@ -154,6 +154,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
             case QUIT -> {
                 // Parent watches this action via actionHandler and will switch
                 // screen back to main Javamancer application.
+                gameState.resourceManager.musicManager.stopAll();
                 LOGGER.log(Level.CONFIG, "User Quit Game.");
                 LOGGER.log(Level.CONFIG, "Stop Timer Loop.");
                 timer.stop();

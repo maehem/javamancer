@@ -29,6 +29,7 @@ module com.maehem.javamancer {
     requires javafx.controls;
     requires javafx.graphics;
     requires java.base;
+    requires javafx.media;
 
     exports com.maehem.javamancer;
 }

@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
+import com.maehem.javamancer.neuro.view.room.Music;
 import com.maehem.javamancer.neuro.view.room.RoomDescriptionPane;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
 import java.util.logging.Level;
@@ -159,6 +160,12 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         Platform.runLater(() -> {
             updateStatus();
             roomPane.updatePlayerPosition(gameState, gameState.roomPosX, gameState.roomPosY);
+            Music mus = Music.get(room);
+            if (mus != null) {
+                resourceManager.musicManager.playTrack(mus);
+            } else {
+                LOGGER.log(Level.SEVERE, "No soundtrack for room " + room.name());
+            }
         });
 
         roomDescriptionPane.vvalueProperty().addListener(
@@ -172,6 +179,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
         setFocusTraversable(true);
         requestFocus();
+
     }
 
     private void initButtonHandlers() {
@@ -218,7 +226,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             statusMode = Status.TIME;
             updateStatus();
             t.consume();
-       });
+        });
         credButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Credits.");
             statusMode = Status.CREDIT;
@@ -370,6 +378,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     @Override
     public void destroy() {
+        getGameState().resourceManager.musicManager.fadeOutTrack(MusicManager.Track.CHATSUBO, 4000);
         room = null;
     }
 

@@ -53,6 +53,7 @@ public class TitleMode extends NeuroModePane {
 
     public TitleMode(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState) {
         super(listener, resourceManager, gameState);
+        resourceManager.musicManager.playTrack(MusicManager.Track.TITLE, 0.7, 0, 500, 500);
 
         ImageView titleView = new ImageView(getResourceManager().getSprite("TITLE_1"));
         ImageView snowBackground = makeSnowBackground(
@@ -92,7 +93,7 @@ public class TitleMode extends NeuroModePane {
 
         quitBox = new TextFlow(quitButton, fakeButton2);
         quitBox.setId("neuro-popup");
-        quitBox.setLayoutX( 476);
+        quitBox.setLayoutX(476);
         quitBox.setLayoutY(310);
         quitBox.getTransforms().add(TEXT_SCALE);
 
@@ -154,6 +155,8 @@ public class TitleMode extends NeuroModePane {
     }
 
     public void acceptName(String name) {
+        getGameState().resourceManager.musicManager.fadeOutTrack(MusicManager.Track.TITLE, 4000);
+
         getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.NEW_GAME, new Object[]{name});
     }
 

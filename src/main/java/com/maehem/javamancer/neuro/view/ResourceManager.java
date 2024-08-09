@@ -51,6 +51,7 @@ import javafx.scene.image.Image;
 public class ResourceManager {
 
     private static final Logger LOGGER = Logging.LOGGER;
+    public final MusicManager musicManager;
 
     public enum Type {
         IMH, PIC, BIH, ANH
@@ -76,6 +77,9 @@ public class ResourceManager {
         this.imhFolder = new File(resourceFolder, "imh");
         this.bihFolder = new File(resourceFolder, "bih");
         this.txhFolder = new File(resourceFolder, "txh");
+
+        this.musicManager = new MusicManager();
+
     }
 
     public Image getSprite(String name) {
