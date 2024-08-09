@@ -85,13 +85,13 @@ public enum RoomMap {
     R49(Room.R49, null, Room.R52, null, Room.R45), // Street Burned Building
     R50(Room.R50, null, null, null, null), // Cyberspace Beach
     R51(Room.R51, null, Room.R54, null, null), // Fuji Electric
-    R52(Room.R52, null, Room.R55, null, null), // Security Gate
+    R52(Room.R52, null, Room.R55, null, Room.R49), // Security Gate
     R53(Room.R53, null, null, Room.R54, null), // Hitachi Biotech
     R54(Room.R54, Room.R53, Room.R57, Room.R55, Room.R51), // High tech Area 1
     R55(Room.R55, Room.R54, Room.R58, Room.R56, Room.R52), // High tech Area 2
     R56(Room.R56, Room.R55, null, null, null), // SenseNet HQ
     R57(Room.R57, null, null, null, Room.R54), // Hosaka HQ
-    R58(Room.R58, null, null, null, Room.R55), // Musabori HQ
+    R58(Room.R58, null, null, null, Room.R55) // Musabori HQ
     ;
 
     public final Room room;
