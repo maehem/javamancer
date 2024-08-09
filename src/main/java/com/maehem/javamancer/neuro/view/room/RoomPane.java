@@ -236,7 +236,11 @@ public class RoomPane extends Pane {
         } else {
             gs.useDoor = Door.NONE;
         }
-        LOGGER.log(Level.FINE, "Door State: {0}", gs.useDoor.name());
+        if (gs.useDoor != Door.NONE) {
+            LOGGER.log(Level.FINE, "Door State: {0}", gs.useDoor.name());
+        } else {
+            LOGGER.log(Level.FINEST, "Door State: {0}", gs.useDoor.name());
+        }
     }
 
     public boolean updatePlayerPosition(GameState gs, int newPosX, int newPosY) {
@@ -256,7 +260,7 @@ public class RoomPane extends Pane {
             playerGroup.setLayoutY(gs.roomPosY);
             retVal = false;
         }
-        LOGGER.log(Level.FINE, "Player Position: {0},{1}", new Object[]{gs.roomPosX, gs.roomPosY});
+        LOGGER.log(Level.FINEST, "Player Position: {0},{1}", new Object[]{gs.roomPosX, gs.roomPosY});
         return retVal;
     }
 
@@ -264,14 +268,14 @@ public class RoomPane extends Pane {
         double absX = Math.abs(x - gs.roomPosX);
         double absY = Math.abs(y - gs.roomPosY);
         if (absX > 6 && absX > absY) {
-            LOGGER.log(Level.SEVERE, "Init Walk L-R");
+            LOGGER.log(Level.FINER, "Init Walk L-R");
             walkToX = (int) x;
             walkToY = 0;
         } else if (absY > 6) {
-            LOGGER.log(Level.SEVERE, "Init Walk T-A");
+            LOGGER.log(Level.FINER, "Init Walk T-A");
             walkToX = 0;
             walkToY = (int) y;
         }
-        LOGGER.log(Level.SEVERE, "Walk to: {0},{1}", new Object[]{walkToX, walkToY});
+        LOGGER.log(Level.FINE, "Walk to: {0},{1}", new Object[]{walkToX, walkToY});
     }
 }
