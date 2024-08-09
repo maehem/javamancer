@@ -32,8 +32,8 @@ import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
-import com.maehem.javamancer.neuro.view.room.RoomMusic;
 import com.maehem.javamancer.neuro.view.room.RoomDescriptionPane;
+import com.maehem.javamancer.neuro.view.room.RoomMusic;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -284,6 +284,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     }
                     case DIGIT4 -> {
                         LOGGER.log(Level.FINER, "User pressed 4 Key.");
+                    }
+                    case COMMA -> {
+                        LOGGER.log(Level.CONFIG, "User pressed COMMA Key. Toggle Sound Mute");
+                        getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.MUTE_MUSIC, null);
                     }
                 }
             }

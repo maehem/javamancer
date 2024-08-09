@@ -126,6 +126,10 @@ public class TitleMode extends NeuroModePane {
                         //quitButton.fire();
                         getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.QUIT, null);
                     }
+                    case COMMA -> {
+                        LOGGER.log(Level.CONFIG, "User pressed COMMA Key. Toggle Sound Mute");
+                        getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.MUTE_MUSIC, null);
+                    }
                 }
             }
         });
