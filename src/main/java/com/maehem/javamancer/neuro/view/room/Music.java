@@ -36,7 +36,24 @@ import static com.maehem.javamancer.neuro.view.MusicManager.Track.*;
  */
 public enum Music {
     R1(CHATSUBO, 0.7, 0, 3000, 2000),
-    R2(STREET_1, 0.44, 30000, 2000, 2000);
+    R2(STREET_1, 0.44, 30000, 2000, 2000),
+    R5(STREET_1, 0.44, 30000, 2000, 2000),
+    R13(STREET_1, 0.44, 30000, 2000, 2000),
+    R14(STREET_1, 0.44, 30000, 2000, 2000),
+    R15(STREET_1, 0.44, 30000, 2000, 2000),
+    R16(STREET_1, 0.44, 30000, 2000, 2000),
+    R17(STREET_1, 0.44, 30000, 2000, 2000),
+    R18(STREET_1, 0.44, 30000, 2000, 2000),
+    R26(STREET_1, 0.44, 30000, 2000, 2000),
+    R31(STREET_1, 0.44, 30000, 2000, 2000),
+    R37(STREET_1, 0.44, 30000, 2000, 2000),
+    R38(STREET_1, 0.44, 30000, 2000, 2000),
+    R39(STREET_1, 0.44, 30000, 2000, 2000),
+    R45(STREET_1, 0.44, 30000, 2000, 2000),
+    R49(STREET_1, 0.44, 30000, 2000, 2000),
+    R52(STREET_1, 0.44, 30000, 2000, 2000),
+    R54(STREET_1, 0.44, 30000, 2000, 2000),
+    R55(STREET_1, 0.44, 30000, 2000, 2000),;
 
     public final Track track;
     public final double volume;
