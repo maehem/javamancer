@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.RoomBounds;
+import static com.maehem.javamancer.neuro.model.RoomExtras.*;
 import com.maehem.javamancer.neuro.model.TextResource;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
@@ -96,26 +97,37 @@ public class DialogPopup extends DialogPopupPane {
     }
 
     public void dialogCounter() {
-        if (mode == Mode.PLAYER) {
-            if (dialogCountDown < 0) {
-                return;
-            }
-            if (dialogCountDown > 0) {
-                dialogCountDown--;
-            } else {
+        if (dialogCountDown < 0) {
+            return;
+        }
+        if (dialogCountDown > 0) {
+            dialogCountDown--;
+        } else {
+            if (mode == Mode.PLAYER) {
                 mode = Mode.NPC;
                 bubble.setMode(DialogBubble.Mode.NONE);
                 dialogSubIndex = 0;
                 dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
                 // Control character '01' is a token for the player's name. Replace it here.
                 wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name));
-                LOGGER.log(Level.FINER, "Countdown finished: mode: NPC: d[{0}][{1}] = {2}",
+                LOGGER.log(Level.CONFIG, "Player countdown finished: new mode: NPC: d[{0}][{1}] = {2}",
                         new Object[]{dialogIndex, dialogSubIndex, dialogChain[dialogIndex][dialogSubIndex]});
                 dialogCountDown = -1;
                 dialogSubIndex = -1;
-                LOGGER.log(Level.FINER, "Set dialog index to: " + dialogIndex);
+                LOGGER.log(Level.CONFIG, "Set dialog index to: " + dialogIndex);
+                if (dialogChain[dialogIndex].length > 0) {
+                    dialogCountDown = DIALOG_COUNT;
+                }
+            } else { // NPC is counting down.
+                LOGGER.log(Level.SEVERE, "NPC: Talk countdown finsihed.");
+                if (dialogChain[dialogIndex][0] >= 50) {
+                    processCommand(dialogChain[dialogIndex][0]);
+                } else {
+                    LOGGER.log(Level.SEVERE, "Dialog arg should be command, but it's not!");
+                }
             }
         }
+
     }
 
     @Override
@@ -150,21 +162,13 @@ public class DialogPopup extends DialogPopupPane {
                 if (dialogSubIndex < 0 || dialogSubIndex >= dialogChain[dialogIndex].length) {
                     dialogSubIndex = 0;
                 }
-                if (dialogChain[dialogIndex][dialogSubIndex] == 99) { // NPC no longer talks.
-                    gameState.room.getExtras().dialogNoMore(gameState);
-                    LOGGER.log(Level.CONFIG, "End of dialog chain reached. NPC has nothing more to say.");
-                    listener.popupExit();
-                    return;
-                } else if (dialogChain[dialogIndex][dialogSubIndex] == 69) { // Go to jail now.
-                    //gameState.room.getExtras().dialogNoMore(gameState);
-                    LOGGER.log(Level.CONFIG, "NPC sends player to jail.");
-                    listener.popupExit();
-                    gameState.useDoor = RoomBounds.Door.JAIL;
-                    return;
+                if (dialogChain[dialogIndex][dialogSubIndex] >= 50) {
+                    processCommand(dialogChain[dialogIndex][dialogSubIndex]);
                 }
+
                 // Get response for NPC dialog.
                 // Display bubbles.
-                LOGGER.log(Level.FINER, "SPACE: Show new player response. d[{0}][{1}] = {2}",
+                LOGGER.log(Level.CONFIG, "SPACE: Show new player response. d[{0}][{1}] = {2}",
                         new Object[]{dialogIndex, dialogSubIndex, dialogChain[dialogIndex][dialogSubIndex]});
                 wordText.setText(textResource.get(dialogChain[dialogIndex][dialogSubIndex]));
                 dialogCountDown = -1; // No count down until ENTER pressed.
@@ -176,14 +180,14 @@ public class DialogPopup extends DialogPopupPane {
                     }
                     case PLAYER -> {
                         bubble.setMode(DialogBubble.Mode.SAY);
-                        //LOGGER.log(Level.SEVERE, "ENTER PRESSED. Begin countdown...");
+                        //LOGGER.log(Level.CONFIG, "ENTER PRESSED. Begin countdown...");
                         // Start one second countdown to show response.
                         dialogCountDown = DIALOG_COUNT;
                         // Display say graphic.
 
                         dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
                         dialogSubIndex = 0;
-                        LOGGER.log(Level.FINER, "ENTER: start countdown. current dialog index: {0}   next NPC response. d[{1}][{2}] = {3}",
+                        LOGGER.log(Level.CONFIG, "ENTER: start countdown. current dialog index: {0}   next NPC response. d[{1}][{2}] = {3}",
                                 new Object[]{
                                     dialogIndex,
                                     dialogIndex, dialogSubIndex,
@@ -198,4 +202,59 @@ public class DialogPopup extends DialogPopupPane {
         }
     }
 
+    private void processCommand(int command) {
+        switch (command) {
+            case DIALOG_END -> { // NPC no longer talks.
+                gameState.room.getExtras().dialogNoMore(gameState);
+                LOGGER.log(Level.CONFIG, "End of dialog chain reached. NPC has nothing more to say.");
+                listener.popupExit();
+                return;
+            }
+            case TO_JAIL -> {
+                LOGGER.log(Level.CONFIG, "NPC sends player to jail.");
+                listener.popupExit();
+                gameState.useDoor = RoomBounds.Door.JAIL;
+                return;
+            }
+            case BUY -> { // Vendor menu
+                LOGGER.log(Level.CONFIG, "NPC opens Buy menu.");
+                LOGGER.log(Level.CONFIG, "Buy dialog not implemented yet.");
+                //listener.popupExit(RoomMode.Popup.BUY);
+            }
+            case SELL -> { // Vendor menu
+                LOGGER.log(Level.CONFIG, "NPC opens Sell menu.");
+                LOGGER.log(Level.CONFIG, "Sell dialog not implemented yet.");
+                //listener.popupExit(RoomMode.Popup.SELL);
+            }
+            case EXIT_T -> { // Exit Top
+                LOGGER.log(Level.CONFIG, "NPC sends player to new room via top.");
+                listener.popupExit();
+                gameState.useDoor = RoomBounds.Door.TOP;
+                return;
+            }
+            case EXIT_R -> { // Exit Right
+                LOGGER.log(Level.CONFIG, "NPC sends player to new room via right.");
+                listener.popupExit();
+                gameState.useDoor = RoomBounds.Door.RIGHT;
+                return;
+            }
+            case EXIT_B -> { // Exit Bottom
+                LOGGER.log(Level.CONFIG, "NPC sends player to new room via bottom.");
+                listener.popupExit();
+                gameState.useDoor = RoomBounds.Door.BOTTOM;
+                return;
+            }
+            case EXIT_L -> { // Exit Left
+                LOGGER.log(Level.CONFIG, "NPC sends player to new room via left.");
+                listener.popupExit();
+                gameState.useDoor = RoomBounds.Door.LEFT;
+                return;
+            }
+            case DIALOG_CLOSE -> {
+                listener.popupExit();
+            }
+
+        }
+
+    }
 }
