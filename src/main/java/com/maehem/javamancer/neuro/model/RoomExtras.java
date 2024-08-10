@@ -34,6 +34,16 @@ import com.maehem.javamancer.neuro.model.item.Item;
  */
 public abstract class RoomExtras {
 
+    public static final int LONG_DESC = 55;
+    public static final int SHORT_DESC = 56;
+    public static final int TO_JAIL = 69; // Go to jail action
+    public static final int SELL = 88; // Vendor menu
+    public static final int BUY = 89; // Vendor menu
+    public static final int EXIT_T = 90; // Exit Top
+    public static final int EXIT_R = 91; // Exit Right
+    public static final int EXIT_B = 92; // Exit Bottom
+    public static final int EXIT_L = 93; // Exit Left
+    public static final int DIALOG_CLOSE = 98;
     public static final int DIALOG_END = 99;
 
     /**
