@@ -38,7 +38,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class R1Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = {
-        {}, {}, // 0, 1
+        {55}, {56}, // 0, 1
         {3, 4, 5, 6}, // 2   "I don't care if you eat that spaghetti..."
         {7}, // 3    "Sorry. I can't afford it..."
         {7}, // 4

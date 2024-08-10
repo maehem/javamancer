@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;
+import com.maehem.javamancer.neuro.model.RoomExtras;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
@@ -112,19 +113,41 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         gameState.doorBottomLocked = false;
         gameState.doorLeftLocked = false;
 
-        if (room.getExtras() != null) {
-            room.getExtras().initRoom(gameState);
-        }
+        roomDescriptionPane = new RoomDescriptionPane(TEXT_SCALE);
 
         // A room is 'visited' once player fully reads/scrolls the room description.
         firstTime = !gameState.visited.contains(room);
-
         roomText = resourceManager.getRoomText(room);
+
+        if (room.getExtras() != null) {
+            RoomExtras extras = room.getExtras();
+            extras.initRoom(gameState);
+            if (firstTime) {
+                int[] dc0 = extras.getDialogChain()[0]; // Long Description
+                if (dc0.length == 1 && dc0[0] == 55) { // 55 == long desc. here
+                    roomDescriptionPane.setText(roomText.get(0));
+                } else {
+                    roomDescriptionPane.setText("");
+                }
+            } else {
+                int[] dc1 = extras.getDialogChain()[1]; // Short Description
+                if (dc1.length == 1 && dc1[0] == 56) { // 56 == short desc. here
+                    roomDescriptionPane.setText(roomText.get(1));
+                } else {
+                    roomDescriptionPane.setText("");
+                }
+            }
+
+        } else {
+            if (firstTime) {
+                roomDescriptionPane.setText(roomText.getDescription());
+            } else {
+                roomDescriptionPane.setText(roomText.getShortDescription());
+            }
+        }
 
         ImageView cPanelView = new ImageView(getResourceManager().getSprite("NEURO_1"));
         roomPane = new RoomPane(resourceManager, room);
-
-        roomDescriptionPane = new RoomDescriptionPane(TEXT_SCALE);
 
         // Plus (+) character appears if user has not scrolled to bottom of
         // scene description.
@@ -147,12 +170,6 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         setOnMouseClicked((t) -> {
             handleMouseClick(t.getX(), t.getY());
         });
-
-        if (firstTime) {
-            roomDescriptionPane.setText(roomText.getDescription());
-        } else {
-            roomDescriptionPane.setText(roomText.getShortDescription());
-        }
 
         initButtonHandlers();
         initKeyboardEvents();

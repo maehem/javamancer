@@ -61,6 +61,6 @@ public abstract class RoomExtras {
     public boolean hasPAX() {
         return false;
     }
-;
+
 
 }
