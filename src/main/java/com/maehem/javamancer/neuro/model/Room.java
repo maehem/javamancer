@@ -41,7 +41,7 @@ public enum Room {
     R1("Chatsubo", R1Extras.class),
     R2("Street Chatsubo", R2Extras.class),
     R3("Cyber Justice", null),
-    R4("Body Shop", null),
+    R4("Body Shop", R4Extras.class),
     R5("Street Body Shop", null),
     R6("Donut World", null),
     R7("Cheap Hotel", null),
