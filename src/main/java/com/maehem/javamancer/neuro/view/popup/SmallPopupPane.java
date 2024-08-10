@@ -24,37 +24,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro.view;
+package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.view.PopupListener;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class DialogPopupPane extends PopupPane {
+public abstract class SmallPopupPane extends PopupPane {
 
-    private static final int WIDTH = (int) (624);
-    private static final int HEIGHT = 80;
-    private static final int X = 8;
-    private static final int Y = 8;
+    private static final int WIDTH = 360;
+    private static final int HEIGHT = 130;
+    private static final int X = 116;
+    private static final int Y = 256;
 
-    public DialogPopupPane(PopupListener l, GameState gs) {
+    public SmallPopupPane(PopupListener l, GameState gs) {
         this(l, gs, WIDTH);
     }
 
-    public DialogPopupPane(PopupListener l, GameState gs, int width) {
+    public SmallPopupPane(PopupListener l, GameState gs, int width) {
         this(l, gs, width, HEIGHT, X, Y);
     }
 
-    public DialogPopupPane(PopupListener l, GameState gs, int width, int height, int x, int y) {
+    public SmallPopupPane(PopupListener l, GameState gs, int width, int height, int x, int y) {
         super(l, gs);
         setPrefSize(width, height);
         setMinSize(width, height);
         setMaxSize(width, height);
         setLayoutX(x);
         setLayoutY(y);
-        setId("neuroDialog");
+        setId("neuro-popup");
+
     }
 
 }

@@ -24,57 +24,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro.view;
+package com.maehem.javamancer.neuro.view.popup;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.view.PopupListener;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class DialogBubble extends ImageView {
+public abstract class DialogPopupPane extends PopupPane {
 
-    private static final int FLIP_X = 300;
-    private int index;
-    private double position;
+    private static final int WIDTH = (int) (624);
+    private static final int HEIGHT = 80;
+    private static final int X = 8;
+    private static final int Y = 8;
 
-    protected enum Mode {
-        NONE, SAY, THINK
+    public DialogPopupPane(PopupListener l, GameState gs) {
+        this(l, gs, WIDTH);
     }
 
-    private Mode mode = Mode.NONE;
-    private final Image view[] = new Image[5];
-
-    public DialogBubble(ResourceManager rm, double posX, double posY) {
-        view[0] = null;
-        for (int i = 1; i < view.length; i++) {
-            view[i] = rm.getSprite("BUBBLES_" + i);
-        }
-        this.position = posX;
-        this.setLayoutX(posX + (posX < FLIP_X ? 38 : -38));
-        this.setLayoutY(posY);
-        update();
+    public DialogPopupPane(PopupListener l, GameState gs, int width) {
+        this(l, gs, width, HEIGHT, X, Y);
     }
 
-    public void setMode(Mode m) {
-        this.mode = m;
-        update();
+    public DialogPopupPane(PopupListener l, GameState gs, int width, int height, int x, int y) {
+        super(l, gs);
+        setPrefSize(width, height);
+        setMinSize(width, height);
+        setMaxSize(width, height);
+        setLayoutX(x);
+        setLayoutY(y);
+        setId("neuroDialog");
     }
 
-    private void update() {
-        index = 0;
-        switch (mode) {
-            case NONE -> {
-                index = 0;
-            }
-            case SAY -> {
-                index = 1 + (position < FLIP_X ? 1 : 0);
-            }
-            case THINK -> {
-                index = 3 + (position < FLIP_X ? 1 : 0);
-            }
-        }
-        setImage(view[index]);
-    }
 }

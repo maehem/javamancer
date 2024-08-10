@@ -28,7 +28,7 @@ package com.maehem.javamancer.neuro.view.pax;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.view.LargePopupPane;
+import com.maehem.javamancer.neuro.view.popup.LargePopupPane;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.logging.Level;

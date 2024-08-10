@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.view.ui;
 
-import com.maehem.javamancer.neuro.view.SmallPopupPane;
+import com.maehem.javamancer.neuro.view.popup.SmallPopupPane;
 import com.maehem.javamancer.neuro.view.TitleMode;
 import java.util.logging.Level;
 import javafx.geometry.Insets;

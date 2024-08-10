@@ -26,6 +26,13 @@
  */
 package com.maehem.javamancer.neuro.view;
 
+import com.maehem.javamancer.neuro.view.popup.DiskPopup;
+import com.maehem.javamancer.neuro.view.popup.DeckPopup;
+import com.maehem.javamancer.neuro.view.popup.InventoryPopup;
+import com.maehem.javamancer.neuro.view.popup.RomPopup;
+import com.maehem.javamancer.neuro.view.popup.SkillsPopup;
+import com.maehem.javamancer.neuro.view.popup.DialogPopup;
+import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;

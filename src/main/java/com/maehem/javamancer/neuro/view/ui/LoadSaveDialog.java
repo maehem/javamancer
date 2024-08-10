@@ -27,7 +27,7 @@
 package com.maehem.javamancer.neuro.view.ui;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.view.SmallPopupPane;
+import com.maehem.javamancer.neuro.view.popup.SmallPopupPane;
 import java.util.Map;
 import java.util.logging.Level;
 import javafx.geometry.Insets;

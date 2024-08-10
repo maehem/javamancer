@@ -24,27 +24,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro.view;
+package com.maehem.javamancer.neuro.view.popup;
 
-import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.view.ResourceManager;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public abstract class LargePopupPane extends PopupPane {
+public class DialogBubble extends ImageView {
 
-    private static final int WIDTH = 632;
-    private static final int HEIGHT = 200;
+    private static final int FLIP_X = 300;
+    private int index;
+    private double position;
 
-    public LargePopupPane(PopupListener l, GameState gs) {
-        super(l, gs);
-        setPrefSize(WIDTH, HEIGHT);
-        setMinSize(WIDTH, HEIGHT);
-        setLayoutX(4);
-        setLayoutY(16);
-        setId("neuro-popup");
+    protected enum Mode {
+        NONE, SAY, THINK
     }
 
+    private Mode mode = Mode.NONE;
+    private final Image view[] = new Image[5];
 
+    public DialogBubble(ResourceManager rm, double posX, double posY) {
+        view[0] = null;
+        for (int i = 1; i < view.length; i++) {
+            view[i] = rm.getSprite("BUBBLES_" + i);
+        }
+        this.position = posX;
+        this.setLayoutX(posX + (posX < FLIP_X ? 38 : -38));
+        this.setLayoutY(posY);
+        update();
+    }
+
+    public void setMode(Mode m) {
+        this.mode = m;
+        update();
+    }
+
+    private void update() {
+        index = 0;
+        switch (mode) {
+            case NONE -> {
+                index = 0;
+            }
+            case SAY -> {
+                index = 1 + (position < FLIP_X ? 1 : 0);
+            }
+            case THINK -> {
+                index = 3 + (position < FLIP_X ? 1 : 0);
+            }
+        }
+        setImage(view[index]);
+    }
 }

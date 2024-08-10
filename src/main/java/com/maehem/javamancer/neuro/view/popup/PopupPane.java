@@ -24,11 +24,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.maehem.javamancer.neuro.view;
+package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import static com.maehem.javamancer.neuro.view.PopupPane.LOGGER;
+import com.maehem.javamancer.neuro.view.PopupListener;
+import static com.maehem.javamancer.neuro.view.popup.PopupPane.LOGGER;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
