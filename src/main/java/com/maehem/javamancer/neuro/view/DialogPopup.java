@@ -118,8 +118,8 @@ public class DialogPopup extends DialogPopupPane {
                 if (dialogChain[dialogIndex].length > 0) {
                     dialogCountDown = DIALOG_COUNT;
                 }
-            } else { // NPC is counting down.
-                LOGGER.log(Level.SEVERE, "NPC: Talk countdown finsihed.");
+            } else { // NPC count down done.
+                LOGGER.log(Level.CONFIG, "NPC: Talk countdown finished.");
                 if (dialogChain[dialogIndex][0] >= 50) {
                     processCommand(dialogChain[dialogIndex][0]);
                 } else {
