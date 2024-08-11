@@ -32,6 +32,7 @@ import static com.maehem.javamancer.neuro.model.RoomExtras.*;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.ResourceManager;
+import com.maehem.javamancer.neuro.view.RoomMode;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
@@ -218,15 +219,13 @@ public class DialogPopup extends DialogPopupPane {
                 gameState.useDoor = RoomBounds.Door.JAIL;
                 return;
             }
-            case BUY -> { // Vendor menu
-                LOGGER.log(Level.CONFIG, "NPC opens Buy menu.");
-                LOGGER.log(Level.CONFIG, "Buy dialog not implemented yet.");
-                //listener.popupExit(RoomMode.Popup.BUY);
+            case BODY_BUY -> { // Bodyshop  buy menu
+                LOGGER.log(Level.CONFIG, "NPC opens Body Shop Buy menu.");
+                listener.popupExit(RoomMode.Popup.BODYSHOP_BUY);
             }
-            case SELL -> { // Vendor menu
-                LOGGER.log(Level.CONFIG, "NPC opens Sell menu.");
-                LOGGER.log(Level.CONFIG, "Sell dialog not implemented yet.");
-                //listener.popupExit(RoomMode.Popup.SELL);
+            case BODY_SELL -> { // Bodyshop menu
+                LOGGER.log(Level.CONFIG, "NPC opens Body Shop Sell menu.");
+                listener.popupExit(RoomMode.Popup.BODYSHOP_SELL);
             }
             case EXIT_T -> { // Exit Top
                 LOGGER.log(Level.CONFIG, "NPC sends player to new room via top.");
