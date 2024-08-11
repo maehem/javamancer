@@ -42,17 +42,17 @@ public class R4Extras extends RoomExtras {
         {4, 5, 6, 7}, // 3    "Hello again ..."
         {8}, // 4  "Yes"
         {9}, // 5  "No"
-        {8}, // 6  "I feel an attachment ..."
+        {11}, // 6  "I feel an attachment ..."
         {12}, // 7  "Oh look at the time...
-        {SELL}, // 8  "Wonderfull. We have need for..." // Sell Organ
+        {BODY_SELL}, // 8  "Wonderfull. We have need for..." // Sell Organ
         {DIALOG_CLOSE}, // 9  "Let me know if you change your mind ..." // Close dialog
-        {BUY}, // 10 "Great deals!"
-        {BUY}, // 11 "Let's see if it's still in stock"
+        {BODY_BUY}, // 10 "Great deals!"
+        {BODY_BUY}, // 11 "Let's see if it's still in stock"
         {EXIT_B}, // 12
         {EXIT_B}, // 13
         {4, 5, 6, 7}, // 14
         {EXIT_B}, // 15
-        {BUY} // 16 // Well sell parts back at a discount.
+        {BODY_BUY} // 16 // Well sell parts back at a discount.
     };
 
     @Override
