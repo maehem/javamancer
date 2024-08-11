@@ -26,13 +26,6 @@
  */
 package com.maehem.javamancer.neuro.view;
 
-import com.maehem.javamancer.neuro.view.popup.DiskPopup;
-import com.maehem.javamancer.neuro.view.popup.DeckPopup;
-import com.maehem.javamancer.neuro.view.popup.InventoryPopup;
-import com.maehem.javamancer.neuro.view.popup.RomPopup;
-import com.maehem.javamancer.neuro.view.popup.SkillsPopup;
-import com.maehem.javamancer.neuro.view.popup.DialogPopup;
-import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Room;
@@ -40,6 +33,14 @@ import com.maehem.javamancer.neuro.model.RoomExtras;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
+import com.maehem.javamancer.neuro.view.popup.BodyShopPopup;
+import com.maehem.javamancer.neuro.view.popup.DeckPopup;
+import com.maehem.javamancer.neuro.view.popup.DialogPopup;
+import com.maehem.javamancer.neuro.view.popup.DiskPopup;
+import com.maehem.javamancer.neuro.view.popup.InventoryPopup;
+import com.maehem.javamancer.neuro.view.popup.PopupPane;
+import com.maehem.javamancer.neuro.view.popup.RomPopup;
+import com.maehem.javamancer.neuro.view.popup.SkillsPopup;
 import com.maehem.javamancer.neuro.view.room.RoomDescriptionPane;
 import com.maehem.javamancer.neuro.view.room.RoomMusic;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
@@ -69,7 +70,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     }
 
     public enum Popup {
-        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK
+        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL
     }
 
     private static final int ROW_1_Y = 292;
@@ -396,6 +397,14 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     LOGGER.log(Level.SEVERE, "Room tried to use a null deck!  Did something go wrong?");
                     popup = null;
                 }
+            }
+            case BODYSHOP_BUY -> {
+                popup = new BodyShopPopup(BodyShopPopup.Mode.BUY, this, getGameState());
+                LOGGER.log(Level.SEVERE, "Set popup to: BodyShop - BUY");
+            }
+            case BODYSHOP_SELL -> {
+                popup = new BodyShopPopup(BodyShopPopup.Mode.SELL, this, getGameState());
+                LOGGER.log(Level.SEVERE, "Set popup to: BodyShop - SELL");
             }
         }
         if (popup != null) {
