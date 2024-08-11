@@ -30,7 +30,7 @@ package com.maehem.javamancer.neuro.model;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public enum BodyParts {
+public enum BodyPart {
 
     HEART(0, "Heart", 12000, 6000, 6600, 200),
     EYES(1, "Eyes (2)", 10000, 5000, 6500, 150),
@@ -81,7 +81,7 @@ public enum BodyParts {
     public final int discPrice;
     public final int constDamage;
 
-    private BodyParts(int index, String name, int buyPrice, int sellPrice, int discPrice, int constDamage) {
+    private BodyPart(int index, String name, int buyPrice, int sellPrice, int discPrice, int constDamage) {
         this.index = index;
         this.itemName = name;
         this.buyPrice = buyPrice;
