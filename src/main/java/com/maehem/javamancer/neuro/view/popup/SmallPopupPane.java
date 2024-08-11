@@ -35,10 +35,10 @@ import com.maehem.javamancer.neuro.view.PopupListener;
  */
 public abstract class SmallPopupPane extends PopupPane {
 
-    private static final int WIDTH = 360;
-    private static final int HEIGHT = 130;
-    private static final int X = 116;
-    private static final int Y = 256;
+    public static final int WIDTH = 360;
+    public static final int HEIGHT = 130;
+    public static final int X = 116;
+    public static final int Y = 256;
 
     public SmallPopupPane(PopupListener l, GameState gs) {
         this(l, gs, WIDTH);
