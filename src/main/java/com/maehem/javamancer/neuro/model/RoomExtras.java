@@ -37,8 +37,8 @@ public abstract class RoomExtras {
     public static final int LONG_DESC = 55;
     public static final int SHORT_DESC = 56;
     public static final int TO_JAIL = 69; // Go to jail action
-    public static final int SELL = 88; // Vendor menu
-    public static final int BUY = 89; // Vendor menu
+    public static final int BODY_SELL = 88; // Bodyshop menu
+    public static final int BODY_BUY = 89; // Bodyshop menu
     public static final int EXIT_T = 90; // Exit Top
     public static final int EXIT_R = 91; // Exit Right
     public static final int EXIT_B = 92; // Exit Bottom
