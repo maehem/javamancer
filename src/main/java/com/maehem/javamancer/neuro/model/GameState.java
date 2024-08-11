@@ -71,7 +71,7 @@ public class GameState {
     public final ArrayList<BbsMessage> bbs = new ArrayList<>();
     public final ArrayList<Item> inventory = new ArrayList<>();
     public final ArrayList<Skill> skills = new ArrayList<>();
-    public final ArrayList<BodyParts> soldBodyParts = new ArrayList<>();
+    public final ArrayList<BodyPart> soldBodyParts = new ArrayList<>();
 
     public int roomPosX = 160;
     public int roomPosY = 90;
@@ -112,6 +112,7 @@ public class GameState {
     public ItemCatalog activeItem = ItemCatalog.NONE;
     public Skill activeSkill = null;
     public int activeSkillLevel = 0;
+    public boolean bodyPartDiscount = true;
 
     // Ephemeral -- Not saved
     public boolean pause = true;
