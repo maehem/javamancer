@@ -142,6 +142,7 @@ public class BodyShopPopup extends SmallPopupPane {
                     int price = gameState.bodyPartDiscount ? part.discPrice : part.buyPrice;
                     if (gameState.chipBalance >= price) {
                         gameState.chipBalance -= price;
+                        gameState.constitution += part.constDamage;
                         gameState.soldBodyParts.remove(part);
                     } else {
                         LOGGER.log(Level.SEVERE, "Not enough money to buy body part.");
@@ -155,6 +156,7 @@ public class BodyShopPopup extends SmallPopupPane {
                     // Try to sell it.
                     int price = part.sellPrice;
                     gameState.chipBalance += price;
+                    gameState.constitution -= part.constDamage;
                     gameState.soldBodyParts.add(part);
                 } else {
                     LOGGER.log(Level.SEVERE, "Can't sell part as we already sold it.");
