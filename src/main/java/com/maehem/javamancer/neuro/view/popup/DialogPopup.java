@@ -47,7 +47,7 @@ import javafx.scene.text.TextFlow;
  */
 public class DialogPopup extends DialogPopupPane {
 
-    private static final int DIALOG_COUNT = 20; // 15 frames == 1 second
+    public static final int DIALOG_COUNT = 20; // 15 frames == 1 second
 
     private final TextResource textResource;
 
@@ -62,7 +62,7 @@ public class DialogPopup extends DialogPopupPane {
     private final int[][] dialogChain;
     private int dialogIndex = 2;
     private int dialogSubIndex = -1;
-    private int dialogCountDown = 0;
+    public int dialogCountDown = 0;
 
     public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
         super(l, gs);
@@ -71,6 +71,10 @@ public class DialogPopup extends DialogPopupPane {
         this.dialogChain = gs.room.getExtras().getDialogChain();
         this.dialogIndex = gs.room.getExtras().dialogWarmUp(gs);
         this.textResource = rm.getRoomText(gameState.room);
+        if (gameState.bodyShopRecent != GameState.BodyShopRecent.NONE) {
+            dialogCountDown = DIALOG_COUNT;
+            gameState.bodyShopRecent = GameState.BodyShopRecent.NONE;
+        }
 
         textFlow.setLineSpacing(LINE_SPACING + 2.0);
         textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 30);

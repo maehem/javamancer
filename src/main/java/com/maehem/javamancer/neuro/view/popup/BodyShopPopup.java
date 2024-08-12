@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.popup;
 import com.maehem.javamancer.neuro.model.BodyPart;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.PopupListener;
+import com.maehem.javamancer.neuro.view.RoomMode;
 import static com.maehem.javamancer.neuro.view.popup.PopupPane.LINE_SPACING;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -51,6 +52,7 @@ import javafx.scene.text.TextFlow;
 public class BodyShopPopup extends SmallPopupPane {
 
     private final Mode mode;
+    private Mode lastTransaction = null;
 
     public enum Mode {
         BUY, SELL
@@ -87,15 +89,24 @@ public class BodyShopPopup extends SmallPopupPane {
 
         exit.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Clicked Body Parts Exit.");
-            listener.popupExit();
+            if (gameState.bodyShopRecent != GameState.BodyShopRecent.NONE) {
+                listener.popupExit(RoomMode.Popup.TALK);
+                LOGGER.log(Level.SEVERE, "End bodyshop dialog and open TALK.");
+                t.consume();
+            } else {
+                t.consume();
+                listener.popupExit();
+            }
         });
         more.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Clicked Body Parts More.");
+            t.consume();
             itemIndex += NUM_ITEMS;
             itemListPage();
         });
         previous.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Clicked Body Parts Previous.");
+            t.consume();
             itemIndex -= NUM_ITEMS;
             itemListPage();
         });
@@ -141,9 +152,11 @@ public class BodyShopPopup extends SmallPopupPane {
                     // Try to buy it back.
                     int price = gameState.bodyPartDiscount ? part.discPrice : part.buyPrice;
                     if (gameState.chipBalance >= price) {
+                        LOGGER.log(Level.SEVERE, "Player bought " + part.itemName);
                         gameState.chipBalance -= price;
                         gameState.constitution += part.constDamage;
                         gameState.soldBodyParts.remove(part);
+                        gameState.bodyShopRecent = GameState.BodyShopRecent.BUY;
                     } else {
                         LOGGER.log(Level.SEVERE, "Not enough money to buy body part.");
                     }
@@ -155,9 +168,11 @@ public class BodyShopPopup extends SmallPopupPane {
                 if (!gameState.soldBodyParts.contains(part)) {
                     // Try to sell it.
                     int price = part.sellPrice;
+                    LOGGER.log(Level.SEVERE, "Player sold " + part.itemName);
                     gameState.chipBalance += price;
                     gameState.constitution -= part.constDamage;
                     gameState.soldBodyParts.add(part);
+                    gameState.bodyShopRecent = GameState.BodyShopRecent.SELL;
                 } else {
                     LOGGER.log(Level.SEVERE, "Can't sell part as we already sold it.");
                 }
@@ -202,5 +217,9 @@ public class BodyShopPopup extends SmallPopupPane {
         }
 
         return false;
+    }
+
+    public Mode getLastTransaction() {
+        return lastTransaction;
     }
 }

@@ -176,6 +176,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         statusText.getTransforms().add(TEXT_SCALE);
 
         setOnMouseClicked((t) -> {
+            t.consume();
             handleMouseClick(t.getX(), t.getY());
         });
 
@@ -373,6 +374,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case TALK -> {
                 GameState gs = getGameState();
                 if (gs.roomNpcTalk[gs.room.getIndex()]) {
+                    LOGGER.log(Level.SEVERE, "Create new TALK popup.");
                     popup = new DialogPopup(this, gs, getResourceManager());
                 } else {
                     LOGGER.log(Level.SEVERE, "No NPC or NPC has no more to talk about.");
@@ -408,6 +410,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             }
         }
         if (popup != null) {
+            LOGGER.log(Level.SEVERE, "Add popup to scene: " + popup.getClass().getSimpleName());
             getChildren().add(popup);
             getGameState().pause = true;
         }
@@ -494,10 +497,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     @Override
     public void popupExit(Popup newPopup) {
         popupExit();
+
+        LOGGER.log(Level.SEVERE, "Popup exited. Now open new Popup: " + newPopup.name());
         showPopup(newPopup);
-//        if (newPopup.equals(Popup.TALK)) {
-//            showPopup(RoomMode.Popup.TALK);
-//        }
     }
 
 }

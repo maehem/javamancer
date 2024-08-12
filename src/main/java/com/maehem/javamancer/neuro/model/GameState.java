@@ -46,6 +46,10 @@ public class GameState {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
+    public enum BodyShopRecent {
+        NONE, BUY, SELL
+    }
+
     public final ResourceManager resourceManager;
     public final DatabaseList dbList = new DatabaseList();
 
@@ -113,6 +117,7 @@ public class GameState {
     public Skill activeSkill = null;
     public int activeSkillLevel = 0;
     public boolean bodyPartDiscount = true;
+    public BodyShopRecent bodyShopRecent = BodyShopRecent.NONE;
 
     // Ephemeral -- Not saved
     public boolean pause = true;
