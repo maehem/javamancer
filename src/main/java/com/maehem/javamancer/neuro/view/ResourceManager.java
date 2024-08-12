@@ -139,10 +139,10 @@ public class ResourceManager {
 
                 while (read.hasNext()) {
                     String txt = read.next();
-                    if (foundText) {
-                        tr.add(txt);
-                    } else if (txt.startsWith("// END Text Elements")) {
+                    if (txt.startsWith("// END Text Elements")) {
                         break;
+                    } else if (foundText) {
+                        tr.add(txt);
                     } else if (txt.startsWith("// Text Elements:")) {
                         foundText = true;
                     }
