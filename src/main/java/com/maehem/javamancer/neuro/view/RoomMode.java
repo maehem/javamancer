@@ -47,9 +47,11 @@ import com.maehem.javamancer.neuro.view.room.RoomPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import static javafx.scene.input.KeyCode.DIGIT1;
 import static javafx.scene.input.KeyCode.I;
 import javafx.scene.input.MouseEvent;
@@ -199,7 +201,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     LOGGER.log(Level.FINEST, "Description Scroll: " + newValue);
                     scrollHint.setVisible(newValue.doubleValue() != 1.0);
                     if (newValue.doubleValue() == 1.0 && !gameState.visited.contains(room)) {
+                        LOGGER.log(Level.SEVERE, "Set room {0} as visited.", room.name());
                         gameState.visited.add(room);
+                        showPopup(Popup.TALK);
                     }
                 });
 
@@ -274,46 +278,54 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     popupExit();
                 }
             } else {
-                switch (keyEvent.getCode()) {
-                    case I -> {
-                        LOGGER.log(Level.FINER, "User pressed Inventory Key.");
-                        showPopup(Popup.INVENTORY);
+                if (!getGameState().visited.contains(room)) { // Only space bar works on new room.
+                    LOGGER.log(Level.SEVERE, "No mouse interaction until room description is read.");
+                    if (keyEvent.getCode() == KeyCode.SPACE) {
+                        DoubleProperty scrollPos = roomDescriptionPane.vvalueProperty();
+                        scrollPos.set(scrollPos.get() + 0.1);
                     }
-                    case P -> {
-                        LOGGER.log(Level.FINER, "User pressed PAX Key.");
-                        showPopup(Popup.PAX);
-                    }
-                    case T -> {
-                        LOGGER.log(Level.FINER, "User pressed Talk Key.");
-                        showPopup(Popup.TALK);
-                    }
-                    case S -> {
-                        LOGGER.log(Level.FINER, "User pressed Skills Key.");
-                        showPopup(Popup.SKILLS);
-                    }
-                    case R -> {
-                        LOGGER.log(Level.FINER, "User pressed ROM Key.");
-                        showPopup(Popup.ROM);
-                    }
-                    case D -> {
-                        LOGGER.log(Level.FINER, "User pressed Disk Key.");
-                        showPopup(Popup.DISK);
-                    }
-                    case DIGIT1 -> {
-                        LOGGER.log(Level.FINER, "User pressed 1 Key.");
-                    }
-                    case DIGIT2 -> {
-                        LOGGER.log(Level.FINER, "User pressed 2 Key.");
-                    }
-                    case DIGIT3 -> {
-                        LOGGER.log(Level.FINER, "User pressed 3 Key.");
-                    }
-                    case DIGIT4 -> {
-                        LOGGER.log(Level.FINER, "User pressed 4 Key.");
-                    }
-                    case COMMA -> {
-                        LOGGER.log(Level.CONFIG, "User pressed COMMA Key. Toggle Sound Mute");
-                        getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.MUTE_MUSIC, null);
+                } else {
+                    switch (keyEvent.getCode()) {
+                        case I -> {
+                            LOGGER.log(Level.FINER, "User pressed Inventory Key.");
+                            showPopup(Popup.INVENTORY);
+                        }
+                        case P -> {
+                            LOGGER.log(Level.FINER, "User pressed PAX Key.");
+                            showPopup(Popup.PAX);
+                        }
+                        case T -> {
+                            LOGGER.log(Level.FINER, "User pressed Talk Key.");
+                            showPopup(Popup.TALK);
+                        }
+                        case S -> {
+                            LOGGER.log(Level.FINER, "User pressed Skills Key.");
+                            showPopup(Popup.SKILLS);
+                        }
+                        case R -> {
+                            LOGGER.log(Level.FINER, "User pressed ROM Key.");
+                            showPopup(Popup.ROM);
+                        }
+                        case D -> {
+                            LOGGER.log(Level.FINER, "User pressed Disk Key.");
+                            showPopup(Popup.DISK);
+                        }
+                        case DIGIT1 -> {
+                            LOGGER.log(Level.FINER, "User pressed 1 Key.");
+                        }
+                        case DIGIT2 -> {
+                            LOGGER.log(Level.FINER, "User pressed 2 Key.");
+                        }
+                        case DIGIT3 -> {
+                            LOGGER.log(Level.FINER, "User pressed 3 Key.");
+                        }
+                        case DIGIT4 -> {
+                            LOGGER.log(Level.FINER, "User pressed 4 Key.");
+                        }
+                        case COMMA -> {
+                            LOGGER.log(Level.CONFIG, "User pressed COMMA Key. Toggle Sound Mute");
+                            getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.MUTE_MUSIC, null);
+                        }
                     }
                 }
             }
@@ -450,6 +462,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     }
 
     private void handleMouseClick(double x, double y) {
+        if (!getGameState().visited.contains(room)) {
+            LOGGER.log(Level.SEVERE, "No mouse interaction until room description is read.");
+            return;
+        }
         LOGGER.log(Level.SEVERE, "Mouse Click at: {0},{1}", new Object[]{x, y});
         if ((y > 16 && y < 240) && (x > 16 && x < 624)) {
             // User clicked in room scene.
