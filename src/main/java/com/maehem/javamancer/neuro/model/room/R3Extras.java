@@ -32,6 +32,8 @@ import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * TODO: Last few dialog elements need tuning and testing.
+ *
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
