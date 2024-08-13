@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.view.popup;
 
+import com.maehem.javamancer.neuro.model.BankTransaction;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.RoomBounds;
 import static com.maehem.javamancer.neuro.model.RoomExtras.*;
@@ -47,7 +48,7 @@ import javafx.scene.text.TextFlow;
  */
 public class DialogPopup extends DialogPopupPane {
 
-    public static final int DIALOG_COUNT = 20; // 15 frames == 1 second
+    public static final int DIALOG_COUNT = 50; // 15 frames == 1 second
 
     private final TextResource textResource;
 
@@ -86,7 +87,13 @@ public class DialogPopup extends DialogPopupPane {
 
         getChildren().add(bubble);
 
+        LOGGER.log(Level.CONFIG, "first text: {0} == {1}",
+                new Object[]{
+                    dialogIndex,
+                    textResource.get(dialogIndex)
+                });
         wordText.setText(textResource.get(dialogIndex));
+        dialogCountDown = DIALOG_COUNT;
 
         setOnMouseClicked((mouseEvent) -> {
             switch (mouseEvent.getButton()) {
@@ -104,42 +111,67 @@ public class DialogPopup extends DialogPopupPane {
     }
 
     public void dialogCounter() {
-        if (dialogCountDown < 0) {
+        if (dialogCountDown < 0) { // Nothing to count down
             return;
         }
-        if (dialogCountDown > 0) {
+        if (dialogCountDown > 0) { // Count one.
             dialogCountDown--;
-        } else {
+        } else { // Finished countdown. Do something.
+            dialogCountDown = -1;
             if (mode == Mode.PLAYER) {
-                mode = Mode.NPC;
-                bubble.setMode(DialogBubble.Mode.NONE);
-                dialogSubIndex = 0;
-                dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
-                // Control character '01' is a token for the player's name. Replace it here.
-                wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name));
-                LOGGER.log(Level.CONFIG, "Player countdown finished: new mode: NPC: d[{0}][{1}] = {2}",
-                        new Object[]{dialogIndex, dialogSubIndex, dialogChain[dialogIndex][dialogSubIndex]});
-                dialogCountDown = -1;
-                dialogSubIndex = -1;
-                LOGGER.log(Level.CONFIG, "Set dialog index to: " + dialogIndex);
-                if (dialogChain[dialogIndex].length > 0) {
-                    dialogCountDown = DIALOG_COUNT;
-                }
+                LOGGER.log(Level.CONFIG, "Player: Talk countdown finished.");
+                npcResponse(0);
             } else { // NPC count down done.
                 LOGGER.log(Level.CONFIG, "NPC: Talk countdown finished.");
                 if (dialogChain[dialogIndex][0] >= 50) {
-                    processCommand(dialogChain[dialogIndex][0]);
+                    dialogSubIndex = 0;
+                    LOGGER.log(Level.SEVERE, "Process command: " + dialogChain[dialogIndex][0]);
+                    processCommand(dialogChain[dialogIndex][dialogSubIndex]);
                 } else {
-                    LOGGER.log(Level.SEVERE, "Dialog arg should be command, but it's not!");
+                    //LOGGER.log(Level.SEVERE, "Dialog arg should be command, but it's not!");
                 }
             }
         }
 
     }
 
+    private void npcResponse(int sub) {
+        LOGGER.log(Level.CONFIG, "NPC: Do response.");
+        mode = Mode.NPC;
+        LOGGER.log(Level.SEVERE, "[140] Mode = NPC");
+
+        bubble.setMode(DialogBubble.Mode.NONE); // The thing that hangs under the words.
+        dialogSubIndex = sub;
+
+        // Fill in NPC Response
+        int newDialog = dialogChain[dialogIndex][dialogSubIndex];
+        LOGGER.log(Level.CONFIG, "new dialog: d[{0}][{1}] = {2}",
+                new Object[]{dialogIndex, dialogSubIndex,
+                    newDialog
+                });
+        //dialogSubIndex = 0;
+        if (newDialog >= 50) {
+            LOGGER.log(Level.SEVERE, "NPC runs command: " + dialogIndex);
+            processCommand(newDialog);
+            dialogSubIndex++;
+        } else {
+            dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
+            LOGGER.log(Level.CONFIG, "NPC: Set dialog index to: " + dialogIndex);
+            // Control character '01' is a token for the player's name. Replace it here.
+            wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name));
+            LOGGER.log(Level.SEVERE, "Text: " + wordText.getText());
+            dialogCountDown = -1;
+            dialogSubIndex = -1;
+            if (dialogChain[dialogIndex].length > 0) {
+                dialogCountDown = DIALOG_COUNT;
+            }
+        }
+    }
+
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
+        keyEvent.consume();
 
         if (dialogCountDown > 0) {
             LOGGER.log(Level.WARNING, "KEY IGNORED: Events not allowed during countdown.");
@@ -156,29 +188,41 @@ public class DialogPopup extends DialogPopupPane {
             case SPACE -> {
                 //LOGGER.log(Level.SEVERE, "SPACE BAR");
                 switch (mode) {
+                    case PLAYER -> {
+                        // Nothing to do.
+                        //LOGGER.log(Level.CONFIG, "SPACE bar for NPC.");
+                    }
                     case NPC -> {
                         mode = Mode.PLAYER;
                         bubble.setMode(DialogBubble.Mode.THINK);
                         LOGGER.log(Level.CONFIG, "Toggle to PLAYER next bubble response.");
                     }
-                    case PLAYER -> {
-                        // Nothing to do.
-                    }
                 }
                 dialogSubIndex++; //  array[2][0]
+                // Cycle player response back to beginning.
                 if (dialogSubIndex < 0 || dialogSubIndex >= dialogChain[dialogIndex].length) {
                     dialogSubIndex = 0;
                 }
+                LOGGER.log(Level.SEVERE, "Dialog is now:  d[{0}][{1}] = {2}",
+                        new Object[]{dialogIndex, dialogSubIndex,
+                            dialogChain[dialogIndex][dialogSubIndex]
+                        });
+                // Is it a command?
                 if (dialogChain[dialogIndex][dialogSubIndex] >= 50) {
+                    LOGGER.log(Level.SEVERE, "Command found for response.");
                     processCommand(dialogChain[dialogIndex][dialogSubIndex]);
+                } else {
+                    // Get response for NPC dialog.
+                    // Display bubbles.
+                    LOGGER.log(Level.CONFIG, "SPACE: Show new player response. d[{0}][{1}] = {2} == {3}",
+                            new Object[]{
+                                dialogIndex, dialogSubIndex,
+                                dialogChain[dialogIndex][dialogSubIndex],
+                                textResource.get(dialogChain[dialogIndex][dialogSubIndex])
+                            });
+                    wordText.setText(textResource.get(dialogChain[dialogIndex][dialogSubIndex]));
+                    dialogCountDown = -1; // No count down until ENTER pressed.
                 }
-
-                // Get response for NPC dialog.
-                // Display bubbles.
-                LOGGER.log(Level.CONFIG, "SPACE: Show new player response. d[{0}][{1}] = {2}",
-                        new Object[]{dialogIndex, dialogSubIndex, dialogChain[dialogIndex][dialogSubIndex]});
-                wordText.setText(textResource.get(dialogChain[dialogIndex][dialogSubIndex]));
-                dialogCountDown = -1; // No count down until ENTER pressed.
             }
             case ENTER -> {
                 switch (mode) {
@@ -210,6 +254,7 @@ public class DialogPopup extends DialogPopupPane {
     }
 
     private void processCommand(int command) {
+        LOGGER.log(Level.SEVERE, "Process command: " + command);
         switch (command) {
             case DIALOG_END -> { // NPC no longer talks.
                 gameState.room.getExtras().dialogNoMore(gameState);
@@ -255,10 +300,59 @@ public class DialogPopup extends DialogPopupPane {
                 gameState.useDoor = RoomBounds.Door.LEFT;
                 return;
             }
+            case EXIT_ST_CHAT -> { // Exit to Street Outside Chatsubo
+                LOGGER.log(Level.CONFIG, "NPC sends player to Street Chatsubo.");
+                listener.popupExit();
+                gameState.useDoor = RoomBounds.Door.STREET_CHAT;
+                return;
+            }
+            case EXIT_BDSHOP -> { // Exit to Body Shop after Death
+                LOGGER.log(Level.CONFIG, "NPC sends player to Body Shop.");
+                listener.popupExit();
+                gameState.useDoor = RoomBounds.Door.BODY_SHOP;
+                return;
+            }
             case DIALOG_CLOSE -> {
                 listener.popupExit();
             }
-
+            case NPC -> {
+                LOGGER.log(Level.SEVERE, "NPC Command.");
+                //dialogSubIndex++;
+                npcResponse(1);
+                mode = Mode.PLAYER; // Causes next loop to toggle to NPC again.
+                LOGGER.log(Level.SEVERE, "[301] Mode = PLAYER");
+                return;
+            }
+            case FINE_BANK_500 -> {
+                LOGGER.log(Level.SEVERE, "Fine from bank 500.");
+                int amt = 500;
+                gameState.bankBalance -= amt;
+                if (gameState.bankBalance < 0) {
+                    amt = -gameState.bankBalance;
+                    gameState.bankBalance = 0;
+                }
+                gameState.bankTransactionRecord.add(new BankTransaction(
+                        gameState.getDateString(),
+                        BankTransaction.Operation.Fine,
+                        amt
+                ));
+                npcResponse(1);
+            }
+            case FINE_BANK_20K -> {
+                LOGGER.log(Level.SEVERE, "Fine from bank 20K.");
+                int amt = 20000;
+                gameState.bankBalance -= amt;
+                if (gameState.bankBalance < 0) {
+                    amt = -gameState.bankBalance;
+                    gameState.bankBalance = 0;
+                }
+                gameState.bankTransactionRecord.add(new BankTransaction(
+                        gameState.getDateString(),
+                        BankTransaction.Operation.Fine,
+                        amt
+                ));
+                npcResponse(1);
+            }
         }
 
     }

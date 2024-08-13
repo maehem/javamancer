@@ -112,6 +112,12 @@ public enum RoomMap {
         if (d == RoomBounds.Door.JAIL) {
             return Room.R3;
         }
+        if (d == RoomBounds.Door.STREET_CHAT) {
+            return Room.R2;
+        }
+        if (d == RoomBounds.Door.BODY_SHOP) {
+            return Room.R4;
+        }
         for (RoomMap rm : values()) {
             if (r.equals(rm.room)) {
                 switch (d) {

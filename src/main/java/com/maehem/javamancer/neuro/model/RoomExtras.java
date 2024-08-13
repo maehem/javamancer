@@ -36,13 +36,19 @@ public abstract class RoomExtras {
 
     public static final int LONG_DESC = 55;
     public static final int SHORT_DESC = 56;
-    public static final int TO_JAIL = 69; // Go to jail action
-    public static final int BODY_SELL = 88; // Bodyshop menu
-    public static final int BODY_BUY = 89; // Bodyshop menu
-    public static final int EXIT_T = 90; // Exit Top
-    public static final int EXIT_R = 91; // Exit Right
-    public static final int EXIT_B = 92; // Exit Bottom
-    public static final int EXIT_L = 93; // Exit Left
+    public static final int BODY_SELL = 70; // Bodyshop menu
+    public static final int BODY_BUY = 71; // Bodyshop menu
+    public static final int NPC = 72; // Don't toggle to PLAYER after this dialog
+    public static final int EXIT_T = 80; // Exit Top
+    public static final int EXIT_R = 81; // Exit Right
+    public static final int EXIT_B = 82; // Exit Bottom
+    public static final int EXIT_L = 83; // Exit Left
+    public static final int EXIT_ST_CHAT = 84; // Exit Outside Chatsubo
+    public static final int EXIT_BDSHOP = 85; // Exit to body shop.
+    public static final int DEATH = 88; // Go to jail action
+    public static final int TO_JAIL = 89; // Go to jail action
+    public static final int FINE_BANK_500 = 95; // Fine bank
+    public static final int FINE_BANK_20K = 96; // Fine bank
     public static final int DIALOG_CLOSE = 98;
     public static final int DIALOG_END = 99;
 
