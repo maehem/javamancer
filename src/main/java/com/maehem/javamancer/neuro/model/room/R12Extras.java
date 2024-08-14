@@ -31,6 +31,8 @@ import com.maehem.javamancer.neuro.model.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import java.util.ArrayList;
+import java.util.Map;
+import static java.util.Map.entry;
 
 /**
  *
@@ -41,7 +43,7 @@ public class R12Extras extends RoomExtras {
     protected static final int[][] DIALOG_CHAIN = { // Larry
         {LONG_DESC}, {SHORT_DESC}, // 0, 1
         {3, 4, 5, 6, 7}, // 2 You looking to by?
-        {40}, //[3] :: Got anything good? [15]
+        {15}, //[3] :: Got anything good?
         {10}, //[4] :: Im looking for the Panther Moderns.
         {8}, //[5] :: Im a cop.
         {9}, //[6] :: Its cold outside.
@@ -65,42 +67,60 @@ public class R12Extras extends RoomExtras {
         {}, //[24] :: Im a cop,
         {}, //[25] :: Maybe. Got anyth
         {}, //[26] :: Im looking for the
-        {}, //[27] :: Do you know anything about
+        {WORD}, //[27] :: Do you know anything about
         {}, //[28] :: I dont network with cops.
         {}, //[29] :: Okay. Dont get excited.
         {}, //[30] :: Ill remember this, Larry.
         {}, //[31] :: Yeah, you sound like a cop.
-        {}, //[32] :: Im looking for the
-        {}, //[33] :: Heard any unusual rumors?
-        {}, //[34] :: Do you know anything about
-        {}, //[35] :: Somethings happening in cyberspace.
-        {}, //[36] :: How fascinating.
-        {}, //[37] :: Youd know more than
-        {}, //[38] :: Its the matrix, man.
-        {}, //[39] :: A good ROM is
+        {10}, //[32] :: Im looking for the
+        {35}, //[33] :: Heard any unusual rumors?
+        {WORD}, //[34] :: Do you know anything about
+        {DIALOG_CLOSE}, //[35] :: Somethings happening in cyberspace.
+        {DIALOG_CLOSE}, //[36] :: How fascinating.
+        {DIALOG_CLOSE}, //[37] :: Youd know more than
+        {DIALOG_CLOSE}, //[38] :: Its the matrix, man.
+        {DIALOG_CLOSE}, //[39] :: A good ROM is
         {SKILL_BUY, DIALOG_CLOSE}, //[40] :: I can sell you a
     };
 
-    /*
+    /**
+     *
      * Do you know about...
-        matrix
-        cyberspace
-        rom construct
-        rom
-        construct
-        constructs
-        construct rom
-        coptalk
-        sea
-        skill
-        skills
-        chip
-        chips
-        fuji
-        police
-        comlink
-        cod
+     *
+     * matrix, cyberspace, rom, construct, rom construct, constructs, construct
+     * rom coptalk, sea, skill, skills, chip, chips, fuji, police, comlink, code
      */
+    private static final Map<String, Integer> map = Map.ofEntries(
+            entry("matrix", 38),
+            entry("cyberspace", 38),
+            entry("rom", 39),
+            entry("construct", 39),
+            entry("rom construct", 39),
+            entry("constructs", 39),
+            entry("construct rom", 39),
+            entry("coptalk", 40),
+            entry("cop", 40),
+            entry("sea", 40),
+            entry("skill", 40),
+            entry("skills", 40),
+            entry("chip", 40),
+            entry("chips", 40),
+            entry("fuji", 37), // Test me
+            entry("police", 40),
+            entry("comlink", 37), // Test me
+            entry("code", 37) // Test me
+    );
+
+    @Override
+    public int askWord(String word) {
+        Integer index = map.get(word);
+        if (index == null) {
+            return 37; // Doesn't know.
+        }
+
+        return index;
+    }
+
     /**
      *
      * @param gs
@@ -151,6 +171,5 @@ public class R12Extras extends RoomExtras {
         list.add(new SkillItem(Item.Catalog.COPTALK, 100));
         return list;
     }
-
 
 }

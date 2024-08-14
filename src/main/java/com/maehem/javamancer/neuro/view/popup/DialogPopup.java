@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.popup;
 import com.maehem.javamancer.neuro.model.BankTransaction;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.RoomBounds;
+import com.maehem.javamancer.neuro.model.RoomExtras;
 import static com.maehem.javamancer.neuro.model.RoomExtras.*;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.view.PopupListener;
@@ -49,6 +50,11 @@ import javafx.scene.text.TextFlow;
 public class DialogPopup extends DialogPopupPane {
 
     public static final int DIALOG_COUNT = 50; // 15 frames == 1 second
+    private static final String WORD_FILL_MN = "@---------------";
+    private static final String FILL_STRING = "_______________";
+    private static final String CURSOR_STRING = "<";
+    private final Text CURSOR_FILL = new Text("");
+
 
     private final TextResource textResource;
 
@@ -65,6 +71,7 @@ public class DialogPopup extends DialogPopupPane {
     private int dialogIndex = 2;
     private int dialogSubIndex = -1;
     public int dialogCountDown = 0;
+    private boolean fillingText = false;
 
     public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
         super(l, gs);
@@ -80,8 +87,10 @@ public class DialogPopup extends DialogPopupPane {
 
         textFlow.setLineSpacing(LINE_SPACING + 2.0);
         textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 30);
-        textFlow.getChildren().addAll(wordText, typedText);
+        textFlow.getChildren().addAll(wordText, typedText, CURSOR_FILL);
         textFlow.setMinHeight(getPrefHeight());
+
+
 
         VBox box = addBox(textFlow);
         box.setPadding(new Insets(6, 20, 6, 20));
@@ -178,9 +187,48 @@ public class DialogPopup extends DialogPopupPane {
             LOGGER.log(Level.WARNING, "KEY IGNORED: Events not allowed during countdown.");
             return false;
         }
-
-        handleCode(code);
+        if (fillingText) {
+            handleTypedText(keyEvent);
+        } else {
+            handleCode(code);
+        }
         return false;
+    }
+
+    private void handleTypedText(KeyEvent ke) {
+        KeyCode code = ke.getCode();
+        if (code == KeyCode.ENTER) {
+            // Submit typed thing.
+            fillingText = false;
+            LOGGER.log(Level.SEVERE, "Set Cursor In-Visible.");
+            CURSOR_FILL.setText("");
+
+            RoomExtras extras = gameState.room.getExtras();
+
+            if (extras != null) {
+                int askWord = extras.askWord(typedText.getText().toLowerCase());
+                if (askWord > 0) {
+                    LOGGER.log(Level.SEVERE, "askWord() returned: " + askWord);
+                    dialogIndex = askWord;
+                    dialogSubIndex = 0;
+                    typedText.setText("");
+                    //npcResponse(0);
+                    wordText.setText(textResource.get(dialogIndex));
+                    dialogCountDown = DIALOG_COUNT;
+                } else {
+                    LOGGER.log(Level.SEVERE, "RoomExtras.askWord has returned unexpected value! -1");
+                }
+            }
+
+        } else if (code == KeyCode.BACK_SPACE) {
+            String typedString = typedText.getText();
+            if (!typedString.isEmpty()) {
+                typedText.setText(typedString.substring(0, typedString.length() - 2));
+            }
+        } else if (code.isLetterKey()) {
+            CURSOR_FILL.setText("<");
+            typedText.setText(typedText.getText() + code.getChar());
+        }
     }
 
     private void handleCode(KeyCode code) {
@@ -221,7 +269,14 @@ public class DialogPopup extends DialogPopupPane {
                                 dialogChain[dialogIndex][dialogSubIndex],
                                 textResource.get(dialogChain[dialogIndex][dialogSubIndex])
                             });
-                    wordText.setText(textResource.get(dialogChain[dialogIndex][dialogSubIndex]));
+                    String toSay = textResource.get(dialogChain[dialogIndex][dialogSubIndex]);
+                    if ( toSay.contains(WORD_FILL_MN) ) {
+                        toSay = toSay.replace(WORD_FILL_MN, "");
+                        CURSOR_FILL.setText(FILL_STRING);
+                    } else {
+                        CURSOR_FILL.setText("");
+                    }
+                    wordText.setText(toSay);
                     dialogCountDown = -1; // No count down until ENTER pressed.
                 }
             }
@@ -231,25 +286,35 @@ public class DialogPopup extends DialogPopupPane {
                         // Nothing happens.
                     }
                     case PLAYER -> {
+                        LOGGER.log(Level.SEVERE, "handle code: ENTER -> PLAYER");
                         bubble.setMode(DialogBubble.Mode.SAY);
-                        //LOGGER.log(Level.CONFIG, "ENTER PRESSED. Begin countdown...");
-                        // Start one second countdown to show response.
-
-                        // If dialog contains @-------- then we need to change to
-                        // text enter mode and no countdown.
-                        dialogCountDown = DIALOG_COUNT;
 
                         dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
                         dialogSubIndex = 0;
-                        LOGGER.log(Level.CONFIG, "ENTER: start countdown. current dialog index: {0}   next NPC response. d[{1}][{2}] = {3}",
-                                new Object[]{
-                                    dialogIndex,
-                                    dialogIndex, dialogSubIndex,
-                                    dialogChain[dialogIndex][dialogSubIndex]
-                                });
+                        TextResource tr = gameState.resourceManager.getRoomText(gameState.room);
+                        String newText = tr.get(dialogIndex);
+                        //LOGGER.log(Level.SEVERE, "Evaluate text: " + newText);
+                        if (newText.contains(WORD_FILL_MN)) {
+                            LOGGER.log(Level.SEVERE, "Text is a fill-in.");
+                            fillingText = true;
+                            CURSOR_FILL.setText(FILL_STRING);
+
+                        } else {
+                            //LOGGER.log(Level.CONFIG, "ENTER PRESSED. Begin countdown...");
+                            // Start one second countdown to show response.
+                            dialogCountDown = DIALOG_COUNT;
+
+                            LOGGER.log(Level.CONFIG, "ENTER: start countdown. current dialog index: {0}   next NPC response. d[{1}][{2}] = {3}",
+                                    new Object[]{
+                                        dialogIndex,
+                                        dialogIndex, dialogSubIndex,
+                                        dialogChain[dialogIndex][dialogSubIndex]
+                                    });
+                        }
                     }
                 }
             }
+
             case ESCAPE -> {
                 listener.popupExit();
             }
@@ -362,6 +427,9 @@ public class DialogPopup extends DialogPopupPane {
             }
             case WORD -> {
                 LOGGER.log(Level.SEVERE, "Type word into dialog area.");
+                typedText.setText(""); // Clear it.
+                npcResponse(1); // Show text.
+
             }
         }
 

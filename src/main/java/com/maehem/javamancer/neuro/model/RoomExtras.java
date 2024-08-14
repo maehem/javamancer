@@ -92,5 +92,14 @@ public abstract class RoomExtras {
         return null;
     }
 
-
+    /**
+     * Over ride with logic for word.
+     *
+     *
+     * @param word
+     * @return
+     */
+    public int askWord(String word) { // or phrase
+        return -1; // Not found
+    }
 }
