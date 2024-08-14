@@ -58,6 +58,7 @@ public class DialogPopup extends DialogPopupPane {
 
     private final TextFlow textFlow = new TextFlow();
     private final Text wordText = new Text();
+    private final Text typedText = new Text(); // For typing in word
     private final DialogBubble bubble;
     private Mode mode = Mode.NPC;
     private final int[][] dialogChain;
@@ -79,7 +80,7 @@ public class DialogPopup extends DialogPopupPane {
 
         textFlow.setLineSpacing(LINE_SPACING + 2.0);
         textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 30);
-        textFlow.getChildren().add(wordText);
+        textFlow.getChildren().addAll(wordText, typedText);
         textFlow.setMinHeight(getPrefHeight());
 
         VBox box = addBox(textFlow);
@@ -233,8 +234,10 @@ public class DialogPopup extends DialogPopupPane {
                         bubble.setMode(DialogBubble.Mode.SAY);
                         //LOGGER.log(Level.CONFIG, "ENTER PRESSED. Begin countdown...");
                         // Start one second countdown to show response.
+
+                        // If dialog contains @-------- then we need to change to
+                        // text enter mode and no countdown.
                         dialogCountDown = DIALOG_COUNT;
-                        // Display say graphic.
 
                         dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
                         dialogSubIndex = 0;
@@ -275,6 +278,10 @@ public class DialogPopup extends DialogPopupPane {
             case BODY_SELL -> { // Bodyshop menu
                 LOGGER.log(Level.CONFIG, "NPC opens Body Shop Sell menu.");
                 listener.popupExit(RoomMode.Popup.BODYSHOP_SELL);
+            }
+            case SKILL_BUY -> { // Bodyshop menu
+                LOGGER.log(Level.CONFIG, "NPC opens Skill Buy menu.");
+                listener.popupExit(RoomMode.Popup.SKILLS_BUY);
             }
             case EXIT_T -> { // Exit Top
                 LOGGER.log(Level.CONFIG, "NPC sends player to new room via top.");
@@ -352,6 +359,9 @@ public class DialogPopup extends DialogPopupPane {
                         amt
                 ));
                 npcResponse(1);
+            }
+            case WORD -> {
+                LOGGER.log(Level.SEVERE, "Type word into dialog area.");
             }
         }
 
