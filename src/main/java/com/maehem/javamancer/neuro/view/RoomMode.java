@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.RoomExtras;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
 import com.maehem.javamancer.neuro.view.popup.BodyShopPopup;
 import com.maehem.javamancer.neuro.view.popup.DeckPopup;
@@ -41,9 +42,11 @@ import com.maehem.javamancer.neuro.view.popup.InventoryPopup;
 import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import com.maehem.javamancer.neuro.view.popup.RomPopup;
 import com.maehem.javamancer.neuro.view.popup.SkillsPopup;
+import com.maehem.javamancer.neuro.view.popup.SkillsVendPopup;
 import com.maehem.javamancer.neuro.view.room.RoomDescriptionPane;
 import com.maehem.javamancer.neuro.view.room.RoomMusic;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -72,7 +75,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     }
 
     public enum Popup {
-        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL
+        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL, SKILLS_BUY
     }
 
     private static final int ROW_1_Y = 292;
@@ -419,6 +422,19 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case BODYSHOP_SELL -> {
                 popup = new BodyShopPopup(BodyShopPopup.Mode.SELL, this, getGameState());
                 LOGGER.log(Level.SEVERE, "Set popup to: BodyShop - SELL");
+            }
+            case SKILLS_BUY -> {
+                RoomExtras roomExtras = room.getExtras();
+                if (roomExtras != null) {
+                    ArrayList<SkillItem> vendItems = roomExtras.getVendSkillItems();
+                    if (vendItems != null) {
+                        popup = new SkillsVendPopup(
+                                SkillsVendPopup.Mode.BUY,
+                                this, getGameState(), vendItems
+                        );
+                        LOGGER.log(Level.SEVERE, "Set popup to: Skills - BUY");
+                    }
+                }
             }
         }
         if (popup != null) {
