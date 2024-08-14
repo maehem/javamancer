@@ -34,12 +34,22 @@ import java.util.logging.Level;
  */
 public class SkillItem extends Item {
 
+    public int price = 0;
+
     public SkillItem(Catalog item) {
         super(item);
     }
 
+    public SkillItem(Catalog item, int price) {
+        super(item);
+        this.price = price;
+    }
+
     @Override
     public void use() {
+        // Currently handled by inventory popup, but maybe move
+        // that install code here?
+
         // Install into Skills.
         LOGGER.log(Level.SEVERE, "Install Skill Item: " + item.itemName);
     }
