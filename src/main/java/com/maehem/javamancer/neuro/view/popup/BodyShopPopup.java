@@ -52,7 +52,7 @@ import javafx.scene.text.TextFlow;
 public class BodyShopPopup extends SmallPopupPane {
 
     private final Mode mode;
-    private Mode lastTransaction = null;
+    //private Mode lastTransaction = null;
 
     public enum Mode {
         BUY, SELL
@@ -219,7 +219,4 @@ public class BodyShopPopup extends SmallPopupPane {
         return false;
     }
 
-    public Mode getLastTransaction() {
-        return lastTransaction;
-    }
 }
