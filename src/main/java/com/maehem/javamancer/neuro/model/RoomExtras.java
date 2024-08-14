@@ -27,6 +27,8 @@
 package com.maehem.javamancer.neuro.model;
 
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
+import java.util.ArrayList;
 
 /**
  *
@@ -36,9 +38,12 @@ public abstract class RoomExtras {
 
     public static final int LONG_DESC = 55;
     public static final int SHORT_DESC = 56;
-    public static final int BODY_SELL = 70; // Bodyshop menu
-    public static final int BODY_BUY = 71; // Bodyshop menu
-    public static final int NPC = 72; // Don't toggle to PLAYER after this dialog
+    public static final int BODY_SELL = 60; // Bodyshop menu
+    public static final int BODY_BUY = 61; // Bodyshop menu
+    public static final int SKILL_SELL = 60; // ??? menu, maybe don't need
+    public static final int SKILL_BUY = 62; // Larry menu
+    public static final int NPC = 70; // Don't toggle to PLAYER after this dialog
+    public static final int WORD = 71;
     public static final int EXIT_T = 80; // Exit Top
     public static final int EXIT_R = 81; // Exit Right
     public static final int EXIT_B = 82; // Exit Bottom
@@ -76,6 +81,15 @@ public abstract class RoomExtras {
 
     public boolean hasPAX() {
         return false;
+    }
+
+    /**
+     * Override if NPC has skills to sell.
+     *
+     * @return
+     */
+    public ArrayList<SkillItem> getVendSkillItems() {
+        return null;
     }
 
 
