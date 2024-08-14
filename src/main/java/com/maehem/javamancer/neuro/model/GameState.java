@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.model.database.DatabaseList;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.ItemCatalog;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.ArrayList;
@@ -102,7 +103,7 @@ public class GameState {
 //    };
     public final boolean roomNpcTalk[] = { // 58 Slots  [0..57]
         true, true, true, true, false, true, false, false, false,
-        false, false, false, false, false, false, false, false, false,
+        false, false, true, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false,
@@ -162,6 +163,27 @@ public class GameState {
 
     public void saveSlot(int i) {
         LOGGER.log(Level.SEVERE, "Save Slot {0} requested", i);
+    }
+
+    public boolean hasInstalledSkill(SkillItem skillItem) {
+        for (Skill skill : skills) {
+            if (skill.getClass().equals(skillItem.item.clazz)) {
+                LOGGER.log(Level.CONFIG, "{0} already installed.", skill.type.itemName);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasInventoryItem(Item checkItem) {
+        for (Item item : inventory) {
+            if (item.getName().equals(checkItem.getName())) {
+                LOGGER.log(Level.SEVERE, "Matched Item name: " + item.getName());
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
