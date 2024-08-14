@@ -49,7 +49,7 @@ public enum Room {
     R9("Maas Biolabs", null),
     R10("JAL Shuttle", null),
     R11("Zion", null),
-    R12("Larry's Software", null),
+    R12("Larry's Software", R12Extras.class),
     R13("Street Microsofts", null),
     R14("Street Shin's", null),
     R15("Street Cheap Hotel", null),
