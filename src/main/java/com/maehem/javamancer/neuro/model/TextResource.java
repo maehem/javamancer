@@ -26,13 +26,17 @@
  */
 package com.maehem.javamancer.neuro.model;
 
+import com.maehem.javamancer.logging.Logging;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class TextResource extends ArrayList<String> {
+    public static final Logger LOGGER = Logging.LOGGER;
 
     public String getDescription() {
         if (!isEmpty()) {
@@ -46,5 +50,18 @@ public class TextResource extends ArrayList<String> {
             return get(1);
         }
         return "";
+    }
+
+    public void dumpList() {
+        LOGGER.log(Level.SEVERE, "Text Elements for " + getShortDescription());
+        int i = 0;
+        StringBuilder sb = new StringBuilder("\n" + getShortDescription() + "\n");
+        for (String s : toArray(String[]::new)) {
+            sb.append("[").append(i).append("] :: ").
+                    append(s.replace('\r', ' ')).
+                    append("\n");
+            i++;
+        }
+        LOGGER.log(Level.SEVERE, sb.toString());
     }
 }
