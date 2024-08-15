@@ -52,6 +52,7 @@ public abstract class RoomExtras {
     public static final int EXIT_BDSHOP = 85; // Exit to body shop.
     public static final int DEATH = 88; // Go to jail action
     public static final int TO_JAIL = 89; // Go to jail action
+    public static final int CHIP_20 = 94; // 20 credits off chip. Massage Parlor.
     public static final int FINE_BANK_500 = 95; // Fine bank
     public static final int FINE_BANK_20K = 96; // Fine bank
     public static final int DIALOG_CLOSE = 98;
