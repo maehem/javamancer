@@ -105,10 +105,10 @@ public class R12Extras extends RoomExtras {
             entry("skills", 40),
             entry("chip", 40),
             entry("chips", 40),
-            entry("fuji", 37), // Test me
+            entry("fuji", 40),
             entry("police", 40),
-            entry("comlink", 37), // Test me
-            entry("code", 37) // Test me
+            entry("comlink", 40),
+            entry("code", 40)
     );
 
     @Override
