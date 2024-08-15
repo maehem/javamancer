@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.model.room;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.skill.Skill;
 
 /**
  * Room 6 -- Donut World
@@ -72,6 +73,7 @@ public class R6Extras extends RoomExtras {
         {30}, // 32 "Just got through questioning...."
         {30}, // 33 "You seem to be forgetting alot...."
         {30}, // 34 "Mulligan! Did you hear about...."
+        {4, 5, 6, 8, 9} // 35 -- Skill 1 active
     };
 
     @Override
@@ -92,6 +94,10 @@ public class R6Extras extends RoomExtras {
 
     @Override
     public int dialogWarmUp(GameState gs) {
+        if (gs.activeSkill.type.equals(Skill.Type.COPTALK)) {
+            return 35; // Talk like a cop.
+        }
+
         return 2;
     }
 
@@ -110,5 +116,6 @@ public class R6Extras extends RoomExtras {
     public boolean hasPAX() {
         return true;
     }
+
 
 }
