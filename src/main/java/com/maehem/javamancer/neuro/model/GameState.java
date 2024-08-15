@@ -115,6 +115,7 @@ public class GameState {
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
     public boolean gasMaskIsOn = false;
     public ItemCatalog activeItem = ItemCatalog.NONE;
+    public Skill previousSkill = null;
     public Skill activeSkill = null;
     public int activeSkillLevel = 0;
     public boolean bodyPartDiscount = true;
