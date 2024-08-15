@@ -35,13 +35,15 @@ import java.util.logging.Level;
 public class SkillItem extends Item {
 
     public int price = 0;
+    public int level;
 
-    public SkillItem(Catalog item) {
-        super(item);
+    public SkillItem(Catalog item, int level) {
+        this(item, level, 0);
     }
 
-    public SkillItem(Catalog item, int price) {
+    public SkillItem(Catalog item, int level, int price) {
         super(item);
+        this.level = level;
         this.price = price;
     }
 
