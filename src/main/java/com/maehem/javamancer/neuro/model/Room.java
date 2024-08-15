@@ -61,7 +61,7 @@ public enum Room {
     R21("Villa Straylight, Ext.", null),
     R22("Villa Straylight", null),
     R23("Panther Moderns", null),
-    R24("Brothel", null),
+    R24("Brothel", R24Extras.class),
     R25("Shin's Pawn Shop", null),
     R26("Street Light Pole", null),
     R27("Julius Dean", null),
