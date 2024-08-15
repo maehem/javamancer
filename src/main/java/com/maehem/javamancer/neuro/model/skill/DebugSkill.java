@@ -34,8 +34,8 @@ import java.util.logging.Level;
  */
 public class DebugSkill extends Skill {
 
-    public DebugSkill() {
-        super(Type.DEBUG);
+    public DebugSkill(int level) {
+        super(Type.DEBUG, level);
     }
 
     @Override

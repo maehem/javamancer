@@ -32,8 +32,8 @@ package com.maehem.javamancer.neuro.model.skill;
  */
 public class PhenomenologySkill extends Skill {
 
-    public PhenomenologySkill() {
-        super(Type.PHENOMENOLOGY);
+    public PhenomenologySkill(int level) {
+        super(Type.PHENOMENOLOGY, level);
     }
 
 

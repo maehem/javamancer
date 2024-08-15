@@ -32,8 +32,8 @@ package com.maehem.javamancer.neuro.model.skill;
  */
 public class LogicSkill extends Skill {
 
-    public LogicSkill() {
-        super(Type.LOGIC);
+    public LogicSkill(int level) {
+        super(Type.LOGIC, level);
     }
 
     @Override

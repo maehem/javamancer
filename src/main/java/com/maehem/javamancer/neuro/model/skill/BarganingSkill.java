@@ -34,8 +34,8 @@ import java.util.logging.Level;
  */
 public class BarganingSkill extends Skill {
 
-    public BarganingSkill() {
-        super(Type.BARGAINING);
+    public BarganingSkill(int level) {
+        super(Type.BARGAINING, level);
     }
 
     @Override

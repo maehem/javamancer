@@ -34,8 +34,8 @@ import java.util.logging.Level;
  */
 public class SophistrySkill extends Skill {
 
-    public SophistrySkill() {
-        super(Type.SOPHISTRY);
+    public SophistrySkill(int level) {
+        super(Type.SOPHISTRY, level);
     }
 
     @Override

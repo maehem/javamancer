@@ -36,7 +36,9 @@ import java.util.logging.Logger;
 public abstract class Skill {
 
     public static final Logger LOGGER = Logging.LOGGER;
+
     public final Type type;
+    public int level;
 
     public enum Type {
         NONE("none", "..."),
@@ -67,8 +69,9 @@ public abstract class Skill {
 
     };
 
-    public Skill(Type type) {
+    public Skill(Type type, int level) {
         this.type = type;
+        this.level = level;
     }
 
     public abstract void use();

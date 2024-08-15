@@ -34,8 +34,8 @@ import java.util.logging.Level;
  */
 public class CopTalkSkill extends Skill {
 
-    public CopTalkSkill() {
-        super(Type.COPTALK);
+    public CopTalkSkill(int level) {
+        super(Type.COPTALK, level);
     }
 
     @Override

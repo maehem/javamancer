@@ -32,8 +32,8 @@ package com.maehem.javamancer.neuro.model.skill;
  */
 public class PhilosophySkill extends Skill {
 
-    public PhilosophySkill() {
-        super(Type.PHILOSOPHY);
+    public PhilosophySkill(int level) {
+        super(Type.PHILOSOPHY, level);
     }
 
     @Override

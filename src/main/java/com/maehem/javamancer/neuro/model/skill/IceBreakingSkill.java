@@ -34,8 +34,8 @@ import java.util.logging.Level;
  */
 public class IceBreakingSkill extends Skill {
 
-    public IceBreakingSkill() {
-        super(Type.ICE_BREAKING);
+    public IceBreakingSkill(int level) {
+        super(Type.ICE_BREAKING, level);
     }
 
     @Override
