@@ -102,13 +102,18 @@ public class GameState {
 //        false, false, false, false
 //    };
     public final boolean roomNpcTalk[] = { // 58 Slots  [0..57]
-        true, true, true, true, false, true, false, false, false,
-        false, false, true, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false,
-        false, false, false, false
+        true, true, true, true, false,
+        true, false, false, false, false,
+        false, true, false, false, false,
+        false, false, false, false, false,
+        false, false, false, false, false,
+        false, false, false, true, false,
+        false, false, false, false, false,
+        false, false, false, false, false,
+        false, false, false, false, false,
+        false, false, false, false, false,
+        false, false, false, false, false,
+        false, false, false
     };
 
     public boolean msgToArmitageSent = false;
