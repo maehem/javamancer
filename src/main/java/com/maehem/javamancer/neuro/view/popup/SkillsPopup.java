@@ -158,6 +158,9 @@ public class SkillsPopup extends SmallPopupPane {
 
         TextFlow tf = new TextFlow(text, text2);
 
+        gameState.previousSkill = gameState.activeSkill;
+        gameState.activeSkill = skill;
+
         tf.setMinHeight(78);
         tf.setMaxHeight(78);
         return tf;
