@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
@@ -222,7 +223,7 @@ public class InventoryPopup extends SmallPopupPane {
             case INSTALL -> {
                 switch (code) {
                     case Y -> {
-                        installSkillItem();
+                        installSkillItem((SkillItem) currentItem);
                     }
                     case N -> {
                         itemOptions();
@@ -259,10 +260,14 @@ public class InventoryPopup extends SmallPopupPane {
     @SuppressWarnings("unchecked")
     private void operateItem() {
         if (currentItem != null) {
-            if (Skill.class.isAssignableFrom(currentItem.item.clazz)) {
-                LOGGER.log(Level.CONFIG, "Install: {0}", currentItem);
-                askInstallSkillItem();
-            } else if (DeckItem.class.isAssignableFrom(currentItem.item.clazz)) {
+            if (currentItem instanceof SkillItem si) {
+                LOGGER.log(Level.CONFIG, "Install: {0}", si);
+                askInstallSkillItem(si);
+            } //            if (Skill.class.isAssignableFrom(currentItem.item.clazz)) {
+            //                LOGGER.log(Level.CONFIG, "Install: {0}", currentItem);
+            //                askInstallSkillItem();
+            //            }
+            else if (DeckItem.class.isAssignableFrom(currentItem.item.clazz)) {
                 LOGGER.log(Level.SEVERE, "Use Deck: {0}", currentItem);
                 gameState.usingDeck = DeckItem.getInstance(currentItem.item.clazz);  // Set before exit.
                 // Exit inventory
@@ -302,11 +307,11 @@ public class InventoryPopup extends SmallPopupPane {
         addBox(heading, heading2, tf);
     }
 
-    private void askInstallSkillItem() {
+    private void askInstallSkillItem(SkillItem skillItem) {
         getChildren().clear();
         mode = Mode.INSTALL;
         Text heading = new Text("     Install Skill");
-        int length = currentItem.getName().length();
+        int length = skillItem.getName().length();
         Text heading2 = new Text(String.format("%1$" + (23 - length) + "s", currentItem.getName() + "?"));
         Text yesText = new Text("Y");
         Text slashText = new Text("/");
@@ -319,33 +324,38 @@ public class InventoryPopup extends SmallPopupPane {
         addBox(heading, heading2, tf);
 
         yesText.setOnMouseClicked((t) -> {
-            installSkillItem();
+            installSkillItem(skillItem);
         });
         noText.setOnMouseClicked((t) -> {
             itemOptions(); // Back to item's menu.
         });
     }
 
-    private void installSkillItem() {
+    private void installSkillItem(SkillItem skillItem) {
         LOGGER.log(Level.CONFIG, "Start install skill item.");
         ArrayList<Skill> skills = gameState.skills;
         boolean hasSkill = false;
         for (Skill skill : skills) {
-            if (skill.getClass().equals(currentItem.item.clazz)) {
+            if (skill.getClass().equals(skillItem.item.clazz) && skillItem.level == skill.level) {
                 LOGGER.log(Level.CONFIG, "{0} already installed.", skill.type.itemName);
                 installSkillSummary(skill, false);
                 hasSkill = true;
                 break;
             }
+
+            // TODO: Need special case to upgrade skill if same class but higher level.
         }
 
         if (!hasSkill) {
             LOGGER.log(Level.FINER, "Skill OK to install.");
             try {
                 @SuppressWarnings("unchecked")
-                Constructor<?> ctor = currentItem.item.clazz.getConstructor();
+                Constructor<?> ctor = currentItem.item.clazz.getConstructor(
+                        new Class[]{int.class}
+                );
 
-                Object object = ctor.newInstance(new Object[]{});
+                Object object = ctor.newInstance(
+                        new Object[]{skillItem.level});
                 LOGGER.log(Level.FINER, "Object created.");
                 if (object instanceof Skill skill) {
                     LOGGER.log(Level.FINER, "Try to install Skill...");
