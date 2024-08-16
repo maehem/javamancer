@@ -59,13 +59,13 @@ public class R8Extras extends RoomExtras {
         {DIALOG_CLOSE}, // [15] :: No, actually I was referrin to somethin else, so get lost, wilson!
         {17, 18, 19, 20, 21}, // [16] :: Yeah. You must be . I got your chip here for ya.
         {WORD}, // [17] :: Okay.  What do you know about @---------------
-        {CHIP_BUY}, // [18] :: Hey, Babe, I want to buy the chip.
+        {ITEM_BUY}, // [18] :: Hey, Babe, I want to buy the chip.
         {22}, // [19] :: Maybe you could answer some questions for me?
         {DIALOG_CLOSE}, // [20] :: You already gave me something. I dont want anything else.
         {23}, // [21] :: How about coming back to my place?
         {17}, // [22] :: Sure. Itll be more fun than a poke in the eye with a sharp stick....
         {17, 18, 19, 20}, // [23] :: Forget it. You live at Cheap Hotel. I know all about your kind, wilson....
-        {CHIP_BUY}, // [24] :: All Ive got is Hardware Repair for $1000.
+        {ITEM_BUY}, // [24] :: All Ive got is Hardware Repair for $1000.
         {17}, // [25] :: Try Julius Deane for those chips.
         {17}, // [26] :: Julius Deane can upgrade your Cryptology skill chip.
         {17}, // [27] :: Hot stuff. Sense/Net has em all. They even have Dixie Flatline on ROM.
@@ -78,9 +78,9 @@ public class R8Extras extends RoomExtras {
         {17}, // [34] :: The coded password for Copenhagen University is "KIKENNA".
         {38}, // [35] :: Emperor Norton left you a Guest Pass for the Matrix Restaurant. He mumbled something about skills and upgrades.
         {17}, // [36] :: Ya got me. I dont know anythin about that.
-        {PASS, 17}, // [37] :: Shiva gives you a guest pass for the Matrix Restaurant.
-        {CRYPTO, 17}, // [38] :: Shiva gives you your Cryptology chip.
-        {CHIP_BUY}, // [39] :: I also have Hardware Repair for sale for $1000.
+        {ITEM_GET, 17}, // [37] :: Shiva gives you a guest pass for the Matrix Restaurant.
+        {ITEM_GET, 17}, // [38] :: Shiva gives you your Cryptology chip.
+        {ITEM_BUY}, // [39] :: I also have Hardware Repair for sale for $1000.
         {DIALOG_CLOSE}, // [40] :: I already gave it to you, cowboy.
     };
 
@@ -195,10 +195,9 @@ public class R8Extras extends RoomExtras {
 
     @Override
     public ArrayList<SkillItem> getVendSkillItems() {
-//        ArrayList<SkillItem> list = new ArrayList<>();
-//        list.add(new SkillItem(Item.Catalog.COPTALK, 100));
-//        return list;
-        return null;
+        ArrayList<SkillItem> list = new ArrayList<>();
+        list.add(new SkillItem(Item.Catalog.HARDWAREREPAIR, 1000));
+        return list;
     }
 
 }
