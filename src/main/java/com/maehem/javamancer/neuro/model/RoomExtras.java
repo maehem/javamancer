@@ -36,12 +36,14 @@ import java.util.ArrayList;
  */
 public abstract class RoomExtras {
 
+    public static final int DESC = 54; // show in room desc instead of dialog.
     public static final int LONG_DESC = 55;
     public static final int SHORT_DESC = 56;
     public static final int BODY_SELL = 60; // Bodyshop menu
     public static final int BODY_BUY = 61; // Bodyshop menu
     public static final int SKILL_SELL = 60; // ??? menu, maybe don't need
     public static final int SKILL_BUY = 62; // Larry menu
+    public static final int UXB_BUY = 63; // Larry menu
     public static final int NPC = 70; // Don't toggle to PLAYER after this dialog
     public static final int WORD = 71;
     public static final int EXIT_T = 80; // Exit Top
@@ -52,6 +54,7 @@ public abstract class RoomExtras {
     public static final int EXIT_BDSHOP = 85; // Exit to body shop.
     public static final int DEATH = 88; // Go to jail action
     public static final int TO_JAIL = 89; // Go to jail action
+    public static final int UXB = 90; // Shin gives UXB
     public static final int CHIP_20 = 94; // 20 credits off chip. Massage Parlor.
     public static final int FINE_BANK_500 = 95; // Fine bank
     public static final int FINE_BANK_20K = 96; // Fine bank
