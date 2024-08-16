@@ -42,8 +42,10 @@ public abstract class RoomExtras {
     public static final int BODY_SELL = 60; // Bodyshop menu
     public static final int BODY_BUY = 61; // Bodyshop menu
     public static final int SKILL_SELL = 60; // ??? menu, maybe don't need
-    public static final int SKILL_BUY = 62; // Larry menu
-    public static final int UXB_BUY = 63; // Larry menu
+    public static final int SKILL_BUY = 62; // Larry menu, TODO: move to ITEM_BUY
+    public static final int UXB_BUY = 63; // Shin menu, TODO: move to ITEM_BUY
+    public static final int ITEM_BUY = 64; // Player buys item from NPC
+    public static final int ITEM_GET = 65; // player receives NPC item directly
     public static final int NPC = 70; // Don't toggle to PLAYER after this dialog
     public static final int WORD = 71;
     public static final int EXIT_T = 80; // Exit Top
@@ -55,6 +57,7 @@ public abstract class RoomExtras {
     public static final int DEATH = 88; // Go to jail action
     public static final int TO_JAIL = 89; // Go to jail action
     public static final int UXB = 90; // Shin gives UXB
+    public static final int PASS = 91; // Shiva gives Rest. Pass
     public static final int CHIP_20 = 94; // 20 credits off chip. Massage Parlor.
     public static final int FINE_BANK_500 = 95; // Fine bank
     public static final int FINE_BANK_20K = 96; // Fine bank
