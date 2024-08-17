@@ -77,7 +77,7 @@ public enum Room {
     R37("Street House of Pong", null),
     R38("Street Asano's", null),
     R39("Street Crazy Edo's", null),
-    R40("Crazy Edo's", null),
+    R40("Crazy Edo's", R40Extras.class),
     R41("Bank Gemeinschaft", null),
     R42("Bank Gemeinschaft Ext.", null),
     R43("Unused", null),
