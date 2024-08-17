@@ -73,7 +73,7 @@ public enum Room {
     R33("Bank of Berne Ext.", null),
     R34("Bank of Berne Lobby", null),
     R35("Bank Manager's Office", null),
-    R36("House of Pong", null),
+    R36("House of Pong", R36Extras.class),
     R37("Street House of Pong", null),
     R38("Street Asano's", null),
     R39("Street Crazy Edo's", null),

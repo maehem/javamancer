@@ -118,6 +118,7 @@ public class GameState {
 
     public boolean msgToArmitageSent = false;
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
+    public boolean joystickGiven = false; // Player must give Nolan the joystick.
     public boolean gasMaskIsOn = false;
     public ItemCatalog activeItem = ItemCatalog.NONE;
     public Skill previousSkill = null;
