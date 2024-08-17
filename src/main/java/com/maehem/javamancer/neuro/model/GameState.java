@@ -107,7 +107,7 @@ public class GameState {
         false, true, false, false, false, // 11-15
         false, false, false, false, false, // 16-20
         false, false, false, true, true, // 21-25
-        false, false, false, false, false,
+        true, false, false, false, false,
         false, false, false, false, false,
         false, false, false, false, false,
         false, false, false, false, false,
