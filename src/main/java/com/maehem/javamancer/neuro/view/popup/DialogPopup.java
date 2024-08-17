@@ -55,7 +55,6 @@ public class DialogPopup extends DialogPopupPane {
     private static final String CURSOR_STRING = "<";
     private final Text CURSOR_FILL = new Text("");
 
-
     private final TextResource textResource;
 
     private enum Mode {
@@ -71,7 +70,7 @@ public class DialogPopup extends DialogPopupPane {
     private int dialogIndex = 2;
     private int dialogSubIndex = -1;
     public int dialogCountDown = 0;
-    private boolean fillingText = false;
+    private int fillingText = 0; // 0 == none,  1 == map1, 2 == map2
 
     public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
         super(l, gs);
@@ -89,8 +88,6 @@ public class DialogPopup extends DialogPopupPane {
         textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 30);
         textFlow.getChildren().addAll(wordText, typedText, CURSOR_FILL);
         textFlow.setMinHeight(getPrefHeight());
-
-
 
         VBox box = addBox(textFlow);
         box.setPadding(new Insets(6, 20, 6, 20));
@@ -187,7 +184,7 @@ public class DialogPopup extends DialogPopupPane {
             LOGGER.log(Level.WARNING, "KEY IGNORED: Events not allowed during countdown.");
             return false;
         }
-        if (fillingText) {
+        if (fillingText > 0) {
             handleTypedText(keyEvent);
         } else {
             handleCode(code);
@@ -199,14 +196,21 @@ public class DialogPopup extends DialogPopupPane {
         KeyCode code = ke.getCode();
         if (code == KeyCode.ENTER) {
             // Submit typed thing.
-            fillingText = false;
             LOGGER.log(Level.SEVERE, "Set Cursor In-Visible.");
             CURSOR_FILL.setText("");
 
             RoomExtras extras = gameState.room.getExtras();
 
             if (extras != null) {
-                int askWord = extras.askWord(typedText.getText().toLowerCase());
+                int askWord = -1;
+                switch (fillingText) {
+                    case 1 -> {
+                        askWord = extras.askWord1(typedText.getText().toLowerCase());
+                    }
+                    case 2 -> {
+                        askWord = extras.askWord2(typedText.getText().toLowerCase());
+                    }
+                }
                 if (askWord > 0) {
                     LOGGER.log(Level.SEVERE, "askWord() returned: " + askWord);
                     dialogIndex = askWord;
@@ -219,6 +223,7 @@ public class DialogPopup extends DialogPopupPane {
                     LOGGER.log(Level.SEVERE, "RoomExtras.askWord has returned unexpected value! -1");
                 }
             }
+            fillingText = 0;
 
         } else if (code == KeyCode.BACK_SPACE) {
             String typedString = typedText.getText();
@@ -270,7 +275,7 @@ public class DialogPopup extends DialogPopupPane {
                                 textResource.get(dialogChain[dialogIndex][dialogSubIndex])
                             });
                     String toSay = textResource.get(dialogChain[dialogIndex][dialogSubIndex]);
-                    if ( toSay.contains(WORD_FILL_MN) ) {
+                    if (toSay.contains(WORD_FILL_MN)) {
                         toSay = toSay.replace(WORD_FILL_MN, "");
                         CURSOR_FILL.setText(FILL_STRING);
                     } else {
@@ -291,12 +296,20 @@ public class DialogPopup extends DialogPopupPane {
 
                         dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
                         dialogSubIndex = 0;
-                        TextResource tr = gameState.resourceManager.getRoomText(gameState.room);
-                        String newText = tr.get(dialogIndex);
+                        String newText = textResource.get(dialogIndex);
+                        int command = dialogChain[dialogIndex][dialogSubIndex];
                         //LOGGER.log(Level.SEVERE, "Evaluate text: " + newText);
-                        if (newText.contains(WORD_FILL_MN)) {
+                        if (newText.contains(WORD_FILL_MN)
+                                && (command == WORD1 || command == WORD2)) {
                             LOGGER.log(Level.SEVERE, "Text is a fill-in.");
-                            fillingText = true;
+                            switch (command) {
+                                case WORD1 -> {
+                                    fillingText = 1;
+                                }
+                                case WORD2 -> {
+                                    fillingText = 2;
+                                }
+                            }
                             CURSOR_FILL.setText(FILL_STRING);
 
                         } else {
@@ -425,7 +438,7 @@ public class DialogPopup extends DialogPopupPane {
                 ));
                 npcResponse(1);
             }
-            case WORD -> {
+            case WORD1 -> {
                 LOGGER.log(Level.SEVERE, "Type word into dialog area.");
                 typedText.setText(""); // Clear it.
                 npcResponse(1); // Show text.
