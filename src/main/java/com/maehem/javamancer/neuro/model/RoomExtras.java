@@ -47,7 +47,9 @@ public abstract class RoomExtras {
     public static final int ITEM_BUY = 64; // Player buys item from NPC
     public static final int ITEM_GET = 65; // player receives NPC item directly
     public static final int NPC = 70; // Don't toggle to PLAYER after this dialog
-    public static final int WORD = 71;
+    public static final int WORD1 = 71;
+    public static final int WORD2 = 72;
+    public static final int WHERE_IS = 73; // Street Light Girl - Where is Lonny Zone?
     public static final int EXIT_T = 80; // Exit Top
     public static final int EXIT_R = 81; // Exit Right
     public static final int EXIT_B = 82; // Exit Bottom
@@ -100,14 +102,24 @@ public abstract class RoomExtras {
     }
 
     /**
-     * Over ride with logic for word.
+     * Over ride with logic for word. Use WORD1 Mnemonic.
      *
      *
      * @param word
      * @return
      */
-    public int askWord(String word) { // or phrase
+    public int askWord1(String word) { // or phrase
         return -1; // Not found
     }
 
+    /**
+     * Over ride with logic for word. Use WORD2 Mnemonic.
+     *
+     *
+     * @param word
+     * @return
+     */
+    public int askWord2(String word) { // or phrase
+        return -1; // Not found
+    }
 }
