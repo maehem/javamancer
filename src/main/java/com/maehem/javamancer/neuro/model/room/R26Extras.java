@@ -139,6 +139,16 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
     }
 
     @Override
+    public int askWord2(String word) {
+        Integer index = map2.get(word);
+        if (index == null) {
+            return 31; // Doesn't know.
+        }
+
+        return index;
+    }
+
+    @Override
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
