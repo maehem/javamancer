@@ -81,7 +81,7 @@ public enum Room {
     R41("Bank Gemeinschaft", null),
     R42("Bank Gemeinschaft Ext.", null),
     R43("Unused", null),
-    R44("Asano's", null),
+    R44("Asano's", R44Extras.class),
     R45("Street Security Robot", null),
     R46("Matrix Restaurant", null),
     R47("Bank Gemeinschaft Vault", null),
