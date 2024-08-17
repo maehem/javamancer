@@ -110,9 +110,9 @@ public class GameState {
         true, false, false, false, false, //26-30
         false, false, false, false, false, // 31-35
         false, false, false, false, true, // 36-40
-        false, false, false, true, false, // 41-45
+        false, false, false, true, true, // 41-45
         true, false, false, false, false, // 46-50
-        false, false, false, false, false, // 50-55
+        false, true, false, false, false, // 50-55
         false, false, false // 56-58
     };
 
