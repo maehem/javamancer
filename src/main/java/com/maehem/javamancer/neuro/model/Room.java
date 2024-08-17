@@ -83,7 +83,7 @@ public enum Room {
     R43("Unused", null),
     R44("Asano's", R44Extras.class),
     R45("Street Security Robot", null),
-    R46("Matrix Restaurant", null),
+    R46("Matrix Restaurant", R46Extras.class),
     R47("Bank Gemeinschaft Vault", null),
     R48("Unused", null),
     R49("Street Burned Building", null),
