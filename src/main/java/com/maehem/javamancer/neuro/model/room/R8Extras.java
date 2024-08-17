@@ -53,12 +53,12 @@ public class R8Extras extends RoomExtras {
         {13}, // [9] :: A social disease?
         {14}, // [10] :: Is it smaller than a breadbox?
         {13}, // [11] :: Animal, vegetable, or mineral?
-        {WORD}, // [12] :: Ah!  You must be referring to the @---------------
+        {WORD1}, // [12] :: Ah!  You must be referring to the @---------------
         {DIALOG_CLOSE}, // [13] :: Beat it, cyberjerk!
         {DIALOG_CLOSE}, // [14] :: Its even smaller than your head, which is pretty small....
         {DIALOG_CLOSE}, // [15] :: No, actually I was referrin to somethin else, so get lost, wilson!
         {17, 18, 19, 20, 21}, // [16] :: Yeah. You must be . I got your chip here for ya.
-        {WORD}, // [17] :: Okay.  What do you know about @---------------
+        {WORD1}, // [17] :: Okay.  What do you know about @---------------
         {ITEM_BUY}, // [18] :: Hey, Babe, I want to buy the chip.
         {22}, // [19] :: Maybe you could answer some questions for me?
         {DIALOG_CLOSE}, // [20] :: You already gave me something. I dont want anything else.
@@ -140,7 +140,7 @@ public class R8Extras extends RoomExtras {
     );
 
     @Override
-    public int askWord(String word) {
+    public int askWord1(String word) {
         Integer index = map1.get(word);
         if (index == null) {
             return 37; // Doesn't know.

@@ -47,14 +47,14 @@ public class R12Extras extends RoomExtras {
         {10}, //[4] :: Im looking for the Panther Moderns.
         {8}, //[5] :: Im a cop.
         {9}, //[6] :: Its cold outside.
-        {WORD, 7}, //[7] :: Do you know anything about
+        {WORD1, 7}, //[7] :: Do you know anything about
         {TO_JAIL}, //[8] :: Youre not a cop.
         {EXIT_B}, //[9] :: Ill warm you up with
         {11, 12, 13, 14}, //[10] :: The Moderns dont like
         {16}, //[11] :: Does that include wealthy
         {15}, //[12] :: You know, I have a sudden
         {2}, //[13] :: Youre calling ME strange?
-        {WORD}, //[14] :: Do you know anything about
+        {WORD1}, //[14] :: Do you know anything about
         {3, 4, 5, 6, 7}, //[15] :: All my softs are top quality.
         {17, 18, 19, 20}, //[16] :: How much would you pay for a
         {21}, //[17] :: 100
@@ -67,14 +67,14 @@ public class R12Extras extends RoomExtras {
         {}, //[24] :: Im a cop,
         {}, //[25] :: Maybe. Got anyth
         {}, //[26] :: Im looking for the
-        {WORD}, //[27] :: Do you know anything about
+        {WORD1}, //[27] :: Do you know anything about
         {}, //[28] :: I dont network with cops.
         {}, //[29] :: Okay. Dont get excited.
         {}, //[30] :: Ill remember this, Larry.
         {}, //[31] :: Yeah, you sound like a cop.
         {10}, //[32] :: Im looking for the
         {35}, //[33] :: Heard any unusual rumors?
-        {WORD}, //[34] :: Do you know anything about
+        {WORD1}, //[34] :: Do you know anything about
         {DIALOG_CLOSE}, //[35] :: Somethings happening in cyberspace.
         {DIALOG_CLOSE}, //[36] :: How fascinating.
         {DIALOG_CLOSE}, //[37] :: Youd know more than
@@ -112,7 +112,7 @@ public class R12Extras extends RoomExtras {
     );
 
     @Override
-    public int askWord(String word) {
+    public int askWord1(String word) {
         Integer index = map.get(word);
         if (index == null) {
             return 37; // Doesn't know.
