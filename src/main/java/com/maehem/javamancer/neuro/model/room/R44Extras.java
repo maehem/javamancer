@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.room;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.Map;
@@ -130,7 +129,7 @@ public class R44Extras extends RoomExtras { // Asano's
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R44).dumpList();
+        //gs.resourceManager.getRoomText(Room.R44).dumpList();
     }
 
     @Override
