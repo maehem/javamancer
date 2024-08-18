@@ -35,13 +35,7 @@ import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.RealItem;
-import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.RoomMap;
-import com.maehem.javamancer.neuro.model.skill.BarganingSkill;
-import com.maehem.javamancer.neuro.model.skill.DebugSkill;
-import com.maehem.javamancer.neuro.model.skill.IceBreakingSkill;
-import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
-import com.maehem.javamancer.neuro.model.skill.WarezAnalysisSkill;
 import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -116,7 +110,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
         if (!gameState.useDoor.equals(Door.NONE)) {
             // Switch room
-            LOGGER.log(Level.SEVERE, "Use Door: " + gameState.useDoor.name());
+            LOGGER.log(Level.SEVERE, "Use Door: {0}", gameState.useDoor.name());
             gameState.room = RoomMap.getRoom(gameState.room, gameState.useDoor);
             LOGGER.log(Level.SEVERE, "Move to new room: {0} from previous room door {1}",
                     new Object[]{gameState.room.name(), gameState.useDoor.name()}
@@ -225,15 +219,8 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         gameState.inventory.add(new CreditsItem());
         gameState.inventory.add(new RealItem(Catalog.PAWNTICKET));
         gameState.inventory.add(new UXBDeckItem());
-        gameState.inventory.add(new RealItem(Catalog.CAVIAR));
-        gameState.inventory.add(new SkillItem(Catalog.HARDWAREREPAIR));
-        gameState.inventory.add(new SkillItem(Catalog.COPTALK));
 
-        gameState.skills.add(new BarganingSkill());
-        gameState.skills.add(new DebugSkill());
-        gameState.skills.add(new IceBreakingSkill());
-        gameState.skills.add(new SophistrySkill());
-        gameState.skills.add(new WarezAnalysisSkill());
+        //gameState.skills.add(new CopTalkSkill(1));
 
     }
 }
