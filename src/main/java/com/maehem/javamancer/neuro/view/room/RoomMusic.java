@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.view.room;
 
-import com.maehem.javamancer.neuro.model.Room;
+import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.view.MusicManager.Track;
 import static com.maehem.javamancer.neuro.view.MusicManager.Track.*;
 

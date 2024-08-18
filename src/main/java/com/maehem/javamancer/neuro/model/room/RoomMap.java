@@ -26,9 +26,6 @@
  */
 package com.maehem.javamancer.neuro.model.room;
 
-import com.maehem.javamancer.neuro.model.Room;
-import com.maehem.javamancer.neuro.model.RoomBounds;
-
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )

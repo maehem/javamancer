@@ -29,7 +29,7 @@ package com.maehem.javamancer.neuro.view;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.NewsArticle;
-import com.maehem.javamancer.neuro.model.Room;
+import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.TextResource;
 import java.io.BufferedReader;
 import java.io.File;

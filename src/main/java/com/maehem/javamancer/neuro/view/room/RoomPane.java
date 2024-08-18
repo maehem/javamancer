@@ -28,10 +28,10 @@ package com.maehem.javamancer.neuro.view.room;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.Room;
-import com.maehem.javamancer.neuro.model.RoomBounds;
-import com.maehem.javamancer.neuro.model.RoomBounds.Door;
-import com.maehem.javamancer.neuro.model.RoomPosition;
+import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
+import com.maehem.javamancer.neuro.model.room.RoomBounds.Door;
+import com.maehem.javamancer.neuro.model.room.RoomPosition;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;

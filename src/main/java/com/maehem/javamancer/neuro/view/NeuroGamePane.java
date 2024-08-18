@@ -28,9 +28,9 @@ package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.Room;
-import com.maehem.javamancer.neuro.model.RoomBounds.Door;
-import com.maehem.javamancer.neuro.model.RoomPosition;
+import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.room.RoomBounds.Door;
+import com.maehem.javamancer.neuro.model.room.RoomPosition;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
