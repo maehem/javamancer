@@ -46,6 +46,7 @@ public abstract class RoomExtras {
     public static final int UXB_BUY = 63; // Shin menu, TODO: move to ITEM_BUY
     public static final int ITEM_BUY = 64; // Player buys item from NPC
     public static final int ITEM_GET = 65; // player receives NPC item directly
+    public static final int LUNGS = 66; // lungs removed at Hitachi
     public static final int NPC = 70; // Don't toggle to PLAYER after this dialog
     public static final int WORD1 = 71;
     public static final int WORD2 = 72;
@@ -56,6 +57,7 @@ public abstract class RoomExtras {
     public static final int EXIT_L = 83; // Exit Left
     public static final int EXIT_ST_CHAT = 84; // Exit Outside Chatsubo
     public static final int EXIT_BDSHOP = 85; // Exit to body shop.
+    public static final int DECK_WAIT = 87; // Wait till user exit's deck or leaves room.
     public static final int DEATH = 88; // Go to jail action
     public static final int TO_JAIL = 89; // Go to jail action
     public static final int UXB = 90; // Shin gives UXB

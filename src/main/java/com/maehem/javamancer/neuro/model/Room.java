@@ -90,7 +90,7 @@ public enum Room {
     R50("Cyberspace Beach", null),
     R51("Fuji Electric", null),
     R52("Security Gate", R52Extras.class),
-    R53("Hitachi Biotech", null),
+    R53("Hitachi Biotech", R53Extras.class),
     R54("High Tech Area 1", null),
     R55("High Tech Area 2", null),
     R56("SenseNet Headquarters", null),
