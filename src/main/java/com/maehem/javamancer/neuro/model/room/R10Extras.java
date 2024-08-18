@@ -28,58 +28,39 @@ package com.maehem.javamancer.neuro.model.room;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.RoomExtras;
-import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class R24Extras extends RoomExtras {
+public class R10Extras extends RoomExtras { // JAL - Shuttle To Orbit
 
-    protected static final int[][] DIALOG_CHAIN = { //    The massage parlor.
-        {LONG_DESC}, {SHORT_DESC}, // 0, 1
-        {3, 4, 5, 6}, // [2] :: Greetings, cowboy.
-        {}, // [3] :: Top of the mornin! Youre under
-        {17}, // [4] :: Im sure Ill think of
-        {8}, // [5] :: Uh, excuse me, Im just
-        {19, CHIP, 20}, // [6] :: I wanna buy some info
-        {}, // [7] ::
-        {DIALOG_END}, // [8] :: You dont know what youre
-        {}, // [9] :: I just remembered I have
-        {TO_JAIL}, // [10] :: Heres a hot tip. The Panther
-        {}, // [11] :: The banking center is on the
-        {}, // [12] :: Be careful when dealing with the
-        {}, // [13] :: Some cowboy said he avoids court
-        {}, // [14] :: Just heard that Maas Biolabs finished
-        {}, // [15] :: CyberEyes, you dont need a regular
-        {}, // [16] :: Take a hike, meatball!
-        {TO_JAIL}, // [17] :: Look out!  Its
-        {}, // [18] :: Get serious!  No discounts here, buckaroo!
-        {10}, // [19] :: You just bought yourself some
-        {}, // [20] :: The girl relieves you of <== Place in room description
-        {}, // [21] :: I have more info, if you
-        {} // [22] :: You know more than me
+    protected static final int[][] DIALOG_CHAIN = {
+        {LONG_DESC}, {SHORT_DESC}, //  [0] ::
+        {}, // [2] ::
+        {NPC, 4}, // [3] :: Welcome aboard!  Our entire crew appreciates the fact that you chose to fly on our shuttle!  Domo arigato!
+        {NPC, 5}, // [4] :: Please note there is only one exit. In the event of a fire on the ground, all passengers will have to fend for
+        {NPC, 6}, // [5] :: themselves, because the crew and I will be the first ones out that door. In the event of a pressure loss while
+        {NPC, 7}, // [6] :: were in transit, well all be sucking cold vacuum in a matter of seconds, so we hope you bought flight insurance.
+        {NPC, 8}, // [7] :: During the flight, we will not be serving beverages or food of any kind.We used to serve food, but the
+        {NPC, 9}, // [8] :: portions we served were getting so small that the passengers couldnt see them any more.  Speaking of food,
+        {NPC, 10}, // [9] :: if you are prone to space sickness, please do not throw up on the person next to you. In fact, wed prefer that
+        {NPC, 11}, // [10] :: you not throw up at all since it makes quite a mess in weightlessness. If you must, put your head in a bag.
+        {NPC, 12}, // [11] :: You will note that our in-flight holo- movie has just been zip-shot directly into your brain using psycho-graphics.
+        {NPC, 13}, // [12] :: We hope you enjoyed it. There will be an additional charge if youd like to "see" the movie again.  And now, Im
+        {EXIT_X}, // [13] :: sure it will come as big a surprise to you as it did to me that we have just arrived safely at our destination.
     };
 
     @Override
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
+        //gs.resourceManager.getRoomText(Room.R10).dumpList();
     }
 
     @Override
     public boolean give(GameState gs, Item item, int aux) {
-        // Player give is credits.
-        if (item instanceof CreditsItem cr) {
-            // Credit amount is 46
-            if (aux == 46) {
-                gs.ratzPaid = true;
-                gs.chipBalance -= 46;
-                return true;
-            }
-        }
-
         return false;
     }
 
@@ -90,25 +71,19 @@ public class R24Extras extends RoomExtras {
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (!gs.roomNpcTalk[gs.room.getIndex()]) {
-            return DIALOG_END;
-        }
-        if (gs.ratzPaid) {
-            return 11;
-        } else {
-            return 2;
-        }
+        return 3;
+
     }
 
     @Override
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
-        //gs.doorBottomLocked = false; // Unlock door.
     }
 
     @Override
-    public boolean hasPAX() {
-        return false;
+    public int exitX(GameState gs) {
+        // Exit depending on what ticket was purchased.
+        return EXIT_R;
     }
 
 }

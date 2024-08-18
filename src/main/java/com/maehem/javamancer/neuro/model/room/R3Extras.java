@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.model.room;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.RoomExtras;
-import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
@@ -97,15 +96,6 @@ public class R3Extras extends RoomExtras {
 
     @Override
     public boolean give(GameState gs, Item item, int aux) {
-        // Player give is credits.
-        if (item instanceof CreditsItem cr) {
-            // Credit amount is 46
-            if (aux == 46) {
-                gs.ratzPaid = true;
-                gs.chipBalance -= 46;
-                return true;
-            }
-        }
 
         return false;
     }
@@ -131,16 +121,6 @@ public class R3Extras extends RoomExtras {
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
         //gs.doorBottomLocked = false; // Unlock door.
-    }
-
-    @Override
-    public int jackZone() {
-        return 0; // TODO: Remove/Set to -1 after sufficient deck testing.
-    }
-
-    @Override
-    public boolean hasPAX() {
-        return true;
     }
 
 }

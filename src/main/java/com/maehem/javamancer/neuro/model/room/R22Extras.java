@@ -27,59 +27,34 @@
 package com.maehem.javamancer.neuro.model.room;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.Room;
 import com.maehem.javamancer.neuro.model.RoomExtras;
-import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class R24Extras extends RoomExtras {
+public class R22Extras extends RoomExtras { // Spaceport Chiba
 
-    protected static final int[][] DIALOG_CHAIN = { //    The massage parlor.
-        {LONG_DESC}, {SHORT_DESC}, // 0, 1
-        {3, 4, 5, 6}, // [2] :: Greetings, cowboy.
-        {}, // [3] :: Top of the mornin! Youre under
-        {17}, // [4] :: Im sure Ill think of
-        {8}, // [5] :: Uh, excuse me, Im just
-        {19, CHIP, 20}, // [6] :: I wanna buy some info
-        {}, // [7] ::
-        {DIALOG_END}, // [8] :: You dont know what youre
-        {}, // [9] :: I just remembered I have
-        {TO_JAIL}, // [10] :: Heres a hot tip. The Panther
-        {}, // [11] :: The banking center is on the
-        {}, // [12] :: Be careful when dealing with the
-        {}, // [13] :: Some cowboy said he avoids court
-        {}, // [14] :: Just heard that Maas Biolabs finished
-        {}, // [15] :: CyberEyes, you dont need a regular
-        {}, // [16] :: Take a hike, meatball!
-        {TO_JAIL}, // [17] :: Look out!  Its
-        {}, // [18] :: Get serious!  No discounts here, buckaroo!
-        {10}, // [19] :: You just bought yourself some
-        {}, // [20] :: The girl relieves you of <== Place in room description
-        {}, // [21] :: I have more info, if you
-        {} // [22] :: You know more than me
+    protected static final int[][] DIALOG_CHAIN = {
+        {LONG_DESC}, {SHORT_DESC}, //  [0] ::
+        {NPC, 3}, // [2] :: In this room lies death, my friend. This is the road to the land of the dead. Marie France, my lady, prepared
+        {NPC, 4}, // [3] :: this road, but her lord choked her off before I could read the book of her days. Stay and become a ghost, a thing
+        {NPC, 5}, // [4] :: of shadow in the land of the dead. Keep me company. Become a sphere of singing black on the extended crystal
+        {NPC, 6}, // [5] :: nerves of the universe of data, your consciousness divided like beads of mercury.
+        {DIALOG_CLOSE}, // [6] :: Question authority, my friend, and dare to remain in the shadowlands forever....
     };
 
     @Override
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
+        gs.resourceManager.getRoomText(Room.R22).dumpList();
     }
 
     @Override
     public boolean give(GameState gs, Item item, int aux) {
-        // Player give is credits.
-        if (item instanceof CreditsItem cr) {
-            // Credit amount is 46
-            if (aux == 46) {
-                gs.ratzPaid = true;
-                gs.chipBalance -= 46;
-                return true;
-            }
-        }
-
         return false;
     }
 
@@ -90,25 +65,18 @@ public class R24Extras extends RoomExtras {
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (!gs.roomNpcTalk[gs.room.getIndex()]) {
-            return DIALOG_END;
-        }
-        if (gs.ratzPaid) {
-            return 11;
-        } else {
-            return 2;
-        }
+        return 3;
+
     }
 
     @Override
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
-        //gs.doorBottomLocked = false; // Unlock door.
     }
 
     @Override
-    public boolean hasPAX() {
-        return false;
+    public int jackZone() {
+        return 7;
     }
 
 }

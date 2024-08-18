@@ -36,34 +36,37 @@ import java.util.ArrayList;
  */
 public abstract class RoomExtras {
 
-    public static final int DESC = 54; // show in room desc instead of dialog.
-    public static final int LONG_DESC = 55;
-    public static final int SHORT_DESC = 56;
-    public static final int LUNGS = 59; // lungs removed at Hitachi
-    public static final int BODY_SELL = 60; // Bodyshop menu
-    public static final int BODY_BUY = 61; // Bodyshop menu
-    public static final int SKILL_SELL = 60; // ??? menu, maybe don't need
-    public static final int SKILL_BUY = 62; // Larry menu, TODO: move to ITEM_BUY
-    public static final int SKILL_UPGRADE = 63; // Larry menu, TODO: move to ITEM_BUY
-    public static final int UXB_BUY = 64; // Shin menu, TODO: move to ITEM_BUY
-    public static final int ITEM_BUY = 65; // Player buys item from NPC
-    public static final int ITEM_GET = 66; // player receives NPC item directly
-    public static final int NPC = 70; // Don't toggle to PLAYER after this dialog
-    public static final int WORD1 = 71;
-    public static final int WORD2 = 72;
-    public static final int WHERE_IS = 73; // Street Light Girl - Where is Lonny Zone?
-    public static final int EXIT_T = 80; // Exit Top
-    public static final int EXIT_R = 81; // Exit Right
-    public static final int EXIT_B = 82; // Exit Bottom
-    public static final int EXIT_L = 83; // Exit Left
-    public static final int EXIT_ST_CHAT = 84; // Exit Outside Chatsubo
-    public static final int EXIT_BDSHOP = 85; // Exit to body shop.
-    public static final int DECK_WAIT = 87; // Wait till user exit's deck or leaves room.
-    public static final int DEATH = 88; // Go to jail action
-    public static final int TO_JAIL = 89; // Go to jail action
+    public static final int DESC = 50; // show in room desc instead of dialog.
+    public static final int LONG_DESC = 51;
+    public static final int SHORT_DESC = 52;
+    public static final int NPC = 53; // Don't toggle to PLAYER after this dialog
+    public static final int WORD1 = 54;
+    public static final int WORD2 = 55;
+    public static final int WHERE_IS = 56; // Street Light Girl - Where is Lonny Zone?
+    public static final int LUNGS = 60; // lungs removed at Hitachi
+    public static final int BODY_SELL = 61; // Bodyshop menu
+    public static final int BODY_BUY = 62; // Bodyshop menu
+    public static final int SKILL_SELL = 63; // ??? menu, maybe don't need
+    public static final int SKILL_BUY = 64; // Larry menu, TODO: move to ITEM_BUY
+    public static final int SKILL_UPGRADE = 65; // Larry menu, TODO: move to ITEM_BUY
+    public static final int UXB_BUY = 66; // Shin menu, TODO: move to ITEM_BUY
+    public static final int ITEM_BUY = 67; // Player buys item from NPC
+    public static final int ITEM_GET = 68; // player receives NPC item directly
+    public static final int EXIT_T = 70; // Exit Top
+    public static final int EXIT_R = 71; // Exit Right
+    public static final int EXIT_B = 72; // Exit Bottom
+    public static final int EXIT_L = 73; // Exit Left
+    public static final int EXIT_ST_CHAT = 74; // Exit Outside Chatsubo
+    public static final int EXIT_BDSHOP = 75; // Exit to body shop.
+    public static final int EXIT_SHUTTLE_FS = 76; // Exit To Freeside Shuttle
+    public static final int EXIT_SHUTTLE_ZION = 77; // Exit To Zion Shuttle
+    public static final int EXIT_X = 78; // Exit determined by code.
+    public static final int DEATH = 79; // Go to jail action
+    public static final int TO_JAIL = 80; // Go to jail action
+    public static final int DECK_WAIT = 81; // Wait till user exit's deck or leaves room.
     public static final int UXB = 90; // Shin gives UXB
     public static final int PASS = 91; // Shiva gives Rest. Pass
-    public static final int CHIP_20 = 94; // 20 credits off chip. Massage Parlor.
+    public static final int CHIP = 94; // n credits.
     public static final int FINE_BANK_500 = 95; // Fine bank
     public static final int FINE_BANK_20K = 96; // Fine bank
     public static final int DIALOG_CLOSE = 98;
@@ -124,5 +127,18 @@ public abstract class RoomExtras {
      */
     public int askWord2(String word) { // or phrase
         return -1; // Not found
+    }
+
+    public int exitX(GameState gs) {
+        return EXIT_R;
+    }
+
+    public boolean chipDeduct(GameState gs, int amt) {
+        if (amt > gs.chipBalance) {
+            return false;
+        }
+
+        gs.chipBalance -= amt;
+        return true;
     }
 }

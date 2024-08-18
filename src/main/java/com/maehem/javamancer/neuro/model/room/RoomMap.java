@@ -54,28 +54,28 @@ public enum RoomMap {
     R18(Room.R18, Room.R17, null, null, Room.R19), // Street Spaceport
     R19(Room.R19, null, Room.R18, null, null), // Spaceport
     R20(Room.R20, null, null, null, null), // Marcus Garvey
-    R21(Room.R21, null, null, null, null), // Villa Straylight, ext.
-    R22(Room.R22, null, null, null, null), // Villa Straylight
+    R21(Room.R21, Room.R22, Room.R30, null, null), // Villa Straylight, ext.
+    R22(Room.R22, null, null, Room.R21, null), // Villa Straylight
     R23(Room.R23, null, null, Room.R12, null), // Panther Moderns (in Larry's)
     R24(Room.R24, null, null, null, Room.R13), // Brothel
     R25(Room.R25, null, null, null, Room.R14), // Shin's Pawn
     R26(Room.R26, null, Room.R31, null, Room.R15), // Street Light Pole, Zone's Girl
     R27(Room.R27, null, null, null, Room.R17), // Julius Dean
     R28(Room.R28, null, null, null, null), // JAL Shuttle
-    R29(Room.R29, null, null, null, null), // Freeside Spacedock
-    R30(Room.R30, null, null, null, null), // Spacedock Ext.
+    R29(Room.R29, null, null, Room.R30, null), // Freeside Spacedock
+    R30(Room.R30, Room.R29, Room.R33, null, Room.R21), // Spacedock Ext.
     R31(Room.R31, Room.R32, Room.R39, null, Room.R26), // Street Metro Holo
     R32(Room.R32, null, null, Room.R31, null), // Metro Holo
-    R33(Room.R33, null, null, null, null), // Bank Berne, ext.
-    R34(Room.R34, null, null, null, null), // Bank Berne Lobby
-    R35(Room.R35, null, null, null, null), // Bank Berne Mgr. Office
+    R33(Room.R33, Room.R34, Room.R42, null, Room.R30), // Bank Berne, ext.
+    R34(Room.R34, Room.R35, null, Room.R33, null), // Bank Berne Lobby
+    R35(Room.R35, null, null, Room.R34, null), // Bank Berne Mgr. Office
     R36(Room.R36, null, null, Room.R37, null), // House of Pong
     R37(Room.R37, Room.R36, null, Room.R38, null), // Street House Pong
     R38(Room.R38, Room.R37, Room.R44, Room.R39, null), // Street Asano's
     R39(Room.R39, Room.R38, Room.R45, Room.R40, Room.R31), // Street Crazy Edos
     R40(Room.R40, Room.R39, null, null, null), // Crazy Edo's
-    R41(Room.R41, null, null, null, null), // Bank Gemeinschaft
-    R42(Room.R42, null, null, null, null), // Bank Gemeinschaft, ext.
+    R41(Room.R41, Room.R47, null, Room.R42, null), // Bank Gemeinschaft
+    R42(Room.R42, Room.R41, null, null, Room.R33), // Bank Gemeinschaft, ext.
     R43(Room.R43, null, null, null, null), // unused
     R44(Room.R44, null, null, null, Room.R38), // Asano's
     R45(Room.R45, null, Room.R49, Room.R46, Room.R39), // Street Security Robot/ Matrix Rest.
