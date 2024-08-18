@@ -88,14 +88,14 @@ public enum Room {
     R48("Unused", null),
     R49("Street Burned Building", null),
     R50("Cyberspace Beach", null),
-    R51("Fuji Electric", null),
+    R51("Fuji Electric", R51Extras.class),
     R52("Security Gate", R52Extras.class),
     R53("Hitachi Biotech", R53Extras.class),
     R54("High Tech Area 1", null),
     R55("High Tech Area 2", null),
-    R56("SenseNet Headquarters", null),
-    R57("Hosaka Headquarters", null),
-    R58("Musabori Headquarters", null);
+    R56("SenseNet Headquarters", R56Extras.class),
+    R57("Hosaka Headquarters", R57Extras.class),
+    R58("Musabori Headquarters", R58Extras.class);
 
     public final String roomName;
     public final Class<? extends RoomExtras> extraClazz;
