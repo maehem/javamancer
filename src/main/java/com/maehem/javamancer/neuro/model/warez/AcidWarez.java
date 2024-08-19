@@ -26,16 +26,26 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
+import java.util.logging.Level;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class AcidWarez extends Warez {
+public class AcidWarez extends VirusWarez {
 
     public AcidWarez(int version) {
         super(Item.Catalog.ACID, version);
+    }
+
+    @Override
+    public String use(GameState gs) {
+        String deckUse = super.use(gs);
+        // TODO: Evaluate Cyberspace situation...
+        LOGGER.log(Level.SEVERE, "Only usable in ICE breaking.");
+        return deckUse;
     }
 
 }

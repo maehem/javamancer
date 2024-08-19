@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class DepthChargeWarez extends Warez {
+public class DepthChargeWarez extends IceBreakerWarez {
 
     public DepthChargeWarez(int version) {
         super(Item.Catalog.DEPTHCHARGE, version);

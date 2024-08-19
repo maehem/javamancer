@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class SlowWarez extends Warez {
+public class SlowWarez extends CorruptorWarez {
 
     public SlowWarez(int version) {
         super(Item.Catalog.SLOW, version);

@@ -29,13 +29,14 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * Erase AI
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class PythonWarez extends VirusWarez {
+public class ShotgunWarez extends Warez {
 
-    public PythonWarez(int version) {
-        super(Item.Catalog.PYTHON, version);
+    public ShotgunWarez(Item.Catalog catItem, int version) {
+        super(catItem, version);
     }
 
 }

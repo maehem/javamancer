@@ -29,10 +29,11 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * Attempt to break straight through ICE by mimicking a warranted investigation.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class MimicWarez extends Warez {
+public class MimicWarez extends UtilityWarez {
 
     public MimicWarez(int version) {
         super(Item.Catalog.MIMIC, version);

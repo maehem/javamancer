@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class InjectorWarez extends Warez {
+public class InjectorWarez extends VirusWarez {
 
     public InjectorWarez(int version) {
         super(Item.Catalog.INJECTOR, version);

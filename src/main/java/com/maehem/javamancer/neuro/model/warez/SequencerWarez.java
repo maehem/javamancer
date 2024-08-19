@@ -29,10 +29,11 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * Determines first level password for link code if it exists.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class SequencerWarez extends Warez {
+public class SequencerWarez extends UtilityWarez {
 
     public SequencerWarez(int version) {
         super(Item.Catalog.SEQUENCER, version);

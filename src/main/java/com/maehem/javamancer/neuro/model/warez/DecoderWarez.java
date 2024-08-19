@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class DecoderWarez extends Warez {
+public class DecoderWarez extends IceBreakerWarez {
 
     public DecoderWarez(int version) {
         super(Item.Catalog.DECODER, version);

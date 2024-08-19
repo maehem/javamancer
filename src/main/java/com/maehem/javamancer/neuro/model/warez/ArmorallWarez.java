@@ -29,10 +29,11 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * Build back your deck's shield to full strength when it's low or gone.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class ArmorallWarez extends Warez {
+public class ArmorallWarez extends UtilityWarez {
 
     public ArmorallWarez(int version) {
         super(Item.Catalog.ARMORALL, version);

@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class HammerWarez extends Warez {
+public class HammerWarez extends IceBreakerWarez {
 
     public HammerWarez(int version) {
         super(Item.Catalog.HAMMER, version);

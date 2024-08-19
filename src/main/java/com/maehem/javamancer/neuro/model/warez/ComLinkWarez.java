@@ -33,7 +33,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class ComLinkWarez extends Warez {
+public class ComLinkWarez extends LinkWarez {
 
     public static final String USE_NO_JACK = "No jack found.";
 

@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class BlowTorchWarez extends Warez {
+public class BlowTorchWarez extends IceBreakerWarez {
 
     public BlowTorchWarez(int version) {
         super(Item.Catalog.BLOWTORCH, version);

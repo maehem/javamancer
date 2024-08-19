@@ -26,14 +26,19 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public abstract class Warez {
+
+    public static final Logger LOGGER = Logging.LOGGER;
 
     public static final String USE_OK = "OK";
 
@@ -52,6 +57,7 @@ public abstract class Warez {
     }
 
     public String use(GameState gs) {
+        LOGGER.log(Level.SEVERE, "Warez: Use(): " + getClass().getSimpleName());
         return USE_OK;
     }
 

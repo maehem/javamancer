@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class KuangElevenWarez extends Warez {
+public class KuangElevenWarez extends ShotgunWarez {
 
     public KuangElevenWarez(int version) {
         super(Item.Catalog.KUANGELEVEN, version);

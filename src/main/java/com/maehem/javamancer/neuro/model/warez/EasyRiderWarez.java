@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * Cross zones without having to go to another cyberjack.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

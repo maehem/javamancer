@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class LogicBombWarez extends Warez {
+public class LogicBombWarez extends IceBreakerWarez {
 
     public LogicBombWarez(int version) {
         super(Item.Catalog.LOGICBOMB, version);

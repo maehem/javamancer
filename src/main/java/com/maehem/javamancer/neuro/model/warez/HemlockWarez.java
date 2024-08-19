@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class HemlockWarez extends Warez {
+public class HemlockWarez extends ShotgunWarez {
 
     public HemlockWarez(int version) {
         super(Item.Catalog.HEMLOCK, version);

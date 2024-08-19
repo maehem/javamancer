@@ -32,10 +32,10 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class PythonWarez extends VirusWarez {
+public class UtilityWarez extends Warez {
 
-    public PythonWarez(int version) {
-        super(Item.Catalog.PYTHON, version);
+    public UtilityWarez(Item.Catalog catItem, int version) {
+        super(catItem, version);
     }
 
 }

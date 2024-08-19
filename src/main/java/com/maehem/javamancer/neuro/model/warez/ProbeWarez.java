@@ -29,10 +29,11 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * Cyberspace only. Reveals what AI lives there.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class ProbeWarez extends Warez {
+public class ProbeWarez extends UtilityWarez {
 
     public ProbeWarez(int version) {
         super(Item.Catalog.PROBE, version);

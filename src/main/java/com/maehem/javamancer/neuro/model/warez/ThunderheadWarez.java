@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class ThunderheadWarez extends Warez {
+public class ThunderheadWarez extends VirusWarez {
 
     public ThunderheadWarez(int version) {
         super(Item.Catalog.THUNDERHEAD, version);

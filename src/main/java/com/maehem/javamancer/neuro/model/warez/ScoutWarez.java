@@ -29,13 +29,14 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * Reveals how many levels in site.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class PythonWarez extends VirusWarez {
+public class ScoutWarez extends UtilityWarez {
 
-    public PythonWarez(int version) {
-        super(Item.Catalog.PYTHON, version);
+    public ScoutWarez(int version) {
+        super(Item.Catalog.PROBE, version);
     }
 
 }
