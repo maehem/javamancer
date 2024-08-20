@@ -26,15 +26,15 @@
  */
 package com.maehem.javamancer.neuro.view;
 
-import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.Room;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
 import com.maehem.javamancer.neuro.view.popup.BodyShopPopup;
+import com.maehem.javamancer.neuro.view.popup.CyberspacePopup;
 import com.maehem.javamancer.neuro.view.popup.DeckPopup;
 import com.maehem.javamancer.neuro.view.popup.DialogPopup;
 import com.maehem.javamancer.neuro.view.popup.DiskPopup;
@@ -48,7 +48,6 @@ import com.maehem.javamancer.neuro.view.room.RoomMusic;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
 import java.util.ArrayList;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ObservableValue;
@@ -68,14 +67,12 @@ import javafx.scene.text.Text;
  */
 public class RoomMode extends NeuroModePane implements PopupListener {
 
-    public static final Logger LOGGER = Logging.LOGGER;
-
     private enum Status {
         DATE, TIME, CREDIT, CONSTITUTION
     }
 
     public enum Popup {
-        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL, SKILLS_BUY
+        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL, SKILLS_BUY, CYBERSPACE
     }
 
     private static final int ROW_1_Y = 292;
@@ -414,7 +411,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 DeckItem deck = getGameState().usingDeck;
                 if (deck != null) {
                     LOGGER.log(Level.CONFIG, "Popup created for Deck: " + deck.getName());
-                    popup = new DeckPopup(this, deck, getGameState());
+                    popup = new DeckPopup(this, getGameState());
                 } else {
                     LOGGER.log(Level.SEVERE, "Room tried to use a null deck!  Did something go wrong?");
                     popup = null;
@@ -440,6 +437,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                         LOGGER.log(Level.SEVERE, "Set popup to: Skills - BUY");
                     }
                 }
+            }
+            case CYBERSPACE -> {
+                popup = new CyberspacePopup(this, getGameState());
+                LOGGER.log(Level.SEVERE, "Set popup to: Cyberspace");
             }
         }
         if (popup != null) {

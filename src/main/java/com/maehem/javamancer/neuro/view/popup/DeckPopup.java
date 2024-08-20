@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.PopupListener;
+import com.maehem.javamancer.neuro.view.RoomMode;
 import com.maehem.javamancer.neuro.view.database.DatabaseView;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
@@ -50,7 +51,7 @@ public class DeckPopup extends PopupPane {
     private DatabaseView databaseView;
 
     enum Mode {
-        SOFTWARE, ENTER_LINKCODE, ENTER_PASSWORD, RESPONSE, DATABASE
+        SOFTWARE, CHOOSE_MODE, ENTER_LINKCODE, ENTER_PASSWORD, RESPONSE, DATABASE
     }
 
     private static final int SOFT_LIST_WIDTH = 360;
@@ -81,9 +82,9 @@ public class DeckPopup extends PopupPane {
     private Mode mode = Mode.SOFTWARE;
     private boolean linkCodeErr;
 
-    public DeckPopup(PopupListener l, DeckItem deck, GameState gameState) {
+    public DeckPopup(PopupListener l, GameState gameState) {
         super(l, gameState);
-        this.deck = deck;
+        this.deck = gameState.usingDeck;
 
         softwarePrompt();
     }
@@ -99,10 +100,11 @@ public class DeckPopup extends PopupPane {
         Text exitButton = new Text("exit");
         Text prevButton = new Text("prev");
         Text nextButton = new Text("next");
-        TextFlow tf = new TextFlow(softwareHeading);
-        tf.setLineSpacing(-8);
+        TextFlow tf = textFlow(softwareHeading);
+        //TextFlow tf = new TextFlow(softwareHeading);
+        //tf.setLineSpacing(LINE_SPACING);
         tf.setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
-        tf.setPadding(new Insets(4, 0, 0, 16));
+        //tf.setPadding(new Insets(4, 0, 0, 16));
 
         HBox navBox = new HBox(prevButton, exitButton, nextButton);
         navBox.setSpacing(20);
@@ -127,7 +129,7 @@ public class DeckPopup extends PopupPane {
         prevButton.setVisible(slotBase >= SOFT_LIST_SIZE);
         nextButton.setVisible(slotBase + SOFT_LIST_SIZE < deck.softwarez.size());
 
-        getChildren().add(tf);
+        addBox(tf);
 
         if (prevButton.isVisible()) {
             prevButton.setOnMouseClicked((t) -> {
@@ -138,6 +140,7 @@ public class DeckPopup extends PopupPane {
         if (nextButton.isVisible()) {
             nextButton.setOnMouseClicked((t) -> {
                 slotBase += SOFT_LIST_SIZE;
+                t.consume();
                 softwarePrompt();
             });
         }
@@ -145,19 +148,51 @@ public class DeckPopup extends PopupPane {
             cleanUp();
             LOGGER.log(Level.SEVERE, "Exit Deck (via mouse click).");
 
+            t.consume();
             listener.popupExit();
         });
 
     }
 
     private void useSoftware(Warez w) {
+        LOGGER.log(Level.SEVERE, "DeckPopup Use Software: " + w.item.itemName);
         String useReponse = w.use(gameState);
         if (!useReponse.equals(Warez.USE_OK)) {
-            useResponse(useReponse);
+            displayResponse(useReponse);
         } else {
             deck.setCurrentWarez(w);
-            enterLinkCode();
+            if (deck.canCyberspace()) {
+                connectMenu();
+            } else {
+                enterLinkCode();
+            }
         }
+    }
+
+    private void connectMenu() {
+        LOGGER.log(Level.SEVERE, "Show Deck Connect Mode Menu");
+        mode = Mode.CHOOSE_MODE;
+
+        configEntryWindow();
+
+        // TODO: Link code or cyberspace.
+        getChildren().clear();
+        TextFlow tf = textFlow(new Text("Deck Connect Menu"));
+
+        Text linkText = new Text("\n" + 1 + ". Enter Link Code");
+        Text csText = new Text("\n" + 2 + ". Enter Cyberspace");
+        tf.getChildren().addAll(linkText, csText);
+
+        linkText.setOnMouseClicked((t) -> {
+            t.consume();
+            enterLinkCode();
+        });
+
+        csText.setOnMouseClicked((t) -> {
+            t.consume();
+            enterCyberspace();
+        });
+        addBox(tf);
     }
 
     private void enterLinkCode() {
@@ -169,14 +204,22 @@ public class DeckPopup extends PopupPane {
         getChildren().clear();
         Text currentSoft = new Text("       " + gameState.usingDeck.getCurrentWarez().getMenuString());
         Text cursor = new Text("<\n");
-        TextFlow tf = new TextFlow(currentSoft, linkEnterheading, typedLinkEntryText, cursor);
-        tf.setLineSpacing(-8);
-        tf.setPadding(new Insets(4, 0, 0, 4));
+        TextFlow tf = textFlow(currentSoft, linkEnterheading, typedLinkEntryText, cursor);
+//        TextFlow tf = new TextFlow(currentSoft, linkEnterheading, typedLinkEntryText, cursor);
+//        tf.setLineSpacing(-8);
+//        tf.setPadding(new Insets(4, 0, 0, 4));
 
-        getChildren().add(tf);
+        addBox(tf);
     }
 
-    private void useResponse(String response) {
+    private void enterCyberspace() {
+        LOGGER.log(Level.SEVERE, "Enter Cyberspace.");
+
+        // Leave Deck pupup and open cyberspace popup.
+        listener.popupExit(RoomMode.Popup.CYBERSPACE);
+    }
+
+    private void displayResponse(String response) {
         LOGGER.log(Level.SEVERE, "Show Deck use() response");
         configSmallWindow();
 
@@ -184,11 +227,17 @@ public class DeckPopup extends PopupPane {
 
         getChildren().clear();
         Text heading = new Text(response);
-        TextFlow tf = new TextFlow(heading);
-        tf.setLineSpacing(-8);
-        tf.setPadding(new Insets(4, 0, 0, 4));
+//        TextFlow tf = new TextFlow(heading);
+//        tf.setLineSpacing(-8);
+//        tf.setPadding(new Insets(4, 0, 0, 4));
 
-        getChildren().add(tf);
+        addBox(textFlow(heading));
+
+        setOnMouseClicked((t) -> {
+            // Allow user to view response and go back to menu when clicked.
+            setOnMouseClicked(null);
+            softwarePrompt();
+        });
     }
 
     private void siteContent() {
@@ -208,7 +257,7 @@ public class DeckPopup extends PopupPane {
         setMaxSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
         setLayoutX(SOFT_LIST_X);
         setLayoutY(SOFT_LIST_Y);
-        setId("neuro-popup");
+        //setId("neuro-popup");
     }
 
     private void configEntryWindow() {
@@ -217,7 +266,7 @@ public class DeckPopup extends PopupPane {
         setMaxSize(LINK_CODE_WIDTH, LINK_CODE_HEIGHT);
         setLayoutX(LINK_CODE_X);
         setLayoutY(LINK_CODE_Y);
-        setId("neuro-popup");
+        //setId("neuro-popup");
     }
 
     private void configDatabaseWindow() {
@@ -226,7 +275,7 @@ public class DeckPopup extends PopupPane {
         setMaxSize(LARGE_WIDTH, LARGE_HEIGHT);
         setLayoutX(LARGE_X);
         setLayoutY(LARGE_Y);
-        setId("neuro-popup");
+        //setId("neuro-popup");
     }
 
     @Override
