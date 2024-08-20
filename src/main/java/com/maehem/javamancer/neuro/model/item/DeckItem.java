@@ -92,4 +92,6 @@ public abstract class DeckItem extends Item {
         return mode;
     }
 
+    public abstract boolean canCyberspace();
+
 }
