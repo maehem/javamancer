@@ -39,6 +39,7 @@ import static javafx.scene.input.KeyCode.X;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
 
 /**
@@ -58,6 +59,8 @@ public abstract class PopupPane extends Pane {
     public PopupPane(PopupListener l, GameState gameState) {
         this.listener = l;
         this.gameState = gameState;
+        setId("neuro-popup");
+
     }
 
     public boolean handleKeyEvent(KeyEvent keyEvent) {
@@ -90,5 +93,13 @@ public abstract class PopupPane extends Pane {
         getChildren().add(box);
 
         return box;
+    }
+
+    TextFlow textFlow(Node... nodes) {
+        TextFlow tf = new TextFlow(nodes);
+        tf.setLineSpacing(LINE_SPACING);
+        tf.setPadding(new Insets(4, 0, 0, 16));
+
+        return tf;
     }
 }
