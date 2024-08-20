@@ -26,9 +26,11 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * Weakens ICE. One shot use. Cyberspace only.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
@@ -36,6 +38,24 @@ public class VirusWarez extends Warez {
 
     public VirusWarez(Item.Catalog catItem, int version) {
         super(catItem, version);
+    }
+
+    @Override
+    public String use(GameState gs) {
+        if (gs.usingDeck != null) {
+            switch (gs.usingDeck.getMode()) {
+                case NONE, LINKCODE -> {
+                    // Can't be used here.
+                    return "Can't be used here.";
+                }
+                case CYBERSPACE -> {
+                    // TODO: Check if at DB and DB has ICE.
+
+                    return USE_OK;
+                }
+            }
+        }
+        return "Can't be used here.";
     }
 
 }

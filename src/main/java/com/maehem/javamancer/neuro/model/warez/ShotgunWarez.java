@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
@@ -39,4 +40,21 @@ public class ShotgunWarez extends Warez {
         super(catItem, version);
     }
 
+    @Override
+    public String use(GameState gs) {
+        if (gs.usingDeck != null) {
+            switch (gs.usingDeck.getMode()) {
+                case NONE, LINKCODE -> {
+                    // Can't be used here.
+                    return "Can't be used here.";
+                }
+                case CYBERSPACE -> {
+                    // TODO: Check if at DB and DB has Ai.
+
+                    return USE_OK;
+                }
+            }
+        }
+        return "Can't be used here.";
+    }
 }

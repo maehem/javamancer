@@ -26,7 +26,12 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.neuro.model.GameState;
+import static com.maehem.javamancer.neuro.model.item.DeckItem.Mode.CYBERSPACE;
+import static com.maehem.javamancer.neuro.model.item.DeckItem.Mode.LINKCODE;
+import static com.maehem.javamancer.neuro.model.item.DeckItem.Mode.NONE;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.warez.Warez.USE_OK;
 
 /**
  *
@@ -38,4 +43,20 @@ public class LinkWarez extends Warez {
         super(catItem, version);
     }
 
+    @Override
+    public String use(GameState gs) {
+        if (gs.usingDeck != null) {
+            switch (gs.usingDeck.getMode()) {
+                case NONE -> {
+                    // Only used if starting up deck.
+                    return USE_OK;
+                }
+                case LINKCODE, CYBERSPACE -> {
+                    // Can't be used here.
+                    return "Can't be used here.";
+                }
+            }
+        }
+        return "Can't be used here.";
+    }
 }
