@@ -26,43 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.room;
 
-import com.maehem.javamancer.neuro.model.room.extra.R51Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R7Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R2Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R28Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R10Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R22Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R4Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R50Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R8Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R58Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R56Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R45Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R9Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R24Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R52Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R23Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R6Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R53Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R40Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R1Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R41Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R11Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R46Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R27Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R44Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R57Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R19Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R25Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R29Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R26Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R3Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R34Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R36Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R32Extras;
-import com.maehem.javamancer.neuro.model.room.extra.R12Extras;
 import static com.maehem.javamancer.logging.Logging.LOGGER;
-import com.maehem.javamancer.neuro.model.room.*;
+import com.maehem.javamancer.neuro.model.room.extra.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
@@ -176,4 +141,25 @@ public enum Room {
 
         return extras;
     }
+
+    public boolean hasJack() {
+        return getJack() != -1;
+    }
+
+    public int getJack() {
+        if (extras != null) {
+            return extras.jackZone();
+        }
+
+        return -1;
+    }
+
+    public boolean hasPax() {
+        if (extras != null) {
+            return extras.hasPAX();
+        }
+
+        return false;
+    }
+
 }
