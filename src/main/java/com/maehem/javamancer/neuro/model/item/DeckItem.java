@@ -43,6 +43,12 @@ public abstract class DeckItem extends Item {
     public final ArrayList<Warez> softwarez = new ArrayList<>();
     private Warez currentSoftwarez = null;
 
+    public enum Mode {
+        NONE, LINKCODE, CYBERSPACE
+    }
+
+    private Mode mode = Mode.NONE;
+
     public DeckItem(Item.Catalog cat, int nSlots) {
         super(cat);
         this.nSlots = nSlots;
@@ -80,6 +86,10 @@ public abstract class DeckItem extends Item {
 
     public void setCurrentWarez(Warez w) {
         currentSoftwarez = w;
+    }
+
+    public Mode getMode() {
+        return mode;
     }
 
 }
