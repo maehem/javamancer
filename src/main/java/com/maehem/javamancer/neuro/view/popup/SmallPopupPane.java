@@ -55,7 +55,6 @@ public abstract class SmallPopupPane extends PopupPane {
         setMaxSize(width, height);
         setLayoutX(x);
         setLayoutY(y);
-        setId("neuro-popup");
 
     }
 
