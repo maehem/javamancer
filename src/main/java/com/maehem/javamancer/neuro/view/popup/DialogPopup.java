@@ -28,10 +28,10 @@ package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.neuro.model.BankTransaction;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import static com.maehem.javamancer.neuro.model.room.RoomExtras.*;
-import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import com.maehem.javamancer.neuro.view.RoomMode;
@@ -446,5 +446,9 @@ public class DialogPopup extends DialogPopupPane {
             }
         }
 
+    }
+
+    @Override
+    public void cleanup() {
     }
 }

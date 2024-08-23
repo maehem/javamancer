@@ -28,9 +28,9 @@ package com.maehem.javamancer.neuro.view.pax;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.view.popup.LargePopupPane;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.ResourceManager;
+import com.maehem.javamancer.neuro.view.popup.LargePopupPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
@@ -250,4 +250,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
         getChildren().add(modeMenu());
     }
 
+    @Override
+    public void cleanup() {
+    }
 }

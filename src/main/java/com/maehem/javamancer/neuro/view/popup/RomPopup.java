@@ -95,15 +95,19 @@ public class RomPopup extends SmallPopupPane {
         addBox(heading, tf);
 
         exitText.setOnMouseClicked((t) -> {
+            t.consume();
             listener.popupExit();
         });
         oneText.setOnMouseClicked((t) -> {
+            t.consume();
             debugScreen();
         });
         twoText.setOnMouseClicked((t) -> {
+            t.consume();
             analysisScreen();
         });
         threeText.setOnMouseClicked((t) -> {
+            t.consume();
             monitorScreen();
         });
     }
@@ -125,6 +129,7 @@ public class RomPopup extends SmallPopupPane {
         addBox(heading, optionsBox, exitText).setSpacing(20);
 
         exitText.setOnMouseClicked((t) -> {
+            t.consume();
             mainMenu();
         });
     }
@@ -146,6 +151,7 @@ public class RomPopup extends SmallPopupPane {
         addBox(heading, optionsBox, exitText).setSpacing(20);
 
         exitText.setOnMouseClicked((t) -> {
+            t.consume();
             mainMenu();
         });
     }
@@ -167,6 +173,7 @@ public class RomPopup extends SmallPopupPane {
         addBox(heading, optionsBox, exitText).setSpacing(20);
 
         exitText.setOnMouseClicked((t) -> {
+            t.consume();
             mainMenu();
         });
     }
@@ -174,6 +181,7 @@ public class RomPopup extends SmallPopupPane {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
+        keyEvent.consume();
 
         switch (mode) {
             case INTRO -> {
@@ -223,4 +231,7 @@ public class RomPopup extends SmallPopupPane {
         return false;
     }
 
+    @Override
+    public void cleanup() {
+    }
 }

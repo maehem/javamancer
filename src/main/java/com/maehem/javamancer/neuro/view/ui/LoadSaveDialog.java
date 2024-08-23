@@ -127,4 +127,8 @@ public class LoadSaveDialog extends SmallPopupPane {
         }
         return false;
     }
+
+    @Override
+    public void cleanup() {
+    }
 }

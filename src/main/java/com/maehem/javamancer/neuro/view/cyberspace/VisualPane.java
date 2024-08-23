@@ -30,21 +30,23 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import java.util.logging.Logger;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class CyberspacePane extends Pane {
+public class VisualPane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
     private final GameState gameState;
     private final GridBasePane gridBasePane;
 
-    public CyberspacePane(GameState gs) {
+    public VisualPane(GameState gs) {
         this.gameState = gs;
         this.gridBasePane = new GridBasePane(gs.resourceManager);
+        getTransforms().add(new Scale(1.0, 1.14));
 
         getChildren().addAll(gridBasePane);
     }

@@ -28,11 +28,11 @@ package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.PopupListener;
-import com.maehem.javamancer.neuro.view.cyberspace.CyberspacePane;
-import javafx.scene.image.ImageView;
+import com.maehem.javamancer.neuro.view.cyberspace.ControlPanelPane;
+import com.maehem.javamancer.neuro.view.cyberspace.VisualPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -42,6 +42,8 @@ public class CyberspacePopup extends PopupPane {
 
     private static final int WIDTH = 640;
     private static final int HEIGHT = 480;
+    private static final int CPANEL_TOP = 240;
+    private final ControlPanelPane controlPanel;
 
     public CyberspacePopup(PopupListener l, GameState gs) {
         super(l, gs);
@@ -52,16 +54,25 @@ public class CyberspacePopup extends PopupPane {
 
         Rectangle backdrop = new Rectangle(WIDTH, HEIGHT, Color.BLACK);
 
-        ImageView cPanelView = new ImageView(gs.resourceManager.getSprite("CSPANEL_1"));
-        cPanelView.setLayoutY(240);
+        controlPanel = new ControlPanelPane(l, gs);
+        controlPanel.setLayoutY(CPANEL_TOP);
 
-        CyberspacePane cyberspacePane = new CyberspacePane(gs);
-        cyberspacePane.getTransforms().add(new Scale(1.0, 1.154));
+        VisualPane cyberspacePane = new VisualPane(gs);
 
         getChildren().addAll(
-                backdrop, cyberspacePane, cPanelView
+                backdrop, cyberspacePane, controlPanel
         );
     }
 
+    @Override
+    public boolean handleKeyEvent(KeyEvent keyEvent) {
+        return controlPanel.handleKeyEvent(keyEvent);
+    }
+
+    @Override
+    public void cleanup() {
+        gameState.usingDeck = null;
+        gameState.database = null;
+    }
 
 }

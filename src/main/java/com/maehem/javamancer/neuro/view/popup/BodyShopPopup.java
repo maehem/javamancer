@@ -219,4 +219,8 @@ public class BodyShopPopup extends SmallPopupPane {
         return false;
     }
 
+    @Override
+    public void cleanup() {
+    }
+
 }

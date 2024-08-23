@@ -145,7 +145,7 @@ public class DeckPopup extends PopupPane {
             });
         }
         exitButton.setOnMouseClicked((t) -> {
-            cleanUp();
+            cleanup();
             LOGGER.log(Level.SEVERE, "Exit Deck (via mouse click).");
 
             t.consume();
@@ -205,9 +205,8 @@ public class DeckPopup extends PopupPane {
         Text currentSoft = new Text("       " + gameState.usingDeck.getCurrentWarez().getMenuString());
         Text cursor = new Text("<\n");
         TextFlow tf = textFlow(currentSoft, linkEnterheading, typedLinkEntryText, cursor);
-//        TextFlow tf = new TextFlow(currentSoft, linkEnterheading, typedLinkEntryText, cursor);
-//        tf.setLineSpacing(-8);
-//        tf.setPadding(new Insets(4, 0, 0, 4));
+
+
 
         addBox(tf);
     }
@@ -227,9 +226,6 @@ public class DeckPopup extends PopupPane {
 
         getChildren().clear();
         Text heading = new Text(response);
-//        TextFlow tf = new TextFlow(heading);
-//        tf.setLineSpacing(-8);
-//        tf.setPadding(new Insets(4, 0, 0, 4));
 
         addBox(textFlow(heading));
 
@@ -285,7 +281,7 @@ public class DeckPopup extends PopupPane {
         switch (mode) {
             case SOFTWARE -> {
                 if (code.equals(KeyCode.X)) {
-                    cleanUp();
+                    cleanup();
                     LOGGER.log(Level.SEVERE, "Exit Deck (via key event).");
                     return true;
                 } else if (code.equals(KeyCode.DIGIT1)) {
@@ -295,7 +291,7 @@ public class DeckPopup extends PopupPane {
             case ENTER_LINKCODE -> {
                 switch (code) {
                     case X -> {
-                        cleanUp();
+                        cleanup();
                         return true;
                     }
                     default ->
@@ -306,7 +302,7 @@ public class DeckPopup extends PopupPane {
                 if (databaseView != null) {
                     if (databaseView.handleKeyEvent(keyEvent)) {
                         databaseView = null;
-                        cleanUp();
+                        cleanup();
                         return true;
                     }
                 }
@@ -339,6 +335,7 @@ public class DeckPopup extends PopupPane {
             Database whoIs = gameState.dbList.whoIs(typedLinkCode.toString());
             if (whoIs != null) {
                 // Connect
+                //gameState.usingDeck = deck;
                 gameState.database = whoIs;
                 siteContent(); // hand off to custom site handler.
             } else {
@@ -354,8 +351,7 @@ public class DeckPopup extends PopupPane {
         }
     }
 
-    public void cleanUp() {
-        gameState.usingDeck = null;
-        gameState.database = null;
+    @Override
+    public void cleanup() {
     }
 }

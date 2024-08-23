@@ -1,11 +1,3 @@
-package com.maehem.javamancer.neuro.model.item;
-
-import com.maehem.javamancer.neuro.model.warez.Warez;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-
 /*
  * MIT License
  *
@@ -33,6 +25,14 @@ import java.util.logging.Level;
  * SOFTWARE.
  */
 
+package com.maehem.javamancer.neuro.model.item;
+
+import com.maehem.javamancer.neuro.model.warez.Warez;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -48,6 +48,10 @@ public abstract class DeckItem extends Item {
     }
 
     private Mode mode = Mode.NONE;
+
+    private int zone = -1;
+    private int cordX = 0;
+    private int cordY = 0;
 
     public DeckItem(Item.Catalog cat, int nSlots) {
         super(cat);
@@ -93,5 +97,29 @@ public abstract class DeckItem extends Item {
     }
 
     public abstract boolean canCyberspace();
+
+    public int getZone() {
+        return zone;
+    }
+
+    public int getCordX() {
+        return cordX;
+    }
+
+    public int getCordY() {
+        return cordY;
+    }
+
+    public void setZone(int z) {
+        this.zone = z;
+    }
+
+    public void setCordX(int x) {
+        this.cordX = x;
+    }
+
+    public void setCordY(int y) {
+        this.cordY = y;
+    }
 
 }

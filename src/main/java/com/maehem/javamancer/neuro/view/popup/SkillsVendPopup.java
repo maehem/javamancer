@@ -224,4 +224,7 @@ public class SkillsVendPopup extends SmallPopupPane {
         return false;
     }
 
+    @Override
+    public void cleanup() {
+    }
 }

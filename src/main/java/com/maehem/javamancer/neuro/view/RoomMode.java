@@ -520,16 +520,14 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         LOGGER.log(Level.SEVERE, "Popup Exit: {0}", popup.getClass().getSimpleName());
         popup.setVisible(false);
         getChildren().remove(popup);
-        if (popup instanceof DeckPopup dp) {
-            dp.cleanUp();
-        }
+        popup.cleanup();
         popup = null;
         getGameState().pause = false;
 
-        if (getGameState().usingDeck != null) {
-            LOGGER.log(Level.SEVERE, "Previous Popup wants to open Deck Popup.");
-            showPopup(Popup.DECK);
-        }
+//        if (getGameState().usingDeck != null) {
+//            LOGGER.log(Level.SEVERE, "Previous Popup wants to open Deck Popup.");
+//            showPopup(Popup.DECK);
+//        }
     }
 
     @Override

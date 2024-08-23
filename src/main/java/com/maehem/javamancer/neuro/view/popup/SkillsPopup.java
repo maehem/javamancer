@@ -85,15 +85,18 @@ public class SkillsPopup extends SmallPopupPane {
 
         exit.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Clicked Skill Exit.");
+            t.consume();
             listener.popupExit();
         });
         more.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Clicked Skill More.");
+            t.consume();
             itemIndex += NUM_ITEMS;
             itemListPage();
         });
         previous.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Clicked Skill Previous.");
+            t.consume();
             itemIndex -= NUM_ITEMS;
             itemListPage();
         });
@@ -250,4 +253,7 @@ public class SkillsPopup extends SmallPopupPane {
         return false;
     }
 
+    @Override
+    public void cleanup() {
+    }
 }

@@ -330,4 +330,7 @@ public class DiskPopup extends SmallPopupPane {
         return false;
     }
 
+    @Override
+    public void cleanup() {
+    }
 }

@@ -50,8 +50,8 @@ public abstract class PopupPane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
-    protected static final double TEXT_SCALE = 1.5;
-    protected static final double LINE_SPACING = -7;
+    public static final double TEXT_SCALE = 1.5;
+    public static final double LINE_SPACING = -7;
 
     public final GameState gameState;
     public final PopupListener listener;
@@ -81,25 +81,45 @@ public abstract class PopupPane extends Pane {
     }
 
     protected VBox addBox(Node... nodes) {
-        VBox box = new VBox(nodes);
-        box.setSpacing(0);
-        box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
-        box.setMinWidth(getPrefWidth());
-        box.setPrefWidth(getPrefWidth());
-        box.setMinHeight(getPrefHeight());
-        box.setMaxHeight(getPrefWidth());
-        box.setPadding(new Insets(0, 0, 0, 10));
+//        VBox box = new VBox(nodes);
+//        box.setSpacing(0);
+//        box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
+//        box.setMinWidth(getPrefWidth());
+//        box.setPrefWidth(getPrefWidth());
+//        box.setMinHeight(getPrefHeight());
+//        box.setMaxHeight(getPrefWidth());
+//        box.setPadding(new Insets(0, 0, 0, 10));
 
+        VBox box = makeBox(this, nodes);
         getChildren().add(box);
 
         return box;
     }
 
-    TextFlow textFlow(Node... nodes) {
+    public static TextFlow textFlow(Node... nodes) {
         TextFlow tf = new TextFlow(nodes);
         tf.setLineSpacing(LINE_SPACING);
         tf.setPadding(new Insets(4, 0, 0, 16));
 
         return tf;
     }
+
+    public static VBox makeBox(Pane p, Node... nodes) {
+        VBox box = new VBox(nodes);
+        box.setSpacing(0);
+        box.getTransforms().add(new Scale(PopupPane.TEXT_SCALE, 1.0));
+        box.setMinWidth(p.getPrefWidth());
+        box.setPrefWidth(p.getPrefWidth());
+        box.setMinHeight(p.getPrefHeight());
+        box.setMaxHeight(p.getPrefWidth());
+        box.setPadding(new Insets(0, 0, 0, 10));
+
+        return box;
+    }
+
+    /**
+     * Called upon exit by RoomMode.
+     *
+     */
+    public abstract void cleanup();
 }

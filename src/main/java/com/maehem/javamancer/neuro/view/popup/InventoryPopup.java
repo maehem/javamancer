@@ -270,8 +270,9 @@ public class InventoryPopup extends SmallPopupPane {
             else if (DeckItem.class.isAssignableFrom(currentItem.item.clazz)) {
                 LOGGER.log(Level.SEVERE, "Use Deck: {0}", currentItem);
                 gameState.usingDeck = DeckItem.getInstance(currentItem.item.clazz);  // Set before exit.
+                gameState.usingDeck.setZone(gameState.room.getJack());
                 // Exit inventory
-                listener.popupExit();
+                listener.popupExit(RoomMode.Popup.DECK);
             }
         }
     }
@@ -507,5 +508,9 @@ public class InventoryPopup extends SmallPopupPane {
             insufficientFunds.setVisible(false);
         }
         return true;
+    }
+
+    @Override
+    public void cleanup() {
     }
 }
