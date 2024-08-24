@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view.cyberspace;
 
 import com.maehem.javamancer.neuro.view.ResourceManager;
+import javafx.animation.AnimationTimer;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
@@ -43,6 +44,10 @@ public class GridBasePane extends Pane {
     private final ResourceManager resourceManager;
     private final ImageView[] gridFB;
     private final ImageView gridbase;
+    private final GridSequence gridRight;
+    private final GridSequence gridLeft;
+    private final GridSequence gridForward;
+    private final GridSequence gridBackward;
 
     public enum Direction {
         LEFT, RIGHT, FORWARD, BACKWARD
@@ -61,27 +66,67 @@ public class GridBasePane extends Pane {
             new ImageView(resourceManager.getSprite("GRIDS_5")),
             new ImageView(resourceManager.getSprite("GRIDS_6"))};
 
-        getChildren().addAll(cspace, gridbase,
+        getChildren().addAll(cspace,
+                gridbase,
                 gridLR[0], gridLR[1], gridLR[2],
-                gridFB[0], gridFB[1], gridFB[2]);
+                gridFB[0], gridFB[1], gridFB[2]
+        );
 
         initImages();
-        animate(Direction.FORWARD);
+
+        gridRight = new GridSequence(gridLR, true);
+        gridLeft = new GridSequence(gridLR, false);
+        gridForward = new GridSequence(gridFB, true);
+        gridBackward = new GridSequence(gridFB, false);
+
+//        Platform.runLater(() -> {
+//            animate(Direction.FORWARD);
+//        });
     }
 
     public final void animate(Direction dir) {
         switch (dir) {
             case FORWARD -> {
-
+                gridForward.start();
             }
             case BACKWARD -> {
-
+                gridBackward.start();
             }
             case LEFT -> {
-
+                gridLeft.start();
             }
             case RIGHT -> {
+                gridRight.start();
+            }
+        }
+    }
 
+    private class GridSequence extends AnimationTimer {
+
+        int index = 0;
+        long last = 0;
+        ImageView frames[];
+        private final boolean reverse;
+
+        public GridSequence(ImageView[] frames, boolean reverse) {
+            this.frames = frames;
+            this.reverse = reverse;
+        }
+
+        @Override
+        public void handle(long now) {
+            if (now - 100000000 > last) { // Fire - 100000000nS == 100mS
+                last = now;
+                frames[0].setVisible(false);
+                frames[1].setVisible(false);
+                frames[2].setVisible(false);
+                if (index < 3) {
+                    frames[reverse ? 2 - index : index].setVisible(true);
+                    index++;
+                } else {
+                    index = 0;
+                    stop();
+                }
             }
         }
     }

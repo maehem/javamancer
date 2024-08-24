@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
 
@@ -49,6 +50,10 @@ public class VisualPane extends Pane {
         getTransforms().add(new Scale(1.0, 1.14));
 
         getChildren().addAll(gridBasePane);
+
+        Platform.runLater(() -> {
+            gridBasePane.animate(GridBasePane.Direction.FORWARD);
+        });
     }
 
 }
