@@ -353,15 +353,20 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         //     * Second view (room visited). Show second description.
         // }
         // then allow
-        if (popup != null && popup instanceof DialogPopup dp) {
-            //LOGGER.log(Level.SEVERE, "Dialog tick.");
-            dp.dialogCounter();
-        }
-        if (popup != null && popup instanceof DeckPopup dp) {
-            //LOGGER.log(Level.SEVERE, "Dialog tick.");
-            dp.tick();
-        }
-        if (popup == null) {
+        if (popup != null) {
+            //LOGGER.log(Level.SEVERE, "Popup is: " + popup.getClass().getSimpleName());
+            if (popup instanceof DialogPopup dp) {
+
+                //LOGGER.log(Level.SEVERE, "Dialog tick.");
+                dp.dialogCounter();
+            } else if (popup instanceof DeckPopup dp) {
+                //LOGGER.log(Level.SEVERE, "Dialog tick.");
+                dp.tick();
+            } else if (popup instanceof CyberspacePopup dp) {
+                //LOGGER.log(Level.SEVERE, "Cyberspace tick.");
+                dp.tick();
+            }
+        } else {
             roomPane.tick(getGameState());
         }
         GameState gs = getGameState();
@@ -446,7 +451,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         if (popup != null) {
             LOGGER.log(Level.SEVERE, "Add popup to scene: " + popup.getClass().getSimpleName());
             getChildren().add(popup);
-            getGameState().pause = true;
+            //getGameState().pause = true;
         }
     }
 
