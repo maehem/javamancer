@@ -44,6 +44,13 @@ public class CyberspacePopup extends PopupPane {
     private static final int HEIGHT = 480;
     private static final int CPANEL_TOP = 240;
     private final ControlPanelPane controlPanel;
+    private final VisualPane visualPane;
+
+    public enum State {
+        EXPLORE, BATTLE
+    }
+
+    private State state;
 
     public CyberspacePopup(PopupListener l, GameState gs) {
         super(l, gs);
@@ -57,16 +64,22 @@ public class CyberspacePopup extends PopupPane {
         controlPanel = new ControlPanelPane(l, gs);
         controlPanel.setLayoutY(CPANEL_TOP);
 
-        VisualPane cyberspacePane = new VisualPane(gs);
+        visualPane = new VisualPane(gs);
 
         getChildren().addAll(
-                backdrop, cyberspacePane, controlPanel
+                backdrop, visualPane, controlPanel
         );
     }
 
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
-        return controlPanel.handleKeyEvent(keyEvent);
+        visualPane.handleKeyEvent(keyEvent);
+        if (keyEvent.isConsumed()) {
+            //controlPanel.updateText();
+            return false;
+        } else {
+            return controlPanel.handleKeyEvent(keyEvent);
+        }
     }
 
     @Override
@@ -75,4 +88,13 @@ public class CyberspacePopup extends PopupPane {
         gameState.database = null;
     }
 
+    public void setState(State state) {
+        this.state = state;
+        visualPane.configState(state);
+        controlPanel.configState(state);
+    }
+
+    public void tick() {
+        controlPanel.tick();
+    }
 }

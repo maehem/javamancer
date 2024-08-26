@@ -26,9 +26,13 @@
  */
 package com.maehem.javamancer.neuro.view.cyberspace;
 
+import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.ResourceManager;
+import com.maehem.javamancer.neuro.view.popup.CyberspacePopup.State;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -40,6 +44,7 @@ import javafx.scene.layout.StackPane;
  */
 public class GridBasePane extends Pane {
 
+    public static final Logger LOGGER = Logging.LOGGER;
     private static final int HORIZON = 100;
 
     private final ImageView cspace;
@@ -56,11 +61,11 @@ public class GridBasePane extends Pane {
     private final ImageView[] iceVirusRotFront;
     private final ResourceManager resourceManager;
     private final ImageView gridbase;
-    private final ImageView dbGrid;
-    private final FrameSequence gridRight;
-    private final FrameSequence gridLeft;
-    private final FrameSequence gridForward;
-    private final FrameSequence gridBackward;
+    private final ImageView battleGrid;
+    private final GridSequence gridRight;
+    private final GridSequence gridLeft;
+    private final GridSequence gridForward;
+    private final GridSequence gridBackward;
     private final FrameSequence shotExplodeSequence;
     private final FrameSequence shotLiveSequence;
     private final FrameSequence iceRearSequence;
@@ -68,16 +73,29 @@ public class GridBasePane extends Pane {
     private final FrameSequence iceVirusRearSequence;
     private final FrameSequence iceVirusFrontSequence;
     private final ImageStack database;
+    private final ImageStack gridLRPane;
+    private final ImageStack gridFBPane;
+    private final ImageStack shotsLivePane;
+    private final ImageStack shotsExplodePane;
+    private final ImageStack iceRearPane;
+    private final ImageStack iceFrontPane;
+    private final ImageStack iceVirusRearPane;
+    private final ImageStack iceVirusFrontPane;
+    private final GameState gameState;
 
     public enum Direction {
         LEFT, RIGHT, FORWARD, BACKWARD
     }
 
-    public GridBasePane(ResourceManager rm) {
-        this.resourceManager = rm;
+    public GridBasePane(GameState gs) {
+        this.gameState = gs;
+        this.resourceManager = gs.resourceManager;
         this.cspace = new ImageView(resourceManager.getSprite("CSPACE_1"));
         this.gridbase = new ImageView(resourceManager.getSprite("GRIDBASE_1"));
-        this.dbGrid = new ImageView(resourceManager.getSprite("CSDB_1"));
+        gridbase.setLayoutY(HORIZON);
+
+        this.battleGrid = new ImageView(resourceManager.getSprite("CSDB_1"));
+
         this.iceRear = new ImageView[]{
             new ImageView(resourceManager.getSprite("ICE_1")),
             new ImageView(resourceManager.getSprite("ICE_3")),
@@ -138,47 +156,31 @@ public class GridBasePane extends Pane {
             new ImageView(resourceManager.getSprite("GRIDS_5")),
             new ImageView(resourceManager.getSprite("GRIDS_6"))};
 
-        StackPane shotsLivePane = new StackPane(this.shotsLive);
-        shotsLivePane.setLayoutX(305);
-        shotsLivePane.setLayoutY(130);
-        StackPane shotsExplodePane = new StackPane(this.shotsExplode);
-        shotsExplodePane.setLayoutX(280);
-        shotsExplodePane.setLayoutY(80);
-        StackPane iceRearPane = new StackPane(this.iceRear);
-        iceRearPane.setLayoutX(206);
-        iceRearPane.setLayoutY(30);
-        StackPane iceFrontPane = new StackPane(this.iceFront);
-        iceFrontPane.setLayoutX(206);
-        iceFrontPane.setLayoutY(62);
-        StackPane iceVirusRearPane = new StackPane(this.iceVirusRear);
-        iceVirusRearPane.setLayoutX(396);
-        iceVirusRearPane.setLayoutY(30);
-        StackPane iceVirusFrontPane = new StackPane(this.iceVirusFront);
-        iceVirusFrontPane.setLayoutX(396);
-        iceVirusFrontPane.setLayoutY(62);
+        gridLRPane = new ImageStack(0, HORIZON, this.gridLR);
+        gridFBPane = new ImageStack(0, HORIZON, this.gridFB);
+        shotsLivePane = new ImageStack(305, 130, this.shotsLive);
+        shotsExplodePane = new ImageStack(280, 80, this.shotsExplode);
+        iceRearPane = new ImageStack(206, 30, this.iceRear);
+        iceFrontPane = new ImageStack(206, 62, this.iceFront);
+        iceVirusRearPane = new ImageStack(396, 30, this.iceVirusRear);
+        iceVirusFrontPane = new ImageStack(396, 62, this.iceVirusFront);
 
-
-        database = new ImageStack(dbThing);
-        database.setLayoutX(274);
-        database.setLayoutY(20);
+        database = new ImageStack(274, 20, dbThing);
         database.show(2);
 
         getChildren().addAll(cspace,
-                gridbase, dbGrid,
-                gridLR[0], gridLR[1], gridLR[2],
-                gridFB[0], gridFB[1], gridFB[2],
+                gridbase, battleGrid,
+                gridLRPane, gridFBPane,
                 iceRearPane, iceVirusRearPane,
                 database,
                 iceFrontPane, iceVirusFrontPane,
                 shotsLivePane, shotsExplodePane
         );
 
-        initImages();
-
-        gridRight = new FrameSequence(gridLR, true, false);
-        gridLeft = new FrameSequence(gridLR, false, false);
-        gridForward = new FrameSequence(gridFB, true, false);
-        gridBackward = new FrameSequence(gridFB, false, false);
+        gridRight = new GridSequence(gridLR, false, true);
+        gridLeft = new GridSequence(gridLR, true, true);
+        gridForward = new GridSequence(gridFB, true, false);
+        gridBackward = new GridSequence(gridFB, false, false);
 
         shotExplodeSequence = new FrameSequence(shotsExplode, false, true);
         shotLiveSequence = new FrameSequence(shotsLive, false, true);
@@ -188,18 +190,40 @@ public class GridBasePane extends Pane {
         iceVirusRearSequence = new FrameSequence(iceVirusRear, false, true);
         iceVirusFrontSequence = new FrameSequence(iceVirusFront, false, true);
 
+//        Platform.runLater(() -> {
+//            shotLiveSequence.start();
+//            shotExplodeSequence.start();
+//            iceRearSequence.start();
+//            iceFrontSequence.start();
+//            iceVirusRearSequence.start();
+//            iceVirusFrontSequence.start();
+//        });
 
-        Platform.runLater(() -> {
-            shotLiveSequence.start();
-            shotExplodeSequence.start();
-            iceRearSequence.start();
-            iceFrontSequence.start();
-            iceVirusRearSequence.start();
-            iceVirusFrontSequence.start();
-        });
+        configState(State.EXPLORE);
     }
 
-    public final void animate(Direction dir) {
+    public final void configState(State state) {
+        switch (state) {
+            case EXPLORE -> {
+                iceFrontPane.setVisible(false);
+                iceRearPane.setVisible(false);
+                iceVirusFrontPane.setVisible(false);
+                iceVirusRearPane.setVisible(false);
+                shotsExplodePane.setVisible(false);
+                shotsLivePane.setVisible(false);
+                battleGrid.setVisible(false);
+            }
+            case BATTLE -> {
+                iceFrontPane.setVisible(true);
+                iceRearPane.setVisible(true);
+                iceVirusFrontPane.setVisible(true);
+                iceVirusRearPane.setVisible(true);
+                battleGrid.setVisible(true);
+            }
+        }
+    }
+
+    public final void animateTravel(Direction dir) {
         switch (dir) {
             case FORWARD -> {
                 gridForward.start();
@@ -228,6 +252,9 @@ public class GridBasePane extends Pane {
             this.frames = frames;
             this.reverse = reverse;
             this.repeat = repeat;
+            for (ImageView frame : frames) {
+                frame.setVisible(false);
+            }
         }
 
         @Override
@@ -243,6 +270,7 @@ public class GridBasePane extends Pane {
                     if (repeat && index >= frames.length) {
                         index = 0;
                     }
+                    indexChanged(index);
                 } else { // Blank everything and stop on one-shot.
                     index = 0;
                     if (!repeat) {
@@ -251,15 +279,47 @@ public class GridBasePane extends Pane {
                 }
             }
         }
+
+        public void indexChanged(int index) {
+
+        }
+    }
+
+    private class GridSequence extends FrameSequence {
+
+        private final int GRID = 16;
+        private final boolean axisX;
+
+        public GridSequence(ImageView[] frames, boolean reverse, boolean axisX) {
+            super(frames, reverse, false);
+            this.axisX = axisX;
+        }
+
+        @Override
+        public void indexChanged(int index) {
+            DeckItem deck = gameState.usingDeck;
+            int amount = GRID / 4;
+
+            if (axisX) {
+                //LOGGER.log(Level.SEVERE, "Change {0} to axis X. Reverse = {1}", new Object[]{amount, super.reverse ? "REVERSE" : "NORMAL"});
+                deck.setCordX(deck.getCordX() + (super.reverse ? amount : -amount));
+            } else {
+                //LOGGER.log(Level.SEVERE, "Change {0} to axis Y. Reverse = {1}", new Object[]{amount, super.reverse ? "REVERSE" : "NORMAL"});
+                deck.setCordY(deck.getCordY() + (super.reverse ? amount : -amount));
+            }
+        }
+
     }
 
     private class ImageStack extends StackPane {
 
         private int current = 0;
 
-        public ImageStack(Node... nodes) {
+        public ImageStack(double x, double y, Node... nodes) {
             super(nodes);
 
+            setLayoutX(x);
+            setLayoutY(y);
             show(current);
         }
 
@@ -278,21 +338,4 @@ public class GridBasePane extends Pane {
 
     }
 
-    private void initImages() {
-        gridbase.setLayoutY(HORIZON);
-        gridLR[0].setLayoutY(HORIZON);
-        gridLR[0].setVisible(false);
-        gridLR[1].setLayoutY(HORIZON);
-        gridLR[1].setVisible(false);
-        gridLR[2].setLayoutY(HORIZON);
-        gridLR[2].setVisible(false);
-
-        gridFB[0].setLayoutY(HORIZON);
-        gridFB[0].setVisible(false);
-        gridFB[1].setLayoutY(HORIZON);
-        gridFB[1].setVisible(false);
-        gridFB[2].setLayoutY(HORIZON);
-        gridFB[2].setVisible(false);
-
-    }
 }

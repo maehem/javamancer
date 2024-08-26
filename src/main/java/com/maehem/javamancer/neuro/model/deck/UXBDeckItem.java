@@ -54,7 +54,8 @@ import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
 public class UXBDeckItem extends DeckItem {
 
     public UXBDeckItem() {
-        super(Catalog.UXB, 5);
+        super(Catalog.UXB, 5, 112, 96);
+
         softwarez.add(new ComLinkWarez(1));
         softwarez.add(new AcidWarez(2));
         softwarez.add(new ConcreteWarez(3));

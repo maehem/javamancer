@@ -53,9 +53,11 @@ public abstract class DeckItem extends Item {
     private int cordX = 0;
     private int cordY = 0;
 
-    public DeckItem(Item.Catalog cat, int nSlots) {
+    public DeckItem(Item.Catalog cat, int nSlots, int startX, int startY) {
         super(cat);
         this.nSlots = nSlots;
+        this.cordX = startX;
+        this.cordY = startY;
     }
 
     public static DeckItem getInstance(Class<? extends DeckItem> d) {
@@ -112,14 +114,17 @@ public abstract class DeckItem extends Item {
 
     public void setZone(int z) {
         this.zone = z;
+        LOGGER.log(Level.SEVERE, "Deck: Zone changed: {0}", zone);
     }
 
     public void setCordX(int x) {
         this.cordX = x;
+        LOGGER.log(Level.SEVERE, "Deck: X changed: {0}", cordX);
     }
 
     public void setCordY(int y) {
         this.cordY = y;
+        LOGGER.log(Level.SEVERE, "Deck: Y changed: {0}", cordY);
     }
 
 }

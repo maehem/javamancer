@@ -30,6 +30,7 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
+import com.maehem.javamancer.neuro.view.popup.CyberspacePopup;
 import com.maehem.javamancer.neuro.view.popup.DiskPopup;
 import com.maehem.javamancer.neuro.view.popup.RomPopup;
 import com.maehem.javamancer.neuro.view.popup.SkillsPopup;
@@ -110,7 +111,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
 
     }
 
-    private void updateText() {
+    public void updateText() {
         zoneText.setText(String.valueOf(gameState.usingDeck.getZone()));
         xText.setText(String.format("%03d", gameState.usingDeck.getCordX()));
         yText.setText(String.format("%03d", gameState.usingDeck.getCordY()));
@@ -261,122 +262,8 @@ public class ControlPanelPane extends Pane implements PopupListener {
         // Not supported
     }
 
-//    private void softwarePrompt() {
-//        LOGGER.log(Level.SEVERE, "Show Deck Popup Software Prompt");
-//        mode = Mode.SOFTWARE;
-//
-//        softwarePane.setVisible(true);
-//        softwarePane.getChildren().clear();
-//        Text softwareHeading = new Text("Software");
-//        Text exitButton = new Text("exit");
-//        Text prevButton = new Text("prev");
-//        Text nextButton = new Text("next");
-//        TextFlow tf = PopupPane.textFlow(softwareHeading);
-//        //TextFlow tf = new TextFlow(softwareHeading);
-//        //tf.setLineSpacing(LINE_SPACING);
-//        tf.setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
-//        //tf.setPadding(new Insets(4, 0, 0, 16));
-//
-//        HBox navBox = new HBox(prevButton, exitButton, nextButton);
-//        navBox.setSpacing(20);
-//        navBox.setPadding(new Insets(6, 0, 0, 32));
-//
-//        DeckItem deck = gameState.usingDeck;
-//
-//        for (int i = 0; i < SOFT_LIST_SIZE; i++) {
-//            try {
-//                Warez w = deck.softwarez.get(slotBase + i);
-//                Text itemText = new Text("\n" + (i + 1) + ". " + w.getMenuString());
-//                tf.getChildren().add(itemText);
-//
-//                // Add onMouseClick()
-//                itemText.setOnMouseClicked((t) -> {
-//                    useSoftware(w);
-//                });
-//            } catch (IndexOutOfBoundsException ex) {
-//                tf.getChildren().add(new Text("\n"));
-//            }
-//        }
-//        tf.getChildren().add(new Text("\n"));
-//        tf.getChildren().add(navBox);
-//        prevButton.setVisible(slotBase >= SOFT_LIST_SIZE);
-//        nextButton.setVisible(slotBase + SOFT_LIST_SIZE < deck.softwarez.size());
-//
-//        softwarePane.getChildren().add(makeBox(tf));
-//
-//        if (prevButton.isVisible()) {
-//            prevButton.setOnMouseClicked((t) -> {
-//                slotBase -= SOFT_LIST_SIZE;
-//                softwarePrompt();
-//            });
-//        }
-//        if (nextButton.isVisible()) {
-//            nextButton.setOnMouseClicked((t) -> {
-//                slotBase += SOFT_LIST_SIZE;
-//                t.consume();
-//                softwarePrompt();
-//            });
-//        }
-//        exitButton.setOnMouseClicked((t) -> {
-//            LOGGER.log(Level.SEVERE, "Cyberspace: Exit Software Menu (via mouse click).");
-//            t.consume();
-//            softwarePane.setVisible(false);
-//            //listener.popupExit();
-//        });
-//
-//    }
-//    private static Pane smallWindow() {
-//        Pane p = new Pane();
-//
-//        p.setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
-//        p.setMinSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
-//        p.setMaxSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
-//        p.setLayoutX(SOFT_LIST_X);
-//        p.setLayoutY(SOFT_LIST_Y);
-//        p.setId("neuro-popup");
-//
-//        return p;
-//    }
-//
-//    private void useSoftware(Warez w) {
-//        LOGGER.log(Level.SEVERE, "Cyberspace: Use Software: " + w.item.itemName);
-//        String useReponse = w.use(gameState);
-//        if (!useReponse.equals(Warez.USE_OK)) {
-//            displayResponse(useReponse);
-//        } else {
-//            gameState.usingDeck.setCurrentWarez(w);
-//            LOGGER.log(Level.SEVERE, "Use Software: " + w.toString());
-//        }
-//    }
-//
-//    protected VBox makeBox(Node... nodes) {
-//        VBox box = new VBox(nodes);
-//        box.setSpacing(0);
-//        box.getTransforms().add(new Scale(PopupPane.TEXT_SCALE, 1.0));
-//        box.setMinWidth(getPrefWidth());
-//        box.setPrefWidth(getPrefWidth());
-//        box.setMinHeight(getPrefHeight());
-//        box.setMaxHeight(getPrefWidth());
-//        box.setPadding(new Insets(0, 0, 0, 10));
-//
-//        return box;
-//    }
-//
-//    private void displayResponse(String response) {
-//        LOGGER.log(Level.SEVERE, "Show Deck use() response");
-//
-//        mode = Mode.RESPONSE;
-//
-//        softwarePane.getChildren().clear();
-//        softwarePane.setVisible(true);
-//        Text heading = new Text(response);
-//
-//        softwarePane.getChildren().add(makeBox(PopupPane.textFlow(heading)));
-//
-//        softwarePane.setOnMouseClicked((t) -> {
-//            // Allow user to view response and go back to menu when clicked.
-//            setOnMouseClicked(null);
-//            softwarePrompt();
-//        });
-//    }
+    public void configState(CyberspacePopup.State state) {
+
+    }
+
 }

@@ -26,8 +26,6 @@
  */
 package com.maehem.javamancer.neuro.model;
 
-import com.maehem.javamancer.neuro.model.room.Room;
-import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.database.DatabaseList;
@@ -35,6 +33,8 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.ItemCatalog;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.ArrayList;
@@ -83,8 +83,11 @@ public class GameState {
     public int roomPosX = 160;
     public int roomPosY = 90;
     public Room room = null;
+
     public Database database = null;
     public DeckItem usingDeck = null;
+    public int matrixPosX = 112;
+    public int matrixPosY = 96;
 
     public RoomBounds.Door useDoor = RoomBounds.Door.NONE; // Set when player collides with door.
     public boolean doorTopLocked = false;
