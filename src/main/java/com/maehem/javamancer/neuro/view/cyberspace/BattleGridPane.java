@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view.cyberspace;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -37,6 +38,10 @@ import javafx.util.Duration;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class BattleGridPane extends GridPane {
+
+    private enum IceMode {
+        NONE, BASIC, VIRUS, ROT
+    }
 
     private final ImageView[] dbThing;
     private final ImageView[] shotsLivePlayer;
@@ -138,9 +143,9 @@ public class BattleGridPane extends GridPane {
             new ImageView(resourceManager.getSprite("SHOTS_7"))};// Explode 5
 
         shotsLivePlayerPane = new ImageStack(305, 130, this.shotsLivePlayer);
-        shotsExplodePlayerPane = new ImageStack(284, 98, this.shotsExplodePlayer);
+        shotsExplodePlayerPane = new ImageStack(284, 190, this.shotsExplodePlayer);
         shotsLiveDBPane = new ImageStack(305, 130, this.shotsLiveDB);
-        shotsExplodeDBPane = new ImageStack(284, 190, this.shotsExplodeDB);
+        shotsExplodeDBPane = new ImageStack(284, 98, this.shotsExplodeDB);
         iceRearPane = new ImageStack(206, 46, this.iceRear);
         iceFrontPane = new ImageStack(206, 82, this.iceFront);
         iceVirusRearPane = new ImageStack(396, 46, this.iceVirusRear);
@@ -163,7 +168,7 @@ public class BattleGridPane extends GridPane {
 
         shotExplodePlayerSequence = new FrameSequence(shotsExplodePlayer, false, true);
         shotLivePlayerSequence = new FrameSequence(shotsLivePlayer, false, true);
-        shotExplodeDBSequence = new FrameSequence(shotsExplodeDB, false, true);
+        shotExplodeDBSequence = new FrameSequence(shotsExplodeDB, false, false);
         shotLiveDBSequence = new FrameSequence(shotsLiveDB, false, true);
 
         iceRearSequence = new FrameSequence(iceRear, false, true);
@@ -172,7 +177,6 @@ public class BattleGridPane extends GridPane {
         iceVirusFrontSequence = new FrameSequence(iceVirusFront, false, true);
         iceVirusRotRearSequence = new FrameSequence(iceVirusRotRear, false, true);
         iceVirusRotFrontSequence = new FrameSequence(iceVirusRotFront, false, true);
-
 
     }
 
@@ -212,6 +216,9 @@ public class BattleGridPane extends GridPane {
             tt.setNode(null);
             shotLivePlayerSequence.stop();
             shotsLivePlayerPane.setVisible(false);
+            shotExplodeDBSequence.start();
+            iceBroken(iceFrontPane);
+            iceBroken(iceRearPane);
         });
     }
 
@@ -225,6 +232,26 @@ public class BattleGridPane extends GridPane {
             shotLiveDBSequence.stop();
             shotsLiveDBPane.setVisible(false);
         });
+    }
+
+    /**
+     * ICE Opacity fades over two seconds
+     */
+    private FadeTransition iceBroken(Node fadingNode) {
+        fadingNode.setVisible(true);
+        FadeTransition ft = new FadeTransition(Duration.millis(2000), fadingNode);
+        ft.setFromValue(1.0);
+        ft.setToValue(0.0);
+        ft.setCycleCount(1);
+        ft.setAutoReverse(false);
+
+        ft.setOnFinished((t) -> {
+            fadingNode.setVisible(false);
+            fadingNode.setOpacity(1.0);
+        });
+        ft.play();
+
+        return ft;
     }
 
     private TranslateTransition shotMoveInit(Node movingNode, double movAmt, int duration) {
