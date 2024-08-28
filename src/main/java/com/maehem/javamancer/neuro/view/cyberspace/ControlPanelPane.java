@@ -34,7 +34,6 @@ import com.maehem.javamancer.neuro.view.popup.CyberspacePopup;
 import com.maehem.javamancer.neuro.view.popup.DiskPopup;
 import com.maehem.javamancer.neuro.view.popup.RomPopup;
 import com.maehem.javamancer.neuro.view.popup.SkillsPopup;
-import com.maehem.javamancer.neuro.view.popup.cyberspace.SoftwarePane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.ImageView;
