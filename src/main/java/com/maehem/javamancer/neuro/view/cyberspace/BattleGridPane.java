@@ -27,7 +27,10 @@
 package com.maehem.javamancer.neuro.view.cyberspace;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import javafx.animation.TranslateTransition;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 /**
  *
@@ -36,8 +39,10 @@ import javafx.scene.image.ImageView;
 public class BattleGridPane extends GridPane {
 
     private final ImageView[] dbThing;
-    private final ImageView[] shotsLive;
-    private final ImageView[] shotsExplode;
+    private final ImageView[] shotsLivePlayer;
+    private final ImageView[] shotsExplodePlayer;
+    private final ImageView[] shotsLiveDB;
+    private final ImageView[] shotsExplodeDB;
     private final ImageView[] iceRear;
     private final ImageView[] iceFront;
     private final ImageView[] iceVirusRear;
@@ -45,8 +50,10 @@ public class BattleGridPane extends GridPane {
     private final ImageView[] iceVirusRotRear;
     private final ImageView[] iceVirusRotFront;
     private final ImageView battleGrid;
-    private final FrameSequence shotExplodeSequence;
-    private final FrameSequence shotLiveSequence;
+    private final FrameSequence shotExplodePlayerSequence;
+    private final FrameSequence shotLivePlayerSequence;
+    private final FrameSequence shotExplodeDBSequence;
+    private final FrameSequence shotLiveDBSequence;
     private final FrameSequence iceRearSequence;
     private final FrameSequence iceFrontSequence;
     private final FrameSequence iceVirusRearSequence;
@@ -54,8 +61,10 @@ public class BattleGridPane extends GridPane {
     private final FrameSequence iceVirusRotRearSequence;
     private final FrameSequence iceVirusRotFrontSequence;
     private final ImageStack database;
-    private final ImageStack shotsLivePane;
-    private final ImageStack shotsExplodePane;
+    private final ImageStack shotsLivePlayerPane;
+    private final ImageStack shotsExplodePlayerPane;
+    private final ImageStack shotsLiveDBPane;
+    private final ImageStack shotsExplodeDBPane;
     private final ImageStack iceRearPane;
     private final ImageStack iceFrontPane;
     private final ImageStack iceVirusRearPane;
@@ -109,18 +118,29 @@ public class BattleGridPane extends GridPane {
             new ImageView(resourceManager.getSprite("DBSPR_1")), // Close
             new ImageView(resourceManager.getSprite("DBSPR_2")), // Mid
             new ImageView(resourceManager.getSprite("DBSPR_3"))};// Far
-        this.shotsLive = new ImageView[]{
+        this.shotsLivePlayer = new ImageView[]{
             new ImageView(resourceManager.getSprite("SHOTS_1")), // Live 1
             new ImageView(resourceManager.getSprite("SHOTS_2"))};// Explode 5
-        this.shotsExplode = new ImageView[]{
+        this.shotsExplodePlayer = new ImageView[]{
+            new ImageView(resourceManager.getSprite("SHOTS_3")), // Explode 1
+            new ImageView(resourceManager.getSprite("SHOTS_4")), // Explode 2
+            new ImageView(resourceManager.getSprite("SHOTS_5")), // Explode 3
+            new ImageView(resourceManager.getSprite("SHOTS_6")), // Explode 4
+            new ImageView(resourceManager.getSprite("SHOTS_7"))};// Explode 5
+        this.shotsLiveDB = new ImageView[]{
+            new ImageView(resourceManager.getSprite("SHOTS_1")), // Live 1
+            new ImageView(resourceManager.getSprite("SHOTS_2"))};// Explode 5
+        this.shotsExplodeDB = new ImageView[]{
             new ImageView(resourceManager.getSprite("SHOTS_3")), // Explode 1
             new ImageView(resourceManager.getSprite("SHOTS_4")), // Explode 2
             new ImageView(resourceManager.getSprite("SHOTS_5")), // Explode 3
             new ImageView(resourceManager.getSprite("SHOTS_6")), // Explode 4
             new ImageView(resourceManager.getSprite("SHOTS_7"))};// Explode 5
 
-        shotsLivePane = new ImageStack(305, 130, this.shotsLive);
-        shotsExplodePane = new ImageStack(280, 80, this.shotsExplode);
+        shotsLivePlayerPane = new ImageStack(305, 130, this.shotsLivePlayer);
+        shotsExplodePlayerPane = new ImageStack(284, 98, this.shotsExplodePlayer);
+        shotsLiveDBPane = new ImageStack(305, 130, this.shotsLiveDB);
+        shotsExplodeDBPane = new ImageStack(284, 190, this.shotsExplodeDB);
         iceRearPane = new ImageStack(206, 46, this.iceRear);
         iceFrontPane = new ImageStack(206, 82, this.iceFront);
         iceVirusRearPane = new ImageStack(396, 46, this.iceVirusRear);
@@ -136,12 +156,15 @@ public class BattleGridPane extends GridPane {
                 battleGrid,
                 iceRearPane, iceVirusRearPane, iceVirusRotRearPane,
                 database,
-                iceFrontPane, iceVirusFrontPane,
-                shotsLivePane, shotsExplodePane, iceVirusRotFrontPane
+                iceFrontPane, iceVirusFrontPane, iceVirusRotFrontPane,
+                shotsLiveDBPane, shotsExplodeDBPane,
+                shotsLivePlayerPane, shotsExplodePlayerPane
         );
 
-        shotExplodeSequence = new FrameSequence(shotsExplode, false, true);
-        shotLiveSequence = new FrameSequence(shotsLive, false, true);
+        shotExplodePlayerSequence = new FrameSequence(shotsExplodePlayer, false, true);
+        shotLivePlayerSequence = new FrameSequence(shotsLivePlayer, false, true);
+        shotExplodeDBSequence = new FrameSequence(shotsExplodeDB, false, true);
+        shotLiveDBSequence = new FrameSequence(shotsLiveDB, false, true);
 
         iceRearSequence = new FrameSequence(iceRear, false, true);
         iceFrontSequence = new FrameSequence(iceFront, false, true);
@@ -149,6 +172,7 @@ public class BattleGridPane extends GridPane {
         iceVirusFrontSequence = new FrameSequence(iceVirusFront, false, true);
         iceVirusRotRearSequence = new FrameSequence(iceVirusRotRear, false, true);
         iceVirusRotFrontSequence = new FrameSequence(iceVirusRotFront, false, true);
+
 
     }
 
@@ -165,11 +189,54 @@ public class BattleGridPane extends GridPane {
         iceVirusFrontPane.setVisible(false);
         iceVirusRotFrontPane.setVisible(false);
 
-        shotsLivePane.setVisible(false);
-        shotsExplodePane.setVisible(false);
+        shotsLiveDBPane.setVisible(false);
+        shotsExplodeDBPane.setVisible(true);
+        shotsLivePlayerPane.setVisible(false);
+        shotsExplodePlayerPane.setVisible(true);
 
         iceRearSequence.start();
         iceFrontSequence.start();
+
+        //shotExplodePlayerSequence.start();
+        //shotExplodeDBSequence.start();
+        fireShotPlayer();
+        fireShotDB();
     }
 
+    private void fireShotPlayer() {
+        shotsLivePlayerPane.setLayoutY(190);
+        shotsLivePlayerPane.setVisible(true);
+        shotLivePlayerSequence.start();
+        TranslateTransition tt = shotMoveInit(shotsLivePlayerPane, -50, 2000);
+        tt.setOnFinished((t) -> {
+            tt.setNode(null);
+            shotLivePlayerSequence.stop();
+            shotsLivePlayerPane.setVisible(false);
+        });
+    }
+
+    private void fireShotDB() {
+        shotsLiveDBPane.setLayoutY(140);
+        shotsLiveDBPane.setVisible(true);
+        shotLiveDBSequence.start();
+        TranslateTransition tt = shotMoveInit(shotsLiveDBPane, 50, 2000);
+        tt.setOnFinished((t) -> {
+            tt.setNode(null);
+            shotLiveDBSequence.stop();
+            shotsLiveDBPane.setVisible(false);
+        });
+    }
+
+    private TranslateTransition shotMoveInit(Node movingNode, double movAmt, int duration) {
+        movingNode.setVisible(true);
+        TranslateTransition tt = new TranslateTransition();
+        tt.setDuration(Duration.millis(duration));
+        tt.setNode(movingNode);
+        tt.setByY(movAmt);
+        tt.setCycleCount(1);
+        tt.setAutoReverse(false);
+        tt.play();
+
+        return tt;
+    }
 }
