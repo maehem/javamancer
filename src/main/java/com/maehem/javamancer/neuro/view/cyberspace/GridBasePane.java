@@ -28,9 +28,11 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import com.maehem.javamancer.neuro.view.popup.CyberspacePopup.State;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
@@ -46,6 +48,36 @@ public class GridBasePane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
     private static final int HORIZON = 100;
+    private final int GRID = VisualPane.GRID_SIZE;
+
+    // DB position multiplier.
+    // Was easier to make this lookup table than figure out the math.
+    private final double[] multiX = new double[]{
+        2.95, // 0
+        2.70,
+        2.45,
+        2.25,
+        2.1, // 4
+        2.0,
+        1.90,
+        1.82,
+        1.78 // 8
+    };
+    private final double[] multiY = new double[]{
+        50, // 0
+        46,
+        34,
+        24,
+        16, // 4
+        12,
+        8,
+        4,
+        0 // 8
+    };
+    private final int[] dbShow = new int[]{
+        0, 0, 0, 1, 1, 1, 2, 2, 2
+    };
+
 
     private final ImageView cspace;
     private final ImageView[] gridLR;
@@ -72,6 +104,8 @@ public class GridBasePane extends Pane {
     private final FrameSequence iceFrontSequence;
     private final FrameSequence iceVirusRearSequence;
     private final FrameSequence iceVirusFrontSequence;
+    private final FrameSequence iceVirusRotRearSequence;
+    private final FrameSequence iceVirusRotFrontSequence;
     private final ImageStack database;
     private final ImageStack gridLRPane;
     private final ImageStack gridFBPane;
@@ -165,8 +199,8 @@ public class GridBasePane extends Pane {
         iceVirusRearPane = new ImageStack(396, 30, this.iceVirusRear);
         iceVirusFrontPane = new ImageStack(396, 62, this.iceVirusFront);
 
-        database = new ImageStack(274, 20, dbThing);
-        database.show(2);
+        database = new ImageStack(272, 92, dbThing);
+        database.show(-1); // Hide it.
 
         getChildren().addAll(cspace,
                 gridbase, battleGrid,
@@ -189,15 +223,8 @@ public class GridBasePane extends Pane {
         iceFrontSequence = new FrameSequence(iceFront, false, true);
         iceVirusRearSequence = new FrameSequence(iceVirusRear, false, true);
         iceVirusFrontSequence = new FrameSequence(iceVirusFront, false, true);
-
-//        Platform.runLater(() -> {
-//            shotLiveSequence.start();
-//            shotExplodeSequence.start();
-//            iceRearSequence.start();
-//            iceFrontSequence.start();
-//            iceVirusRearSequence.start();
-//            iceVirusFrontSequence.start();
-//        });
+        iceVirusRotRearSequence = new FrameSequence(iceVirusRotRear, false, true);
+        iceVirusRotFrontSequence = new FrameSequence(iceVirusRotFront, false, true);
 
         configState(State.EXPLORE);
     }
@@ -270,13 +297,13 @@ public class GridBasePane extends Pane {
                     if (repeat && index >= frames.length) {
                         index = 0;
                     }
-                    indexChanged(index);
                 } else { // Blank everything and stop on one-shot.
                     index = 0;
                     if (!repeat) {
                         stop();
                     }
                 }
+                indexChanged(index);
             }
         }
 
@@ -287,7 +314,6 @@ public class GridBasePane extends Pane {
 
     private class GridSequence extends FrameSequence {
 
-        private final int GRID = 16;
         private final boolean axisX;
 
         public GridSequence(ImageView[] frames, boolean reverse, boolean axisX) {
@@ -307,6 +333,7 @@ public class GridBasePane extends Pane {
                 //LOGGER.log(Level.SEVERE, "Change {0} to axis Y. Reverse = {1}", new Object[]{amount, super.reverse ? "REVERSE" : "NORMAL"});
                 deck.setCordY(deck.getCordY() + (super.reverse ? amount : -amount));
             }
+            layoutDatabase();
         }
 
     }
@@ -328,12 +355,52 @@ public class GridBasePane extends Pane {
             for (Node n : getChildren()) {
                 n.setVisible(false);
             }
-            getChildren().get(current).setVisible(true);
+            if (i >= 0) {
+                getChildren().get(current).setVisible(true);
+            }
         }
 
         public int next() {
             show(current + 1);
             return current;
+        }
+
+    }
+
+    /**
+     * Make Visible, Position and Size database based on proximity to current
+     * location.
+     *
+     */
+    private void layoutDatabase() {
+        DeckItem deck = gameState.usingDeck;
+
+        int xPos = deck.getCordX();
+        int yPos = deck.getCordY();
+        database.show(-1); // Hide DB
+        for (int x = -8; x <= 8; x++) {
+            for (int y = 0; y <= 8; y++) {
+
+                int scanX = xPos + (x * GRID / 4);
+                int scanY = yPos + (y * GRID / 4);
+                LOGGER.log(Level.SEVERE, "Scan Grid: {0},{1}", new Object[]{scanX, scanY});
+                Database dbHere = gameState.dbList.whatsAt(
+                        xPos + (x * GRID / 4),
+                        yPos + (y * GRID / 4)
+                );
+                double layY = (y / 4 * 12) + ((8 - y) * (8 - y)) * 1.15;
+                LOGGER.log(Level.SEVERE, "Lay Y: {0}: {1}", new Object[]{y, layY});
+                if (dbHere != null) {
+                    LOGGER.log(Level.SEVERE, "There is a database at: {0},{1} :: {2}", new Object[]{x, y, dbHere.name});
+                    database.show(dbShow[y]);
+                    database.setLayoutX(272 + x * GRID * multiX[y]);
+
+                    //database.setLayoutY(20 + (y / 4 * 12) + ((8 - y) * (8 - y)) * 1.15); // 1.15
+                    database.setLayoutY(42 + multiY[y]);
+                    x = 9; // End X loop
+                    break;
+                }
+            }
         }
 
     }

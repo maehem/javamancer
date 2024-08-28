@@ -28,7 +28,9 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.popup.CyberspacePopup;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
@@ -43,6 +45,9 @@ import javafx.scene.transform.Scale;
 public class VisualPane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
+
+    public static final int GRID_MAX = 512;
+    public static final int GRID_SIZE = 16;
 
     private final GameState gameState;
     private final GridBasePane gridBasePane;
@@ -62,22 +67,39 @@ public class VisualPane extends Pane {
 
     public void handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
+        DeckItem deck = gameState.usingDeck;
         switch (code) {
             case RIGHT -> {
                 keyEvent.consume();
-                gridBasePane.animateTravel(GridBasePane.Direction.LEFT);
+                if (deck.getCordX() <= GRID_MAX - GRID_SIZE) {
+                    gridBasePane.animateTravel(GridBasePane.Direction.LEFT);
+                } else {
+                    LOGGER.log(Level.SEVERE, "Max matrix X reached.");
+                }
             }
             case LEFT -> {
                 keyEvent.consume();
-                gridBasePane.animateTravel(GridBasePane.Direction.RIGHT);
+                if (deck.getCordX() >= GRID_SIZE) {
+                    gridBasePane.animateTravel(GridBasePane.Direction.RIGHT);
+                } else {
+                    LOGGER.log(Level.SEVERE, "Min matrix X reached.");
+                }
             }
             case UP -> {
                 keyEvent.consume();
-                gridBasePane.animateTravel(GridBasePane.Direction.FORWARD);
+                if (deck.getCordY() <= GRID_MAX - GRID_SIZE) {
+                    gridBasePane.animateTravel(GridBasePane.Direction.FORWARD);
+                } else {
+                    LOGGER.log(Level.SEVERE, "Max matrix Y reached.");
+                }
             }
             case DOWN -> {
                 keyEvent.consume();
-                gridBasePane.animateTravel(GridBasePane.Direction.BACKWARD);
+                if (deck.getCordY() > GRID_SIZE) {
+                    gridBasePane.animateTravel(GridBasePane.Direction.BACKWARD);
+                } else {
+                    LOGGER.log(Level.SEVERE, "Min matrix Y reached.");
+                }
             }
         }
     }
