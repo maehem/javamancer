@@ -36,7 +36,6 @@ import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.transform.Scale;
 
 /**
  *
@@ -50,29 +49,39 @@ public class VisualPane extends Pane {
     public static final int GRID_SIZE = 16;
 
     private final GameState gameState;
-    private final GridBasePane gridBasePane;
+    private final ExploreGridPane gridBasePane;
+    private final BattleGridPane battlePane;
 
     public VisualPane(GameState gs) {
         this.gameState = gs;
-        this.gridBasePane = new GridBasePane(gs);
+        this.gridBasePane = new ExploreGridPane(gs);
+        this.battlePane = new BattleGridPane(gs);
 
-        getTransforms().add(new Scale(1.0, 1.14));
+        getChildren().addAll(gridBasePane, battlePane);
 
-        getChildren().addAll(gridBasePane);
+        configState(CyberspacePopup.State.EXPLORE);
 
         Platform.runLater(() -> {
-            gridBasePane.animateTravel(GridBasePane.Direction.FORWARD);
+            gridBasePane.animateTravel(ExploreGridPane.Direction.FORWARD);
         });
     }
 
     public void handleKeyEvent(KeyEvent keyEvent) {
+        if (gridBasePane.isVisible()) {
+            handleExploreKeys(keyEvent);
+        } else if (battlePane.isVisible()) {
+            handleBattleKeys(keyEvent);
+        }
+    }
+
+    private void handleExploreKeys(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
         DeckItem deck = gameState.usingDeck;
         switch (code) {
             case RIGHT -> {
                 keyEvent.consume();
                 if (deck.getCordX() <= GRID_MAX - GRID_SIZE) {
-                    gridBasePane.animateTravel(GridBasePane.Direction.LEFT);
+                    gridBasePane.animateTravel(ExploreGridPane.Direction.LEFT);
                 } else {
                     LOGGER.log(Level.SEVERE, "Max matrix X reached.");
                 }
@@ -80,7 +89,7 @@ public class VisualPane extends Pane {
             case LEFT -> {
                 keyEvent.consume();
                 if (deck.getCordX() >= GRID_SIZE) {
-                    gridBasePane.animateTravel(GridBasePane.Direction.RIGHT);
+                    gridBasePane.animateTravel(ExploreGridPane.Direction.RIGHT);
                 } else {
                     LOGGER.log(Level.SEVERE, "Min matrix X reached.");
                 }
@@ -88,7 +97,7 @@ public class VisualPane extends Pane {
             case UP -> {
                 keyEvent.consume();
                 if (deck.getCordY() <= GRID_MAX - GRID_SIZE) {
-                    gridBasePane.animateTravel(GridBasePane.Direction.FORWARD);
+                    gridBasePane.animateTravel(ExploreGridPane.Direction.FORWARD);
                 } else {
                     LOGGER.log(Level.SEVERE, "Max matrix Y reached.");
                 }
@@ -96,7 +105,7 @@ public class VisualPane extends Pane {
             case DOWN -> {
                 keyEvent.consume();
                 if (deck.getCordY() > GRID_SIZE) {
-                    gridBasePane.animateTravel(GridBasePane.Direction.BACKWARD);
+                    gridBasePane.animateTravel(ExploreGridPane.Direction.BACKWARD);
                 } else {
                     LOGGER.log(Level.SEVERE, "Min matrix Y reached.");
                 }
@@ -104,8 +113,31 @@ public class VisualPane extends Pane {
         }
     }
 
-    public void configState(CyberspacePopup.State state) {
-        gridBasePane.configState(state);
+    private void handleBattleKeys(KeyEvent keyEvent) {
+        // Battle Keys are handled by ControlPanelPane and effect gameState
+        // when actuated.  So, in this class we should monitor the gameState
+        // at each tick().
+    }
+
+    public final void configState(CyberspacePopup.State state) {
+        switch (state) {
+            case EXPLORE -> {
+                gridBasePane.setVisible(true);
+                battlePane.setVisible(false);
+                // Tell GameState our state.
+            }
+            case BATTLE -> {
+                gridBasePane.setVisible(false);
+                battlePane.setVisible(true);
+                // Tell GameState our state.
+            }
+        }
+    }
+
+    public void tick() {
+        if (battlePane.isVisible()) {
+            battlePane.tick();
+        }
     }
 
 }

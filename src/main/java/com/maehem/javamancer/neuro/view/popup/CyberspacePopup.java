@@ -86,6 +86,7 @@ public class CyberspacePopup extends PopupPane {
     public void cleanup() {
         gameState.usingDeck = null;
         gameState.database = null;
+        gameState.databaseBattle = false;
     }
 
     public void setState(State state) {
@@ -95,6 +96,11 @@ public class CyberspacePopup extends PopupPane {
     }
 
     public void tick() {
+        if (gameState.databaseBattle && gameState.databaseBattleBegin) {
+            gameState.databaseBattleBegin = false;
+            setState(State.BATTLE);
+        }
         controlPanel.tick();
+        visualPane.tick();
     }
 }

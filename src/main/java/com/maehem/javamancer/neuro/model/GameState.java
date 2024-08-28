@@ -80,15 +80,19 @@ public class GameState {
     public final ArrayList<Skill> skills = new ArrayList<>();
     public final ArrayList<BodyPart> soldBodyParts = new ArrayList<>();
 
-    public int roomPosX = 160;
-    public int roomPosY = 90;
-    public Room room = null;
-
+    // Matrix Stuff
     public Database database = null;
     public DeckItem usingDeck = null;
     public int matrixPosX = 112;
     public int matrixPosY = 96;
+    public boolean databaseBattle = false;
+    public boolean databaseArrived = false; // Set by explorer when at a DB.
+    public boolean databaseBattleBegin = false;
 
+    // Room Stuff
+    public int roomPosX = 160;
+    public int roomPosY = 90;
+    public Room room = null;
     public RoomBounds.Door useDoor = RoomBounds.Door.NONE; // Set when player collides with door.
     public boolean doorTopLocked = false;
     public boolean doorRightLocked = false;
@@ -197,7 +201,15 @@ public class GameState {
 
         return false;
     }
+
+    public void battleStart() { // Handled by next tick() of CYberspacePopup
+        databaseBattle = true;
+        databaseBattleBegin = true;
+        databaseArrived = false;
+    }
+
 }
+
 
 /*
 <pre><code>

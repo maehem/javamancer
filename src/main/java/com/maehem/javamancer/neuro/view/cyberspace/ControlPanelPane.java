@@ -73,6 +73,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
     private final Rectangle exitRect = cpButton2(324, 98);
 
     private final SoftwarePane softwarePane;
+    private final YesNoPane yesNoPane;
     private final SkillsPopup skillsPopup;
     private final DiskPopup diskPopup;
     private final RomPopup romPopup;
@@ -82,6 +83,8 @@ public class ControlPanelPane extends Pane implements PopupListener {
         this.listener = l;
         softwarePane = new SoftwarePane(gs);
         softwarePane.setVisible(false);
+        yesNoPane = new YesNoPane(gs);
+        yesNoPane.setVisible(false);
         skillsPopup = new SkillsPopup(this, gs);
         skillsPopup.setVisible(false);
         skillsPopup.setLayoutY(0);
@@ -103,7 +106,8 @@ public class ControlPanelPane extends Pane implements PopupListener {
                 cashText,
                 invRect, skillRect, romRect, gameRect,
                 eraseRect, exitRect,
-                softwarePane, skillsPopup, diskPopup, romPopup
+                softwarePane, yesNoPane,
+                skillsPopup, diskPopup, romPopup
         );
         tick();
         initButtons();
@@ -152,6 +156,13 @@ public class ControlPanelPane extends Pane implements PopupListener {
     public boolean handleKeyEvent(KeyEvent ke) {
         if (softwarePane.isVisible()) {
             softwarePane.handleKeyEvent(ke);
+        } else if (yesNoPane.isVisible()) {
+            if (yesNoPane.handleKeyEvent(ke)) {
+                yesNoPane.setVisible(false);
+            } else {
+                gameState.databaseBattle = true;
+                configState(CyberspacePopup.State.BATTLE);
+            }
         } else if (skillsPopup.isVisible()) {
             if (skillsPopup.handleKeyEvent(ke)) {
                 skillsPopup.setVisible(false);
@@ -246,6 +257,11 @@ public class ControlPanelPane extends Pane implements PopupListener {
 
     public final void tick() {
         updateText();
+
+        if ( gameState.databaseArrived ) {
+            gameState.databaseArrived = false;
+            yesNoPane.setVisible(true);
+        }
     }
 
     @Override
