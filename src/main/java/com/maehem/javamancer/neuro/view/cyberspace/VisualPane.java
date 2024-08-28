@@ -130,6 +130,7 @@ public class VisualPane extends Pane {
                 gridBasePane.setVisible(false);
                 battlePane.setVisible(true);
                 // Tell GameState our state.
+                battlePane.resetBattle();
             }
         }
     }

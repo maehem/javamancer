@@ -60,6 +60,8 @@ public class BattleGridPane extends GridPane {
     private final ImageStack iceFrontPane;
     private final ImageStack iceVirusRearPane;
     private final ImageStack iceVirusFrontPane;
+    private final ImageStack iceVirusRotRearPane;
+    private final ImageStack iceVirusRotFrontPane;
 
     public BattleGridPane(GameState gs) {
         super(gs);
@@ -119,10 +121,12 @@ public class BattleGridPane extends GridPane {
 
         shotsLivePane = new ImageStack(305, 130, this.shotsLive);
         shotsExplodePane = new ImageStack(280, 80, this.shotsExplode);
-        iceRearPane = new ImageStack(206, 30, this.iceRear);
-        iceFrontPane = new ImageStack(206, 62, this.iceFront);
-        iceVirusRearPane = new ImageStack(396, 30, this.iceVirusRear);
-        iceVirusFrontPane = new ImageStack(396, 62, this.iceVirusFront);
+        iceRearPane = new ImageStack(206, 46, this.iceRear);
+        iceFrontPane = new ImageStack(206, 82, this.iceFront);
+        iceVirusRearPane = new ImageStack(396, 46, this.iceVirusRear);
+        iceVirusFrontPane = new ImageStack(396, 82, this.iceVirusFront);
+        iceVirusRotRearPane = new ImageStack(396, 46, this.iceVirusRotRear);
+        iceVirusRotFrontPane = new ImageStack(396, 82, this.iceVirusRotFront);
 
         database = new ImageStack(276, 44, dbThing);
         database.show(0);
@@ -130,10 +134,10 @@ public class BattleGridPane extends GridPane {
 
         getChildren().addAll(
                 battleGrid,
-                iceRearPane, iceVirusRearPane,
+                iceRearPane, iceVirusRearPane, iceVirusRotRearPane,
                 database,
                 iceFrontPane, iceVirusFrontPane,
-                shotsLivePane, shotsExplodePane
+                shotsLivePane, shotsExplodePane, iceVirusRotFrontPane
         );
 
         shotExplodeSequence = new FrameSequence(shotsExplode, false, true);
@@ -150,6 +154,22 @@ public class BattleGridPane extends GridPane {
 
     protected void tick() {
         // Update the current state of the battle.
+    }
+
+    void resetBattle() {
+        iceRearPane.setVisible(true);
+        iceVirusRearPane.setVisible(false);
+        iceVirusRotRearPane.setVisible(false);
+
+        iceFrontPane.setVisible(true);
+        iceVirusFrontPane.setVisible(false);
+        iceVirusRotFrontPane.setVisible(false);
+
+        shotsLivePane.setVisible(false);
+        shotsExplodePane.setVisible(false);
+
+        iceRearSequence.start();
+        iceFrontSequence.start();
     }
 
 }
