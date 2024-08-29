@@ -157,12 +157,16 @@ public class ControlPanelPane extends Pane implements PopupListener {
         if (softwarePane.isVisible()) {
             softwarePane.handleKeyEvent(ke);
         } else if (yesNoPane.isVisible()) {
-            if (yesNoPane.handleKeyEvent(ke)) {
-                yesNoPane.setVisible(false);
-            } else {
-                gameState.databaseBattle = true;
+            if (!yesNoPane.handleKeyEvent(ke) && gameState.databaseBattle) {
+                // User pressed Y
                 configState(CyberspacePopup.State.BATTLE);
             }
+//            if (yesNoPane.handleKeyEvent(ke)) {
+//                yesNoPane.setVisible(false);
+//            } else {
+//                //gameState.databaseBattle = true;
+//                configState(CyberspacePopup.State.BATTLE);
+//            }
         } else if (skillsPopup.isVisible()) {
             if (skillsPopup.handleKeyEvent(ke)) {
                 skillsPopup.setVisible(false);
@@ -178,9 +182,9 @@ public class ControlPanelPane extends Pane implements PopupListener {
         } else {
 
             KeyCode code = ke.getCode();
-            ke.consume();
             switch (code) {
                 case X, ESCAPE -> {
+                    ke.consume();
                     if (softwarePane.isVisible()) {
                         softwarePane.setVisible(false);
                     } else {
@@ -189,6 +193,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                 }
                 case I -> { // Inventory/Software/Slots
                     LOGGER.log(Level.SEVERE, "Cyberspace: Software Key Pressed...");
+                    ke.consume();
                     // Close other popups.
                     softwarePane.softwarePrompt();
                     skillsPopup.setVisible(false);
@@ -197,6 +202,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                 }
                 case R -> { // ROM
                     LOGGER.log(Level.SEVERE, "Cyberspace: Skills Key Pressed...");
+                    ke.consume();
                     // Close other popups.
                     skillsPopup.setVisible(false);
                     softwarePane.setVisible(false);
@@ -205,6 +211,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                 }
                 case S -> { // Skills
                     LOGGER.log(Level.SEVERE, "Cyberspace: Skills Key Pressed...");
+                    ke.consume();
                     // Close other popups.
                     skillsPopup.setVisible(true);
                     softwarePane.setVisible(false);
@@ -213,6 +220,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                 }
                 case D -> { // Disk
                     LOGGER.log(Level.SEVERE, "Cyberspace: Disk Key Pressed...");
+                    ke.consume();
                     // Close other popups.
                     skillsPopup.setVisible(false);
                     softwarePane.setVisible(false);
@@ -220,6 +228,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                     romPopup.setVisible(false);
                 }
                 case E -> { // Erase
+                    ke.consume();
 
                 }
             }

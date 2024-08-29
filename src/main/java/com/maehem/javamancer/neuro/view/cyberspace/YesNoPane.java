@@ -102,15 +102,23 @@ public class YesNoPane extends Pane {
 
     public boolean handleKeyEvent(KeyEvent ke) {
 
-        ke.consume();
+        //ke.consume();
         KeyCode code = ke.getCode();
+        setVisible(false);
         switch (code) {
             case N, X, ESCAPE -> {
                 LOGGER.log(Level.SEVERE, "Cyberspace: YesNoPane: Exit/Cancel Pressed...");
-                setVisible(false);
+                ke.consume();
+                return true;
+            }
+            case LEFT, RIGHT, UP, DOWN -> {
+                LOGGER.log(Level.SEVERE, "Cyberspace: YesNoPane: Navigate away...");
+                // Don't consume the keyEvent.
+                return true;
             }
             case Y -> { // Inventory/Software/Slots
                 LOGGER.log(Level.SEVERE, "Cyberspace: YesNoPane: Yes Pressed...");
+                ke.consume();
                 enterDatabase();
             }
         }
@@ -120,6 +128,9 @@ public class YesNoPane extends Pane {
 
     private void enterDatabase() {
         LOGGER.log(Level.SEVERE, "User enters database...");
+        gameState.database = gameState.dbList.whatsAt(
+                gameState.usingDeck.getCordX(), gameState.usingDeck.getCordY()
+        );
         gameState.battleStart();
         setVisible(false);
     }

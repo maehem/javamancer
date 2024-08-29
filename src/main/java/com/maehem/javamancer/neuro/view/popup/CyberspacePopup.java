@@ -30,6 +30,7 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.cyberspace.ControlPanelPane;
 import com.maehem.javamancer.neuro.view.cyberspace.VisualPane;
+import java.util.logging.Level;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -73,13 +74,19 @@ public class CyberspacePopup extends PopupPane {
 
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
-        visualPane.handleKeyEvent(keyEvent);
-        if (keyEvent.isConsumed()) {
-            //controlPanel.updateText();
-            return false;
-        } else {
-            return controlPanel.handleKeyEvent(keyEvent);
+        LOGGER.log(Level.SEVERE, "CyberPopup: Key Event.");
+        if (controlPanel.handleKeyEvent(keyEvent)) {
+            LOGGER.log(Level.SEVERE, "CyberPopup: Key Event: True returned from control panel.");
+            return true;
         }
+
+        if (!keyEvent.isConsumed()) {
+            visualPane.handleKeyEvent(keyEvent);
+        } else {
+            LOGGER.log(Level.SEVERE, "CyberPopup: Key event consumed by ControlPanel, not sent to VisualPane.");
+        }
+
+        return false;
     }
 
     @Override
