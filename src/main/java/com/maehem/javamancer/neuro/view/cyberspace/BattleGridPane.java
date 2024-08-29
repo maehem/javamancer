@@ -148,10 +148,10 @@ public class BattleGridPane extends GridPane {
         shotsExplodeDBPane = new ImageStack(284, 98, this.shotsExplodeDB);
         iceRearPane = new ImageStack(206, 46, this.iceRear);
         iceFrontPane = new ImageStack(206, 82, this.iceFront);
-        iceVirusRearPane = new ImageStack(396, 46, this.iceVirusRear);
-        iceVirusFrontPane = new ImageStack(396, 82, this.iceVirusFront);
-        iceVirusRotRearPane = new ImageStack(396, 46, this.iceVirusRotRear);
-        iceVirusRotFrontPane = new ImageStack(396, 82, this.iceVirusRotFront);
+        iceVirusRearPane = new ImageStack(206, 46, this.iceVirusRear);
+        iceVirusFrontPane = new ImageStack(206, 82, this.iceVirusFront);
+        iceVirusRotRearPane = new ImageStack(206, 46, this.iceVirusRotRear);
+        iceVirusRotFrontPane = new ImageStack(206, 82, this.iceVirusRotFront);
 
         database = new ImageStack(276, 44, dbThing);
         database.show(0);
@@ -185,13 +185,7 @@ public class BattleGridPane extends GridPane {
     }
 
     void resetBattle() {
-        iceRearPane.setVisible(true);
-        iceVirusRearPane.setVisible(false);
-        iceVirusRotRearPane.setVisible(false);
-
-        iceFrontPane.setVisible(true);
-        iceVirusFrontPane.setVisible(false);
-        iceVirusRotFrontPane.setVisible(false);
+        setIceMode(IceMode.ROT);
 
         shotsLiveDBPane.setVisible(false);
         shotsExplodeDBPane.setVisible(true);
@@ -200,6 +194,10 @@ public class BattleGridPane extends GridPane {
 
         iceRearSequence.start();
         iceFrontSequence.start();
+        //iceVirusRearSequence.start();
+        //iceVirusFrontSequence.start();
+        //iceVirusRotRearSequence.start();
+        //iceVirusRotFrontSequence.start();
 
         //shotExplodePlayerSequence.start();
         //shotExplodeDBSequence.start();
@@ -265,5 +263,14 @@ public class BattleGridPane extends GridPane {
         tt.play();
 
         return tt;
+    }
+
+    private void setIceMode(IceMode mode) {
+        iceFrontPane.setVisible(mode == IceMode.BASIC);
+        iceRearPane.setVisible(mode == IceMode.BASIC);
+        iceVirusFrontPane.setVisible(mode == IceMode.VIRUS);
+        iceVirusRearPane.setVisible(mode == IceMode.VIRUS);
+        iceVirusRotFrontPane.setVisible(mode == IceMode.ROT);
+        iceVirusRotRearPane.setVisible(mode == IceMode.ROT);
     }
 }
