@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class SangfroidAI extends AI {
 
     public SangfroidAI() {
-        super("Sanfroid");
+        super("Sanfroid", 0);
     }
 
 }

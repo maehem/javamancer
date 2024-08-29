@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class SaphireAI extends AI {
 
     public SaphireAI() {
-        super("Saphire");
+        super("Saphire", 0);
     }
 
 }

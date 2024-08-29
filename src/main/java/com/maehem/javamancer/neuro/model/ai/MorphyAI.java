@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class MorphyAI extends AI {
 
     public MorphyAI() {
-        super("Morphy");
+        super("Morphy", 0);
     }
 
 }

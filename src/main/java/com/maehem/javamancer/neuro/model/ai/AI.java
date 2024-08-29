@@ -32,9 +32,11 @@ package com.maehem.javamancer.neuro.model.ai;
  */
 public class AI {
     public final String name;
+    public final int index; // matching the sprite face
 
-    public AI(String name) {
+    public AI(String name, int index) {
         this.name = name;
+        this.index = index;
     }
 
 }

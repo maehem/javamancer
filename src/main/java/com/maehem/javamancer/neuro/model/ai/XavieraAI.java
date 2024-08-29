@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class XavieraAI extends AI {
 
     public XavieraAI() {
-        super("Xaviera");
+        super("Xaviera", 0);
     }
 
 }

@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class LuciferAI extends AI {
 
     public LuciferAI() {
-        super("Lucifer");
+        super("Lucifer", 0);
     }
 
 }

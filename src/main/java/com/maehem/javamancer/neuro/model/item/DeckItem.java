@@ -114,17 +114,17 @@ public abstract class DeckItem extends Item {
 
     public void setZone(int z) {
         this.zone = z;
-        LOGGER.log(Level.SEVERE, "Deck: Zone changed: {0}", zone);
+        LOGGER.log(Level.FINER, "Deck: Zone changed: {0}", zone);
     }
 
     public void setCordX(int x) {
         this.cordX = x;
-        LOGGER.log(Level.SEVERE, "Deck: X changed: {0}", cordX);
+        LOGGER.log(Level.FINER, "Deck: X changed: {0}", cordX);
     }
 
     public void setCordY(int y) {
         this.cordY = y;
-        LOGGER.log(Level.SEVERE, "Deck: Y changed: {0}", cordY);
+        LOGGER.log(Level.FINER, "Deck: Y changed: {0}", cordY);
     }
 
 }

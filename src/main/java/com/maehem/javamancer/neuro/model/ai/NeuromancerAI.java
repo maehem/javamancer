@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class NeuromancerAI extends AI {
 
     public NeuromancerAI() {
-        super("Neuromancer");
+        super("Neuromancer", 11);
     }
 
 }

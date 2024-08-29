@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.database.DatabaseList;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
@@ -37,6 +38,8 @@ import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.view.ResourceManager;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -88,6 +91,7 @@ public class GameState {
     public boolean databaseBattle = false;
     public boolean databaseArrived = false; // Set by explorer when at a DB.
     public boolean databaseBattleBegin = false;
+    public final ArrayList<AI> aiList = new ArrayList<>();
 
     // Room Stuff
     public int roomPosX = 160;
@@ -208,6 +212,36 @@ public class GameState {
         databaseArrived = false;
     }
 
+    public AI getAI(Class<? extends AI> aiClazz) {
+        for (AI ai : aiList) {
+            if (ai.getClass().equals(aiClazz)) {
+                return ai;
+            }
+        }
+
+        try {
+            Constructor<?> ctor = aiClazz.getConstructor();
+            Object object = ctor.newInstance(new Object[]{});
+            LOGGER.log(Level.SEVERE, "AI Object created: " + aiClazz.getSimpleName());
+            if (object instanceof AI freshAI) {
+                aiList.add(freshAI);
+                return freshAI;
+            } else {
+                LOGGER.log(Level.SEVERE, "AI Creation Failed: " + aiClazz.getSimpleName());
+            }
+        } catch (InvocationTargetException
+                | InstantiationException
+                | IllegalAccessException
+                | IllegalArgumentException
+                | NoSuchMethodException
+                | SecurityException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            ex.printStackTrace();
+
+        }
+
+        return null;
+    }
 }
 
 

@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class GoldAI extends AI {
 
     public GoldAI() {
-        super("Gold");
+        super("Gold", 0);
     }
 
 }

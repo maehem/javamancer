@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class PhantomAI extends AI {
 
     public PhantomAI(String name) {
-        super("Phantom");
+        super("Phantom", 0);
     }
 
 }

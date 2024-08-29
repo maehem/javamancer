@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class ChromeAI extends AI {
 
     public ChromeAI() {
-        super("Chrome");
+        super("Chrome", 0);
     }
 
 }

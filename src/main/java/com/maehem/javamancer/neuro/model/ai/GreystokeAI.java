@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class GreystokeAI extends AI {
 
     public GreystokeAI() {
-        super("Greystoke");
+        super("Greystoke", 0);
     }
 
 }

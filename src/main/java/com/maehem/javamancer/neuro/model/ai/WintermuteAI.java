@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class WintermuteAI extends AI {
 
     public WintermuteAI() {
-        super("Wintermute");
+        super("Wintermute", 0);
     }
 
 }

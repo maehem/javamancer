@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.model.ai;
 public class HalAI extends AI {
 
     public HalAI() {
-        super("HAL");
+        super("HAL", 0);
     }
 
 }
