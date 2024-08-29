@@ -158,10 +158,8 @@ public class ExploreGridPane extends GridPane {
             int amount = GRID / 4;
 
             if (axisX) {
-                //LOGGER.log(Level.SEVERE, "Change {0} to axis X. Reverse = {1}", new Object[]{amount, super.reverse ? "REVERSE" : "NORMAL"});
                 deck.setCordX(deck.getCordX() + (isReverse() ? amount : -amount));
             } else {
-                //LOGGER.log(Level.SEVERE, "Change {0} to axis Y. Reverse = {1}", new Object[]{amount, super.reverse ? "REVERSE" : "NORMAL"});
                 deck.setCordY(deck.getCordY() + (isReverse() ? amount : -amount));
             }
             layoutDatabase();
@@ -185,15 +183,13 @@ public class ExploreGridPane extends GridPane {
 
                 int scanX = xPos + (x * GRID / 4);
                 int scanY = yPos + (y * GRID / 4);
-                LOGGER.log(Level.SEVERE, "Scan Grid: {0},{1}", new Object[]{scanX, scanY});
                 Database dbHere = gameState.dbList.whatsAt(
                         xPos + (x * GRID / 4),
                         yPos + (y * GRID / 4)
                 );
                 double layY = (y / 4 * 12) + ((8 - y) * (8 - y)) * 1.15;
-                LOGGER.log(Level.SEVERE, "Lay Y: {0}: {1}", new Object[]{y, layY});
                 if (dbHere != null) {
-                    LOGGER.log(Level.SEVERE, "There is a database at: {0},{1} :: {2}", new Object[]{x, y, dbHere.name});
+                    LOGGER.log(Level.FINE, "There is a database at: {0},{1} :: {2}", new Object[]{x, y, dbHere.name});
                     database.show(dbShow[y]);
                     database.setLayoutX(272 + x * GRID * multiX[y]);
                     database.setLayoutY(42 + multiY[y]);
