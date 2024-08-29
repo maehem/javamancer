@@ -27,6 +27,8 @@
 package com.maehem.javamancer.neuro.view.cyberspace;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.ai.AI;
+import com.maehem.javamancer.neuro.model.database.Database;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
@@ -39,6 +41,9 @@ import javafx.util.Duration;
  */
 public class BattleGridPane extends GridPane {
 
+    //private final int[] aiPos;
+    private final ImageStack aiFace;
+
     private enum IceMode {
         NONE, BASIC, VIRUS, ROT
     }
@@ -48,6 +53,7 @@ public class BattleGridPane extends GridPane {
     private final ImageView[] shotsExplodePlayer;
     private final ImageView[] shotsLiveDB;
     private final ImageView[] shotsExplodeDB;
+    private final ImageView[] aiImageView;
     private final ImageView[] iceRear;
     private final ImageView[] iceFront;
     private final ImageView[] iceVirusRear;
@@ -80,6 +86,23 @@ public class BattleGridPane extends GridPane {
     public BattleGridPane(GameState gs) {
         super(gs);
         this.battleGrid = new ImageView(resourceManager.getSprite("CSDB_1"));
+
+        this.aiImageView = new ImageView[]{
+            new ImageView(resourceManager.getSprite("AIP0_1")),
+            new ImageView(resourceManager.getSprite("AIP1_1")),
+            new ImageView(resourceManager.getSprite("AIP2_1")),
+            new ImageView(resourceManager.getSprite("AIP3_1")),
+            new ImageView(resourceManager.getSprite("AIP4_1")),
+            new ImageView(resourceManager.getSprite("AIP5_1")),
+            new ImageView(resourceManager.getSprite("AIP6_1")),
+            new ImageView(resourceManager.getSprite("AIP7_1")),
+            new ImageView(resourceManager.getSprite("AIP8_1")),
+            new ImageView(resourceManager.getSprite("AIP9_1")),
+            new ImageView(resourceManager.getSprite("AIP10_1")),
+            new ImageView(resourceManager.getSprite("AIP11_1"))};
+//        this.aiPos = new int[]{// Y position of AI face.
+//            284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284
+//        };
 
         this.iceRear = new ImageView[]{
             new ImageView(resourceManager.getSprite("ICE_1")),
@@ -157,10 +180,14 @@ public class BattleGridPane extends GridPane {
         database.show(0);
         database.setScaleY(1.06);
 
+        aiFace = new ImageStack(258, 0, aiImageView);
+        aiFace.show(-1);
+        aiFace.setScaleY(1.06);
+
         getChildren().addAll(
                 battleGrid,
                 iceRearPane, iceVirusRearPane, iceVirusRotRearPane,
-                database,
+                database, aiFace,
                 iceFrontPane, iceVirusFrontPane, iceVirusRotFrontPane,
                 shotsLiveDBPane, shotsExplodeDBPane,
                 shotsLivePlayerPane, shotsExplodePlayerPane
@@ -185,7 +212,22 @@ public class BattleGridPane extends GridPane {
     }
 
     void resetBattle() {
-        setIceMode(IceMode.ROT);
+        Database db = gameState.database;
+
+        if (db.ice > 0) {
+            setIceMode(IceMode.BASIC);
+        } else {
+            setIceMode(IceMode.NONE);
+        }
+
+        if (db.ai != null) {
+            AI ai = gameState.getAI(db.ai);
+            database.show(-1);
+            aiFace.show(ai.index);
+        } else {
+            database.show(1);
+            aiFace.show(-1);
+        }
 
         shotsLiveDBPane.setVisible(false);
         shotsExplodeDBPane.setVisible(true);
