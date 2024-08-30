@@ -38,4 +38,13 @@ public class DrillWarez extends IceBreakerWarez {
         super(Item.Catalog.DRILL, version);
     }
 
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
 }

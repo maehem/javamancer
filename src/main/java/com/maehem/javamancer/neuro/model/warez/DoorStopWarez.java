@@ -38,4 +38,13 @@ public class DoorStopWarez extends IceBreakerWarez {
         super(Item.Catalog.DOORSTOP, version);
     }
 
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
 }

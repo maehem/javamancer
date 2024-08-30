@@ -44,6 +44,8 @@ public abstract class Warez {
 
     public final Item.Catalog item;
     public final int version;
+    private boolean running;
+    private boolean damaged;
 
     public Warez(Item.Catalog catItem, int version) {
         this.item = catItem;
@@ -60,5 +62,35 @@ public abstract class Warez {
         LOGGER.log(Level.SEVERE, "Warez: Use(): " + getClass().getSimpleName());
         return USE_OK;
     }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public boolean isDamaged() {
+        return damaged;
+    }
+
+    public void setDamaged(boolean value) {
+        this.damaged = value;
+    }
+
+    /**
+     * How long the software runs for before applying the effect.
+     *
+     * @return
+     */
+    public abstract int getRunDuration();
+
+    /**
+     * Effect amount to apply to target (usually ICE's constitution).
+     *
+     * @return
+     */
+    public abstract int getEffect();
 
 }

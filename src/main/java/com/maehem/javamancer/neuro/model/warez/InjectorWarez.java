@@ -38,4 +38,13 @@ public class InjectorWarez extends VirusWarez {
         super(Item.Catalog.INJECTOR, version);
     }
 
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
 }

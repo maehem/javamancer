@@ -38,4 +38,13 @@ public class PythonWarez extends VirusWarez {
         super(Item.Catalog.PYTHON, version);
     }
 
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
 }

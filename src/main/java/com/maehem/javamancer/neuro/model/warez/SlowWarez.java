@@ -38,4 +38,13 @@ public class SlowWarez extends CorruptorWarez {
         super(Item.Catalog.SLOW, version);
     }
 
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
 }

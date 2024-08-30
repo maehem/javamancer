@@ -37,7 +37,7 @@ import static com.maehem.javamancer.neuro.model.warez.Warez.USE_OK;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class IceBreakerWarez extends Warez {
+public abstract class IceBreakerWarez extends Warez {
 
     public IceBreakerWarez(Item.Catalog catItem, int version) {
         super(catItem, version);

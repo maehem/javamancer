@@ -38,4 +38,13 @@ public class LogicBombWarez extends IceBreakerWarez {
         super(Item.Catalog.LOGICBOMB, version);
     }
 
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
 }

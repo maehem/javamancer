@@ -38,4 +38,13 @@ public class ConcreteWarez extends IceBreakerWarez {
         super(Item.Catalog.CONCRETE, version);
     }
 
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
 }

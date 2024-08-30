@@ -38,4 +38,13 @@ public class DecoderWarez extends IceBreakerWarez {
         super(Item.Catalog.DECODER, version);
     }
 
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
 }

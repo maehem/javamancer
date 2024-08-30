@@ -34,7 +34,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class VirusWarez extends Warez {
+public abstract class VirusWarez extends Warez {
 
     public VirusWarez(Item.Catalog catItem, int version) {
         super(catItem, version);

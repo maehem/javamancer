@@ -38,4 +38,14 @@ public class ThunderheadWarez extends VirusWarez {
         super(Item.Catalog.THUNDERHEAD, version);
     }
 
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
+
 }

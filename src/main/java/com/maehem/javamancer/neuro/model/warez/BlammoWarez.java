@@ -39,4 +39,13 @@ public class BlammoWarez extends Warez {
         super(Item.Catalog.BLAMMO, version);
     }
 
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
 }

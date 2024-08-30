@@ -38,4 +38,13 @@ public class KuangElevenWarez extends ShotgunWarez {
         super(Item.Catalog.KUANGELEVEN, version);
     }
 
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
 }

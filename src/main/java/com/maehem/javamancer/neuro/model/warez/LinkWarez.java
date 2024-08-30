@@ -59,4 +59,13 @@ public class LinkWarez extends Warez {
         }
         return "Can't be used here.";
     }
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect() {
+        return 100;
+    }
 }

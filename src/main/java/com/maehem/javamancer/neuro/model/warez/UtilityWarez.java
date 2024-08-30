@@ -60,4 +60,14 @@ public class UtilityWarez extends Warez {
         }
         return "Can't be used here.";
     }
+
+    @Override
+    public int getRunDuration() {
+        return 0;
+    }
+
+    @Override
+    public int getEffect() {
+        return 0;
+    }
 }
