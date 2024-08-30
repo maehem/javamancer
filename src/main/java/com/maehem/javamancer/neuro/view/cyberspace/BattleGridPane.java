@@ -29,6 +29,15 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.database.Database;
+import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.warez.ChessWarez;
+import com.maehem.javamancer.neuro.model.warez.CorruptorWarez;
+import com.maehem.javamancer.neuro.model.warez.IceBreakerWarez;
+import com.maehem.javamancer.neuro.model.warez.LinkWarez;
+import com.maehem.javamancer.neuro.model.warez.ShotgunWarez;
+import com.maehem.javamancer.neuro.model.warez.VirusWarez;
+import com.maehem.javamancer.neuro.model.warez.Warez;
+import java.util.logging.Level;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
@@ -209,6 +218,33 @@ public class BattleGridPane extends GridPane {
 
     protected void tick() {
         // Update the current state of the battle.
+        DeckItem deck = gameState.usingDeck;
+        if (deck.getCurrentWarez() != null) {
+            Warez w = deck.getCurrentWarez();
+            switch (w) {
+                case LinkWarez ww -> {
+                    // Do nothing
+                }
+                case IceBreakerWarez ww -> {
+                    LOGGER.log(Level.SEVERE, "Using IceBreaker Warez... {0}", w.item.itemName);
+                }
+                case VirusWarez ww -> {
+                    LOGGER.log(Level.SEVERE, "Using Virus Warez...{0}", w.item.itemName);
+                }
+                case CorruptorWarez ww -> {
+                    LOGGER.log(Level.SEVERE, "Using Corruptor Warez...{0}", w.item.itemName);
+                }
+                case ShotgunWarez ww -> {
+                    LOGGER.log(Level.SEVERE, "Using Corruptor Warez...{0}", w.item.itemName);
+                }
+                case ChessWarez ww -> {
+                    LOGGER.log(Level.SEVERE, "Using Corruptor Warez...{0}", w.item.itemName);
+                }
+                default -> {
+                    LOGGER.log(Level.SEVERE, "Using Non-Applicable Warez...{0}", w.item.itemName);
+                }
+            }
+        }
     }
 
     void resetBattle() {
@@ -216,6 +252,8 @@ public class BattleGridPane extends GridPane {
 
         if (db.ice > 0) {
             setIceMode(IceMode.BASIC);
+            iceRearSequence.start();
+            iceFrontSequence.start();
         } else {
             setIceMode(IceMode.NONE);
         }
@@ -232,10 +270,8 @@ public class BattleGridPane extends GridPane {
         shotsLiveDBPane.setVisible(false);
         shotsExplodeDBPane.setVisible(true);
         shotsLivePlayerPane.setVisible(false);
-        shotsExplodePlayerPane.setVisible(true);
+        shotsExplodePlayerPane.setVisible(false);
 
-        iceRearSequence.start();
-        iceFrontSequence.start();
         //iceVirusRearSequence.start();
         //iceVirusFrontSequence.start();
         //iceVirusRotRearSequence.start();
@@ -243,8 +279,8 @@ public class BattleGridPane extends GridPane {
 
         //shotExplodePlayerSequence.start();
         //shotExplodeDBSequence.start();
-        fireShotPlayer();
-        fireShotDB();
+        //fireShotPlayer();
+        //fireShotDB();
     }
 
     private void fireShotPlayer() {
