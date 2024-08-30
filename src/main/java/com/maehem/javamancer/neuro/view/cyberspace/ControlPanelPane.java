@@ -72,15 +72,21 @@ public class ControlPanelPane extends Pane implements PopupListener {
     private final Rectangle eraseRect = cpButton2(324, 74);
     private final Rectangle exitRect = cpButton2(324, 98);
 
+    private final DamageGauge playerDamage = new DamageGauge(DamageGauge.Orientation.VERT);
+    private final DamageGauge opponentDamage = new DamageGauge(DamageGauge.Orientation.HORIZ);
+
     private final SoftwarePane softwarePane;
     private final YesNoPane yesNoPane;
     private final SkillsPopup skillsPopup;
     private final DiskPopup diskPopup;
     private final RomPopup romPopup;
+    private final VisualPane visualPane;
 
-    public ControlPanelPane(PopupListener l, GameState gs) {
+    public ControlPanelPane(PopupListener l, GameState gs, VisualPane visualPane) {
         this.gameState = gs;
         this.listener = l;
+        this.visualPane = visualPane;
+
         softwarePane = new SoftwarePane(gs);
         softwarePane.setVisible(false);
         yesNoPane = new YesNoPane(gs);
@@ -98,6 +104,11 @@ public class ControlPanelPane extends Pane implements PopupListener {
         romPopup.setLayoutX(100);
         romPopup.setLayoutY(0);
 
+        playerDamage.setLayoutX(439);
+        playerDamage.setLayoutY(101);
+        opponentDamage.setLayoutX(482);
+        opponentDamage.setLayoutY(31);
+
         ImageView cPanelView = new ImageView(gs.resourceManager.getSprite("CSPANEL_1"));
         getChildren().add(cPanelView);
 
@@ -105,6 +116,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                 zoneText, xText, yText,
                 cashText,
                 invRect, skillRect, romRect, gameRect,
+                playerDamage, opponentDamage,
                 eraseRect, exitRect,
                 softwarePane, yesNoPane,
                 skillsPopup, diskPopup, romPopup
@@ -161,12 +173,6 @@ public class ControlPanelPane extends Pane implements PopupListener {
                 // User pressed Y
                 configState(CyberspacePopup.State.BATTLE);
             }
-//            if (yesNoPane.handleKeyEvent(ke)) {
-//                yesNoPane.setVisible(false);
-//            } else {
-//                //gameState.databaseBattle = true;
-//                configState(CyberspacePopup.State.BATTLE);
-//            }
         } else if (skillsPopup.isVisible()) {
             if (skillsPopup.handleKeyEvent(ke)) {
                 skillsPopup.setVisible(false);
@@ -234,6 +240,13 @@ public class ControlPanelPane extends Pane implements PopupListener {
             }
 
         }
+
+        if (!ke.isConsumed()) {
+            visualPane.handleKeyEvent(ke);
+        } else {
+            LOGGER.log(Level.FINE, "Cyberspace CP: Key event consumed, not sent to VisualPane.");
+        }
+
         return false;
     }
 
@@ -267,7 +280,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
     public final void tick() {
         updateText();
 
-        if ( gameState.databaseArrived ) {
+        if (gameState.databaseArrived) {
             gameState.databaseArrived = false;
             yesNoPane.setVisible(true);
         }
