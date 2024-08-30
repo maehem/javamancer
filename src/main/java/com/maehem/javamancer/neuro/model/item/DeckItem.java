@@ -98,6 +98,10 @@ public abstract class DeckItem extends Item {
         return mode;
     }
 
+    public void setMode(Mode mode) {
+        this.mode = mode;
+    }
+
     public abstract boolean canCyberspace();
 
     public int getZone() {
