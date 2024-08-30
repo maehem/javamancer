@@ -60,6 +60,9 @@ public class SoftwarePane extends Pane {
     private final GameState gameState;
     private final DeckItem deck;
 
+    private Warez usedWarez = null;
+    private String usedResponse = "";
+
     public SoftwarePane(GameState gs) {
         this.gameState = gs;
         deck = gameState.usingDeck;
@@ -77,6 +80,9 @@ public class SoftwarePane extends Pane {
     public final void softwarePrompt() {
         LOGGER.log(Level.SEVERE, "Cyberspace: Show Software Prompt");
         //mode = Mode.SOFTWARE;
+
+        usedWarez = null;
+        usedResponse = "";
 
         setVisible(true);
         getChildren().clear();
@@ -141,10 +147,11 @@ public class SoftwarePane extends Pane {
 
     private void useSoftware(Warez w) {
         LOGGER.log(Level.SEVERE, "Cyberspace: Use Software: {0}", w.item.itemName);
-        String useReponse = w.use(gameState);
-        if (!useReponse.equals(Warez.USE_OK)) {
-            LOGGER.log(Level.SEVERE, "Use Software Not OK: {0}", useReponse);
-            displayResponse(useReponse);
+        usedResponse = w.use(gameState);
+        usedWarez = w;
+        if (!usedResponse.equals(Warez.USE_OK)) {
+            LOGGER.log(Level.SEVERE, "Use Software Not OK: {0}", usedResponse);
+            displayResponse(usedResponse);
         } else {
             gameState.usingDeck.setCurrentWarez(w);
             LOGGER.log(Level.SEVERE, "Use Software OK.");
@@ -200,5 +207,13 @@ public class SoftwarePane extends Pane {
 
 
         return false;
+    }
+
+    public Warez getUsedWarez() {
+        return usedWarez;
+    }
+
+    public String getUsedWarezResponse() {
+        return usedResponse;
     }
 }
