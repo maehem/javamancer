@@ -33,10 +33,26 @@ package com.maehem.javamancer.neuro.model.ai;
 public class AI {
     public final String name;
     public final int index; // matching the sprite face
+    private int constitution = 2000;
 
     public AI(String name, int index) {
         this.name = name;
         this.index = index;
+    }
+
+    public void setConstitution(int value) {
+        this.constitution = value;
+    }
+
+    public int getConstitution() {
+        return constitution;
+    }
+
+    public void applyDamage(int value) {
+        this.constitution -= value;
+        if (constitution < 0) {
+            constitution = 0;
+        }
     }
 
 }
