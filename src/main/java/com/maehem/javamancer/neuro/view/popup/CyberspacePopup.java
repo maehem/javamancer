@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.cyberspace.ControlPanelPane;
 import com.maehem.javamancer.neuro.view.cyberspace.VisualPane;
@@ -62,10 +63,9 @@ public class CyberspacePopup extends PopupPane {
 
         Rectangle backdrop = new Rectangle(WIDTH, HEIGHT, Color.BLACK);
 
-        controlPanel = new ControlPanelPane(l, gs);
-        controlPanel.setLayoutY(CPANEL_TOP);
-
         visualPane = new VisualPane(gs);
+        controlPanel = new ControlPanelPane(l, gs, visualPane);
+        controlPanel.setLayoutY(CPANEL_TOP);
 
         getChildren().addAll(
                 backdrop, visualPane, controlPanel
@@ -80,17 +80,18 @@ public class CyberspacePopup extends PopupPane {
             return true;
         }
 
-        if (!keyEvent.isConsumed()) {
-            visualPane.handleKeyEvent(keyEvent);
-        } else {
-            LOGGER.log(Level.SEVERE, "CyberPopup: Key event consumed by ControlPanel, not sent to VisualPane.");
-        }
+//        if (!keyEvent.isConsumed()) {
+//            visualPane.handleKeyEvent(keyEvent);
+//        } else {
+//            LOGGER.log(Level.SEVERE, "CyberPopup: Key event consumed by ControlPanel, not sent to VisualPane.");
+//        }
 
         return false;
     }
 
     @Override
     public void cleanup() {
+        gameState.usingDeck.setMode(DeckItem.Mode.NONE);
         gameState.usingDeck = null;
         gameState.database = null;
         gameState.databaseBattle = false;
