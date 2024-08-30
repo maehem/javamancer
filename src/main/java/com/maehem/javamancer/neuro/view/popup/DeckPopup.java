@@ -206,14 +206,13 @@ public class DeckPopup extends PopupPane {
         Text cursor = new Text("<\n");
         TextFlow tf = textFlow(currentSoft, linkEnterheading, typedLinkEntryText, cursor);
 
-
-
         addBox(tf);
     }
 
     private void enterCyberspace() {
         LOGGER.log(Level.SEVERE, "Enter Cyberspace.");
 
+        gameState.usingDeck.setMode(DeckItem.Mode.CYBERSPACE);
         // Leave Deck pupup and open cyberspace popup.
         listener.popupExit(RoomMode.Popup.CYBERSPACE);
     }
@@ -337,8 +336,11 @@ public class DeckPopup extends PopupPane {
                 // Connect
                 //gameState.usingDeck = deck;
                 gameState.database = whoIs;
+                gameState.usingDeck.setMode(DeckItem.Mode.LINKCODE);
+
                 siteContent(); // hand off to custom site handler.
             } else {
+                gameState.usingDeck.setMode(DeckItem.Mode.NONE);
                 linkEnterheading.setText(LINK_CODE_UNKOWN_LINK);
                 linkCodeErr = true;
             }
