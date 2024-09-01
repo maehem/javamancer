@@ -46,6 +46,6 @@ public class ConcreteWarez extends IceBreakerWarez {
 
     @Override
     public int getEffect(GameState gs) {
-        return version * 60;
+        return version * 20;
     }
 }
