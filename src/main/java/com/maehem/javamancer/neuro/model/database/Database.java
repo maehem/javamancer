@@ -54,6 +54,8 @@ public abstract class Database {
     public final HashMap<Class<? extends Warez>, Integer> warez1 = new HashMap<>();
     public final HashMap<Class<? extends Warez>, Integer> warez2 = new HashMap<>();
     public final HashMap<Class<? extends Warez>, Integer> warez3 = new HashMap<>();
+    public final int shotDuration = 2000; // mS
+    private final int effect = 100;
 
     public final int matrixX;
     public final int matrixY;
@@ -109,5 +111,10 @@ public abstract class Database {
             LOGGER.log(Level.SEVERE, "Database ice  = " + ice);
         }
         return damage;
+    }
+
+    public int getEffect(GameState gs) {
+        // TODO: Consider player attributes (skill, etc.)
+        return effect;
     }
 }
