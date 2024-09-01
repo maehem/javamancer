@@ -62,7 +62,6 @@ public abstract class Database {
     public final Class<? extends Warez> weaknessWarez;
     public final int ICE_MAX;
     private int ice;
-    // content();
 
     public Database(String name, int number, int zone, int comlink,
             String linkCode, String password1, String password2, String password3,
