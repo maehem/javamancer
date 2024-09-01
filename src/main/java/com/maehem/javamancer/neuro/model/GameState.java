@@ -53,29 +53,8 @@ public class GameState {
     public static final Logger LOGGER = Logging.LOGGER;
     private boolean flatlined = false;
 
-    public void applyDbAttack() {
-        // Apply DB attack effect to constitution.
-        int effect = database.getEffect(this);
-        constitution -= effect;
-        // If Constitution == 0 then die.
-        if (constitution <= 0) {
-            LOGGER.log(Level.CONFIG, "Player death. Revive in Body Shop.");
-            flatlined = true;
-        }
-    }
-
-    public boolean isFlatline() {
-        return flatlined;
-    }
-
-    public void revive() {
-        constitution = 100;
-        flatlined = false;
-        useDoor = RoomBounds.Door.BODY_SHOP;
-    }
-
     public enum BodyShopRecent {
-        NONE, BUY, SELL
+        NONE, BUY, SELL, REVIVED;
     }
 
     public final ResourceManager resourceManager;
@@ -91,7 +70,8 @@ public class GameState {
 
     // Health
     public final int CONSTITUTION_MAX = 2000;
-    public int constitution = CONSTITUTION_MAX;
+    public final int CONSTITUTION_HEAL_RATE = 40;
+    public int damage = 0; // Heal after revived, decays HEAL_RATE per 15 ticks.
 
     // Time/Date
     public int timeMinute = 0;
@@ -200,6 +180,34 @@ public class GameState {
         return month + "/" + day + "/" + year;
     }
 
+    public int getConstitution() {
+        return getConstitutionUsable() - damage;
+    }
+
+    /**
+     * Max constitution after subtracting sold body parts.
+     *
+     * @return constitution after subtracting sold body parts
+     */
+    public int getConstitutionUsable() {
+        int partsToll = 0;
+        for (BodyPart p : soldBodyParts) {
+            partsToll += p.constDamage;
+        }
+
+        return CONSTITUTION_MAX - partsToll;
+    }
+
+    public void updateConstitution() {
+        if (damage > 0 && usingDeck == null) {
+            LOGGER.log(Level.SEVERE, "Heal Constitution.");
+            damage -= CONSTITUTION_HEAL_RATE;
+            if (damage < 0) {
+                damage = 0;
+            }
+        }
+    }
+
     public void loadSlot(int i) {
         LOGGER.log(Level.SEVERE, "Load Slot {0} requested", i);
     }
@@ -265,6 +273,31 @@ public class GameState {
 
         return null;
     }
+
+    public void applyDbAttack() {
+        // Apply DB attack effect to constitution.
+        int effect = database.getEffect(this);
+        damage += effect;
+        // If Constitution == 0 then die.
+        if (getConstitution() <= 0) {
+            LOGGER.log(Level.CONFIG, "Player death. Revive in Body Shop.");
+            flatlined = true;
+        }
+    }
+
+    public boolean isFlatline() {
+        return flatlined;
+    }
+
+    public void revive() {
+        LOGGER.log(Level.SEVERE, "Revive player.");
+        damage = getConstitutionUsable() - 10;
+        chipBalance = 0;
+        flatlined = false;
+        bodyShopRecent = BodyShopRecent.REVIVED; // Handled by R4Extras.warmup()
+        useDoor = RoomBounds.Door.BODY_SHOP;
+    }
+
 }
 
 
