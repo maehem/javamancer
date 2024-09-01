@@ -51,6 +51,28 @@ import java.util.logging.Logger;
 public class GameState {
 
     public static final Logger LOGGER = Logging.LOGGER;
+    private boolean flatlined = false;
+
+    public void applyDbAttack() {
+        // Apply DB attack effect to constitution.
+        int effect = database.getEffect(this);
+        constitution -= effect;
+        // If Constitution == 0 then die.
+        if (constitution <= 0) {
+            LOGGER.log(Level.CONFIG, "Player death. Revive in Body Shop.");
+            flatlined = true;
+        }
+    }
+
+    public boolean isFlatline() {
+        return flatlined;
+    }
+
+    public void revive() {
+        constitution = 100;
+        flatlined = false;
+        useDoor = RoomBounds.Door.BODY_SHOP;
+    }
 
     public enum BodyShopRecent {
         NONE, BUY, SELL
@@ -68,7 +90,8 @@ public class GameState {
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
 
     // Health
-    public int constitution = 2000;
+    public final int CONSTITUTION_MAX = 2000;
+    public int constitution = CONSTITUTION_MAX;
 
     // Time/Date
     public int timeMinute = 0;
