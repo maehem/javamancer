@@ -31,6 +31,9 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
 
 /**
  *
@@ -46,6 +49,7 @@ public abstract class Warez {
     public final int version;
     private boolean running;
     private boolean damaged;
+    private EventHandler<ActionEvent> finishedHandler;
 
     public Warez(Item.Catalog catItem, int version) {
         this.item = catItem;
@@ -64,6 +68,9 @@ public abstract class Warez {
     }
 
     public void setRunning(boolean running) {
+        if (this.running && !running && finishedHandler != null) {
+            finishedHandler.handle(new ActionEvent());
+        }
         this.running = running;
     }
 
@@ -91,6 +98,10 @@ public abstract class Warez {
      *
      * @return
      */
-    public abstract int getEffect();
+    public abstract int getEffect(GameState gameState);
+
+    public void setOnFinished(EventHandler<ActionEvent> handler) {
+        this.finishedHandler = handler;
+    }
 
 }
