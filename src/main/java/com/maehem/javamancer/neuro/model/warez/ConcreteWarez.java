@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
@@ -44,7 +45,7 @@ public class ConcreteWarez extends IceBreakerWarez {
     }
 
     @Override
-    public int getEffect() {
-        return 100;
+    public int getEffect(GameState gs) {
+        return version * 60;
     }
 }

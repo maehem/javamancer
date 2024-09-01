@@ -44,7 +44,7 @@ public class AcidWarez extends VirusWarez {
     public String use(GameState gs) {
         String deckUse = super.use(gs);
         // TODO: Evaluate Cyberspace situation...
-        LOGGER.log(Level.SEVERE, "Only usable in ICE breaking.");
+        LOGGER.log(Level.SEVERE, "Only usable in ???.");
         return deckUse;
     }
 
@@ -54,7 +54,7 @@ public class AcidWarez extends VirusWarez {
     }
 
     @Override
-    public int getEffect() {
-        return 100;
+    public int getEffect(GameState gs) {
+        return version * 50;
     }
 }

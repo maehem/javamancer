@@ -67,7 +67,7 @@ public class UtilityWarez extends Warez {
     }
 
     @Override
-    public int getEffect() {
+    public int getEffect(GameState gs) {
         return 0;
     }
 }

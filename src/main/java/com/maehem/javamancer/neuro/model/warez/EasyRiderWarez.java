@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
@@ -33,7 +34,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class EasyRiderWarez extends Warez {
+public class EasyRiderWarez extends UtilityWarez {
 
     public EasyRiderWarez(int version) {
         super(Item.Catalog.EASYRIDER, version);
@@ -45,7 +46,7 @@ public class EasyRiderWarez extends Warez {
     }
 
     @Override
-    public int getEffect() {
+    public int getEffect(GameState gs) {
         return 100;
     }
 }

@@ -26,7 +26,10 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.skill.Skill;
+import java.util.logging.Level;
 
 /**
  * Attempt to break straight through ICE by mimicking a warranted investigation.
@@ -37,6 +40,29 @@ public class MimicWarez extends UtilityWarez {
 
     public MimicWarez(int version) {
         super(Item.Catalog.MIMIC, version);
+    }
+
+    @Override
+    public int getRunDuration() {
+        return 2000;
+    }
+
+    @Override
+    public int getEffect(GameState gs) {
+        if (gs.activeSkill.type == Skill.Type.COPTALK) {
+            int percent = gs.activeSkillLevel * 100;
+            int random = (int) (Math.random() * 500);
+            if (version * (percent + random) > gs.database.getIce()) {
+                return gs.database.getIce();
+            }
+        } else {
+            LOGGER.log(Level.CONFIG, "Mimic requires Coptalk in-use to function.");
+        }
+        return 0;
+    }
+
+    public MimicWarez(Item.Catalog catItem, int version) {
+        super(catItem, version);
     }
 
 }
