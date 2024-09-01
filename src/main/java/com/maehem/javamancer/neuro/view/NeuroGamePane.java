@@ -131,6 +131,8 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                     gameState.addMinute();
                     frameCount = 0;
                     mode.updateStatus();
+
+                    gameState.updateConstitution();
                 }
 
                 mode.tick();

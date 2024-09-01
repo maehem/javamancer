@@ -154,7 +154,7 @@ public class BodyShopPopup extends SmallPopupPane {
                     if (gameState.chipBalance >= price) {
                         LOGGER.log(Level.SEVERE, "Player bought " + part.itemName);
                         gameState.chipBalance -= price;
-                        gameState.constitution += part.constDamage;
+                        //gameState.modifyConstitution(part.constDamage);
                         gameState.soldBodyParts.remove(part);
                         gameState.bodyShopRecent = GameState.BodyShopRecent.BUY;
                     } else {
@@ -170,7 +170,7 @@ public class BodyShopPopup extends SmallPopupPane {
                     int price = part.sellPrice;
                     LOGGER.log(Level.SEVERE, "Player sold " + part.itemName);
                     gameState.chipBalance += price;
-                    gameState.constitution -= part.constDamage;
+                    //gameState.modifyConstitution(-part.constDamage);
                     gameState.soldBodyParts.add(part);
                     gameState.bodyShopRecent = GameState.BodyShopRecent.SELL;
                 } else {
