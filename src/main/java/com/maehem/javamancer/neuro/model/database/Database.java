@@ -26,16 +26,23 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public abstract class Database {
+
+    public static final Logger LOGGER = Logging.LOGGER;
+
     public final String name;
     public final int number;
     public final int zone;
@@ -53,7 +60,8 @@ public abstract class Database {
     public final Class<? extends AI> ai;
     public final Class<? extends Skill> weaknessSkill;
     public final Class<? extends Warez> weaknessWarez;
-    public final int ice;
+    public final int ICE_MAX;
+    private int ice;
     // content();
 
     public Database(String name, int number, int zone, int comlink,
@@ -77,7 +85,30 @@ public abstract class Database {
         this.ai = ai;
         this.weaknessSkill = weaknessSkill;
         this.weaknessWarez = weaknessWarez;
+        this.ICE_MAX = ice;
         this.ice = ice;
     }
 
+    public int getIce() {
+        return ice;
+    }
+
+    public int applyWarezAttack(Warez w, GameState gs) {
+        // TODO: Each Warez, Apply Skill buff.
+
+        // TODO: Decide if attack is ICE, AI or something else.
+        int damage = w.getEffect(gs);
+        ice -= damage;
+        if (ice < 0) {
+            damage += ice; // ice is negative, so lower damage reported.
+            ice = 0;
+        }
+        LOGGER.log(Level.SEVERE, "Apply " + damage + " to database.");
+        if (ice == 0) {
+            LOGGER.log(Level.SEVERE, "Database reached 0 ice.");
+        } else {
+            LOGGER.log(Level.SEVERE, "Database ice  = " + ice);
+        }
+        return damage;
+    }
 }
