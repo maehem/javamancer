@@ -151,10 +151,19 @@ public class SoftwarePane extends Pane {
         usedWarez = w;
         if (!usedResponse.equals(Warez.USE_OK)) {
             LOGGER.log(Level.SEVERE, "Use Software Not OK: {0}", usedResponse);
-            displayResponse(usedResponse);
+            //displayResponse(usedResponse);
+            // TODO: Play 'bad' sound.
+            setVisible(false);
         } else {
             gameState.usingDeck.setCurrentWarez(w);
             LOGGER.log(Level.SEVERE, "Use Software OK.");
+            // TODO: Play 'fire' sound.
+            displayUsingSoftware();
+            // Listen for warez to finish.
+            usedWarez.setOnFinished((t) -> {
+                LOGGER.log(Level.SEVERE, "Warez finished. " + w.item.itemName);
+                setVisible(false);
+            });
         }
     }
 
@@ -173,6 +182,17 @@ public class SoftwarePane extends Pane {
             setOnMouseClicked(null);
             softwarePrompt();
         });
+    }
+
+    private void displayUsingSoftware() {
+        LOGGER.log(Level.SEVERE, "Show Deck use() in progress");
+
+        getChildren().clear();
+        setVisible(true);
+        Text heading = new Text(usedWarez.getMenuString());
+
+        getChildren().add(PopupPane.makeBox(this, PopupPane.textFlow(heading)));
+
     }
 
     public boolean handleKeyEvent(KeyEvent ke) {
@@ -204,7 +224,6 @@ public class SoftwarePane extends Pane {
                 LOGGER.log(Level.SEVERE, "Cyberspace: SoftwarePane: More Pressed...");
             }
         }
-
 
         return false;
     }

@@ -175,9 +175,9 @@ public class BattleGridPane extends GridPane {
             new ImageView(resourceManager.getSprite("SHOTS_7"))};// Explode 5
 
         shotsLivePlayerPane = new ImageStack(305, 130, this.shotsLivePlayer);
-        shotsExplodePlayerPane = new ImageStack(284, 190, this.shotsExplodePlayer);
+        shotsExplodePlayerPane = new ImageStack(280, 190, this.shotsExplodePlayer);
         shotsLiveDBPane = new ImageStack(305, 130, this.shotsLiveDB);
-        shotsExplodeDBPane = new ImageStack(284, 98, this.shotsExplodeDB);
+        shotsExplodeDBPane = new ImageStack(280, 98, this.shotsExplodeDB);
         iceRearPane = new ImageStack(206, 46, this.iceRear);
         iceFrontPane = new ImageStack(206, 82, this.iceFront);
         iceVirusRearPane = new ImageStack(206, 46, this.iceVirusRear);
@@ -224,24 +224,49 @@ public class BattleGridPane extends GridPane {
             switch (w) {
                 case LinkWarez ww -> {
                     // Do nothing
+                    w.setRunning(true); // must toggle for event to work
+                    w.setRunning(false);
+                    deck.setCurrentWarez(null);
                 }
                 case IceBreakerWarez ww -> {
                     LOGGER.log(Level.SEVERE, "Using IceBreaker Warez... {0}", w.item.itemName);
+                    if (!ww.isRunning()) {
+                        ww.setRunning(true);
+                        fireShotPlayer();
+                    }
                 }
-                case VirusWarez ww -> {
-                    LOGGER.log(Level.SEVERE, "Using Virus Warez...{0}", w.item.itemName);
+                case VirusWarez ww -> { // ICE Breaker but deletes after use.
+                    LOGGER.log(Level.SEVERE, "Using Virus Warez...{0}.  Todo: What happens here?", w.item.itemName);
+                    if (!ww.isRunning()) {
+                        ww.setRunning(true);
+                        fireShotPlayer();
+                    }
                 }
                 case CorruptorWarez ww -> {
-                    LOGGER.log(Level.SEVERE, "Using Corruptor Warez...{0}", w.item.itemName);
+                    LOGGER.log(Level.SEVERE, "Using Corruptor Warez...{0}.  Todo: What happens here?", w.item.itemName);
+                    if (!ww.isRunning()) {
+                        ww.setRunning(true);
+                        fireShotPlayer();
+                    }
                 }
                 case ShotgunWarez ww -> {
-                    LOGGER.log(Level.SEVERE, "Using Corruptor Warez...{0}", w.item.itemName);
+                    LOGGER.log(Level.SEVERE, "Using Shotgun Warez...{0}.  Todo: What happens here?", w.item.itemName);
+                    if (!ww.isRunning()) {
+                        ww.setRunning(true);
+                        fireShotPlayer();
+                    }
                 }
                 case ChessWarez ww -> {
-                    LOGGER.log(Level.SEVERE, "Using Corruptor Warez...{0}", w.item.itemName);
+                    LOGGER.log(Level.SEVERE, "Using Chess Warez...{0}.  Todo: What happens here?", w.item.itemName);
+                    w.setRunning(true); // must toggle for event to work
+                    w.setRunning(false);
+                    deck.setCurrentWarez(null);
                 }
                 default -> {
-                    LOGGER.log(Level.SEVERE, "Using Non-Applicable Warez...{0}", w.item.itemName);
+                    LOGGER.log(Level.SEVERE, "Using Non-Applicable Warez...{0}. Remove from use.", w.item.itemName);
+                    w.setRunning(true); // must toggle for event to work
+                    w.setRunning(false);
+                    deck.setCurrentWarez(null);
                 }
             }
         }
@@ -250,7 +275,7 @@ public class BattleGridPane extends GridPane {
     void resetBattle() {
         Database db = gameState.database;
 
-        if (db.ice > 0) {
+        if (db.getIce() > 0) {
             setIceMode(IceMode.BASIC);
             iceRearSequence.start();
             iceFrontSequence.start();
@@ -276,7 +301,6 @@ public class BattleGridPane extends GridPane {
         //iceVirusFrontSequence.start();
         //iceVirusRotRearSequence.start();
         //iceVirusRotFrontSequence.start();
-
         //shotExplodePlayerSequence.start();
         //shotExplodeDBSequence.start();
         //fireShotPlayer();
@@ -284,17 +308,40 @@ public class BattleGridPane extends GridPane {
     }
 
     private void fireShotPlayer() {
-        shotsLivePlayerPane.setLayoutY(190);
+        DeckItem deck = gameState.usingDeck;
+        Warez w = deck.getCurrentWarez();
+        shotsLivePlayerPane.setLayoutY(200);
+
         shotsLivePlayerPane.setVisible(true);
         shotLivePlayerSequence.start();
-        TranslateTransition tt = shotMoveInit(shotsLivePlayerPane, -50, 2000);
+        TranslateTransition tt = shotMoveInit(
+                shotsLivePlayerPane,
+                -70,
+                w.getRunDuration()
+        );
         tt.setOnFinished((t) -> {
+            LOGGER.log(Level.SEVERE, "Warez " + w.item.itemName + " finished. Un-slot.");
+            w.setRunning(false);
+            deck.setCurrentWarez(null);
+
             tt.setNode(null);
             shotLivePlayerSequence.stop();
             shotsLivePlayerPane.setVisible(false);
+            shotsLivePlayerPane.setTranslateY(0);
             shotExplodeDBSequence.start();
-            iceBroken(iceFrontPane);
-            iceBroken(iceRearPane);
+            // Apply damage, considering weaknesses.
+            gameState.database.applyWarezAttack(w, gameState);
+
+            if (w instanceof VirusWarez) {
+                deck.softwarez.remove(w);
+            } else {
+                // Software has a chance of being worn/damaged.
+            }
+
+            if (gameState.database.getIce() == 0) {
+                iceBroken(iceFrontPane);
+                iceBroken(iceRearPane);
+            }
         });
     }
 
@@ -302,11 +349,12 @@ public class BattleGridPane extends GridPane {
         shotsLiveDBPane.setLayoutY(140);
         shotsLiveDBPane.setVisible(true);
         shotLiveDBSequence.start();
-        TranslateTransition tt = shotMoveInit(shotsLiveDBPane, 50, 2000);
+        TranslateTransition tt = shotMoveInit(shotsLiveDBPane, 60, 2000);
         tt.setOnFinished((t) -> {
             tt.setNode(null);
             shotLiveDBSequence.stop();
             shotsLiveDBPane.setVisible(false);
+            shotsLiveDBPane.setTranslateX(0);
         });
     }
 
