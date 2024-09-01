@@ -91,6 +91,7 @@ public class CyberspacePopup extends PopupPane {
 
     @Override
     public void cleanup() {
+        LOGGER.log(Level.SEVERE, "Cyberspace Popup: Cleanup called.");
         gameState.usingDeck.setMode(DeckItem.Mode.NONE);
         gameState.usingDeck = null;
         gameState.database = null;
@@ -110,5 +111,9 @@ public class CyberspacePopup extends PopupPane {
         }
         controlPanel.tick();
         visualPane.tick();
+
+        if (gameState.isFlatline()) {
+            listener.popupExit();
+        }
     }
 }
