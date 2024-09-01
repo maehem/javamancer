@@ -369,10 +369,20 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         } else {
             roomPane.tick(getGameState());
         }
-        GameState gs = getGameState();
+
         if (getGameState().previousSkill != getGameState().activeSkill) {
             // The skill in use has changed.
             // If the player has visited, trigger dialog. Should load new dialog.
+        }
+
+        if (getGameState().isFlatline()) {
+            LOGGER.log(Level.SEVERE, "RoomMode: player is flatlined.");
+            popup = null;
+
+            // Load revive room scene?
+            // Player has died in previous tick.
+            // Apply low costitution and revice in Body Shop.
+            getGameState().revive();
         }
 
     }
