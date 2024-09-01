@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
 import com.maehem.javamancer.neuro.view.popup.CyberspacePopup;
@@ -279,6 +280,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
 
     public final void tick() {
         updateText();
+        updateGauges();
 
         if (gameState.databaseArrived) {
             gameState.databaseArrived = false;
@@ -301,6 +303,18 @@ public class ControlPanelPane extends Pane implements PopupListener {
 
     public void configState(CyberspacePopup.State state) {
 
+    }
+
+    private void updateGauges() {
+        Database db = gameState.database;
+        if (db != null) {
+            // DB gauge
+            int dmgPercent = 100 * (db.ICE_MAX - db.getIce()) / db.ICE_MAX;
+            opponentDamage.setValue(dmgPercent);
+        } else {
+            opponentDamage.setValue(0);
+            playerDamage.setValue(0);
+        }
     }
 
 }
