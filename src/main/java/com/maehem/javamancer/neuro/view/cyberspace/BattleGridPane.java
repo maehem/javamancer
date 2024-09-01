@@ -50,8 +50,13 @@ import javafx.util.Duration;
  */
 public class BattleGridPane extends GridPane {
 
+    private static final int ICE_X = 210;
+    private static final int SHOT_X = 310;
+    private static final int EXPLODE_X = 284;
+
     //private final int[] aiPos;
     private final ImageStack aiFace;
+    private boolean dbAttackRunning;
 
     private enum IceMode {
         NONE, BASIC, VIRUS, ROT
@@ -174,16 +179,16 @@ public class BattleGridPane extends GridPane {
             new ImageView(resourceManager.getSprite("SHOTS_6")), // Explode 4
             new ImageView(resourceManager.getSprite("SHOTS_7"))};// Explode 5
 
-        shotsLivePlayerPane = new ImageStack(305, 130, this.shotsLivePlayer);
-        shotsExplodePlayerPane = new ImageStack(280, 190, this.shotsExplodePlayer);
-        shotsLiveDBPane = new ImageStack(305, 130, this.shotsLiveDB);
-        shotsExplodeDBPane = new ImageStack(280, 98, this.shotsExplodeDB);
-        iceRearPane = new ImageStack(206, 46, this.iceRear);
-        iceFrontPane = new ImageStack(206, 82, this.iceFront);
-        iceVirusRearPane = new ImageStack(206, 46, this.iceVirusRear);
-        iceVirusFrontPane = new ImageStack(206, 82, this.iceVirusFront);
-        iceVirusRotRearPane = new ImageStack(206, 46, this.iceVirusRotRear);
-        iceVirusRotFrontPane = new ImageStack(206, 82, this.iceVirusRotFront);
+        shotsLivePlayerPane = new ImageStack(SHOT_X, 130, this.shotsLivePlayer);
+        shotsExplodePlayerPane = new ImageStack(EXPLODE_X, 190, this.shotsExplodePlayer);
+        shotsLiveDBPane = new ImageStack(SHOT_X, 130, this.shotsLiveDB);
+        shotsExplodeDBPane = new ImageStack(EXPLODE_X, 98, this.shotsExplodeDB);
+        iceRearPane = new ImageStack(ICE_X, 46, this.iceRear);
+        iceFrontPane = new ImageStack(ICE_X, 82, this.iceFront);
+        iceVirusRearPane = new ImageStack(ICE_X, 46, this.iceVirusRear);
+        iceVirusFrontPane = new ImageStack(ICE_X, 82, this.iceVirusFront);
+        iceVirusRotRearPane = new ImageStack(ICE_X, 46, this.iceVirusRotRear);
+        iceVirusRotFrontPane = new ImageStack(ICE_X, 82, this.iceVirusRotFront);
 
         database = new ImageStack(276, 44, dbThing);
         database.show(0);
@@ -202,7 +207,7 @@ public class BattleGridPane extends GridPane {
                 shotsLivePlayerPane, shotsExplodePlayerPane
         );
 
-        shotExplodePlayerSequence = new FrameSequence(shotsExplodePlayer, false, true);
+        shotExplodePlayerSequence = new FrameSequence(shotsExplodePlayer, false, false);
         shotLivePlayerSequence = new FrameSequence(shotsLivePlayer, false, true);
         shotExplodeDBSequence = new FrameSequence(shotsExplodeDB, false, false);
         shotLiveDBSequence = new FrameSequence(shotsLiveDB, false, true);
@@ -217,6 +222,11 @@ public class BattleGridPane extends GridPane {
     }
 
     protected void tick() {
+        if (gameState.isFlatline()) {
+            cleanup();
+            return;
+        }
+
         // Update the current state of the battle.
         DeckItem deck = gameState.usingDeck;
         if (deck.getCurrentWarez() != null) {
@@ -270,6 +280,10 @@ public class BattleGridPane extends GridPane {
                 }
             }
         }
+        if (!dbAttackRunning) {
+            // DB attack
+            fireShotDB();
+        }
     }
 
     void resetBattle() {
@@ -295,7 +309,7 @@ public class BattleGridPane extends GridPane {
         shotsLiveDBPane.setVisible(false);
         shotsExplodeDBPane.setVisible(true);
         shotsLivePlayerPane.setVisible(false);
-        shotsExplodePlayerPane.setVisible(false);
+        shotsExplodePlayerPane.setVisible(true);
 
         //iceVirusRearSequence.start();
         //iceVirusFrontSequence.start();
@@ -308,12 +322,14 @@ public class BattleGridPane extends GridPane {
     }
 
     private void fireShotPlayer() {
+        LOGGER.log(Level.SEVERE, "Player Fires Attack Round...");
         DeckItem deck = gameState.usingDeck;
         Warez w = deck.getCurrentWarez();
-        shotsLivePlayerPane.setLayoutY(200);
 
+        shotsLivePlayerPane.setLayoutY(200);
         shotsLivePlayerPane.setVisible(true);
         shotLivePlayerSequence.start();
+
         TranslateTransition tt = shotMoveInit(
                 shotsLivePlayerPane,
                 -70,
@@ -346,15 +362,26 @@ public class BattleGridPane extends GridPane {
     }
 
     private void fireShotDB() {
-        shotsLiveDBPane.setLayoutY(140);
+        LOGGER.log(Level.SEVERE, "Database Fires Attack Round...");
+        Database db = gameState.database;
+
+        shotsLiveDBPane.setLayoutY(120);
         shotsLiveDBPane.setVisible(true);
         shotLiveDBSequence.start();
-        TranslateTransition tt = shotMoveInit(shotsLiveDBPane, 60, 2000);
+        dbAttackRunning = true;
+
+        TranslateTransition tt = shotMoveInit(shotsLiveDBPane, 80, db.shotDuration);
         tt.setOnFinished((t) -> {
+            LOGGER.log(Level.SEVERE, "DB Attack finished.");
+            dbAttackRunning = false;
+
+            //int effect = db.getEffect(gameState);
             tt.setNode(null);
             shotLiveDBSequence.stop();
             shotsLiveDBPane.setVisible(false);
-            shotsLiveDBPane.setTranslateX(0);
+            shotsLiveDBPane.setTranslateY(0);
+            shotExplodePlayerSequence.start();
+            gameState.applyDbAttack(); // Handles death and constitution.
         });
     }
 
@@ -398,5 +425,12 @@ public class BattleGridPane extends GridPane {
         iceVirusRearPane.setVisible(mode == IceMode.VIRUS);
         iceVirusRotFrontPane.setVisible(mode == IceMode.ROT);
         iceVirusRotRearPane.setVisible(mode == IceMode.ROT);
+    }
+
+    /**
+     * Called if battle ends or death.
+     */
+    public void cleanup() {
+        //
     }
 }
