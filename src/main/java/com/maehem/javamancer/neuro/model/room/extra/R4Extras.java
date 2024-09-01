@@ -27,8 +27,8 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
  *
@@ -59,6 +59,7 @@ public class R4Extras extends RoomExtras {
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
+        //gs.resourceManager.getRoomText(Room.R4).dumpList();
     }
 
     @Override
@@ -73,10 +74,22 @@ public class R4Extras extends RoomExtras {
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (gs.bodyShopRecent == GameState.BodyShopRecent.BUY) {
-            return 11; // Thianks for stopping by.
-        } else if (gs.bodyShopRecent == GameState.BodyShopRecent.SELL) {
-            return 15; // Enjoy your cheap plastic replacement.
+
+        if (null != gs.bodyShopRecent) {
+            switch (gs.bodyShopRecent) {
+                case BUY -> {
+                    return 11; // Thianks for stopping by.
+                }
+                case SELL -> {
+                    return 15; // Enjoy your cheap plastic replacement.
+                }
+                case REVIVED -> {
+                    gs.bodyShopRecent = GameState.BodyShopRecent.NONE;
+                    return 13; // I jumpstarted your brain...
+                }
+                default -> {
+                }
+            }
         }
 
         if (gs.visited.contains(gs.room)) {
@@ -90,6 +103,5 @@ public class R4Extras extends RoomExtras {
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
-
 
 }
