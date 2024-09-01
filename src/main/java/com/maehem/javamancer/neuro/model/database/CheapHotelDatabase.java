@@ -49,7 +49,7 @@ public class CheapHotelDatabase extends Database {
         super("Cheap Hotel", 4,
                 0,
                 1,
-                null, null, null, null,
+                "cheapo", "guest", "cockroach", null,
                 112, 112,
                 null, null, null,
                 84);
