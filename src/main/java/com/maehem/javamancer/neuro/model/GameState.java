@@ -52,6 +52,7 @@ public class GameState {
 
     public static final Logger LOGGER = Logging.LOGGER;
     private boolean flatlined = false;
+    private boolean iceBroken;
 
     public enum BodyShopRecent {
         NONE, BUY, SELL, REVIVED;
@@ -296,6 +297,14 @@ public class GameState {
         flatlined = false;
         bodyShopRecent = BodyShopRecent.REVIVED; // Handled by R4Extras.warmup()
         useDoor = RoomBounds.Door.BODY_SHOP;
+    }
+
+    public void setIceBroken(boolean state) {
+        this.iceBroken = state;
+    }
+
+    public boolean isIceBroken() {
+        return iceBroken;
     }
 
 }
