@@ -31,8 +31,10 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.cyberspace.ControlPanelPane;
 import com.maehem.javamancer.neuro.view.cyberspace.VisualPane;
+import com.maehem.javamancer.neuro.view.database.DatabaseView;
 import java.util.logging.Level;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -45,14 +47,21 @@ public class CyberspacePopup extends PopupPane {
     private static final int WIDTH = 640;
     private static final int HEIGHT = 480;
     private static final int CPANEL_TOP = 240;
+
+    private static final int LARGE_WIDTH = 640;
+    private static final int LARGE_HEIGHT = 288;
+    private static final int LARGE_X = 0;
+    private static final int LARGE_Y = 0;
+
     private final ControlPanelPane controlPanel;
     private final VisualPane visualPane;
+    private final Pane databsePane;
+
+    private DatabaseView databaseView;
 
     public enum State {
         EXPLORE, BATTLE
     }
-
-    private State state;
 
     public CyberspacePopup(PopupListener l, GameState gs) {
         super(l, gs);
@@ -67,24 +76,30 @@ public class CyberspacePopup extends PopupPane {
         controlPanel = new ControlPanelPane(l, gs, visualPane);
         controlPanel.setLayoutY(CPANEL_TOP);
 
+        databsePane = new Pane();
+        configDatabasePane();
+
         getChildren().addAll(
-                backdrop, visualPane, controlPanel
+                backdrop, visualPane, controlPanel, databsePane
         );
     }
 
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         LOGGER.log(Level.SEVERE, "CyberPopup: Key Event.");
-        if (controlPanel.handleKeyEvent(keyEvent)) {
+        if (databaseView != null) {
+            if (databaseView != null) {
+                if (databaseView.handleKeyEvent(keyEvent)) {
+                    LOGGER.log(Level.SEVERE, "CyberPopup: Key Event: True returned from Database View.");
+                    databaseView = null;
+                    cleanup();
+                    return true;
+                }
+            }
+        } else if (controlPanel.handleKeyEvent(keyEvent)) {
             LOGGER.log(Level.SEVERE, "CyberPopup: Key Event: True returned from control panel.");
             return true;
         }
-
-//        if (!keyEvent.isConsumed()) {
-//            visualPane.handleKeyEvent(keyEvent);
-//        } else {
-//            LOGGER.log(Level.SEVERE, "CyberPopup: Key event consumed by ControlPanel, not sent to VisualPane.");
-//        }
 
         return false;
     }
@@ -93,13 +108,11 @@ public class CyberspacePopup extends PopupPane {
     public void cleanup() {
         LOGGER.log(Level.SEVERE, "Cyberspace Popup: Cleanup called.");
         gameState.usingDeck.setMode(DeckItem.Mode.NONE);
-        gameState.usingDeck = null;
-        gameState.database = null;
         gameState.databaseBattle = false;
+        databaseView = null;
     }
 
     public void setState(State state) {
-        this.state = state;
         visualPane.configState(state);
         controlPanel.configState(state);
     }
@@ -110,10 +123,34 @@ public class CyberspacePopup extends PopupPane {
             setState(State.BATTLE);
         }
         controlPanel.tick();
-        visualPane.tick();
 
         if (gameState.isFlatline()) {
             listener.popupExit();
         }
+        if (databaseView != null) {
+            databaseView.tick();
+        } else {
+            visualPane.tick();
+        }
+        if (gameState.isIceBroken()) {
+            // Unset iceBroken
+            gameState.setIceBroken(false);
+            // Set Database View
+            this.databaseView = DatabaseView.getView(gameState, databsePane, listener);
+            databsePane.setVisible(true);
+        }
+
+
     }
+
+    private void configDatabasePane() {
+        databsePane.setPrefSize(LARGE_WIDTH, LARGE_HEIGHT);
+        databsePane.setMinSize(LARGE_WIDTH, LARGE_HEIGHT);
+        databsePane.setMaxSize(LARGE_WIDTH, LARGE_HEIGHT);
+        databsePane.setLayoutX(LARGE_X);
+        databsePane.setLayoutY(LARGE_Y);
+        databsePane.setId("neuro-popup");
+        databsePane.setVisible(false);
+    }
+
 }
