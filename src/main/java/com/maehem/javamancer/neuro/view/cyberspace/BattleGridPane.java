@@ -399,6 +399,7 @@ public class BattleGridPane extends GridPane {
         ft.setOnFinished((t) -> {
             fadingNode.setVisible(false);
             fadingNode.setOpacity(1.0);
+            gameState.setIceBroken(true);
         });
         ft.play();
 
