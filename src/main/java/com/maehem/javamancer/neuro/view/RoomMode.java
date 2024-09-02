@@ -384,7 +384,6 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             // Apply low costitution and revice in Body Shop.
             getGameState().revive();
         }
-
     }
 
     /**
