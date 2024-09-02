@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
+import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.Map;
 import java.util.logging.Level;
@@ -75,7 +76,11 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
 
         dbTextResource = gameState.resourceManager.getDatabaseText(gameState.database.number);
         headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
-        landingPage();
+        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
+            mainMenu();
+        } else {
+            landingPage();
+        }
     }
 
     @Override
@@ -85,8 +90,7 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
 
         Text helloText = new Text(dbTextResource.get(2) + "\n\n\n");
 
-        TextFlow tf = pageTextFlow();
-        tf.getChildren().addAll(headingText, helloText, CONTINUE_TEXT);
+        TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
     }
 
@@ -203,15 +207,15 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         scrollHint.setLayoutX(620);
         scrollHint.setLayoutY(280);
 
-        Text headText = new Text(centeredText(dbTextResource.get(0)));
+        Text headText = pageText(centeredText(dbTextResource.get(0)));
 
         TextFlow tf = pageTextFlow();
         //tf.getChildren().add(headingText);
         ScrollPane sp = new ScrollPane(tf);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sp.setMinSize(628, 256);
-        sp.setMaxSize(628, 256);
+        sp.setMinSize(620, 262);
+        sp.setMaxSize(620, 262);
 
         if (itemLetter.equals("X")) {
             // Exit system
