@@ -30,11 +30,13 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.view.PopupListener;
+import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import static javafx.scene.input.KeyCode.ESCAPE;
 import static javafx.scene.input.KeyCode.X;
@@ -42,6 +44,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.scene.transform.Scale;
 
 /**
  *
@@ -61,7 +64,7 @@ public abstract class DatabaseView {
 
     protected static final int CHAR_W = 39; // This many chars accross.
     protected static final double LINE_SPACING = -8.8;
-    protected static final double TF_W = 640;
+    protected static final double TF_W = 420;
     protected static final Insets TF_PADDING = new Insets(8);
 
     private final StringBuilder typedPassword = new StringBuilder();
@@ -145,13 +148,21 @@ public abstract class DatabaseView {
         return String.format("%" + pad + "s", str);
     }
 
-    protected TextFlow pageTextFlow() {
-        TextFlow tf = new TextFlow();
+    protected TextFlow pageTextFlow(Node... node) {
+        TextFlow tf = new TextFlow(node);
         tf.setPadding(TF_PADDING);
         tf.setLineSpacing(LINE_SPACING);
         tf.setPrefWidth(TF_W);
+        tf.getTransforms().add(new Scale(PopupPane.TEXT_SCALE, 1.0));
 
         return tf;
+    }
+
+    protected Text pageText(String text) {
+        Text t = new Text(text);
+        t.getTransforms().add(new Scale(1.5, 1.0));
+
+        return t;
     }
 
     private void passwordPage() {
@@ -168,15 +179,15 @@ public abstract class DatabaseView {
         Text leadingText2 = new Text(leadingSpace);
         Text cursorText = new Text("<\n");
 
-        TextFlow tf = new TextFlow(
+        TextFlow tf = pageTextFlow(
                 leadingText1, instructionsText,
                 leadingText2, enteredText, cursorText,
                 new Text("\n\n"), accessStatusText, // need blank Text() or FX has rendering issue.
                 new Text("\n\n\n\n"), CONTINUE_TEXT
         );
-        tf.setPadding(TF_PADDING);
-        tf.setLineSpacing(LINE_SPACING);
-        tf.setPrefWidth(TF_W);
+        //tf.setPadding(TF_PADDING);
+        //tf.setLineSpacing(LINE_SPACING);
+        //f.setPrefWidth(TF_W);
 
         return tf;
     }
