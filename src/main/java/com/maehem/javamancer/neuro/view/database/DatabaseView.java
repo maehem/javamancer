@@ -231,8 +231,8 @@ public abstract class DatabaseView {
         ScrollPane sp = new ScrollPane(node);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sp.setMinSize(300, 230);
-        sp.setMaxSize(300, 230);
+        sp.setMinSize(440, 234);
+        sp.setMaxSize(440, 234);
 
         TextFlow mainTf = pageTextFlow(header, new Text("\n"), sp);
         mainTf.setLineSpacing(LINE_SPACING);
