@@ -114,7 +114,10 @@ public class BIHThing {
                     System.arraycopy(data, 0, unknown, 0, txtOffset);
                     initPasswords(byteCodeArrayOffset[1], byteCodeArrayOffset[2]);
                     initText(txtOffset);
-                } else if (name.startsWith("COPEN")) {
+                } else if (name.startsWith("COPEN")
+                        || name.startsWith("PSYCHO")
+                        || name.startsWith("SEA2")
+                        || name.startsWith("IRS1")) {  // Plain text files.
                     cbOffset = 0;
                     cbSegment = 0;
                     ctrlStructAddr = 0;
