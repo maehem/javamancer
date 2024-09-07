@@ -169,7 +169,7 @@ public class PaxBbsNode extends PaxNode {
             if (i + messageIndex < articles.size()) {
                 BbsMessage article = articles.get(i + messageIndex);
                 if (article.show) {
-                    Text messageItem = new Text((i + 1) + ". " + article.toListString() + "\n");
+                    Text messageItem = new Text((i + 1) + ". " + article.toListString(gameState.name) + "\n");
                     tf.getChildren().add(messageItem);
                     final int n = i + messageIndex;
                     messageItem.setOnMouseClicked((t) -> {
@@ -452,6 +452,7 @@ public class PaxBbsNode extends PaxNode {
 
     private void sendMessage() {
         BbsMessage message = new BbsMessage(
+                0,
                 gameState.getDateString(),
                 typedTo.toString(),
                 gameState.name,
