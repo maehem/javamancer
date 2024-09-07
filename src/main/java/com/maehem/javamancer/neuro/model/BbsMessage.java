@@ -38,24 +38,58 @@ public class BbsMessage {
         "11/16/58", "11/16/58"
     };
 
+    public final int dbNumber; // 0 == PAX
     public String date;
     public final String to;
     public final String from;
-    public final String body;
+    public String body;
+    public final int prefillIndex;
     public boolean show;
 
     public static final int defaultShow = 3; // Default show articles 0..3
 
-    public BbsMessage(String date, String to, String from, String body, boolean show) {
+    /**
+     * For game time sent or generated messages.
+     *
+     * @param date
+     * @param to
+     * @param from
+     * @param body
+     * @param show
+     */
+    public BbsMessage(int dbNumber, String date, String to, String from, String body, boolean show) {
+        this.dbNumber = dbNumber;
         this.date = date;
         this.to = to;
         this.from = from;
         this.body = body;
+        this.prefillIndex = -1;
         this.show = show;
     }
 
-    public String toListString() {
-        return date + " " + String.format("%-13s", to) + " " + from;
+    /**
+     * For static messages from game content files.
+     *
+     * @param date
+     * @param to
+     * @param from
+     * @param index
+     * @param show
+     */
+    public BbsMessage(String date, String to, String from, int index, boolean show) {
+        this.dbNumber = -1;
+        this.date = date;
+        this.to = to;
+        this.from = from;
+        this.prefillIndex = index;
+        this.show = show;
     }
+
+    public String toListString(String playerName) {
+        String fromStr = from.replace("\1", playerName);
+        String toStr = to.replace("\1", playerName);
+        return date + " " + String.format("%-13s", toStr) + " " + fromStr;
+    }
+
 
 }
