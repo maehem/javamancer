@@ -30,6 +30,7 @@ import com.maehem.javamancer.neuro.model.ai.PhantomAI;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 import com.maehem.javamancer.neuro.model.warez.BattleChessWarez;
 import com.maehem.javamancer.neuro.model.warez.HemlockWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -49,7 +50,7 @@ import com.maehem.javamancer.neuro.model.warez.HemlockWarez;
  */
 public class PhantomDatabase extends Database {
 
-    public PhantomDatabase() {
+    public PhantomDatabase(ResourceManager rm) {
         super("Phantom", 36,
                 7,
                 -1,
@@ -57,7 +58,8 @@ public class PhantomDatabase extends Database {
                 null, null, null,
                 320, 464,
                 PhantomAI.class, LogicSkill.class, BattleChessWarez.class,
-                2000
+                2000,
+                rm
         );
 
         warez1.put(HemlockWarez.class, 1);

@@ -36,6 +36,7 @@ import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
 import com.maehem.javamancer.neuro.model.warez.LogicBombWarez;
 import com.maehem.javamancer.neuro.model.warez.ProbeWarez;
 import com.maehem.javamancer.neuro.model.warez.SlowWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -55,7 +56,7 @@ import com.maehem.javamancer.neuro.model.warez.SlowWarez;
  */
 public class KGBDatabase extends Database {
 
-    public KGBDatabase() {
+    public KGBDatabase(ResourceManager rm) {
         super(
                 "KGB", 35,
                 6,
@@ -64,7 +65,8 @@ public class KGBDatabase extends Database {
                 null, null, null,
                 112, 416,
                 LuciferAI.class, LogicSkill.class, null,
-                1100);
+                1100,
+                rm);
         warez1.put(SlowWarez.class, 5);
         warez1.put(JammiesWarez.class, 4);
         warez1.put(ArmorallWarez.class, 4);

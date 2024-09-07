@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.model.warez.HammerWarez;
 import com.maehem.javamancer.neuro.model.warez.InjectorWarez;
 import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
 import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -51,7 +52,7 @@ import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
  */
 public class GridpointDatabase extends Database {
 
-    public GridpointDatabase() {
+    public GridpointDatabase(ResourceManager rm) {
         super(
                 "Gridpoint", 27,
                 4,
@@ -60,7 +61,8 @@ public class GridpointDatabase extends Database {
                 null, null, null,
                 160, 320,
                 null, null, null,
-                0);
+                0,
+                rm);
 
         warez1.put(ThunderheadWarez.class, 3);
         warez1.put(InjectorWarez.class, 3);

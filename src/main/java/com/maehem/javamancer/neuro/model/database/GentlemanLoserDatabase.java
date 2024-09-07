@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: Gentleman Loser
@@ -45,7 +47,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class GentlemanLoserDatabase extends Database {
 
-    public GentlemanLoserDatabase() {
+    public GentlemanLoserDatabase(ResourceManager rm) {
         super(
                 "Gentleman Loser", 15,
                 1,
@@ -54,7 +56,8 @@ public class GentlemanLoserDatabase extends Database {
                 "wilson", "loser", null,
                 416, 64,
                 null, null, null,
-                150
+                150,
+                rm
         );
     }
 

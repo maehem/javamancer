@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.model.database;
 import com.maehem.javamancer.neuro.model.warez.HammerWarez;
 import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
 import com.maehem.javamancer.neuro.model.warez.MimicWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -49,7 +50,7 @@ import com.maehem.javamancer.neuro.model.warez.MimicWarez;
  */
 public class IRSDatabase extends Database {
 
-    public IRSDatabase() {
+    public IRSDatabase(ResourceManager rm) {
         super(
                 "IRS", 7,
                 1,
@@ -58,7 +59,8 @@ public class IRSDatabase extends Database {
                 "taxinfo", "audit", null,
                 272, 64,
                 null, null, null,
-                150
+                150,
+                rm
         );
 
         warez3.put(JammiesWarez.class, 1);

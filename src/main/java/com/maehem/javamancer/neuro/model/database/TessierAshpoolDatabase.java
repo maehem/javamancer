@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.WintermuteAI;
 import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -47,7 +48,7 @@ import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
  */
 public class TessierAshpoolDatabase extends Database {
 
-    public TessierAshpoolDatabase() {
+    public TessierAshpoolDatabase(ResourceManager rm) {
         super(
                 "Tessier-Ashpool", 37,
                 7,
@@ -56,7 +57,8 @@ public class TessierAshpoolDatabase extends Database {
                 null, null, null,
                 384, 416,
                 WintermuteAI.class, SophistrySkill.class, null,
-                2000
+                2000,
+                rm
         );
     }
 

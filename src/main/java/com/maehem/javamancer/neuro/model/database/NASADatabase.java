@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.HalAI;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -48,7 +49,7 @@ import com.maehem.javamancer.neuro.model.skill.LogicSkill;
  */
 public class NASADatabase extends Database {
 
-    public NASADatabase() {
+    public NASADatabase(ResourceManager rm) {
         super(
                 "NASA", 20,
                 1,
@@ -57,7 +58,8 @@ public class NASADatabase extends Database {
                 "apollo", null, null,
                 448, 32,
                 HalAI.class, LogicSkill.class, null,
-                150
+                150,
+                rm
         );
     }
 

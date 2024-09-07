@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: Hitachi Biotech
@@ -45,7 +47,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class HitachiBiotechDatabase extends Database {
 
-    public HitachiBiotechDatabase() {
+    public HitachiBiotechDatabase(ResourceManager rm) {
         super(
                 "Hitachi Biotech", 10,
                 2,
@@ -54,7 +56,8 @@ public class HitachiBiotechDatabase extends Database {
                 "genesplice", "biotech", null,
                 32, 192,
                 null, null, null,
-                260
+                260,
+                rm
         );
     }
 

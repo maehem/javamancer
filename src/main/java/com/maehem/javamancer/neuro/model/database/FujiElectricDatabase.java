@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: Fuji Electric
@@ -45,7 +47,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class FujiElectricDatabase extends Database {
 
-    public FujiElectricDatabase() {
+    public FujiElectricDatabase(ResourceManager rm) {
         super("Fuji Electric", 8,
                 2,
                 2,
@@ -53,7 +55,8 @@ public class FujiElectricDatabase extends Database {
                 "romcards", "uchikatsu", null,
                 112, 240,
                 null, null, null,
-                260
+                260,
+                rm
         );
     }
 

@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: I.N.S.A.
@@ -43,7 +45,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class INSADatabase extends Database {
 
-    public INSADatabase() {
+    public INSADatabase(ResourceManager rm) {
         super(
                 "I.N.S.A", 25,
                 5,
@@ -52,7 +54,8 @@ public class INSADatabase extends Database {
                 null, null, null,
                 448, 320,
                 null, null, null,
-                1000
+                1000,
+                rm
         );
     }
 

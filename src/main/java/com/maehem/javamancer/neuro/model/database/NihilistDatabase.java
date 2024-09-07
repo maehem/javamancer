@@ -30,6 +30,7 @@ import com.maehem.javamancer.neuro.model.warez.AcidWarez;
 import com.maehem.javamancer.neuro.model.warez.LogicBombWarez;
 import com.maehem.javamancer.neuro.model.warez.PythonWarez;
 import com.maehem.javamancer.neuro.model.warez.SlowWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -49,7 +50,7 @@ import com.maehem.javamancer.neuro.model.warez.SlowWarez;
  */
 public class NihilistDatabase extends Database {
 
-    public NihilistDatabase() {
+    public NihilistDatabase(ResourceManager rm) {
         super(
                 "Nihilist", 24,
                 5,
@@ -58,7 +59,8 @@ public class NihilistDatabase extends Database {
                 null, null, null,
                 416, 368,
                 null, null, null,
-                1000
+                1000,
+                rm
         );
         warez1.put(PythonWarez.class, 5);
         warez1.put(AcidWarez.class, 3);

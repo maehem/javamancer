@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.model.database;
 import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import com.maehem.javamancer.neuro.model.warez.SequencerWarez;
 import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -49,7 +50,7 @@ import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
  */
 public class SoftwareEnforcementDatabase extends Database {
 
-    public SoftwareEnforcementDatabase() {
+    public SoftwareEnforcementDatabase(ResourceManager rm) {
         super(
                 "Software Enforcement Agency (SEA)", 12,
                 1,
@@ -58,7 +59,8 @@ public class SoftwareEnforcementDatabase extends Database {
                 "permafrost", null, null,
                 352, 64,
                 null, null, null,
-                150
+                150,
+                rm
         );
 
         warez1.put(ComLinkWarez.class, 4);

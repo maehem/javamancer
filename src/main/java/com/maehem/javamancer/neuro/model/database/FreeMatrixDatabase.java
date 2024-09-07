@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.model.database;
 import com.maehem.javamancer.neuro.model.ai.SaphireAI;
 import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 import com.maehem.javamancer.neuro.model.warez.BlammoWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -49,7 +50,7 @@ import com.maehem.javamancer.neuro.model.warez.BlammoWarez;
  */
 public class FreeMatrixDatabase extends Database {
 
-    public FreeMatrixDatabase() {
+    public FreeMatrixDatabase(ResourceManager rm) {
         super("Citizens for a Free Matrix", 13,
                 1,
                 4,
@@ -57,7 +58,8 @@ public class FreeMatrixDatabase extends Database {
                 "CFM", null, null, // Higher only from cyberspace.
                 352, 112,
                 SaphireAI.class, SophistrySkill.class, null,
-                150
+                150,
+                rm
         );
 
         warez1.put(BlammoWarez.class, 1);

@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.model.warez.HammerWarez;
 import com.maehem.javamancer.neuro.model.warez.InjectorWarez;
 import com.maehem.javamancer.neuro.model.warez.MimicWarez;
 import com.maehem.javamancer.neuro.model.warez.SlowWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -53,7 +54,7 @@ import com.maehem.javamancer.neuro.model.warez.SlowWarez;
  */
 public class HosakaDatabase extends Database {
 
-    public HosakaDatabase() {
+    public HosakaDatabase(ResourceManager rm) {
         super(
                 "Hosaka Corporation", 17,
                 2,
@@ -62,7 +63,8 @@ public class HosakaDatabase extends Database {
                 "biosoft", "fungeki", null,
                 144, 160,
                 null, null, null,
-                260
+                260,
+                rm
         );
 
         warez1.put(ComLinkWarez.class, 5);

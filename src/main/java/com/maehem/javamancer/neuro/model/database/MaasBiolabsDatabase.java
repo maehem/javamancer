@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.SangfroidAI;
 import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -47,7 +48,7 @@ import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
  */
 public class MaasBiolabsDatabase extends Database {
 
-    public MaasBiolabsDatabase() {
+    public MaasBiolabsDatabase(ResourceManager rm) {
         super("Maas Biolabs", 34,
                 6,
                 -1,
@@ -55,7 +56,8 @@ public class MaasBiolabsDatabase extends Database {
                 null, null, null,
                 112, 480,
                 SangfroidAI.class, PhenomenologySkill.class, null,
-                1100
+                1100,
+                rm
         );
     }
 

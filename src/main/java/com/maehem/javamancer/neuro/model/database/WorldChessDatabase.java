@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.MorphyAI;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -48,7 +49,7 @@ import com.maehem.javamancer.neuro.model.skill.LogicSkill;
  */
 public class WorldChessDatabase extends Database {
 
-    public WorldChessDatabase() {
+    public WorldChessDatabase(ResourceManager rm) {
         super(
                 "World Chess", 3,
                 0,
@@ -57,7 +58,8 @@ public class WorldChessDatabase extends Database {
                 "novice", "member", null,
                 160, 80,
                 MorphyAI.class, LogicSkill.class, null,
-                84
+                84,
+                rm
         );
     }
 

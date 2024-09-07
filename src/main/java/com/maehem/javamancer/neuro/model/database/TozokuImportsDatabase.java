@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * name: Tozoku Imports
@@ -45,7 +47,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class TozokuImportsDatabase extends Database {
 
-    public TozokuImportsDatabase() {
+    public TozokuImportsDatabase(ResourceManager rm) {
         super(
                 "Tozoku Imports", 16,
                 1,
@@ -54,7 +56,8 @@ public class TozokuImportsDatabase extends Database {
                 "yak", null, null,
                 480, 80,
                 null, null, null,
-                150
+                150,
+                rm
         );
     }
 

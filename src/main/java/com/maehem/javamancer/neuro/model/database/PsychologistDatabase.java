@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.ChromeAI;
 import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -48,7 +49,7 @@ import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
  */
 public class PsychologistDatabase extends Database {
 
-    public PsychologistDatabase() {
+    public PsychologistDatabase(ResourceManager rm) {
         super(
                 "Psychologist", 5,
                 0,
@@ -57,7 +58,8 @@ public class PsychologistDatabase extends Database {
                 "new mo", "babylon", null,
                 96, 32,
                 ChromeAI.class, PhilosophySkill.class, null,
-                84
+                84,
+                rm
         );
     }
 

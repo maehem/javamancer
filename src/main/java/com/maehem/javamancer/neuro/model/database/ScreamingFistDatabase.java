@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.model.warez.EasyRiderWarez;
 import com.maehem.javamancer.neuro.model.warez.KGBWarez;
 import com.maehem.javamancer.neuro.model.warez.PythonWarez;
 import com.maehem.javamancer.neuro.model.warez.SlowWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -51,7 +52,7 @@ import com.maehem.javamancer.neuro.model.warez.SlowWarez;
  */
 public class ScreamingFistDatabase extends Database {
 
-    public ScreamingFistDatabase() {
+    public ScreamingFistDatabase(ResourceManager rm) {
         super(
                 "Screaming Fist", 33,
                 3,
@@ -60,7 +61,8 @@ public class ScreamingFistDatabase extends Database {
                 null, null, null,
                 464, 160,
                 null, null, null,
-                400
+                400,
+                rm
         );
         warez1.put(KGBWarez.class, 1);
         warez1.put(EasyRiderWarez.class, 1);

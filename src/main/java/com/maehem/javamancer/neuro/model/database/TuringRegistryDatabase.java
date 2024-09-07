@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: Turing Registry
@@ -44,7 +46,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class TuringRegistryDatabase extends Database {
 
-    public TuringRegistryDatabase() {
+    public TuringRegistryDatabase(ResourceManager rm) {
         super(
                 "Turing Registry", 32,
                 3,
@@ -53,7 +55,8 @@ public class TuringRegistryDatabase extends Database {
                 null, null, null,
                 432, 240,
                 null, null, null,
-                400
+                400,
+                rm
         );
     }
 

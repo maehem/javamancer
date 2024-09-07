@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.XavieraAI;
 import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -47,7 +48,7 @@ import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
  */
 public class FreeSexUnionDatabase extends Database {
 
-    public FreeSexUnionDatabase() {
+    public FreeSexUnionDatabase(ResourceManager rm) {
         super("Free Sex Union", 29,
                 3,
                 -1,
@@ -55,7 +56,8 @@ public class FreeSexUnionDatabase extends Database {
                 null, null, null,
                 288, 208,
                 XavieraAI.class, PhenomenologySkill.class, null,
-                400
+                400,
+                rm
         );
     }
 

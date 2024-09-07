@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * TODO:  Extracted from DAT files but does not appear in any game walkthrough.
@@ -46,7 +48,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class SatelliteMissionControlDatabase extends Database {
 
-    public SatelliteMissionControlDatabase() {
+    public SatelliteMissionControlDatabase(ResourceManager rm) {
         super(
                 "Satellite Mission Control Facility", 28,
                 7,
@@ -55,7 +57,8 @@ public class SatelliteMissionControlDatabase extends Database {
                 null, null, null,
                 460, 320, // TODO: Need correct coords and other data.
                 null, null, null,
-                1000
+                1000,
+                rm
         );
     }
 

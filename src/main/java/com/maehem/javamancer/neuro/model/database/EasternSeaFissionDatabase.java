@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -48,7 +49,7 @@ import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
  */
 public class EasternSeaFissionDatabase extends Database {
 
-    public EasternSeaFissionDatabase() {
+    public EasternSeaFissionDatabase(ResourceManager rm) {
         super("Eastern Seaboard Fission Authority", 14,
                 1,
                 4,
@@ -56,7 +57,8 @@ public class EasternSeaFissionDatabase extends Database {
                 "longisland", null, null,
                 384, 32,
                 null, null, null,
-                150
+                150,
+                rm
         );
 
         warez1.put(ComLinkWarez.class, 5);

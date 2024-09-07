@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: Sense/Net
@@ -44,7 +46,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class SenseNetDatabase extends Database {
 
-    public SenseNetDatabase() {
+    public SenseNetDatabase(ResourceManager rm) {
         super(
                 "Sense/Net", 26,
                 4,
@@ -53,7 +55,8 @@ public class SenseNetDatabase extends Database {
                 null, null, null,
                 48, 320,
                 null, null, null,
-                800
+                800,
+                rm
         );
     }
 

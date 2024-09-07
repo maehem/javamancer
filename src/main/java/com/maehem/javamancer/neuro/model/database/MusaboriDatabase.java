@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.GreystokeAI;
 import com.maehem.javamancer.neuro.model.warez.HemlockWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -48,7 +49,7 @@ import com.maehem.javamancer.neuro.model.warez.HemlockWarez;
  */
 public class MusaboriDatabase extends Database {
 
-    public MusaboriDatabase() {
+    public MusaboriDatabase(ResourceManager rm) {
         super("Musabori", 19,
                 2,
                 5,
@@ -56,7 +57,8 @@ public class MusaboriDatabase extends Database {
                 "subaru", null, null,
                 208, 208,
                 GreystokeAI.class, null, HemlockWarez.class,
-                260
+                260,
+                rm
         );
     }
 
