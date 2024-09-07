@@ -53,9 +53,9 @@ public class TextResource extends ArrayList<String> {
     }
 
     public void dumpList() {
-        LOGGER.log(Level.SEVERE, "Text Elements for " + getShortDescription());
+        LOGGER.log(Level.SEVERE, "*** Text Elements ***");
         int i = 0;
-        StringBuilder sb = new StringBuilder("\n" + getShortDescription() + "\n");
+        StringBuilder sb = new StringBuilder("\n");
         for (String s : toArray(String[]::new)) {
             sb.append("[").append(i).append("] :: ").
                     append(s.replace('\r', ' ')).
