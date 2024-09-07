@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.view.ui;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.TitleMode;
 import com.maehem.javamancer.neuro.view.popup.SmallPopupPane;
 import java.util.logging.Level;
@@ -66,7 +67,8 @@ public class NameChooserDialog extends SmallPopupPane {
             // Ignore
             LOGGER.log(Level.SEVERE, "Name Chooser: SPACE");
             ke.consume();
-        } else if ((code.isLetterKey() | code.isDigitKey()) && typedName.length() < 12) {
+        } else if ((code.isLetterKey() | code.isDigitKey())
+                && typedName.length() < GameState.NAME_LEN_MAX) {
             typedName.append(ke.getText());
             typedText.setText(typedName.toString());
             ke.consume();
