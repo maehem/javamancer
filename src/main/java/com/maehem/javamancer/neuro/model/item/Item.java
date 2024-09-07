@@ -77,8 +77,8 @@ public abstract class Item {
         KATANA(33, "Katana", Warez.class),
         TOFU(34, "Tofu", Warez.class),
         SHOGUN(35, "Shogun", Warez.class),
-        _188BJB(36, "188BJB", Warez.class), // DeckItem?
-        _350SL(37, "350SL", Warez.class), // DeckItem?
+        _188BJB(36, "188BJB", DeckItem.class), // DeckItem?
+        _350SL(37, "350SL", DeckItem.class), // DeckItem?
         UNK01(38, "", Object.class),
         UNK02(39, "", Object.class),
         UXB(40, "UXB", UXBDeckItem.class),
@@ -94,8 +94,8 @@ public abstract class Item {
         NINJA5000(50, "Ninja 5000", DeckItem.class),
         BLUELIGHTSPEC(51, "Blue Light Spec.", DeckItem.class),
         SAMURAISEVEN(52, "Samurai Seven", DeckItem.class),
-        UNK05(53, "", Object.class),
-        UNK06(54, "", Object.class),
+        MINDBENDER(53, "Mindbender", Warez.class),
+        VIDEOSOFT(54, "Chaos Videosoft", Warez.class),
         UNK07(55, "", Object.class),
         UNK08(56, "", Object.class),
         UNK09(57, "", Object.class),
