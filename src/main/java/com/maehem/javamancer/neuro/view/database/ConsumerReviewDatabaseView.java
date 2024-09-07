@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.Map;
@@ -47,13 +46,9 @@ import javafx.scene.text.TextFlow;
  */
 public class ConsumerReviewDatabaseView extends DatabaseView {
 
-    private final TextResource dbTextResource;
-
     private enum Mode {
         SUB, PAYMENT, OUT_OF_CREDITS, MENU, ITEM
     }
-
-    private final Text headingText = new Text();
 
     static final Map<String, int[]> MENU_MAP = Map.of( // limit 10 items. :(
             "1", new int[]{24},
@@ -74,8 +69,6 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
     public ConsumerReviewDatabaseView(GameState gameState, Pane pane, PopupListener l) {
         super(gameState, pane, l);
 
-        dbTextResource = gameState.resourceManager.getDatabaseText(gameState.database.number);
-        headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
         if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
             mainMenu();
         } else {
@@ -84,7 +77,7 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
     }
 
     @Override
-    protected void landingPage() {
+    protected final void landingPage() {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
@@ -187,9 +180,9 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
             case PAYMENT -> {
                 if (paymentWait > 0) {
                     paymentWait--;
-                    LOGGER.log(Level.SEVERE, "Payment wait tick.");
+                    LOGGER.log(Level.FINEST, "Payment wait tick.");
                 } else {
-                    LOGGER.log(Level.SEVERE, "Payment wait done.");
+                    LOGGER.log(Level.CONFIG, "Payment wait done.");
                     mainMenu();
                 }
             }
@@ -203,7 +196,7 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
 
         // Plus (+) character appears if user has not scrolled to bottom of
         // item description.
-        Text scrollHint = new Text("+");
+        Text scrollHint = pageText("+");
         scrollHint.setLayoutX(620);
         scrollHint.setLayoutY(280);
 
@@ -214,8 +207,8 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         ScrollPane sp = new ScrollPane(tf);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sp.setMinSize(620, 262);
-        sp.setMaxSize(620, 262);
+        sp.setMinSize(620, 264);
+        sp.setMaxSize(620, 264);
 
         if (itemLetter.equals("X")) {
             // Exit system
