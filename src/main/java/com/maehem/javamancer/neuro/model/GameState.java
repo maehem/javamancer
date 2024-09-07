@@ -143,6 +143,7 @@ public class GameState {
     public int activeSkillLevel = 0;
     public boolean bodyPartDiscount = true;
     public BodyShopRecent bodyShopRecent = BodyShopRecent.NONE;
+    public int psychoProbeCount = 0;
 
     // Ephemeral -- Not saved
     public boolean pause = true;
