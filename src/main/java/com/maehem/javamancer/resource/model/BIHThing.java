@@ -62,6 +62,7 @@ public class BIHThing {
     public final int cbSegment;
     public final int ctrlStructAddr;
     public final ArrayList<String> text = new ArrayList<>();
+    public final ArrayList<String> passwords = new ArrayList<>(); // DB Obly
     public final int[] byteCodeArrayOffset = new int[3];
     public final int[] iocOff = new int[3];
     public final byte[] unknown;
@@ -102,12 +103,16 @@ public class BIHThing {
             }
             default -> {
                 if (name.startsWith("DB")) {
-                    int txtOffset = ((data[7] & 0xff) << 8) + (data[6] & 0xff);
                     cbOffset = (data[1] & 0xff) << 8 + (data[0] & 0xff);
                     cbSegment = (data[3] & 0xff) << 8 + (data[2] & 0xff);
                     ctrlStructAddr = (data[5] & 0xff) << 8 + (data[4] & 0xff);
+                    int txtOffset = ((data[7] & 0xff) << 8) + (data[6] & 0xff);
+                    byteCodeArrayOffset[0] = ((data[9] & 0xff) << 8) + (data[8] & 0xff);
+                    byteCodeArrayOffset[1] = ((data[11] & 0xff) << 8) + (data[10] & 0xff); // Passwords (1 or 2)
+                    byteCodeArrayOffset[2] = ((data[13] & 0xff) << 8) + (data[12] & 0xff);
                     unknown = new byte[txtOffset];
                     System.arraycopy(data, 0, unknown, 0, txtOffset);
+                    initPasswords(byteCodeArrayOffset[1], byteCodeArrayOffset[2]);
                     initText(txtOffset);
                 } else if (name.startsWith("COPEN")) {
                     cbOffset = 0;
@@ -257,6 +262,29 @@ public class BIHThing {
         LOGGER.log(Level.FINEST, "    return: {0}", 0);
 
         return 0;
+    }
+
+    private void initPasswords(int index, int endIndex) {
+        String textBlob = new String(data, index, endIndex - index).trim();
+
+        for (int i = 0; i < textBlob.length();) {
+            int start = i;
+
+            // 0x00 break up text elements so look for one.
+            i = textBlob.indexOf('\0', start);
+            if (i < 0) {
+                // None found so go to end.
+                i = textBlob.length();
+            }
+
+            // grab the start index up to the found '00' index.
+            passwords.add(textBlob.substring(start, i));
+
+            if (i < textBlob.length()) {
+                // if not at the end, increment next start point.
+                ++i;
+            }
+        }
     }
 
     private void initText(int index) {
