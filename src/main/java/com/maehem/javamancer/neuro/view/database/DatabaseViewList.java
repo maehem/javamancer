@@ -35,7 +35,9 @@ import com.maehem.javamancer.neuro.model.database.*;
 public enum DatabaseViewList {
     DB1(ConsumerReviewDatabase.class, ConsumerReviewDatabaseView.class),
     DB2(AsanosDatabase.class, AsanosDatabaseView.class),
+    DB3(WorldChessDatabase.class, WorldChessDatabaseView.class),
     DB4(CheapHotelDatabase.class, CheapHotelDatabaseView.class),
+    DB5(PsychologistDatabase.class, PsychologistDatabaseView.class),
     DB6(PantherModernsDatabase.class, PantherModernsDatabaseView.class);
 
     public final Class<? extends Database> database;
