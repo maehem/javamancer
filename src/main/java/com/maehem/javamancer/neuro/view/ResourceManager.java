@@ -120,18 +120,18 @@ public class ResourceManager {
     }
 
     public TextResource getRoomText(Room room) {
-        return getTextResource(room.name() + "_meta.txt");
+        return getTextResource(room.name());
     }
 
     public TextResource getDatabaseText(int dbNum) {
-        return getTextResource("DB" + dbNum + "_meta.txt");
+        return getTextResource("DB" + dbNum);
     }
 
     public TextResource getTextResource( String fileName ) {
         BufferedReader in = null;
         TextResource tr = new TextResource();
         try {
-            File txtFile = new File(bihFolder, fileName);
+            File txtFile = new File(bihFolder, fileName + "_meta.txt");
             in = new BufferedReader(new FileReader(txtFile), 16 * 1024);
             try (Scanner read = new Scanner(in)) {
                 read.useDelimiter("\n");
