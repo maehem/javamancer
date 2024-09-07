@@ -104,4 +104,8 @@ public abstract class Warez {
         this.finishedHandler = handler;
     }
 
+    public String getSimpleName() {
+        return item.itemName + " " + version;
+    }
+
 }
