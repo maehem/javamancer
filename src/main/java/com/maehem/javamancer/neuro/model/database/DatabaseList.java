@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.ArrayList;
 
 /**
@@ -34,46 +35,46 @@ import java.util.ArrayList;
  */
 public class DatabaseList extends ArrayList<Database> {
 
-    public DatabaseList() {
-        add(new AllardTechDatabase());
-        add(new AsanosDatabase());
-        add(new BankBerneDatabase());
-        add(new BankGemeinschaftDatabase());
-        add(new BankZurichDatabase());
-        add(new BellEuropaDatabase());
-        add(new CentralJusticeDatabase());
-        add(new CheapHotelDatabase());
-        add(new ChibaCityPoliceDatabase());
-        add(new ConsumerReviewDatabase());
-        add(new CopenhagenUniversityDatabase());
-        add(new DARPODatabase());
-        add(new EasternSeaFissionDatabase());
-        add(new FreeMatrixDatabase());
-        add(new FreeSexUnionDatabase());
-        add(new FujiElectricDatabase());
-        add(new GentlemanLoserDatabase());
-        add(new GridpointDatabase());
-        add(new HitachiBiotechDatabase());
-        add(new HosakaDatabase());
-        add(new INSADatabase());
-        add(new IRSDatabase());
-        add(new KGBDatabase());
-        add(new MaasBiolabsDatabase());
-        add(new MusaboriDatabase());
-        add(new NASADatabase());
-        add(new NihilistDatabase());
-        add(new PantherModernsDatabase());
-        add(new PhantomDatabase());
-        add(new PsychologistDatabase());
-        add(new RegularFellowsDatabase());
-        add(new SatelliteMissionControlDatabase());
-        add(new ScreamingFistDatabase());
-        add(new SenseNetDatabase());
-        add(new SoftwareEnforcementDatabase());
-        add(new TessierAshpoolDatabase());
-        add(new TozokuImportsDatabase());
-        add(new TuringRegistryDatabase());
-        add(new WorldChessDatabase());
+    public DatabaseList(ResourceManager rm) {
+        add(new AllardTechDatabase(rm));
+        add(new AsanosDatabase(rm));
+        add(new BankBerneDatabase(rm));
+        add(new BankGemeinschaftDatabase(rm));
+        add(new BankZurichDatabase(rm));
+        add(new BellEuropaDatabase(rm));
+        add(new CentralJusticeDatabase(rm));
+        add(new CheapHotelDatabase(rm));
+        add(new ChibaCityPoliceDatabase(rm));
+        add(new ConsumerReviewDatabase(rm));
+        add(new CopenhagenUniversityDatabase(rm));
+        add(new DARPODatabase(rm));
+        add(new EasternSeaFissionDatabase(rm));
+        add(new FreeMatrixDatabase(rm));
+        add(new FreeSexUnionDatabase(rm));
+        add(new FujiElectricDatabase(rm));
+        add(new GentlemanLoserDatabase(rm));
+        add(new GridpointDatabase(rm));
+        add(new HitachiBiotechDatabase(rm));
+        add(new HosakaDatabase(rm));
+        add(new INSADatabase(rm));
+        add(new IRSDatabase(rm));
+        add(new KGBDatabase(rm));
+        add(new MaasBiolabsDatabase(rm));
+        add(new MusaboriDatabase(rm));
+        add(new NASADatabase(rm));
+        add(new NihilistDatabase(rm));
+        add(new PantherModernsDatabase(rm));
+        add(new PhantomDatabase(rm));
+        add(new PsychologistDatabase(rm));
+        add(new RegularFellowsDatabase(rm));
+        add(new SatelliteMissionControlDatabase(rm));
+        add(new ScreamingFistDatabase(rm));
+        add(new SenseNetDatabase(rm));
+        add(new SoftwareEnforcementDatabase(rm));
+        add(new TessierAshpoolDatabase(rm));
+        add(new TozokuImportsDatabase(rm));
+        add(new TuringRegistryDatabase(rm));
+        add(new WorldChessDatabase(rm));
     }
 
     public Database whoIs(String linkCode) {
