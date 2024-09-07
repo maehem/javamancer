@@ -27,11 +27,15 @@
 package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.warez.Warez;
-import java.util.HashMap;
+import com.maehem.javamancer.neuro.view.ResourceManager;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,9 +55,9 @@ public abstract class Database {
     public final String password1;
     public final String password2;
     public final String password3;
-    public final HashMap<Class<? extends Warez>, Integer> warez1 = new HashMap<>();
-    public final HashMap<Class<? extends Warez>, Integer> warez2 = new HashMap<>();
-    public final HashMap<Class<? extends Warez>, Integer> warez3 = new HashMap<>();
+    public final LinkedHashMap<Class<? extends Warez>, Integer> warez1 = new LinkedHashMap<>();
+    public final LinkedHashMap<Class<? extends Warez>, Integer> warez2 = new LinkedHashMap<>();
+    public final LinkedHashMap<Class<? extends Warez>, Integer> warez3 = new LinkedHashMap<>();
     public final int shotDuration = 2000; // mS
     private final int effect = 100;
 
@@ -65,13 +69,16 @@ public abstract class Database {
     public final int ICE_MAX;
     private int ice;
 
+    public final ArrayList<BbsMessage> bbsMessages = new ArrayList<>();
+
     public Database(String name, int number, int zone, int comlink,
             String linkCode, String password1, String password2, String password3,
             int matrixX, int matrixY,
             Class<? extends AI> ai,
             Class<? extends Skill> weaknessSkill,
             Class<? extends Warez> weaknessWarez,
-            int ice
+            int ice,
+            ResourceManager rm
     ) {
         this.name = name;
         this.number = number;
@@ -88,6 +95,22 @@ public abstract class Database {
         this.weaknessWarez = weaknessWarez;
         this.ICE_MAX = ice;
         this.ice = ice;
+
+        initMessages(rm.getDatabaseText(number));
+    }
+
+    private void initMessages(TextResource tr) {
+        for (BbsMessage msg : bbsMessages) {
+            if (msg.prefillIndex >= 0) {
+                msg.body = tr.get(msg.prefillIndex);
+            }
+        }
+    }
+
+    public void enableMessage(BbsMessage item) {
+        item.show = true;
+        bbsMessages.remove(item);
+        bbsMessages.addLast(item);
     }
 
     public int getIce() {
