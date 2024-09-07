@@ -76,7 +76,7 @@ public abstract class DatabaseView {
     }
 
     protected static final int CHAR_W = 39; // This many chars accross.
-    protected static final double LINE_SPACING = -8.8;
+    protected static final double LINE_SPACING = -8.4;
     protected static final double TF_W = 420;
     protected static final Insets TF_PADDING = new Insets(8);
     private static final String PADDING = "\n          ";
@@ -228,11 +228,20 @@ public abstract class DatabaseView {
     }
 
     protected TextFlow pageTextScrolledFlow(Node header, Node node) {
-        ScrollPane sp = new ScrollPane(node);
+        ScrollPane sp;
+        if (node instanceof Text t) {
+            TextFlow tf = new TextFlow(t);
+            tf.setPadding(TF_PADDING);
+            tf.setLineSpacing(LINE_SPACING);
+            tf.setPrefWidth(TF_W - 10);
+            sp = new ScrollPane(tf);
+        } else {
+            sp = new ScrollPane(node);
+        }
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sp.setMinSize(440, 234);
-        sp.setMaxSize(440, 234);
+        sp.setMinSize(420, 234);
+        sp.setMaxSize(420, 234);
 
         TextFlow mainTf = pageTextFlow(header, new Text("\n"), sp);
         mainTf.setLineSpacing(LINE_SPACING);
