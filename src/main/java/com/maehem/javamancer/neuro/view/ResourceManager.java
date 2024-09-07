@@ -29,8 +29,8 @@ package com.maehem.javamancer.neuro.view;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.NewsArticle;
-import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.TextResource;
+import com.maehem.javamancer.neuro.model.room.Room;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -266,7 +266,7 @@ public class ResourceManager {
                             showMessage = false;
                         }
 
-                        BbsMessage message = new BbsMessage(dateString,
+                        BbsMessage message = new BbsMessage(0, dateString,
                                 to, from, body, showMessage
                         );
 
