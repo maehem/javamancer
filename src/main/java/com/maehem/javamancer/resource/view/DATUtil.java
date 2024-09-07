@@ -302,6 +302,21 @@ public class DATUtil {
 
                     writer.writeBytes("\n");
                 }
+
+                if (!bihThing.passwords.isEmpty()) {
+                    writer.writeBytes("// DB Passwords:");
+                    if (!bihThing.passwords.isEmpty()) {
+                        writer.writeBytes("\n");
+                    } else {
+                        writer.writeBytes("  NONE\n");
+                    }
+                    for (String text : bihThing.passwords) {
+                        writer.writeBytes(text);
+                        writer.writeBytes("\n");
+                    }
+                    writer.writeBytes("// END DB Passwords\n\n");
+                }
+
                 writer.writeBytes("// Text Elements:");
                 if (!bihThing.text.isEmpty()) {
                     writer.writeBytes("\n");
