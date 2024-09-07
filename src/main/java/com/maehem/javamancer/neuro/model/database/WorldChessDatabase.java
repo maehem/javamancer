@@ -28,11 +28,13 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.MorphyAI;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
+import com.maehem.javamancer.neuro.model.warez.BattleChessWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
  * Name: World Chess
+ * Number: 3
  * Zone: 0
  * ComLink: 1.0
  * LinkCode: world chess
@@ -61,6 +63,9 @@ public class WorldChessDatabase extends Database {
                 84,
                 rm
         );
+
+        warez3.put(BattleChessWarez.class, 4);
+
     }
 
 }
