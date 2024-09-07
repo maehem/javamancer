@@ -59,8 +59,9 @@ public class GameState {
     }
 
     public final ResourceManager resourceManager;
-    public final DatabaseList dbList = new DatabaseList();
+    public final DatabaseList dbList;// = new DatabaseList();
 
+    public final static int NAME_LEN_MAX = 12;
     public String name = "Case";
 
     // Money
@@ -107,17 +108,11 @@ public class GameState {
     public boolean doorBottomLocked = false;
     public boolean doorLeftLocked = false;
 
+    public final ArrayList<BbsMessage> messageSent = new ArrayList<>();
+
     // TODO: Use ArrayList for roomsVisited
     public final ArrayList<Room> visited = new ArrayList<>();
-//    public final boolean roomIsVisited[] = { // 58 Slots  [0..57]
-//        false, false, false, false, false, false, false, false, false,
-//        false, false, false, false, false, false, false, false, false,
-//        false, false, false, false, false, false, false, false, false,
-//        false, false, false, false, false, false, false, false, false,
-//        false, false, false, false, false, false, false, false, false,
-//        false, false, false, false, false, false, false, false, false,
-//        false, false, false, false
-//    };
+
     public final boolean roomNpcTalk[] = { // 58 Slots  [0..57]
         true, true, true, true, false, // 1-5
         true, false, true, false, false, // 6-10
@@ -137,6 +132,11 @@ public class GameState {
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
     public boolean joystickGiven = false; // Player must give Nolan the joystick.
     public boolean gasMaskIsOn = false;
+    public boolean hotelBillPaid = true;// TODO: Use amounts
+    public int hotelCharges = 1000;
+    public int hotelOnAccount = 0;
+    public int hotelCaviar = 1; // Stock of item.
+    public int hotelSake = 2; // Stock of item.
     public ItemCatalog activeItem = ItemCatalog.NONE;
     public Skill previousSkill = null;
     public Skill activeSkill = null;
@@ -150,6 +150,8 @@ public class GameState {
 
     public GameState(ResourceManager rm) {
         this.resourceManager = rm;
+
+        this.dbList = new DatabaseList(rm);
 
         bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 120));
         bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 56));
