@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: Cheap Hotel
@@ -45,14 +47,15 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class CheapHotelDatabase extends Database {
 
-    public CheapHotelDatabase() {
+    public CheapHotelDatabase(ResourceManager rm) {
         super("Cheap Hotel", 4,
                 0,
                 1,
                 "cheapo", "guest", "cockroach", null,
                 112, 112,
                 null, null, null,
-                84);
+                84,
+                rm);
     }
 
 }

@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: Chiba City Tactical Police
@@ -45,7 +47,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class ChibaCityPoliceDatabase extends Database {
 
-    public ChibaCityPoliceDatabase() {
+    public ChibaCityPoliceDatabase(ResourceManager rm) {
         super("Chiba City Tactical Police", 9,
                 1,
                 3,
@@ -53,7 +55,8 @@ public class ChibaCityPoliceDatabase extends Database {
                 "warrants", "supertac", null,
                 288, 112,
                 null, null, null,
-                150
+                150,
+                rm
         );
     }
 

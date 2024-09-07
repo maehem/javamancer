@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Central Justice
@@ -45,7 +47,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class CentralJusticeDatabase extends Database {
 
-    public CentralJusticeDatabase() {
+    public CentralJusticeDatabase(ResourceManager rm) {
         super("Central Justice", 22,
                 1,
                 6,
@@ -53,7 +55,8 @@ public class CentralJusticeDatabase extends Database {
                 null, null, null,
                 416, 112,
                 null, null, null,
-                150
+                150,
+                rm
         );
     }
 

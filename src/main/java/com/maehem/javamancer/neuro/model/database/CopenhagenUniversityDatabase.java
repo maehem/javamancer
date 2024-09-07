@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.model.database;
 import com.maehem.javamancer.neuro.model.warez.DoorStopWarez;
 import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
 import com.maehem.javamancer.neuro.model.warez.ProbeWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -49,7 +50,7 @@ import com.maehem.javamancer.neuro.model.warez.ProbeWarez;
  */
 public class CopenhagenUniversityDatabase extends Database {
 
-    public CopenhagenUniversityDatabase() {
+    public CopenhagenUniversityDatabase(ResourceManager rm) {
         super(
                 "Copenhagen University", 11,
                 1,
@@ -59,7 +60,8 @@ public class CopenhagenUniversityDatabase extends Database {
                 0, 0,
                 null,
                 null, null,
-                150
+                150,
+                rm
         );
 
         warez2.put(ProbeWarez.class, 4);

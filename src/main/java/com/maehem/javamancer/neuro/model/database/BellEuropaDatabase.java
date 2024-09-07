@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: Bell Europa
@@ -43,7 +45,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class BellEuropaDatabase extends Database {
 
-    public BellEuropaDatabase() {
+    public BellEuropaDatabase(ResourceManager rm) {
         super(
                 "Bell Europe", 23,
                 5,
@@ -52,7 +54,8 @@ public class BellEuropaDatabase extends Database {
                 384, 288,
                 null,
                 null, null,
-                1000
+                1000,
+                rm
         );
     }
 

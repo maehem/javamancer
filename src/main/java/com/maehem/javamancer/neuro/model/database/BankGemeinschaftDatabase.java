@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: Bank Gemeinschaft
@@ -45,7 +47,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class BankGemeinschaftDatabase extends Database {
 
-    public BankGemeinschaftDatabase() {
+    public BankGemeinschaftDatabase(ResourceManager rm) {
         super(
                 "Bank Gemeinschaft", 18,
                 5,
@@ -54,7 +56,8 @@ public class BankGemeinschaftDatabase extends Database {
                 "eintritt", "verboten", null,
                 304, 320,
                 null, null, null,
-                1000
+                1000,
+                rm
         );
     }
 

@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.model.warez.DrillWarez;
 import com.maehem.javamancer.neuro.model.warez.InjectorWarez;
 import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
 import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -52,7 +53,7 @@ import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
  */
 public class DARPODatabase extends Database {
 
-    public DARPODatabase() {
+    public DARPODatabase(ResourceManager rm) {
         super("DARPO", 31,
                 3,
                 -1,
@@ -61,7 +62,8 @@ public class DARPODatabase extends Database {
                 null,
                 null,
                 null,
-                400
+                400,
+                rm
         );
 
         warez1.put(ThunderheadWarez.class, 3);

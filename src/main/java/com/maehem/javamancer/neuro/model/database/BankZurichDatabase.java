@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: Bank of Zurich Orbital
@@ -45,7 +47,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class BankZurichDatabase extends Database {
 
-    public BankZurichDatabase() {
+    public BankZurichDatabase(ResourceManager rm) {
         super("Bank of Zurich Orbital", 21,
                 5,
                 6,
@@ -53,7 +55,8 @@ public class BankZurichDatabase extends Database {
                 null, null, null, // Must use Sequencer
                 336, 368,
                 null, null, null,
-                1000
+                1000,
+                rm
         );
     }
 

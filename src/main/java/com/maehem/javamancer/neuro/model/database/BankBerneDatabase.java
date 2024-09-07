@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 import com.maehem.javamancer.neuro.model.warez.ArmorallWarez;
 import com.maehem.javamancer.neuro.model.warez.ProbeWarez;
 import com.maehem.javamancer.neuro.model.warez.SlowWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -49,7 +50,7 @@ import com.maehem.javamancer.neuro.model.warez.SlowWarez;
  */
 public class BankBerneDatabase extends Database {
 
-    public BankBerneDatabase() {
+    public BankBerneDatabase(ResourceManager rm) {
         super(
                 "Bank of Berne", 30,
                 3,
@@ -60,7 +61,8 @@ public class BankBerneDatabase extends Database {
                 GoldAI.class,
                 PhilosophySkill.class,
                 null,
-                400
+                400,
+                rm
         );
 
         warez1.put(SlowWarez.class, 3);

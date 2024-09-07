@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.warez.BlammoWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -47,7 +48,7 @@ import com.maehem.javamancer.neuro.model.warez.BlammoWarez;
  */
 public class ConsumerReviewDatabase extends Database {
 
-    public ConsumerReviewDatabase() {
+    public ConsumerReviewDatabase(ResourceManager rm) {
         super("Consumer Review", 1,
                 0,
                 1,
@@ -55,7 +56,8 @@ public class ConsumerReviewDatabase extends Database {
                 "review", null, null, // 2 cyberspace
                 32, 64,
                 null, null, null,
-                84
+                84,
+                rm
         );
 
         warez1.put(BlammoWarez.class, 1);

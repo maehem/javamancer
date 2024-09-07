@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.view.ResourceManager;
+
 /**
  * <pre>
  * Name: Asano's
@@ -45,7 +47,7 @@ package com.maehem.javamancer.neuro.model.database;
  */
 public class AsanosDatabase extends Database {
 
-    public AsanosDatabase() {
+    public AsanosDatabase(ResourceManager rm) {
         super("Asano's", 2,
                 0,
                 1,
@@ -53,7 +55,8 @@ public class AsanosDatabase extends Database {
                 "customer", "vendors", null,
                 16, 112,
                 null, null, null,
-                84
+                84,
+                rm
         );
 
         // Content: LinkCodes for fuji, musaborind, hosakacorp
