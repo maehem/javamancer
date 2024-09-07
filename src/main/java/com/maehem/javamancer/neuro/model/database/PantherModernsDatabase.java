@@ -26,10 +26,15 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.warez.BlowTorchWarez;
+import com.maehem.javamancer.neuro.model.warez.ChaosWarez;
 import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
+import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.DecoderWarez;
+import com.maehem.javamancer.neuro.model.warez.MindBenderWarez;
 import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
+import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
@@ -50,7 +55,20 @@ import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
  */
 public class PantherModernsDatabase extends Database {
 
-    public PantherModernsDatabase() {
+    {
+        bbsMessages.add(new BbsMessage("11/16/58", "\1", "Modern Bob", 2, false)); // Hidden until Bob is messaged.
+        bbsMessages.add(new BbsMessage("11/16/58", "Everyone", "Mod Yutaka", 3, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "Modern Miles", 4, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Everyone", "Polychrome", 5, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Angelo", "Lupus", 6, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Everyone", "Modern Larry", 7, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Modern Miles", "Polychrome", 8, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Everyone", "Modern Bob", 9, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Lupus", "Modern Jane", 15, false)); // Enable after Gemeinshaft incident.
+        bbsMessages.add(new BbsMessage("11/16/58", "\1", "Matt Shaw", 16, true)); // Enable after player dies at G-loser.
+    }
+
+    public PantherModernsDatabase(ResourceManager rm) {
         super(
                 "Panther Moderns", 6,
                 0,
@@ -59,13 +77,20 @@ public class PantherModernsDatabase extends Database {
                 "mainline", null, null,
                 224, 112,
                 null, null, null,
-                84
+                84,
+                rm
         );
 
         warez1.put(ComLinkWarez.class, 3);
-        warez2.put(BlowTorchWarez.class, 3);
-        warez2.put(DecoderWarez.class, 2);
-        warez2.put(ThunderheadWarez.class, 1);
+        warez1.put(MindBenderWarez.class, 3);
+        warez1.put(ChaosWarez.class, 1);
+
+        warez3.put(BlowTorchWarez.class, 3);
+        warez3.put(DecoderWarez.class, 2);
+        warez3.put(ThunderheadWarez.class, 1);
+        warez3.put(CyberspaceWarez.class, 1);
+
     }
+
 
 }
