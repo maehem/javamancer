@@ -144,6 +144,7 @@ public class GameState {
     public boolean bodyPartDiscount = true;
     public BodyShopRecent bodyShopRecent = BodyShopRecent.NONE;
     public int psychoProbeCount = 0;
+    public boolean swissBankRobbed = false;
 
     // Ephemeral -- Not saved
     public boolean pause = true;
