@@ -123,14 +123,20 @@ public class BIHThing {
                     ctrlStructAddr = 0;
                     unknown = new byte[0];
                     initText(0);
-                } else if (!name.startsWith("R")) {
+                } else if (name.startsWith("IRS0")) {  // Name/BAMA list
+                    cbOffset = 0;
+                    cbSegment = 0;
+                    ctrlStructAddr = 0;
+                    unknown = new byte[0];
+                    bamaList();
+                } else if (!name.startsWith("R")) { // Entirely Unknown type.
                     LOGGER.log(Level.FINER, "Special DB BIH \"{0}\" found.", name);
                     cbOffset = 0;
                     cbSegment = 0;
                     ctrlStructAddr = 0;
                     unknown = new byte[data.length];
                     System.arraycopy(data, 0, unknown, 0, data.length);
-                } else {
+                } else {  // Should only be ROOM type here.
                     cbOffset = (data[1] & 0xff) << 8 + (data[0] & 0xff);
                     cbSegment = (data[3] & 0xff) << 8 + (data[2] & 0xff);
                     ctrlStructAddr = (data[5] & 0xff) << 8 + (data[4] & 0xff);
@@ -310,6 +316,41 @@ public class BIHThing {
                 // if not at the end, increment next start point.
                 ++i;
             }
+        }
+    }
+
+    /**
+     * <pre>
+       Example:
+        Hex View  00 01 02 03 04 05 06 07  08 09 0A 0B 0C 0D 0E 0F
+
+        00000000  01 00 20 20 20 20 20 20  20 20 20 20 20 20 20 20  ..
+        00000010  20 20 20 30 35 36 33 30  36 31 31 38 00 63 01 00     056306118.c..
+        00000020  46 49 4E 44 4C 45 59 20  4D 41 54 54 48 45 57 20  FINDLEY MATTHEW
+        00000030  20 20 00 30 30 31 31 33  31 39 36 38 00 FF 00 00    .001131968....
+        00000040  43 48 55 4E 47 20 4C 4F  20 44 55 43 20 20 20 20  CHUNG LO DUC
+        00000050  20 20 00 34 37 31 32 39  34 38 31 39 00 FF 00 00    .471294819....
+        00000060  4E 41 4B 41 53 4F 4E 45  20 53 41 4E 44 52 41 20  NAKASONE SANDRA
+        00000070  20 20 00 32 35 35 38 38  35 36 39 37 00 FF 00 00    .255885697....
+        00000080  4D 41 52 54 49 4E 45 5A  20 52 41 55 4C 20 20 20  MARTINEZ RAUL
+        00000090  20 20 00 35 34 39 38 38  37 31 31 30 00 FF 00 00    .549887110....
+        000000A0  00
+     * </pre>.
+     */
+    private void bamaList() {
+        // Break into 32 byte chunks. Each chunk is a list item.
+        for (int i = 0; i < data.length; i += 32) {
+
+            if (data[i] == 0) {
+                break;
+            }
+
+            // Chunk  ==  <19 byte name> | <9 byte number> [00] < 2 bytes> [00]
+            String nameStr = new String(data, i, 19);
+            String bamaStr = new String(data, i + 19, 9);
+            // Leave out bytes for now until we know what they are for.
+
+            text.add(nameStr + "\t" + bamaStr);
         }
     }
 }
