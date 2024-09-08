@@ -26,6 +26,9 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
+import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
+import com.maehem.javamancer.neuro.model.warez.DecoderWarez;
 import com.maehem.javamancer.neuro.model.warez.DoorStopWarez;
 import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
 import com.maehem.javamancer.neuro.model.warez.ProbeWarez;
@@ -34,6 +37,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Copenhagen University
+ * Number: 11
  * Zone: 1
  * ComLink: 3.0
  * LinkCode: brainstorm
@@ -50,6 +54,21 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  */
 public class CopenhagenUniversityDatabase extends Database {
 
+    /*
+     * [9] :: To:   Lars Mbutu From: Deathangels Shadow    Great game, Lars.  Sorry about those fingers you lost in the last period.  I guess you wont be typing back a reply that quickly, will you? Hope the spare parts shop in Copenhagen is better than the one in Chiba City.  This pancreas I got sucks.
+     * [10] :: To:   Dr. Marsha Sanderson From: Habitual User    Saw a vid of your paper delivery the other day.  Think I got most of the French.  Hit the nail on the head -- no harm in decks.  Promote intellectual development.
+     * [11] :: To:   Deathangels Shadow From: Lars Mbutu    Thnk you for your msg bout th gm. you r right tht loing fingr on my lft hn ill mk for iffikult riting, but i ill try.  i njoy th gm.  my lg i lot bttr no.  ont brly limp.  By for no.
+     * [12] :: To:    From: Deathangels Shadow    Its getting really spooky out here.  Was supposed to get some information from the Sumdiv Kid, but hes gone null.  Have you seen him?
+     * [13] :: To:   All From: Deathangels Shadow    All you new moes remember that all ICE breakers arent created equal. So being the cool guy that I am, I leave the following info for all.  Good:   Decoder, BlowTorch, Hammer Better: DoorStop, Drill Best:   Concrete, DepthCharge,         Logic Bomb  Good Luck
+     */
+    {
+        bbsMessages.add(new BbsMessage("11/16/58", "Lars Mbutu", "Deathangel's", 9, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Dr. Sanderson", "Habitual", 10, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Deathangel's", "Lars Mbutu", 11, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "\1", "Deathangel's", 12, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "Deathangel's", 13, true));
+    }
+
     public CopenhagenUniversityDatabase(ResourceManager rm) {
         super(
                 "Copenhagen University", 11,
@@ -63,10 +82,12 @@ public class CopenhagenUniversityDatabase extends Database {
                 150,
                 rm
         );
+        warez2.put(ComLinkWarez.class, 4);
+        warez2.put(DecoderWarez.class, 1);
 
-        warez2.put(ProbeWarez.class, 4);
-        warez2.put(JammiesWarez.class, 1);
-        warez2.put(DoorStopWarez.class, 1);
+        warez3.put(ProbeWarez.class, 4);
+        warez3.put(JammiesWarez.class, 1);
+        warez3.put(DoorStopWarez.class, 1);
     }
 
 }
