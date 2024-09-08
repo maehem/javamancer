@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.warez.HammerWarez;
 import com.maehem.javamancer.neuro.model.warez.JammiesWarez;
 import com.maehem.javamancer.neuro.model.warez.MimicWarez;
@@ -34,6 +35,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: IRS
+ * Number: 7
  * Zone: 1
  * ComLink: 2.0
  * LinkCode: irs
@@ -49,6 +51,13 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class IRSDatabase extends Database {
+
+    {
+        bbsMessages.add(new BbsMessage("11/16/58", "IRS", "L. Zone", 7, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "L. Zone", "IRS", 8, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "IRS", "Rafaella Hammer", 9, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Rafaella Hammer", "IRS", 10, true));
+    }
 
     public IRSDatabase(ResourceManager rm) {
         super(
