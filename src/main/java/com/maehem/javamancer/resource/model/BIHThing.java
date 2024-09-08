@@ -123,7 +123,10 @@ public class BIHThing {
                     ctrlStructAddr = 0;
                     unknown = new byte[0];
                     initText(0);
-                } else if (name.startsWith("IRS0")) {  // Name/BAMA list
+                } else if (name.startsWith("IRS0")
+                        || name.startsWith("SEA0")
+                        || name.startsWith("SEA1")
+                        || name.startsWith("POLICE")) {  // Name/BAMA list
                     cbOffset = 0;
                     cbSegment = 0;
                     ctrlStructAddr = 0;
