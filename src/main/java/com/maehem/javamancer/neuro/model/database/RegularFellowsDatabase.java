@@ -26,6 +26,10 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
+import com.maehem.javamancer.neuro.model.warez.BattleChessWarez;
+import com.maehem.javamancer.neuro.model.warez.ProbeWarez;
+import com.maehem.javamancer.neuro.model.warez.ScoutWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
@@ -47,18 +51,37 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  */
 public class RegularFellowsDatabase extends Database {
 
+    /*
+
+     */
+    {
+        bbsMessages.add(new BbsMessage("11/16/58", "Raphael", "Deathangel's", 9, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "Matt Shaw", 10, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "Mo #243", 11, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Mo #243", "Deathangel's", 12, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "Harpo", 13, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Harpo", "Matt Shaw", 14, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Red Snake", "Scorpion", 15, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Scorpion", "Red Snake", 16, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "Deathangel's", 17, true));
+    }
+
     public RegularFellowsDatabase(ResourceManager rm) {
         super(
                 "Regular Fellows", 0,
                 0,
                 1,
                 "regfellow",
-                "visitor", null, null,
+                "visitor", "fellow", "fellow", // Remove #3 (for testing)
                 208, 32,
                 null, null, null,
                 84,
                 rm
         );
+        warez1.put(BattleChessWarez.class, 2);
+        warez1.put(ScoutWarez.class, 1);
+
+        warez2.put(ProbeWarez.class, 3);
     }
 
 }
