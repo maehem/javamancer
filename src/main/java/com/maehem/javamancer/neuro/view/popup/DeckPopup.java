@@ -36,7 +36,6 @@ import com.maehem.javamancer.neuro.view.database.DatabaseView;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
-import static javafx.scene.input.KeyCode.X;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -288,14 +287,15 @@ public class DeckPopup extends PopupPane {
                 }
             }
             case ENTER_LINKCODE -> {
-                switch (code) {
-                    case X -> {
-                        cleanup();
-                        return true;
-                    }
-                    default ->
-                        handleEnteredLinkCode(keyEvent);
-                }
+                handleEnteredLinkCode(keyEvent);
+//                switch (code) {
+//                    case X -> {
+//                        cleanup();
+//                        return true;
+//                    }
+//                    default ->
+//                        handleEnteredLinkCode(keyEvent);
+//                }
             }
             case DATABASE -> {
                 if (databaseView != null) {
