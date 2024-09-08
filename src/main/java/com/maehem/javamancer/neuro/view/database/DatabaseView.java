@@ -68,7 +68,7 @@ public abstract class DatabaseView {
     private final Text instructions = new Text("\n\nPress ESC to end.");
 
     protected enum SubMode {
-        LANDING, PASSWORD, CLEAR_WAIT, MAIN, MSG_LIST, MSG_SHOW, MSG_SEND
+        LANDING, PASSWORD, CLEAR_WAIT, MAIN, MSG_LIST, MSG_SHOW, MSG_SEND, VIEW_TEXT
     }
 
     private enum AccessText {
@@ -203,6 +203,21 @@ public abstract class DatabaseView {
         return String.format("%" + pad + "s", str);
     }
 
+    /**
+     * Text Flow with spacing, padding, not scaled.
+     *
+     * @param nodes
+     * @return
+     */
+    protected TextFlow simpleTextFlow(Node... nodes) {
+        TextFlow tf = new TextFlow(nodes);
+        tf.setPadding(TF_PADDING);
+        tf.setLineSpacing(LINE_SPACING);
+        tf.setPrefWidth(TF_W);
+
+        return tf;
+    }
+
     protected TextFlow pageHeadingTextFlow(Node... node) {
         TextFlow tf = pageTextFlow(node);
         tf.getChildren().addFirst(headingText);
@@ -210,11 +225,14 @@ public abstract class DatabaseView {
         return tf;
     }
 
+    /**
+     * TextFlow with scaling along with spacing and padding.
+     *
+     * @param node
+     * @return
+     */
     protected TextFlow pageTextFlow(Node... node) {
-        TextFlow tf = new TextFlow(node);
-        tf.setPadding(TF_PADDING);
-        tf.setLineSpacing(LINE_SPACING);
-        tf.setPrefWidth(TF_W);
+        TextFlow tf = simpleTextFlow(node);
         tf.getTransforms().add(new Scale(PopupPane.TEXT_SCALE, 1.0));
 
         return tf;
@@ -484,7 +502,7 @@ public abstract class DatabaseView {
     }
 
     private void attemptSoftwareDownload(Warez w) {
-        LOGGER.log(Level.SEVERE, "Software Download: Attept to download: {0}", w.getSimpleName());
+        LOGGER.log(Level.SEVERE, "Software Download: Attempt to download: {0}", w.getSimpleName());
 
         // TODO: Deck software compatibility check
         // RESULT = deck.installSoftware( Warez )
@@ -612,6 +630,24 @@ public abstract class DatabaseView {
     protected void enableMessage(BbsMessage item) {
         database.enableMessage(item);
         buildVisibleMessagesList();
+    }
+
+    protected void viewText(int index) {
+        LOGGER.log(Level.SEVERE, "View Text Resource: {0}", index);
+        pane.getChildren().clear();
+        subMode = SubMode.VIEW_TEXT;
+
+        Text text = new Text(dbTextResource.get(index));
+        //Text text = new Text(dbTextResource.get(index).replaceAll("\r", "\n"));
+        //Text text = new Text("Hello\r there\nthis is a page.");
+        //text.setLineSpacing(LINE_SPACING);
+        TextFlow pageTf = pageTextScrolledFlow(headingText, text);
+
+        pane.getChildren().add(pageTf);
+        pane.setOnMouseClicked((t) -> {
+            t.consume();
+            siteContent();
+        });
     }
 
     public void tick() {
