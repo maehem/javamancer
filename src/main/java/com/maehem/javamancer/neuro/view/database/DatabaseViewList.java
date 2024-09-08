@@ -40,7 +40,8 @@ public enum DatabaseViewList {
     DB4(CheapHotelDatabase.class, CheapHotelDatabaseView.class),
     DB5(PsychologistDatabase.class, PsychologistDatabaseView.class),
     DB6(PantherModernsDatabase.class, PantherModernsDatabaseView.class),
-    DB7(IRSDatabase.class, IRSDatabaseView.class);
+    DB7(IRSDatabase.class, IRSDatabaseView.class),
+    DB9(ChibaCityPoliceDatabase.class, ChibaCityPoliceDatabaseView.class);
 
     public final Class<? extends Database> database;
     public final Class<? extends DatabaseView> view;
