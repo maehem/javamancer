@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Chiba City Tactical Police
+ * Number: 9
  * Zone: 1
  * ComLink: 3.0
  * LinkCode: keisatsu
