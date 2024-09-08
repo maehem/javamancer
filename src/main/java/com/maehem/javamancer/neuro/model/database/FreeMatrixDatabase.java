@@ -26,14 +26,20 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.ai.SaphireAI;
 import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 import com.maehem.javamancer.neuro.model.warez.BlammoWarez;
+import com.maehem.javamancer.neuro.model.warez.CenturionWarez;
+import com.maehem.javamancer.neuro.model.warez.MegaDeathWarez;
+import com.maehem.javamancer.neuro.model.warez.SnailBaitWarez;
+import com.maehem.javamancer.neuro.model.warez.ToxinWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
  * name: Citizens for a Free Matrix
+ * Number: 13
  * Zone: 1
  * ComLink: 4.0
  * LinkCode: freematrix
@@ -50,6 +56,11 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  */
 public class FreeMatrixDatabase extends Database {
 
+    {
+        bbsMessages.add(new BbsMessage("11/16/58", "Saphire", "Greystoke", 8, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Saphire", "Neuromancer", 9, true));
+    }
+
     public FreeMatrixDatabase(ResourceManager rm) {
         super("Citizens for a Free Matrix", 13,
                 1,
@@ -63,7 +74,11 @@ public class FreeMatrixDatabase extends Database {
         );
 
         warez1.put(BlammoWarez.class, 1);
-        // Add fake ones?
+        // Fake Warez (player beware!)
+        warez1.put(ToxinWarez.class, 18);
+        warez1.put(MegaDeathWarez.class, 4);
+        warez1.put(CenturionWarez.class, 5);
+        warez1.put(SnailBaitWarez.class, 14);
     }
 
 }
