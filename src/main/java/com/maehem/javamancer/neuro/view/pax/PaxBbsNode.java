@@ -452,7 +452,7 @@ public class PaxBbsNode extends PaxNode {
 
     private void sendMessage() {
         BbsMessage message = new BbsMessage(
-                0,
+                99,
                 gameState.getDateString(),
                 typedTo.toString(),
                 gameState.name,

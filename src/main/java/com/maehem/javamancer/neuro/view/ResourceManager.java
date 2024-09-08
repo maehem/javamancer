@@ -266,7 +266,7 @@ public class ResourceManager {
                             showMessage = false;
                         }
 
-                        BbsMessage message = new BbsMessage(0, dateString,
+                        BbsMessage message = new BbsMessage(99, dateString,
                                 to, from, body, showMessage
                         );
 
