@@ -155,10 +155,10 @@ public class WorldChessDatabaseView extends DatabaseView {
                 listener.popupExit();
             }
             case "1" -> { // About system
-                about(5);
+                viewText(5);
             }
             case "2" -> { // About tournaments
-                about(6);
+                viewText(6);
             }
             case "3" -> {
                 applyMembership();
@@ -184,25 +184,6 @@ public class WorldChessDatabaseView extends DatabaseView {
                 }
             }
         }
-    }
-
-    private void about(int index) {
-        LOGGER.log(Level.SEVERE, "World Chess: about {0}", index);
-        pane.getChildren().clear();
-        mode = Mode.ABOUT;
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n").append(dbTextResource.get(index));
-
-        Text text = new Text(sb.toString());
-        text.setLineSpacing(LINE_SPACING);
-        TextFlow pageTf = pageTextScrolledFlow(headingText, text);
-
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
     }
 
     private void applyMembership() {
