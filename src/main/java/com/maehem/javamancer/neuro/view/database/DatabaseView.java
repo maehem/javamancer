@@ -487,11 +487,18 @@ public abstract class DatabaseView {
     }
 
     protected void downloads() {
+        downloads(-1);
+    }
+
+    protected void downloads(int index) {
         LOGGER.log(Level.SEVERE, "{0}: Downloads", database.name);
         pane.getChildren().clear();
         //mode = Mode.DOWNLOADS;
         TextFlow tf = pageHeadingTextFlow();
         tf.getChildren().add(new Text(centeredText(" Software Library") + "\n"));
+        if (index >= 0) {
+            tf.getChildren().add(new Text("\n" + dbTextResource.get(index) + "\n"));
+        }
         Text menuItem = new Text(PADDING + "X. Exit to main");
         tf.getChildren().add(menuItem);
         menuItem.setOnMouseClicked((t) -> {
@@ -666,15 +673,29 @@ public abstract class DatabaseView {
     }
 
     protected void viewText(int index) {
-        LOGGER.log(Level.SEVERE, "View Text Resource: {0}", index);
+        viewText(index, -1, -1);
+    }
+
+    protected void viewText(int index1, int index2) {
+        viewText(index1, index2, -1);
+    }
+
+    protected void viewText(int index1, int index2, int index3) {
+        LOGGER.log(Level.SEVERE, "View Text Resource: {0}", new Object[]{index1, index2, index3});
         pane.getChildren().clear();
         subMode = SubMode.VIEW_TEXT;
 
-        Text text = new Text(dbTextResource.get(index));
-        //Text text = new Text(dbTextResource.get(index).replaceAll("\r", "\n"));
-        //Text text = new Text("Hello\r there\nthis is a page.");
-        //text.setLineSpacing(LINE_SPACING);
-        TextFlow pageTf = pageTextScrolledFlow(headingText, text);
+        Text text = new Text(dbTextResource.get(index1));
+        TextFlow contentFlow = simpleTextFlow(text);
+
+        if (index2 >= 0) {
+            contentFlow.getChildren().add(new Text(dbTextResource.get(index2)));
+        }
+        if (index3 >= 0) {
+            contentFlow.getChildren().add(new Text(dbTextResource.get(index3)));
+        }
+
+        TextFlow pageTf = pageTextScrolledFlow(headingText, contentFlow);
 
         pane.getChildren().add(pageTf);
         pane.setOnMouseClicked((t) -> {
