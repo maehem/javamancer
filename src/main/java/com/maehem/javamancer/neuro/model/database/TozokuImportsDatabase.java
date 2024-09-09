@@ -26,6 +26,12 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
+import com.maehem.javamancer.neuro.model.warez.AcidWarez;
+import com.maehem.javamancer.neuro.model.warez.BlowTorchWarez;
+import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
+import com.maehem.javamancer.neuro.model.warez.DecoderWarez;
+import com.maehem.javamancer.neuro.model.warez.DrillWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
@@ -40,7 +46,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  * AI: none
  * Weakness: none
  * ICE: 150
- * Content: nothing
+ * Content: order status, job listings
  * </pre>
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -53,12 +59,26 @@ public class TozokuImportsDatabase extends Database {
                 1,
                 5,
                 "yakuza",
-                "yak", null, null,
+                "yak", "test", null,
                 480, 80,
                 null, null, null,
                 150,
                 rm
         );
+
+        warez1.put(ComLinkWarez.class, 6);
+        warez1.put(BlowTorchWarez.class, 1);
+        warez1.put(DecoderWarez.class, 1);
+
+        warez2.put(BlowTorchWarez.class, 3);
+        warez2.put(DrillWarez.class, 2);
+        warez2.put(AcidWarez.class, 1);
+
+        bbsMessages.add(new BbsMessage("11/16/58", "Iemoto", "Tanenaga", 10, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Tanenaga", "Iemoto", 11, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Iemoto", "Tanenaga", 12, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Iemoto", "P. d'Argen", 14, true)); // Triggered later in game?
+
     }
 
 }
