@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
@@ -33,6 +34,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Eastern Seaboard Fission Authority
+ * Number: 14
  * Zone: 1
  * ComLink: 4.0
  * LinkCode: eastseabod
@@ -49,6 +51,21 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  */
 public class EasternSeaFissionDatabase extends Database {
 
+    {
+        bbsMessages.add(new BbsMessage("11/16/58", "Inspector B", "The Chairman", 6, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "The Chairman", "Grn Mtn Power", 7, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Grn Mtn Power", "The Chairman", 8, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Mrs. Waxman", "Inspector B", 9, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Inspector B", "Mrs. Waxman", 10, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "The Chairman", "Grn Mtn Power", 11, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Mrs. Waxman", "Inspector B", 12, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "Deathangel's", 13, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "\1", "Deathangel's", 14, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Matt Shaw", "Sumdiv Kid", 15, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "Modern Miles", 16, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Deathangel's", "Gabby", 17, true));
+    }
+
     public EasternSeaFissionDatabase(ResourceManager rm) {
         super("Eastern Seaboard Fission Authority", 14,
                 1,
@@ -62,7 +79,7 @@ public class EasternSeaFissionDatabase extends Database {
         );
 
         warez1.put(ComLinkWarez.class, 5);
-        warez1.put(ThunderheadWarez.class, 2);
+        warez3.put(ThunderheadWarez.class, 2);
     }
 
 }
