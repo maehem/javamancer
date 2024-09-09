@@ -110,7 +110,8 @@ public abstract class DatabaseView {
     protected SubMode subMode = SubMode.LANDING;
     private int clearWait = 0;
     protected int messageIndex = 0;
-    private ArrayList<BbsMessage> visibleMessages = new ArrayList<>();
+    private final ArrayList<BbsMessage> visibleMessages = new ArrayList<>();
+    private final ArrayList<BbsMessage> visibleMessages2 = new ArrayList<>();
 
     public DatabaseView(GameState gs, Pane p, PopupListener l) {
         this.database = gs.database;
@@ -369,7 +370,7 @@ public abstract class DatabaseView {
         clearWait = 30; // 2 seconds.
     }
 
-    protected final void buildVisibleMessagesList() {
+    private void buildVisibleMessagesList() {
         // clear list
         visibleMessages.clear();
         database.bbsMessages.forEach((t) -> {
@@ -377,9 +378,24 @@ public abstract class DatabaseView {
                 visibleMessages.add(t);
             }
         });
+        // If there is a second list (Gentleman Loser)
+        visibleMessages2.clear();
+        database.bbsMessages2.forEach((t) -> {
+            if (t.show) {
+                visibleMessages2.add(t);
+            }
+        });
     }
 
     protected void messages() {
+        messages(visibleMessages);
+    }
+
+    protected void messages2() {
+        messages(visibleMessages2);
+    }
+
+    private void messages(ArrayList<BbsMessage> list) {
         LOGGER.log(Level.SEVERE, "{0}: Messages", database.name);
         pane.getChildren().clear();
         //ArrayList<BbsMessage> messageList = database.bbsMessages;
@@ -387,11 +403,11 @@ public abstract class DatabaseView {
         TextFlow tf = pageHeadingTextFlow();
         tf.getChildren().add(new Text("     date     to            from\n"));
 
-        visibleMessages.size();
+        list.size();
         for (int n = 0; n < 9; n++) {
             int nn = n + 1;
             try {
-                BbsMessage msg = visibleMessages.get(messageIndex + n);
+                BbsMessage msg = list.get(messageIndex + n);
                 String nStr = String.format("%2d", nn);
 
                 Text mmenuItem = new Text("\n " + nStr + ". " + msg.toListString(gameState.name));
@@ -422,7 +438,7 @@ public abstract class DatabaseView {
             });
         }
         Text nextText = new Text("    ");
-        if (visibleMessages.size() - (messageIndex + 9) > 0) {
+        if (list.size() - (messageIndex + 9) > 0) {
             nextText.setText("next");
             nextText.setOnMouseClicked((t) -> {
                 LOGGER.log(Level.SEVERE, "User clicked messages next.");
@@ -462,7 +478,11 @@ public abstract class DatabaseView {
         pane.setOnMouseClicked((t) -> {
             t.consume();
             pane.setOnMouseClicked(null);
-            messages();
+            if (visibleMessages.contains(msg)) {
+                messages();
+            } else {
+                messages2();
+            }
         });
     }
 
@@ -623,6 +643,8 @@ public abstract class DatabaseView {
     }
 
     /**
+     * So far, we never send a message in bbsMessages2, so we don't worry about
+     * it, yet.
      *
      * @param to
      * @param message

@@ -70,6 +70,7 @@ public abstract class Database {
     private int ice;
 
     public final ArrayList<BbsMessage> bbsMessages = new ArrayList<>();
+    public final ArrayList<BbsMessage> bbsMessages2 = new ArrayList<>(); // GentlemanLoser
 
     public Database(String name, int number, int zone, int comlink,
             String linkCode, String password1, String password2, String password3,
@@ -105,12 +106,22 @@ public abstract class Database {
                 msg.body = tr.get(msg.prefillIndex);
             }
         }
+        for (BbsMessage msg : bbsMessages2) {
+            if (msg.prefillIndex >= 0) {
+                msg.body = tr.get(msg.prefillIndex);
+            }
+        }
     }
 
     public void enableMessage(BbsMessage item) {
         item.show = true;
-        bbsMessages.remove(item);
-        bbsMessages.addLast(item);
+        if (bbsMessages.contains(item)) {
+            bbsMessages.remove(item);
+            bbsMessages.addLast(item);
+        } else {
+            bbsMessages2.remove(item);
+            bbsMessages2.addLast(item);
+        }
     }
 
     public int getIce() {
