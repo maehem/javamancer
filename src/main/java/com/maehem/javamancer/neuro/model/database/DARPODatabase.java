@@ -36,6 +36,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: D.A.R.P.O.
+ * Number: 31
  * Zone: 3
  * ComLink: Only reachable from Cyberspace
  * LinkCode; none
@@ -57,7 +58,8 @@ public class DARPODatabase extends Database {
         super("DARPO", 31,
                 3,
                 -1,
-                null, null, null, null,
+                "darpotest",
+                null, "test", null,
                 336, 240,
                 null,
                 null,
