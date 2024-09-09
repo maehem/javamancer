@@ -479,6 +479,7 @@ public abstract class DatabaseView {
     }
 
     private int addSoftware(int i, HashMap<Class< ? extends Warez>, Integer> map, TextFlow tf) {
+        // TODO: Filter based on accessLevel.
         for (Map.Entry<Class<? extends Warez>, Integer> m : map.entrySet()) {
             try {
                 Warez w = m.getKey().getConstructor(int.class).newInstance(m.getValue());
