@@ -351,9 +351,10 @@ public class BIHThing {
             // Chunk  ==  <19 byte name> | <9 byte number> [00] < 2 bytes> [00]
             String nameStr = new String(data, i, 19);
             String bamaStr = new String(data, i + 19, 9);
+            String bytes = new String(data, i + 28, 4);
             // Leave out bytes for now until we know what they are for.
 
-            text.add(nameStr + "\t" + bamaStr);
+            text.add(nameStr + "\t" + bamaStr + "\t" + bytes);
         }
     }
 }
