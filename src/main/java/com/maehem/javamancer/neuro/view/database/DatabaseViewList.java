@@ -50,6 +50,7 @@ public enum DatabaseViewList {
     DB14(EasternSeaFissionDatabase.class, EasternSeaFissionDatabaseView.class),
     DB15(GentlemanLoserDatabase.class, GentlemanLoserDatabaseView.class),
     DB16(TozokuImportsDatabase.class, TozokuImportsDatabaseView.class),
+    DB17(HosakaDatabase.class, HosakaDatabaseView.class),
     DB20(NASADatabase.class, NASADatabaseView.class),
     DB22(CentralJusticeDatabase.class, CentralJusticeDatabaseView.class);
 

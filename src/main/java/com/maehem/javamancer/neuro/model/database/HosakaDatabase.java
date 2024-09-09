@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import com.maehem.javamancer.neuro.model.warez.ConcreteWarez;
 import com.maehem.javamancer.neuro.model.warez.HammerWarez;
@@ -37,6 +38,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Hosaka
+ * Number: 17
  * Zone: 2
  * ComLink: 5.0
  * LinkCode: hosakacorp
@@ -73,6 +75,9 @@ public class HosakaDatabase extends Database {
         warez2.put(ConcreteWarez.class, 1);
         warez2.put(MimicWarez.class, 2);
         warez2.put(InjectorWarez.class, 2);
+
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "E. D. Cooper", 8, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "E. D. Cooper", 9, true));
     }
 
 }
