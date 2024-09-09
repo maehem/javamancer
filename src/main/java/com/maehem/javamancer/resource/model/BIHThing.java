@@ -127,7 +127,8 @@ public class BIHThing {
                         || name.startsWith("SEA0")
                         || name.startsWith("SEA1")
                         || name.startsWith("POLICE")
-                        || name.startsWith("JUSTICE")) {  // Name/BAMA list
+                        || name.startsWith("JUSTICE")
+                        || name.startsWith("HITACHI")) {  // Name/BAMA list
                     cbOffset = 0;
                     cbSegment = 0;
                     ctrlStructAddr = 0;
