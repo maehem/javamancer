@@ -704,14 +704,14 @@ public abstract class DatabaseView {
         });
     }
 
-    protected void warrantList(int headingIndex, String resourceName) {
+    protected void bamaList(int headingIndex, String resourceName, boolean isWarrant) {
         LOGGER.log(Level.SEVERE, "Software Enforcement: warrant list");
         pane.getChildren().clear();
         subMode = SubMode.WARRANTS;
 
         Text subHeadingText;
         if (headingIndex >= 0) {
-            subHeadingText = new Text("\n" + dbTextResource.get(headingIndex) + "\n\n");
+            subHeadingText = new Text(dbTextResource.get(headingIndex) + "\n\n");
         } else {
             subHeadingText = new Text();
         }
@@ -724,7 +724,13 @@ public abstract class DatabaseView {
         for (String item : bamaList) {
             String[] split = item.split("\t");
             int reason = split[2].charAt(3);
-            Text t = new Text("\n" + split[0] + split[1] + " " + WANTED[reason]);
+            String reasonStr;
+            if (isWarrant) {
+                reasonStr = " " + WANTED[reason];
+            } else {
+                reasonStr = "";
+            }
+            Text t = new Text("\n" + split[0] + split[1] + reasonStr);
 
             contentTf.getChildren().add(t);
             i++;

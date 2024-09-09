@@ -123,7 +123,7 @@ public class CentralJusticeDatabaseView extends DatabaseView {
             }
             case "2" -> {
                 if (accessLevel > 1) {
-                    warrantList(5, "JUSTICE0");
+                    bamaList(5, "JUSTICE0", true);
                 }
             }
             case "3" -> {

@@ -137,11 +137,11 @@ public class SoftwareEnforcementDatabaseView extends DatabaseView {
                 skillUpgrade();
             }
             case "5" -> {
-                warrantList(11, "SEA0");
+                bamaList(11, "SEA0", true);
             }
             case "6" -> {
                 if (accessLevel > 2) {
-                    warrantList(12, "SEA1");
+                    bamaList(12, "SEA1", true);
                 }
             }
         }
