@@ -515,6 +515,32 @@ public abstract class DatabaseView {
         pane.getChildren().add(tf);
     }
 
+    protected void uploads(int index) {
+        LOGGER.log(Level.SEVERE, "{0}: Downloads", database.name);
+        pane.getChildren().clear();
+        //mode = Mode.DOWNLOADS;
+        TextFlow tf = pageHeadingTextFlow();
+        tf.getChildren().add(new Text(centeredText("Upload Software") + "\n"));
+        if (index >= 0) {
+            tf.getChildren().add(new Text("\n" + dbTextResource.get(index) + "\n"));
+        }
+        Text menuItem = new Text(PADDING + "X. Exit to main");
+        tf.getChildren().add(menuItem);
+        menuItem.setOnMouseClicked((t) -> {
+            t.consume();
+            LOGGER.log(Level.SEVERE, "User exit to main: ");
+            siteContent();
+        });
+
+        int i = 1;
+//        i = addSoftware(i, database.warez1, tf);
+//        i = addSoftware(i, database.warez2, tf);
+//        addSoftware(i, database.warez3, tf);
+
+        // TODO Add software in Deck.
+        pane.getChildren().add(tf);
+    }
+
     private int addSoftware(int i, HashMap<Class< ? extends Warez>, Integer> map, TextFlow tf) {
         // TODO: Filter based on accessLevel.
         for (Map.Entry<Class<? extends Warez>, Integer> m : map.entrySet()) {
