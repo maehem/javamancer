@@ -53,7 +53,8 @@ public enum DatabaseViewList {
     DB17(HosakaDatabase.class, HosakaDatabaseView.class),
     DB19(MusaboriDatabase.class, MusaboriDatabaseView.class),
     DB20(NASADatabase.class, NASADatabaseView.class),
-    DB22(CentralJusticeDatabase.class, CentralJusticeDatabaseView.class);
+    DB22(CentralJusticeDatabase.class, CentralJusticeDatabaseView.class),
+    DB29(FreeSexUnionDatabase.class, FreeSexUnionDatabaseView.class);
 
     public final Class<? extends Database> database;
     public final Class<? extends DatabaseView> view;

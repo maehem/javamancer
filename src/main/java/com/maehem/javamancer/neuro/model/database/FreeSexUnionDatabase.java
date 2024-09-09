@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.ai.XavieraAI;
 import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 import com.maehem.javamancer.neuro.view.ResourceManager;
@@ -33,6 +34,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Free Sex Union
+ * Number: 29
  * Zone: 3
  * ComLink: none
  * Passwords: Only reachable from Cyberspace
@@ -52,13 +54,24 @@ public class FreeSexUnionDatabase extends Database {
         super("Free Sex Union", 29,
                 3,
                 -1,
-                null,
-                null, null, null,
+                "freesextest", // Set to null before release
+                null, "test", null,
                 288, 208,
                 XavieraAI.class, PhenomenologySkill.class, null,
                 400,
                 rm
         );
+
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "SM, 41", 4, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "SF, 21", 5, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "SF, 44", 6, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Xaviera", "SM, 15", 7, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "SM, 15", "Xaviera", 8, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Xaviera", "SM, 15", 9, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "SM, 15", "Xaviera", 10, true));
+
+        bbsMessages2.add(new BbsMessage("11/16/58", "Xaviera", "Greystoke", 11, true));
+        bbsMessages2.add(new BbsMessage("11/16/58", "Xaviera", "Neuromancer", 12, true));
     }
 
 }
