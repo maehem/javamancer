@@ -36,7 +36,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class MegaDeathWarez extends FakeWarez {
 
     public MegaDeathWarez(int version) {
-        super(Item.Catalog.HEMLOCK, version);
+        super(Item.Catalog.MEGADEATH, version);
     }
 
     @Override

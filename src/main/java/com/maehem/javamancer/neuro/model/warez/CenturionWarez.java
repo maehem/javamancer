@@ -36,7 +36,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class CenturionWarez extends FakeWarez {
 
     public CenturionWarez(int version) {
-        super(Item.Catalog.HEMLOCK, version);
+        super(Item.Catalog.CENTURION, version);
     }
 
     @Override

@@ -36,7 +36,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class SnailBaitWarez extends FakeWarez {
 
     public SnailBaitWarez(int version) {
-        super(Item.Catalog.HEMLOCK, version);
+        super(Item.Catalog.SNAIL, version);
     }
 
     @Override

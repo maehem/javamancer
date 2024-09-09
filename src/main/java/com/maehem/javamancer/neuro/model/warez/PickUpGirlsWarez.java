@@ -33,10 +33,10 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class ToxinWarez extends FakeWarez {
+public class PickUpGirlsWarez extends FakeWarez {
 
-    public ToxinWarez(int version) {
-        super(Item.Catalog.TOXIN, version);
+    public PickUpGirlsWarez(int version) {
+        super(Item.Catalog.PICKUP, version);
     }
 
     @Override
