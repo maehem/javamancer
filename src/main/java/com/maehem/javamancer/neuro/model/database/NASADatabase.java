@@ -28,16 +28,21 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.HalAI;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
+import com.maehem.javamancer.neuro.model.warez.BlowTorchWarez;
+import com.maehem.javamancer.neuro.model.warez.DecoderWarez;
+import com.maehem.javamancer.neuro.model.warez.ProbeWarez;
+import com.maehem.javamancer.neuro.model.warez.PythonWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
  * Name: NASA
+ * Number: 20
  * Zone: 1
  * ComLink: 6.0
  * LinkCode: voyager
  * Passwords: (1) apollo (2) only from Cyberspace
- * Warez: Python 2.0, Blowtorch 4.0, Decoder 4.0
+ * Warez: Probe 1.0, (Python 2.0, Blowtorch 4.0, Decoder 4.0) level2
  * Matrix: 448, 32
  * AI: Hal
  * Weakness: Logic
@@ -61,6 +66,13 @@ public class NASADatabase extends Database {
                 150,
                 rm
         );
+
+        warez1.put(ProbeWarez.class, 1);
+
+        warez2.put(PythonWarez.class, 2);
+        warez2.put(BlowTorchWarez.class, 4);
+        warez2.put(DecoderWarez.class, 4);
+
     }
 
 }
