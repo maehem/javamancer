@@ -699,14 +699,18 @@ public abstract class DatabaseView {
     }
 
     protected void viewText(int index) {
-        viewText(index, -1, -1);
+        viewText(index, -1, -1, -1);
     }
 
     protected void viewText(int index1, int index2) {
-        viewText(index1, index2, -1);
+        viewText(index1, index2, -1, -1);
     }
 
     protected void viewText(int index1, int index2, int index3) {
+        viewText(index1, index2, index3, -1);
+    }
+
+    protected void viewText(int index1, int index2, int index3, int index4) {
         LOGGER.log(Level.SEVERE, "View Text Resource: {0}", new Object[]{index1, index2, index3});
         pane.getChildren().clear();
         subMode = SubMode.VIEW_TEXT;
@@ -719,6 +723,9 @@ public abstract class DatabaseView {
         }
         if (index3 >= 0) {
             contentFlow.getChildren().add(new Text(dbTextResource.get(index3)));
+        }
+        if (index4 >= 0) {
+            contentFlow.getChildren().add(new Text(dbTextResource.get(index4)));
         }
 
         TextFlow pageTf = pageTextScrolledFlow(headingText, contentFlow);
