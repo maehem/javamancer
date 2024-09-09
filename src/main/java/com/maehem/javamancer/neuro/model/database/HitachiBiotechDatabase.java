@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Hitachi Biotech
+ * Number: 10
  * Zone: 2
  * Comlink: 3.0
  * LinkCode: hitachibio
