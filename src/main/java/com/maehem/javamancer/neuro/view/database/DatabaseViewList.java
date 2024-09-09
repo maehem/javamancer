@@ -43,6 +43,7 @@ public enum DatabaseViewList {
     DB7(IRSDatabase.class, IRSDatabaseView.class),
     DB9(ChibaCityPoliceDatabase.class, ChibaCityPoliceDatabaseView.class),
     DB11(CopenhagenUniversityDatabase.class, CopenhagenUniversityDatabaseView.class),
+    DB12(SoftwareEnforcementDatabase.class, SoftwareEnforcementDatabaseView.class),
     DB13(FreeMatrixDatabase.class, FreeMatrixDatabaseView.class);
 
     public final Class<? extends Database> database;
