@@ -126,7 +126,8 @@ public class BIHThing {
                 } else if (name.startsWith("IRS0")
                         || name.startsWith("SEA0")
                         || name.startsWith("SEA1")
-                        || name.startsWith("POLICE")) {  // Name/BAMA list
+                        || name.startsWith("POLICE")
+                        || name.startsWith("JUSTICE")) {  // Name/BAMA list
                     cbOffset = 0;
                     cbSegment = 0;
                     ctrlStructAddr = 0;
