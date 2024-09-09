@@ -41,6 +41,7 @@ public enum DatabaseViewList {
     DB5(PsychologistDatabase.class, PsychologistDatabaseView.class),
     DB6(PantherModernsDatabase.class, PantherModernsDatabaseView.class),
     DB7(IRSDatabase.class, IRSDatabaseView.class),
+    DB8(FujiElectricDatabase.class, FujiElectricDatabaseView.class),
     DB9(ChibaCityPoliceDatabase.class, ChibaCityPoliceDatabaseView.class),
     DB10(HitachiBiotechDatabase.class, HitachiBiotechDatabaseView.class),
     DB11(CopenhagenUniversityDatabase.class, CopenhagenUniversityDatabaseView.class),

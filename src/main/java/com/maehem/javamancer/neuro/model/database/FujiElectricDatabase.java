@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Fuji Electric
+ * Number: 8
  * Zone: 2
  * Comlink: 2.0
  * LinkCode: fuji
