@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Central Justice
+ * Number: 22
  * Zone: 1
  * ComLink: 6.0
  * Link Code: justice
@@ -52,7 +53,7 @@ public class CentralJusticeDatabase extends Database {
                 1,
                 6,
                 "justice",
-                null, null, null,
+                "no password", null, null,
                 416, 112,
                 null, null, null,
                 150,
