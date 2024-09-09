@@ -46,6 +46,7 @@ public enum DatabaseViewList {
     DB12(SoftwareEnforcementDatabase.class, SoftwareEnforcementDatabaseView.class),
     DB13(FreeMatrixDatabase.class, FreeMatrixDatabaseView.class),
     DB14(EasternSeaFissionDatabase.class, EasternSeaFissionDatabaseView.class),
+    DB15(GentlemanLoserDatabase.class, GentlemanLoserDatabaseView.class),
     DB22(CentralJusticeDatabase.class, CentralJusticeDatabaseView.class);
 
     public final Class<? extends Database> database;
