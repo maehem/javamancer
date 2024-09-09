@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
@@ -62,13 +61,6 @@ import javafx.scene.text.TextFlow;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class SoftwareEnforcementDatabaseView extends DatabaseView {
-
-    public final static String reasons[] = {
-        "Smuggling",
-        "Software pandering",
-        "Piracy",
-        "Supercode programming"
-    };
 
     private enum Mode {
         SUB, MENU, WARRANTS, SKILL
@@ -145,11 +137,11 @@ public class SoftwareEnforcementDatabaseView extends DatabaseView {
                 skillUpgrade();
             }
             case "5" -> {
-                warrantList(0);
+                warrantList(11, "SEA0");
             }
             case "6" -> {
                 if (accessLevel > 2) {
-                    warrantList(1);
+                    warrantList(12, "SEA1");
                 }
             }
         }
@@ -208,35 +200,35 @@ public class SoftwareEnforcementDatabaseView extends DatabaseView {
         pane.setOnMouseClicked(null);
     }
 
-    private void warrantList(int num) {
-        LOGGER.log(Level.SEVERE, "Software Enforcement: warrant list");
-        pane.getChildren().clear();
-        mode = Mode.WARRANTS;
-
-        Text subHeadingText = new Text("\n" + dbTextResource.get(11) + "\n\n");
-
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
-
-        TextResource bamaList = gameState.resourceManager.getTextResource("SEA" + num);
-        int i = 0;
-        for (String item : bamaList) {
-            String[] split = item.split("\t");
-            int reason = split[2].charAt(3);
-            Text t = new Text("\n" + split[0] + split[1] + " " + reasons[reason]);
-
-            contentTf.getChildren().add(t);
-            i++;
-        }
-
-        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
-
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
-    }
+//    private void _warrantList(int num) {
+//        LOGGER.log(Level.SEVERE, "Software Enforcement: warrant list");
+//        pane.getChildren().clear();
+//        mode = Mode.WARRANTS;
+//
+//        Text subHeadingText = new Text("\n" + dbTextResource.get(11) + "\n\n");
+//
+//        TextFlow contentTf = simpleTextFlow(subHeadingText);
+//        contentTf.setPadding(new Insets(0, 0, 0, 30));
+//
+//        TextResource bamaList = gameState.resourceManager.getTextResource("SEA" + num);
+//        int i = 0;
+//        for (String item : bamaList) {
+//            String[] split = item.split("\t");
+//            int reason = split[2].charAt(3);
+//            Text t = new Text("\n" + split[0] + split[1] + " " + WANTED[reason]);
+//
+//            contentTf.getChildren().add(t);
+//            i++;
+//        }
+//
+//        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
+//
+//        pane.getChildren().add(pageTf);
+//        pane.setOnMouseClicked((t) -> {
+//            t.consume();
+//            mainMenu();
+//        });
+//    }
 
     private void attemptSkillUpgrade() {
         LOGGER.log(Level.SEVERE, "SEA: Attempt Skill Upgrade");

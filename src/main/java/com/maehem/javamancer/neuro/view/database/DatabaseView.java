@@ -67,8 +67,15 @@ public abstract class DatabaseView {
     private final Text sendYN = new Text("\n        Send message? Y/N\n");
     private final Text instructions = new Text("\n\nPress ESC to end.");
 
+    public final static String[] WANTED = {
+        "Smuggling",
+        "Software pandering",
+        "Piracy",
+        "Supercode programming"
+    };
+
     protected enum SubMode {
-        LANDING, PASSWORD, CLEAR_WAIT, MAIN, MSG_LIST, MSG_SHOW, MSG_SEND, VIEW_TEXT
+        LANDING, PASSWORD, CLEAR_WAIT, MAIN, MSG_LIST, MSG_SHOW, MSG_SEND, VIEW_TEXT, WARRANTS
     }
 
     private enum AccessText {
@@ -295,11 +302,13 @@ public abstract class DatabaseView {
 
     protected void handleEnteredPassword(KeyEvent ke) {
         LOGGER.log(Level.FINEST, "Handle password key typed.");
-        if (typedPassword.length() < 12 && ke.getCode().isLetterKey()) {
+        KeyCode code = ke.getCode();
+        if (typedPassword.length() < 12
+                && (code.isLetterKey() || code == KeyCode.SPACE)) {
             LOGGER.log(Level.FINEST, "Typed: {0}", ke.getText());
             typedPassword.append(ke.getText());
             enteredPasswordText.setText(typedPassword.toString());
-        } else if (typedPassword.length() > 0 && ke.getCode().equals(KeyCode.BACK_SPACE)) {
+        } else if (typedPassword.length() > 0 && code.equals(KeyCode.BACK_SPACE)) {
             LOGGER.log(Level.FINEST, "Backspace.");
             if (accessDenied) {
                 typedPassword.setLength(0);
@@ -309,7 +318,7 @@ public abstract class DatabaseView {
                 typedPassword.delete(typedPassword.length() - 1, typedPassword.length());
             }
             enteredPasswordText.setText(typedPassword.toString());
-        } else if (ke.getCode().equals(KeyCode.ENTER)) {
+        } else if (code.equals(KeyCode.ENTER)) {
             LOGGER.log(Level.SEVERE, "entered: {0}  passwords: {1}, {2}",
                     new Object[]{
                         typedPassword,
@@ -317,7 +326,8 @@ public abstract class DatabaseView {
                         gameState.database.password2 == null ? "none" : gameState.database.password2
                     });
             // Check password valid.
-            if (gameState.database.password1.equals(typedPassword.toString())) {
+            if (gameState.database.password1 != null
+                    && gameState.database.password1.equals(typedPassword.toString())) {
                 accessLevel = 1;
                 setAccessText(AccessText.CLEARED_1);
                 // set cleared for access text.
@@ -643,6 +653,41 @@ public abstract class DatabaseView {
         //Text text = new Text("Hello\r there\nthis is a page.");
         //text.setLineSpacing(LINE_SPACING);
         TextFlow pageTf = pageTextScrolledFlow(headingText, text);
+
+        pane.getChildren().add(pageTf);
+        pane.setOnMouseClicked((t) -> {
+            t.consume();
+            siteContent();
+        });
+    }
+
+    protected void warrantList(int headingIndex, String resourceName) {
+        LOGGER.log(Level.SEVERE, "Software Enforcement: warrant list");
+        pane.getChildren().clear();
+        subMode = SubMode.WARRANTS;
+
+        Text subHeadingText;
+        if (headingIndex >= 0) {
+            subHeadingText = new Text("\n" + dbTextResource.get(headingIndex) + "\n\n");
+        } else {
+            subHeadingText = new Text();
+        }
+
+        TextFlow contentTf = simpleTextFlow(subHeadingText);
+        contentTf.setPadding(new Insets(0, 0, 0, 30));
+
+        TextResource bamaList = gameState.resourceManager.getTextResource(resourceName);
+        int i = 0;
+        for (String item : bamaList) {
+            String[] split = item.split("\t");
+            int reason = split[2].charAt(3);
+            Text t = new Text("\n" + split[0] + split[1] + " " + WANTED[reason]);
+
+            contentTf.getChildren().add(t);
+            i++;
+        }
+
+        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
 
         pane.getChildren().add(pageTf);
         pane.setOnMouseClicked((t) -> {
