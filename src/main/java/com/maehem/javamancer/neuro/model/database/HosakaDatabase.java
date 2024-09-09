@@ -70,11 +70,12 @@ public class HosakaDatabase extends Database {
         );
 
         warez1.put(ComLinkWarez.class, 5);
-        warez2.put(SlowWarez.class, 2);
+
         warez2.put(HammerWarez.class, 4);
         warez2.put(ConcreteWarez.class, 1);
         warez2.put(MimicWarez.class, 2);
         warez2.put(InjectorWarez.class, 2);
+        warez2.put(SlowWarez.class, 2);
 
         bbsMessages.add(new BbsMessage("11/16/58", "All", "E. D. Cooper", 8, true));
         bbsMessages.add(new BbsMessage("11/16/58", "All", "E. D. Cooper", 9, true));
