@@ -26,13 +26,16 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.ai.GreystokeAI;
 import com.maehem.javamancer.neuro.model.warez.HemlockWarez;
+import com.maehem.javamancer.neuro.model.warez.KuangElevenWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
  * Name: Musabori
+ * Number: 19
  * Zone: 2
  * ComLink: 5.0
  * LinkCode: musaborind
@@ -54,12 +57,17 @@ public class MusaboriDatabase extends Database {
                 2,
                 5,
                 "musaborind",
-                "subaru", null, null,
+                "subaru", "test", null,
                 208, 208,
                 GreystokeAI.class, null, HemlockWarez.class,
                 260,
                 rm
         );
+
+        warez2.put(KuangElevenWarez.class, 1);
+
+        bbsMessages.add(new BbsMessage("11/16/58", "Greystoke", "Chrome", 11, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Greystoke", "Neuromancer", 12, true));
     }
 
 }
