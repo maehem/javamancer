@@ -78,7 +78,7 @@ public class SoftwareEnforcementDatabaseView extends DatabaseView {
     public SoftwareEnforcementDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
 
-        dbTextResource.dumpList();
+        //dbTextResource.dumpList();
         if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
             accessLevel = 3;
             siteContent();
