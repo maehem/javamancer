@@ -41,6 +41,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: KGB
+ * Number: 35
  * Zone: 6
  * ComLink: none
  * LinkCode/Password: Only reachable from Cyberspace
@@ -61,20 +62,21 @@ public class KGBDatabase extends Database {
                 "KGB", 35,
                 6,
                 -1,
-                null,
-                null, null, null,
+                "kgbtest",
+                null, "test", null,
                 112, 416,
                 LuciferAI.class, LogicSkill.class, null,
                 1100,
                 rm);
+
         warez1.put(SlowWarez.class, 5);
-        warez1.put(JammiesWarez.class, 4);
         warez1.put(ArmorallWarez.class, 4);
-        warez1.put(InjectorWarez.class, 5);
-        warez1.put(ProbeWarez.class, 15);
-        warez1.put(ConcreteWarez.class, 5);
         warez1.put(LogicBombWarez.class, 6);
+        warez1.put(ConcreteWarez.class, 5);
         warez1.put(DepthChargeWarez.class, 8);
+        warez1.put(ProbeWarez.class, 15);
+        warez1.put(InjectorWarez.class, 5);
+        warez1.put(JammiesWarez.class, 4);
 
     }
 

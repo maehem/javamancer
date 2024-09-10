@@ -65,7 +65,8 @@ public enum DatabaseViewList {
     DB31(DARPODatabase.class, DARPODatabaseView.class),
     DB32(TuringRegistryDatabase.class, TuringRegistryDatabaseView.class),
     DB33(ScreamingFistDatabase.class, ScreamingFistDatabaseView.class),
-    DB34(MaasBiolabsDatabase.class, MaasBiolabsDatabaseView.class);
+    DB34(MaasBiolabsDatabase.class, MaasBiolabsDatabaseView.class),
+    DB35(KGBDatabase.class, KGBDatabaseView.class);
 
     public final Class<? extends Database> database;
     public final Class<? extends DatabaseView> view;
