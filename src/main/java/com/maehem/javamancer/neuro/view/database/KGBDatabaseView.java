@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -85,27 +86,11 @@ public class KGBDatabaseView extends DatabaseView {
     }
 
     private void mainMenu() {
-        pane.getChildren().clear();
-        mode = Mode.MENU;
-
-        TextFlow tf = pageTextFlow(headingText);
-
-        String menuString = dbTextResource.get(1);
-        if (accessLevel > 2) {
-            menuString += "\r" + dbTextResource.get(2);
-        }
-        String[] split = menuString.split("\\r");
-        for (String s : split) {
-            Text menuItem = new Text("\n         " + s);
-            tf.getChildren().add(menuItem);
-            menuItem.setOnMouseClicked((t) -> {
-                t.consume();
-                itemPage(s.trim().substring(0, 1));
-            });
-        }
-
-        pane.getChildren().add(tf);
-        pane.setOnMouseClicked(null);
+        Node kgbDownloads = kgbDownloads();
+        kgbDownloads.setOnMouseClicked((t) -> {
+            t.consume();
+            listener.popupExit();
+        });
     }
 
     private void itemPage(String itemLetter) {

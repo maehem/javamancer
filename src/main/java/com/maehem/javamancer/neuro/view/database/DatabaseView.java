@@ -515,6 +515,25 @@ public abstract class DatabaseView {
         pane.getChildren().add(tf);
     }
 
+    protected Node kgbDownloads() {
+        LOGGER.log(Level.SEVERE, "{0}: Downloads", database.name);
+        pane.getChildren().clear();
+        //mode = Mode.DOWNLOADS;
+        TextFlow tf = pageHeadingTextFlow();
+        tf.getChildren().add(new Text(centeredText(" Software Library") + "\n"));
+        Text exitItem = new Text(PADDING + "X. Exit System");
+        tf.getChildren().add(exitItem);
+
+        int i = 1;
+        i = addSoftware(i, database.warez1, tf);
+        i = addSoftware(i, database.warez2, tf);
+        addSoftware(i, database.warez3, tf);
+
+        pane.getChildren().add(tf);
+
+        return exitItem; // Add a mouseClick listener for menu exit.
+    }
+
     protected void uploads(int index) {
         LOGGER.log(Level.SEVERE, "{0}: Downloads", database.name);
         pane.getChildren().clear();
