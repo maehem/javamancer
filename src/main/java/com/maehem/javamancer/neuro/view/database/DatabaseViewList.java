@@ -53,6 +53,7 @@ public enum DatabaseViewList {
     DB17(HosakaDatabase.class, HosakaDatabaseView.class),
     DB19(MusaboriDatabase.class, MusaboriDatabaseView.class),
     DB20(NASADatabase.class, NASADatabaseView.class),
+    DB21(BankZurichDatabase.class, BankZurichDatabaseView.class),
     DB22(CentralJusticeDatabase.class, CentralJusticeDatabaseView.class),
     DB26(SenseNetDatabase.class, SenseNetDatabaseView.class),
     DB27(GridpointDatabase.class, GridpointDatabaseView.class),
