@@ -33,6 +33,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Maas Biolabs
+ * Number: 34
  * Zone: 6
  * ComLink: none
  * LinkCode/Password: Only reachable from Cyberspace
@@ -52,8 +53,8 @@ public class MaasBiolabsDatabase extends Database {
         super("Maas Biolabs", 34,
                 6,
                 -1,
-                null,
-                null, null, null,
+                "maastest",
+                null, "test", null,
                 112, 480,
                 SangfroidAI.class, PhenomenologySkill.class, null,
                 1100,
