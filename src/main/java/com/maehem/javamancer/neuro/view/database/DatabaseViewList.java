@@ -56,6 +56,7 @@ public enum DatabaseViewList {
     DB21(BankZurichDatabase.class, BankZurichDatabaseView.class),
     DB22(CentralJusticeDatabase.class, CentralJusticeDatabaseView.class),
     DB23(BellEuropaDatabase.class, BellEuropaDatabaseView.class),
+    DB24(NihilistDatabase.class, NihilistDatabaseView.class),
     DB26(SenseNetDatabase.class, SenseNetDatabaseView.class),
     DB27(GridpointDatabase.class, GridpointDatabaseView.class),
     DB29(FreeSexUnionDatabase.class, FreeSexUnionDatabaseView.class),

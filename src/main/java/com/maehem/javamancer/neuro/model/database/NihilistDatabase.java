@@ -35,6 +35,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Nihilist
+ * Number: 24
  * Zone: 5
  * ComLink: none
  * LinkCode/Password: Only reachable from Cyberspace
@@ -55,13 +56,14 @@ public class NihilistDatabase extends Database {
                 "Nihilist", 24,
                 5,
                 -1,
-                null,
-                null, null, null,
+                "nihiltest",
+                null, "test", null,
                 416, 368,
                 null, null, null,
                 1000,
                 rm
         );
+
         warez1.put(PythonWarez.class, 5);
         warez1.put(AcidWarez.class, 3);
         warez1.put(SlowWarez.class, 4);
