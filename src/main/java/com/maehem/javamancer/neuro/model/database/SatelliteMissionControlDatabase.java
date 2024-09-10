@@ -33,6 +33,8 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  * TODO:  Extracted from DAT files but does not appear in any game walkthrough.
  * Player can manipulate or disable a satellite in orbit. Was it used in the game?
  *
+ * COMSAT:  Referenced from INSA transmission logs.
+ *
  * Name: Satellite Mission Control Facility
  * Zone: 7
  * ComLink, linkcode, password: Only reachable from Cyberspace
