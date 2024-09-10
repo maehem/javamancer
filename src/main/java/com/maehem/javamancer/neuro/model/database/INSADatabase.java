@@ -26,11 +26,17 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.warez.ArmorallWarez;
+import com.maehem.javamancer.neuro.model.warez.DoorStopWarez;
+import com.maehem.javamancer.neuro.model.warez.HammerWarez;
+import com.maehem.javamancer.neuro.model.warez.InjectorWarez;
+import com.maehem.javamancer.neuro.model.warez.LogicBombWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
  * Name: I.N.S.A.
+ * Number: 25
  * Zone: 5
  * ComLink, linkcode, password: Only reachable from Cyberspace
  * Warez: Injector 5.0, Armorall 3.0, Hammer 6.0, Doorstop 4.0, Logic bomb 3.0
@@ -50,13 +56,21 @@ public class INSADatabase extends Database {
                 "I.N.S.A", 25,
                 5,
                 -1,
-                null,
-                null, null, null,
+                "insatest",
+                null, "test", null,
                 448, 320,
                 null, null, null,
                 1000,
                 rm
         );
+
+        warez1.put(ArmorallWarez.class, 3);
+        warez1.put(HammerWarez.class, 6);
+        warez1.put(LogicBombWarez.class, 3);
+        warez1.put(InjectorWarez.class, 5);
+        warez1.put(DoorStopWarez.class, 4);
+
     }
+
 
 }
