@@ -55,6 +55,7 @@ public enum DatabaseViewList {
     DB20(NASADatabase.class, NASADatabaseView.class),
     DB22(CentralJusticeDatabase.class, CentralJusticeDatabaseView.class),
     DB26(SenseNetDatabase.class, SenseNetDatabaseView.class),
+    DB27(GridpointDatabase.class, GridpointDatabaseView.class),
     DB29(FreeSexUnionDatabase.class, FreeSexUnionDatabaseView.class),
     DB30(BankBerneDatabase.class, BankBerneDatabaseView.class),
     DB31(DARPODatabase.class, DARPODatabaseView.class),

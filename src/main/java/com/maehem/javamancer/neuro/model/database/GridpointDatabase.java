@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.warez.ArmorallWarez;
 import com.maehem.javamancer.neuro.model.warez.HammerWarez;
 import com.maehem.javamancer.neuro.model.warez.InjectorWarez;
@@ -36,6 +37,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Gridpoint
+ * Number: 27
  * Zone: 4
  * ComLink: none
  * Link Code: Only reachable from Cyberspace
@@ -57,19 +59,24 @@ public class GridpointDatabase extends Database {
                 "Gridpoint", 27,
                 4,
                 -1,
-                null,
-                null, null, null,
+                "gridtest",
+                null, "test", null,
                 160, 320,
                 null, null, null,
                 0,
                 rm);
 
-        warez1.put(ThunderheadWarez.class, 3);
-        warez1.put(InjectorWarez.class, 3);
         warez1.put(JammiesWarez.class, 3);
+        warez1.put(ThunderheadWarez.class, 3);
         warez1.put(HammerWarez.class, 5);
+        warez1.put(InjectorWarez.class, 3);
         warez1.put(ArmorallWarez.class, 2);
 
+        bbsMessages.add(new BbsMessage("11/16/58", "Anonymous", "Deathangel's", 5, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Deathangel's", "M. Shaw", 6, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "M. Shaw", "El Aguila", 7, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "M. Shaw", 8, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "All", "M. Shaw", 9, true));
     }
 
 }
