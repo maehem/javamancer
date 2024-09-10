@@ -370,7 +370,7 @@ public abstract class DatabaseView {
         clearWait = 30; // 2 seconds.
     }
 
-    private void buildVisibleMessagesList() {
+    protected void buildVisibleMessagesList() {
         // clear list
         visibleMessages.clear();
         database.bbsMessages.forEach((t) -> {
