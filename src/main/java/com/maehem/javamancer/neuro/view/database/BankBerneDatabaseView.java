@@ -94,7 +94,7 @@ public class BankBerneDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text(dbTextResource.get(4) + "\n\n\n\n");
+        Text helloText = new Text("\n\n\n\n");
 
         TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
