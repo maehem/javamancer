@@ -26,11 +26,15 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
+import com.maehem.javamancer.neuro.model.warez.AcidWarez;
+import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
  * Name: Bell Europa
+ * Number: 23
  * Zone: 5
  * ComLink: Only reachable from Cyberspace
  * Warez: Thunderhead 4.0, Acid 5.0
@@ -50,13 +54,21 @@ public class BellEuropaDatabase extends Database {
                 "Bell Europe", 23,
                 5,
                 -1,
-                null, null, null, null,
+                "belltest",
+                null, "test", null,
                 384, 288,
                 null,
                 null, null,
                 1000,
                 rm
         );
+
+        warez1.put(ThunderheadWarez.class, 4);
+        warez1.put(AcidWarez.class, 5);
+
+        bbsMessages.add(new BbsMessage("11/16/58", "B. Adamski", "Service Rep.", 4, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "L. Kestrel", "Service Rep.", 5, true));
+
     }
 
 }
