@@ -60,7 +60,7 @@ public class KGBDatabaseView extends DatabaseView {
     public KGBDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
 
-        dbTextResource.dumpList();
+        //dbTextResource.dumpList();
         if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
             accessLevel = 3;
             siteContent();
