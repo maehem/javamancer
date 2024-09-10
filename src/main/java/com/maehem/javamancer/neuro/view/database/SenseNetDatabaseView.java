@@ -77,7 +77,7 @@ public class SenseNetDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text(dbTextResource.get(2) + "\n\n\n\n");
+        Text helloText = new Text(dbTextResource.get(2) + "\n\n");
 
         TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
