@@ -69,6 +69,8 @@ public class GameState {
     public int chipBalance = 346;
     public int bankBalance = 2000;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
+    public String bamaZurichId = null; // Create account by accessing Zurich via cyberspace.
+    public int bamaZurichBalance = 0; // Create account by accessing Zurich via cyberspace.
 
     // Health
     public final int CONSTITUTION_MAX = 2000;
