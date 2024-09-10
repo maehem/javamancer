@@ -34,7 +34,8 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
- * Phantom
+ * Name: Phantom
+ * Numer: 36
  * Zone: 7
  * ComLink: none
  * LinkCode/Passwords: Only reachable from Cyberspace
@@ -54,8 +55,8 @@ public class PhantomDatabase extends Database {
         super("Phantom", 36,
                 7,
                 -1,
-                null,
-                null, null, null,
+                "phantomtest",
+                null, "test", null,
                 320, 464,
                 PhantomAI.class, LogicSkill.class, BattleChessWarez.class,
                 2000,
