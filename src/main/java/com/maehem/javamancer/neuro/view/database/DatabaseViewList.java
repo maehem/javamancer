@@ -57,7 +57,8 @@ public enum DatabaseViewList {
     DB29(FreeSexUnionDatabase.class, FreeSexUnionDatabaseView.class),
     DB30(BankBerneDatabase.class, BankBerneDatabaseView.class),
     D31(DARPODatabase.class, DARPODatabaseView.class),
-    D32(TuringRegistryDatabase.class, TuringRegistryDatabaseView.class);
+    DB32(TuringRegistryDatabase.class, TuringRegistryDatabaseView.class),
+    DB33(ScreamingFistDatabase.class, ScreamingFistDatabaseView.class);
 
     public final Class<? extends Database> database;
     public final Class<? extends DatabaseView> view;

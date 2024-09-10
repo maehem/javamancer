@@ -37,6 +37,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Screaming Fist
+ * Number: 33
  * Zone: 3
  * ComLink: none
  * LinkCode/Passwords: Only reachable from Cyberspace
@@ -57,19 +58,20 @@ public class ScreamingFistDatabase extends Database {
                 "Screaming Fist", 33,
                 3,
                 -1,
-                null,
-                null, null, null,
+                "screamingtes",
+                null, "test", null,
                 464, 160,
                 null, null, null,
                 400,
                 rm
         );
-        warez1.put(KGBWarez.class, 1);
-        warez1.put(EasyRiderWarez.class, 1);
-        warez1.put(PythonWarez.class, 3);
+
         warez1.put(SlowWarez.class, 3);
-        warez1.put(ArmorallWarez.class, 1);
         warez1.put(DepthChargeWarez.class, 3);
+        warez1.put(PythonWarez.class, 3);
+        warez1.put(KGBWarez.class, 1);
+        warez1.put(ArmorallWarez.class, 1);
+        warez1.put(EasyRiderWarez.class, 1);
     }
 
 }
