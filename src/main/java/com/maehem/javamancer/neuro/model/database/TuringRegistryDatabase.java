@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Turing Registry
+ * Number: 32
  * Zone: 3
  * ComLink: none
  * LinkCode/Passwords: Only reachable from Cyberspace
@@ -51,8 +52,8 @@ public class TuringRegistryDatabase extends Database {
                 "Turing Registry", 32,
                 3,
                 -1,
-                null,
-                null, null, null,
+                "turingtest",
+                null, "test", null,
                 432, 240,
                 null, null, null,
                 400,
