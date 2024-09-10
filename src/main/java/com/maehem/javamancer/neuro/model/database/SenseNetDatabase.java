@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Sense/Net
+ * Number: 26
  * Zone: 4
  * ComLink: none
  * LinkCode/Passwords: Only reachable from Cyberspace
@@ -51,8 +52,8 @@ public class SenseNetDatabase extends Database {
                 "Sense/Net", 26,
                 4,
                 -1,
-                null,
-                null, null, null,
+                "sensetest",
+                null, "test", null,
                 48, 320,
                 null, null, null,
                 800,
