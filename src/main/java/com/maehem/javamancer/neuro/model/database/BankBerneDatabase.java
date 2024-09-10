@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.ai.GoldAI;
 import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 import com.maehem.javamancer.neuro.model.warez.ArmorallWarez;
@@ -36,6 +37,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Bank of Berne
+ * Number: 30
  * Zone: 3
  * Passwords: Only reachable from Cyberspace
  * Warez: Slow 3.0, Probe 10.0, Armorall 1.0
@@ -55,8 +57,8 @@ public class BankBerneDatabase extends Database {
                 "Bank of Berne", 30,
                 3,
                 -1,
-                null,
-                null, null, null,
+                "bernetest",
+                null, "test", null,
                 336, 160,
                 GoldAI.class,
                 PhilosophySkill.class,
@@ -65,9 +67,17 @@ public class BankBerneDatabase extends Database {
                 rm
         );
 
-        warez1.put(SlowWarez.class, 3);
-        warez1.put(ProbeWarez.class, 1);
         warez1.put(ArmorallWarez.class, 1);
+        warez1.put(SlowWarez.class, 3);
+        warez1.put(ProbeWarez.class, 10);
+
+        bbsMessages.add(new BbsMessage("11/16/58", "Tozoku", "A. Auric", 5, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "A. Auric", "Tozoku", 6, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "A. Auric", "T. Cole", 7, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "A. Auric", "Admin", 8, true));
+
+        bbsMessages2.add(new BbsMessage("11/16/58", "Gold", "Greystoke", 10, true));
+        bbsMessages2.add(new BbsMessage("11/16/58", "Gold", "Greystoke", 11, true));
 
     }
 
