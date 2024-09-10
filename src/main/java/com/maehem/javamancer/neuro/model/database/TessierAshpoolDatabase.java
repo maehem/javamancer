@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.ai.WintermuteAI;
 import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 import com.maehem.javamancer.neuro.view.ResourceManager;
@@ -33,6 +34,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Tessier-Ashpool
+ * Number: 37
  * Zone: 7
  * ComLink: none
  * LinkCode/Passwords: Only reachable from Cyberspace
@@ -53,13 +55,17 @@ public class TessierAshpoolDatabase extends Database {
                 "Tessier-Ashpool", 37,
                 7,
                 -1,
-                null,
-                null, null, null,
+                "tessiertest",
+                null, "test", null,
                 384, 416,
                 WintermuteAI.class, SophistrySkill.class, null,
                 2000,
                 rm
         );
+
+        bbsMessages.add(new BbsMessage("11/16/58", "Wintermute", "Greystoke", 4, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Wintermute", "Neuromancer", 5, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "\1", "Wintermute", 6, true));
     }
 
 }
