@@ -68,7 +68,8 @@ public enum DatabaseViewList {
     DB34(MaasBiolabsDatabase.class, MaasBiolabsDatabaseView.class),
     DB35(KGBDatabase.class, KGBDatabaseView.class),
     DB36(PhantomDatabase.class, PhantomDatabaseView.class),
-    DB37(TessierAshpoolDatabase.class, TessierAshpoolDatabaseView.class);
+    DB37(TessierAshpoolDatabase.class, TessierAshpoolDatabaseView.class),
+    DB38(AllardTechDatabase.class, AllardTechDatabaseView.class);
 
     public final Class<? extends Database> database;
     public final Class<? extends DatabaseView> view;

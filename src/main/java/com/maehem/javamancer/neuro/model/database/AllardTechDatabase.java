@@ -33,6 +33,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Allard Technologies
+ * Number: 38
  * Zone 7
  * ComLink Min: n/a
  * Passwords: Only reachable from Cyberspace
@@ -52,7 +53,8 @@ public class AllardTechDatabase extends Database {
     public AllardTechDatabase(ResourceManager rm) {
         super("Allard Technologies", 38,
                 7, -1,
-                null, null, null, null,
+                "allardtest",
+                null, "test", null,
                 432, 464,
                 NeuromancerAI.class,
                 null, KuangElevenWarez.class,
