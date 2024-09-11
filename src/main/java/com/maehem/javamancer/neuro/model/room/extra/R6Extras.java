@@ -27,8 +27,8 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 
 /**
@@ -95,7 +95,7 @@ public class R6Extras extends RoomExtras {
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (gs.activeSkill.type.equals(Skill.Type.COPTALK)) {
+        if (gs.activeSkill != null && gs.activeSkill.type.equals(Skill.Type.COPTALK)) {
             return 35; // Talk like a cop.
         }
 
