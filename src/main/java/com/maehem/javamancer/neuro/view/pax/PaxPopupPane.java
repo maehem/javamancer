@@ -125,6 +125,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
         box.setLayoutY(20);
 
         exitItem.setOnMouseClicked((t) -> {
+            t.consume();
             listener.popupExit();
         });
         firstTimeItem.setOnMouseClicked((t) -> {
@@ -146,6 +147,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         switch (mode) {
             case ACCESS -> {
+                keyEvent.consume();
                 if (enteredCode.length() < 12 && keyEvent.getCode().isDigitKey()) {
                     LOGGER.log(Level.FINEST, "Typed." + keyEvent.getText());
                     enteredCode.append(keyEvent.getText());
@@ -165,6 +167,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
                 switch (keyEvent.getCode()) {
                     case DIGIT1 -> {
                         LOGGER.log(Level.CONFIG, "First Time User.");
+                        keyEvent.consume();
                         getChildren().clear();
                         mode = Mode.FIRST;
                         getChildren().add(new PaxFirstTimeNode(this, resourceManager));
@@ -173,6 +176,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
                     case DIGIT2 -> {
                         LOGGER.log(Level.CONFIG, "Banking.");
                         getChildren().clear();
+                        keyEvent.consume();
                         mode = Mode.BANKING;
                         paxNode = new PaxBankingNode(this, gameState);
                         getChildren().add(paxNode);
@@ -181,6 +185,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
                     case DIGIT3 -> {
                         LOGGER.log(Level.CONFIG, "News.");
                         getChildren().clear();
+                        keyEvent.consume();
                         mode = Mode.NEWS;
                         paxNode = new PaxNewsNode(this, gameState);
                         getChildren().add(paxNode);
@@ -188,6 +193,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
                     }
                     case DIGIT4 -> {
                         LOGGER.log(Level.CONFIG, "BBS.");
+                        keyEvent.consume();
                         getChildren().clear();
                         mode = Mode.BBS;
                         paxNode = new PaxBbsNode(this, gameState, resourceManager);
@@ -198,6 +204,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
             }
             case FIRST -> {
                 if (keyEvent.getCode().isLetterKey()) {
+                    keyEvent.consume();
                     getChildren().clear();
                     mode = Mode.MENU;
                     getChildren().add(modeMenu());
@@ -235,11 +242,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
         }
 
         // No one else handled the X or ESC, so quit PAX.
-        if (super.handleKeyEvent(keyEvent)) { // Check if X pressed.
-            return true;
-        }
-
-        return false;
+         return super.handleKeyEvent(keyEvent);  // Check if X pressed.
     }
 
     @Override
