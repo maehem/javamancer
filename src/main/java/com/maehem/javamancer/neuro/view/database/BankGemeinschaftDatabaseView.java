@@ -85,7 +85,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
     public BankGemeinschaftDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
 
-        dbTextResource.dumpList();
+        //dbTextResource.dumpList();
         if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
             accessLevel = 3;
             siteContent();
