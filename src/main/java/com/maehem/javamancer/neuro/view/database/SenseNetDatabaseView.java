@@ -117,10 +117,10 @@ public class SenseNetDatabaseView extends DatabaseView {
             case "X" -> {
                 listener.popupExit();
             }
-            case "1" -> {
+            case "1", "4", "6" -> {
                 readyPickup();
             }
-            case "2", "3", "4", "5", "6" -> {
+            case "2", "3", "5" -> {
                 checkedOut();
             }
         }
