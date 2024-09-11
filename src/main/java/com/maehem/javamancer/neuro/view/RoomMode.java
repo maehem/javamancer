@@ -132,37 +132,37 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         roomText = resourceManager.getRoomText(room);
 
         if (room.getExtras() != null) {
-            LOGGER.log(Level.SEVERE, "RoomMode: Room has 'extras'. Configuring...");
+            LOGGER.log(Level.CONFIG, "RoomMode: Room has 'extras'. Configuring...");
             RoomExtras extras = room.getExtras();
             extras.initRoom(gameState);
             if (firstTime) {
-                LOGGER.log(Level.SEVERE, "RoomMode: First time visit of room. Use long description.");
+                LOGGER.log(Level.CONFIG, "RoomMode: First time visit of room. Use long description.");
                 int[] dc0 = extras.getDialogChain()[0]; // Long Description
                 if (dc0.length == 1 && dc0[0] == LONG_DESC) { // 55 == long desc. here
-                     LOGGER.log(Level.SEVERE, "RoomMode: Found long description in dialog chain.");
+                     LOGGER.log(Level.CONFIG, "RoomMode: Found long description in dialog chain.");
                    roomDescriptionPane.setText(roomText.get(0));
                 } else {
-                    LOGGER.log(Level.SEVERE, "RoomMode: No description found in dialog chain.");
+                    LOGGER.log(Level.CONFIG, "RoomMode: No description found in dialog chain.");
                     roomDescriptionPane.setText("");
                 }
             } else {
-                LOGGER.log(Level.SEVERE, "RoomMode: We've been here before. Use short description.");
+                LOGGER.log(Level.CONFIG, "RoomMode: We've been here before. Use short description.");
                 int[] dc1 = extras.getDialogChain()[1]; // Short Description
                 if (dc1.length == 1 && dc1[0] == SHORT_DESC) { // 56 == short desc. here
-                    LOGGER.log(Level.SEVERE, "RoomMode: Found short description in dialog chain.");
+                    LOGGER.log(Level.CONFIG, "RoomMode: Found short description in dialog chain.");
                     roomDescriptionPane.setText(roomText.get(1));
                 } else {
-                    LOGGER.log(Level.SEVERE, "RoomMode: No description found in dialog chain.");
+                    LOGGER.log(Level.CONFIG, "RoomMode: No description found in dialog chain.");
                     roomDescriptionPane.setText("");
                 }
             }
         } else {
-            LOGGER.log(Level.SEVERE, "RoomMode: Room does not have 'extras'.");
+            LOGGER.log(Level.CONFIG, "RoomMode: Room does not have 'extras'.");
             if (firstTime) {
-                LOGGER.log(Level.SEVERE, "RoomMode: First time visit of room. Use long description.");
+                LOGGER.log(Level.CONFIG, "RoomMode: First time visit of room. Use long description.");
                 roomDescriptionPane.setText(roomText.getDescription());
             } else {
-                LOGGER.log(Level.SEVERE, "RoomMode: We've been here before. Use short description.");
+                LOGGER.log(Level.CONFIG, "RoomMode: We've been here before. Use short description.");
                 roomDescriptionPane.setText(roomText.getShortDescription());
             }
         }
