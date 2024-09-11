@@ -123,6 +123,7 @@ public abstract class DatabaseView {
 
         dbTextResource = gameState.resourceManager.getDatabaseText(gameState.database.number);
 
+        if (!dbTextResource.isEmpty())
         headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
 
         setAccessText(AccessText.NONE);
