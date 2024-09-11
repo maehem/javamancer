@@ -201,7 +201,7 @@ public class DeckPopup extends PopupPane {
         configEntryWindow();
 
         getChildren().clear();
-        Text currentSoft = new Text("       " + gameState.usingDeck.getCurrentWarez().getMenuString());
+        Text currentSoft = new Text("    " + gameState.usingDeck.getCurrentWarez().getSimpleName());
         Text cursor = new Text("<\n");
         TextFlow tf = textFlow(currentSoft, linkEnterheading, typedLinkEntryText, cursor);
 
