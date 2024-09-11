@@ -27,10 +27,14 @@
 package com.maehem.javamancer.neuro.view.room;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.view.NeuroGamePane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.transform.Scale;
@@ -43,6 +47,11 @@ public class RoomDescriptionPane extends ScrollPane {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
+    public static final int WIDTH = 200;
+    public static final int HEIGHT = 120;
+    public static final int POS_X = 354;
+    public static final int POS_Y = 268;
+
     private final Text text = new Text("...");
     private final TextFlow textFlow = new TextFlow(text);
 
@@ -52,12 +61,12 @@ public class RoomDescriptionPane extends ScrollPane {
         setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         getTransforms().add(scale);
-        setMinWidth(200);
-        setMaxWidth(200);
-        setMinHeight(120);
-        setMaxHeight(120);
-        setLayoutX(354);
-        setLayoutY(268);
+        setMinWidth(WIDTH);
+        setMaxWidth(WIDTH);
+        setMinHeight(HEIGHT);
+        setMaxHeight(HEIGHT);
+        setLayoutX(POS_X);
+        setLayoutY(POS_Y);
 
         textFlow.setLineSpacing(-7);
         textFlow.setPrefWidth(180);
@@ -65,7 +74,7 @@ public class RoomDescriptionPane extends ScrollPane {
         setContent(textFlow);
 
         setOnMouseClicked((t) -> {
-                DoubleProperty scrollPos = vvalueProperty();
+            DoubleProperty scrollPos = vvalueProperty();
             if (scrollPos.get() != 1.0) {
                 double val = scrollPos.get() + 0.15;
                 if (val > 1.0) {
@@ -82,4 +91,17 @@ public class RoomDescriptionPane extends ScrollPane {
         this.text.setText(text);
     }
 
+    public static final Shape descrptionGreyOut() {
+        Rectangle r = new Rectangle(
+                NeuroGamePane.WIDTH, NeuroGamePane.HEIGHT
+        );
+        // TODO: Add blur.
+
+        Rectangle dr = new Rectangle(POS_X - 10, POS_Y, WIDTH * 1.44, HEIGHT);
+
+        Shape subtract = Shape.subtract(r, dr);
+        subtract.setFill(new Color(0.5, 0.5, 0.5, 0.5));
+        //subtract.setEffect(new GaussianBlur(4.0));
+        return subtract;
+    }
 }
