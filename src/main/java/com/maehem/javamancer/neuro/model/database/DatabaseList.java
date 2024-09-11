@@ -67,7 +67,7 @@ public class DatabaseList extends ArrayList<Database> {
         add(new PhantomDatabase(rm));
         add(new PsychologistDatabase(rm));
         add(new RegularFellowsDatabase(rm));
-        add(new SatelliteMissionControlDatabase(rm));
+        add(new ComSatDatabase(rm));
         add(new ScreamingFistDatabase(rm));
         add(new SenseNetDatabase(rm));
         add(new SoftwareEnforcementDatabase(rm));

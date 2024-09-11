@@ -49,14 +49,14 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class SatelliteMissionControlDatabase extends Database {
+public class ComSatDatabase extends Database {
 
-    public SatelliteMissionControlDatabase(ResourceManager rm) {
+    public ComSatDatabase(ResourceManager rm) {
         super(
                 "Satellite Mission Control Facility", 28,
                 7,
                 -1,
-                "comsattest",
+                "sattest",
                 null, "test", null,
                 272, 416, // TODO: Need correct coords and other data.
                 null, null, null,
