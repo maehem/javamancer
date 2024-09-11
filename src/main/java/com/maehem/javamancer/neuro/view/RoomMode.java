@@ -237,13 +237,16 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     private boolean updateGreyOutState(double scrollValue) {
         LOGGER.log(Level.FINEST, "Update Grey Out State... ");
         scrollHint.setVisible(scrollValue != 1.0);
-        if (scrollValue == 1.0 && !getGameState().visited.contains(room)) {
-            LOGGER.log(Level.SEVERE, "Set room {0} as visited.", room.name());
-            getGameState().visited.add(room);
+        if (scrollValue == 1.0) {
+            if (!getGameState().visited.contains(room)) {
+                LOGGER.log(Level.SEVERE, "Set room {0} as visited.", room.name());
+                getGameState().visited.add(room);
+            }
             roomPane.setEffect(null);
             descriptionGreyOut.setVisible(false);
             return true;
         }
+
         return false;
     }
 
