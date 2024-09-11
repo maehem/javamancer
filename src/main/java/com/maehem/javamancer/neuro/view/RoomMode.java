@@ -32,6 +32,8 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import static com.maehem.javamancer.neuro.model.room.RoomExtras.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.RoomExtras.SHORT_DESC;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
 import com.maehem.javamancer.neuro.view.popup.BodyShopPopup;
 import com.maehem.javamancer.neuro.view.popup.CyberspacePopup;
@@ -130,28 +132,37 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         roomText = resourceManager.getRoomText(room);
 
         if (room.getExtras() != null) {
+            LOGGER.log(Level.SEVERE, "RoomMode: Room has 'extras'. Configuring...");
             RoomExtras extras = room.getExtras();
             extras.initRoom(gameState);
             if (firstTime) {
+                LOGGER.log(Level.SEVERE, "RoomMode: First time visit of room. Use long description.");
                 int[] dc0 = extras.getDialogChain()[0]; // Long Description
-                if (dc0.length == 1 && dc0[0] == 55) { // 55 == long desc. here
-                    roomDescriptionPane.setText(roomText.get(0));
+                if (dc0.length == 1 && dc0[0] == LONG_DESC) { // 55 == long desc. here
+                     LOGGER.log(Level.SEVERE, "RoomMode: Found long description in dialog chain.");
+                   roomDescriptionPane.setText(roomText.get(0));
                 } else {
+                    LOGGER.log(Level.SEVERE, "RoomMode: No description found in dialog chain.");
                     roomDescriptionPane.setText("");
                 }
             } else {
+                LOGGER.log(Level.SEVERE, "RoomMode: We've been here before. Use short description.");
                 int[] dc1 = extras.getDialogChain()[1]; // Short Description
-                if (dc1.length == 1 && dc1[0] == 56) { // 56 == short desc. here
+                if (dc1.length == 1 && dc1[0] == SHORT_DESC) { // 56 == short desc. here
+                    LOGGER.log(Level.SEVERE, "RoomMode: Found short description in dialog chain.");
                     roomDescriptionPane.setText(roomText.get(1));
                 } else {
+                    LOGGER.log(Level.SEVERE, "RoomMode: No description found in dialog chain.");
                     roomDescriptionPane.setText("");
                 }
             }
-
         } else {
+            LOGGER.log(Level.SEVERE, "RoomMode: Room does not have 'extras'.");
             if (firstTime) {
+                LOGGER.log(Level.SEVERE, "RoomMode: First time visit of room. Use long description.");
                 roomDescriptionPane.setText(roomText.getDescription());
             } else {
+                LOGGER.log(Level.SEVERE, "RoomMode: We've been here before. Use short description.");
                 roomDescriptionPane.setText(roomText.getShortDescription());
             }
         }
@@ -279,10 +290,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 }
             } else {
                 if (!getGameState().visited.contains(room)) { // Only space bar works on new room.
+                    keyEvent.consume();
                     LOGGER.log(Level.SEVERE, "No mouse interaction until room description is read.");
                     if (keyEvent.getCode() == KeyCode.SPACE) {
                         DoubleProperty scrollPos = roomDescriptionPane.vvalueProperty();
-                        scrollPos.set(scrollPos.get() + 0.1);
+                        scrollPos.set(scrollPos.get() + 0.15);
                     }
                 } else {
                     switch (keyEvent.getCode()) {
