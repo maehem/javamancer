@@ -36,10 +36,11 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  * COMSAT:  Referenced from INSA transmission logs.
  *
  * Name: Satellite Mission Control Facility
+ * Number: 28
  * Zone: 7
  * ComLink, linkcode, password: Only reachable from Cyberspace
  * Warez: none
- * Matrix: 460, 320  // Need to figure out actual site data.
+ * Matrix: 240, 416  // Need to figure out actual site data.
  * AI: none
  * Weakness: none
  * ICE: 1000
@@ -55,9 +56,9 @@ public class SatelliteMissionControlDatabase extends Database {
                 "Satellite Mission Control Facility", 28,
                 7,
                 -1,
-                null,
-                null, null, null,
-                460, 320, // TODO: Need correct coords and other data.
+                "comsattest",
+                null, "test", null,
+                272, 416, // TODO: Need correct coords and other data.
                 null, null, null,
                 1000,
                 rm
