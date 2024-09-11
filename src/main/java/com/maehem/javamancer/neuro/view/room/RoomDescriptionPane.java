@@ -27,7 +27,9 @@
 package com.maehem.javamancer.neuro.view.room;
 
 import com.maehem.javamancer.logging.Logging;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -63,17 +65,20 @@ public class RoomDescriptionPane extends ScrollPane {
         setContent(textFlow);
 
         setOnMouseClicked((t) -> {
-            if (getVvalue() != 1.0) {
-                double val = getVvalue() + 0.33;
+                DoubleProperty scrollPos = vvalueProperty();
+            if (scrollPos.get() != 1.0) {
+                double val = scrollPos.get() + 0.15;
                 if (val > 1.0) {
                     val = 1.0;
                 }
-                setVvalue(val);
+                //setVvalue(val);
+                scrollPos.set(val);
             }
         });
     }
 
     public void setText(String text) {
+        LOGGER.log(Level.SEVERE, "Set Room Description Text.");
         this.text.setText(text);
     }
 
