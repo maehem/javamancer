@@ -26,11 +26,16 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
+import com.maehem.javamancer.neuro.model.warez.BudgetPalWarez;
+import com.maehem.javamancer.neuro.model.warez.DecoderWarez;
+import com.maehem.javamancer.neuro.model.warez.ReceiptForgerWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
  * <pre>
  * Name: Bank Gemeinschaft
+ * Number: 18
  * Zone: 5
  * ComLink: 5.0
  * LinkCode: bankgemein
@@ -59,6 +64,18 @@ public class BankGemeinschaftDatabase extends Database {
                 1000,
                 rm
         );
+
+        warez2.put(DecoderWarez.class, 1);
+        warez2.put(BudgetPalWarez.class, 24);
+        warez2.put(ReceiptForgerWarez.class, 7);
+
+        bbsMessages.add(new BbsMessage("11/16/58", "Geistjager", "M. Godot", 11, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Geistjager", "R. Kaliban", 12, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "Epkot", "R. Kaliban", 13, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "\1", "M. Shaw", 14, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "A. Finch", "T. Cole", 15, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "T. Cole", "A. Finch", 16, true));
+
     }
 
 }
