@@ -124,7 +124,7 @@ public abstract class Item {
         SOPHISTRY(80, "Sophistry", Skill.class),
         ZEN(81, "Zen", Skill.class),
         MUSICIANSHIP(82, "Musicianship", Skill.class),
-        CYBEREYES(83, "CyberEyes", RealItem.class),
+        CYBEREYES(83, "CyberEyes", DeckItem.class),
         UNK19(84, "", Object.class),
         UNK20(85, "", Object.class),
         GUESTPASS(86, "guest pass", RealItem.class),
