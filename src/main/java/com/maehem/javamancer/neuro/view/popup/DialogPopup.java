@@ -245,7 +245,7 @@ public class DialogPopup extends DialogPopupPane {
                 typedText.setText(typedString.substring(0, typedString.length() - 2));
             }
         } else if (code.isLetterKey()) {
-            CURSOR_FILL.setText("<");
+            CURSOR_FILL.setText(CURSOR_STRING);
             typedText.setText(typedText.getText() + code.getChar());
         }
     }
