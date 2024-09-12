@@ -34,7 +34,6 @@ import java.util.logging.Level;
  */
 public class SkillItem extends Item {
 
-    public int price = 0;
     public int level;
 
     public SkillItem(Catalog item, int level) {
