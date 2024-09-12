@@ -30,6 +30,7 @@ import static com.maehem.javamancer.logging.Logging.LOGGER;
 import com.maehem.javamancer.neuro.model.room.extra.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 /**
@@ -100,6 +101,7 @@ public enum Room {
     public final String roomName;
     public final Class<? extends RoomExtras> extraClazz;
     public RoomExtras extras = null;
+    private final ArrayList<RoomBounds.Door> locked = new ArrayList<>();
 
     private Room(String name, Class<? extends RoomExtras> extra) {
         this.roomName = name;
@@ -160,6 +162,18 @@ public enum Room {
         }
 
         return false;
+    }
+
+    public void lockDoor(RoomBounds.Door d) {
+        locked.add(d);
+    }
+
+    public void unlockDoor(RoomBounds.Door d) {
+        locked.remove(d);
+    }
+
+    public boolean isDoorLocked(RoomBounds.Door d) {
+        return locked.contains(d);
     }
 
 }
