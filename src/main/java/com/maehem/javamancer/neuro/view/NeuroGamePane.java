@@ -111,8 +111,8 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
             // Switch room
             LOGGER.log(Level.SEVERE, "Use Door: {0}", gameState.useDoor.name());
             gameState.room = RoomMap.getRoom(gameState.room, gameState.useDoor);
-            LOGGER.log(Level.SEVERE, "Move to new room: {0} from previous room door {1}",
-                    new Object[]{gameState.room.name(), gameState.useDoor.name()}
+            LOGGER.log(Level.SEVERE, "Move to new room: {0}:{1} from previous room door {2}",
+                    new Object[]{gameState.room.name(), gameState.room.roomName, gameState.useDoor.name()}
             );
             setMode(new RoomMode(this, resourceManager, gameState));
             gameState.roomPosX = RoomPosition.R1.playerX;
