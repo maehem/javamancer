@@ -148,7 +148,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         roomPane = new RoomPane(resourceManager, room);
 
         if (room.getExtras() != null) {
-            LOGGER.log(Level.CONFIG, "RoomMode: Room has 'extras'. Configuring...");
+            LOGGER.log(Level.CONFIG, "RoomMode: Room has \'extras\'. Configuring...");
             RoomExtras extras = room.getExtras();
             extras.initRoom(gameState);
             if (firstTime) {
@@ -167,7 +167,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     });
                 }
             } else {
-                LOGGER.log(Level.CONFIG, "RoomMode: We've been here before. Use short description.");
+                LOGGER.log(Level.CONFIG, "RoomMode: We\'ve been here before. Use short description.");
                 int[] dc1 = extras.getDialogChain()[1]; // Short Description
                 if (dc1.length == 1 && dc1[0] == SHORT_DESC) { // short desc. here
                     LOGGER.log(Level.CONFIG, "RoomMode: Found short description in dialog chain.");
@@ -182,7 +182,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 });
             }
         } else {
-            LOGGER.log(Level.CONFIG, "RoomMode: Room does not have 'extras'.");
+            LOGGER.log(Level.CONFIG, "RoomMode: Room does not have \'extras\'.");
             roomDescriptionPane.vvalueProperty().set(1.0);
             //updateGreyOutState(1.0);
             if (firstTime) {
