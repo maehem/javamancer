@@ -29,6 +29,8 @@ package com.maehem.javamancer.neuro.model.room.extra;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -51,7 +53,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         {UXB, DESC, 13}, // [9] :: Thanks for my deck, Shin. I really appreciate you looking after it.
         {UXB, DESC, 13}, // [10] :: Okay, pal!  Ill go away!  And Ill tell all my friends about this place!
         {UXB, DESC, 13}, // [11] :: Thanks, Shin.  I knew youd see it my way.
-        {EXIT_L, DIALOG_CLOSE}, // [12] ::   Shin slams and bolts the door behind you as you leave.
+        {DIALOG_NO_MORE, EXIT_L}, // [12] ::   Shin slams and bolts the door behind you as you leave.
         {DESC, 12}, // [13] ::   Shin gives you your deck.
         {UXB, DESC, 13}, // [14] :: No have ticket? Shin give deck   anyways.
         //{DESC, 12}, // [15] ::   After UXB..
@@ -62,6 +64,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
         //gs.resourceManager.getRoomText(Room.R25).dumpList();
+
     }
 
     @Override
@@ -94,7 +97,9 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
     @Override
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
-        //gs.doorBottomLocked = false; // Unlock door.
+
+        // Shin locks door as you leave.
+        Room.R14.lockDoor(RoomBounds.Door.RIGHT);
     }
 
     @Override
