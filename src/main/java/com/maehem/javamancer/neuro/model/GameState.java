@@ -108,10 +108,6 @@ public class GameState {
     public int roomPosY = 90;
     public Room room = null;
     public RoomBounds.Door useDoor = RoomBounds.Door.NONE; // Set when player collides with door.
-    public boolean doorTopLocked = false;
-    public boolean doorRightLocked = false;
-    public boolean doorBottomLocked = false;
-    public boolean doorLeftLocked = false;
 
     public final ArrayList<BbsMessage> messageSent = new ArrayList<>();
 
