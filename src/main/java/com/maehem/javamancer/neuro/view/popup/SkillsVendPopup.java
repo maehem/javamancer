@@ -93,7 +93,7 @@ public class SkillsVendPopup extends SmallPopupPane {
             LOGGER.log(Level.CONFIG, "Clicked Skill Vend Exit.");
             if (gameState.bodyShopRecent != GameState.BodyShopRecent.NONE) {
                 listener.popupExit(RoomMode.Popup.TALK);
-                LOGGER.log(Level.SEVERE, "End bodyshop dialog and open TALK.");
+                LOGGER.log(Level.SEVERE, "SkillVend: End dialog and open Room TALK.");
                 t.consume();
             } else {
                 t.consume();
