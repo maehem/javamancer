@@ -27,8 +27,11 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 /**
  *
@@ -36,13 +39,13 @@ import com.maehem.javamancer.neuro.model.item.Item;
  */
 public class R25Extras extends RoomExtras { // Shin's Pawn
 
-    protected static final int[][] DIALOG_CHAIN = { //    The massage parlor.
+    protected static final int[][] DIALOG_CHAIN = { // Shin's Pawn
         {LONG_DESC}, {SHORT_DESC}, // 0, 1
         {3, 4, 5}, // [2] :: Ah. You back. I have your deck.
         {7}, // [3] :: Why are you in such a rush to give me my deck back?
         {6}, // [4] :: Okay. Give me the deck. I cant operate without one.
         {8}, // [5] :: I dont have the cash right now, Ill come back later.
-        {UXB_BUY, 15}, // [6] :: Give ticket and money. Shin busy. Many customer.
+        {UXB_BUY}, // [6] :: Give ticket and money. Shin busy. Many customer.
         {3, 4, 5}, // [7] :: Your deck scare away good customer. No more favor.
         {9, 10}, // [8] :: What?  I no want deck!  Here!  Take deck now!  No charge!  Go away!
         {UXB, DESC, 13}, // [9] :: Thanks for my deck, Shin. I really appreciate you looking after it.
@@ -51,7 +54,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         {EXIT_L, DIALOG_CLOSE}, // [12] ::   Shin slams and bolts the door behind you as you leave.
         {DESC, 12}, // [13] ::   Shin gives you your deck.
         {UXB, DESC, 13}, // [14] :: No have ticket? Shin give deck   anyways.
-        {DESC, 12}, // [15] ::   After UXB..
+        //{DESC, 12}, // [15] ::   After UXB..
     };
 
     @Override
@@ -78,6 +81,13 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         if (!gs.roomNpcTalk[gs.room.getIndex()]) {
             return DIALOG_END;
         }
+        if (gs.pawnRecent == GameState.PawnRecent.BUY) {
+            //gs.pawnRecent = GameState.PawnRecent.NONE;
+            LOGGER.log(Level.SEVERE, "Player bought the deck. Do message 13.");
+
+            // Dialog to player with 9,10
+            return 8;
+        }
         return 2;
     }
 
@@ -85,6 +95,15 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
         //gs.doorBottomLocked = false; // Unlock door.
+    }
+
+    @Override
+    public ArrayList<Item> getVendItems() {
+        ArrayList<Item> list = new ArrayList<>();
+
+        list.add(new UXBDeckItem());
+
+        return list;
     }
 
     @Override
