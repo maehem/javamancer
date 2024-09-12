@@ -148,6 +148,7 @@ public class DialogPopup extends DialogPopupPane {
                     processCommand(dialogChain[dialogIndex][dialogSubIndex]);
                 } else {
                     //LOGGER.log(Level.SEVERE, "Dialog arg should be command, but it's not!");
+                    handleCode(KeyCode.SPACE);
                 }
             }
         }
