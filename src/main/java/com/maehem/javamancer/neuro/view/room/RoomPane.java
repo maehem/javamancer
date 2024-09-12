@@ -221,16 +221,16 @@ public class RoomPane extends Pane {
     }
 
     private void updateDoors(GameState gs) {
-        if (topDoor != null && !gs.doorTopLocked
+        if (topDoor != null && !gs.room.isDoorLocked(Door.TOP)
                 && Shape.intersect(playerFeet, topDoor).getBoundsInLocal().getWidth() != -1) {
             gs.useDoor = Door.TOP;
-        } else if (rightDoor != null && !gs.doorRightLocked
+        } else if (rightDoor != null && !gs.room.isDoorLocked(Door.RIGHT)
                 && Shape.intersect(playerFeet, rightDoor).getBoundsInLocal().getWidth() != -1) {
             gs.useDoor = Door.RIGHT;
-        } else if (bottomDoor != null && !gs.doorBottomLocked
+        } else if (bottomDoor != null && !gs.room.isDoorLocked(Door.BOTTOM)
                 && Shape.intersect(playerFeet, bottomDoor).getBoundsInLocal().getWidth() != -1) {
             gs.useDoor = Door.BOTTOM;
-        } else if (leftDoor != null && !gs.doorLeftLocked
+        } else if (leftDoor != null && !gs.room.isDoorLocked(Door.LEFT)
                 && Shape.intersect(playerFeet, leftDoor).getBoundsInLocal().getWidth() != -1) {
             gs.useDoor = Door.LEFT;
         } else {
