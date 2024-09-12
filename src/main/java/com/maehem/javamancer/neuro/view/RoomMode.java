@@ -131,6 +131,14 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         this.room = gameState.room;
 
         roomDescriptionPane = new RoomDescriptionPane(TEXT_SCALE);
+        roomDescriptionPane.vvalueProperty().addListener(
+                (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+                    LOGGER.log(Level.FINEST, "Description Scroll: {0}", newValue);
+                    scrollHint.setVisible(newValue.doubleValue() != 1.0);
+                    if (updateGreyOutState(newValue.doubleValue())) {
+                        showPopup(Popup.TALK);
+                    }
+                });
 
         // A room is 'visited' once player fully reads/scrolls the room description.
         firstTime = !gameState.visited.contains(room);
@@ -152,9 +160,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     roomPane.setEffect(new GaussianBlur(4.0));
                 } else {
                     LOGGER.log(Level.CONFIG, "RoomMode: No description found in dialog chain.");
-                    roomDescriptionPane.setText("");
-                    roomDescriptionPane.vvalueProperty().setValue(1.0);
-                    updateGreyOutState(1.0);
+                    roomDescriptionPane.setText("\n\n");
+                    //roomDescriptionPane.vvalueProperty().setValue(1.0);
+                    Platform.runLater(() -> {
+                        roomDescriptionPane.setVvalue(1.0); // Triggers dialog pop.
+                    });
                 }
             } else {
                 LOGGER.log(Level.CONFIG, "RoomMode: We've been here before. Use short description.");
@@ -164,15 +174,17 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     roomDescriptionPane.setText(roomText.get(1));
                 } else {
                     LOGGER.log(Level.CONFIG, "RoomMode: No description found in dialog chain.");
-                    roomDescriptionPane.setText("");
+                    roomDescriptionPane.setText("\n\n");
                 }
-                roomDescriptionPane.vvalueProperty().set(1.0);
-                updateGreyOutState(1.0);
+                //roomDescriptionPane.vvalueProperty().set(1.0);
+                Platform.runLater(() -> {
+                    roomDescriptionPane.setVvalue(1.0); // Triggers dialog pop.
+                });
             }
         } else {
             LOGGER.log(Level.CONFIG, "RoomMode: Room does not have 'extras'.");
             roomDescriptionPane.vvalueProperty().set(1.0);
-            updateGreyOutState(1.0);
+            //updateGreyOutState(1.0);
             if (firstTime) {
                 LOGGER.log(Level.CONFIG, "RoomMode: First time visit of room. Use long description.");
                 roomDescriptionPane.setText(roomText.getDescription());
@@ -222,15 +234,6 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 LOGGER.log(Level.SEVERE, "No soundtrack for room {0}", room.name());
             }
         });
-
-        roomDescriptionPane.vvalueProperty().addListener(
-                (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-                    LOGGER.log(Level.FINEST, "Description Scroll: {0}", newValue);
-                    scrollHint.setVisible(newValue.doubleValue() != 1.0);
-                    if (updateGreyOutState(newValue.doubleValue())) {
-                        showPopup(Popup.TALK);
-                    }
-                });
 
         setFocusTraversable(true);
         requestFocus();
