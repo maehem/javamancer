@@ -32,9 +32,11 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import static com.maehem.javamancer.neuro.model.room.RoomExtras.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.RoomExtras.SHORT_DESC;
+import com.maehem.javamancer.neuro.model.room.RoomMap;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
 import com.maehem.javamancer.neuro.view.popup.BodyShopPopup;
 import com.maehem.javamancer.neuro.view.popup.CyberspacePopup;
@@ -50,6 +52,7 @@ import com.maehem.javamancer.neuro.view.popup.SkillsVendPopup;
 import com.maehem.javamancer.neuro.view.room.RoomDescriptionPane;
 import com.maehem.javamancer.neuro.view.room.RoomMusic;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.application.Platform;
@@ -126,10 +129,6 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
         // TODO: generate Room from gameState.roomNumber
         this.room = gameState.room;
-        gameState.doorTopLocked = false;
-        gameState.doorRightLocked = false;
-        gameState.doorBottomLocked = false;
-        gameState.doorLeftLocked = false;
 
         roomDescriptionPane = new RoomDescriptionPane(TEXT_SCALE);
 
@@ -182,6 +181,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 roomDescriptionPane.setText(roomText.getShortDescription());
             }
         }
+
+        doorStateMessages();
 
         // TODO: Move this into description pane?
         // Plus (+) character appears if user has not scrolled to bottom of
@@ -610,4 +611,23 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         showPopup(newPopup);
     }
 
+    /**
+     * Check each door and add description message if they are locked.
+     *
+     */
+    private void doorStateMessages() {
+        MessageFormat msg = new MessageFormat("The door to {0} is locked.");
+        if (room.isDoorLocked(RoomBounds.Door.TOP)) {
+            roomDescriptionPane.addMessage(msg.format(new Object[]{RoomMap.getRoom(room, RoomBounds.Door.TOP).roomName}));
+        }
+        if (room.isDoorLocked(RoomBounds.Door.RIGHT)) {
+            roomDescriptionPane.addMessage(msg.format(new Object[]{RoomMap.getRoom(room, RoomBounds.Door.RIGHT).roomName}));
+        }
+        if (room.isDoorLocked(RoomBounds.Door.BOTTOM)) {
+            roomDescriptionPane.addMessage(msg.format(new Object[]{RoomMap.getRoom(room, RoomBounds.Door.BOTTOM).roomName}));
+        }
+        if (room.isDoorLocked(RoomBounds.Door.LEFT)) {
+            roomDescriptionPane.addMessage(msg.format(new Object[]{RoomMap.getRoom(room, RoomBounds.Door.LEFT).roomName}));
+        }
+    }
 }
