@@ -356,6 +356,11 @@ public class DialogPopup extends DialogPopupPane {
                 listener.popupExit();
                 return;
             }
+            case DIALOG_NO_MORE -> { // Like DIALOG_END but leave dialog open so next command can run.
+                gameState.room.getExtras().dialogNoMore(gameState);
+                LOGGER.log(Level.CONFIG, "End of dialog chain reached. NPC has nothing more to say.");
+                npcResponse(dialogSubIndex + 1);
+            }
             case TO_JAIL -> {
                 LOGGER.log(Level.CONFIG, "NPC sends player to jail.");
                 listener.popupExit();
