@@ -57,6 +57,9 @@ public class GameState {
     public enum BodyShopRecent {
         NONE, BUY, SELL, REVIVED;
     }
+    public enum PawnRecent {
+        NONE, BUY;
+    }
 
     public final ResourceManager resourceManager;
     public final DatabaseList dbList;// = new DatabaseList();
@@ -145,6 +148,7 @@ public class GameState {
     public int activeSkillLevel = 0;
     public boolean bodyPartDiscount = true;
     public BodyShopRecent bodyShopRecent = BodyShopRecent.NONE;
+    public PawnRecent pawnRecent = PawnRecent.NONE;
     public int psychoProbeCount = 0;
     public boolean swissBankRobbed = false;
 
