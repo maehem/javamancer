@@ -29,6 +29,8 @@ package com.maehem.javamancer.neuro.view.popup;
 import com.maehem.javamancer.neuro.model.BankTransaction;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
+import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
+import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import static com.maehem.javamancer.neuro.model.room.RoomExtras.*;
@@ -49,7 +51,7 @@ import javafx.scene.text.TextFlow;
  */
 public class DialogPopup extends DialogPopupPane {
 
-    public static final int DIALOG_COUNT = 50; // 15 frames == 1 second
+    public static final int DIALOG_COUNT = 25; // 15 frames == 1 second
     private static final String WORD_FILL_MN = "@---------------";
     private static final String FILL_STRING = "_______________";
     private static final String CURSOR_STRING = "<";
@@ -83,6 +85,13 @@ public class DialogPopup extends DialogPopupPane {
             dialogCountDown = DIALOG_COUNT;
             gameState.bodyShopRecent = GameState.BodyShopRecent.NONE;
         }
+        if (gameState.pawnRecent == GameState.PawnRecent.BUY) {
+            // Player just bought Deck
+            gameState.pawnRecent = GameState.PawnRecent.NONE;
+            mode = Mode.PLAYER;
+            bubble.setMode(DialogBubble.Mode.THINK);
+            handleCode(KeyCode.SPACE);
+        }
 
         textFlow.setLineSpacing(LINE_SPACING + 2.0);
         textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 30);
@@ -94,13 +103,16 @@ public class DialogPopup extends DialogPopupPane {
 
         getChildren().add(bubble);
 
-        LOGGER.log(Level.CONFIG, "first text: {0} == {1}",
-                new Object[]{
-                    dialogIndex,
-                    textResource.get(dialogIndex)
-                });
-        wordText.setText(textResource.get(dialogIndex));
-        dialogCountDown = DIALOG_COUNT;
+        if (mode == Mode.NPC) {
+            // Might be a command.
+            LOGGER.log(Level.CONFIG, "first text: {0} == {1}",
+                    new Object[]{
+                        dialogIndex,
+                        textResource.get(dialogIndex)
+                    });
+            wordText.setText(textResource.get(dialogIndex));
+            dialogCountDown = DIALOG_COUNT;
+        }
 
         setOnMouseClicked((mouseEvent) -> {
             switch (mouseEvent.getButton()) {
@@ -132,7 +144,7 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.CONFIG, "NPC: Talk countdown finished.");
                 if (dialogChain[dialogIndex][0] >= 50) {
                     dialogSubIndex = 0;
-                    LOGGER.log(Level.SEVERE, "Process command: " + dialogChain[dialogIndex][0]);
+                    //LOGGER.log(Level.SEVERE, "Process command: " + dialogChain[dialogIndex][0]);
                     processCommand(dialogChain[dialogIndex][dialogSubIndex]);
                 } else {
                     //LOGGER.log(Level.SEVERE, "Dialog arg should be command, but it's not!");
@@ -158,11 +170,12 @@ public class DialogPopup extends DialogPopupPane {
                 });
         //dialogSubIndex = 0;
         if (newDialog >= 50) {
-            LOGGER.log(Level.SEVERE, "NPC runs command: " + dialogIndex);
+            LOGGER.log(Level.SEVERE, "NPC runs command: " + newDialog);
             processCommand(newDialog);
             dialogSubIndex++;
         } else {
-            dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
+            //dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
+            dialogIndex = newDialog;
             LOGGER.log(Level.CONFIG, "NPC: Set dialog index to: " + dialogIndex);
             // Control character '01' is a token for the player's name. Replace it here.
             wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name));
@@ -443,6 +456,39 @@ public class DialogPopup extends DialogPopupPane {
                 typedText.setText(""); // Clear it.
                 npcResponse(1); // Show text.
 
+            }
+            case UXB_BUY -> {
+                LOGGER.log(Level.SEVERE, "Buy UXB from Shin.");
+                listener.popupExit(RoomMode.Popup.ITEMS_BUY);
+            }
+            case DESC -> {
+                LOGGER.log(Level.SEVERE, "Print next response into room description window.");
+                dialogSubIndex++;
+                int dItem = dialogChain[dialogIndex][dialogSubIndex];
+                LOGGER.log(Level.SEVERE, "Name: {0} == [{1}][{2}]", new Object[]{dItem, dialogIndex, dialogSubIndex});
+
+                listener.showMessage(textResource.get(dItem));
+                dialogIndex = dItem; // Move dialog to next dialog item.
+                dialogSubIndex = -1;
+                dialogCountDown = DIALOG_COUNT;
+            }
+            case UXB -> {
+                LOGGER.log(Level.SEVERE, "Give UXB to player.");
+                boolean hasItem = false;
+                for (Item item : gameState.inventory) {
+                    if (item instanceof UXBDeckItem) {
+                        hasItem = true;
+                        LOGGER.log(Level.SEVERE, "Player already has UXB.");
+                    }
+                }
+                if (!hasItem) {
+                    LOGGER.log(Level.SEVERE, "Add UXB to player inventory.");
+                    gameState.inventory.add(new UXBDeckItem());
+                }
+                npcResponse(1);
+            }
+            default -> {
+                LOGGER.log(Level.SEVERE, "Process Command :: Not handled yet: {0}", command);
             }
         }
 
