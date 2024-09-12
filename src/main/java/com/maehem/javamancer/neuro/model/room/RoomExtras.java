@@ -26,16 +26,21 @@
  */
 package com.maehem.javamancer.neuro.model.room;
 
+import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public abstract class RoomExtras {
+
+    public static final Logger LOGGER = Logging.LOGGER;
 
     public static final int DESC = 50; // show in room desc instead of dialog.
     public static final int LONG_DESC = 51;
@@ -105,6 +110,17 @@ public abstract class RoomExtras {
      * @return
      */
     public ArrayList<SkillItem> getVendSkillItems() {
+        LOGGER.log(Level.WARNING, "Room called getVendSkillItems() but it's not overridden!");
+        return null;
+    }
+
+    /**
+     * Override if NPC has items to sell.
+     *
+     * @return
+     */
+    public ArrayList<Item> getVendItems() {
+        LOGGER.log(Level.WARNING, "Room called getVendItems() but it's not overridden!");
         return null;
     }
 
