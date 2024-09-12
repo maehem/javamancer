@@ -35,4 +35,6 @@ public interface PopupListener {
     public void popupExit();
 
     public void popupExit(RoomMode.Popup newPopup);
+
+    public void showMessage(String message);
 }
