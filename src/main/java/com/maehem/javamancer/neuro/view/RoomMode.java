@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
@@ -41,6 +42,7 @@ import com.maehem.javamancer.neuro.view.popup.DeckPopup;
 import com.maehem.javamancer.neuro.view.popup.DialogPopup;
 import com.maehem.javamancer.neuro.view.popup.DiskPopup;
 import com.maehem.javamancer.neuro.view.popup.InventoryPopup;
+import com.maehem.javamancer.neuro.view.popup.PawnshopVendPopup;
 import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import com.maehem.javamancer.neuro.view.popup.RomPopup;
 import com.maehem.javamancer.neuro.view.popup.SkillsPopup;
@@ -76,7 +78,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     }
 
     public enum Popup {
-        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL, SKILLS_BUY, CYBERSPACE
+        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL, SKILLS_BUY, ITEMS_BUY, CYBERSPACE
     }
 
     private static final int ROW_1_Y = 292;
@@ -490,6 +492,19 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     }
                 }
             }
+            case ITEMS_BUY -> {
+                RoomExtras roomExtras = room.getExtras();
+                if (roomExtras != null) {
+                    ArrayList<Item> vendItems = roomExtras.getVendItems();
+                    if (vendItems != null) {
+                        popup = new PawnshopVendPopup(
+                                PawnshopVendPopup.Mode.BUY,
+                                this, getGameState(), vendItems
+                        );
+                        LOGGER.log(Level.SEVERE, "Set popup to: Items - BUY");
+                    }
+                }
+            }
             case CYBERSPACE -> {
                 popup = new CyberspacePopup(this, getGameState());
                 LOGGER.log(Level.SEVERE, "Set popup to: Cyberspace");
@@ -533,6 +548,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 statusText.setText(String.format("%1$10s", String.valueOf(gs.getConstitution())));
             }
         }
+    }
+
+    @Override
+    public void showMessage(String message) {
+        roomDescriptionPane.addMessage(message);
     }
 
     private void handleMouseClick(double x, double y) {
