@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.RealItem;
@@ -36,9 +35,6 @@ import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds.Door;
 import com.maehem.javamancer.neuro.model.room.RoomMap;
 import com.maehem.javamancer.neuro.model.room.RoomPosition;
-import com.maehem.javamancer.neuro.model.skill.BarganingSkill;
-import com.maehem.javamancer.neuro.model.skill.CopTalkSkill;
-import com.maehem.javamancer.neuro.model.skill.IceBreakingSkill;
 import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -226,10 +222,5 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         );
         gameState.inventory.add(new CreditsItem());
         gameState.inventory.add(new RealItem(Catalog.PAWNTICKET));
-        gameState.inventory.add(new UXBDeckItem());
-
-        gameState.skills.add(new CopTalkSkill(1));
-        gameState.skills.add(new BarganingSkill(1));
-        gameState.skills.add(new IceBreakingSkill(1));
     }
 }
