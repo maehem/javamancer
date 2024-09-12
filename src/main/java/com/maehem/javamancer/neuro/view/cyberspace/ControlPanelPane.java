@@ -322,4 +322,9 @@ public class ControlPanelPane extends Pane implements PopupListener {
         }
     }
 
+    @Override
+    public void showMessage(String message) {
+        // Not used here.  Used in RoomMode.
+    }
+
 }
