@@ -165,6 +165,7 @@ public abstract class Item {
     }
 
     public final Catalog item;
+    public int price = -1;
 
     // Condition?
     public Item(Catalog item) {
