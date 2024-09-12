@@ -37,7 +37,7 @@ import com.maehem.javamancer.neuro.model.room.RoomExtras;
 public class R4Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = {
-        {55}, {56}, // 0, 1 // Room descriptions
+        {LONG_DESC}, {SHORT_DESC}, // 0, 1 // Room descriptions
         {4, 5, 6, 7}, // 2   "Can I be of service? ..."
         {4, 5, 6, 7}, // 3    "Hello again ..."
         {8}, // 4  "Yes"
@@ -59,7 +59,7 @@ public class R4Extras extends RoomExtras {
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        //gs.resourceManager.getRoomText(Room.R4).dumpList();
+        gs.resourceManager.getRoomText(gs.room).dumpList();
     }
 
     @Override
