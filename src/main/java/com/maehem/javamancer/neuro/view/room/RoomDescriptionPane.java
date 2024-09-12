@@ -104,4 +104,11 @@ public class RoomDescriptionPane extends ScrollPane {
         //subtract.setEffect(new GaussianBlur(4.0));
         return subtract;
     }
+
+    public void addMessage(String message) {
+        Text mText = new Text("\n" + message);
+        textFlow.getChildren().add(mText);
+
+        textFlow.heightProperty().addListener(observable -> setVvalue(1D));
+    }
 }
