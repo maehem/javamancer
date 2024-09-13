@@ -130,6 +130,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         // TODO: generate Room from gameState.roomNumber
         this.room = gameState.room;
 
+        // A room is 'visited' once player fully reads/scrolls the room description.
+        firstTime = !gameState.visited.contains(room);
+        roomText = resourceManager.getRoomText(room);
+
         roomDescriptionPane = new RoomDescriptionPane(TEXT_SCALE);
         roomDescriptionPane.vvalueProperty().addListener(
                 (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
@@ -139,10 +143,6 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                         showPopup(Popup.TALK);
                     }
                 });
-
-        // A room is 'visited' once player fully reads/scrolls the room description.
-        firstTime = !gameState.visited.contains(room);
-        roomText = resourceManager.getRoomText(room);
 
         ImageView cPanelView = new ImageView(getResourceManager().getSprite("NEURO_1"));
         roomPane = new RoomPane(resourceManager, room);
@@ -156,7 +156,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 int[] dc0 = extras.getDialogChain()[0]; // Long Description
                 if (dc0.length == 1 && dc0[0] == LONG_DESC) { // long desc. here
                     LOGGER.log(Level.CONFIG, "RoomMode: Found long description in dialog chain.");
-                    roomDescriptionPane.setText(roomText.get(0));
+                    roomDescriptionPane.setText(roomText.getDescription());
                     roomPane.setEffect(new GaussianBlur(4.0));
                 } else {
                     LOGGER.log(Level.CONFIG, "RoomMode: No description found in dialog chain.");
@@ -171,7 +171,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 int[] dc1 = extras.getDialogChain()[1]; // Short Description
                 if (dc1.length == 1 && dc1[0] == SHORT_DESC) { // short desc. here
                     LOGGER.log(Level.CONFIG, "RoomMode: Found short description in dialog chain.");
-                    roomDescriptionPane.setText(roomText.get(1));
+                    roomDescriptionPane.setText(roomText.getShortDescription());
                 } else {
                     LOGGER.log(Level.CONFIG, "RoomMode: No description found in dialog chain.");
                     roomDescriptionPane.setText("\n\n");
@@ -183,7 +183,6 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             }
         } else {
             LOGGER.log(Level.CONFIG, "RoomMode: Room does not have \'extras\'.");
-            roomDescriptionPane.vvalueProperty().set(1.0);
             //updateGreyOutState(1.0);
             if (firstTime) {
                 LOGGER.log(Level.CONFIG, "RoomMode: First time visit of room. Use long description.");
@@ -192,6 +191,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 LOGGER.log(Level.CONFIG, "RoomMode: We've been here before. Use short description.");
                 roomDescriptionPane.setText(roomText.getShortDescription());
             }
+            Platform.runLater(() -> {
+                roomDescriptionPane.setVvalue(1.0); // Triggers dialog pop.
+            });
         }
 
         doorStateMessages();
@@ -244,12 +246,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         LOGGER.log(Level.FINEST, "Update Grey Out State... ");
         scrollHint.setVisible(scrollValue != 1.0);
         if (scrollValue == 1.0) {
-            if (!getGameState().visited.contains(room)) {
-                LOGGER.log(Level.SEVERE, "Set room {0} as visited.", room.name());
-                getGameState().visited.add(room);
-            }
             roomPane.setEffect(null);
             descriptionGreyOut.setVisible(false);
+            firstTime = false;
             return true;
         }
 
@@ -322,9 +321,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     popupExit();
                 }
             } else {
-                if (!getGameState().visited.contains(room)) { // Only space bar works on new room.
+                if (firstTime) { // Only space bar works on new room.
                     keyEvent.consume();
-                    LOGGER.log(Level.SEVERE, "No mouse interaction until room description is read.");
+                    LOGGER.log(Level.SEVERE, "No key interaction until room description is read.");
                     if (keyEvent.getCode() == KeyCode.SPACE) {
                         DoubleProperty scrollPos = roomDescriptionPane.vvalueProperty();
                         scrollPos.set(scrollPos.get() + 0.15);
@@ -523,6 +522,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     @Override
     public void destroy() {
+        if (!getGameState().visited.contains(room)) {
+            LOGGER.log(Level.SEVERE, "Set room {0} as visited.", room.name());
+            getGameState().visited.add(room);
+        }
+
         RoomMusic mus = RoomMusic.get(room);
         if (mus != null) {
             getGameState().resourceManager.musicManager.fadeOutTrack(
@@ -560,7 +564,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     }
 
     private void handleMouseClick(double x, double y) {
-        if (!getGameState().visited.contains(room)) {
+        if (firstTime) {
             LOGGER.log(Level.SEVERE, "No mouse interaction until room description is read.");
             return;
         }
