@@ -30,6 +30,7 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.database.DatabaseList;
+import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.ItemCatalog;
@@ -69,7 +70,7 @@ public class GameState {
 
     // Money
     public String bamaId = "056306118"; // Final?
-    public int chipBalance = 346;
+    public int chipBalance = 6;
     public int bankBalance = 2000;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
     public String bamaZurichId = null; // Create account by accessing Zurich via cyberspace.
@@ -157,10 +158,11 @@ public class GameState {
 
         this.dbList = new DatabaseList(rm);
 
-        bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 120));
-        bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 56));
-        bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Download, 75));
-        bankTransactionRecord.add(new BankTransaction("11/16/58", BankTransaction.Operation.Fine, 1000));
+        bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 120));
+        bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 56));
+        bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 75));
+        bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Fine, 1000));
+
     }
 
     public void addMinute() {
