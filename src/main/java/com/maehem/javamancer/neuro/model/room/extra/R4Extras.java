@@ -95,8 +95,8 @@ public class R4Extras extends RoomExtras {
         if (gs.visited.contains(gs.room)) {
             return 3; // Welcome back.
         }
-        return 2;
 
+        return 2;
     }
 
     @Override
