@@ -26,6 +26,9 @@
  */
 package com.maehem.javamancer.neuro.model.room;
 
+import com.maehem.javamancer.logging.Logging;
+import java.util.logging.Logger;
+
 /**
  * Start position (upper left) for player and face position for NPC.
  *
@@ -33,9 +36,12 @@ package com.maehem.javamancer.neuro.model.room;
  */
 public enum RoomPosition {
 
-    R1(300, 210, 60, 40),
-    R2(300, 210, 20, 150),
-    DEFAULT(300, 200, 0, 0);
+    R1(300, 204, 60, 40), // Chatsubo
+    R2(420, 200, 20, 150), // Street Cahtsubo
+    R8(420, 200, 20, 150), // G-Loser
+    DEFAULT(300, 190, 0, 0);
+
+    public static final Logger LOGGER = Logging.LOGGER;
 
     public final int playerX;
     public final int playerY;
