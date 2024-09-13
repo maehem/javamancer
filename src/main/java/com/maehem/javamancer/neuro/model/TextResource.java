@@ -42,14 +42,14 @@ public class TextResource extends ArrayList<String> {
         if (!isEmpty()) {
             return get(0);
         }
-        return "";
+        return "\n\n";
     }
 
     public String getShortDescription() {
         if (size() > 1) {
             return get(1);
         }
-        return "";
+        return "\n\n";
     }
 
     public void dumpList() {
