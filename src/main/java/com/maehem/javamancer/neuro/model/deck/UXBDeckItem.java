@@ -37,27 +37,10 @@ import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 public class UXBDeckItem extends DeckItem {
 
     public UXBDeckItem() {
-        super(Catalog.UXB, 5, 112, 96);
-        price = 100;
+        super(Catalog.UXB, 5, 112, 80);
+        price = 100; // Shin's Price
 
         softwarez.add(new ComLinkWarez(1));
-//        softwarez.add(new AcidWarez(2));
-//        softwarez.add(new ConcreteWarez(3));
-//        softwarez.add(new DecoderWarez(1));
-//        softwarez.add(new DrillWarez(6));
-//        softwarez.add(new DoorStopWarez(7));
-//        softwarez.add(new HammerWarez(4));
-//        softwarez.add(new HemlockWarez(12));
-//        softwarez.add(new InjectorWarez(4));
-//        softwarez.add(new JammiesWarez(11));
-//        softwarez.add(new KGBWarez(4));
-//        softwarez.add(new LogicBombWarez(4));
-//        softwarez.add(new ProbeWarez(18));
-//        softwarez.add(new SlowWarez(9));
-//        softwarez.add(new ThunderheadWarez(1));
-//        softwarez.add(new SequencerWarez(8));
-//        softwarez.add(new BlammoWarez(4));
-//        softwarez.add(new EasyRiderWarez(2));
     }
 
     @Override
@@ -67,7 +50,7 @@ public class UXBDeckItem extends DeckItem {
 
     @Override
     public boolean canCyberspace() {
-        return true;
+        return false;
     }
 
 }
