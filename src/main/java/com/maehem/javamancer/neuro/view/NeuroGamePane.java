@@ -53,6 +53,10 @@ import javafx.scene.shape.Rectangle;
 public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
     public static final Logger LOGGER = Logging.LOGGER;
+
+    //private static final Room ROOM_START = Room.R1;
+    private static final Room ROOM_START = Room.R16; // Debug value
+
     public static final int SYSTEM_WINDOW_HEADER_H = 20; // MacOS
     public static final int WIDTH = 640;
     public static final int HEIGHT = 480 + SYSTEM_WINDOW_HEADER_H;
@@ -115,10 +119,11 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                     new Object[]{gameState.room.name(), gameState.room.roomName, gameState.useDoor.name()}
             );
             setMode(new RoomMode(this, resourceManager, gameState));
-            gameState.roomPosX = RoomPosition.R1.playerX;
-            gameState.roomPosY = RoomPosition.R1.playerY;
-            LOGGER.log(Level.SEVERE, "Set default player position: {0},{1}",
-                    new Object[]{RoomPosition.R1.playerX, RoomPosition.R1.playerY}
+            RoomPosition roompos = RoomPosition.get(gameState.room);
+            gameState.roomPosX = roompos.playerX;
+            gameState.roomPosY = roompos.playerY;
+            LOGGER.log(Level.SEVERE, "TODO: Set default player position: {0},{1}",
+                    new Object[]{gameState.roomPosX, gameState.roomPosY}
             );
         } else {
             if (!gameState.pause) {
@@ -170,13 +175,12 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                     LOGGER.log(Level.CONFIG, "New Game with player name: {0}", gameState.name);
                     initGame();
 
-                    // Change mode to Room 1.
-                    gameState.room = Room.R1;
+                    gameState.room = ROOM_START;
                     setMode(new RoomMode(this, resourceManager, gameState));
-                    gameState.roomPosX = RoomPosition.R1.playerX;
-                    gameState.roomPosY = RoomPosition.R1.playerY;
+                    gameState.roomPosX = RoomPosition.get(ROOM_START).playerX;
+                    gameState.roomPosY = RoomPosition.get(ROOM_START).playerY;
                     LOGGER.log(Level.SEVERE, "Set default player position: {0},{1}",
-                            new Object[]{RoomPosition.R1.playerX, RoomPosition.R1.playerY}
+                            new Object[]{gameState.roomPosX, gameState.roomPosY}
                     );
                 } else {
                     LOGGER.log(Level.CONFIG, "New Game actionObject[0] was null!");
