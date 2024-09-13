@@ -51,7 +51,7 @@ import javafx.scene.text.TextFlow;
  */
 public class DialogPopup extends DialogPopupPane {
 
-    public static final int DIALOG_COUNT = 25; // 15 frames == 1 second
+    public static final int DIALOG_COUNT = 35; // 15 frames == 1 second
     private static final String WORD_FILL_MN = "@---------------";
     private static final String FILL_STRING = "_______________";
     private static final String CURSOR_STRING = "<";
