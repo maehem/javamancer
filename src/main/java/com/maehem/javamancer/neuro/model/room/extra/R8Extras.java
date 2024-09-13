@@ -27,15 +27,15 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.Room;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
 import java.util.Map;
 import static java.util.Map.entry;
 
 /**
+ * Gentleman Loser -- Room Extras
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
@@ -155,9 +155,7 @@ public class R8Extras extends RoomExtras {
      */
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R8).dumpList();
+        //gs.resourceManager.getRoomText(Room.R8).dumpList();
     }
 
     @Override
@@ -185,7 +183,7 @@ public class R8Extras extends RoomExtras {
 
     @Override
     public int jackZone() {
-        return 0; // TODO: Remove/Set to -1 after sufficient deck testing.
+        return 1;
     }
 
     @Override
