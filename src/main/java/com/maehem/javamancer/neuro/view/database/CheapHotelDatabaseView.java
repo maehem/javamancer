@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.Map;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import static javafx.scene.input.KeyCode.DIGIT1;
 import javafx.scene.input.KeyEvent;
@@ -48,19 +49,23 @@ public class CheapHotelDatabaseView extends DatabaseView {
     private static final int CAVIAR = 200;
     private static final int SAKE = 15;
 
+    private final Text CURSOR_TEXT = new Text("<");
+
     private enum Mode {
         SUB, MENU, ROOM, LOCAL, BILL, EDIT
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
 
     //private final Text headingText = new Text();
-
     static final Map<String, Integer> LOCAL_MAP = Map.of( // limit 10 items. :(
             "11/16/58 Donut World", 4,
             "11/16/58 Manyusha Wanna Massage", 5,
             "11/16/58 Psychologist", 6,
             "11/16/58 Crazy Edo's", 7
     );
+
+    private final StringBuilder typedBalance = new StringBuilder();
+    private final Text typedBalanceText = new Text();
 
     /*
     [0] :: * The Cheap Hotel *
@@ -88,8 +93,9 @@ public class CheapHotelDatabaseView extends DatabaseView {
     public CheapHotelDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
 
-        //headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
+        CURSOR_TEXT.setOpacity(0);
 
+        //headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
         if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
             mainMenu();
         } else {
@@ -119,9 +125,8 @@ public class CheapHotelDatabaseView extends DatabaseView {
 
         TextFlow tf = pageTextFlow(headingText);
 
-        //tf.getChildren().add(new Text(centeredText(dbTextResource.get(27)) + "\n"));
         String menuString = dbTextResource.get(1);
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
+        if (accessLevel > 1) {
             menuString += "\r" + dbTextResource.get(2);
         }
         String[] split = menuString.split("\\r");
@@ -185,8 +190,34 @@ public class CheapHotelDatabaseView extends DatabaseView {
             case EDIT -> {
                 switch (code) {
                     case X, ESCAPE -> {
-                        mainMenu();
+                        reviewBill(true);
                         return false;
+                    }
+                    case BACK_SPACE -> {
+                        // erase typed thing.
+                        if (typedBalance.length() > 0) {
+                            typedBalance.setLength(typedBalance.length() - 1);
+                        }
+                        updateTypedBalance(typedBalance.toString());
+                        return false;
+                    }
+                    case ENTER -> {
+                        // seal the value
+                        if (typedBalance.toString().isBlank()) {
+                            gameState.hotelOnAccount = 0;
+                        } else {
+                            gameState.hotelOnAccount = Integer.parseInt(typedBalance.toString());
+                        }
+                        reviewBill(true);
+                        return false;
+                    }
+                }
+                if (code.isDigitKey()) {
+                    // check len < 7
+                    // add digit to typed.
+                    if (typedBalance.length() < 6) {
+                        typedBalance.append(code.getChar());
+                        updateTypedBalance(typedBalance.toString());
                     }
                 }
             }
@@ -255,10 +286,12 @@ public class CheapHotelDatabaseView extends DatabaseView {
         });
     }
 
-    private void reviewBill(boolean edit) {
+    private void reviewBill(boolean allowEdit) {
         LOGGER.log(Level.SEVERE, "Do Review Bill.");
         pane.getChildren().clear();
         mode = Mode.BILL;
+        CURSOR_TEXT.setOpacity(0.0);
+
         TextFlow tf = pageTextFlow(headingText);
         tf.setPadding(new Insets(0, 0, 0, 40));
 
@@ -269,35 +302,56 @@ public class CheapHotelDatabaseView extends DatabaseView {
             if (s.startsWith("   Total")) {
                 s = s.substring(0, len - 10);
                 ss = s + String.format("%10s", gameState.hotelCharges); // Format leading space.
+                addMenuItem(tf, ss);
             } else if (s.startsWith("O. On ")) {
-                if (edit) {
+                if (allowEdit) {
                     s = s.substring(0, len - 10);
-                    ss = s + String.format("%10s", gameState.hotelOnAccount); // Format leading space.
+                    ss = s;// + String.format("%10s", gameState.hotelOnAccount); // Format leading space.
+                    Node item = addMenuItem(tf, ss);
+                    updateTypedBalance(String.valueOf(gameState.hotelOnAccount));
+                    //typedBalanceText.setText(String.format("%10s", gameState.hotelOnAccount));
+                    item.setOnMouseClicked((t) -> {
+                        t.consume();
+                        mode = Mode.EDIT;
+                        CURSOR_TEXT.setOpacity(1.0);
+                        //updateTypedBalance(CURSOR_STR);
+                        //typedBalanceText.setText(CURSOR_STR);
+                        item.setOnMouseClicked(null);
+                        typedBalanceText.setOnMouseClicked(null);
+                        //editBill();
+                    });
+                    typedBalanceText.setOnMouseClicked((t) -> {
+                        t.consume();
+                        mode = Mode.EDIT;
+                        CURSOR_TEXT.setOpacity(1.0);
+                        //updateTypedBalance(CURSOR_STR);
+                        item.setOnMouseClicked(null);
+                        typedBalanceText.setOnMouseClicked(null);
+                    });
+                    tf.getChildren().addAll(typedBalanceText, CURSOR_TEXT);
                 } else {
                     s = s.substring(3, len - 10);
                     ss = "   " + s + String.format("%10s", gameState.hotelOnAccount); // Format leading space.
+                    addMenuItem(tf, ss);
                 }
             } else if (s.startsWith("   Bal")) {
                 s = s.substring(0, len - 10);
                 ss = s + String.format("%10s", (gameState.hotelCharges - gameState.hotelOnAccount)); // Format leading space.
+                addMenuItem(tf, ss);
             } else if (s.startsWith("     Room")) {
                 s = s.replace("\1", gameState.name);
                 ss = s; // Format leading space.
+                addMenuItem(tf, ss);
             } else if (s.contains("exit")) {
                 ss = "";
+                addMenuItem(tf, ss);
             } else if (s.startsWith("---")) {
                 ss = s; // Format leading space.
+                addMenuItem(tf, ss);
             } else {
                 ss = "???"; // Should never happen.
+                addMenuItem(tf, ss);
             }
-            Text menuItem = new Text("\n" + ss);
-            if (edit) {
-                menuItem.setOnMouseClicked((t) -> {
-                    t.consume();
-                    editBill();
-                });
-            }
-            tf.getChildren().add(menuItem);
 
         }
         Text exitText = new Text("exit");
@@ -312,13 +366,21 @@ public class CheapHotelDatabaseView extends DatabaseView {
         payText.setOnMouseClicked((t) -> {
             t.consume();
             attemptPayment();
-            reviewBill(edit); // Reload menu
+            reviewBill(allowEdit); // Reload menu
         });
         pane.getChildren().add(tf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
+        pane.setOnMouseClicked(null);
+    }
+
+    private Node addMenuItem(TextFlow menu, String itemStr) {
+        Text text = new Text("\n" + itemStr);
+        menu.getChildren().add(text);
+
+        return text;
+    }
+
+    private void updateTypedBalance(String str) {
+        typedBalanceText.setText(String.format("%10s", str));
     }
 
     private void editBill() {
@@ -340,6 +402,9 @@ public class CheapHotelDatabaseView extends DatabaseView {
 
     private void itemPage(String itemLetter) {
         switch (itemLetter) {
+            case "X" -> {
+                listener.popupExit();
+            }
             case "1" -> {
                 roomService();
             }
