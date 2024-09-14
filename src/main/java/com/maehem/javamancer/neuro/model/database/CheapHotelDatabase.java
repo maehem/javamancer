@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
@@ -56,6 +57,11 @@ public class CheapHotelDatabase extends Database {
                 null, null, null,
                 84,
                 rm);
+
+        bbsMessages.add(new BbsMessage("11/16/58", null, "Donut World", 4, true));
+        bbsMessages.add(new BbsMessage("11/16/58", null, "Manyusha Wanna Massage", 5, true));
+        bbsMessages.add(new BbsMessage("11/16/58", null, "Psychologist", 5, true));
+        bbsMessages.add(new BbsMessage("11/16/58", null, "Crazy Edo's", 7, true));
     }
 
 }
