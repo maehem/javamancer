@@ -45,8 +45,8 @@ import javafx.scene.text.TextFlow;
  */
 public class CheapHotelDatabaseView extends DatabaseView {
 
-    private static final int CAVIAR = 200;
-    private static final int SAKE = 15;
+    private static final int CAVIAR_PRICE = 200;
+    private static final int SAKE_PRICE = 15;
 
     private final Text CURSOR_TEXT = new Text("<");
 
@@ -61,9 +61,10 @@ public class CheapHotelDatabaseView extends DatabaseView {
 //            "11/16/58 Psychologist", 6,
 //            "11/16/58 Crazy Edo's", 7
 //    );
-
     private final StringBuilder typedBalance = new StringBuilder();
     private final Text typedBalanceText = new Text();
+
+    private boolean roomServiceOk = false;
 
     /*
     [0] :: * The Cheap Hotel *
@@ -121,6 +122,8 @@ public class CheapHotelDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.MENU;
 
+        roomServiceOk = gameState.hotelOnAccount >= gameState.hotelCharges;
+
         TextFlow tf = pageTextFlow(headingText);
 
         String menuString = dbTextResource.get(1);
@@ -157,7 +160,7 @@ public class CheapHotelDatabaseView extends DatabaseView {
                 }
             }
             case ROOM -> {
-                if (gameState.hotelBillPaid) {
+                if (roomServiceOk) {
                     switch (code) {
                         case X, ESCAPE -> {
                             mainMenu();
@@ -225,23 +228,43 @@ public class CheapHotelDatabaseView extends DatabaseView {
         return super.handleKeyEvent(keyEvent);
     }
 
+    private void itemPage(String itemLetter) {
+        switch (itemLetter) {
+            case "X" -> {
+                listener.popupExit();
+            }
+            case "1" -> {
+                roomService();
+            }
+            case "2" -> {
+                messages();
+            }
+            case "3" -> {
+                reviewBill(false);
+            }
+            case "4" -> {
+                reviewBill(true);
+            }
+        }
+    }
+
     private void roomService() {
         LOGGER.log(Level.SEVERE, "Do Room Service.");
         pane.getChildren().clear();
         mode = Mode.ROOM;
         TextFlow tf = pageTextFlow(headingText);
 
-        if (gameState.hotelBillPaid) {
+        if (roomServiceOk) {
             tf.getChildren().add(new Text(dbTextResource.get(13)));
             // Items
             String[] split = dbTextResource.get(14).split("\\r");
             for (String s : split) {
                 final String ss;
                 if (s.startsWith("1")) {
-                    s = s.trim().replace("$", "$" + CAVIAR);
+                    s = s.trim().replace("$", "$" + CAVIAR_PRICE);
                     ss = s.replace("     $", gameState.hotelCaviar + "    $");
                 } else if (s.startsWith("2")) {
-                    s = s.trim().replace("$", "$" + SAKE);
+                    s = s.trim().replace("$", "$" + SAKE_PRICE);
                     ss = s.replace("     $", gameState.hotelSake + "    $");
                 } else {
                     ss = "???"; // Should never happen.
@@ -283,7 +306,6 @@ public class CheapHotelDatabaseView extends DatabaseView {
 //            mainMenu();
 //        });
 //    }
-
     private void reviewBill(boolean allowEdit) {
         LOGGER.log(Level.SEVERE, "Do Review Bill.");
         pane.getChildren().clear();
@@ -398,33 +420,25 @@ public class CheapHotelDatabaseView extends DatabaseView {
         });
     }
 
-    private void itemPage(String itemLetter) {
-        switch (itemLetter) {
-            case "X" -> {
-                listener.popupExit();
-            }
-            case "1" -> {
-                roomService();
-            }
-            case "2" -> {
-                messages();
-            }
-            case "3" -> {
-                reviewBill(false);
-            }
-            case "4" -> {
-                reviewBill(true);
-            }
-        }
-    }
-
     private void buyItem(String itemLetter) {
         switch (itemLetter) {
             case "1" -> { // Caviar
-                LOGGER.log(Level.SEVERE, "Buy Item: Caviar");
+                if (gameState.hotelCaviar > 0) {
+                    LOGGER.log(Level.SEVERE, "Buy Item: Caviar");
+                    gameState.hotelCharges += CAVIAR_PRICE;
+                    gameState.hotelCaviar--;
+                    gameState.hotelDeliverCaviar++; // visit real cheap hotel to get items into inventory.
+                    roomService();
+                }
             }
             case "2" -> { // Sake
-                LOGGER.log(Level.SEVERE, "Buy Item: Sake");
+                if (gameState.hotelSake > 0) {
+                    LOGGER.log(Level.SEVERE, "Buy Item: Sake");
+                    gameState.hotelCharges += SAKE_PRICE;
+                    gameState.hotelSake--;
+                    gameState.hotelDeliverSake++; // visit real cheap hotel to get items into inventory.
+                    roomService();
+                }
             }
         }
     }
