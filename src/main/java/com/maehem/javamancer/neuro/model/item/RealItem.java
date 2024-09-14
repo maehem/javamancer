@@ -32,8 +32,9 @@ package com.maehem.javamancer.neuro.model.item;
  */
 public class RealItem extends Item {
 
-    public RealItem(Catalog item) {
+    public RealItem(Catalog item, int price) {
         super(item);
+        this.price = price;
     }
 
     @Override
