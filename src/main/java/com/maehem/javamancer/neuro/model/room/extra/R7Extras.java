@@ -27,9 +27,10 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.Room;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.RealItem;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import java.util.logging.Level;
 
 /**
  *
@@ -39,16 +40,14 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
 
     protected static final int[][] DIALOG_CHAIN = { //    The massage parlor.
         {LONG_DESC}, {SHORT_DESC}, // 0, 1
-        {}, // [2] :: Your room service order is delivered to you.
+        {DIALOG_CLOSE}, // [2] :: Your room service order is delivered to you.
         {EXIT_R}, // [3] :: The management kicks you out
         {}, // [4] :: Youre carrying too much stuff.
     };
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R7).dumpList();
+        //gs.resourceManager.getRoomText(Room.R7).dumpList();
     }
 
     @Override
@@ -67,7 +66,24 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
         if (!gs.roomNpcTalk[gs.room.getIndex()]) {
             return DIALOG_END;
         }
-        return 2;
+        if (gs.hotelOnAccount < gs.hotelCharges) {
+            return 3;
+        }
+        if (gs.hotelDeliverCaviar > 0 || gs.hotelDeliverSake > 0) {
+            while (gs.hotelDeliverCaviar > 0) {
+                LOGGER.log(Level.SEVERE, "Add one Caviar to player invetory.");
+                gs.hotelDeliverCaviar--;
+                gs.inventory.add(new RealItem(Item.Catalog.CAVIAR, 0));
+            }
+            while (gs.hotelDeliverSake > 0) {
+                LOGGER.log(Level.SEVERE, "Add one Sake to player invetory.");
+                gs.hotelDeliverSake--;
+                gs.inventory.add(new RealItem(Item.Catalog.SAKE, 0));
+            }
+            return 2;
+        }
+
+        return DIALOG_CLOSE;
     }
 
     @Override
