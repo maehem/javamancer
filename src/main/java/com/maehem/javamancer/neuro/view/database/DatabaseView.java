@@ -123,8 +123,9 @@ public abstract class DatabaseView {
 
         dbTextResource = gameState.resourceManager.getDatabaseText(gameState.database.number);
 
-        if (!dbTextResource.isEmpty())
-        headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
+        if (!dbTextResource.isEmpty()) {
+            headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
+        }
 
         setAccessText(AccessText.NONE);
     }
@@ -371,7 +372,7 @@ public abstract class DatabaseView {
         clearWait = 30; // 2 seconds.
     }
 
-    protected void buildVisibleMessagesList() {
+    protected final void buildVisibleMessagesList() {
         // clear list
         visibleMessages.clear();
         database.bbsMessages.forEach((t) -> {
@@ -402,7 +403,11 @@ public abstract class DatabaseView {
         //ArrayList<BbsMessage> messageList = database.bbsMessages;
         //mode = Mode.MSG;
         TextFlow tf = pageHeadingTextFlow();
-        tf.getChildren().add(new Text("     date     to            from\n"));
+        if (list.size() > 0 && list.get(0).to == null) {
+            tf.getChildren().add(new Text("     date      subject\n"));
+        } else {
+            tf.getChildren().add(new Text("     date     to            from\n"));
+        }
 
         list.size();
         for (int n = 0; n < 9; n++) {
