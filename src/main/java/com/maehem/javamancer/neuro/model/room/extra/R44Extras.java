@@ -27,8 +27,8 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.Map;
 import static java.util.Map.entry;
 
@@ -45,33 +45,33 @@ public class R44Extras extends RoomExtras { // Asano's
         {WORD1}, // [4] :: Tell me about the @---------------
         {17}, // [5] :: Uh, whats the, uh...cheapest
         {18}, // [6] :: Im just browsing right now.
-        {16}, // [7] :: Why does Crazy Edo call you
+        {19}, // [7] :: Why does Crazy Edo call you
         {20}, // [8] :: Sure and begorrah. Im looking
-        {WORD1}, // [9] :: Tell me about the
+        {WORD1}, // [9] :: Tell me about the... npc:{ 27 || 28 || 29 }
         {17}, // [10] :: Uh, whats the, uh...cheapest..
         {19}, // [11] :: Why does Crazy Edo call
         {32}, // [12] :: Thanks for your help. COPTALK = 33
         {25}, // [13] :: Well, yes, kind of....
         {16}, // [14] :: Edo is my oldest
-        {26}, // [15] :: Well, no, not really....
+        {25}, // [15] :: Well, no, not really....
         {25}, // [16] :: Edo is a gnats eyeball!
-        {9}, // [17] :: Cheapest?  The Blue Light Special.
+        {ITEM_BUY}, // [17] :: Cheapest?  The Blue Light Special. [32 on no buy]
         {9, 21, 22, 23, 24}, // [18] :: Certainly. Can I answer any questions?
-        {DIALOG_CLOSE}, // [19] :: A pig?  Edo is the son of a turtle
+        {21, 22}, // [19] :: A pig?  Edo is the son of a turtle
         {ITEM_BUY}, // [20] :: Police?  Uh, I can sell you any legal
         {23}, // [21] :: You dont like Edo, do you?  Im pretty good at noticing these things.
         {24}, // [22] :: Ive heard Edo is a pretty good guy.
         {13, 14, 15, 16}, // [23] :: Edo is a goats armpit!
         {EXIT_L}, // [24] :: Edo sleeps with small animals!
-        {}, // [25] :: Good.  I dont allow Crazy Edos friends
+        {9, 10, 11, 12}, // [25] :: Good.  I dont allow Crazy Edos friends
         {9}, // [26] :: I see you are a wise person.
         {9}, // [27] :: Thats a low-end model.
         {9}, // [28] :: Thats a cyberspace deck.
         {9}, // [29] :: You cant do any better than that.
         {EXIT_L}, // [30] :: Try Metro Holografix for softwarez! Come back soon!
         {9}, // [31] :: Never heard of that deck.
-        {DIALOG_CLOSE}, // [32] :: Come back when youre ready to buy.
-        {DIALOG_CLOSE}, // [33] :: Well, come back anytime, officer.
+        {EXIT_L}, // [32] :: Come back when youre ready to buy.
+        {EXIT_L}, // [33] :: Well, come back anytime, officer.
         {14, 16}, // [34] :: I hope you have reconsidered who your friends are, now.
     };
 
