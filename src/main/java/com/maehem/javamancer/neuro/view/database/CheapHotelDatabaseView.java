@@ -29,7 +29,6 @@ package com.maehem.javamancer.neuro.view.database;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
-import java.util.Map;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -56,13 +55,12 @@ public class CheapHotelDatabaseView extends DatabaseView {
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
 
-    //private final Text headingText = new Text();
-    static final Map<String, Integer> LOCAL_MAP = Map.of( // limit 10 items. :(
-            "11/16/58 Donut World", 4,
-            "11/16/58 Manyusha Wanna Massage", 5,
-            "11/16/58 Psychologist", 6,
-            "11/16/58 Crazy Edo's", 7
-    );
+//    static final Map<String, Integer> LOCAL_MAP = Map.of( // limit 10 items. :(
+//            "11/16/58 Donut World", 4,
+//            "11/16/58 Manyusha Wanna Massage", 5,
+//            "11/16/58 Psychologist", 6,
+//            "11/16/58 Crazy Edo's", 7
+//    );
 
     private final StringBuilder typedBalance = new StringBuilder();
     private final Text typedBalanceText = new Text();
@@ -266,25 +264,25 @@ public class CheapHotelDatabaseView extends DatabaseView {
         });
     }
 
-    private void localThings() {
-        LOGGER.log(Level.SEVERE, "Do Local Things.");
-        pane.getChildren().clear();
-        mode = Mode.LOCAL;
-
-        StringBuilder sb = new StringBuilder();
-        LOCAL_MAP.forEach((heading, index) -> {
-            sb.append(heading).append("\n")
-                    .append(dbTextResource.get(index)).append("\n\n");
-        });
-
-        TextFlow pageTf = pageTextScrolledFlow(headingText, new Text(sb.toString()));
-
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
-    }
+//    private void localThings() {
+//        LOGGER.log(Level.SEVERE, "Do Local Things.");
+//        pane.getChildren().clear();
+//        mode = Mode.LOCAL;
+//
+//        StringBuilder sb = new StringBuilder();
+//        LOCAL_MAP.forEach((heading, index) -> {
+//            sb.append(heading).append("\n")
+//                    .append(dbTextResource.get(index)).append("\n\n");
+//        });
+//
+//        TextFlow pageTf = pageTextScrolledFlow(headingText, new Text(sb.toString()));
+//
+//        pane.getChildren().add(pageTf);
+//        pane.setOnMouseClicked((t) -> {
+//            t.consume();
+//            mainMenu();
+//        });
+//    }
 
     private void reviewBill(boolean allowEdit) {
         LOGGER.log(Level.SEVERE, "Do Review Bill.");
@@ -409,7 +407,7 @@ public class CheapHotelDatabaseView extends DatabaseView {
                 roomService();
             }
             case "2" -> {
-                localThings();
+                messages();
             }
             case "3" -> {
                 reviewBill(false);
