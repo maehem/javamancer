@@ -64,6 +64,7 @@ public class DeckPopup extends PopupPane {
     private static final int LINK_CODE_Y = 256;
     private static final String LINK_CODE_ENTER_CODE = "\nEnter link code:\n";
     private static final String LINK_CODE_UNKOWN_LINK = "\nUnknown link.\n";
+    private static final String LINK_CODE_COMLINK_COMPAT = "\nIncompatible link.\n";
 
     private static final int LARGE_WIDTH = 640;
     private static final int LARGE_HEIGHT = 288;
@@ -288,14 +289,6 @@ public class DeckPopup extends PopupPane {
             }
             case ENTER_LINKCODE -> {
                 handleEnteredLinkCode(keyEvent);
-//                switch (code) {
-//                    case X -> {
-//                        cleanup();
-//                        return true;
-//                    }
-//                    default ->
-//                        handleEnteredLinkCode(keyEvent);
-//                }
             }
             case DATABASE -> {
                 if (databaseView != null) {
@@ -334,11 +327,17 @@ public class DeckPopup extends PopupPane {
             Database whoIs = gameState.dbList.whoIs(typedLinkCode.toString());
             if (whoIs != null) {
                 // Connect
-                //gameState.usingDeck = deck;
-                gameState.database = whoIs;
-                gameState.usingDeck.setMode(DeckItem.Mode.LINKCODE);
+                if (whoIs.comlink > deck.getCurrentWarez().version) {
+                    // Error comlink version
+                    gameState.usingDeck.setMode(DeckItem.Mode.NONE);
+                    linkEnterheading.setText(LINK_CODE_COMLINK_COMPAT);
+                    linkCodeErr = true;
+                } else {
+                    gameState.database = whoIs;
+                    gameState.usingDeck.setMode(DeckItem.Mode.LINKCODE);
 
-                siteContent(); // hand off to custom site handler.
+                    siteContent(); // hand off to custom site handler.
+                }
             } else {
                 gameState.usingDeck.setMode(DeckItem.Mode.NONE);
                 linkEnterheading.setText(LINK_CODE_UNKOWN_LINK);
