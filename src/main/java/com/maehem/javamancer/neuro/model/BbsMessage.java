@@ -87,8 +87,14 @@ public class BbsMessage {
 
     public String toListString(String playerName) {
         String fromStr = from.replace("\1", playerName);
-        String toStr = to.replace("\1", playerName);
-        return date + " " + String.format("%-13s", toStr) + " " + fromStr;
+        String toStr;
+        if (to != null) {
+            toStr = to.replace("\1", playerName);
+            toStr = String.format("%-13s", toStr);
+        } else {
+            toStr = "";
+        }
+        return date + " " + toStr + " " + fromStr;
     }
 
 
