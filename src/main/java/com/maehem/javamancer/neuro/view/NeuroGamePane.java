@@ -225,6 +225,6 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                 gameState.name
         );
         gameState.inventory.add(new CreditsItem());
-        gameState.inventory.add(new RealItem(Catalog.PAWNTICKET));
+        gameState.inventory.add(new RealItem(Catalog.PAWNTICKET, 0));
     }
 }
