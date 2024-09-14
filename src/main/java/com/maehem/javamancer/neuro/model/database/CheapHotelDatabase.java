@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 /**
  * <pre>
  * Name: Cheap Hotel
+ * Number: 4
  * Zone: 0
  * ComLink: 1.0
  * LinkCode: cheapo
