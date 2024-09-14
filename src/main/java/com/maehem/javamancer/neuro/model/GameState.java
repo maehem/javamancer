@@ -117,7 +117,7 @@ public class GameState {
 
     public final boolean roomNpcTalk[] = { // 58 Slots  [0..57]
         true, true, true, true, false, // 1-5
-        true, false, true, false, false, // 6-10
+        true, true, true, false, false, // 6-10
         false, true, false, false, false, // 11-15
         false, false, false, false, false, // 16-20
         false, false, false, true, true, // 21-25
@@ -134,11 +134,15 @@ public class GameState {
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
     public boolean joystickGiven = false; // Player must give Nolan the joystick.
     public boolean gasMaskIsOn = false;
-    public boolean hotelBillPaid = true;// TODO: Use amounts
+
+    // Cheap Hotel
     public int hotelCharges = 1000;
     public int hotelOnAccount = 0;
     public int hotelCaviar = 1; // Stock of item.
     public int hotelSake = 2; // Stock of item.
+    public int hotelDeliverCaviar = 0; // Add this many caviar to player inventory upon next hotel visit.
+    public int hotelDeliverSake = 0; // Add this many sake to player inventory upon next hotel visit.
+
     public ItemCatalog activeItem = ItemCatalog.NONE;
     public Skill previousSkill = null;
     public Skill activeSkill = null;
@@ -162,6 +166,9 @@ public class GameState {
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 56));
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 75));
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Fine, 1000));
+
+        // Game Test Items
+        inventory.add(new UXBDeckItem());
 
     }
 
