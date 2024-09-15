@@ -141,4 +141,8 @@ public abstract class DeckItem extends Item {
         LOGGER.log(Level.FINER, "Deck: Y changed: {0}", cordY);
     }
 
+    public void cleanUp() {
+        mode = Mode.NONE;
+        currentSoftwarez = null;
+    }
 }
