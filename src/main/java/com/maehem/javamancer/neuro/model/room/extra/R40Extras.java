@@ -27,9 +27,9 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
-import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  *
@@ -43,14 +43,14 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
         {8}, // [3] :: Did I say that?  Sorry.  Guess Im not thinking too clearly.  I spent the night sleeping in spaghetti.
         {12}, // [4] :: Get your own caviar!  Go squeeze a sturgeon!  Im no delivery boy!
         {6, 7}, // [5] :: You brought the caviar, my old friend!  Do you want to trade it?
-        {11}, // [6] :: Of course I want to trade it!
-        {10}, // [7] :: I think Ill hang on to it right now.
-        {9}, // [8] :: Can I interest you in some hardware? Remember, my prices are much better than that pig, Asano, can do.
+        {13}, // [6] :: Of course I want to trade it!
+        {8}, // [7] :: I think Ill hang on to it right now.
+        {9, 10}, // [8] :: Can I interest you in some hardware? Remember, my prices are much better than that pig, Asano, can do.
         {17}, // [9] :: Let me see what youve got.
         {DIALOG_CLOSE}, // [10] :: Im just browsing.
         {DIALOG_CLOSE}, // [11] :: For a can of caviar, Ill give you Comlink 2.0.  Its great software!
         {DIALOG_CLOSE}, // [12] :: You having a rough day or something?
-        {ITEM_GET}, // [13] :: Domo arigato gozaimasu!  Heres your Comlink 2.0 software.
+        {CAVIAR, 8}, // [13] :: Domo arigato gozaimasu!  Heres your Comlink 2.0 software.
         {DIALOG_CLOSE}, // [14] :: All right.  Maybe next time. (Close of Buy menu)
         {EXIT_T}, // [15] :: Try Metro Holografix for software! (After purchase of hardware?)
         {DIALOG_CLOSE}, // [16] :: Come back again when you feel like buying.
@@ -72,6 +72,9 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
         return false;
     }
 
+    // TODO
+    // public boolean get(GameState gs, Item item, int aux ) {}
+
     @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
@@ -79,6 +82,12 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
 
     @Override
     public int dialogWarmUp(GameState gs) {
+        if (gs.comlink2recieved) {
+            return 8;
+        }
+        if (gs.hasInventoryItem(Item.Catalog.CAVIAR)) {
+            return 5;
+        }
         return 2;
 
     }
