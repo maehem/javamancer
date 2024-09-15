@@ -57,7 +57,7 @@ public abstract class Warez {
     }
 
     public String use(GameState gs) {
-        LOGGER.log(Level.SEVERE, "Warez: Use(): " + getClass().getSimpleName());
+        LOGGER.log(Level.SEVERE, "Warez: Use(): " + getClass().getSimpleName() + " USE_OK");
         return USE_OK;
     }
 
