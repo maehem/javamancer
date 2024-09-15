@@ -30,13 +30,12 @@ import com.maehem.javamancer.neuro.model.BankTransaction;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
-import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
+import com.maehem.javamancer.neuro.model.item.SoftwareItem;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import static com.maehem.javamancer.neuro.model.room.RoomExtras.*;
-import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import com.maehem.javamancer.neuro.view.RoomMode;
@@ -498,32 +497,9 @@ public class DialogPopup extends DialogPopupPane {
             }
             case CAVIAR -> { // Edo gives ComLink 2.0 for caviar.
                 LOGGER.log(Level.SEVERE, "Player receives ComLink from Edo.");
-                // TODO -- handle in Room Extras.
-                // gameState.room.extras.get( gameState, new ComLinkWarez(2), 1);
-                // Check if deck has free slot.
-                for (Item item : gameState.inventory) {
-                    if (item instanceof DeckItem deck) {
-                        if (gameState.hasInventoryItem(Catalog.CAVIAR)
-                                && deck.softwarez.size() < deck.nSlots) {
-
-                            if (deck.addWarez(new ComLinkWarez(2))) {
-                                LOGGER.log(Level.SEVERE, "Warez installed.");
-                                gameState.removeInventoryItem(Catalog.CAVIAR);
-                                LOGGER.log(Level.SEVERE, "Deck Warez:\n");
-                                deck.softwarez.forEach((w) -> {
-                                    LOGGER.log(Level.SEVERE, w.getSimpleName() + "\n");
-                                });
-                                break;
-                            } else {
-                                // Not installed, why?
-                                LOGGER.log(Level.SEVERE, "Could not install software! Unknown error.");
-                            }
-                        }
-
-                    }
+                if (gameState.room.getExtras().getItem(gameState, new SoftwareItem(Catalog.COMLINK))) {
+                    npcResponse(1);
                 }
-
-                npcResponse(1);
             }
             default -> {
                 LOGGER.log(Level.SEVERE, "Process Command :: Not handled yet: {0}", command);
