@@ -72,6 +72,7 @@ public abstract class RoomExtras {
     public static final int DECK_WAIT = 81; // Wait till user exit's deck or leaves room.
     public static final int UXB = 90; // Shin gives UXB
     public static final int PASS = 91; // Shiva gives Rest. Pass
+    public static final int CAVIAR = 92; // Edo gives ConLink 2.0 for Caviar
     public static final int CHIP = 94; // n credits.
     public static final int FINE_BANK_500 = 95; // Fine bank
     public static final int FINE_BANK_20K = 96; // Fine bank
