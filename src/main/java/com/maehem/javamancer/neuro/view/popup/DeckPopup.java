@@ -354,5 +354,6 @@ public class DeckPopup extends PopupPane {
 
     @Override
     public void cleanup() {
+        deck.cleanUp();
     }
 }
