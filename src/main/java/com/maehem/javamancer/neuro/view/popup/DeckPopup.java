@@ -155,7 +155,7 @@ public class DeckPopup extends PopupPane {
     }
 
     private void useSoftware(Warez w) {
-        LOGGER.log(Level.SEVERE, "DeckPopup Use Software: " + w.item.itemName);
+        LOGGER.log(Level.SEVERE, "DeckPopup Use Software: " + w.getSimpleName());
         String useReponse = w.use(gameState);
         if (!useReponse.equals(Warez.USE_OK)) {
             displayResponse(useReponse);
