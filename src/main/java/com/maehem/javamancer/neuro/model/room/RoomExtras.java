@@ -107,6 +107,20 @@ public abstract class RoomExtras {
     }
 
     /**
+     * Player gets item from NPC. ex. Player recieves ComLink 2.0 in exchange
+     * for Caviar
+     *
+     *
+     * @param gs
+     * @param item
+     * @return
+     */
+    public boolean getItem(GameState gs, Item item) {
+        LOGGER.log(Level.WARNING, "Room called get() but it's not overridden!");
+        return false;
+    }
+
+    /**
      * Override if NPC has skills to sell.
      *
      * @return
