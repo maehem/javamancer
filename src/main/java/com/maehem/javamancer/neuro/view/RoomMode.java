@@ -258,59 +258,59 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     private void initButtonHandlers() {
         inventoryButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Inventory.");
-            showPopup(Popup.INVENTORY);
             t.consume();
+            showPopup(Popup.INVENTORY);
         });
         paxButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked PAX.");
 
-            showPopup(Popup.PAX);
             t.consume();
+            showPopup(Popup.PAX);
         });
         talkButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Talk.");
-            showPopup(Popup.TALK);
             t.consume();
+            showPopup(Popup.TALK);
         });
         skillsButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Skills.");
-            showPopup(Popup.SKILLS);
             t.consume();
+            showPopup(Popup.SKILLS);
         });
         romButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked ROM.");
-            showPopup(Popup.ROM);
             t.consume();
+            showPopup(Popup.ROM);
         });
         diskButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Disk.");
-            showPopup(Popup.DISK);
             t.consume();
+            showPopup(Popup.DISK);
         });
 
         dateButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Date.");
             statusMode = Status.DATE;
-            updateStatus();
             t.consume();
+            updateStatus();
         });
         timeButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Time.");
             statusMode = Status.TIME;
-            updateStatus();
             t.consume();
+            updateStatus();
         });
         credButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Credits.");
             statusMode = Status.CREDIT;
-            updateStatus();
             t.consume();
+            updateStatus();
         });
         constButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Constitution.");
             statusMode = Status.CONSTITUTION;
-            updateStatus();
             t.consume();
+            updateStatus();
         });
     }
 
@@ -565,14 +565,14 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     private void handleMouseClick(double x, double y) {
         if (firstTime) {
-            LOGGER.log(Level.SEVERE, "No mouse interaction until room description is read.");
+            LOGGER.log(Level.WARNING, "No mouse interaction until room description is read.");
             return;
         }
-        LOGGER.log(Level.SEVERE, "Mouse Click at: {0},{1}", new Object[]{x, y});
+        LOGGER.log(Level.FINER, "Mouse Click at: {0},{1}", new Object[]{(int) x, (int) y});
         if ((y > 16 && y < 240) && (x > 16 && x < 624)) {
             // User clicked in room scene.
             if (popup == null) {
-                LOGGER.log(Level.SEVERE, "User clicked roomPane at: {0},{1}", new Object[]{x, y});
+                LOGGER.log(Level.CONFIG, "User clicked roomPane at: {0},{1}", new Object[]{(int) x, (int) y});
                 roomPane.mouseClick(x - RoomPane.PANE_X, y - RoomPane.PANE_Y, getGameState());
             }
         }
