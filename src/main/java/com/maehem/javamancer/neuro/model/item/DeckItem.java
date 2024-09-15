@@ -43,6 +43,16 @@ public abstract class DeckItem extends Item {
     public final ArrayList<Warez> softwarez = new ArrayList<>();
     private Warez currentSoftwarez = null;
 
+    public boolean addWarez(Warez warez) {
+        if (softwarez.size() < nSlots) {
+            return softwarez.add(warez);
+        } else {
+            LOGGER.log(Level.SEVERE, "Deck slots full. Erase items first.");
+            return false;
+        }
+
+    }
+
     public enum Mode {
         NONE, LINKCODE, CYBERSPACE
     }
