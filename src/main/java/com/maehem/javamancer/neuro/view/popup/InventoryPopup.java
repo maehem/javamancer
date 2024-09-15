@@ -137,7 +137,7 @@ public class InventoryPopup extends SmallPopupPane {
             }
         }
         numItems = tf.getChildren().size();
-        LOGGER.log(Level.SEVERE, "Num Messages: {0}", numItems);
+        LOGGER.log(Level.SEVERE, "Num Items: {0}", numItems);
     }
 
     private void itemOptions(int index) {
@@ -261,18 +261,13 @@ public class InventoryPopup extends SmallPopupPane {
     private void operateItem() {
         if (currentItem != null) {
             if (currentItem instanceof SkillItem si) {
-                LOGGER.log(Level.CONFIG, "Install: {0}", si);
+                LOGGER.log(Level.CONFIG, "Operate(Install) Skill: {0}", si);
                 askInstallSkillItem(si);
-            } //            if (Skill.class.isAssignableFrom(currentItem.item.clazz)) {
-            //                LOGGER.log(Level.CONFIG, "Install: {0}", currentItem);
-            //                askInstallSkillItem();
-            //            }
-            else if (DeckItem.class.isAssignableFrom(currentItem.item.clazz)) {
-                LOGGER.log(Level.SEVERE, "Use Deck: {0}", currentItem);
-                gameState.usingDeck = DeckItem.getInstance(currentItem.item.clazz);  // Set before exit.
-                gameState.usingDeck.setZone(gameState.room.getJack());
-                // Exit inventory
-                listener.popupExit(RoomMode.Popup.DECK);
+            } else if (currentItem instanceof DeckItem deck) {
+                LOGGER.log(Level.SEVERE, "Operate Deck: {0}", deck);
+                gameState.usingDeck = deck;
+                deck.setZone(gameState.room.getJack());
+                listener.popupExit(RoomMode.Popup.DECK); // Exit inventory
             }
         }
     }
@@ -285,7 +280,7 @@ public class InventoryPopup extends SmallPopupPane {
 
     private void giveItem() {
         LOGGER.log(Level.CONFIG, "Give: {0}", currentItem);
-        if (currentItem instanceof CreditsItem cr) {
+        if (currentItem instanceof CreditsItem) {
             LOGGER.log(Level.SEVERE, "Give Credits selected.");
             giveCreditsEnterAmount();
         } else {
