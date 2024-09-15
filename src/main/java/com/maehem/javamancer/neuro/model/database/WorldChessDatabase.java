@@ -39,7 +39,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  * ComLink: 1.0
  * LinkCode: world chess
  * Passwords: (1) novice (2) member (3) only from Cyberspace
- * Warez: Comlink 6.0, Blowtorch 1.0, Decoder 1.0, Blowtorch 3.0, (level 2), Drill 2.0 (level 2), Acid 1.0 (level 2)
+ * Warez: BattleChess 4.0
  * Matrix: 160,80
  * AI: Morphy
  * Weakness: Logic
