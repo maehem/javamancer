@@ -56,12 +56,6 @@ public abstract class Warez {
         this.version = version;
     }
 
-    public String getMenuString() {
-        return String.format("%-12s", item.itemName)
-                + String.format("%2s", String.valueOf(version))
-                + ".0";
-    }
-
     public String use(GameState gs) {
         LOGGER.log(Level.SEVERE, "Warez: Use(): " + getClass().getSimpleName());
         return USE_OK;
@@ -102,6 +96,12 @@ public abstract class Warez {
 
     public void setOnFinished(EventHandler<ActionEvent> handler) {
         this.finishedHandler = handler;
+    }
+
+    public String getMenuString() {
+        return String.format("%-12s", item.itemName)
+                + String.format("%2s", String.valueOf(version))
+                + ".0";
     }
 
     public String getSimpleName() {
