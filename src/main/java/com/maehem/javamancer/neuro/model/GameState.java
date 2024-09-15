@@ -33,7 +33,9 @@ import com.maehem.javamancer.neuro.model.database.DatabaseList;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.ItemCatalog;
+import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
@@ -152,6 +154,7 @@ public class GameState {
     public PawnRecent pawnRecent = PawnRecent.NONE;
     public int psychoProbeCount = 0;
     public boolean swissBankRobbed = false;
+    public boolean comlink2recieved = false;
 
     // Ephemeral -- Not saved
     public boolean pause = true;
@@ -246,6 +249,29 @@ public class GameState {
         for (Item item : inventory) {
             if (item.getName().equals(checkItem.getName())) {
                 LOGGER.log(Level.SEVERE, "Matched Item name: " + item.getName());
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean hasInventoryItem(Catalog checkItem) {
+        for (Item item : inventory) {
+            if (item.item.equals(checkItem)) {
+                LOGGER.log(Level.SEVERE, "Matched Item name: " + item.getName());
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean removeInventoryItem(Catalog removeItem) {
+        for (Item item : inventory.toArray(Item[]::new)) {
+            if (item.item.equals(removeItem)) {
+                LOGGER.log(Level.SEVERE, "Matched Item name: " + item.getName() + ". Removing.");
+                inventory.remove(item);
                 return true;
             }
         }
