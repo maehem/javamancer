@@ -201,6 +201,10 @@ public class DeckPopup extends PopupPane {
 
         configEntryWindow();
 
+        // Clear out any previous link code.
+        typedLinkCode.setLength(0);
+        typedLinkEntryText.setText(typedLinkCode.toString());
+
         getChildren().clear();
         Text currentSoft = new Text("    " + gameState.usingDeck.getCurrentWarez().getSimpleName());
         Text cursor = new Text("<\n");
@@ -288,7 +292,12 @@ public class DeckPopup extends PopupPane {
                 }
             }
             case ENTER_LINKCODE -> {
-                handleEnteredLinkCode(keyEvent);
+                if (code.equals(KeyCode.ESCAPE)) {
+                    LOGGER.log(Level.SEVERE, "Exit LinkCode Entry (via key event).");
+                    softwarePrompt();
+                } else {
+                    handleEnteredLinkCode(keyEvent);
+                }
             }
             case DATABASE -> {
                 if (databaseView != null) {
@@ -321,15 +330,13 @@ public class DeckPopup extends PopupPane {
             }
             typedLinkEntryText.setText(typedLinkCode.toString());
         } else if (ke.getCode().equals(KeyCode.ENTER)) {
-            // TODO: Check Link Code Valid
-
-            // TODO: Find link.
             Database whoIs = gameState.dbList.whoIs(typedLinkCode.toString());
             if (whoIs != null) {
                 // Connect
                 if (whoIs.comlink > deck.getCurrentWarez().version) {
                     // Error comlink version
                     gameState.usingDeck.setMode(DeckItem.Mode.NONE);
+                    LOGGER.log(Level.CONFIG, "ComLink {0} required for this site.", whoIs.comlink);
                     linkEnterheading.setText(LINK_CODE_COMLINK_COMPAT);
                     linkCodeErr = true;
                 } else {
