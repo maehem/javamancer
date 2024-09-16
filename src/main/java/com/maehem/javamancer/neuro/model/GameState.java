@@ -99,6 +99,7 @@ public class GameState {
     // Matrix Stuff
     public Database database = null;
     public DeckItem usingDeck = null;
+    public boolean usingDeckErase = false;
     public int matrixPosX = 112;
     public int matrixPosY = 96;
     public boolean databaseBattle = false;
