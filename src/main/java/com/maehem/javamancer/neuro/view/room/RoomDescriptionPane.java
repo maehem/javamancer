@@ -100,7 +100,7 @@ public class RoomDescriptionPane extends ScrollPane {
         Rectangle dr = new Rectangle(POS_X - 10, POS_Y, WIDTH * 1.44, HEIGHT);
 
         Shape subtract = Shape.subtract(r, dr);
-        subtract.setFill(new Color(0.5, 0.5, 0.5, 0.5));
+        subtract.setFill(new Color(0.7, 0.7, 0.7, 0.4));
         //subtract.setEffect(new GaussianBlur(4.0));
         return subtract;
     }
