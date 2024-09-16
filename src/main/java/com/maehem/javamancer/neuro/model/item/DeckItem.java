@@ -145,4 +145,10 @@ public abstract class DeckItem extends Item {
         mode = Mode.NONE;
         currentSoftwarez = null;
     }
+
+    public boolean erase(Warez w) {
+        currentSoftwarez = null;
+        return softwarez.remove(w);
+    }
+
 }

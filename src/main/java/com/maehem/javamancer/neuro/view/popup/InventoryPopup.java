@@ -159,9 +159,14 @@ public class InventoryPopup extends SmallPopupPane {
         Text exitText = new Text("X. Exit\n");
         Text operateText = new Text("O. Operate Item\n");
         Text discardText = new Text("D. Discard Item\n");
-        Text giveText = new Text("G. Give Item");
+        Text giveOrEraseText;
+        if (currentItem instanceof DeckItem) {
+            giveOrEraseText = new Text("E. Erase Software");
+        } else {
+            giveOrEraseText = new Text("G. Give Item");
+        }
 
-        TextFlow tf = new TextFlow(exitText, operateText, discardText, giveText);
+        TextFlow tf = new TextFlow(exitText, operateText, discardText, giveOrEraseText);
         tf.setLineSpacing(LINE_SPACING);
 
         addBox(heading, tf);
@@ -175,8 +180,12 @@ public class InventoryPopup extends SmallPopupPane {
         discardText.setOnMouseClicked((t) -> {
             discardItem();
         });
-        giveText.setOnMouseClicked((t) -> {
-            giveItem();
+        giveOrEraseText.setOnMouseClicked((t) -> {
+            if (currentItem instanceof DeckItem) {
+                operateItem(true);
+            } else {
+                giveItem();
+            }
         });
     }
 
@@ -215,8 +224,15 @@ public class InventoryPopup extends SmallPopupPane {
                     case D -> {
                         discardItem();
                     }
-                    case G -> {
-                        giveItem();
+                    case G -> { // Give item (not for decks)
+                        if (!(currentItem instanceof DeckItem)) {
+                            giveItem();
+                        }
+                    }
+                    case E -> { // Deck Erase Software
+                        if (currentItem instanceof DeckItem) {
+                            operateItem(true);
+                        }
                     }
                 }
             }
@@ -257,8 +273,12 @@ public class InventoryPopup extends SmallPopupPane {
         return false;
     }
 
-    @SuppressWarnings("unchecked")
     private void operateItem() {
+        operateItem(false);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void operateItem(boolean altMode) {
         if (currentItem != null) {
             if (currentItem instanceof SkillItem si) {
                 LOGGER.log(Level.CONFIG, "Operate(Install) Skill: {0}", si);
@@ -266,6 +286,7 @@ public class InventoryPopup extends SmallPopupPane {
             } else if (currentItem instanceof DeckItem deck) {
                 LOGGER.log(Level.SEVERE, "Operate Deck: {0}", deck);
                 gameState.usingDeck = deck;
+                gameState.usingDeckErase = altMode;
                 deck.setZone(gameState.room.getJack());
                 listener.popupExit(RoomMode.Popup.DECK); // Exit inventory
             }
@@ -293,7 +314,7 @@ public class InventoryPopup extends SmallPopupPane {
         getChildren().clear();
         mode = Mode.CREDITS;
         Text heading = new Text("  Give Credits");
-        int length = currentItem.getName().length();
+        //int length = currentItem.getName().length();
         Text heading2 = new Text("enter amount");
 
         TextFlow tf = new TextFlow(enteredNumberText, new Text("<"));

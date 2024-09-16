@@ -96,7 +96,7 @@ public class DeckPopup extends PopupPane {
         configSmallWindow();
 
         getChildren().clear();
-        Text softwareHeading = new Text("Software");
+        Text softwareHeading = new Text(gameState.usingDeckErase ? "Erase Software" : "Software");
         Text exitButton = new Text("exit");
         Text prevButton = new Text("prev");
         Text nextButton = new Text("next");
@@ -118,7 +118,11 @@ public class DeckPopup extends PopupPane {
 
                 // Add onMouseClick()
                 itemText.setOnMouseClicked((t) -> {
-                    useSoftware(w);
+                    if (gameState.usingDeckErase) {
+                        eraseSoftware(w);
+                    } else {
+                        useSoftware(w);
+                    }
                 });
             } catch (IndexOutOfBoundsException ex) {
                 tf.getChildren().add(new Text("\n"));
@@ -167,6 +171,12 @@ public class DeckPopup extends PopupPane {
                 enterLinkCode();
             }
         }
+    }
+
+    private void eraseSoftware(Warez w) {
+        LOGGER.log(Level.SEVERE, "DeckPopup Erase Software: {0}", w.getSimpleName());
+        deck.erase(w);
+        softwarePrompt();
     }
 
     private void connectMenu() {
@@ -361,6 +371,7 @@ public class DeckPopup extends PopupPane {
 
     @Override
     public void cleanup() {
+        gameState.usingDeckErase = false;
         deck.cleanUp();
     }
 }
