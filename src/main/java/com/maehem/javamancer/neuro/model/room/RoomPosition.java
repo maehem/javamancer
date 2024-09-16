@@ -39,7 +39,7 @@ public enum RoomPosition {
     R1(300, 204, 60, 40), // Chatsubo
     R2(420, 200, 20, 150), // Street Cahtsubo
     R8(420, 200, 20, 150), // G-Loser
-    DEFAULT(300, 190, 0, 0);
+    DEFAULT(300, 196, 0, 0);
 
     public static final Logger LOGGER = Logging.LOGGER;
 
