@@ -157,7 +157,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 if (dc0.length == 1 && dc0[0] == LONG_DESC) { // long desc. here
                     LOGGER.log(Level.CONFIG, "RoomMode: Found long description in dialog chain.");
                     roomDescriptionPane.setText(roomText.getDescription());
-                    roomPane.setEffect(new GaussianBlur(4.0));
+                    roomPane.setEffect(new GaussianBlur(3.0));
                 } else {
                     LOGGER.log(Level.CONFIG, "RoomMode: No description found in dialog chain.");
                     roomDescriptionPane.setText("\n\n");
