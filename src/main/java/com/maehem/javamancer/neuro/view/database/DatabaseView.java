@@ -48,6 +48,7 @@ import javafx.scene.input.KeyCode;
 import static javafx.scene.input.KeyCode.ESCAPE;
 import static javafx.scene.input.KeyCode.X;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -60,6 +61,12 @@ import javafx.scene.transform.Scale;
 public abstract class DatabaseView {
 
     public static final Logger LOGGER = Logging.LOGGER;
+
+    private static final int UPLOAD_LIST_WIDTH = 420;
+    private static final int UPLOAD_LIST_HEIGHT = 140;
+    private static final int UPLOAD_LIST_X = 80;
+    private static final int UPLOAD_LIST_Y = 234;
+
     private final Text typedToText = new Text();
     private final Text typedMessageText = new Text();
     private final Text toCursor = new Text("<");
@@ -73,9 +80,15 @@ public abstract class DatabaseView {
         "Piracy",
         "Supercode programming"
     };
+    private int uploadIndexPass = -1;
+    private int uploadIndexFail = -1;
+    private Class<? extends Warez> uploadClassPass;
+    private int uploadClassVersion;
 
     protected enum SubMode {
-        LANDING, PASSWORD, CLEAR_WAIT, MAIN, MSG_LIST, MSG_SHOW, MSG_SEND, VIEW_TEXT, WARRANTS
+        LANDING, PASSWORD, CLEAR_WAIT, MAIN,
+        MSG_LIST, MSG_SHOW, MSG_SEND,
+        VIEW_TEXT, WARRANTS, UPLOAD, UPLOAD_DONE
     }
 
     private enum AccessText {
@@ -113,11 +126,18 @@ public abstract class DatabaseView {
     private final ArrayList<BbsMessage> visibleMessages = new ArrayList<>();
     private final ArrayList<BbsMessage> visibleMessages2 = new ArrayList<>();
 
+    // Uploads
+    private final Pane uploadSubPop = new Pane();
+    private static final int SOFT_LIST_SIZE = 4;
+    private int slotBase = 0; // Slot menu in groups of 4.
+
     public DatabaseView(GameState gs, Pane p, PopupListener l) {
         this.database = gs.database;
         this.gameState = gs;
         this.pane = p;
         this.listener = l;
+
+        initUploadSubPop();
 
         buildVisibleMessagesList();
 
@@ -540,22 +560,36 @@ public abstract class DatabaseView {
         return exitItem; // Add a mouseClick listener for menu exit.
     }
 
-    protected void uploads(int index) {
-        LOGGER.log(Level.SEVERE, "{0}: Downloads", database.name);
+    /**
+     * DB Site expects this Class of Warez and version number for Pass.
+     *
+     * @param clazz
+     * @param version
+     * @param indexPass
+     * @param indexFail
+     */
+    protected void uploads(Class<? extends Warez> clazz, int version, int indexPass, int indexFail) {
+        LOGGER.log(Level.SEVERE, "{0}: Uploads", database.name);
+        this.uploadIndexPass = indexPass;
+        this.uploadIndexFail = indexFail;
+        this.uploadClassPass = clazz;
+        this.uploadClassVersion = version;
+
         pane.getChildren().clear();
         //mode = Mode.DOWNLOADS;
         TextFlow tf = pageHeadingTextFlow();
-        tf.getChildren().add(new Text(centeredText("Upload Software") + "\n"));
-        if (index >= 0) {
-            tf.getChildren().add(new Text("\n" + dbTextResource.get(index) + "\n"));
-        }
-        Text menuItem = new Text(PADDING + "X. Exit to main");
-        tf.getChildren().add(menuItem);
-        menuItem.setOnMouseClicked((t) -> {
-            t.consume();
-            LOGGER.log(Level.SEVERE, "User exit to main: ");
-            siteContent();
-        });
+        //tf.getChildren().add(new Text(centeredText("Upload Software") + "\n"));
+        //Text menuItem = new Text(PADDING + "X. Exit to main");
+        //tf.getChildren().add(menuItem);
+//        menuItem.setOnMouseClicked((t) -> {
+//            t.consume();
+//            LOGGER.log(Level.SEVERE, "User exit to main: ");
+//            siteContent();
+//        });
+
+        refreshUploadSubPopup(); // Contains exit link.
+
+        pane.getChildren().add(uploadSubPop);
 
         int i = 1;
 //        i = addSoftware(i, database.warez1, tf);
@@ -564,6 +598,127 @@ public abstract class DatabaseView {
 
         // TODO Add software in Deck.
         pane.getChildren().add(tf);
+    }
+
+    private void initUploadSubPop() {
+        uploadSubPop.setId("neuro-popup");
+        uploadSubPop.setPrefSize(UPLOAD_LIST_WIDTH, UPLOAD_LIST_HEIGHT);
+        uploadSubPop.setMinSize(UPLOAD_LIST_WIDTH, UPLOAD_LIST_HEIGHT);
+        uploadSubPop.setMaxSize(UPLOAD_LIST_WIDTH, UPLOAD_LIST_HEIGHT);
+        uploadSubPop.setLayoutX(UPLOAD_LIST_X);
+        uploadSubPop.setLayoutY(UPLOAD_LIST_Y);
+    }
+
+    private void refreshUploadSubPopup() {
+        final int TF_PAD = 20;
+
+        LOGGER.log(Level.SEVERE, "Show Deck Upload Software Prompt");
+        subMode = SubMode.UPLOAD;
+
+        uploadSubPop.getChildren().clear();
+        Text softwareHeading = new Text("          Warez");
+        Text exitButton = new Text("exit");
+        Text prevButton = new Text("prev");
+        Text nextButton = new Text("next");
+        //TextFlow tf = textFlow(softwareHeading);
+        TextFlow tf = new TextFlow(softwareHeading);
+        tf.setLineSpacing(LINE_SPACING);
+        tf.setPrefSize(UPLOAD_LIST_WIDTH - 2 * TF_PAD, UPLOAD_LIST_HEIGHT - 10);
+        tf.setPadding(new Insets(4, 0, 0, TF_PAD));
+
+        HBox navBox = new HBox(prevButton, exitButton, nextButton);
+        navBox.setSpacing(24);
+        navBox.setPadding(new Insets(6, 0, 0, 32));
+
+        for (int i = 0; i < SOFT_LIST_SIZE; i++) {
+            try {
+                Warez w = gameState.usingDeck.softwarez.get(slotBase + i);
+                Text itemText = new Text("\n" + (i + 1) + ". " + w.getMenuString());
+                tf.getChildren().add(itemText);
+
+                // Add onMouseClick()
+                itemText.setOnMouseClicked((t) -> {
+                    uploadDone(uploadSoftware(w));
+                });
+            } catch (IndexOutOfBoundsException ex) {
+                tf.getChildren().add(new Text("\n"));
+            }
+        }
+        tf.getChildren().add(new Text("\n"));
+        tf.getChildren().add(navBox);
+        prevButton.setVisible(slotBase >= SOFT_LIST_SIZE);
+        nextButton.setVisible(slotBase + SOFT_LIST_SIZE < gameState.usingDeck.softwarez.size());
+
+        uploadSubPop.getChildren().add(tf);
+
+        if (prevButton.isVisible()) {
+            prevButton.setOnMouseClicked((t) -> {
+                slotBase -= SOFT_LIST_SIZE;
+                refreshUploadSubPopup();
+            });
+        }
+        if (nextButton.isVisible()) {
+            nextButton.setOnMouseClicked((t) -> {
+                slotBase += SOFT_LIST_SIZE;
+                t.consume();
+                refreshUploadSubPopup();
+            });
+        }
+        exitButton.setOnMouseClicked((t) -> {
+            siteContent();
+
+            LOGGER.log(Level.SEVERE, "Exit Uploads (via mouse click).");
+
+            t.consume();
+            listener.popupExit();
+        });
+
+    }
+
+    private boolean uploadSoftware(Warez w) {
+        // Compare the uploaded Warez to the required warez.
+        return w.getClass().equals(uploadClassPass) && w.version == uploadClassVersion;
+    }
+
+    /**
+     *
+     * @param uploadOK DB wants this software.
+     */
+    private void uploadDone(boolean uploadOK) {
+        subMode = SubMode.UPLOAD_DONE;
+        pane.getChildren().clear();
+        if (!onUploadDone(uploadOK)) {
+            // not a duplicate upload.
+            uploadOK = false; // Sub-class rejected upload. Probably duplicate.
+        }
+        String okMessage;
+        if ( uploadIndexPass >= 0 && uploadOK ) {
+            okMessage = dbTextResource.get(uploadIndexPass);
+        } else if (uploadIndexFail >= 0 && !uploadOK ) {
+            okMessage = dbTextResource.get(uploadIndexFail);
+        } else {
+            okMessage = "\n\n";
+        }
+
+        Text thankYouText = new Text("\n" + okMessage);
+
+        TextFlow tf = pageTextFlow(thankYouText,
+                new Text("\n\n\n\n\n\n\n"), CONTINUE_TEXT
+        );
+
+        // TODO: CONTIMUE_TEXY set onClicked?
+
+        pane.getChildren().add(tf);
+    }
+
+    /**
+     * Override to handle event of software upload.
+     *
+     * @param uploadOK
+     */
+    protected boolean onUploadDone(boolean uploadOK) {
+        // Override in sub-class if needed.
+        return false;
     }
 
     private int addSoftware(int i, HashMap<Class< ? extends Warez>, Integer> map, TextFlow tf) {
