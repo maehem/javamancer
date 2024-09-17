@@ -137,11 +137,11 @@ public class SoftwareEnforcementDatabaseView extends DatabaseView {
                 skillUpgrade();
             }
             case "5" -> {
-                bamaList(11, "SEA0", true);
+                personList(11, "SEA0", true);
             }
             case "6" -> {
                 if (accessLevel > 2) {
-                    bamaList(12, "SEA1", true);
+                    personList(12, "SEA1", true);
                 }
             }
         }
@@ -210,9 +210,9 @@ public class SoftwareEnforcementDatabaseView extends DatabaseView {
 //        TextFlow contentTf = simpleTextFlow(subHeadingText);
 //        contentTf.setPadding(new Insets(0, 0, 0, 30));
 //
-//        TextResource bamaList = gameState.resourceManager.getTextResource("SEA" + num);
+//        TextResource personList = gameState.resourceManager.getTextResource("SEA" + num);
 //        int i = 0;
-//        for (String item : bamaList) {
+//        for (String item : personList) {
 //            String[] split = item.split("\t");
 //            int reason = split[2].charAt(3);
 //            Text t = new Text("\n" + split[0] + split[1] + " " + WANTED[reason]);

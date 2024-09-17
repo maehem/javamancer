@@ -119,7 +119,7 @@ public class HitachiBiotechDatabaseView extends DatabaseView {
                 viewText(4, 5, 6);
             }
             case "2" -> {
-                bamaList(3, "HITACHI0", false);
+                personList(3, "HITACHI0", false);
             }
         }
     }

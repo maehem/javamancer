@@ -128,7 +128,7 @@ public class FujiElectricDatabaseView extends DatabaseView {
             }
             case "4" -> {
                 if (accessLevel > 1) {
-                    bamaList(8, "FUJI0", false);
+                    personList(8, "FUJI0", false);
                 }
             }
             case "5" -> {
