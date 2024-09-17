@@ -155,6 +155,7 @@ public class GameState {
     public int psychoProbeCount = 0;
     public boolean swissBankRobbed = false;
     public boolean comlink2recieved = false;
+    public boolean comlink6uploaded = false;
 
     // Ephemeral -- Not saved
     public boolean pause = true;
