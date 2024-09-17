@@ -348,15 +348,15 @@ public class BIHThing {
         // Break into 32 byte chunks. Each chunk is a list item.
         for (int i = 0; i < data.length; i += 32) {
 
+            // If a 32-byte chunk starts with 00 then we are done.
             if (data[i] == 0) {
                 break;
             }
 
             // Chunk  ==  <19 byte name> | <9 byte number> [00] < 2 bytes> [00]
-            String nameStr = new String(data, i, 19);
+            String nameStr = new String(data, i, 18); // 00 terminated, skip it
             String bamaStr = new String(data, i + 19, 9);
             String bytes = new String(data, i + 28, 4);
-            // Leave out bytes for now until we know what they are for.
 
             text.add(nameStr + "\t" + bamaStr + "\t" + bytes);
         }
