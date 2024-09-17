@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
 import javafx.scene.input.KeyCode;
@@ -144,11 +145,27 @@ public class HosakaDatabaseView extends DatabaseView {
             }
             case "6" -> {
                 if (accessLevel > 1) {
-                    uploads(-1);
-                    // uploads( -1, ComLinkWarez.class, 6, 7500, 10, 11 );
+                    uploads(ComLinkWarez.class, 6, 10, 11);
                 }
             }
         }
+    }
+
+    @Override
+    protected boolean onUploadDone(boolean uploadOK) {
+        if (uploadOK && !gameState.comlink6uploaded) {
+            // Add 7500 credits to chip.
+            LOGGER.log(Level.SEVERE, "Hosaka added 7500 credits to player chip.");
+            gameState.chipBalance += 7500;
+            gameState.comlink6uploaded = true;
+            return true;
+        } else if (uploadOK && gameState.comlink6uploaded) {
+            LOGGER.log(Level.WARNING, "Duplicate ComLink 6.0 uploaded. No money for you.");
+        } else {
+            LOGGER.log(Level.WARNING, "Incompatible software uploaded.");
+        }
+
+        return false;
     }
 
     @Override
