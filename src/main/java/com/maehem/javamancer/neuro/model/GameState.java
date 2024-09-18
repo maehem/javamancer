@@ -157,6 +157,9 @@ public class GameState {
     public boolean comlink2recieved = false;
     public boolean comlink6uploaded = false;
 
+    // Hosaka Emplyee List
+    public final ArrayList<Person> hosakaEmployeeList = new ArrayList<>();
+
     // Ephemeral -- Not saved
     public boolean pause = true;
     public boolean requestQuit = false; // Set by Disk Menu Quit option.
