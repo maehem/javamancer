@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.Person;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import com.maehem.javamancer.neuro.view.PopupListener;
@@ -204,4 +205,15 @@ public class HosakaDatabaseView extends DatabaseView {
         LOGGER.log(Level.SEVERE, "Do super.handleKeyEvent()");
         return super.handleKeyEvent(keyEvent);
     }
+
+    @Override
+    protected void handlePersonListChanged() {
+        // List contains player BAMA?
+        for (Person p : gameState.hosakaEmployeeList) {
+            if (p.getBama().equals(gameState.bamaId)) {
+                gameState.hosakaDaysSincePaid = 7;
+            }
+        }
+    }
+
 }
