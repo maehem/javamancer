@@ -27,11 +27,9 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.Person;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
-import com.maehem.javamancer.neuro.model.item.Item;
-import java.util.Map;
-import static java.util.Map.entry;
+import java.util.logging.Level;
 
 /**
  *
@@ -57,47 +55,59 @@ public class R52Extras extends RoomExtras { // Security Gate
         {DIALOG_CLOSE}, // [15] :: You appear to be lost. That company is not in the Chiba high-tech zone.
     };
 
-    /**
-     *
-     * Do you know about...
-     *
-     */
-    private static final Map<String, Integer> map1 = Map.ofEntries(
-            entry("fuji", 10),
-            entry("hosaka", 10),
-            entry("musabori", 10),
-            entry("hitachi", 10),
-            entry("sense/net", 10),
-            entry("sensenet", 10),
-            entry("sense-net", 10),
-            entry("sense net", 10)
-    );
+    private int wordTries = 0;
 
     @Override
-    public int askWord1(String word) {
-        Integer index = map1.get(word);
-        // Check agains game state for employment.
-
-        if (index == null) {
-            return 15; // Doesn't know.
+    public int askWord1(GameState gs, String word) {
+        wordTries++;
+        switch (word.toLowerCase()) {
+            case "fuji" -> {
+                if (wordTries > 1) {
+                    return 9; // go to jail
+                }
+                return 8; // not listed
+            }
+            case "hosaka" -> {
+                LOGGER.log(Level.SEVERE, "Matched Word: {0}", word);
+                for (Person p : gs.hosakaEmployeeList) {
+                    if (p.getBama().equals(gs.bamaId)) {
+                        return 10; // Cleared
+                    }
+                }
+                if (wordTries > 1) {
+                    return 9; // go to jail
+                }
+                return 8; // not listed
+            }
+            case "musabori" -> {
+                LOGGER.log(Level.SEVERE, "Matched Word: {0}", word);
+                if (wordTries > 1) {
+                    return 9; // go to jail
+                }
+                return 8; // not listed
+            }
+            case "hitachi" -> {
+                LOGGER.log(Level.SEVERE, "Matched Word: {0}", word);
+                if (wordTries > 1) {
+                    return 9; // go to jail
+                }
+                return 8; // not listed
+            }
+            case "sensenet", "sense net", "sense-net", "sense/net" -> {
+                LOGGER.log(Level.SEVERE, "Matched Word: {0}", word);
+                if (wordTries > 1) {
+                    return 9; // go to jail
+                }
+                return 8; // not listed
+            }
         }
-
-        return index;
+        LOGGER.log(Level.SEVERE, "No word match for {0}", word);
+        return 15; // Doesn't know
     }
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R52).dumpList();
-
-        // TODO: No Pass. Kick out.
-    }
-
-    @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
+        //gs.resourceManager.getRoomText(Room.R52).dumpList();
     }
 
     @Override
