@@ -130,21 +130,25 @@ public class HosakaDatabaseView extends DatabaseView {
             }
             case "3" -> {
                 if (accessLevel > 1) {
-                    bamaList(12, "HOSA0", false);
+                    mode = Mode.SUB;
+                    editablePersonList(gameState.hosakaEmployeeList, 12, "HOSA0", false);
                 }
             }
             case "4" -> {
                 if (accessLevel > 1) {
+                    mode = Mode.SUB;
                     messages();
                 }
             }
             case "5" -> {
                 if (accessLevel > 1) {
+                    mode = Mode.SUB;
                     downloads();
                 }
             }
             case "6" -> {
                 if (accessLevel > 1) {
+                    mode = Mode.SUB;
                     uploads(ComLinkWarez.class, 6, 10, 11);
                 }
             }
@@ -174,9 +178,8 @@ public class HosakaDatabaseView extends DatabaseView {
         LOGGER.log(Level.SEVERE, "Handle key event.");
         switch (mode) {
             case MENU -> {
-                if (code.equals(KeyCode.X)
-                        || code.equals(KeyCode.SPACE)
-                        || code.equals(KeyCode.ESCAPE)) {
+                LOGGER.log(Level.SEVERE, "Handle MENU MODE Keypress.");
+                if (code.equals(KeyCode.X)) {
                     LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
                     keyEvent.consume();
                     return true;
@@ -198,6 +201,7 @@ public class HosakaDatabaseView extends DatabaseView {
             // else ignore key
 
         }
+        LOGGER.log(Level.SEVERE, "Do super.handleKeyEvent()");
         return super.handleKeyEvent(keyEvent);
     }
 }
