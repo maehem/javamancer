@@ -160,6 +160,11 @@ public class GameState {
     // Hosaka Emplyee List
     public final ArrayList<Person> hosakaEmployeeList = new ArrayList<>();
 
+    // Sets to 1 when player adds name. Paid on 1, 8, 15, etc.
+    // Sets to 0 when player is paid.
+    // Sets to -1 if player removes BAMA from list.
+    public int hosakaDaysSincePaid = -1;
+
     // Ephemeral -- Not saved
     public boolean pause = true;
     public boolean requestQuit = false; // Set by Disk Menu Quit option.
@@ -176,6 +181,7 @@ public class GameState {
 
         // Game Test Items
         inventory.add(new UXBDeckItem());
+        hosakaEmployeeList.add(new Person("Case", bamaId, ""));
 
     }
 
@@ -188,6 +194,9 @@ public class GameState {
                         dateMonth = 1;
                     }
                     dateDay = 1;
+                }
+                if (hosakaDaysSincePaid >= 0) { // < 0 means unconfigured
+                    hosakaDaysSincePaid++;
                 }
                 timeHour = 0;
             }
