@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.database;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.Person;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.warez.Warez;
@@ -41,6 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -67,10 +69,12 @@ public abstract class DatabaseView {
     private static final int UPLOAD_LIST_X = 80;
     private static final int UPLOAD_LIST_Y = 234;
 
+    private static final String CURSOR = "<";
+
     private final Text typedToText = new Text();
     private final Text typedMessageText = new Text();
-    private final Text toCursor = new Text("<");
-    private final Text messageCursor = new Text();
+    private final Text TO_CURSOR_TEXT = new Text(CURSOR);
+    private final Text messageCursor = new Text(CURSOR);
     private final Text sendYN = new Text("\n        Send message? Y/N\n");
     private final Text instructions = new Text("\n\nPress ESC to end.");
 
@@ -84,11 +88,25 @@ public abstract class DatabaseView {
     private int uploadIndexFail = -1;
     private Class<? extends Warez> uploadClassPass;
     private int uploadClassVersion;
+    private Text nameCursorText;
+    private Text idCursorText;
+    private Text nameValueText;
+    private Text idValueText;
+
+    // Cached in the event DB has a person list and player
+    // views it for the first time.
+    private Person editingPerson = null;
+    private ArrayList<Person> personEditList = null;
+    private int personEditHeading = -1;
+    private String personEditResourceName = null;
+    private boolean personEditIsWarrant = false;
 
     protected enum SubMode {
         LANDING, PASSWORD, CLEAR_WAIT, MAIN,
         MSG_LIST, MSG_SHOW, MSG_SEND,
-        VIEW_TEXT, WARRANTS, UPLOAD, UPLOAD_DONE
+        VIEW_TEXT,
+        PERSON_LIST, PERSON_VIEW,
+        UPLOAD, UPLOAD_DONE
     }
 
     private enum AccessText {
@@ -131,7 +149,7 @@ public abstract class DatabaseView {
     private static final int SOFT_LIST_SIZE = 4;
     private int slotBase = 0; // Slot menu in groups of 4.
 
-    public DatabaseView(GameState gs, Pane p, PopupListener l) {
+    protected DatabaseView(GameState gs, Pane p, PopupListener l) {
         this.database = gs.database;
         this.gameState = gs;
         this.pane = p;
@@ -172,7 +190,7 @@ public abstract class DatabaseView {
                 handleEnteredPassword(keyEvent);
             }
             case MSG_SEND -> {
-                if (toCursor.isVisible()) {
+                if (TO_CURSOR_TEXT.isVisible()) {
                     handleTypedBBSTo(keyEvent);
                 } else if (messageCursor.isVisible()) {
                     handleTypedBBSMessage(keyEvent);
@@ -193,6 +211,22 @@ public abstract class DatabaseView {
                 } else {
                     LOGGER.log(Level.SEVERE, "ERROR: Unknown Message Mode state!");
                 }
+            }
+            case UPLOAD_DONE -> {
+                switch (code) {
+                    case KeyCode.SPACE -> {
+                        keyEvent.consume();
+                        siteContent();
+                    }
+                }
+            }
+            case PERSON_VIEW -> {
+                if (handlePersonEditKeyEvent(keyEvent)) {
+                    keyEvent.consume();
+                    editablePersonList();
+                }
+
+                return false;
             }
         }
 
@@ -423,7 +457,7 @@ public abstract class DatabaseView {
         //ArrayList<BbsMessage> messageList = database.bbsMessages;
         //mode = Mode.MSG;
         TextFlow tf = pageHeadingTextFlow();
-        if (list.size() > 0 && list.get(0).to == null) {
+        if (!list.isEmpty() && list.get(0).to == null) {
             tf.getChildren().add(new Text("     date      subject\n"));
         } else {
             tf.getChildren().add(new Text("     date     to            from\n"));
@@ -692,9 +726,9 @@ public abstract class DatabaseView {
             uploadOK = false; // Sub-class rejected upload. Probably duplicate.
         }
         String okMessage;
-        if ( uploadIndexPass >= 0 && uploadOK ) {
+        if (uploadIndexPass >= 0 && uploadOK) {
             okMessage = dbTextResource.get(uploadIndexPass);
-        } else if (uploadIndexFail >= 0 && !uploadOK ) {
+        } else if (uploadIndexFail >= 0 && !uploadOK) {
             okMessage = dbTextResource.get(uploadIndexFail);
         } else {
             okMessage = "\n\n";
@@ -707,7 +741,6 @@ public abstract class DatabaseView {
         );
 
         // TODO: CONTIMUE_TEXY set onClicked?
-
         pane.getChildren().add(tf);
     }
 
@@ -767,13 +800,13 @@ public abstract class DatabaseView {
         typedMessageText.setText("");
 
         TextFlow tf = pageHeadingTextFlow(
-                dateText, fromText, toLabel, typedToText, toCursor,
+                dateText, fromText, toLabel, typedToText, TO_CURSOR_TEXT,
                 bodyStart, typedMessageText, messageCursor,
                 instructions, sendYN
         );
 
         sendYN.setVisible(false);
-        toCursor.setVisible(true);
+        TO_CURSOR_TEXT.setVisible(true);
         messageCursor.setVisible(false);
 
         pane.getChildren().add(tf);
@@ -799,9 +832,9 @@ public abstract class DatabaseView {
         } else if (ke.getCode().equals(KeyCode.ENTER)) { // Done with To, now Body field
             LOGGER.log(Level.SEVERE, "Message 'to' complete ==> {0}",
                     new Object[]{typedTo});
-            toCursor.setVisible(false);
+            TO_CURSOR_TEXT.setVisible(false);
             messageCursor.setVisible(true);
-            messageCursor.setText("<");
+            //messageCursor.setText(CURSOR);
         }
     }
 
@@ -917,14 +950,44 @@ public abstract class DatabaseView {
         });
     }
 
-    protected void bamaList(int headingIndex, String resourceName, boolean isWarrant) {
-        LOGGER.log(Level.SEVERE, "Software Enforcement: warrant list");
+    /**
+     * Read only person list.
+     *
+     * @param headingIndex
+     * @param resourceName
+     * @param isWarrant
+     */
+    protected void personList(int headingIndex, String resourceName, boolean isWarrant) {
+        editablePersonList(null, headingIndex, resourceName, isWarrant);
+    }
+
+    /**
+     * Editable Person List
+     *
+     * @param list
+     * @param headingIndex
+     * @param resourceName
+     * @param isWarrant
+     */
+    protected void editablePersonList(ArrayList<Person> list, int headingIndex, String resourceName, boolean isWarrant) {
+        LOGGER.log(Level.FINE, "Database View: Person list");
+        // Cache the values
+        this.personEditList = list;
+        this.personEditHeading = headingIndex;
+        this.personEditResourceName = resourceName;
+        this.personEditIsWarrant = isWarrant;
+
+        editablePersonList();
+    }
+
+    private void editablePersonList() {
+        LOGGER.log(Level.FINE, "Database View: Person list (cached)");
         pane.getChildren().clear();
-        subMode = SubMode.WARRANTS;
+        subMode = SubMode.PERSON_LIST;
 
         Text subHeadingText;
-        if (headingIndex >= 0) {
-            subHeadingText = new Text(dbTextResource.get(headingIndex) + "\n\n");
+        if (personEditHeading >= 0) {
+            subHeadingText = new Text(dbTextResource.get(personEditHeading) + "\n\n");
         } else {
             subHeadingText = new Text();
         }
@@ -932,30 +995,178 @@ public abstract class DatabaseView {
         TextFlow contentTf = simpleTextFlow(subHeadingText);
         contentTf.setPadding(new Insets(0, 0, 0, 30));
 
-        TextResource bamaList = gameState.resourceManager.getTextResource(resourceName);
-        int i = 0;
-        for (String item : bamaList) {
-            String[] split = item.split("\t");
-            int reason = split[2].charAt(3);
-            String reasonStr;
-            if (isWarrant) {
-                reasonStr = " " + WANTED[reason];
-            } else {
-                reasonStr = "";
+        TextResource bamaList = gameState.resourceManager.getTextResource(personEditResourceName);
+        // TODO:  If supplied person list is empty. Copy the bamaList over and use that.
+        if (personEditList != null) {
+            if (personEditList.isEmpty()) {
+                LOGGER.log(Level.FINER, "Person List cache is empty. Let's fill it.");
+                // Copy text resource into gameState list.
+                for (String item : bamaList) {
+                    personEditList.add(new Person(item));
+                }
             }
-            Text t = new Text("\n" + split[0] + split[1] + reasonStr);
+            int i = 1;
+            for (Person p : personEditList) {
+                String reasonStr = " ";
+                if (personEditIsWarrant) {
+                    reasonStr += WANTED[p.getReason()];
+                }
+                Text t = new Text("\n" + i + ". "
+                        + String.format("%-18s  ", p.getName().trim())
+                        + String.format("%-9s  ", p.getBama())
+                        + reasonStr
+                );
 
-            contentTf.getChildren().add(t);
-            i++;
+                t.setOnMouseClicked((ev) -> {
+                    // Item details/editing.
+                    LOGGER.log(Level.FINER, "User clicked: {0}", p.getName());
+                    ev.consume();
+                    editingPerson = p;
+                    personEdit();
+                });
+
+                contentTf.getChildren().add(t);
+                i++;
+            }
+        } else { // Read only list just print it.
+            int i = 0;
+            for (String item : bamaList) {
+                String[] split = item.split("\t");
+                int reason = split[2].charAt(3);
+                String reasonStr;
+                if (personEditIsWarrant) {
+                    reasonStr = " " + WANTED[reason];
+                } else {
+                    reasonStr = "";
+                }
+                Text t = new Text("\n" + split[0] + split[1] + reasonStr);
+
+                contentTf.getChildren().add(t);
+                i++;
+            }
         }
 
-        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
+        TextFlow pageTf = pageTextFlow(headingText, contentTf);
+
+        contentTf.requestLayout(); // List items wouldn't show up without this.
 
         pane.getChildren().add(pageTf);
         pane.setOnMouseClicked((t) -> {
             t.consume();
             siteContent();
         });
+    }
+
+    private void personEdit() {
+        LOGGER.log(Level.SEVERE, "Database View: Edit Person");
+        pane.getChildren().clear();
+        subMode = SubMode.PERSON_VIEW;
+
+        Text subHeadingText;
+        if (personEditHeading >= 0) {
+            subHeadingText = new Text(dbTextResource.get(personEditHeading) + "\n\n");
+        } else {
+            subHeadingText = new Text("\n\n");
+        }
+
+        TextFlow contentTf = simpleTextFlow(subHeadingText);
+        contentTf.setPadding(new Insets(0, 0, 0, 30));
+        TextFlow pageTf = pageTextFlow(headingText, contentTf);
+
+        Text nameLabelText = new Text("Name: ");
+        Text idLabelText = new Text("\n  ID: ");
+        nameValueText = new Text(editingPerson.getName().trim());
+        idValueText = new Text(editingPerson.getBama().trim());
+        Text auxDataText = new Text("\nAux Data Text -- TODO");
+
+        nameCursorText = new Text(CURSOR);
+        idCursorText = new Text(CURSOR);
+        Platform.runLater(() -> {
+            nameCursorText.setVisible(false);
+            idCursorText.setVisible(false);
+        });
+
+        contentTf.getChildren().addAll(
+                nameLabelText, nameValueText, nameCursorText,
+                idLabelText, idValueText, idCursorText,
+                auxDataText
+        );
+
+        // NEED Exit and Edit links
+        Text leftPadText = new Text("\n\n\n\n\n\n\n            ");
+        Text exitLinkText = new Text("exit");
+        Text gapText = new Text("  ");
+        Text editLinkText = new Text("edit");
+
+        contentTf.getChildren().addAll(leftPadText, exitLinkText, gapText, editLinkText);
+
+        exitLinkText.setOnMouseClicked((t) -> {
+            t.consume();
+            editablePersonList();
+        });
+
+        editLinkText.setOnMouseClicked((t) -> {
+            LOGGER.log(Level.SEVERE, "Editing user name: " + editingPerson.getName());
+            t.consume();
+            nameCursorText.setVisible(true);
+
+        });
+
+        pane.getChildren().add(pageTf);
+    }
+
+    private boolean handlePersonEditKeyEvent(KeyEvent ke) {
+        LOGGER.log(Level.SEVERE, "Pane Key Pressed. Mode is: {0}", nameCursorText.isVisible() ? "NAME" : "ID");
+        ke.consume();
+        if (nameCursorText.isVisible()) {
+            KeyCode code = ke.getCode();
+            LOGGER.log(Level.SEVERE, "Name Field something typed: {0}", code.getChar());
+            if (code == KeyCode.ENTER) {
+                nameCursorText.setVisible(false);
+                // Move to ID field
+                idCursorText.setVisible(true);
+            } else if (code == KeyCode.BACK_SPACE) {
+                if (!nameValueText.getText().isEmpty()) {
+                    String txt = nameValueText.getText();
+                    nameValueText.setText(txt.substring(0, txt.length() - 1));
+                }
+            } else if (Person.isValidNameCharacter(code.getChar().getBytes()[0])) {
+                if (nameValueText.getText().length() < Person.MAX_NAME_LENGTH) {
+                    nameValueText.setText(nameValueText.getText() + code.getChar());
+                }
+            } else {
+                LOGGER.log(Level.SEVERE, "Not a valid character.");
+            }
+        } else if (idCursorText.isVisible()) {
+            LOGGER.log(Level.SEVERE, "ID Field something typed.");
+            KeyCode code = ke.getCode();
+            if (code == KeyCode.ENTER) {
+                nameCursorText.setVisible(false);
+                idCursorText.setVisible(false);
+                // Finish edit value
+                // Collect name and ID value
+                editingPerson.setName(nameValueText.getText().trim().toUpperCase());
+                editingPerson.setBama(idValueText.getText());
+                //pane.setOnKeyPressed(null); // No more typing.
+                // Do exit of edit mode. Back to list view.
+                LOGGER.log(Level.SEVERE, "Person changes recorded. Reload list.");
+                return true;
+            } else if (code == KeyCode.BACK_SPACE) {
+                if (!idValueText.getText().isEmpty()) {
+                    String txt = idValueText.getText();
+                    idValueText.setText(txt.substring(0, txt.length() - 1));
+                }
+            } else if (code.isDigitKey()) {
+                if (idValueText.getText().length() < 9) {
+                    idValueText.setText(idValueText.getText() + code.getChar());
+                }
+            }
+        } else {
+            LOGGER.log(Level.SEVERE, "Edit Person still has key events. How did we get here? Fix me.");
+            //pane.setOnKeyPressed(null);
+        }
+
+        return false;
     }
 
     public void tick() {
