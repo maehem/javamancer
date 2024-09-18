@@ -76,9 +76,10 @@ public abstract class RoomExtras {
     public static final int CHIP = 94; // n credits.
     public static final int FINE_BANK_500 = 95; // Fine bank
     public static final int FINE_BANK_20K = 96; // Fine bank
-    public static final int DIALOG_NO_MORE = 97;
+    public static final int DIALOG_NO_MORE = 97; // Like DIALOG_END but leave dialog open so next command can run.
     public static final int DIALOG_CLOSE = 98;
     public static final int DIALOG_END = 99;
+    public static final int DESC_DIRECT = 500; // Subtract 500 and put remainder(index) in DESC box.
 
     /**
      * Called when player gives item to NPC. Over-ride if NPC can receive
