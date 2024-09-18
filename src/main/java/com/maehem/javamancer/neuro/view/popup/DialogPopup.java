@@ -221,10 +221,10 @@ public class DialogPopup extends DialogPopupPane {
                 int askWord = -1;
                 switch (fillingText) {
                     case 1 -> {
-                        askWord = extras.askWord1(typedText.getText().toLowerCase());
+                        askWord = extras.askWord1(gameState, typedText.getText().toLowerCase());
                     }
                     case 2 -> {
-                        askWord = extras.askWord2(typedText.getText().toLowerCase());
+                        askWord = extras.askWord2(gameState, typedText.getText().toLowerCase());
                     }
                 }
                 if (askWord > 0) {
