@@ -117,7 +117,7 @@ public class GameState {
     // TODO: Use ArrayList for roomsVisited
     public final ArrayList<Room> visited = new ArrayList<>();
 
-    public final boolean roomNpcTalk[] = { // 58 Slots  [0..57]
+    public final boolean roomNpcTalk[] = { // 58 Slots  [0..57] Room # = index+1
         true, true, true, true, false, // 1-5
         true, true, true, false, false, // 6-10
         false, true, false, false, false, // 11-15
