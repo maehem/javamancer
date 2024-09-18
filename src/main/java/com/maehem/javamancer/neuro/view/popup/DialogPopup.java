@@ -106,14 +106,19 @@ public class DialogPopup extends DialogPopupPane {
         getChildren().add(bubble);
 
         if (mode == Mode.NPC) {
-            // Might be a command.
-            LOGGER.log(Level.CONFIG, "first text: {0} == {1}",
-                    new Object[]{
-                        dialogIndex,
-                        textResource.get(dialogIndex)
-                    });
-            wordText.setText(textResource.get(dialogIndex));
-            dialogCountDown = DIALOG_COUNT;
+            if (dialogIndex < 100) {
+                // Might be a command.
+                LOGGER.log(Level.CONFIG, "first text: {0} == {1}",
+                        new Object[]{
+                            dialogIndex,
+                            textResource.get(dialogIndex)
+                        });
+                wordText.setText(textResource.get(dialogIndex));
+                dialogCountDown = DIALOG_COUNT;
+            } else {
+                LOGGER.log(Level.SEVERE, "first text appears to be a command:" + dialogIndex);
+                processCommand(dialogIndex);
+            }
         }
 
         setOnMouseClicked((mouseEvent) -> {
@@ -352,6 +357,20 @@ public class DialogPopup extends DialogPopupPane {
 
     private void processCommand(int command) {
         LOGGER.log(Level.SEVERE, "Process command: " + command);
+        // Handle Description direct placement.
+        if (command >= DESC_DIRECT && command < DESC_DIRECT + 99) {
+            int dItem = command - DESC_DIRECT;
+            LOGGER.log(Level.SEVERE, "Print response into room description window." + dItem);
+            LOGGER.log(Level.SEVERE, "Name: {0} == [{1}][{2}]", new Object[]{dItem, dialogIndex, dialogSubIndex});
+
+            listener.showMessage(textResource.get(command - DESC_DIRECT));
+
+            dialogIndex = dItem; // Move dialog to next dialog item.
+            dialogSubIndex = -1;
+            dialogCountDown = 0;
+
+            return;
+        }
         switch (command) {
             case DIALOG_END -> { // NPC no longer talks.
                 gameState.room.getExtras().dialogNoMore(gameState);
