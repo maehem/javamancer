@@ -128,8 +128,8 @@ public class GameState {
         false, false, false, false, true, // 36-40
         false, false, false, true, true, // 41-45
         true, false, false, false, false, // 46-50
-        true, false, true, false, false, // 50-55
-        true, false, false // 56-58
+        true, true, false, false, false, // 50-55
+        true, true, false // 56-58
     };
 
     public boolean msgToArmitageSent = false;
