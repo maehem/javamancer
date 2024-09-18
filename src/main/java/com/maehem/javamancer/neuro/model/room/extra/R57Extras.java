@@ -27,9 +27,8 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
-import com.maehem.javamancer.neuro.model.item.Item;
+import java.util.logging.Level;
 
 /**
  *
@@ -47,15 +46,8 @@ public class R57Extras extends RoomExtras { // Hosaka
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R57).dumpList();
+        //gs.resourceManager.getRoomText(Room.R57).dumpList();
 
-        // TODO: No Pass. Kick out.
-    }
-
-    @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
     }
 
     @Override
@@ -65,8 +57,15 @@ public class R57Extras extends RoomExtras { // Hosaka
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        return 2;
+        if (gs.hosakaDaysSincePaid > 6) {
+            int pay = 10000 * gs.hosakaDaysSincePaid / 7;
+            gs.hosakaDaysSincePaid = gs.hosakaDaysSincePaid % 7;
+            gs.chipBalance += pay;
+            LOGGER.log(Level.CONFIG, "Player receives Hosaka paycheck of ${0} to chip.", pay);
+            return 2;
+        }
 
+        return 3;
     }
 
     @Override
