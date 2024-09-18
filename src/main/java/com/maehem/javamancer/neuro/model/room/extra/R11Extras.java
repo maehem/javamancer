@@ -27,9 +27,9 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
-import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.Map;
 import static java.util.Map.entry;
 
@@ -94,7 +94,7 @@ public class R11Extras extends RoomExtras { // Zion
     );
 
     @Override
-    public int askWord1(String word) {
+    public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);
         // Check agains game state for employment.
 

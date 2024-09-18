@@ -76,7 +76,7 @@ public class R53Extras extends RoomExtras { // Hitachi
     );
 
     @Override
-    public int askWord1(String word) {
+    public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);
         // Check agains game state for employment.
 

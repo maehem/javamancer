@@ -116,7 +116,7 @@ public class R44Extras extends RoomExtras { // Asano's
     );
 
     @Override
-    public int askWord1(String word) {
+    public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);
         if (index == null) {
             return 31; // Doesn't know.

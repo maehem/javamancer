@@ -115,7 +115,7 @@ public class R27Extras extends RoomExtras {
     );
 
     @Override
-    public int askWord1(String word) {
+    public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);
         // Check agains game state for employment.
 

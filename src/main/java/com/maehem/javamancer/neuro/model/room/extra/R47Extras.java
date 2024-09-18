@@ -108,7 +108,7 @@ public class R47Extras extends RoomExtras { // Matrix Restaurant
     );
 
     @Override
-    public int askWord1(String word) {
+    public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);
         if (index == null) {
             return 26; // Doesn't know.

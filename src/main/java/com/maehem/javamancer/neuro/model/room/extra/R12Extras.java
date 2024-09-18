@@ -112,7 +112,7 @@ public class R12Extras extends RoomExtras {
     );
 
     @Override
-    public int askWord1(String word) {
+    public int askWord1(GameState gs, String word) {
         Integer index = map.get(word);
         if (index == null) {
             return 37; // Doesn't know.

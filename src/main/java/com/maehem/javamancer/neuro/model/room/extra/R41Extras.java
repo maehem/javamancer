@@ -61,7 +61,7 @@ public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
     );
 
     @Override
-    public int askWord1(String word) {
+    public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);
         if (index == null) {
             return 4; // Doesn't know.
