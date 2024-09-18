@@ -81,14 +81,17 @@ public abstract class RoomExtras {
     public static final int DIALOG_END = 99;
 
     /**
-     * Called when player gives item to NPC.
+     * Called when player gives item to NPC. Over-ride if NPC can receive
+     * things.
      *
      * @param item usually RealItem,SkillItem or CreditsItem
      * @param aux if CreditsItem, amount to give NPC.
      *
      * @return index of dialog.
      */
-    public abstract boolean give(GameState gs, Item item, int aux); // aux == credits amount if item is Credits.
+    public boolean give(GameState gs, Item item, int aux) {
+        return false;
+    }
 
     public abstract int[][] getDialogChain();
 
@@ -147,7 +150,7 @@ public abstract class RoomExtras {
      * @param word
      * @return
      */
-    public int askWord1(String word) { // or phrase
+    public int askWord1(GameState gs, String word) { // or phrase
         return -1; // Not found
     }
 
@@ -158,7 +161,7 @@ public abstract class RoomExtras {
      * @param word
      * @return
      */
-    public int askWord2(String word) { // or phrase
+    public int askWord2(GameState gs, String word) { // or phrase
         return -1; // Not found
     }
 
