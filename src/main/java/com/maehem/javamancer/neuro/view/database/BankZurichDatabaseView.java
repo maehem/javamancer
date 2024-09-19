@@ -63,13 +63,23 @@ import javafx.scene.text.TextFlow;
  */
 public class BankZurichDatabaseView extends DatabaseView {
 
+    private Text finishText;
+
     private enum Mode {
-        SUB, MENU, EDIT
+        SUB, MENU, CREATE, ACCOUNT, TRANSFER
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
 
+    private final Text typedNumberAmount = new Text();
+    private final Text cursorText = new Text("<\n");
+    private final Text chipBalanceText = new Text("         ");
+    private final Text zurichBalanceText = new Text(String.valueOf(gameState.bankZurichBalance));
+    private boolean transferMode = false; // download == true, upload == false;
+
     public BankZurichDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
+
+        initMessages();
 
         landingPage();
     }
@@ -80,7 +90,7 @@ public class BankZurichDatabaseView extends DatabaseView {
         mode = Mode.SUB;
         CONTINUE_TEXT.setVisible(true);
 
-        Text helloText = new Text("\n\n\n\n\n\n\n\n\n");
+        Text helloText = new Text("\n\n\n\n\n\n\n\n\n\n\n");
 
         TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
 
@@ -124,17 +134,10 @@ public class BankZurichDatabaseView extends DatabaseView {
                 listener.popupExit();
             }
             case "1" -> {
-                if (accessLevel > 2) {
-                    if (gameState.bamaZurichId == null) {
-                        gameState.bamaZurichId = "712345450134";
-                        database.bbsMessages.forEach((t) -> {
-                            t.show = true;
-                        });
-                        buildVisibleMessagesList();
-                    }
-                    viewText(16);
+                if (gameState.bankZurichCreated == null) {
+                    createAccount();
                 } else {
-                    viewText(9);
+                    viewText(9); // Not accepting new accounts.
                 }
             }
             case "2" -> {
@@ -144,23 +147,156 @@ public class BankZurichDatabaseView extends DatabaseView {
                 viewText(4);
             }
             case "4" -> {
-                messages();
-            }
-            case "5" -> {
-                if (gameState.bamaZurichId == null) {
-                    viewText(17);
+                if (gameState.bankZurichCreated == null) {
+                    viewText(17); // Must have account first.
                 } else {
-                    viewText(12);
-                    // TODO: Add upload/download credits.
+                    messages();
                 }
             }
+            case "5" -> {
+                if (gameState.bankZurichCreated == null) {
+                    viewText(17); // Must have account first.
+                } else {
+                    accountOperations();
+                }
+            }
+        }
+    }
+
+    private void createAccount() {
+        pane.getChildren().clear();
+        mode = Mode.CREATE;
+
+        TextFlow tf = pageTextFlow(headingText);
+
+        Text instructionsText;
+        if (gameState.bankZurichCreated == null) {
+            instructionsText = new Text(dbTextResource.get(10));
+        } else {
+            instructionsText = new Text(dbTextResource.get(9));
+        }
+        Text spacingText = new Text("\n             ");
+
+        finishText = new Text("\n" + dbTextResource.get(16) + "\n\n\n\n\n\n\n\n");
+        tf.getChildren().addAll(
+                instructionsText,
+                spacingText, typedNumberAmount, cursorText, new Text("\n"),
+                finishText,
+                CONTINUE_TEXT
+        );
+
+        finishText.setVisible(false);
+        CONTINUE_TEXT.setVisible(false);
+
+        pane.getChildren().add(tf);
+        pane.setOnMouseClicked(null);
+    }
+
+    private void accountSummary(TextFlow tf) {
+        String[] split = dbTextResource.get(12).split("\r");
+        Text nameText = new Text(split[0].replace("\1", gameState.name) + "\n");
+        int acctIndex = split[1].indexOf("acc");
+        Text chipLabel = new Text(split[1].substring(0, acctIndex).trim());
+        Text acctLabel = new Text(" " + split[1].substring(acctIndex));
+//        String amountsStr = split[1].replace(
+//                "         ",
+//                String.format("%9d", gameState.chipBalance)
+//        ) + gameState.bankZurichBalance;
+        tf.getChildren().addAll(nameText,
+                chipLabel, chipBalanceText,
+                acctLabel, zurichBalanceText,
+                new Text("\n\n")
+        );
+    }
+
+    private void accountOperations() {
+        pane.getChildren().clear();
+        mode = Mode.ACCOUNT;
+
+        TextFlow tf = pageTextFlow(headingText);
+
+        String[] split = dbTextResource.get(12).split("\r");
+//        String amountsStr = split[1].replace(
+//                "         ",
+//                String.format("%9d", gameState.chipBalance)
+//        ) + gameState.bankZurichBalance;
+//        Text instructionsText = new Text(
+//                split[0].trim() + " " + gameState.name + "\n"
+//                + amountsStr + "\n"
+//                + split[2] + "\n"
+//        );
+
+        Text exitText = new Text(split[3] + "\n");
+        Text downloadText = new Text(split[4] + "\n");
+        Text uploadText = new Text(split[5] + "\n");
+
+        accountSummary(tf);
+        tf.getChildren().addAll(
+                exitText,
+                downloadText,
+                uploadText
+        );
+
+        pane.getChildren().add(tf);
+        pane.setOnMouseClicked((t) -> {
+            t.consume();
+            siteContent();
+        });
+
+        downloadText.setOnMouseClicked((t) -> {
+            t.consume();
+            transferCredits(true);
+        });
+        uploadText.setOnMouseClicked((t) -> {
+            t.consume();
+            transferCredits(false);
+        });
+    }
+
+    private void transferCredits(boolean txfrMode) {
+        LOGGER.log(Level.SEVERE, "BankZurich: transfer credits");
+        pane.getChildren().clear();
+        mode = Mode.TRANSFER;
+        transferMode = txfrMode;
+        typedNumberAmount.setText("");
+
+        TextFlow tf = pageTextFlow(headingText);
+
+        Text instructionsText;
+        if (txfrMode) {
+            instructionsText = new Text(dbTextResource.get(13));
+        } else {
+            instructionsText = new Text(dbTextResource.get(14));
+        }
+        Text spacingText = new Text("\n             ");
+
+        finishText = new Text("\n" + dbTextResource.get(16) + "\n\n\n\n\n\n\n\n");
+        accountSummary(tf);
+        tf.getChildren().addAll(
+                instructionsText,
+                spacingText, typedNumberAmount, cursorText, new Text("\n")
+        );
+
+        pane.getChildren().add(tf);
+        pane.setOnMouseClicked(null);
+    }
+
+    private void initMessages() {
+        if (gameState.bankZurichCreated != null) {
+            // Enable messages.
+            database.bbsMessages.forEach((msg) -> {
+                if (msg.date.equals("00/00/00")) {
+                    msg.date = gameState.bankZurichCreated;
+                }
+            });
+            buildVisibleMessagesList();
         }
     }
 
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "Handle key event.");
+        LOGGER.log(Level.SEVERE, "BankZurichDatabaseView: Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
@@ -175,13 +311,85 @@ public class BankZurichDatabaseView extends DatabaseView {
                     return false;
                 }
             }
-            case EDIT -> {
-                if (code.equals(KeyCode.X)
-                        || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Go back up menu level.");
-                    mainMenu();
-                    keyEvent.consume();
+            case CREATE -> {
+                keyEvent.consume();
+                if (code == KeyCode.X || code == KeyCode.ESCAPE) {
+                    if (!CONTINUE_TEXT.isVisible()) {
+                        LOGGER.log(Level.SEVERE, "Go back up menu level.");
+                        mainMenu();
+                    }
                     return false;
+                } else if (code == KeyCode.SPACE) {
+                    if (CONTINUE_TEXT.isVisible()) {
+                        siteContent();
+                    }
+                } else if (code == KeyCode.ENTER) {
+                    int amount = Integer.parseInt(typedNumberAmount.getText());
+                    if (amount <= gameState.chipBalance) {
+                        gameState.chipBalance -= amount;
+                        gameState.bankZurichCreated = gameState.getDateString();
+                        gameState.bankZurichBalance = amount;
+                        initMessages();
+
+                        finishText.setVisible(true);
+                        CONTINUE_TEXT.setVisible(true);
+                        pane.requestLayout();
+                    } else {
+                        // Play "bad" sound.
+                    }
+                } else if (code == KeyCode.BACK_SPACE) {
+                    String typedAmount = typedNumberAmount.getText();
+                    typedNumberAmount.setText(typedAmount.substring(0, typedAmount.length() - 1));
+                } else if (code.isDigitKey()) {
+                    typedNumberAmount.setText(typedNumberAmount.getText() + code.getChar());
+                }
+            }
+            case ACCOUNT -> {
+                keyEvent.consume();
+                if (null != code) {
+                    switch (code) {
+                        case X, ESCAPE -> {
+                            LOGGER.log(Level.SEVERE, "Go back up menu level.");
+                            mainMenu();
+                            return false;
+                        }
+                        case D ->
+                            transferCredits(true);
+                        case U ->
+                            transferCredits(false);
+                        default -> {
+                        }
+                    }
+                }
+            }
+            case TRANSFER -> {
+                keyEvent.consume();
+                if (code == KeyCode.X || code == KeyCode.ESCAPE) {
+                    accountOperations();
+                } else if (code == KeyCode.ENTER) {
+                    int amount = Integer.parseInt(typedNumberAmount.getText());
+                    if (transferMode) { // true == download to chip
+                        if (amount <= gameState.bankZurichBalance) {
+                            gameState.bankZurichBalance -= amount;
+                            gameState.chipBalance += amount;
+
+                            accountOperations();
+                        } else {
+                            // play "bad" sound
+                        }
+                    } else { // upload to Zurich
+                        if (amount <= gameState.chipBalance) {
+                            gameState.bankZurichBalance += amount;
+                            gameState.chipBalance -= amount;
+
+                            accountOperations();
+                        }
+                    }
+                } else if (code == KeyCode.BACK_SPACE) {
+                    String typedAmount = typedNumberAmount.getText();
+                    typedNumberAmount.setText(typedAmount.substring(0, typedAmount.length() - 1));
+                } else if (code.isDigitKey()) {
+                    typedNumberAmount.setText(typedNumberAmount.getText() + code.getChar());
                 }
             }
             // else ignore key
@@ -189,4 +397,17 @@ public class BankZurichDatabaseView extends DatabaseView {
         }
         return super.handleKeyEvent(keyEvent);
     }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (mode == Mode.ACCOUNT || mode == Mode.TRANSFER) {
+            chipBalanceText.setText(
+                    String.format("%9d", gameState.chipBalance)
+            );
+            zurichBalanceText.setText(String.valueOf(gameState.bankZurichBalance));
+        }
+    }
+
 }
