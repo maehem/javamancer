@@ -74,8 +74,9 @@ public class GameState {
     public int chipBalance = 6;
     public int bankBalance = 2000;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
-    public String bamaZurichId = null; // Create account by accessing Zurich via cyberspace.
-    public int bamaZurichBalance = 0;
+    public int bankZurichBalance = 0;  // Create account by accessing Zurich via sequencer of cyberspace.
+    public String bankZurichCreated = null; // Date string when account created.
+    public final static String BANK_ZURICH_ID = "712345450134";
 
     // Health
     public final int CONSTITUTION_MAX = 2000;
@@ -181,7 +182,6 @@ public class GameState {
 
         // Game Test Items
         inventory.add(new UXBDeckItem());
-
     }
 
     public void addMinute() {
