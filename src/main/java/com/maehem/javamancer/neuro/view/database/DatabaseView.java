@@ -32,6 +32,8 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.Person;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.database.Database;
+import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.warez.SequencerWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.popup.PopupPane;
@@ -77,6 +79,7 @@ public abstract class DatabaseView {
     private final Text messageCursor = new Text(CURSOR);
     private final Text sendYN = new Text("\n        Send message? Y/N\n");
     private final Text instructions = new Text("\n\nPress ESC to end.");
+    protected final Text CONTINUE_TEXT = new Text(centeredText("    Button or [space] to continue.\n"));
 
     public final static String[] WANTED = {
         "Smuggling",
@@ -100,13 +103,19 @@ public abstract class DatabaseView {
     private int personEditHeading = -1;
     private String personEditResourceName = null;
     private boolean personEditIsWarrant = false;
+    private SoftwarePopMode softwareSubMode = SoftwarePopMode.NONE;
 
     protected enum SubMode {
-        LANDING, PASSWORD, CLEAR_WAIT, MAIN,
+        LANDING, PASSWORD, PASSWORD_SEQ, PASSWORD_SEQ_DONE,
+        CLEAR_WAIT, MAIN,
         MSG_LIST, MSG_SHOW, MSG_SEND,
         VIEW_TEXT,
         PERSON_LIST, PERSON_VIEW,
-        UPLOAD, UPLOAD_DONE
+        SOFTWARE, UPLOAD_DONE
+    }
+
+    protected enum SoftwarePopMode {
+        NONE, UPLOAD, RUN
     }
 
     private enum AccessText {
@@ -130,8 +139,6 @@ public abstract class DatabaseView {
     protected final Text accessStatusText = new Text();
     protected boolean accessDenied = false;
 
-    protected final Text CONTINUE_TEXT = new Text(centeredText("    Button or [space] to continue."));
-
     protected final Database database;
     protected final GameState gameState;
     protected final Pane pane;
@@ -145,9 +152,13 @@ public abstract class DatabaseView {
     private final ArrayList<BbsMessage> visibleMessages2 = new ArrayList<>();
 
     // Uploads
-    private final Pane uploadSubPop = new Pane();
+    private final Pane softwareSubPop = new Pane();
     private static final int SOFT_LIST_SIZE = 4;
     private int slotBase = 0; // Slot menu in groups of 4.
+
+    // Password sequencer
+    private int passwordSeqPosition = 0;
+    private int passwordCharTries = 0;
 
     protected DatabaseView(GameState gs, Pane p, PopupListener l) {
         this.database = gs.database;
@@ -155,7 +166,7 @@ public abstract class DatabaseView {
         this.pane = p;
         this.listener = l;
 
-        initUploadSubPop();
+        initSoftwareSubPop();
 
         buildVisibleMessagesList();
 
@@ -182,7 +193,10 @@ public abstract class DatabaseView {
             case LANDING -> {
                 switch (code) {
                     case KeyCode.SPACE -> {
-                        passwordPage();
+                        landingContinue();
+                    }
+                    case I -> {
+                        runSoftware();
                     }
                     case X, ESCAPE -> {
                         LOGGER.log(Level.FINER, "User pressed X or ESC Key.");
@@ -191,7 +205,19 @@ public abstract class DatabaseView {
                 }
             }
             case PASSWORD -> {
-                handleEnteredPassword(keyEvent);
+                if (code == ESCAPE) {
+                    subMode = SubMode.LANDING;
+                    landingPage();
+                } else {
+                    handleEnteredPassword(keyEvent);
+                }
+            }
+            case PASSWORD_SEQ_DONE -> {
+                switch (code) {
+                    case KeyCode.SPACE -> {
+                        siteContent();
+                    }
+                }
             }
             case MSG_SEND -> {
                 if (TO_CURSOR_TEXT.isVisible()) {
@@ -235,6 +261,17 @@ public abstract class DatabaseView {
         }
 
         return false;
+    }
+
+    protected void landingContinue() {
+        LOGGER.log(Level.SEVERE, "DatabaseView: landingContunue() called.");
+        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
+            // Skip password. Elevate access level.
+            accessLevel = 3;
+            siteContent();
+        } else {
+            passwordPage();
+        }
     }
 
     public static DatabaseView getView(GameState gs, Pane p, PopupListener l) {
@@ -352,13 +389,31 @@ public abstract class DatabaseView {
         TextFlow tf = pageTextFlow(leadingText1, instructionsText,
                 leadingText2, enteredPasswordText, cursorText,
                 new Text("\n\n"), accessStatusText, // need blank Text() or FX has rendering issue.
-                new Text("\n\n\n\n"), CONTINUE_TEXT
+                new Text("\n\n\n\n\n\n\n\n\n"), CONTINUE_TEXT
         );
-        //tf.setPadding(TF_PADDING);
-        //tf.setLineSpacing(LINE_SPACING);
-        //f.setPrefWidth(TF_W);
 
+        // TODO: Clean up CONTINUE_TEXT appearance and click.
         return tf;
+    }
+
+    /**
+     * Password entry page except the password entry animates over a few
+     * seconds.
+     *
+     */
+    protected void passwordSequencer() {
+        subMode = SubMode.PASSWORD_SEQ;
+        pane.getChildren().clear();
+        pane.getChildren().add(passwordFoo());
+
+        passwordSeqPosition = 0;
+        passwordCharTries = 0;
+
+        enteredPasswordText.setText("Hello");
+
+        CONTINUE_TEXT.setVisible(false);
+
+        // Animation/completion is handled by tick()
     }
 
     protected void handleEnteredPassword(KeyEvent ke) {
@@ -393,16 +448,26 @@ public abstract class DatabaseView {
                 setAccessText(AccessText.CLEARED_1);
                 // set cleared for access text.
                 accessCleared(2);
+                CONTINUE_TEXT.setVisible(true);
+                CONTINUE_TEXT.setOnMouseClicked((t) -> {
+                    siteContent();
+                });
             } else if (gameState.database.password2 != null
                     && gameState.database.password2.equals(typedPassword.toString())) {
                 accessLevel = 2;
                 setAccessText(AccessText.CLEARED_2);
                 accessCleared(2);
                 // set cleared for access text.
+                CONTINUE_TEXT.setVisible(true);
+                CONTINUE_TEXT.setOnMouseClicked((t) -> {
+                    siteContent();
+                });
             } else {
                 accessDenied = true;
                 setAccessText(AccessText.DENIED);
                 accessStatusText.setVisible(true);
+                CONTINUE_TEXT.setVisible(false);
+                CONTINUE_TEXT.setOnMouseClicked(null);
             }
         }
     }
@@ -613,6 +678,8 @@ public abstract class DatabaseView {
         this.uploadClassPass = clazz;
         this.uploadClassVersion = version;
 
+        softwareSubMode = SoftwarePopMode.UPLOAD;
+
         pane.getChildren().clear();
         //mode = Mode.DOWNLOADS;
         TextFlow tf = pageHeadingTextFlow();
@@ -627,7 +694,7 @@ public abstract class DatabaseView {
 
         refreshUploadSubPopup(); // Contains exit link.
 
-        pane.getChildren().add(uploadSubPop);
+        pane.getChildren().add(softwareSubPop);
 
         int i = 1;
 //        i = addSoftware(i, database.warez1, tf);
@@ -638,22 +705,44 @@ public abstract class DatabaseView {
         pane.getChildren().add(tf);
     }
 
-    private void initUploadSubPop() {
-        uploadSubPop.setId("neuro-popup");
-        uploadSubPop.setPrefSize(UPLOAD_LIST_WIDTH, UPLOAD_LIST_HEIGHT);
-        uploadSubPop.setMinSize(UPLOAD_LIST_WIDTH, UPLOAD_LIST_HEIGHT);
-        uploadSubPop.setMaxSize(UPLOAD_LIST_WIDTH, UPLOAD_LIST_HEIGHT);
-        uploadSubPop.setLayoutX(UPLOAD_LIST_X);
-        uploadSubPop.setLayoutY(UPLOAD_LIST_Y);
+    /**
+     * DB Site expects this Class of Warez and version number for Pass.
+     *
+     * @param clazz
+     * @param version
+     * @param indexPass
+     * @param indexFail
+     */
+    protected void runSoftware() {
+        LOGGER.log(Level.SEVERE, "{0}: Run Software", database.name);
+
+        softwareSubMode = SoftwarePopMode.RUN;
+
+        pane.getChildren().clear();
+        TextFlow tf = pageHeadingTextFlow();
+        refreshUploadSubPopup(); // Contains exit link.
+
+        pane.getChildren().add(softwareSubPop);
+
+        pane.getChildren().add(tf);
+    }
+
+    private void initSoftwareSubPop() {
+        softwareSubPop.setId("neuro-popup");
+        softwareSubPop.setPrefSize(UPLOAD_LIST_WIDTH, UPLOAD_LIST_HEIGHT);
+        softwareSubPop.setMinSize(UPLOAD_LIST_WIDTH, UPLOAD_LIST_HEIGHT);
+        softwareSubPop.setMaxSize(UPLOAD_LIST_WIDTH, UPLOAD_LIST_HEIGHT);
+        softwareSubPop.setLayoutX(UPLOAD_LIST_X);
+        softwareSubPop.setLayoutY(UPLOAD_LIST_Y);
     }
 
     private void refreshUploadSubPopup() {
         final int TF_PAD = 20;
 
-        LOGGER.log(Level.SEVERE, "Show Deck Upload Software Prompt");
-        subMode = SubMode.UPLOAD;
+        LOGGER.log(Level.SEVERE, "Show Deck Software Prompt");
+        subMode = SubMode.SOFTWARE;
 
-        uploadSubPop.getChildren().clear();
+        softwareSubPop.getChildren().clear();
         Text softwareHeading = new Text("          Warez");
         Text exitButton = new Text("exit");
         Text prevButton = new Text("prev");
@@ -661,6 +750,7 @@ public abstract class DatabaseView {
         //TextFlow tf = textFlow(softwareHeading);
         TextFlow tf = new TextFlow(softwareHeading);
         tf.setLineSpacing(LINE_SPACING);
+        tf.getTransforms().add(new Scale(PopupPane.TEXT_SCALE, 1.0));
         tf.setPrefSize(UPLOAD_LIST_WIDTH - 2 * TF_PAD, UPLOAD_LIST_HEIGHT - 10);
         tf.setPadding(new Insets(4, 0, 0, TF_PAD));
 
@@ -676,7 +766,21 @@ public abstract class DatabaseView {
 
                 // Add onMouseClick()
                 itemText.setOnMouseClicked((t) -> {
-                    uploadDone(uploadSoftware(w));
+                    t.consume();
+                    if (softwareSubMode == SoftwarePopMode.UPLOAD) {
+                        uploadDone(uploadSoftware(w));
+                    } else if (softwareSubMode == SoftwarePopMode.RUN) {
+                        // Begin sequencer animation.
+                        // Close software popup
+                        if (w instanceof SequencerWarez seq) {
+                            LOGGER.log(Level.SEVERE, "Run Sequencer...");
+                            softwareSubPop.setVisible(false);
+                            softwareSubMode = SoftwarePopMode.NONE;
+                            passwordSequencer();
+                        } else {
+                            LOGGER.log(Level.SEVERE, "{0} not useable here.", w.getSimpleName());
+                        }
+                    }
                 });
             } catch (IndexOutOfBoundsException ex) {
                 tf.getChildren().add(new Text("\n"));
@@ -687,7 +791,7 @@ public abstract class DatabaseView {
         prevButton.setVisible(slotBase >= SOFT_LIST_SIZE);
         nextButton.setVisible(slotBase + SOFT_LIST_SIZE < gameState.usingDeck.softwarez.size());
 
-        uploadSubPop.getChildren().add(tf);
+        softwareSubPop.getChildren().add(tf);
 
         if (prevButton.isVisible()) {
             prevButton.setOnMouseClicked((t) -> {
@@ -1175,7 +1279,7 @@ public abstract class DatabaseView {
     }
 
     public void tick() {
-        if (subMode.equals(SubMode.CLEAR_WAIT)) {
+        if (subMode == SubMode.CLEAR_WAIT) {
             clearWait--;
             if (clearWait <= 0) {
                 clearWait = 0;
@@ -1184,6 +1288,32 @@ public abstract class DatabaseView {
                 siteContent();
             }
 
+        } else if (subMode == SubMode.PASSWORD_SEQ) {
+            String guessChar;
+            if (passwordCharTries > 20) {
+                guessChar = String.valueOf(database.password2.charAt(passwordSeqPosition));
+                passwordCharTries = 0;
+            } else {
+                // generate random typeable character
+                guessChar = Character.toString((int) (Math.random() * (126 - 32) + 32));
+                passwordCharTries++;
+            }
+            //LOGGER.log(Level.SEVERE, "Random Char: " + val);
+            String passSubstring = database.password2.substring(0, passwordSeqPosition);
+            enteredPasswordText.setText(passSubstring + guessChar);
+            if (guessChar.equals(String.valueOf(database.password2.charAt(passwordSeqPosition)))) {
+                passwordSeqPosition++;
+                if (passwordSeqPosition == database.password2.length()) {
+                    LOGGER.log(Level.SEVERE, "Password Sequenced.");
+                    CONTINUE_TEXT.setVisible(true);
+                    CONTINUE_TEXT.setOnMouseClicked((t) -> {
+                        CONTINUE_TEXT.setOnMouseClicked(null);
+                        siteContent();
+                    });
+                    subMode = SubMode.PASSWORD_SEQ_DONE;
+                }
+            }
         }
     }
+
 }
