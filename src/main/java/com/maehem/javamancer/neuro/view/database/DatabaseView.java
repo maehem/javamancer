@@ -597,10 +597,16 @@ public abstract class DatabaseView {
         TextFlow tf;
         if (msg.prefillIndex >= 0) {
             // Message is static from the game resources.
-            tf = pageHeadingTextFlow(new Text(dbTextResource.get(msg.prefillIndex).replace("\1", gameState.name)));
+            tf = pageTextScrolledFlow(
+                    headingText,
+                    new Text(dbTextResource.get(msg.prefillIndex).replace("\1", gameState.name))
+            );
         } else {
             // Message is user generated.
-            tf = pageHeadingTextFlow(new Text(msg.body.replace("\1", gameState.name)));
+            tf = pageTextScrolledFlow(
+                    headingText,
+                    new Text(msg.body.replace("\1", gameState.name))
+            );
         }
 
         pane.getChildren().add(tf);
