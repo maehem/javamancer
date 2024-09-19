@@ -181,7 +181,6 @@ public class GameState {
 
         // Game Test Items
         inventory.add(new UXBDeckItem());
-        hosakaEmployeeList.add(new Person("Case", bamaId, ""));
 
     }
 
