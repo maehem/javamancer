@@ -70,7 +70,7 @@ public class BankZurichDatabase extends Database {
         bbsMessages.add(new BbsMessage("11/16/58", "\1", "Matt Shaw", 6, true));
         bbsMessages.add(new BbsMessage("11/16/58", "Graceland", "P. d'Argent", 7, true));
         bbsMessages.add(new BbsMessage("11/16/58", "P. d'Argent", "T. Cole", 8, true));
-        bbsMessages.add(new BbsMessage("00/00/00", "\1", "P. d'Argent", 5, false));
+        bbsMessages.add(new BbsMessage("00/00/00", "\1", "P. d'Argent", 5, true));
     }
 
 }
