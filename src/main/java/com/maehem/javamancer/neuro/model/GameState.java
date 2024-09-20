@@ -70,13 +70,15 @@ public class GameState {
     public String name = "Case";
 
     // Money
-    public String bamaId = "056306118"; // Final?
+    public final static String bamaId = "056306118"; // Final?
     public int chipBalance = 6;
     public int bankBalance = 2000;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
     public int bankZurichBalance = 0;  // Create account by accessing Zurich via sequencer of cyberspace.
+    public int bankGemeinBalance = 30000;  // Create account by accessing Zurich via sequencer of cyberspace.
     public String bankZurichCreated = null; // Date string when account created.
     public final static String BANK_ZURICH_ID = "712345450134";
+    public final static String BANK_GEMEIN_ID = "646328356481";
 
     // Health
     public final int CONSTITUTION_MAX = 2000;
