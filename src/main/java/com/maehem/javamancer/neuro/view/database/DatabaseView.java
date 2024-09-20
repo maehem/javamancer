@@ -71,7 +71,7 @@ public abstract class DatabaseView {
     private static final int UPLOAD_LIST_X = 80;
     private static final int UPLOAD_LIST_Y = 234;
 
-    private static final String CURSOR = "<";
+    protected static final String CURSOR = "< ";
 
     private final Text typedToText = new Text();
     private final Text typedMessageText = new Text();
@@ -79,7 +79,7 @@ public abstract class DatabaseView {
     private final Text messageCursor = new Text(CURSOR);
     private final Text sendYN = new Text("\n        Send message? Y/N\n");
     private final Text instructions = new Text("\n\nPress ESC to end.");
-    protected final Text CONTINUE_TEXT = new Text(centeredText("    Button or [space] to continue.\n"));
+    protected final Text CONTINUE_TEXT = new Text("\n" + centeredText("Button or [space] to continue.") + "\n");
 
     public final static String[] WANTED = {
         "Smuggling",
@@ -173,7 +173,7 @@ public abstract class DatabaseView {
         dbTextResource = gameState.resourceManager.getDatabaseText(gameState.database.number);
 
         if (!dbTextResource.isEmpty()) {
-            headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
+            headingText.setText(centeredText(dbTextResource.get(0)) + "\n");
         }
 
         setAccessText(AccessText.NONE);
@@ -188,6 +188,7 @@ public abstract class DatabaseView {
     }
 
     public boolean handleKeyEvent(KeyEvent keyEvent) {
+        //LOGGER.log(Level.SEVERE, "DatabaseView: Handle key event.");
         KeyCode code = keyEvent.getCode();
         switch (subMode) {
             case LANDING -> {
@@ -215,6 +216,7 @@ public abstract class DatabaseView {
             case PASSWORD_SEQ_DONE -> {
                 switch (code) {
                     case KeyCode.SPACE -> {
+                        subMode = SubMode.MAIN;
                         siteContent();
                     }
                 }
@@ -231,10 +233,12 @@ public abstract class DatabaseView {
                         case Y -> {
                             // Send the message.
                             sendMessage(typedTo.toString(), typedMessage.toString());
+                            subMode = SubMode.MAIN;
                             siteContent();
                         }
                         case N -> {
                             // Back to menu
+                            subMode = SubMode.MAIN;
                             siteContent();
                         }
                     }
@@ -246,6 +250,7 @@ public abstract class DatabaseView {
                 switch (code) {
                     case KeyCode.SPACE -> {
                         keyEvent.consume();
+                        subMode = SubMode.MAIN;
                         siteContent();
                     }
                 }
@@ -450,6 +455,7 @@ public abstract class DatabaseView {
                 accessCleared(2);
                 CONTINUE_TEXT.setVisible(true);
                 CONTINUE_TEXT.setOnMouseClicked((t) -> {
+                    subMode = SubMode.MAIN;
                     siteContent();
                 });
             } else if (gameState.database.password2 != null
@@ -460,6 +466,7 @@ public abstract class DatabaseView {
                 // set cleared for access text.
                 CONTINUE_TEXT.setVisible(true);
                 CONTINUE_TEXT.setOnMouseClicked((t) -> {
+                    subMode = SubMode.MAIN;
                     siteContent();
                 });
             } else {
@@ -554,6 +561,7 @@ public abstract class DatabaseView {
         Text exitText = new Text("eXit");
         exitText.setOnMouseClicked((t) -> {
             t.consume();
+            subMode = SubMode.MAIN;
             siteContent();
         });
         Text prevText = new Text("    ");
@@ -639,6 +647,7 @@ public abstract class DatabaseView {
         menuItem.setOnMouseClicked((t) -> {
             t.consume();
             LOGGER.log(Level.SEVERE, "User exit to main: ");
+            subMode = SubMode.MAIN;
             siteContent();
         });
 
@@ -813,11 +822,12 @@ public abstract class DatabaseView {
             });
         }
         exitButton.setOnMouseClicked((t) -> {
+            t.consume();
+            subMode = SubMode.MAIN;
             siteContent();
 
             LOGGER.log(Level.SEVERE, "Exit Uploads (via mouse click).");
 
-            t.consume();
             listener.popupExit();
         });
 
@@ -926,6 +936,7 @@ public abstract class DatabaseView {
         pane.getChildren().add(tf);
         pane.setOnMouseClicked((t) -> {
             t.consume();
+            subMode = SubMode.MAIN;
             siteContent();
         });
     }
@@ -1060,6 +1071,7 @@ public abstract class DatabaseView {
         pane.getChildren().add(pageTf);
         pane.setOnMouseClicked((t) -> {
             t.consume();
+            subMode = SubMode.MAIN;
             siteContent();
         });
     }
@@ -1167,6 +1179,7 @@ public abstract class DatabaseView {
         pane.getChildren().add(pageTf);
         pane.setOnMouseClicked((t) -> {
             t.consume();
+            subMode = SubMode.MAIN;
             siteContent();
         });
     }
@@ -1291,6 +1304,7 @@ public abstract class DatabaseView {
                 clearWait = 0;
                 subMode = SubMode.MAIN;
                 LOGGER.log(Level.SEVERE, "ClearWait finished. Load site content.");
+                subMode = SubMode.MAIN;
                 siteContent();
             }
 
@@ -1314,6 +1328,7 @@ public abstract class DatabaseView {
                     CONTINUE_TEXT.setVisible(true);
                     CONTINUE_TEXT.setOnMouseClicked((t) -> {
                         CONTINUE_TEXT.setOnMouseClicked(null);
+                        subMode = SubMode.MAIN;
                         siteContent();
                     });
                     subMode = SubMode.PASSWORD_SEQ_DONE;
