@@ -33,6 +33,7 @@ import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
 import java.util.Map;
 import static java.util.Map.entry;
+import java.util.logging.Level;
 
 /**
  * Gentleman Loser -- Room Extras
@@ -52,20 +53,20 @@ public class R8Extras extends RoomExtras {
         {EXIT_R}, // [8] :: Youre no cop!  Youre using a CopTalk skill chip!  Get out of here!
         {13}, // [9] :: A social disease?
         {14}, // [10] :: Is it smaller than a breadbox?
-        {13}, // [11] :: Animal, vegetable, or mineral?
+        {15}, // [11] :: Animal, vegetable, or mineral?
         {WORD1}, // [12] :: Ah!  You must be referring to the @---------------
         {DIALOG_CLOSE}, // [13] :: Beat it, cyberjerk!
         {DIALOG_CLOSE}, // [14] :: Its even smaller than your head, which is pretty small....
         {DIALOG_CLOSE}, // [15] :: No, actually I was referrin to somethin else, so get lost, wilson!
-        {17, 18, 19, 20, 21}, // [16] :: Yeah. You must be . I got your chip here for ya.
+        {SKILL_BUY}, // [16] :: Yeah. You must be . I got your chip here for ya.
         {WORD1}, // [17] :: Okay.  What do you know about @---------------
-        {ITEM_BUY}, // [18] :: Hey, Babe, I want to buy the chip.
+        {SKILL_BUY}, // [18] :: Hey, Babe, I want to buy the chip.
         {22}, // [19] :: Maybe you could answer some questions for me?
         {DIALOG_CLOSE}, // [20] :: You already gave me something. I dont want anything else.
         {23}, // [21] :: How about coming back to my place?
         {17}, // [22] :: Sure. Itll be more fun than a poke in the eye with a sharp stick....
         {17, 18, 19, 20}, // [23] :: Forget it. You live at Cheap Hotel. I know all about your kind, wilson....
-        {ITEM_BUY}, // [24] :: All Ive got is Hardware Repair for $1000.
+        {SKILL_BUY, 17}, // [24] :: All Ive got is Hardware Repair for $1000.
         {17}, // [25] :: Try Julius Deane for those chips.
         {17}, // [26] :: Julius Deane can upgrade your Cryptology skill chip.
         {17}, // [27] :: Hot stuff. Sense/Net has em all. They even have Dixie Flatline on ROM.
@@ -78,9 +79,9 @@ public class R8Extras extends RoomExtras {
         {17}, // [34] :: The coded password for Copenhagen University is "KIKENNA".
         {38}, // [35] :: Emperor Norton left you a Guest Pass for the Matrix Restaurant. He mumbled something about skills and upgrades.
         {17}, // [36] :: Ya got me. I dont know anythin about that.
-        {ITEM_GET, 17}, // [37] :: Shiva gives you a guest pass for the Matrix Restaurant.
-        {ITEM_GET, 17}, // [38] :: Shiva gives you your Cryptology chip.
-        {ITEM_BUY}, // [39] :: I also have Hardware Repair for sale for $1000.
+        {17}, // [37] :: Shiva gives you a guest pass for the Matrix Restaurant.
+        {39}, // [38] :: Shiva gives you your Cryptology chip.
+        {17, 18}, // [39] :: I also have Hardware Repair for sale for $1000.
         {DIALOG_CLOSE}, // [40] :: I already gave it to you, cowboy.
     };
 
@@ -89,61 +90,69 @@ public class R8Extras extends RoomExtras {
      *
      */
     private static final Map<String, Integer> map1 = Map.ofEntries(
-            entry("cryptology", 38),
-            entry("skill", 38),
-            entry("chip", 39),
-            entry("skill chip", 39)
+            entry("cryptology", 16),
+            entry("skill", 16),
+            entry("chip", 16),
+            entry("skill chip", 16)
     );
 
     /**
      * Do you know about... level 2
      */
     private static final Map<String, Integer> map2 = Map.ofEntries(
-            entry("chips", 38),
-            entry("skill", 38),
-            entry("chip", 39),
-            entry("skill chip", 39),
-            entry("skills", 39),
-            entry("hardware repair", 39),
-            entry("bargaining", 39),
-            entry("psychoanalysis", 39),
-            entry("phenomenology", 39),
-            entry("train", 39),
-            entry("training", 39),
-            entry("upgrade", 39),
-            entry("upgrades", 39),
-            entry("cryptology", 39),
-            entry("teach", 39),
-            entry("instruct", 39),
-            entry("rom construct", 39),
-            entry("rom", 39),
-            entry("romcard", 39),
-            entry("software", 39),
-            entry("neuromancer", 39),
-            entry("ai", 39),
-            entry("loser", 39),
-            entry("gentleman loser", 39),
-            entry("loser database", 39),
-            entry("loser db", 39),
-            entry("wilson", 39),
-            entry("hitachi", 39),
-            entry("hitachi biotech", 39),
-            entry("copenhagen", 39),
-            entry("university", 39),
-            entry("matrix", 39),
-            entry("guest pass", 39),
-            entry("pass", 39),
-            entry("restaurant", 39),
-            entry("norton", 39),
-            entry("emperor", 39),
-            entry("emperor norton", 39)
+            entry("chips", 24),
+            entry("skill", 24),
+            entry("chip", 24),
+            entry("skill chip", 24),
+            entry("skills", 24),
+            entry("hardware", 24),
+            entry("repair", 24),
+            entry("bargaining", 24),
+            entry("psychoanalysis", 24),
+            entry("phenomenology", 25),
+            entry("train", 26),
+            entry("training", 26),
+            entry("upgrade", 26),
+            entry("upgrades", 26),
+            entry("cryptology", 26),
+            entry("teach", 26),
+            entry("instruct", 26),
+            entry("rom construct", 27),
+            entry("rom", 27),
+            entry("romcard", 27),
+            entry("software", 28),
+            entry("neuromancer", 29),
+            entry("ai", 30),
+            entry("loser", 31),
+            entry("gentleman loser", 31),
+            entry("loser database", 31),
+            entry("loser db", 31),
+            entry("wilson", 32),
+            entry("hitachi", 33),
+            entry("hitachi biotech", 33),
+            entry("copenhagen", 34),
+            entry("university", 34),
+            entry("matrix", 35),
+            entry("guest pass", 35),
+            entry("pass", 35),
+            entry("restaurant", 35),
+            entry("norton", 35),
+            entry("emperor", 35),
+            entry("emperor norton", 35)
     );
 
     @Override
     public int askWord1(GameState gs, String word) {
-        Integer index = map1.get(word);
+        LOGGER.log(Level.SEVERE, "RoomExtra8: Ask Word: {0}", word);
+        Integer index;
+        if (gs.shivaGaveChip) {
+            index = map2.get(word);
+            LOGGER.log(Level.SEVERE, "Return map2 index: " + index);
+        } else {
+            index = map1.get(word);
+        }
         if (index == null) {
-            return 37; // Doesn't know.
+            return 36; // Doesn't know.
         }
 
         return index;
@@ -156,6 +165,7 @@ public class R8Extras extends RoomExtras {
     @Override
     public void initRoom(GameState gs) {
         //gs.resourceManager.getRoomText(Room.R8).dumpList();
+        onVendFinishedOpenDialog = true;
     }
 
     @Override
@@ -171,6 +181,13 @@ public class R8Extras extends RoomExtras {
 
     @Override
     public int dialogWarmUp(GameState gs) {
+        if (gs.shivaChipMentioned) {
+            if (gs.shivaGaveChip) {
+                return 39; // Maybe answer some questions.
+            } else {
+                return 16; // You must be ...
+            }
+        }
 
         return 2;
     }
@@ -192,10 +209,24 @@ public class R8Extras extends RoomExtras {
     }
 
     @Override
-    public ArrayList<SkillItem> getVendSkillItems() {
+    public ArrayList<SkillItem> getVendSkillItems(GameState gs) {
         ArrayList<SkillItem> list = new ArrayList<>();
-        list.add(new SkillItem(Item.Catalog.HARDWAREREPAIR, 1000));
+        if (gs.shivaGaveChip) {
+            list.add(new SkillItem(Item.Catalog.HARDWAREREPAIR, 1, 1000));
+        } else {
+            gs.shivaChipMentioned = true;
+            list.add(new SkillItem(Item.Catalog.CRYPTOLOGY, 1, 0));
+        }
         return list;
+    }
+
+    @Override
+    public boolean onSkillVendFinished(GameState gs) {
+        if (gs.hasInventoryItem(Item.Catalog.CRYPTOLOGY)) {
+            gs.shivaGaveChip = true;
+        }
+
+        return false; // Don't open new dialog.
     }
 
 }
