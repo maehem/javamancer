@@ -32,7 +32,7 @@ package com.maehem.javamancer.neuro.view;
  */
 public interface PopupListener {
 
-    public void popupExit();
+    public boolean popupExit();
 
     public void popupExit(RoomMode.Popup newPopup);
 
