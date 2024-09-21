@@ -289,11 +289,13 @@ public class ControlPanelPane extends Pane implements PopupListener {
     }
 
     @Override
-    public void popupExit() {
+    public boolean popupExit() {
         softwarePane.setVisible(false);
         skillsPopup.setVisible(false);
         diskPopup.setVisible(false);
         romPopup.setVisible(false);
+
+        return false;
     }
 
     @Override
