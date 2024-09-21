@@ -103,7 +103,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
     }
 
     @Override
-    public ArrayList<Item> getVendItems() {
+    public ArrayList<Item> getVendItems(GameState gs) {
         ArrayList<Item> list = new ArrayList<>();
 
         list.add(new UXBDeckItem());
