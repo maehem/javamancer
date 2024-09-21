@@ -27,9 +27,9 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
 import java.util.Map;
 import static java.util.Map.entry;
@@ -166,9 +166,9 @@ public class R12Extras extends RoomExtras {
     }
 
     @Override
-    public ArrayList<SkillItem> getVendSkillItems() {
+    public ArrayList<SkillItem> getVendSkillItems(GameState gs) {
         ArrayList<SkillItem> list = new ArrayList<>();
-        list.add(new SkillItem(Item.Catalog.COPTALK, 100));
+        list.add(new SkillItem(Item.Catalog.COPTALK, 1, 100));
         return list;
     }
 
