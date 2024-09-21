@@ -30,7 +30,7 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
-import javafx.geometry.Insets;
+import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -77,10 +77,43 @@ import javafx.scene.text.TextFlow;
  */
 public class BankGemeinschaftDatabaseView extends DatabaseView {
 
+    private int transferTicks = 0;
+    private final static int TX_TICKS = 60;
+    private int transferAmount;
+
     private enum Mode {
-        SUB, MENU, EDIT
+        SUB, MENU, EDIT, TRANSFER1, TRANSFER2
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
+
+    private enum TransferMode {
+        LINK, AMOUNT, DEST_ACCT, TRANSFERING, RESULT
+    }
+    private TransferMode txMode = TransferMode.LINK;
+
+    private final Text cursorText1 = new Text(CURSOR);
+    private final Text cursorText2 = new Text(CURSOR);
+    private final Text cursorText3 = new Text(CURSOR);
+    private final Text typedSourceAccountNumber = new Text();
+    private final Text typedAuthCode = new Text();
+    private final Text typedAmount = new Text();
+    private final Text typedDestLink = new Text();
+    private final Text typedDestAccount = new Text();
+
+    private final Text authCodeLabel = new Text("\n" + dbTextResource.get(18));
+    private final Text creditsLabel = new Text("\n" + dbTextResource.get(19) + " ");
+    private final Text amountLabel = new Text("\n" + dbTextResource.get(20));
+    private final Text destCodeLabel = new Text("\n" + dbTextResource.get(21));
+    private final Text destAcctLabel = new Text("\n" + dbTextResource.get(22));
+    private final Text txMessage = new Text(dbTextResource.get(23));
+    private final String txCompleteStr = dbTextResource.get(24);
+    private final String incorrectAuthStr = dbTextResource.get(25);
+    private final String unknownBankStr = dbTextResource.get(26);
+    private final String unknownAcctStr = dbTextResource.get(27);
+    private final String txUnableStr = dbTextResource.get(29);
+
+    private final Text txResultMessage = new Text("Transmit Result Message");
+    private final Text bankBalanceText = new Text(String.valueOf(gameState.bankGemeinBalance));
 
     public BankGemeinschaftDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
@@ -99,7 +132,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text(dbTextResource.get(4) + "\n\n\n\n");
+        Text helloText = new Text(dbTextResource.get(3) + "\n\n\n\n\n\n\n\n\n\n");
 
         TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
@@ -117,7 +150,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
         TextFlow tf = pageTextFlow(headingText);
 
         String menuString = dbTextResource.get(1);
-        if (accessLevel > 2) {
+        if (accessLevel > 1) {
             menuString += "\r" + dbTextResource.get(2);
         }
         String[] split = menuString.split("\\r");
@@ -161,29 +194,90 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
             }
             case "6" -> {  // Faculty news
                 if (accessLevel > 1) {
-                    transfer();
+                    transfer2();
                 }
             }
         }
     }
 
-    private void transfer() {
-        LOGGER.log(Level.SEVERE, "Bank Gemeinschaft: funds transfer");
+    private void transfer1() {
+        LOGGER.log(Level.SEVERE, "Bank Gemeinschaft: funds transfer part 1");
+        mode = Mode.TRANSFER1;
         pane.getChildren().clear();
 
-        Text subHeadingText = new Text("\n"
-                + dbTextResource.get(17)
+        TextFlow contentTf = simpleTextFlow(
+                new Text(dbTextResource.get(17) + "\n"),
+                typedSourceAccountNumber, cursorText1,
+                new Text("\n"),
+                txResultMessage
         );
-
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
+        //contentTf.setPadding(new Insets(0, 0, 0, 30));
 
         TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
 
         pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
+        pane.setOnMouseClicked(null);
+
+        Platform.runLater(() -> {
+            typedSourceAccountNumber.setText("");
+            txResultMessage.setText("");
+        });
+    }
+
+    private void transfer2() {
+        LOGGER.log(Level.SEVERE, "Bank Gemeinschaft: funds transfer part 2");
+        mode = Mode.TRANSFER2;
+        txMode = TransferMode.LINK;
+
+        pane.getChildren().clear();
+
+        CONTINUE_TEXT.setVisible(true); // DEBUG
+
+        Text subHeadingText = new Text("             "
+                + dbTextResource.get(17).split("\r")[0].trim()
+                + "\n"
+        );
+
+        TextFlow contentTf = simpleTextFlow(
+                subHeadingText,
+                creditsLabel, bankBalanceText,
+                new Text("\n"),
+                destCodeLabel, new Text("\n"),
+                typedDestLink, cursorText1, // BOZOBANK
+                amountLabel, new Text("\n"), // Amount to transfer
+                typedAmount, cursorText2,
+                destAcctLabel, new Text("\n"),
+                typedDestAccount, cursorText3,
+                new Text("\n\n"),
+                txMessage, txResultMessage,
+                CONTINUE_TEXT
+        );
+        //contentTf.setPadding(new Insets(0, 0, 0, 30));
+
+        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
+
+        pane.getChildren().add(pageTf);
+        pane.setOnMouseClicked(null);
+
+        // Initial state of transfer page.
+        Platform.runLater(() -> {
+            txResultMessage.setText("");
+            typedDestLink.setText("");
+
+            // Invisible until link OK.
+            amountLabel.setVisible(false);
+            typedAmount.setText("");
+            cursorText2.setText(" ");
+
+            // Invisible until amoutn OK.
+            destAcctLabel.setVisible(false);
+            typedDestAccount.setText("");
+            cursorText3.setText(" ");
+
+            txMessage.setVisible(false);
+            // Invisible until tranmit finished.
+            CONTINUE_TEXT.setVisible(false);
+            pane.requestLayout();
         });
     }
 
@@ -214,9 +308,186 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                     return false;
                 }
             }
+            case TRANSFER1 -> {
+                if (code == KeyCode.ESCAPE) {
+                    siteContent();
+                    return false;
+                }
+
+                Text typedText = typedSourceAccountNumber;
+                if (code == KeyCode.X || code == KeyCode.ESCAPE) {
+                    siteContent();
+                } else if (code.isDigitKey()) {
+                    String typed = typedText.getText();
+                    if (typed.length() < 12) {
+                        typedText.setText(typed + code.getChar());
+                    }
+                } else if (code == KeyCode.BACK_SPACE) {
+                    String txt = typedText.getText();
+                    if (!txt.isEmpty()) {
+                        typedText.setText(txt.substring(0, txt.length() - 1));
+                    }
+                } else if (code == KeyCode.ENTER) {
+                    if (typedText.getText().equals(GameState.BANK_GEMEIN_ID)) {
+                        transfer2();
+                    } else {
+                        LOGGER.log(Level.SEVERE, "Wrong source acct number");
+                        txResultMessage.setText(unknownAcctStr);
+                        pane.requestLayout();
+                        pane.setOnMouseClicked((t) -> {
+                            transfer1();
+                        });
+                    }
+                }
+            }
+            case TRANSFER2 -> {
+                handleTransfer2KeyEvent(keyEvent);
+            }
             // else ignore key
 
         }
         return super.handleKeyEvent(keyEvent);
     }
+
+    private void handleTransfer2KeyEvent(KeyEvent ke) {
+        KeyCode code = ke.getCode();
+        LOGGER.log(Level.SEVERE, "Handle Code: " + code.getName());
+        if (code == KeyCode.ESCAPE) {
+            siteContent();
+            return;
+        }
+
+        switch (txMode) {
+            case LINK -> {
+                // Typing link
+                if (code.isLetterKey()) {
+                    if (!txResultMessage.getText().isEmpty()) {
+                        txResultMessage.setText("");
+                        typedDestLink.setText("");
+                    }
+                    String typed = typedDestLink.getText();
+                    if (typed.length() < 12) {
+                        typedDestLink.setText(typed + code.getChar());
+                    }
+                } else if (code == KeyCode.ENTER) {
+                    // Evaluate
+                    if (typedDestLink.getText()
+                            .toUpperCase()
+                            .equals("BOZOBANK")) {
+                        amountLabel.setVisible(true);
+                        cursorText2.setText(CURSOR);
+                        txMode = TransferMode.AMOUNT;
+                    } else { // invaalid link code
+                        LOGGER.log(Level.SEVERE, "Wrong source acct number");
+                        txResultMessage.setText(unknownBankStr);
+                    }
+                } else if (code == KeyCode.BACK_SPACE) {
+                    if (!txResultMessage.getText().isEmpty()) {
+                        txResultMessage.setText("");
+                        typedDestLink.setText("");
+                    }
+                    String typed = typedDestLink.getText();
+                    if (!typed.isEmpty()) {
+                        typedDestLink.setText(typed.substring(0, typed.length() - 1));
+                    }
+                }
+            }
+            case AMOUNT -> {
+                // Typing amount
+                if (code.isDigitKey()) {
+                    if (!txResultMessage.getText().isEmpty()) {
+                        txResultMessage.setText("");
+                        typedAmount.setText("");
+                    }
+                    String typed = typedAmount.getText();
+                    if (typed.length() < 9) {
+                        typedAmount.setText(typed + code.getChar());
+                    }
+                } else if (code == KeyCode.ENTER) {
+                    // Evaluate
+                    int amount = Integer.parseInt(typedAmount.getText());
+                    if (amount <= gameState.bankGemeinBalance) {
+                        destAcctLabel.setVisible(true);
+                        cursorText3.setText(CURSOR);
+                        this.transferAmount = amount;
+                        txMode = TransferMode.DEST_ACCT;
+                    } else { // invaalid link code
+                        LOGGER.log(Level.SEVERE, "Wrong amount.");
+                        txResultMessage.setText(txUnableStr);
+                    }
+                } else if (code == KeyCode.BACK_SPACE) {
+                    if (!txResultMessage.getText().isEmpty()) {
+                        txResultMessage.setText("");
+                        typedAmount.setText("");
+                    }
+                    String typed = typedAmount.getText();
+                    if (!typed.isEmpty()) {
+                        typedAmount.setText(typed.substring(0, typed.length() - 1));
+                    }
+                }
+            }
+            case DEST_ACCT -> {
+                // Typing Dest Account
+                if (code.isDigitKey()) {
+                    if (!txResultMessage.getText().isEmpty()) {
+                        txResultMessage.setText("");
+                        typedDestAccount.setText("");
+                    }
+                    String typed = typedDestAccount.getText();
+                    if (typed.length() < 12) {
+                        typedDestAccount.setText(typed + code.getChar());
+                    }
+                } else if (code == KeyCode.ENTER) {
+                    // Evaluate
+                    if (typedDestAccount.getText().equals(GameState.BANK_ZURICH_ID)) {
+                        txMode = TransferMode.TRANSFERING;
+                        txMessage.setVisible(true);
+                        transferTicks = TX_TICKS;
+                    } else { // invaalid link code
+                        LOGGER.log(Level.SEVERE, "Wrong account.");
+                        txResultMessage.setText(unknownAcctStr);
+                    }
+                } else if (code == KeyCode.BACK_SPACE) {
+                    if (!txResultMessage.getText().isEmpty()) {
+                        txResultMessage.setText("");
+                        typedDestAccount.setText("");
+                    }
+                    String typed = typedDestAccount.getText();
+                    if (!typed.isEmpty()) {
+                        typedDestAccount.setText(typed.substring(0, typed.length() - 1));
+                    }
+                }
+            }
+            case TRANSFERING -> {
+                // No interaction allowed. See tick().
+            }
+            default -> { // RESULT
+                // Result shown. Space to continue.
+                if (code == KeyCode.SPACE) {
+                    siteContent();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (mode == Mode.TRANSFER2 && txMode == TransferMode.TRANSFERING) {
+            if (transferTicks > 0) {
+                transferTicks--;
+            } else {
+                // CHeck if error.
+                txResultMessage.setText(txCompleteStr);
+                gameState.bankGemeinBalance -= transferAmount;
+                gameState.bankZurichBalance += transferAmount;
+                bankBalanceText.setText(String.valueOf(gameState.bankGemeinBalance));
+                CONTINUE_TEXT.setVisible(true);
+                txMode = TransferMode.RESULT;
+                LOGGER.log(Level.SEVERE, "Bank Transfer completed.");
+            }
+        }
+    }
+
 }
