@@ -485,7 +485,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case SKILLS_BUY -> {
                 RoomExtras roomExtras = room.getExtras();
                 if (roomExtras != null) {
-                    ArrayList<SkillItem> vendItems = roomExtras.getVendSkillItems();
+                    ArrayList<SkillItem> vendItems = roomExtras.getVendSkillItems(getGameState());
                     if (vendItems != null) {
                         popup = new SkillsVendPopup(
                                 SkillsVendPopup.Mode.BUY,
@@ -498,7 +498,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case ITEMS_BUY -> {
                 RoomExtras roomExtras = room.getExtras();
                 if (roomExtras != null) {
-                    ArrayList<Item> vendItems = roomExtras.getVendItems();
+                    ArrayList<Item> vendItems = roomExtras.getVendItems(getGameState());
                     if (vendItems != null) {
                         popup = new PawnshopVendPopup(
                                 PawnshopVendPopup.Mode.BUY,
@@ -596,9 +596,15 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     }
 
     @Override
-    public void popupExit() {
+    public boolean popupExit() {
         LOGGER.log(Level.CONFIG, "Popup Exit: {0}", popup.getClass().getSimpleName());
         popup.setVisible(false);
+        boolean doNextPopup;
+        if (popup instanceof SkillsVendPopup) {
+            doNextPopup = room.getExtras().onSkillVendFinished(getGameState());
+        } else {
+            doNextPopup = true;
+        }
         getChildren().remove(popup);
         popup.cleanup();
         popup = null;
@@ -608,14 +614,17 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 //            LOGGER.log(Level.SEVERE, "Previous Popup wants to open Deck Popup.");
 //            showPopup(Popup.DECK);
 //        }
+        return doNextPopup;
     }
 
     @Override
     public void popupExit(Popup newPopup) {
-        popupExit();
-
-        LOGGER.log(Level.CONFIG, "Popup exited. Now open new Popup: {0}", newPopup.name());
-        showPopup(newPopup);
+        if (popupExit()) {
+            LOGGER.log(Level.CONFIG, "Popup exited. Now open new Popup: {0}", newPopup.name());
+            showPopup(newPopup);
+        } else {
+            LOGGER.log(Level.CONFIG, "Popup exited. Pevious popup denied any new popup.");
+        }
     }
 
     /**
