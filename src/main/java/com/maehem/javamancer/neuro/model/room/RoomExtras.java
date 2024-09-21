@@ -81,6 +81,8 @@ public abstract class RoomExtras {
     public static final int DIALOG_END = 99;
     public static final int DESC_DIRECT = 500; // Subtract 500 and put remainder(index) in DESC box.
 
+    public boolean onVendFinishedOpenDialog = false; // Semaphote to open dialog when vend finished.
+
     /**
      * Called when player gives item to NPC. Over-ride if NPC can receive
      * things.
@@ -129,9 +131,14 @@ public abstract class RoomExtras {
      *
      * @return
      */
-    public ArrayList<SkillItem> getVendSkillItems() {
+    public ArrayList<SkillItem> getVendSkillItems(GameState gs) {
         LOGGER.log(Level.WARNING, "Room called getVendSkillItems() but it's not overridden!");
         return null;
+    }
+
+    public boolean onSkillVendFinished(GameState gs) {
+        LOGGER.log(Level.WARNING, "Room called onSkillVendFinished() but it's not overridden!");
+        return false;
     }
 
     /**
@@ -139,7 +146,7 @@ public abstract class RoomExtras {
      *
      * @return
      */
-    public ArrayList<Item> getVendItems() {
+    public ArrayList<Item> getVendItems(GameState gs) {
         LOGGER.log(Level.WARNING, "Room called getVendItems() but it's not overridden!");
         return null;
     }
@@ -178,4 +185,5 @@ public abstract class RoomExtras {
         gs.chipBalance -= amt;
         return true;
     }
+
 }
