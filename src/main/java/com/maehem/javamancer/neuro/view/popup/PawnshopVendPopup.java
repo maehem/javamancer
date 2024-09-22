@@ -124,7 +124,8 @@ public class PawnshopVendPopup extends SmallPopupPane {
                 Item item = vendItems.get(i + itemIndex);
                 boolean inventoryHasItem = gameState.hasInventoryItem(item);
                 String soldmarker = (inventoryHasItem) ? "-" : " ";
-                String itemName = String.format("%-20s", item.item.itemName);
+                String itemName = String.format("%-16s", item.item.itemName);
+                String itemStock = String.format("%3s", String.valueOf(item.quantity));
                 String priceRaw = "";
                 if (mode == Mode.BUY) {
                     priceRaw = String.valueOf(item.price);
@@ -132,8 +133,11 @@ public class PawnshopVendPopup extends SmallPopupPane {
                     //No sell mode for now.
                     //priceRaw = String.valueOf(skill.sellPrice);
                 }
-                String price = String.format("%4s", priceRaw);
-                Text listItem = new Text(newLine + (i + 1) + ". " + soldmarker + itemName + price);
+                String itemPrice = String.format("%6s", priceRaw);
+                Text listItem = new Text(
+                        newLine + (i + 1) + ". "
+                        + soldmarker + itemName + itemStock + itemPrice
+                );
 
                 tf.getChildren().add(listItem);
                 final int n = i;
