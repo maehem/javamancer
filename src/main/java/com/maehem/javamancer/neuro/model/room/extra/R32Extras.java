@@ -27,8 +27,12 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.RealItem;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.item.SoftwareItem;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import java.util.ArrayList;
 import java.util.Map;
 import static java.util.Map.entry;
 
@@ -42,7 +46,7 @@ public class R32Extras extends RoomExtras { // Metro Holographix
         {LONG_DESC}, {SHORT_DESC}, //  [0] :: Youre in a narrow canyon
         {3, 4, 5, 6}, // [2] :: Hey, kid!  You need chips or software?  I just got some new stuff from those bridge-and-tunnel kids in Jersey.
         {10}, // [3] :: Sure and begorrah. You wouldnt be selling illegal software, would you?
-        {17}, // [4] :: Yeah, Finn, Im looking for some hot softwarez.
+        {20}, // [4] :: Yeah, Finn, Im looking for some hot softwarez.
         {8}, // [5] :: Im just browsing right now.
         {9}, // [6] :: I need a scan, Finn. Then, maybe Ill buy something.
         {}, // [7] ::
@@ -55,10 +59,10 @@ public class R32Extras extends RoomExtras { // Metro Holographix
         {16}, // [14] :: Hey, Finn, did anyone ever tell you your head looks like it was designed in a wind tunnel?
         {WORD1}, // [15] :: Okay, what do you know about @---------------
         {DIALOG_CLOSE}, // [16] :: You got about as much class as those yahoos from Jersey. Get out of here!
-        {ITEM_BUY}, // [17] :: Ive got Icebreaking and Debug skill chips for $1,000 each.
-        {15}, // [18] :: So, youre on a holy mission, eh? I got what you need.
+        {SKILL_BUY}, // [17] :: Ive got Icebreaking and Debug skill chips for $1,000 each.
+        {ITEM_BUY}, // [18] :: So, youre on a holy mission, eh? I got what you need.
         {15}, // [19] :: Youll have to hit Sense/Net for one of those.
-        {15}, // [20] :: You want software, you got software.
+        {SOFTWARE_BUY}, // [20] :: You want software, you got software.
         {15}, // [21] :: Its an AI with Swiss citizenship. Built for Tessier-Ashpool.
         {15}, // [22] :: Its an old novel by William Gibson.
         {15}, // [23] :: Its a first generation, high-orbit family on Freeside, run like a corporation.  Rich and powerful.
@@ -129,6 +133,35 @@ public class R32Extras extends RoomExtras { // Metro Holographix
 
     }
 
+    @Override
+    public ArrayList<Item> getVendItems(GameState gs) {
+        ArrayList<Item> list = new ArrayList<>();
+        list.add(new RealItem(Item.Catalog.JOYSTICK, 20, 1));
+        return list;
+    }
+
+    @Override
+    public ArrayList<SkillItem> getVendSkillItems(GameState gs) {
+        ArrayList<SkillItem> list = new ArrayList<>();
+        list.add(new SkillItem(Item.Catalog.ZEN, 1, 0));
+        list.add(new SkillItem(Item.Catalog.SOPHISTRY, 1, 0));
+        list.add(new SkillItem(Item.Catalog.ICEBREAKING, 1, 1000));
+        list.add(new SkillItem(Item.Catalog.DEBUG, 1, 1000));
+        return list;
+    }
+
+    @Override
+    public ArrayList<SoftwareItem> getVendSoftwareItems(GameState gs) {
+        ArrayList<SoftwareItem> list = new ArrayList<>();
+        list.add(new SoftwareItem(Item.Catalog.DECODER, 1, 750));
+        list.add(new SoftwareItem(Item.Catalog.BLOWTORCH, 1, 750));
+        list.add(new SoftwareItem(Item.Catalog.DRILL, 1, 1500));
+        list.add(new SoftwareItem(Item.Catalog.PROBE, 1, 500));
+        list.add(new SoftwareItem(Item.Catalog.COMLINK, 1, 100));
+        return list;
+    }
+
+    // TODO: Software For sale.
     @Override
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
