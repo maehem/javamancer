@@ -32,8 +32,16 @@ package com.maehem.javamancer.neuro.model.item;
  */
 public class SoftwareItem extends Item {
 
-    public SoftwareItem(Catalog item) {
-        super(item);
+    public int version;
+
+    public SoftwareItem(Catalog catalog) {
+        super(catalog);
+    }
+
+    public SoftwareItem(Catalog catalog, int version, int price) {
+        super(catalog);
+        this.version = version;
+        this.price = price;
     }
 
     @Override
@@ -41,4 +49,13 @@ public class SoftwareItem extends Item {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public String getMenuString() {
+        return String.format("%-12s", item.itemName)
+                + String.format("%2s", String.valueOf(version))
+                + ".0";
+    }
+
+    public String getSimpleName() {
+        return item.itemName + " " + version + ".0";
+    }
 }
