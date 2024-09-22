@@ -286,6 +286,7 @@ public class DialogPopup extends DialogPopupPane {
                         mode = Mode.PLAYER;
                         bubble.setMode(DialogBubble.Mode.THINK);
                         LOGGER.log(Level.CONFIG, "Toggle to PLAYER next bubble response.");
+                        typedText.setText("");
                     }
                 }
                 dialogSubIndex++; //  array[2][0]
@@ -310,6 +311,7 @@ public class DialogPopup extends DialogPopupPane {
                                 dialogChain[dialogIndex][dialogSubIndex],
                                 textResource.get(dialogChain[dialogIndex][dialogSubIndex])
                             });
+                    typedText.setText("");
                     String toSay = textResource.get(dialogChain[dialogIndex][dialogSubIndex]);
                     if (toSay.contains(WORD_FILL_MN)) {
                         LOGGER.log(Level.SEVERE, "WORD_FILL_IN detected.");
