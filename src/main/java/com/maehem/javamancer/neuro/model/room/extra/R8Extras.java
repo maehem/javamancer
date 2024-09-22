@@ -82,7 +82,7 @@ public class R8Extras extends RoomExtras {
         {17}, // [37] :: Shiva gives you a guest pass for the Matrix Restaurant.
         {39}, // [38] :: Shiva gives you your Cryptology chip.
         {17, 18}, // [39] :: I also have Hardware Repair for sale for $1000.
-        {DIALOG_CLOSE}, // [40] :: I already gave it to you, cowboy.
+        {DIALOG_CLOSE} // [40] :: I already gave it to you, cowboy.
     };
 
     /**
