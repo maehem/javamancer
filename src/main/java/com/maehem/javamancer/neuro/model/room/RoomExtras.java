@@ -30,6 +30,7 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.item.SoftwareItem;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,6 +59,7 @@ public abstract class RoomExtras {
     public static final int UXB_BUY = 66; // Shin menu, TODO: move to ITEM_BUY
     public static final int ITEM_BUY = 67; // Player buys item from NPC
     public static final int ITEM_GET = 68; // player receives NPC item directly
+    public static final int SOFTWARE_BUY = 69; // player buys software  (Metro Holo)
     public static final int EXIT_T = 70; // Exit Top
     public static final int EXIT_R = 71; // Exit Right
     public static final int EXIT_B = 72; // Exit Bottom
@@ -148,6 +150,16 @@ public abstract class RoomExtras {
      */
     public ArrayList<Item> getVendItems(GameState gs) {
         LOGGER.log(Level.WARNING, "Room called getVendItems() but it's not overridden!");
+        return null;
+    }
+
+    /**
+     * Override if NPC has skills to sell.
+     *
+     * @return
+     */
+    public ArrayList<SoftwareItem> getVendSoftwareItems(GameState gs) {
+        LOGGER.log(Level.WARNING, "Room called getVendSoftwareItems() but it's not overridden!");
         return null;
     }
 
