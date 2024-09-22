@@ -500,6 +500,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 if (roomExtras != null) {
                     ArrayList<Item> vendItems = roomExtras.getVendItems(getGameState());
                     if (vendItems != null) {
+                        // TODO: Rename popup to ItemsVendPopup
                         popup = new PawnshopVendPopup(
                                 PawnshopVendPopup.Mode.BUY,
                                 this, getGameState(), vendItems
