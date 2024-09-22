@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.item.SoftwareItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
@@ -49,6 +50,7 @@ import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import com.maehem.javamancer.neuro.view.popup.RomPopup;
 import com.maehem.javamancer.neuro.view.popup.SkillsPopup;
 import com.maehem.javamancer.neuro.view.popup.SkillsVendPopup;
+import com.maehem.javamancer.neuro.view.popup.SoftwareVendPopup;
 import com.maehem.javamancer.neuro.view.room.RoomDescriptionPane;
 import com.maehem.javamancer.neuro.view.room.RoomMusic;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
@@ -81,7 +83,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     }
 
     public enum Popup {
-        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL, SKILLS_BUY, ITEMS_BUY, CYBERSPACE
+        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL, SKILLS_BUY, ITEMS_BUY, SOFTWARE_BUY, CYBERSPACE
     }
 
     private static final int ROW_1_Y = 292;
@@ -506,6 +508,19 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                                 this, getGameState(), vendItems
                         );
                         LOGGER.log(Level.SEVERE, "Set popup to: Items - BUY");
+                    }
+                }
+            }
+            case SOFTWARE_BUY -> {
+                RoomExtras roomExtras = room.getExtras();
+                if (roomExtras != null) {
+                    ArrayList<SoftwareItem> vendItems = roomExtras.getVendSoftwareItems(getGameState());
+                    if (vendItems != null) {
+                        popup = new SoftwareVendPopup(
+                                SoftwareVendPopup.Mode.BUY,
+                                this, getGameState(), vendItems
+                        );
+                        LOGGER.log(Level.SEVERE, "Set popup to: Software - BUY");
                     }
                 }
             }
