@@ -39,6 +39,7 @@ import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -97,6 +98,10 @@ public class GameState {
     public final ArrayList<Item> inventory = new ArrayList<>();
     public final ArrayList<Skill> skills = new ArrayList<>();
     public final ArrayList<BodyPart> soldBodyParts = new ArrayList<>();
+    public final ArrayList<Warez> software = new ArrayList<>();
+
+    // Deck
+    public int deckSlots = 0;
 
     // Matrix Stuff
     public Database database = null;
