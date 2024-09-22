@@ -37,6 +37,11 @@ public class RealItem extends Item {
         this.price = price;
     }
 
+    public RealItem(Catalog item, int price, int quantity) {
+        this(item, price);
+        this.quantity = quantity;
+    }
+
     @Override
     public void use() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

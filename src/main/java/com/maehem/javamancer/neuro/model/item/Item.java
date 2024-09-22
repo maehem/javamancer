@@ -165,6 +165,8 @@ public abstract class Item {
     }
 
     public final Catalog item;
+
+    public int quantity = 1; // When used in vending list.
     public int price = -1;
 
     // Condition?
