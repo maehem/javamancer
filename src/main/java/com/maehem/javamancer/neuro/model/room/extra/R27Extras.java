@@ -27,8 +27,11 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.RealItem;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import java.util.ArrayList;
 import java.util.Map;
 import static java.util.Map.entry;
 
@@ -52,7 +55,7 @@ public class R27Extras extends RoomExtras {
         {WORD1}, // [11] :: What do you know about @---------------
         {13}, // [12] :: Maybe the people from Cheap Hotel are after me?  I ran up a big bill there.
         {11}, // [13] :: Of course, if I did hear something, I might not be able to tell you.  Biz being what it is, you understand.
-        {ITEM_BUY}, // [14] :: Ive got Bargaining, Psychoanalysis, Philosophy, and Phenomenology at $1000 each. Or I can upgrade certain skills.
+        {SKILL_BUY}, // [14] :: Ive got Bargaining, Psychoanalysis, Philosophy, and Phenomenology at $1000 each. Or I can upgrade certain skills.
         {SKILL_UPGRADE}, // [15] :: I can upgrade you in Cryptology for $2500 per level if you already have the skill chip.
         {11}, // [16] :: Sense/Net has all of those. I hear they even have Dixie Flatline on ROM.
         {11}, // [17] :: Try the Finn at Metro Holografix for that sort of thing.
@@ -117,7 +120,6 @@ public class R27Extras extends RoomExtras {
     @Override
     public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);
-        // Check agains game state for employment.
 
         if (index == null) {
             return 30; // Doesn't know.
@@ -152,6 +154,23 @@ public class R27Extras extends RoomExtras {
     public int dialogWarmUp(GameState gs) {
 
         return 2;
+    }
+
+    @Override
+    public ArrayList<Item> getVendItems(GameState gs) {
+        ArrayList<Item> list = new ArrayList<>();
+        list.add(new RealItem(Item.Catalog.GASMASK, 300, 1));
+        return list;
+    }
+
+    @Override
+    public ArrayList<SkillItem> getVendSkillItems(GameState gs) {
+        ArrayList<SkillItem> list = new ArrayList<>();
+        list.add(new SkillItem(Item.Catalog.BARGANING, 1, 1000));
+        list.add(new SkillItem(Item.Catalog.PSYCHOANALYSIS, 1, 1000));
+        list.add(new SkillItem(Item.Catalog.PHILOSOPHY, 1, 1000));
+        list.add(new SkillItem(Item.Catalog.PHENOMENOLOGY, 1, 1000));
+        return list;
     }
 
     @Override
