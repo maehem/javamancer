@@ -146,6 +146,16 @@ public abstract class RoomExtras {
     }
 
     /**
+     * Override if NPC has skills to upgrade.
+     *
+     * @return
+     */
+    public ArrayList<SkillItem> getUpgradeSkillItems(GameState gs) {
+        LOGGER.log(Level.WARNING, "Room called getUpgradeSkillItems() but it's not overridden!");
+        return null;
+    }
+
+    /**
      * Override if NPC has items to sell.
      *
      * @return
