@@ -198,7 +198,7 @@ public class DialogPopup extends DialogPopupPane {
             LOGGER.log(Level.CONFIG, "NPC: Set dialog index to: " + dialogIndex);
             // Control character '01' is a token for the player's name. Replace it here.
             wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
-            LOGGER.log(Level.SEVERE, "Text: " + wordText.getText());
+            LOGGER.log(Level.SEVERE, "Text: \n" + wordText.getText());
             dialogCountDown = -1;
             dialogSubIndex = -1;
             if (dialogChain[dialogIndex].length > 0) {
@@ -421,6 +421,10 @@ public class DialogPopup extends DialogPopupPane {
             case SKILL_BUY -> { // Bodyshop menu
                 LOGGER.log(Level.CONFIG, "NPC opens Skill Buy menu.");
                 listener.popupExit(RoomMode.Popup.SKILLS_BUY);
+            }
+            case SKILL_UPGRADE -> { // Bodyshop menu
+                LOGGER.log(Level.CONFIG, "NPC opens Skill Upgrade menu.");
+                listener.popupExit(RoomMode.Popup.SKILLS_UPGRADE);
             }
             case EXIT_T -> { // Exit Top
                 LOGGER.log(Level.CONFIG, "NPC sends player to new room via top.");
