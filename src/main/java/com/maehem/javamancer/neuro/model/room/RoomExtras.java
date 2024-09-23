@@ -153,6 +153,11 @@ public abstract class RoomExtras {
         return null;
     }
 
+    public boolean onVendItemsFinished(GameState gs) {
+        LOGGER.log(Level.WARNING, "Room called onVendItemsFinished() but it's not overridden!");
+        return false;
+    }
+
     /**
      * Override if NPC has skills to sell.
      *
