@@ -27,9 +27,12 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 /**
  *
@@ -38,7 +41,7 @@ import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 public class R36Extras extends RoomExtras { // House of Pong
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0] :: Youre in a narrow canyon
+        {LONG_DESC}, {SHORT_DESC}, //  [0] :: Youre in Pong House
         {3, 4, 5}, // [2] :: Greetings, Pilgrim. Have you come to worship the One True Computer Game?
         {6}, // [3] :: I am but dust on your feet, O Great Nolan. I seek to learn the ways of the One True Computer Game.
         {8}, // [4] :: Worship a computer game?  Get real!
@@ -57,7 +60,7 @@ public class R36Extras extends RoomExtras { // House of Pong
         {EXIT_B}, // [17] :: Holy Joystick!  Now Ive heard everything.  Im leaving.
         {19}, // [18] :: Okay, say I bring you this Holy Joystick.  Then what happens?
         {DIALOG_CLOSE}, // [19] :: Then the Masters can play Pong again. Our Joystick is worn down to a nub! Then Ill teach you Zen and Sophistry.
-        {ITEM_GET, DIALOG_END}, // [20] :: You have the Holy Joystick! The Masters will be pleased! As a token of our gratitude, please accept these.
+        {SKILL_BUY, DIALOG_END}, // [20] :: You have the Holy Joystick! The Masters will be pleased! As a token of our gratitude, please accept these.
     };
 
     @Override
@@ -72,7 +75,9 @@ public class R36Extras extends RoomExtras { // House of Pong
         // Player give is joystick.
         if (item.item == Catalog.JOYSTICK) {
             gs.joystickGiven = true;
+            gs.roomNpcTalk[gs.room.getIndex()] = true;
             gs.inventory.remove(item);
+            LOGGER.log(Level.SEVERE, "Joystick is given to NPC.");
             return true;
         }
 
@@ -90,11 +95,29 @@ public class R36Extras extends RoomExtras { // House of Pong
             return DIALOG_END;
         }
         if (gs.joystickGiven) {
+            LOGGER.log(Level.SEVERE, "Start dialog at Joystick Given.");
             return 20;
         }
         return 2;
 
     }
+
+    @Override
+    public ArrayList<SkillItem> getVendSkillItems(GameState gs) {
+        ArrayList<SkillItem> list = new ArrayList<>();
+        list.add(new SkillItem(Item.Catalog.SOPHISTRY, 1, 0));
+        list.add(new SkillItem(Item.Catalog.ZEN, 1, 0));
+
+        return list;
+    }
+
+    @Override
+    public boolean onSkillVendFinished(GameState gs) {
+        dialogNoMore(gs);
+
+        return true;
+    }
+
 
     @Override
     public void dialogNoMore(GameState gs) {
