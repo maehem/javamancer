@@ -39,19 +39,13 @@ import java.util.logging.Level;
  */
 public abstract class DeckItem extends Item {
 
+    public static final boolean NON_CYBERSPACE = false;
+    public static final boolean CYBERSPACE = true;
+
     public final int nSlots;
     public final ArrayList<Warez> softwarez = new ArrayList<>();
     private Warez currentSoftwarez = null;
-
-    public boolean addWarez(Warez warez) {
-        if (softwarez.size() < nSlots) {
-            return softwarez.add(warez);
-        } else {
-            LOGGER.log(Level.SEVERE, "Deck slots full. Erase items first.");
-            return false;
-        }
-
-    }
+    public final boolean cyberspaceCapable;
 
     public enum Mode {
         NONE, LINKCODE, CYBERSPACE
@@ -63,11 +57,12 @@ public abstract class DeckItem extends Item {
     private int cordX = 0;
     private int cordY = 0;
 
-    public DeckItem(Item.Catalog cat, int nSlots, int startX, int startY) {
+    public DeckItem(Item.Catalog cat, int nSlots, boolean cyberspace, int startX, int startY) {
         super(cat);
         this.nSlots = nSlots;
         this.cordX = startX;
         this.cordY = startY;
+        this.cyberspaceCapable = cyberspace;
     }
 
     public static DeckItem getInstance(Class<? extends DeckItem> d) {
@@ -112,8 +107,6 @@ public abstract class DeckItem extends Item {
         this.mode = mode;
     }
 
-    public abstract boolean canCyberspace();
-
     public int getZone() {
         return zone;
     }
@@ -144,6 +137,16 @@ public abstract class DeckItem extends Item {
     public void cleanUp() {
         mode = Mode.NONE;
         currentSoftwarez = null;
+    }
+
+    public boolean addWarez(Warez warez) {
+        if (softwarez.size() < nSlots) {
+            return softwarez.add(warez);
+        } else {
+            LOGGER.log(Level.SEVERE, "Deck slots full. Erase items first.");
+            return false;
+        }
+
     }
 
     public boolean erase(Warez w) {
