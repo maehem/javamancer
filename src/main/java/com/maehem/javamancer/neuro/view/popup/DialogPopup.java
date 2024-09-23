@@ -520,6 +520,10 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.SEVERE, "Buy Software from NPC.");
                 listener.popupExit(RoomMode.Popup.SOFTWARE_BUY);
             }
+            case DISCOUNT -> {
+                LOGGER.log(Level.SEVERE, "Apply discount from NPC.");
+                gameState.room.extras.applyDiscount(gameState);
+            }
             case DESC -> {
                 LOGGER.log(Level.SEVERE, "Print next response into room description window.");
                 dialogSubIndex++;
