@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
@@ -77,11 +78,11 @@ public class R8Extras extends RoomExtras {
         {17}, // [32] :: Only a wilson would ask a question like that.
         {17}, // [33] :: I only have the coded password for Hitachi: "SELIM".
         {17}, // [34] :: The coded password for Copenhagen University is "KIKENNA".
-        {38}, // [35] :: Emperor Norton left you a Guest Pass for the Matrix Restaurant. He mumbled something about skills and upgrades.
+        {ITEM_BUY}, // [35] :: Emperor Norton left you a Guest Pass for the Matrix Restaurant. He mumbled something about skills and upgrades.
         {17}, // [36] :: Ya got me. I dont know anythin about that.
         {17}, // [37] :: Shiva gives you a guest pass for the Matrix Restaurant.
         {39}, // [38] :: Shiva gives you your Cryptology chip.
-        {17, 18}, // [39] :: I also have Hardware Repair for sale for $1000.
+        {SKILL_BUY, 19}, // [39] :: I also have Hardware Repair for sale for $1000.
         {DIALOG_CLOSE} // [40] :: I already gave it to you, cowboy.
     };
 
@@ -183,7 +184,7 @@ public class R8Extras extends RoomExtras {
     public int dialogWarmUp(GameState gs) {
         if (gs.shivaChipMentioned) {
             if (gs.shivaGaveChip) {
-                return 39; // Maybe answer some questions.
+                return 17; // Maybe answer some questions.
             } else {
                 return 16; // You must be ...
             }
@@ -228,5 +229,24 @@ public class R8Extras extends RoomExtras {
 
         return false; // Don't open new dialog.
     }
+
+    @Override
+    public ArrayList<Item> getVendItems(GameState gs) {
+        ArrayList<Item> list = new ArrayList<>();
+
+        list.add(new RealItem(Item.Catalog.GUESTPASS, 0, 1));
+
+        return list;
+    }
+
+    @Override
+    public boolean onVendItemsFinished(GameState gs) {
+        if (gs.hasInventoryItem(Item.Catalog.GUESTPASS)) {
+            gs.shivaGavePass = true;
+            return true;
+        }
+        return false;
+    }
+
 
 }
