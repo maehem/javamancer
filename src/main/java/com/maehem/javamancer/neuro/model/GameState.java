@@ -35,10 +35,13 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.ItemCatalog;
+import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.model.skill.WarezAnalysisSkill;
+import com.maehem.javamancer.neuro.model.skill.ZenSkill;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.lang.reflect.Constructor;
@@ -133,7 +136,7 @@ public class GameState {
         false, false, false, true, true, // 21-25
         true, true, false, false, false, //26-30
         false, true, false, false, false, // 31-35
-        false, false, false, false, true, // 36-40
+        true, false, false, false, true, // 36-40
         false, false, false, true, true, // 41-45
         true, false, false, false, false, // 46-50
         true, true, false, false, false, // 50-55
@@ -144,6 +147,7 @@ public class GameState {
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
     public boolean shivaChipMentioned = false;
     public boolean shivaGaveChip = false;
+    public boolean shivaGavePass = false;
     public boolean joystickGiven = false; // Player must give Nolan the joystick.
     public boolean gasMaskIsOn = false;
 
@@ -190,7 +194,19 @@ public class GameState {
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Fine, 1000));
 
         // Game Test Items
-        inventory.add(new UXBDeckItem());
+        UXBDeckItem uxbDeckItem = new UXBDeckItem();
+        inventory.add(uxbDeckItem); // Test item
+        deckSlots = uxbDeckItem.nSlots;
+
+        inventory.add(new RealItem(Catalog.JOYSTICK, 20));
+
+        //bankZurichCreated = "11/16/58"; // Test Item
+        //bankZurichBalance = 2000; // Test Item
+        chipBalance = 10000; // Test Item
+        shivaGavePass = true;
+        skills.add(new WarezAnalysisSkill(1));
+        skills.add(new ZenSkill(1));
+
     }
 
     public void addMinute() {
@@ -264,6 +280,16 @@ public class GameState {
             }
         }
         return false;
+    }
+
+    public Skill getInstalledSkill(SkillItem skillItem) {
+        for (Skill skill : skills) {
+            if (skill.getClass().equals(skillItem.item.clazz)) {
+                LOGGER.log(Level.CONFIG, "Found skill {0} is installed.", skill.type.itemName);
+                return skill;
+            }
+        }
+        return null;
     }
 
     public boolean hasInventoryItem(Item checkItem) {
