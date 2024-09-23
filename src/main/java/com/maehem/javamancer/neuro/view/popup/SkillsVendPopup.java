@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.popup;
 import com.maehem.javamancer.neuro.model.BodyPart;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
 import static com.maehem.javamancer.neuro.view.popup.PopupPane.LINE_SPACING;
@@ -56,14 +57,14 @@ public class SkillsVendPopup extends SmallPopupPane {
     private final ArrayList<SkillItem> vendItems;
 
     public enum Mode {
-        BUY, SELL
+        BUY, SELL, UPGRADE
     }
 
     private static final int NUM_ITEMS = 4; // show per page
     private int itemIndex = 0;
 
     public SkillsVendPopup(Mode mode, PopupListener l, GameState gs, ArrayList<SkillItem> vendItems) {
-        super(l, gs, 440, HEIGHT, 1, Y);
+        super(l, gs, 520, HEIGHT, 20, Y);
         this.mode = mode;
         this.vendItems = vendItems;
 
@@ -122,11 +123,19 @@ public class SkillsVendPopup extends SmallPopupPane {
                 String newLine = i > 0 ? "\n" : "";
 
                 SkillItem skillItem = vendItems.get(i + itemIndex);
-                boolean inventoryHasSkillItem = gameState.hasInventoryItem(skillItem);
-                String soldmarker = (gameState.hasInstalledSkill(skillItem) || inventoryHasSkillItem) ? "-" : " ";
-                String itemName = String.format("%-20s", skillItem.item.itemName);
-                String priceRaw = "";
+                String soldmarker;
                 if (mode == Mode.BUY) {
+                    boolean inventoryHasSkillItem = gameState.hasInventoryItem(skillItem);
+                    soldmarker = (gameState.hasInstalledSkill(skillItem) || inventoryHasSkillItem) ? "-" : " ";
+                } else if ( mode == Mode.UPGRADE ) {
+                    Skill installedSkill = gameState.getInstalledSkill(skillItem);
+                    soldmarker = (installedSkill == null || skillItem.level <= installedSkill.level) ? "-" : " ";
+                } else {
+                    soldmarker = " ";
+                }
+                String itemName = String.format("%-24s", skillItem.item.itemName);
+                String priceRaw = "";
+                if (mode == Mode.BUY || mode == Mode.UPGRADE) {
                     priceRaw = String.valueOf(skillItem.price);
                 } else {
                     //No sell mode for now.
@@ -153,7 +162,7 @@ public class SkillsVendPopup extends SmallPopupPane {
         switch (mode) {
             case BUY -> {
                 if (!gameState.hasInventoryItem(skillItem)
-                        && !gameState.skills.contains(skillItem)) {
+                        && !gameState.hasInstalledSkill(skillItem)) {
                     // Try to buy it.
                     int price = skillItem.price;
                     if (gameState.chipBalance >= price) {
@@ -167,6 +176,24 @@ public class SkillsVendPopup extends SmallPopupPane {
                     }
                 } else {
                     LOGGER.log(Level.SEVERE, "Can't buy skill. We already have one.");
+                }
+            }
+            case UPGRADE -> {
+                if (gameState.hasInstalledSkill(skillItem)) {
+                    Skill toUpgrade = gameState.getInstalledSkill(skillItem);
+
+                    // Try to buy it. We have money and can upgrade?
+                    int price = skillItem.price;
+                    if (gameState.chipBalance >= price && skillItem.level > toUpgrade.level) {
+
+                        LOGGER.log(Level.SEVERE, "Player upgrades {0} from {1} to {2}", new Object[]{skillItem.item.itemName, toUpgrade.level, toUpgrade.level + 1});
+                        gameState.chipBalance -= price;
+                        toUpgrade.level++;
+                    } else {
+                        LOGGER.log(Level.SEVERE, "Not enough money to buy skill.");
+                    }
+                } else {
+                    LOGGER.log(Level.SEVERE, "Can't upgrade skill. We don't have it or it's not installed.");
                 }
             }
             case SELL -> {
