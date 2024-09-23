@@ -110,7 +110,7 @@ public class SkillsPopup extends SmallPopupPane {
                 String newLine = i > 0 ? "\n" : "";
                 Skill skill = skills.get(i + itemIndex);
                 Text listItem;
-                listItem = new Text(newLine + (i + 1) + ". " + skill.type.itemName);
+                listItem = new Text(newLine + (i + 1) + ". " + skill.getVersionedName());
 
                 tf.getChildren().add(listItem);
                 final int n = i;
