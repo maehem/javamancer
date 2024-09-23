@@ -165,7 +165,7 @@ public class DeckPopup extends PopupPane {
             displayResponse(useReponse);
         } else {
             deck.setCurrentWarez(w);
-            if (deck.canCyberspace()) {
+            if (deck.cyberspaceCapable) {
                 connectMenu();
             } else {
                 enterLinkCode();
