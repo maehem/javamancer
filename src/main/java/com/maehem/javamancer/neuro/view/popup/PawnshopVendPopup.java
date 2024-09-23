@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.neuro.model.BodyPart;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
@@ -117,6 +118,9 @@ public class PawnshopVendPopup extends SmallPopupPane {
     private void populateList(TextFlow tf) {
         LOGGER.log(Level.FINER, "Build Pawnshop Vend {0} List", mode.name());
         //ArrayList<Skill> installedSkills = gameState.skills;
+        int discount = gameState.room.getExtras().getDiscount(gameState);
+        LOGGER.log(Level.SEVERE, "Discount is: " + discount);
+
         for (int i = 0; i < NUM_ITEMS; i++) {
             if (i + itemIndex < vendItems.size()) {
                 String newLine = i > 0 ? "\n" : "";
@@ -124,16 +128,21 @@ public class PawnshopVendPopup extends SmallPopupPane {
                 Item item = vendItems.get(i + itemIndex);
                 boolean inventoryHasItem = gameState.hasInventoryItem(item);
                 String soldmarker = (inventoryHasItem) ? "-" : " ";
-                String itemName = String.format("%-16s", item.item.itemName);
-                String itemStock = String.format("%3s", String.valueOf(item.quantity));
+                String itemName = String.format("%-18s", item.item.itemName);
+                String itemStock;
+                if (item instanceof DeckItem deck) {
+                    itemStock = String.format("%3s", String.valueOf(deck.nSlots));
+                } else {
+                    itemStock = String.format("%3s", String.valueOf(item.quantity));
+                }
                 String priceRaw = "";
                 if (mode == Mode.BUY) {
-                    priceRaw = String.valueOf(item.price);
+                    priceRaw = String.valueOf(computePrice(item.price, discount));
                 } else {
                     //No sell mode for now.
                     //priceRaw = String.valueOf(skill.sellPrice);
                 }
-                String itemPrice = String.format("%6s", priceRaw);
+                String itemPrice = String.format("%8s", priceRaw);
                 Text listItem = new Text(
                         newLine + (i + 1) + ". "
                         + soldmarker + itemName + itemStock + itemPrice
@@ -152,14 +161,19 @@ public class PawnshopVendPopup extends SmallPopupPane {
         }
     }
 
+    private static int computePrice(int price, int discount) {
+        return (int) (price * (1.0 - discount / 100.0));
+    }
+
     private void vend(int index) {
         Item item = vendItems.get(index + itemIndex);
+        int discount = gameState.room.getExtras().getDiscount(gameState);
 
         switch (mode) {
             case BUY -> {
                 if (!gameState.hasInventoryItem(item)) {
                     // Try to buy it.
-                    int price = item.price;
+                    int price = computePrice(item.price, discount);
                     if (gameState.chipBalance >= price) {
                         LOGGER.log(Level.SEVERE, "Pawnshop: Player bought {0}", item.item.itemName);
                         gameState.chipBalance -= price;
