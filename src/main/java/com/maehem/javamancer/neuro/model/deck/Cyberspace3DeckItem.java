@@ -28,29 +28,24 @@ package com.maehem.javamancer.neuro.model.deck;
 
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
-import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
-import com.maehem.javamancer.neuro.model.warez.SequencerWarez;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class UXBDeckItem extends DeckItem {
+public class Cyberspace3DeckItem extends DeckItem {
 
-    public UXBDeckItem() {
-        super(Catalog.UXB, 5, NON_CYBERSPACE,
+    public Cyberspace3DeckItem() {
+        super(Catalog.CYBERSPACEIII, 15, CYBERSPACE,
                 112, 80
         );
-        price = 1800;
-
-        softwarez.add(new ComLinkWarez(1));
-        softwarez.add(new ComLinkWarez(6));  // FOR DEBUG
-        softwarez.add(new SequencerWarez(1)); // Debug
+        price = 22000;
     }
 
     @Override
     public void use() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
 
 }
