@@ -83,7 +83,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     }
 
     public enum Popup {
-        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL, SKILLS_BUY, ITEMS_BUY, SOFTWARE_BUY, CYBERSPACE
+        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL, SKILLS_BUY, SKILLS_UPGRADE, ITEMS_BUY, SOFTWARE_BUY, CYBERSPACE
     }
 
     private static final int ROW_1_Y = 292;
@@ -487,13 +487,26 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case SKILLS_BUY -> {
                 RoomExtras roomExtras = room.getExtras();
                 if (roomExtras != null) {
-                    ArrayList<SkillItem> vendItems = roomExtras.getVendSkillItems(getGameState());
-                    if (vendItems != null) {
+                    ArrayList<SkillItem> items = roomExtras.getVendSkillItems(getGameState());
+                    if (items != null) {
                         popup = new SkillsVendPopup(
                                 SkillsVendPopup.Mode.BUY,
-                                this, getGameState(), vendItems
+                                this, getGameState(), items
                         );
                         LOGGER.log(Level.SEVERE, "Set popup to: Skills - BUY");
+                    }
+                }
+            }
+            case SKILLS_UPGRADE -> {
+                RoomExtras roomExtras = room.getExtras();
+                if (roomExtras != null) {
+                    ArrayList<SkillItem> items = roomExtras.getUpgradeSkillItems(getGameState());
+                    if (items != null) {
+                        popup = new SkillsVendPopup(
+                                SkillsVendPopup.Mode.UPGRADE,
+                                this, getGameState(), items
+                        );
+                        LOGGER.log(Level.SEVERE, "Set popup to: Skills - UPGRADE");
                     }
                 }
             }
