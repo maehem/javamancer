@@ -50,6 +50,7 @@ public abstract class RoomExtras {
     public static final int WORD1 = 54;
     public static final int WORD2 = 55;
     public static final int WHERE_IS = 56; // Street Light Girl - Where is Lonny Zone?
+    public static final int DISCOUNT = 57; // Apply vendor discount (asano 20%)
     public static final int LUNGS = 60; // lungs removed at Hitachi
     public static final int BODY_SELL = 61; // Bodyshop menu
     public static final int BODY_BUY = 62; // Bodyshop menu
@@ -213,6 +214,15 @@ public abstract class RoomExtras {
 
         gs.chipBalance -= amt;
         return true;
+    }
+
+    public void applyDiscount(GameState gs) {
+        LOGGER.log(Level.WARNING, "Room called applyDiscount but it's not overridden!");
+    }
+
+    public int getDiscount(GameState gs) {
+        LOGGER.log(Level.SEVERE, "Discount is not overridden.");
+        return 0;
     }
 
 }
