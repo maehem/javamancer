@@ -102,7 +102,9 @@ public abstract class RoomExtras {
 
     public abstract int dialogWarmUp(GameState gs);
 
-    public abstract void dialogNoMore(GameState gs);
+    public void dialogNoMore(GameState gs) {
+        gs.roomNpcTalk[gs.room.getIndex()] = false;
+    }
 
     public abstract void initRoom(GameState gs);
 
