@@ -64,7 +64,7 @@ public class PawnshopVendPopup extends SmallPopupPane {
     private int itemIndex = 0;
 
     public PawnshopVendPopup(Mode mode, PopupListener l, GameState gs, ArrayList<Item> vendItems) {
-        super(l, gs, 440, HEIGHT, 1, Y);
+        super(l, gs, 520, HEIGHT, 60, Y - 16);
         this.mode = mode;
         this.vendItems = vendItems;
 
