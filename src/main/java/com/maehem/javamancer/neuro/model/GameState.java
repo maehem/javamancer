@@ -164,12 +164,13 @@ public class GameState {
     public Skill activeSkill = null;
     public int activeSkillLevel = 0;
     public boolean bodyPartDiscount = true;
-    public BodyShopRecent bodyShopRecent = BodyShopRecent.NONE;
+    public BodyShopRecent bodyShopRecent = BodyShopRecent.NONE; // Fix me. Probably a better way to do.
     public PawnRecent pawnRecent = PawnRecent.NONE;
-    public int psychoProbeCount = 0;
+    public int psychoProbeCount = 0; // Increaase each time player gets probed.
     public boolean swissBankRobbed = false;
-    public boolean comlink2recieved = false;
-    public boolean comlink6uploaded = false;
+    public boolean comlink2recieved = false; // Set by Edo given Caviar
+    public boolean comlink6uploaded = false; // Set by uploading to Hosaka.
+    public boolean asanoDiscount = false; // Set by talking to Asano
 
     // Hosaka Emplyee List
     public final ArrayList<Person> hosakaEmployeeList = new ArrayList<>();
