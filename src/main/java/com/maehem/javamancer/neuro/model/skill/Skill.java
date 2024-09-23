@@ -75,4 +75,8 @@ public abstract class Skill {
     }
 
     public abstract void use();
+
+    public String getVersionedName() {
+        return type.itemName + " " + level;
+    }
 }

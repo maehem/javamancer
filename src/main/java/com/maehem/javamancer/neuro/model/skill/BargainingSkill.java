@@ -32,9 +32,9 @@ import java.util.logging.Level;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class BarganingSkill extends Skill {
+public class BargainingSkill extends Skill {
 
-    public BarganingSkill(int level) {
+    public BargainingSkill(int level) {
         super(Type.BARGAINING, level);
     }
 
