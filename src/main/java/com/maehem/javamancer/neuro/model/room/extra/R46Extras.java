@@ -27,8 +27,10 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import java.util.ArrayList;
 import java.util.Map;
 import static java.util.Map.entry;
 
@@ -40,22 +42,22 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
 
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC}, {SHORT_DESC}, //  [0][1]
-        {}, // [2] :: ...so I was larking around Rio heavy commerce sector when I see this white cube. It was an AI, listed on the
-        {}, // [3] :: Turing Registry. Figured Id try to cut the ice. Hit the first layer and flatlined. My joeboy smelled the skin
-        {}, // [4] :: frying and pulled the trodes off me.
-        {}, // [5] :: I know what you mean. Tried it myself once. That ice was bad news. Maybe an AI got old Bosch.  He was worried when
-        {}, // [6] :: I last talked to him at Gridpoint. He thought some AI had found a way to make itself smarter!  You believe it?
-        {}, // [7] :: No. Nobody trusts an AI. Every AI ever built has an electromagnetic shotgun wired to its forehead. Turing would
+        {NPC, 3}, // [2] :: ...so I was larking around Rio heavy commerce sector when I see this white cube. It was an AI, listed on the
+        {NPC, 4}, // [3] :: Turing Registry. Figured Id try to cut the ice. Hit the first layer and flatlined. My joeboy smelled the skin
+        {NPC, 5}, // [4] :: frying and pulled the trodes off me.
+        {NPC, 6}, // [5] :: I know what you mean. Tried it myself once. That ice was bad news. Maybe an AI got old Bosch.  He was worried when
+        {NPC, 7}, // [6] :: I last talked to him at Gridpoint. He thought some AI had found a way to make itself smarter!  You believe it?
+        {8}, // [7] :: No. Nobody trusts an AI. Every AI ever built has an electromagnetic shotgun wired to its forehead. Turing would
         {9, 10}, // [8] :: wipe it right away....Hey!  Look who wandered in when we left the door open!
         {12}, // [9] :: Got any old chips you want to sell?
         {WORD1}, // [10] :: Hey, what do you know about @---------------
         {}, // [11] ::
-        {ITEM_BUY}, // [12] :: Have I got chips!  Ive got Logic, Software Analysis, and Musicianship. For you, Ill charge $1000 each.
+        {SKILL_BUY}, // [12] :: Have I got chips!  Ive got Logic, Software Analysis, and Musicianship. For you, Ill charge $1000 each.
         {}, // [13] ::
         {10}, // [14] :: Nobodys seen Bosch lately. We think maybe he hit some black ice out in cyberspace. Matt Shaw saw him last.
         {10}, // [15] :: Sense/Net has em all. And the only people who ever got in there were the Panther Moderns.
         {10}, // [16] :: Cant help you with those. Try Julius.
-        {10}, // [17] :: Sure, we can raise a few of your skills to level 2, and Debug to  level 4. $100 for each skill level.
+        {SKILL_UPGRADE}, // [17] :: Sure, we can raise a few of your skills to level 2, and Debug to  level 4. $100 for each skill level.
         {10}, // [18] :: Great guy. Hes been real helpful in the past. Big ego, though.
         {10}, // [19] :: I know them for the Loser, ESFA, and NASA.  Which ones do you need?
         {10}, // [20] :: The password for level 2 is "TURNIP" You can decode it yourself.
@@ -139,13 +141,33 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
 
     @Override
     public int dialogWarmUp(GameState gs) {
+        if (!gs.shivaGavePass) {
+            return 28;
+        }
         return 2;
 
     }
 
     @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
+    public ArrayList<SkillItem> getVendSkillItems(GameState gs) {
+        ArrayList<SkillItem> list = new ArrayList<>();
+        list.add(new SkillItem(Item.Catalog.LOGIC, 1, 1000));
+        list.add(new SkillItem(Item.Catalog.WAREZANALYSIS, 1, 1000));
+        list.add(new SkillItem(Item.Catalog.MUSICIANSHIP, 1, 1000));
+
+        return list;
+    }
+
+    @Override
+    public ArrayList<SkillItem> getUpgradeSkillItems(GameState gs) {
+        ArrayList<SkillItem> list = new ArrayList<>();
+        list.add(new SkillItem(Item.Catalog.ZEN, 2, 100));
+        list.add(new SkillItem(Item.Catalog.EVASION, 2, 100));
+        list.add(new SkillItem(Item.Catalog.WAREZANALYSIS, 4, 100));
+        list.add(new SkillItem(Item.Catalog.HARDWAREREPAIR, 4, 100));
+        list.add(new SkillItem(Item.Catalog.DEBUG, 4, 100));
+
+        return list;
     }
 
 }
