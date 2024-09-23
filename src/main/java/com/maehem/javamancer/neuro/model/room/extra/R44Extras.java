@@ -27,10 +27,29 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.deck.BJB188DeckItem;
+import com.maehem.javamancer.neuro.model.deck.BlueLightSpecialDeckItem;
+import com.maehem.javamancer.neuro.model.deck.Cyberspace2DeckItem;
+import com.maehem.javamancer.neuro.model.deck.Cyberspace3DeckItem;
+import com.maehem.javamancer.neuro.model.deck.Cyberspace7DeckItem;
+import com.maehem.javamancer.neuro.model.deck.EdokkoDeckItem;
+import com.maehem.javamancer.neuro.model.deck.GaijinDeckItem;
+import com.maehem.javamancer.neuro.model.deck.HikiGaeruDeckItem;
+import com.maehem.javamancer.neuro.model.deck.KatanaDeckItem;
+import com.maehem.javamancer.neuro.model.deck.Ninja2000DeckItem;
+import com.maehem.javamancer.neuro.model.deck.Ninja3000DeckItem;
+import com.maehem.javamancer.neuro.model.deck.Ninja4000DeckItem;
+import com.maehem.javamancer.neuro.model.deck.Ninja5000DeckItem;
+import com.maehem.javamancer.neuro.model.deck.SamuraiSevenDeckItem;
+import com.maehem.javamancer.neuro.model.deck.ShogunDeckItem;
+import com.maehem.javamancer.neuro.model.deck.TofuDeckItem;
+import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import java.util.ArrayList;
 import java.util.Map;
 import static java.util.Map.entry;
+import java.util.logging.Level;
 
 /**
  *
@@ -38,9 +57,11 @@ import static java.util.Map.entry;
  */
 public class R44Extras extends RoomExtras { // Asano's
 
+    private boolean purchasedItem = false;
+
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC}, {SHORT_DESC}, //  [0][1]
-        {3, 4, 5, 6, 7, 8}, // [2] :: Welcome to my humble shop!
+        {5, 6, 7}, // [2] :: Welcome to my humble shop!
         {DIALOG_CLOSE}, // [3] :: Leave me alone!  I said Im just
         {WORD1}, // [4] :: Tell me about the @---------------
         {17}, // [5] :: Uh, whats the, uh...cheapest
@@ -54,17 +75,17 @@ public class R44Extras extends RoomExtras { // Asano's
         {25}, // [13] :: Well, yes, kind of....
         {16}, // [14] :: Edo is my oldest
         {25}, // [15] :: Well, no, not really....
-        {25}, // [16] :: Edo is a gnats eyeball!
+        {26}, // [16] :: Edo is a gnats eyeball!
         {ITEM_BUY}, // [17] :: Cheapest?  The Blue Light Special. [32 on no buy]
-        {9, 21, 22, 23, 24}, // [18] :: Certainly. Can I answer any questions?
+        {3, 4, 5, 7}, // [18] :: Certainly. Can I answer any questions?
         {21, 22}, // [19] :: A pig?  Edo is the son of a turtle
         {ITEM_BUY}, // [20] :: Police?  Uh, I can sell you any legal
         {23}, // [21] :: You dont like Edo, do you?  Im pretty good at noticing these things.
-        {24}, // [22] :: Ive heard Edo is a pretty good guy.
+        {23}, // [22] :: Ive heard Edo is a pretty good guy.
         {13, 14, 15, 16}, // [23] :: Edo is a goats armpit!
         {EXIT_L}, // [24] :: Edo sleeps with small animals!
         {9, 10, 11, 12}, // [25] :: Good.  I dont allow Crazy Edos friends
-        {9}, // [26] :: I see you are a wise person.
+        {DISCOUNT, ITEM_BUY}, // [26] :: I see you are a wise person. // Apply discount.
         {9}, // [27] :: Thats a low-end model.
         {9}, // [28] :: Thats a cyberspace deck.
         {9}, // [29] :: You cant do any better than that.
@@ -145,13 +166,56 @@ public class R44Extras extends RoomExtras { // Asano's
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        return 2;
 
+        return 2;
     }
 
     @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
+    public ArrayList<Item> getVendItems(GameState gs) {
+        ArrayList<Item> list = new ArrayList<>();
+        list.add(new BlueLightSpecialDeckItem());
+        list.add(new BJB188DeckItem());
+        list.add(new UXBDeckItem());
+        list.add(new HikiGaeruDeckItem());
+        list.add(new GaijinDeckItem());
+        list.add(new Ninja2000DeckItem());
+        list.add(new Ninja3000DeckItem());
+        list.add(new EdokkoDeckItem());
+        list.add(new Cyberspace2DeckItem());
+        list.add(new KatanaDeckItem());
+        list.add(new Cyberspace3DeckItem());
+        list.add(new TofuDeckItem());
+        list.add(new Ninja4000DeckItem());
+        list.add(new ShogunDeckItem());
+        list.add(new Ninja5000DeckItem());
+        list.add(new SamuraiSevenDeckItem());
+        list.add(new Cyberspace7DeckItem());
+        return list;
+    }
+
+    @Override
+    public boolean onVendItemsFinished(GameState gs) {
+        if (!purchasedItem) {
+            // set dialog to 32 // Come back when you're ready
+        } else {
+
+        }
+        return false;
+    }
+
+    @Override
+    public void applyDiscount(GameState gs) {
+        LOGGER.log(Level.SEVERE, "Apply discount because Asano likes you.");
+        gs.asanoDiscount = true;
+    }
+
+    @Override
+    public int getDiscount(GameState gs) {
+        if (gs.asanoDiscount) {
+            LOGGER.log(Level.SEVERE, "Discount is 20%.");
+            return 20;
+        }
+        return 0;
     }
 
 }
