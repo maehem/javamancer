@@ -133,7 +133,7 @@ public class GameState {
         true, true, true, false, false, // 6-10
         false, true, false, false, false, // 11-15
         false, false, false, false, false, // 16-20
-        false, false, false, true, true, // 21-25
+        false, false, true, true, true, // 21-25
         true, true, false, false, false, //26-30
         false, true, false, false, false, // 31-35
         true, false, false, false, true, // 36-40
@@ -179,6 +179,11 @@ public class GameState {
     // Sets to 0 when player is paid.
     // Sets to -1 if player removes BAMA from list.
     public int hosakaDaysSincePaid = -1;
+
+    // SEA Wanted List / Larry Moe Wanted List
+    public final static String LARRY_MODE_BAMA = "062788138";
+    public boolean larryMoeWanted = false;
+    public final ArrayList<Person> seaWantedList = new ArrayList<>();
 
     // Ephemeral -- Not saved
     public boolean pause = true;
