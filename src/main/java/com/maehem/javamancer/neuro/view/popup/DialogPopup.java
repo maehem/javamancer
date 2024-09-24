@@ -109,7 +109,7 @@ public class DialogPopup extends DialogPopupPane {
         getChildren().add(bubble);
 
         if (mode == Mode.NPC) {
-            if (dialogIndex < 100) {
+            if (dialogIndex < 50) {
                 // Might be a command.
                 LOGGER.log(Level.CONFIG, "first text: {0} == {1}",
                         new Object[]{
@@ -187,6 +187,9 @@ public class DialogPopup extends DialogPopupPane {
                 new Object[]{dialogIndex, dialogSubIndex,
                     newDialog
                 });
+        if (gameState.room.getExtras() != null) {
+            gameState.room.getExtras().onDialog(gameState, newDialog);
+        }
         //dialogSubIndex = 0;
         if (newDialog >= 50) {
             LOGGER.log(Level.SEVERE, "NPC runs command: " + newDialog);
