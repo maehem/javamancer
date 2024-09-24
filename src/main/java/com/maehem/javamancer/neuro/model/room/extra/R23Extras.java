@@ -27,11 +27,14 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.Room;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.RealItem;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import java.util.ArrayList;
 import java.util.Map;
 import static java.util.Map.entry;
+import java.util.logging.Level;
 
 /**
  *
@@ -51,12 +54,12 @@ public class R23Extras extends RoomExtras { // Panther Moderns
         {4, 5}, // [9] :: Chaos. That is our mode and modus. That is our central kick. Believe it.
         {EXIT_B}, // [10] :: Its not morning and youre not a cop.Drop the act and take a hike.
         {WORD1}, // [11] :: What do you know about @---------------
-        {ITEM_BUY}, // [12] :: I can sell you an Evasion skill chip for $5000.  Youll need it for protection in cyberspace.
+        {SKILL_BUY}, // [12] :: I can sell you an Evasion skill chip for $5000.  Youll need it for protection in cyberspace.
         {11}, // [13] :: Maybe youre okay. Anything else you want to ask me?
-        {}, // [14] :: Have it your way. // Closes evasion buy
+        {DIALOG_CLOSE}, // [14] :: Have it your way. // Closes evasion buy
         {ITEM_BUY, 11}, // [15] :: If you want a ROM Construct from Sense/Net, I can sell you a Security Pass to get you into the building.
         {11}, // [16] :: Sense/Net has all the ROM Constructs in their vault. Hard to get in there.
-        {ITEM_BUY}, // [17] :: I can sell you an Evasion skill chip for $2000.  Youll need it for protection in cyberspace.
+        {SKILL_BUY}, // [17] :: I can sell you an Evasion skill chip for $2000.  Youll need it for protection in cyberspace.
         {11}, // [18] :: Dont know what Evasion skill does. I bought it from a cowboy.
         {11}, // [19] :: Ive be siphoning from account number 646328356481, for years.
         {11}, // [20] :: They have a three letter password: "GNU"  Might be in code.
@@ -88,10 +91,10 @@ public class R23Extras extends RoomExtras { // Panther Moderns
             entry("pass", 16),
             entry("rom construct", 16),
             entry("rom", 16),
-            entry("chip", 12),
-            entry("chips", 12),
-            entry("skill", 12),
-            entry("skills", 12),
+            entry("chip", 17),
+            entry("chips", 17),
+            entry("skill", 17),
+            entry("skills", 17),
             entry("evasion", 18),
             entry("bank", 19),
             entry("gemeinschaft", 19),
@@ -120,11 +123,13 @@ public class R23Extras extends RoomExtras { // Panther Moderns
             entry("cyberspace", 33)
     );
 
+    private boolean discount = false;
+
     @Override
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R23).dumpList();
+        //gs.resourceManager.getRoomText(Room.R23).dumpList();
     }
 
     @Override
@@ -139,13 +144,60 @@ public class R23Extras extends RoomExtras { // Panther Moderns
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        return 3;
+        return 2;
 
     }
 
     @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
+    public int askWord1(GameState gs, String word) {
+        LOGGER.log(Level.SEVERE, "RoomExtra R23: Ask Word: {0}", word);
+        Integer index;
+        index = map1.get(word);
+        if (index == null) {
+            return 29; // Doesn't know.
+        }
+
+        // Set up chip discount
+        if (index == 17 && !discount) {
+            return 12;
+        }
+
+        return index;
     }
+
+//    @Override
+//    public void dialogNoMore(GameState gs) {
+//        gs.roomNpcTalk[gs.room.getIndex()] = false;
+//    }
+    @Override
+    public ArrayList<SkillItem> getVendSkillItems(GameState gs) {
+        ArrayList<SkillItem> list = new ArrayList<>();
+        list.add(new SkillItem(Item.Catalog.EVASION, 1, 5000));
+
+        return list;
+    }
+
+    @Override
+    public ArrayList<Item> getVendItems(GameState gs) {
+        ArrayList<Item> list = new ArrayList<>();
+
+        list.add(new RealItem(Item.Catalog.SECURITYPASS, 100, 1));
+
+        return list;
+    }
+
+    @Override
+    public void onDialog(GameState gs, int dialogNumber) {
+        if (dialogNumber == 7) {
+            LOGGER.log(Level.SEVERE, "Dialog 7: Lupus says you\'re ok.  Discount applied.");
+            discount = true;
+        }
+    }
+
+    @Override
+    public int getSkillDiscount(GameState gs) {
+        return discount ? 60 : 0;
+    }
+
 
 }
