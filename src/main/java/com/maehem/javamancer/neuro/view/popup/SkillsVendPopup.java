@@ -118,6 +118,8 @@ public class SkillsVendPopup extends SmallPopupPane {
     private void populateList(TextFlow tf) {
         LOGGER.log(Level.FINER, "Build Skill Vend {0} List", mode.name());
         //ArrayList<Skill> installedSkills = gameState.skills;
+        int discount = gameState.room.getExtras().getSkillDiscount(gameState);
+        LOGGER.log(Level.SEVERE, "Discount is: " + discount);
         for (int i = 0; i < NUM_ITEMS; i++) {
             if (i + itemIndex < vendItems.size()) {
                 String newLine = i > 0 ? "\n" : "";
@@ -136,7 +138,7 @@ public class SkillsVendPopup extends SmallPopupPane {
                 String itemName = String.format("%-24s", skillItem.item.itemName);
                 String priceRaw = "";
                 if (mode == Mode.BUY || mode == Mode.UPGRADE) {
-                    priceRaw = String.valueOf(skillItem.price);
+                    priceRaw = String.valueOf(computePrice(skillItem.price, discount));
                 } else {
                     //No sell mode for now.
                     //priceRaw = String.valueOf(skill.sellPrice);
@@ -158,13 +160,14 @@ public class SkillsVendPopup extends SmallPopupPane {
 
     private void vend(int index) {
         SkillItem skillItem = vendItems.get(index + itemIndex);
+        int discount = gameState.room.getExtras().getSkillDiscount(gameState);
 
         switch (mode) {
             case BUY -> {
                 if (!gameState.hasInventoryItem(skillItem)
                         && !gameState.hasInstalledSkill(skillItem)) {
                     // Try to buy it.
-                    int price = skillItem.price;
+                    int price = computePrice(skillItem.price, discount);
                     if (gameState.chipBalance >= price) {
                         LOGGER.log(Level.SEVERE, "Player bought " + skillItem.item.itemName);
                         gameState.chipBalance -= price;
@@ -249,6 +252,10 @@ public class SkillsVendPopup extends SmallPopupPane {
         }
 
         return false;
+    }
+
+    private static int computePrice(int price, int discount) {
+        return (int) (price * (1.0 - discount / 100.0));
     }
 
     @Override
