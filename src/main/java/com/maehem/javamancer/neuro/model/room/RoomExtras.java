@@ -225,4 +225,13 @@ public abstract class RoomExtras {
         return 0;
     }
 
+    public int getSkillDiscount(GameState gs) {
+        LOGGER.log(Level.SEVERE, "Skill Discount is not overridden.");
+        return 0;
+    }
+
+    public void onDialog(GameState gs, int newDialog) {
+        // Override to take actions when certain dialogs are reached.
+    }
+
 }
