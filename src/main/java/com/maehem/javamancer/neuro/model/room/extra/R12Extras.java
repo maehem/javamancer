@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.model.room.extra;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
 import java.util.Map;
@@ -130,6 +131,13 @@ public class R12Extras extends RoomExtras {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
         //gs.resourceManager.getRoomText(Room.R12).dumpList();
+        if (gs.larryMoeWanted) {
+            // Top door unlocked.
+            gs.room.unlockDoor(RoomBounds.Door.TOP);
+            gs.room.extras.dialogNoMore(gs);
+        } else {
+            gs.room.lockDoor(RoomBounds.Door.TOP);
+        }
     }
 
     @Override
@@ -145,7 +153,10 @@ public class R12Extras extends RoomExtras {
 
     @Override
     public int dialogWarmUp(GameState gs) {
-
+        if (gs.larryMoeWanted) {
+            dialogNoMore(gs);
+            return DIALOG_END;
+        }
         return 2;
     }
 
