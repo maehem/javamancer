@@ -84,11 +84,11 @@ public class R23Extras extends RoomExtras { // Panther Moderns
      *
      */
     private static final Map<String, Integer> map1 = Map.ofEntries(
-            entry("sense/net", 16),
-            entry("sensenet", 16),
-            entry("sense net", 16),
-            entry("security", 16),
-            entry("pass", 16),
+            entry("sense/net", 15),
+            entry("sensenet", 15),
+            entry("sense net", 15),
+            entry("security", 15),
+            entry("pass", 15),
             entry("rom construct", 16),
             entry("rom", 16),
             entry("chip", 17),
@@ -181,7 +181,7 @@ public class R23Extras extends RoomExtras { // Panther Moderns
     public ArrayList<Item> getVendItems(GameState gs) {
         ArrayList<Item> list = new ArrayList<>();
 
-        list.add(new RealItem(Item.Catalog.SECURITYPASS, 100, 1));
+        list.add(new RealItem(Item.Catalog.SECURITYPASS, 4000, 1));
 
         return list;
     }
