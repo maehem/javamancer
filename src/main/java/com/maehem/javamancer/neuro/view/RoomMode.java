@@ -624,6 +624,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         return r;
     }
 
+    /**
+     * Close the popup.
+     *
+     * @return true if OK to open any new requested popup.
+     */
     @Override
     public boolean popupExit() {
         LOGGER.log(Level.CONFIG, "Popup Exit: {0}", popup.getClass().getSimpleName());
