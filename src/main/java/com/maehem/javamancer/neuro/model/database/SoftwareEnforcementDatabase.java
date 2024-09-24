@@ -52,26 +52,6 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  */
 public class SoftwareEnforcementDatabase extends Database {
 
-    {
-        bbsMessages.add(new BbsMessage("11/16/58", "SEA", "W. Gibson", 7, true));
-        bbsMessages.add(new BbsMessage("11/16/58", "W. Gibson", "SEA", 8, true));
-        bbsMessages.add(new BbsMessage("11/16/58", "SEA", "W. Gibson", 9, true));
-        bbsMessages.add(new BbsMessage("11/16/58", "W. Gibson", "SEA", 10, true));
-    }
-
-    /*
-
-   bsea0.bih.
-    Wanted for
-
-    sea1.bih
-    Suspected of
-    Smuggling
-    Software pandering
-    Piracy
-    Supercode programming
-
-     */
     public SoftwareEnforcementDatabase(ResourceManager rm) {
         super(
                 "Software Enforcement Agency (SEA)", 12,
@@ -88,6 +68,12 @@ public class SoftwareEnforcementDatabase extends Database {
         warez1.put(ComLinkWarez.class, 4);
         warez1.put(SequencerWarez.class, 1);
         warez3.put(ThunderheadWarez.class, 2);
+
+        bbsMessages.add(new BbsMessage("11/16/58", "SEA", "W. Gibson", 7, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "W. Gibson", "SEA", 8, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "SEA", "W. Gibson", 9, true));
+        bbsMessages.add(new BbsMessage("11/16/58", "W. Gibson", "SEA", 10, true));
+
     }
 
 }
