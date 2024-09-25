@@ -41,6 +41,8 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
+                    <jlinkImageName>javamancer</jlinkImageName>
+                    <launcher>launcher</launcher>
                     <mainClass>com.maehem.javamancer/com.maehem.javamancer.Javamancer</mainClass>
                 </configuration>
                 <executions>
