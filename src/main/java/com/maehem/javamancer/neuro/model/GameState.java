@@ -40,8 +40,6 @@ import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
-import com.maehem.javamancer.neuro.model.skill.WarezAnalysisSkill;
-import com.maehem.javamancer.neuro.model.skill.ZenSkill;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.lang.reflect.Constructor;
@@ -171,6 +169,8 @@ public class GameState {
     public boolean comlink2recieved = false; // Set by Edo given Caviar
     public boolean comlink6uploaded = false; // Set by uploading to Hosaka.
     public boolean asanoDiscount = false; // Set by talking to Asano
+    public boolean securityPassGiven = false; // Sense/Net pass. Given to computer.
+    public boolean dixieInstalled = false; // ROM Construct: Dixie Flatline
 
     // Hosaka Emplyee List
     public final ArrayList<Person> hosakaEmployeeList = new ArrayList<>();
@@ -188,6 +188,8 @@ public class GameState {
     // Ephemeral -- Not saved
     public boolean pause = true;
     public boolean requestQuit = false; // Set by Disk Menu Quit option.
+    public String showMessage = ""; // RoomMode.tick() will place text in description area.
+    public String showMessageNextRoom = ""; // RoomMode.tick() will place text in description area of next room.
 
     public GameState(ResourceManager rm) {
         this.resourceManager = rm;
@@ -213,6 +215,15 @@ public class GameState {
         skills.add(new WarezAnalysisSkill(1));
         skills.add(new ZenSkill(1));
 
+
+    }
+
+    public boolean roomCanTalk() {
+        return roomNpcTalk[room.getIndex()];
+    }
+
+    public void setRoomTalk(boolean val) {
+        roomNpcTalk[room.getIndex()] = val;
     }
 
     public void addMinute() {
