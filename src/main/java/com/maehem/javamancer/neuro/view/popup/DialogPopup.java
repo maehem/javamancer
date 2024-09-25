@@ -116,6 +116,9 @@ public class DialogPopup extends DialogPopupPane {
                             dialogIndex,
                             textResource.get(dialogIndex)
                         });
+                if (gameState.room.getExtras() != null) {
+                    gameState.room.getExtras().onDialog(gameState, dialogIndex);
+                }
                 wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name));
                 dialogCountDown = DIALOG_COUNT;
             } else {
@@ -159,7 +162,7 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.CONFIG, "Player: Talk countdown finished.");
                 npcResponse(0);
             } else { // NPC count down done.
-                LOGGER.log(Level.CONFIG, "NPC: Talk countdown finished.");
+                LOGGER.log(Level.CONFIG, "NPC: Talk countdown finished.  dialogChain[dialogIndex][0] == " + dialogChain[dialogIndex][0]);
                 if (dialogChain[dialogIndex][0] >= 50) {
                     dialogSubIndex = 0;
                     //LOGGER.log(Level.SEVERE, "Process command: " + dialogChain[dialogIndex][0]);
@@ -174,31 +177,34 @@ public class DialogPopup extends DialogPopupPane {
     }
 
     private void npcResponse(int sub) {
-        LOGGER.log(Level.CONFIG, "NPC: Do response.");
+        LOGGER.log(Level.CONFIG, mode.name() + ": Do response.");
         mode = Mode.NPC;
         LOGGER.log(Level.SEVERE, "[179] Mode = NPC");
 
         bubble.setMode(DialogBubble.Mode.NONE); // The thing that hangs under the words.
         dialogSubIndex = sub;
 
+        LOGGER.log(Level.CONFIG, "new dialog: d[{0}][{1}]",
+                new Object[]{dialogIndex, dialogSubIndex});
         // Fill in NPC Response
         int newDialog = dialogChain[dialogIndex][dialogSubIndex];
-        LOGGER.log(Level.CONFIG, "new dialog: d[{0}][{1}] = {2}",
-                new Object[]{dialogIndex, dialogSubIndex,
-                    newDialog
-                });
+        if (newDialog == 4) {
+            int a = 0;
+        }
+        LOGGER.log(Level.CONFIG, "new dialog:             == {0}",
+                new Object[]{newDialog});
         if (gameState.room.getExtras() != null) {
             gameState.room.getExtras().onDialog(gameState, newDialog);
         }
         //dialogSubIndex = 0;
         if (newDialog >= 50) {
-            LOGGER.log(Level.SEVERE, "NPC runs command: " + newDialog);
+            LOGGER.log(Level.SEVERE, "{0} runs command: {1}", new Object[]{mode.name(), newDialog});
             processCommand(newDialog);
             dialogSubIndex++;
         } else {
             //dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
             dialogIndex = newDialog;
-            LOGGER.log(Level.CONFIG, "NPC: Set dialog index to: " + dialogIndex);
+            LOGGER.log(Level.CONFIG, "{0}: Set dialog index to: {1}", new Object[]{mode.name(), dialogIndex});
             // Control character '01' is a token for the player's name. Replace it here.
             wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
             LOGGER.log(Level.SEVERE, "Text: \n" + wordText.getText());
@@ -255,6 +261,9 @@ public class DialogPopup extends DialogPopupPane {
                     //npcResponse(0);
                     wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
                     dialogCountDown = DIALOG_COUNT;
+                    if (gameState.room.getExtras() != null) {
+                        gameState.room.getExtras().onDialog(gameState, askWord);
+                    }
                 } else {
                     LOGGER.log(Level.SEVERE, "RoomExtras.askWord has returned unexpected value! -1");
                 }
@@ -266,7 +275,7 @@ public class DialogPopup extends DialogPopupPane {
             if (!typedString.isEmpty()) {
                 typedText.setText(typedString.substring(0, typedString.length() - 1));
             }
-        } else if (code.isLetterKey()) {
+        } else if (code.isLetterKey() || code.isDigitKey()) {
             if (typedText.getText().equals(FILL_STRING)) {
                 typedText.setText("");
             }
@@ -471,9 +480,9 @@ public class DialogPopup extends DialogPopupPane {
             case NPC -> {
                 LOGGER.log(Level.SEVERE, "NPC Command.");
                 //dialogSubIndex++;
-                npcResponse(1);
                 mode = Mode.PLAYER; // Causes next loop to toggle to NPC again.
-                LOGGER.log(Level.SEVERE, "[301] Mode = PLAYER");
+                LOGGER.log(Level.SEVERE, "[482] Mode = PLAYER");
+                npcResponse(1);
                 return;
             }
             case FINE_BANK_500 -> {
