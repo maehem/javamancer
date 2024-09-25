@@ -206,14 +206,10 @@ public class GameState {
         inventory.add(uxbDeckItem); // Test item
         deckSlots = uxbDeckItem.nSlots;
 
-        inventory.add(new RealItem(Catalog.JOYSTICK, 20));
 
         //bankZurichCreated = "11/16/58"; // Test Item
         //bankZurichBalance = 2000; // Test Item
         chipBalance = 10000; // Test Item
-        shivaGavePass = true;
-        skills.add(new WarezAnalysisSkill(1));
-        skills.add(new ZenSkill(1));
 
 
     }
