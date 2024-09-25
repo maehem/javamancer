@@ -242,6 +242,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         setFocusTraversable(true);
         requestFocus();
 
+        if (!getGameState().showMessageNextRoom.isBlank()) {
+            roomDescriptionPane.addMessage(getGameState().showMessageNextRoom);
+            getGameState().showMessageNextRoom = "";
+        }
+
     }
 
     private boolean updateGreyOutState(double scrollValue) {
@@ -380,10 +385,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     @Override
     public void tick() {
-//        GameState gs = getGameState();
-//        if (gs.useDoor != null) {
-//
-//        }
+        if (!getGameState().showMessage.isBlank()) {
+            roomDescriptionPane.addMessage(getGameState().showMessage);
+            getGameState().showMessage = "";
+        }
         if (firstTime) {
             // We are scrolling the description and may not yet be done
             // incrementing through it.
@@ -412,6 +417,14 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 }
             }
         } else {
+            if (room.extras != null) {
+                if (room.extras.isRequestDialogPopup()) {
+                    room.extras.setRequestDialogPopup(false);
+                    showPopup(Popup.TALK);
+                } else {
+                    room.extras.tick(getGameState());
+                }
+            }
             roomPane.tick(getGameState());
         }
 
@@ -449,7 +462,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             }
             case TALK -> {
                 GameState gs = getGameState();
-                if (gs.roomNpcTalk[gs.room.getIndex()]) {
+                boolean canTalk = gs.roomCanTalk();
+                LOGGER.log(Level.SEVERE, "Room {0} can talk: {1}", new Object[]{gs.room.getIndex() + 1, canTalk ? "YES" : "NO"});
+                if (canTalk) {
                     LOGGER.log(Level.SEVERE, "Create new TALK popup.");
                     popup = new DialogPopup(this, gs, getResourceManager());
                 } else {
@@ -631,6 +646,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
      */
     @Override
     public boolean popupExit() {
+        if (popup == null) { // Used by sense/net room to boot player.
+            return false;
+        }
         LOGGER.log(Level.CONFIG, "Popup Exit: {0}", popup.getClass().getSimpleName());
         popup.setVisible(false);
         boolean doNextPopup;
