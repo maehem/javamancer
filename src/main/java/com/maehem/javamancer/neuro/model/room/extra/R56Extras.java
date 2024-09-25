@@ -27,11 +27,11 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.Room;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.Map;
 import static java.util.Map.entry;
+import java.util.logging.Level;
 
 /**
  *
@@ -39,16 +39,19 @@ import static java.util.Map.entry;
  */
 public class R56Extras extends RoomExtras { // Sense Net
 
+    private final static int COUNTDOWN_TICKS = 10 * 15; // 30 seconds at 15fps
+    private int countdown = -1;
+
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC}, {SHORT_DESC}, //  [0][1]
-        {}, // [2] :: You have 30 seconds to produce your security pass. Failure to comply will result in your removal.
-        {}, // [3] :: Clearance approved. You now have limited access to the Librarian.
-        {}, // [4] :: Please enter the identity number of the ROM Construct you require from the Sense/Net library vault:
-        {}, // [5] :: Availability verified. Checkout is approved.
-        {}, // [6] :: Identity number invalid. Try again if you made an error. You are allowed 3 library access attempts.
+        {DIALOG_CLOSE}, // [2] :: You have 30 seconds to produce your security pass. Failure to comply will result in your removal.
+        {NPC, 4}, // [3] :: Clearance approved. You now have limited access to the Librarian.
+        {9}, // [4] :: Please enter the identity number of the ROM Construct you require from the Sense/Net library vault:
+        {DIALOG_CLOSE}, // [5] :: Availability verified. Checkout is approved.
+        {DIALOG_CLOSE}, // [6] :: Identity number invalid. Try again if you made an error. You are allowed 3 library access attempts.
         {}, // [7] ::
-        {}, // [8] :: Access denied. Security has been alerted. Please remain here until the authorities arrive.
-        {}, // [9] :: @---------------
+        {TO_JAIL}, // [8] :: Access denied. Security has been alerted. Please remain here until the authorities arrive.
+        {WORD1}, // [9] :: @---------------
         {}, // [10] :: The computer gives you a ROM Construct.
         {}, // [11] :: You are kicked out of Sense/Net, for not producing a security pass.
     };
@@ -59,23 +62,22 @@ public class R56Extras extends RoomExtras { // Sense Net
      *
      */
     private static final Map<String, Integer> map1 = Map.ofEntries(
-            entry("fuji", 10),
-            entry("hosaka", 10),
-            entry("musabori", 10),
-            entry("hitachi", 10),
-            entry("sense/net", 10),
-            entry("sensenet", 10),
-            entry("sense-net", 10),
-            entry("sense net", 10)
+            entry("0467839", 5)
     );
+
+    private int codeTries = 3;
 
     @Override
     public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);
-        // Check agains game state for employment.
 
         if (index == null) {
-            return 15; // Doesn't know.
+            codeTries--;
+            if (codeTries > 0) {
+                return 6; // Invalid number.
+            } else {
+                return 8; // Three strikes, to jail.
+            }
         }
 
         return index;
@@ -85,13 +87,22 @@ public class R56Extras extends RoomExtras { // Sense Net
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R56).dumpList();
+        //gs.resourceManager.getRoomText(Room.R56).dumpList();
 
-        // TODO: No Pass. Kick out.
     }
 
     @Override
     public boolean give(GameState gs, Item item, int aux) {
+
+        if (item.item == Item.Catalog.SECURITYPASS) {
+            gs.securityPassGiven = true;
+            gs.setRoomTalk(true);
+            gs.inventory.remove(item);
+            countdown = -1;
+            LOGGER.log(Level.SEVERE, "Security Pass is given to NPC.");
+
+            return true;
+        }
 
         return false;
     }
@@ -103,18 +114,63 @@ public class R56Extras extends RoomExtras { // Sense Net
 
     @Override
     public int dialogWarmUp(GameState gs) {
+        if (gs.dixieInstalled) {
+            gs.setRoomTalk(false);
+            return DIALOG_END;
+        }
+
+        if (gs.securityPassGiven) {
+            countdown = -1;
+            return 3;
+        }
+        LOGGER.log(Level.SEVERE, "DialogWarmup: countdown is: " + countdown);
+        if (countdown == 0) {
+            countdown = -1;
+            // DESC 11
+            gs.showMessageNextRoom = gs.resourceManager.getRoomText(gs.room).get(11) + "\n";
+            return EXIT_T;
+        }
         return 2;
 
     }
 
     @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
+    public int jackZone() {
+        return 4;
     }
 
     @Override
-    public int jackZone() {
-        return 4;
+    public void onDialog(GameState gs, int dialog) {
+        //LOGGER.log(Level.SEVERE, "OnDialog for RoomExtra called. dialog == {0}", dialog);
+        if (dialog == 2) {
+            LOGGER.log(Level.SEVERE, "Gave 30 second warning.");
+            // Begin 30 second timer.
+            countdown = COUNTDOWN_TICKS;
+
+            // Player must give pass to stop timer.
+            dialogNoMore(gs);
+        } else if (dialog == 5) { // Code verified.
+            // Get ROM Consctruct
+            LOGGER.log(Level.SEVERE, "Player recieves ROM construct.");
+            gs.showMessage = gs.resourceManager.getRoomText(gs.room).get(10);
+            gs.dixieInstalled = true;
+            countdown = -1;
+            dialogNoMore(gs);
+        }
+    }
+
+    @Override
+    public void tick(GameState gs) {
+        if (countdown > 0) {
+            countdown--;
+        }
+        if (countdown == 0) {
+            LOGGER.log(Level.SEVERE, "Security countdown finished. Open dialog, then exit.");
+            //countdown = -1;
+            //open dialog
+            setRequestDialogPopup(true);
+            gs.setRoomTalk(true);
+        }
     }
 
 }
