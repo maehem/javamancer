@@ -47,10 +47,11 @@ public abstract class RoomExtras {
     public static final int LONG_DESC = 51;
     public static final int SHORT_DESC = 52;
     public static final int NPC = 53; // Don't toggle to PLAYER after this dialog
-    public static final int WORD1 = 54;
-    public static final int WORD2 = 55;
-    public static final int WHERE_IS = 56; // Street Light Girl - Where is Lonny Zone?
-    public static final int DISCOUNT = 57; // Apply vendor discount (asano 20%)
+    public static final int PLAYER = 54; // Don't toggle to PLAYER after this dialog
+    public static final int WORD1 = 55;
+    public static final int WORD2 = 56;
+    public static final int WHERE_IS = 57; // Street Light Girl - Where is Lonny Zone?
+    public static final int DISCOUNT = 58; // Apply vendor discount (asano 20%)
     public static final int LUNGS = 60; // lungs removed at Hitachi
     public static final int BODY_SELL = 61; // Bodyshop menu
     public static final int BODY_BUY = 62; // Bodyshop menu
@@ -87,6 +88,12 @@ public abstract class RoomExtras {
     public boolean onVendFinishedOpenDialog = false; // Semaphote to open dialog when vend finished.
 
     /**
+     * Request the talk dialog. Handled by RoomMode.tick() Flag is cleared when
+     * handled.
+     */
+    private boolean requestDialogPoppup = false;
+
+    /**
      * Called when player gives item to NPC. Over-ride if NPC can receive
      * things.
      *
@@ -104,6 +111,7 @@ public abstract class RoomExtras {
     public abstract int dialogWarmUp(GameState gs);
 
     public void dialogNoMore(GameState gs) {
+        LOGGER.log(Level.SEVERE, "Something set room to no more dialog.");
         gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
@@ -232,6 +240,20 @@ public abstract class RoomExtras {
 
     public void onDialog(GameState gs, int newDialog) {
         // Override to take actions when certain dialogs are reached.
+    }
+
+    public void tick(GameState gs) {
+        // Override to handle things each frame.
+    }
+
+    public void setRequestDialogPopup(boolean value) {
+        LOGGER.log(Level.SEVERE, "Set requestPopup: {0}", value ? "TRUE" : "FALSE");
+        requestDialogPoppup = value;
+    }
+
+    public boolean isRequestDialogPopup() {
+        //LOGGER.log(Level.SEVERE, "Request DialogPopup is: {0}", requestDialogPoppup ? "TRUE" : "FALSE");
+        return requestDialogPoppup;
     }
 
 }
