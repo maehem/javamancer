@@ -58,7 +58,10 @@ import javafx.scene.text.TextFlow;
 public class InventoryPopup extends SmallPopupPane {
 
     private enum Mode {
-        MENU, EFFECT, INSTALL, INSTALL_SUMMARY, DISCARD, DISCARD_SUMMARY, CREDITS
+        MENU, EFFECT, INSTALL, INSTALL_SUMMARY,
+        DISCARD, DISCARD_SUMMARY,
+        ASK_GIVE,
+        CREDITS
     }
 
     private static final int NUM_ITEMS = 4;
@@ -246,6 +249,16 @@ public class InventoryPopup extends SmallPopupPane {
                     }
                 }
             }
+            case ASK_GIVE -> {
+                switch (code) {
+                    case Y -> {
+                        doGiveItem();
+                    }
+                    case N -> {
+                        itemOptions();
+                    }
+                }
+            }
             case INSTALL_SUMMARY, DISCARD_SUMMARY -> {
                 listItems();  // Any key event
             }
@@ -307,6 +320,7 @@ public class InventoryPopup extends SmallPopupPane {
         } else {
             LOGGER.log(Level.SEVERE, "Give Item selected.");
             gameState.room.getExtras().give(gameState, currentItem, 0);
+            giveItemAreYouSure();
         }
     }
 
@@ -322,6 +336,34 @@ public class InventoryPopup extends SmallPopupPane {
         tf.setPadding(new Insets(0, 0, 0, 30));
 
         addBox(heading, heading2, tf);
+    }
+
+    private void giveItemAreYouSure() {
+        getChildren().clear();
+        mode = Mode.ASK_GIVE;
+        Text heading = new Text("  Give");
+        //int length = currentItem.getName().length();
+        Text heading2 = new Text("    " + currentItem.getName());
+
+        Text yesText = new Text("Y");
+        Text noText = new Text("N");
+
+        TextFlow tf = new TextFlow(
+                new Text("\nAre you sure? ("),
+                yesText, new Text("/"), noText,
+                new Text(")")
+        );
+        tf.setLineSpacing(LINE_SPACING);
+        tf.setPadding(new Insets(0, 0, 0, 10));
+
+        addBox(heading, heading2, tf);
+
+        yesText.setOnMouseClicked((t) -> {
+            doGiveItem();
+        });
+        noText.setOnMouseClicked((t) -> {
+            itemOptions();
+        });
     }
 
     private void askInstallSkillItem(SkillItem skillItem) {
@@ -510,6 +552,16 @@ public class InventoryPopup extends SmallPopupPane {
                 LOGGER.log(Level.INFO, "Insufficient Funds!");
             }
         }
+    }
+
+    private void doGiveItem() {
+        if (!gameState.room.getExtras().give(gameState, currentItem, -1)) {
+            LOGGER.log(Level.SEVERE, "NPC did not accept or handle given item. But you gave it away.");
+        }
+        gameState.inventory.remove(currentItem);
+        LOGGER.log(Level.SEVERE, "Item {0} removed from inventory.", currentItem.getName());
+        currentItem = null;
+        listener.popupExit(RoomMode.Popup.TALK); // Talk to NPC now.
     }
 
     private boolean checkAmount(int amount) {
