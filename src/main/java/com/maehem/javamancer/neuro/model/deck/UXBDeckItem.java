@@ -45,7 +45,7 @@ public class UXBDeckItem extends DeckItem {
 
         softwarez.add(new ComLinkWarez(1));
         softwarez.add(new ComLinkWarez(6));  // FOR DEBUG
-        softwarez.add(new SequencerWarez(1)); // Debug
+        softwarez.add(new SequencerWarez(1)); // Debug BozoBank
     }
 
     @Override
