@@ -63,6 +63,7 @@ public class GameState {
     public enum BodyShopRecent {
         NONE, BUY, SELL, REVIVED;
     }
+
     public enum PawnRecent {
         NONE, BUY;
     }
@@ -211,12 +212,11 @@ public class GameState {
         Cyberspace7DeckItem textDeckItem = new Cyberspace7DeckItem();
         inventory.add(textDeckItem); // Test item
         deckSlots = textDeckItem.nSlots;
-        textDeckItem.addWarez(new CyberspaceWarez(1));
+        addSoftware(new CyberspaceWarez(1));
 
         //bankZurichCreated = "11/16/58"; // Test Item
         //bankZurichBalance = 2000; // Test Item
         chipBalance = 30; // Test Item
-
 
     }
 
@@ -356,6 +356,33 @@ public class GameState {
         }
 
         return false;
+    }
+
+    public final boolean addSoftware(Warez w) {
+        if (software.size() < deckSlots) {
+            if (software.add(w)) {
+                LOGGER.log(Level.SEVERE, "Deck Warez:\n");
+                software.forEach((dw) -> {
+                    LOGGER.log(Level.SEVERE, dw.getSimpleName() + "\n");
+                });
+                return true;
+            } else {
+                LOGGER.log(Level.SEVERE, "Collection.add did not change software list. Unknown reason.");
+                return false;
+            }
+        } else {
+            LOGGER.log(Level.SEVERE, "Deck slots full. Erase items first or buy better deck.");
+            return false;
+        }
+    }
+
+    public final boolean eraseSoftware(Warez w) {
+        if (usingDeck != null) {
+            if (usingDeck.getCurrentWarez().item == w.item) {
+                usingDeck.setCurrentWarez(null);
+            }
+        }
+        return software.remove(w);
     }
 
     public void battleStart() { // Handled by next tick() of CYberspacePopup
