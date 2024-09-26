@@ -30,6 +30,13 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
+import static com.maehem.javamancer.neuro.model.item.Item.Catalog.CAVIAR;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_T;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_GET;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
@@ -42,7 +49,7 @@ import java.util.logging.Level;
 public class R40Extras extends RoomExtras { // Crazy Edo's
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0][1]
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
         {3, 4}, // [2] :: Hey!  You said youd bring me some caviar the next time you came in!
         {8}, // [3] :: Did I say that?  Sorry.  Guess Im not thinking too clearly.  I spent the night sleeping in spaghetti.
         {12}, // [4] :: Get your own caviar!  Go squeeze a sturgeon!  Im no delivery boy!
@@ -51,16 +58,16 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
         {8}, // [7] :: I think Ill hang on to it right now.
         {9, 10}, // [8] :: Can I interest you in some hardware? Remember, my prices are much better than that pig, Asano, can do.
         {17}, // [9] :: Let me see what youve got.
-        {DIALOG_CLOSE}, // [10] :: Im just browsing.
-        {DIALOG_CLOSE}, // [11] :: For a can of caviar, Ill give you Comlink 2.0.  Its great software!
-        {DIALOG_CLOSE}, // [12] :: You having a rough day or something?
-        {CAVIAR, 8}, // [13] :: Domo arigato gozaimasu!  Heres your Comlink 2.0 software.
-        {DIALOG_CLOSE}, // [14] :: All right.  Maybe next time. (Close of Buy menu)
-        {EXIT_T}, // [15] :: Try Metro Holografix for software! (After purchase of hardware?)
-        {DIALOG_CLOSE}, // [16] :: Come back again when you feel like buying.
-        {ITEM_BUY}, // [17] :: This is my current inventory. Of course, none of the decks are cyberspace-capable.
-        {ITEM_GET}, // [18] :: Edo installs the software in your deck.
-        {DIALOG_CLOSE}, // [19] :: Your deck is too full for us to trade.Erase some softwarez first.
+        {DIALOG_CLOSE.num}, // [10] :: Im just browsing.
+        {DIALOG_CLOSE.num}, // [11] :: For a can of caviar, Ill give you Comlink 2.0.  Its great software!
+        {DIALOG_CLOSE.num}, // [12] :: You having a rough day or something?
+        {CAVIAR.num, 8}, // [13] :: Domo arigato gozaimasu!  Heres your Comlink 2.0 software.
+        {DIALOG_CLOSE.num}, // [14] :: All right.  Maybe next time. (Close of Buy menu)
+        {EXIT_T.num}, // [15] :: Try Metro Holografix for software! (After purchase of hardware?)
+        {DIALOG_CLOSE.num}, // [16] :: Come back again when you feel like buying.
+        {ITEM_BUY.num}, // [17] :: This is my current inventory. Of course, none of the decks are cyberspace-capable.
+        {ITEM_GET.num}, // [18] :: Edo installs the software in your deck.
+        {DIALOG_CLOSE.num}, // [19] :: Your deck is too full for us to trade.Erase some softwarez first.
     };
 
     @Override

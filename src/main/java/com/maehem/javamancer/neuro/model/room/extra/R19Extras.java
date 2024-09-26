@@ -27,8 +27,14 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_R;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_SHUTTLE_FS;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_SHUTTLE_ZION;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
  *
@@ -37,7 +43,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class R19Extras extends RoomExtras { // Spaceport Chiba
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0] ::
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0] ::
         {3, 4, 5}, // [2] :: Konnichiwa!  Would you like to buy a ticket?
         {10}, // [3] :: Sure and begorrah, youre a fine looking lass. Have you got a special fare for police officers?
         {7}, // [4] :: Id like to buy a ticket.
@@ -47,16 +53,16 @@ public class R19Extras extends RoomExtras { // Spaceport Chiba
         {}, // [8] ::
         {}, // [9] ::
         {12, 13, 14}, // [10] :: Of course, officer. We have flights to Freeside for $1000 and Zion Cluster for $500.  Where would you like to go?
-        {EXIT_R}, // [11] :: Then you can just stumble right back out, wilson!
+        {EXIT_R.num}, // [11] :: Then you can just stumble right back out, wilson!
         {16}, // [12] :: Freeside. One person. Non-smoking. Whats the holo-movie on this flight?
         {17}, // [13] :: Zion Cluster. One person. Non-smoking.  Whats the holo-movie on this flight?
-        {DIALOG_CLOSE}, // [14] :: Ive changed my mind.  I think Ill remain in Chiba for now.
+        {DIALOG_CLOSE.num}, // [14] :: Ive changed my mind.  I think Ill remain in Chiba for now.
         {}, // [15] ::
-        {EXIT_SHUTTLE_FS}, // [16] :: Enjoy your flight to Freeside. You can buy a return ticket when you arrive. The holo-movie is "Burning Chrome."
-        {EXIT_SHUTTLE_ZION}, // [17] :: Enjoy your flight to Zion. You can buy a return ticket when you arrive. The holo-movie is "Aliens III."
+        {EXIT_SHUTTLE_FS.num}, // [16] :: Enjoy your flight to Freeside. You can buy a return ticket when you arrive. The holo-movie is "Burning Chrome."
+        {EXIT_SHUTTLE_ZION.num}, // [17] :: Enjoy your flight to Zion. You can buy a return ticket when you arrive. The holo-movie is "Aliens III."
         {}, // [18] ::
         {}, // [19] ::
-        {DIALOG_CLOSE}, // [20] :: Im afraid you dont have enough money, citizen.
+        {DIALOG_CLOSE.num}, // [20] :: Im afraid you dont have enough money, citizen.
     };
 
     @Override

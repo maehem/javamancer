@@ -30,6 +30,13 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_B;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SKILL_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
 import java.util.Map;
@@ -43,7 +50,7 @@ import java.util.logging.Level;
 public class R23Extras extends RoomExtras { // Panther Moderns
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0] ::
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0] ::
         {3, 4, 5, 6}, // [2] :: You got past Larry. Thats good. You wont get past me. Thats business.
         {10}, // [3] :: Top of the mornin.  I arrested your friend and Ill do the same to you unless you answer some questions.
         {7}, // [4] :: Lupus, my man!  I hear youre the kind of guy who helps stray cowboys.  Can you answer some questions for me?
@@ -52,14 +59,14 @@ public class R23Extras extends RoomExtras { // Panther Moderns
         {11}, // [7] :: Matt Shaw says youre all right.  So talk.  What do you want to know?
         {11}, // [8] :: Dont like you, either. Not Modern. Biz will cost more now.
         {4, 5}, // [9] :: Chaos. That is our mode and modus. That is our central kick. Believe it.
-        {EXIT_B}, // [10] :: Its not morning and youre not a cop.Drop the act and take a hike.
-        {WORD1}, // [11] :: What do you know about @---------------
-        {SKILL_BUY}, // [12] :: I can sell you an Evasion skill chip for $5000.  Youll need it for protection in cyberspace.
+        {EXIT_B.num}, // [10] :: Its not morning and youre not a cop.Drop the act and take a hike.
+        {WORD1.num}, // [11] :: What do you know about @---------------
+        {SKILL_BUY.num}, // [12] :: I can sell you an Evasion skill chip for $5000.  Youll need it for protection in cyberspace.
         {11}, // [13] :: Maybe youre okay. Anything else you want to ask me?
-        {DIALOG_CLOSE}, // [14] :: Have it your way. // Closes evasion buy
-        {ITEM_BUY, 11}, // [15] :: If you want a ROM Construct from Sense/Net, I can sell you a Security Pass to get you into the building.
+        {DIALOG_CLOSE.num}, // [14] :: Have it your way. // Closes evasion buy
+        {ITEM_BUY.num, 11}, // [15] :: If you want a ROM Construct from Sense/Net, I can sell you a Security Pass to get you into the building.
         {11}, // [16] :: Sense/Net has all the ROM Constructs in their vault. Hard to get in there.
-        {SKILL_BUY}, // [17] :: I can sell you an Evasion skill chip for $2000.  Youll need it for protection in cyberspace.
+        {SKILL_BUY.num}, // [17] :: I can sell you an Evasion skill chip for $2000.  Youll need it for protection in cyberspace.
         {11}, // [18] :: Dont know what Evasion skill does. I bought it from a cowboy.
         {11}, // [19] :: Ive be siphoning from account number 646328356481, for years.
         {11}, // [20] :: They have a three letter password: "GNU"  Might be in code.

@@ -30,6 +30,13 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_L;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SKILL_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SKILL_UPGRADE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
 import java.util.Map;
@@ -42,21 +49,21 @@ import static java.util.Map.entry;
 public class R27Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = { // Julius Dean
-        {LONG_DESC}, {SHORT_DESC}, // 0, 1
+        {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
         {3, 4, 5, 6}, // [2] :: What brings you around, boyo?  I deal in exotic hardware and information.
         {9}, // [3] :: Sure and begorrah.  Im a cop.
         {7}, // [4] :: Im just looking around right now.
         {8}, // [5] :: My friends tell me that someone is trying to kill me. Heard anything?
-        {WORD1}, // [6] :: What do you know about @---------------
-        {EXIT_L}, // [7] :: Go hang around someone elses office. Im a busy man.
+        {WORD1.num}, // [6] :: What do you know about @---------------
+        {EXIT_L.num}, // [7] :: Go hang around someone elses office. Im a busy man.
         {11, 12}, // [8] :: Not always easy to know who your friends are, is it?  I havent heard anything about it.
-        {EXIT_L}, // [9] :: Youre no cop. Youre a jerk. Get out of here!
+        {EXIT_L.num}, // [9] :: Youre no cop. Youre a jerk. Get out of here!
         {}, // [10] ::
-        {WORD1}, // [11] :: What do you know about @---------------
+        {WORD1.num}, // [11] :: What do you know about @---------------
         {13}, // [12] :: Maybe the people from Cheap Hotel are after me?  I ran up a big bill there.
         {11}, // [13] :: Of course, if I did hear something, I might not be able to tell you.  Biz being what it is, you understand.
-        {SKILL_BUY}, // [14] :: Ive got Bargaining, Psychoanalysis, Philosophy, and Phenomenology at $1000 each. Or I can upgrade certain skills.
-        {SKILL_UPGRADE}, // [15] :: I can upgrade you in Cryptology for $2500 per level if you already have the skill chip.
+        {SKILL_BUY.num}, // [14] :: Ive got Bargaining, Psychoanalysis, Philosophy, and Phenomenology at $1000 each. Or I can upgrade certain skills.
+        {SKILL_UPGRADE.num}, // [15] :: I can upgrade you in Cryptology for $2500 per level if you already have the skill chip.
         {11}, // [16] :: Sense/Net has all of those. I hear they even have Dixie Flatline on ROM.
         {11}, // [17] :: Try the Finn at Metro Holografix for that sort of thing.
         {11}, // [18] :: Dont know the name. Of course, if I knew, I might not be able to tell you.
@@ -69,7 +76,7 @@ public class R27Extras extends RoomExtras {
         {11}, // [25] :: Ive heard the password is "VULCAN" but thats probably in code.
         {11}, // [26] :: I think the link code is "YAKUZA".
         {11}, // [27] :: Ive heard the password is "PLEIADES",but thats probably in code.
-        {ITEM_BUY, 11}, // [28] :: Only have one thing right now. Maybe youre interested in it.
+        {ITEM_BUY.num, 11}, // [28] :: Only have one thing right now. Maybe youre interested in it.
         {11}, // [29] :: Just one word you need to remember: "GENESPLICE".
         {11}, // [30] :: Thats something I dont know about.
     };

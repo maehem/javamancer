@@ -29,6 +29,14 @@ package com.maehem.javamancer.neuro.model.room.extra;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_B;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SKILL_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
@@ -42,20 +50,20 @@ import static java.util.Map.entry;
 public class R12Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = { // Larry
-        {LONG_DESC}, {SHORT_DESC}, // 0, 1
+        {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
         {3, 4, 5, 6, 7}, // 2 You looking to by?
         {15}, //[3] :: Got anything good?
         {10}, //[4] :: Im looking for the Panther Moderns.
         {8}, //[5] :: Im a cop.
         {9}, //[6] :: Its cold outside.
-        {WORD1, 7}, //[7] :: Do you know anything about
-        {TO_JAIL}, //[8] :: Youre not a cop.
-        {EXIT_B}, //[9] :: Ill warm you up with
+        {WORD1.num, 7}, //[7] :: Do you know anything about
+        {TO_JAIL.num}, //[8] :: Youre not a cop.
+        {EXIT_B.num}, //[9] :: Ill warm you up with
         {11, 12, 13, 14}, //[10] :: The Moderns dont like
         {16}, //[11] :: Does that include wealthy
         {15}, //[12] :: You know, I have a sudden
         {2}, //[13] :: Youre calling ME strange?
-        {WORD1}, //[14] :: Do you know anything about
+        {WORD1.num}, //[14] :: Do you know anything about
         {3, 4, 5, 6, 7}, //[15] :: All my softs are top quality.
         {17, 18, 19, 20}, //[16] :: How much would you pay for a
         {21}, //[17] :: 100
@@ -63,25 +71,25 @@ public class R12Extras extends RoomExtras {
         {21}, //[19] :: 300
         {23}, //[20] :: Whoops! I dont have
         {22}, //[21] :: All right.  // Give sets dialog to 22.
-        {EXIT_B}, //[22] :: What a rube!  You really
-        {EXIT_B}, //[23] :: No money, no meeting.
+        {EXIT_B.num}, //[22] :: What a rube!  You really
+        {EXIT_B.num}, //[23] :: No money, no meeting.
         {}, //[24] :: Im a cop,
         {}, //[25] :: Maybe. Got anyth
         {}, //[26] :: Im looking for the
-        {WORD1}, //[27] :: Do you know anything about
+        {WORD1.num}, //[27] :: Do you know anything about
         {}, //[28] :: I dont network with cops.
         {}, //[29] :: Okay. Dont get excited.
         {}, //[30] :: Ill remember this, Larry.
         {}, //[31] :: Yeah, you sound like a cop.
         {10}, //[32] :: Im looking for the
         {35}, //[33] :: Heard any unusual rumors?
-        {WORD1}, //[34] :: Do you know anything about
-        {DIALOG_CLOSE}, //[35] :: Somethings happening in cyberspace.
-        {DIALOG_CLOSE}, //[36] :: How fascinating.
-        {DIALOG_CLOSE}, //[37] :: Youd know more than
-        {DIALOG_CLOSE}, //[38] :: Its the matrix, man.
-        {DIALOG_CLOSE}, //[39] :: A good ROM is
-        {SKILL_BUY, DIALOG_CLOSE}, //[40] :: I can sell you a
+        {WORD1.num}, //[34] :: Do you know anything about
+        {DIALOG_CLOSE.num}, //[35] :: Somethings happening in cyberspace.
+        {DIALOG_CLOSE.num}, //[36] :: How fascinating.
+        {DIALOG_CLOSE.num}, //[37] :: Youd know more than
+        {DIALOG_CLOSE.num}, //[38] :: Its the matrix, man.
+        {DIALOG_CLOSE.num}, //[39] :: A good ROM is
+        {SKILL_BUY.num, DIALOG_CLOSE.num}, //[40] :: I can sell you a
     };
 
     /**
@@ -155,7 +163,7 @@ public class R12Extras extends RoomExtras {
     public int dialogWarmUp(GameState gs) {
         if (gs.larryMoeWanted) {
             dialogNoMore(gs);
-            return DIALOG_END;
+            return DIALOG_END.num;
         }
         return 2;
     }

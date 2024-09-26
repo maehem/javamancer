@@ -45,6 +45,13 @@ import com.maehem.javamancer.neuro.model.deck.ShogunDeckItem;
 import com.maehem.javamancer.neuro.model.deck.TofuDeckItem;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DISCOUNT;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_L;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
 import java.util.Map;
@@ -60,15 +67,15 @@ public class R44Extras extends RoomExtras { // Asano's
     private boolean purchasedItem = false;
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0][1]
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
         {5, 6, 7}, // [2] :: Welcome to my humble shop!
-        {DIALOG_CLOSE}, // [3] :: Leave me alone!  I said Im just
-        {WORD1}, // [4] :: Tell me about the @---------------
+        {DIALOG_CLOSE.num}, // [3] :: Leave me alone!  I said Im just
+        {WORD1.num}, // [4] :: Tell me about the @---------------
         {17}, // [5] :: Uh, whats the, uh...cheapest
         {18}, // [6] :: Im just browsing right now.
         {19}, // [7] :: Why does Crazy Edo call you
         {20}, // [8] :: Sure and begorrah. Im looking
-        {WORD1}, // [9] :: Tell me about the... npc:{ 27 || 28 || 29 }
+        {WORD1.num}, // [9] :: Tell me about the... npc:{ 27 || 28 || 29 }
         {17}, // [10] :: Uh, whats the, uh...cheapest..
         {19}, // [11] :: Why does Crazy Edo call
         {32}, // [12] :: Thanks for your help. COPTALK = 33
@@ -76,23 +83,23 @@ public class R44Extras extends RoomExtras { // Asano's
         {16}, // [14] :: Edo is my oldest
         {25}, // [15] :: Well, no, not really....
         {26}, // [16] :: Edo is a gnats eyeball!
-        {ITEM_BUY}, // [17] :: Cheapest?  The Blue Light Special. [32 on no buy]
+        {ITEM_BUY.num}, // [17] :: Cheapest?  The Blue Light Special. [32 on no buy]
         {3, 4, 5, 7}, // [18] :: Certainly. Can I answer any questions?
         {21, 22}, // [19] :: A pig?  Edo is the son of a turtle
-        {ITEM_BUY}, // [20] :: Police?  Uh, I can sell you any legal
+        {ITEM_BUY.num}, // [20] :: Police?  Uh, I can sell you any legal
         {23}, // [21] :: You dont like Edo, do you?  Im pretty good at noticing these things.
         {23}, // [22] :: Ive heard Edo is a pretty good guy.
         {13, 14, 15, 16}, // [23] :: Edo is a goats armpit!
-        {EXIT_L}, // [24] :: Edo sleeps with small animals!
+        {EXIT_L.num}, // [24] :: Edo sleeps with small animals!
         {9, 10, 11, 12}, // [25] :: Good.  I dont allow Crazy Edos friends
-        {DISCOUNT, ITEM_BUY}, // [26] :: I see you are a wise person. // Apply discount.
+        {DISCOUNT.num, ITEM_BUY.num}, // [26] :: I see you are a wise person. // Apply discount.
         {9}, // [27] :: Thats a low-end model.
         {9}, // [28] :: Thats a cyberspace deck.
         {9}, // [29] :: You cant do any better than that.
-        {EXIT_L}, // [30] :: Try Metro Holografix for softwarez! Come back soon!
+        {EXIT_L.num}, // [30] :: Try Metro Holografix for softwarez! Come back soon!
         {9}, // [31] :: Never heard of that deck.
-        {EXIT_L}, // [32] :: Come back when youre ready to buy.
-        {EXIT_L}, // [33] :: Well, come back anytime, officer.
+        {EXIT_L.num}, // [32] :: Come back when youre ready to buy.
+        {EXIT_L.num}, // [33] :: Well, come back anytime, officer.
         {14, 16}, // [34] :: I hope you have reconsidered who your friends are, now.
     };
 

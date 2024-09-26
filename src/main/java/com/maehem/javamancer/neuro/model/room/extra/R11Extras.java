@@ -28,6 +28,11 @@ package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_R;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.Map;
@@ -40,7 +45,7 @@ import static java.util.Map.entry;
 public class R11Extras extends RoomExtras { // Zion
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0] ::
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0] ::
         {3, 4, 5}, // [2] :: Measure twice, cut once, mon. Have you come up the gravity well out of Babylon to lead the Tribes home?
         {6}, // [3] :: Excuse me?
         {7}, // [4] :: Uh, yeah, sure...
@@ -51,9 +56,9 @@ public class R11Extras extends RoomExtras { // Zion
         {14}, // [9] :: Right. Can I get a ride to Freeside from here?
         {14}, // [10] :: Id like to pay for a ride back to  Chiba City.
         {13}, // [11] :: Do you speak English or what, you crusty old wilson!
-        {WORD1}, // [12] :: Do you know anything about @---------------
+        {WORD1.num}, // [12] :: Do you know anything about @---------------
         {12}, // [13] :: This no m fight, mon. I an I only sit here an a listn to the dub.
-        {ITEM_BUY}, // [14] :: For $500, the JAL shuttle take you back down the well, mon.
+        {ITEM_BUY.num}, // [14] :: For $500, the JAL shuttle take you back down the well, mon.
         {}, // [15] :: Don want you here no mo, mon. Back down the well wit ya.
         {12}, // [16] :: Freeside a Babylon port, mon. Several banks there, ya know?  Which one you askin bout?
         {12}, // [17] :: Call em Winter Mute.  The Mute played us a mighty dub once, ya know?  But now I an I seh Mute be false prophet.
@@ -139,7 +144,7 @@ public class R11Extras extends RoomExtras { // Zion
     @Override
     public int exitX(GameState gs) {
         // Exit depending on what ticket was purchased.
-        return EXIT_R;
+        return EXIT_R.num;
     }
 
 }

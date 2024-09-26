@@ -31,6 +31,13 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.item.SoftwareItem;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SKILL_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SOFTWARE_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
 import java.util.Map;
@@ -43,7 +50,7 @@ import static java.util.Map.entry;
 public class R32Extras extends RoomExtras { // Metro Holographix
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0] :: Youre in a narrow canyon
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0] :: Youre in a narrow canyon
         {3, 4, 5, 6}, // [2] :: Hey, kid!  You need chips or software?  I just got some new stuff from those bridge-and-tunnel kids in Jersey.
         {10}, // [3] :: Sure and begorrah. You wouldnt be selling illegal software, would you?
         {20}, // [4] :: Yeah, Finn, Im looking for some hot softwarez.
@@ -52,17 +59,17 @@ public class R32Extras extends RoomExtras { // Metro Holographix
         {}, // [7] ::
         {11, 12}, // [8] :: Hope youre not allergic to dust. Can I answer any questions?
         {11, 12}, // [9] :: Scanned when you came in. No implants,no biologicals. Youre clean.
-        {DIALOG_CLOSE}, // [10] :: Geez, my mistake, Im fresh out of inventory today, officer!  Sorry.
-        {WORD1, 15}, // [11] :: Tell me about @---------------
+        {DIALOG_CLOSE.num}, // [10] :: Geez, my mistake, Im fresh out of inventory today, officer!  Sorry.
+        {WORD1.num, 15}, // [11] :: Tell me about @---------------
         {13}, // [12] :: Leave me alone!  I said Im just browsing!
         {14, 15}, // [13] :: Well, excuse me! Sounds like someones been having a rough day!
         {16}, // [14] :: Hey, Finn, did anyone ever tell you your head looks like it was designed in a wind tunnel?
-        {WORD1}, // [15] :: Okay, what do you know about @---------------
-        {DIALOG_CLOSE}, // [16] :: You got about as much class as those yahoos from Jersey. Get out of here!
-        {SKILL_BUY}, // [17] :: Ive got Icebreaking and Debug skill chips for $1,000 each.
-        {ITEM_BUY}, // [18] :: So, youre on a holy mission, eh? I got what you need.
+        {WORD1.num}, // [15] :: Okay, what do you know about @---------------
+        {DIALOG_CLOSE.num}, // [16] :: You got about as much class as those yahoos from Jersey. Get out of here!
+        {SKILL_BUY.num}, // [17] :: Ive got Icebreaking and Debug skill chips for $1,000 each.
+        {ITEM_BUY.num}, // [18] :: So, youre on a holy mission, eh? I got what you need.
         {15}, // [19] :: Youll have to hit Sense/Net for one of those.
-        {SOFTWARE_BUY}, // [20] :: You want software, you got software.
+        {SOFTWARE_BUY.num}, // [20] :: You want software, you got software.
         {15}, // [21] :: Its an AI with Swiss citizenship. Built for Tessier-Ashpool.
         {15}, // [22] :: Its an old novel by William Gibson.
         {15}, // [23] :: Its a first generation, high-orbit family on Freeside, run like a corporation.  Rich and powerful.

@@ -27,9 +27,17 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DECK_WAIT;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_B;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LUNGS;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
-import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.Map;
 import static java.util.Map.entry;
 
@@ -40,23 +48,23 @@ import static java.util.Map.entry;
 public class R53Extras extends RoomExtras { // Hitachi
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0][1]
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
         {3, 4, 5, 6}, // [2] :: Hello!  Im the lab technician. You must be a volunteer for the lung experiment?
         {7}, // [3] :: Er...yes.  I suppose so....
         {8}, // [4] :: Im so embarrassed. I just stumbled inhere by mistake.  Excuse me.
         {9}, // [5] :: Actually, Im just here to steal some time on your cyberspace jack. I know its illegal, but what the hell....
         {10}, // [6] :: Actually, Im just here to see you. Ive heard youre the kind of woman who likes to have fun....
-        {DECK_WAIT, 7}, // [7] :: Great!  Were currently paying our volunteers $3000 apiece.  Wait here and Ill be back in a few minutes.
-        {EXIT_B}, // [8] :: You should be embarrassed, you fool! Get out of here!
-        {TO_JAIL}, // [9] :: Youre right. It is illegal. Have a nice trip to the Justice Booth.
-        {DESC, 15}, // [10] :: Ive heard youre the kind of turnip- head who likes getting arrested.
-        {NPC, 12}, // [11] :: Thanks for waiting. This wont hurt a bit. Well, maybe a little bit, but you wont feel anything after the
-        {NPC, 13}, // [12] :: anesthetic takes effect. At least, not while youre asleep. After youre awake, of course, thats another
-        {DESC, 14, LUNGS}, // [13] :: matter entirely. Then itll hurt like hell. But, hey, you volunteered for this. Nobody forced you into it.
-        {NPC, 16}, // [14] :: The Technician painfully removes both of your lungs.
-        {EXIT_B}, // [15] :: The Technician kicks you out of the lab.
-        {EXIT_B}, // [16] :: Thank you, goodbye.
-        {EXIT_B}, // [17] :: Hey you dont have organic lungs. Get out of here!
+        {DECK_WAIT.num, 7}, // [7] :: Great!  Were currently paying our volunteers $3000 apiece.  Wait here and Ill be back in a few minutes.
+        {EXIT_B.num}, // [8] :: You should be embarrassed, you fool! Get out of here!
+        {TO_JAIL.num}, // [9] :: Youre right. It is illegal. Have a nice trip to the Justice Booth.
+        {DESC.num, 15}, // [10] :: Ive heard youre the kind of turnip- head who likes getting arrested.
+        {NPC.num, 12}, // [11] :: Thanks for waiting. This wont hurt a bit. Well, maybe a little bit, but you wont feel anything after the
+        {NPC.num, 13}, // [12] :: anesthetic takes effect. At least, not while youre asleep. After youre awake, of course, thats another
+        {DESC.num, 14, LUNGS.num}, // [13] :: matter entirely. Then itll hurt like hell. But, hey, you volunteered for this. Nobody forced you into it.
+        {NPC.num, 16}, // [14] :: The Technician painfully removes both of your lungs.
+        {EXIT_B.num}, // [15] :: The Technician kicks you out of the lab.
+        {EXIT_B.num}, // [16] :: Thank you, goodbye.
+        {EXIT_B.num}, // [17] :: Hey you dont have organic lungs. Get out of here!
     };
 
     /**

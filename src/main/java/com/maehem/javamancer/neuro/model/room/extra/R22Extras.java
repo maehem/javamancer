@@ -27,8 +27,12 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
  *
@@ -37,12 +41,12 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class R22Extras extends RoomExtras { // Spaceport Chiba
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0] ::
-        {NPC, 3}, // [2] :: In this room lies death, my friend. This is the road to the land of the dead. Marie France, my lady, prepared
-        {NPC, 4}, // [3] :: this road, but her lord choked her off before I could read the book of her days. Stay and become a ghost, a thing
-        {NPC, 5}, // [4] :: of shadow in the land of the dead. Keep me company. Become a sphere of singing black on the extended crystal
-        {NPC, 6}, // [5] :: nerves of the universe of data, your consciousness divided like beads of mercury.
-        {DIALOG_CLOSE}, // [6] :: Question authority, my friend, and dare to remain in the shadowlands forever....
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0] ::
+        {NPC.num, 3}, // [2] :: In this room lies death, my friend. This is the road to the land of the dead. Marie France, my lady, prepared
+        {NPC.num, 4}, // [3] :: this road, but her lord choked her off before I could read the book of her days. Stay and become a ghost, a thing
+        {NPC.num, 5}, // [4] :: of shadow in the land of the dead. Keep me company. Become a sphere of singing black on the extended crystal
+        {NPC.num, 6}, // [5] :: nerves of the universe of data, your consciousness divided like beads of mercury.
+        {DIALOG_CLOSE.num}, // [6] :: Question authority, my friend, and dare to remain in the shadowlands forever....
     };
 
     @Override

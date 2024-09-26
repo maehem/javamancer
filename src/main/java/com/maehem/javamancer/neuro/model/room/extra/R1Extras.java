@@ -27,9 +27,12 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
  *
@@ -38,7 +41,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class R1Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, // 0, 1
+        {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
         {3, 4, 5, 6}, // 2   "I don't care if you eat that spaghetti..."
         {7}, // 3    "Sorry. I can't afford it..."
         {7}, // 4
@@ -66,8 +69,8 @@ public class R1Extras extends RoomExtras {
         {27, 28}, // 26
         {29}, // 27
         {30}, // 28
-        {DIALOG_END}, // 29 ::  99 == npc no longer responds to player
-        {DIALOG_END}, // 30
+        {DIALOG_END.num}, // 29 ::  99 == npc no longer responds to player
+        {DIALOG_END.num}, // 30
         {31}, //31  87 = player gives npc less than 46 credits.
         {2} // 32 Response to underpayment.
     };
@@ -101,7 +104,7 @@ public class R1Extras extends RoomExtras {
     @Override
     public int dialogWarmUp(GameState gs) {
         if (!gs.roomNpcTalk[gs.room.getIndex()]) {
-            return DIALOG_END;
+            return DIALOG_END.num;
         }
         if (gs.ratzPaid) {
             return 11;

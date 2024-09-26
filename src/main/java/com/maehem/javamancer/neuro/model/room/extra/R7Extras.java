@@ -29,6 +29,11 @@ package com.maehem.javamancer.neuro.model.room.extra;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.RealItem;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_R;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.logging.Level;
 
@@ -39,9 +44,9 @@ import java.util.logging.Level;
 public class R7Extras extends RoomExtras { // Cheap Hotel
 
     protected static final int[][] DIALOG_CHAIN = { //    The massage parlor.
-        {LONG_DESC}, {SHORT_DESC}, // 0, 1
-        {DIALOG_CLOSE}, // [2] :: Your room service order is delivered to you.
-        {EXIT_R}, // [3] :: The management kicks you out
+        {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
+        {DIALOG_CLOSE.num}, // [2] :: Your room service order is delivered to you.
+        {EXIT_R.num}, // [3] :: The management kicks you out
         {}, // [4] :: Youre carrying too much stuff.
     };
 
@@ -64,7 +69,7 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
     @Override
     public int dialogWarmUp(GameState gs) {
         if (!gs.roomNpcTalk[gs.room.getIndex()]) {
-            return DIALOG_END;
+            return DIALOG_END.num;
         }
         if (gs.hotelOnAccount < gs.hotelCharges) {
             return 3;
@@ -83,7 +88,7 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
             return 2;
         }
 
-        return DIALOG_CLOSE;
+        return DIALOG_CLOSE.num;
     }
 
     @Override

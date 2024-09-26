@@ -27,8 +27,15 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DEATH;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_R;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
  *
@@ -37,9 +44,9 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class R9Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = { // Maas Biolabs
-        {LONG_DESC}, {SHORT_DESC}, // 0, 1
-        {NPC, 3}, // [2] :: Warning!  You are entering an area protected by bioengineered defensive agents!
-        {NPC, 4}, // [3] :: Although I cant identify you through the gas mask, I have deduced that you are Doctor Yomiuri.
+        {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
+        {NPC.num, 3}, // [2] :: Warning!  You are entering an area protected by bioengineered defensive agents!
+        {NPC.num, 4}, // [3] :: Although I cant identify you through the gas mask, I have deduced that you are Doctor Yomiuri.
         {5, 6, 7}, // [4] :: Do you wish to test the CyberEyes implantation system, Doctor?
         {8}, // [5] :: Yes.
         {}, // [6] :: No.
@@ -48,15 +55,15 @@ public class R9Extras extends RoomExtras {
         {10, 11}, // [9] :: Certainly, Doctor Yomiuri. Which functions are of interest to you?
         {12}, // [10] :: Explain the procedure you follow if the door alarm is triggered.
         {14}, // [11] :: How many times per hour do you check the operation of the alarm system?
-        {NPC, 13}, // [12] :: As usual, if the alarm is triggered, I will immediately notify the police and security.
-        {NPC, 14}, // [13] :: Then Ill notify you over at that blondes apartment.
-        {NPC, 15}, // [14] :: Using the inefficient decimal system, which you seem to prefer for some obscure reason, the alarm system is
-        {DIALOG_CLOSE}, // [15] :: checked 651,983,225 times per hour.
-        {NPC, 17}, // [16] :: CyberEyes implanted.
-        {EXIT_R}, // [17] :: Thank you for stopping by, Doctor. I get lonely sometimes.
-        {TO_JAIL}, // [18] :: Youre under arrest intruder!
-        {DEATH}, // [19] :: Your body is set ablaze with excruciating pain, you collapse to the floor and...die.
-        {DIALOG_CLOSE}, // [20] :: Unable to implant CyberEyes.
+        {NPC.num, 13}, // [12] :: As usual, if the alarm is triggered, I will immediately notify the police and security.
+        {NPC.num, 14}, // [13] :: Then Ill notify you over at that blondes apartment.
+        {NPC.num, 15}, // [14] :: Using the inefficient decimal system, which you seem to prefer for some obscure reason, the alarm system is
+        {DIALOG_CLOSE.num}, // [15] :: checked 651,983,225 times per hour.
+        {NPC.num, 17}, // [16] :: CyberEyes implanted.
+        {EXIT_R.num}, // [17] :: Thank you for stopping by, Doctor. I get lonely sometimes.
+        {TO_JAIL.num}, // [18] :: Youre under arrest intruder!
+        {DEATH.num}, // [19] :: Your body is set ablaze with excruciating pain, you collapse to the floor and...die.
+        {DIALOG_CLOSE.num}, // [20] :: Unable to implant CyberEyes.
     };
 
     /**

@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.*;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.Map;
 import static java.util.Map.entry;
@@ -43,15 +44,15 @@ public class R56Extras extends RoomExtras { // Sense Net
     private int countdown = -1;
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0][1]
-        {DIALOG_CLOSE}, // [2] :: You have 30 seconds to produce your security pass. Failure to comply will result in your removal.
-        {NPC, 4}, // [3] :: Clearance approved. You now have limited access to the Librarian.
-        {9}, // [4] :: Please enter the identity number of the ROM Construct you require from the Sense/Net library vault:
-        {DIALOG_CLOSE}, // [5] :: Availability verified. Checkout is approved.
-        {DIALOG_CLOSE}, // [6] :: Identity number invalid. Try again if you made an error. You are allowed 3 library access attempts.
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
+        {DIALOG_CLOSE.num}, // [2] :: You have 30 seconds to produce your security pass. Failure to comply will result in your removal.
+        {NPC.num, 4}, // [3] :: Clearance approved. You now have limited access to the Librarian.
+        {9}, // [4] :: Please enter the identity num of the ROM Construct you require from the Sense/Net library vault:
+        {DIALOG_CLOSE.num}, // [5] :: Availability verified. Checkout is approved.
+        {DIALOG_CLOSE.num}, // [6] :: Identity num invalid. Try again if you made an error. You are allowed 3 library access attempts.
         {}, // [7] ::
-        {TO_JAIL}, // [8] :: Access denied. Security has been alerted. Please remain here until the authorities arrive.
-        {WORD1}, // [9] :: @---------------
+        {TO_JAIL.num}, // [8] :: Access denied. Security has been alerted. Please remain here until the authorities arrive.
+        {WORD1.num}, // [9] :: @---------------
         {}, // [10] :: The computer gives you a ROM Construct.
         {}, // [11] :: You are kicked out of Sense/Net, for not producing a security pass.
     };
@@ -74,7 +75,7 @@ public class R56Extras extends RoomExtras { // Sense Net
         if (index == null) {
             codeTries--;
             if (codeTries > 0) {
-                return 6; // Invalid number.
+                return 6; // Invalid num.
             } else {
                 return 8; // Three strikes, to jail.
             }
@@ -116,7 +117,7 @@ public class R56Extras extends RoomExtras { // Sense Net
     public int dialogWarmUp(GameState gs) {
         if (gs.dixieInstalled) {
             gs.setRoomTalk(false);
-            return DIALOG_END;
+            return DIALOG_END.num;
         }
 
         if (gs.securityPassGiven) {
@@ -128,7 +129,7 @@ public class R56Extras extends RoomExtras { // Sense Net
             countdown = -1;
             // DESC 11
             gs.showMessageNextRoom = gs.resourceManager.getRoomText(gs.room).get(11) + "\n";
-            return EXIT_T;
+            return EXIT_T.num;
         }
         return 2;
 

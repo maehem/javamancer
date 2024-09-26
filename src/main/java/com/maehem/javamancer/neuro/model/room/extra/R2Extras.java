@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
@@ -37,7 +38,7 @@ import com.maehem.javamancer.neuro.model.room.RoomExtras;
 public class R2Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = {
-        {TO_JAIL}, {1} // 0, 1
+        {TO_JAIL.num}, {1} // 0, 1
 
 
     };

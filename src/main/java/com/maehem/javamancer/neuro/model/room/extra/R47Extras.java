@@ -27,8 +27,13 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_T;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.Map;
 import static java.util.Map.entry;
 
@@ -39,7 +44,7 @@ import static java.util.Map.entry;
 public class R47Extras extends RoomExtras { // Matrix Restaurant
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0][1]
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
         {}, // [2] :: ...so I was larking around Rio heavy commerce sector when I see this white cube. It was an AI, listed on the
         {}, // [3] :: Turing Registry. Figured Id try to cut the ice. Hit the first layer and flatlined. My joeboy smelled the skin
         {}, // [4] :: frying and pulled the trodes off me.
@@ -48,9 +53,9 @@ public class R47Extras extends RoomExtras { // Matrix Restaurant
         {}, // [7] :: No. Nobody trusts an AI. Every AI ever built has an electromagnetic shotgun wired to its forehead. Turing would
         {9, 10}, // [8] :: wipe it right away....Hey!  Look who wandered in when we left the door open!
         {12}, // [9] :: Got any old chips you want to sell?
-        {WORD1}, // [10] :: Hey, what do you know about @---------------
+        {WORD1.num}, // [10] :: Hey, what do you know about @---------------
         {}, // [11] ::
-        {ITEM_BUY}, // [12] :: Have I got chips!  Ive got Logic, Software Analysis, and Musicianship. For you, Ill charge $1000 each.
+        {ITEM_BUY.num}, // [12] :: Have I got chips!  Ive got Logic, Software Analysis, and Musicianship. For you, Ill charge $1000 each.
         {}, // [13] ::
         {10}, // [14] :: Nobodys seen Bosch lately. We think maybe he hit some black ice out in cyberspace. Matt Shaw saw him last.
         {10}, // [15] :: Sense/Net has em all. And the only people who ever got in there were the Panther Moderns.
@@ -66,7 +71,7 @@ public class R47Extras extends RoomExtras { // Matrix Restaurant
         {10}, // [25] :: You must know what a wilson is!
         {10}, // [26] :: Some things youll have to figure out for yourself.  This is one of them.
         {}, // [27] ::
-        {EXIT_T}, // [28] :: Youre kicked out for not having a pass.
+        {EXIT_T.num}, // [28] :: Youre kicked out for not having a pass.
     };
 
     /**

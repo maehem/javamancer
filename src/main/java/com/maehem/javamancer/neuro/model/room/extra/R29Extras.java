@@ -27,9 +27,14 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.CHIP;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_T;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
-import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  *
@@ -38,26 +43,26 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class R29Extras extends RoomExtras { // Freeside - Spacedock
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0] ::
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0] ::
         {3, 4}, // [2] :: Konnichiwa!  Would you like to buy a ticket?
         {5}, // [3] :: Yes!  Id like to buy a ticket!
-        {DIALOG_CLOSE}, // [4] :: No!  I just like hanging around ticket agents for no apparent reason!
+        {DIALOG_CLOSE.num}, // [4] :: No!  I just like hanging around ticket agents for no apparent reason!
         {6, 7, 8, 9}, // [5] :: We have a flight departing for Chiba City. The special low super maxi bargain big deal fare is $5.
         {19}, // [6] :: Okay.
         {19}, // [7] :: Great!  That sounds like a real bargain for a change!
         {14}, // [8] :: I dont want to go to Chiba City. I want to go somewhere else.
-        {DIALOG_CLOSE}, // [9] :: Ive changed my mind. Im staying on Freeside for the rest of my life.
-        {CHIP, 1000, 19}, // [10] :: Fine! Ill pay the $1000!
-        {DIALOG_CLOSE}, // [11] :: Ive changed my mind. Im staying on Freeside for the rest of my life.
+        {DIALOG_CLOSE.num}, // [9] :: Ive changed my mind. Im staying on Freeside for the rest of my life.
+        {CHIP.num, 1000, 19}, // [10] :: Fine! Ill pay the $1000!
+        {DIALOG_CLOSE.num}, // [11] :: Ive changed my mind. Im staying on Freeside for the rest of my life.
         {15}, // [12] :: How long would I have to wait?
         {10, 11}, // [13] :: You need to make a reservation 2 years in advance for that fare. All we have now is the regular fare for $1000.
         {12}, // [14] :: If youd like to wait, well have other flights departing for Paris, London, Amsterdam, and Moscow.
         {16, 17}, // [15] :: About 3 years. We havent started that service yet.
-        {DIALOG_CLOSE}, // [16] :: Ive changed my mind. Im staying on Freeside for the rest of my life.
+        {DIALOG_CLOSE.num}, // [16] :: Ive changed my mind. Im staying on Freeside for the rest of my life.
         {5}, // [17] :: After careful consideration, I think Ill buy the ticket to Chiba City.
         {}, // [18] ::
-        {EXIT_T}, // [19] :: Enjoy your flight!  The holo-movie is "Airport 2000."
-        {DIALOG_CLOSE}, // [20] :: Take a hike.  You cant afford it.
+        {EXIT_T.num}, // [19] :: Enjoy your flight!  The holo-movie is "Airport 2000."
+        {DIALOG_CLOSE.num}, // [20] :: Take a hike.  You cant afford it.
     };
 
     @Override

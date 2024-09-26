@@ -30,6 +30,13 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_R;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SKILL_BUY;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
 import java.util.Map;
@@ -44,30 +51,30 @@ import java.util.logging.Level;
 public class R8Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = { // G-Loser
-        {LONG_DESC}, {SHORT_DESC}, // 0, 1
+        {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
         {4, 5}, // [2] :: Hey, geek!  Cmere!  I got somethin for ya!
         {8}, // [3] :: Sure and begorrah. Youre under arrest unless you answer some questions.
         {6}, // [4] :: Whatever it is, I hope its not contagious.
         {7}, // [5] :: Later. Ive got biz to attend to right now.
         {9, 10, 11, 12}, // [6] :: Anonymous was here earlier. If youre a friend of his, you know what Ive got for you.
-        {DIALOG_CLOSE}, // [7] :: Suit yourself, cowboy.
-        {EXIT_R}, // [8] :: Youre no cop!  Youre using a CopTalk skill chip!  Get out of here!
+        {DIALOG_CLOSE.num}, // [7] :: Suit yourself, cowboy.
+        {EXIT_R.num}, // [8] :: Youre no cop!  Youre using a CopTalk skill chip!  Get out of here!
         {13}, // [9] :: A social disease?
         {14}, // [10] :: Is it smaller than a breadbox?
         {15}, // [11] :: Animal, vegetable, or mineral?
-        {WORD1}, // [12] :: Ah!  You must be referring to the @---------------
-        {DIALOG_CLOSE}, // [13] :: Beat it, cyberjerk!
-        {DIALOG_CLOSE}, // [14] :: Its even smaller than your head, which is pretty small....
-        {DIALOG_CLOSE}, // [15] :: No, actually I was referrin to somethin else, so get lost, wilson!
-        {SKILL_BUY}, // [16] :: Yeah. You must be . I got your chip here for ya.
-        {WORD1}, // [17] :: Okay.  What do you know about @---------------
-        {SKILL_BUY}, // [18] :: Hey, Babe, I want to buy the chip.
+        {WORD1.num}, // [12] :: Ah!  You must be referring to the @---------------
+        {DIALOG_CLOSE.num}, // [13] :: Beat it, cyberjerk!
+        {DIALOG_CLOSE.num}, // [14] :: Its even smaller than your head, which is pretty small....
+        {DIALOG_CLOSE.num}, // [15] :: No, actually I was referrin to somethin else, so get lost, wilson!
+        {SKILL_BUY.num}, // [16] :: Yeah. You must be . I got your chip here for ya.
+        {WORD1.num}, // [17] :: Okay.  What do you know about @---------------
+        {SKILL_BUY.num}, // [18] :: Hey, Babe, I want to buy the chip.
         {22}, // [19] :: Maybe you could answer some questions for me?
-        {DIALOG_CLOSE}, // [20] :: You already gave me something. I dont want anything else.
+        {DIALOG_CLOSE.num}, // [20] :: You already gave me something. I dont want anything else.
         {23}, // [21] :: How about coming back to my place?
         {17}, // [22] :: Sure. Itll be more fun than a poke in the eye with a sharp stick....
         {17, 18, 19, 20}, // [23] :: Forget it. You live at Cheap Hotel. I know all about your kind, wilson....
-        {SKILL_BUY, 17}, // [24] :: All Ive got is Hardware Repair for $1000.
+        {SKILL_BUY.num, 17}, // [24] :: All Ive got is Hardware Repair for $1000.
         {17}, // [25] :: Try Julius Deane for those chips.
         {17}, // [26] :: Julius Deane can upgrade your Cryptology skill chip.
         {17}, // [27] :: Hot stuff. Sense/Net has em all. They even have Dixie Flatline on ROM.
@@ -78,12 +85,12 @@ public class R8Extras extends RoomExtras {
         {17}, // [32] :: Only a wilson would ask a question like that.
         {17}, // [33] :: I only have the coded password for Hitachi: "SELIM".
         {17}, // [34] :: The coded password for Copenhagen University is "KIKENNA".
-        {ITEM_BUY}, // [35] :: Emperor Norton left you a Guest Pass for the Matrix Restaurant. He mumbled something about skills and upgrades.
+        {ITEM_BUY.num}, // [35] :: Emperor Norton left you a Guest Pass for the Matrix Restaurant. He mumbled something about skills and upgrades.
         {17}, // [36] :: Ya got me. I dont know anythin about that.
         {17}, // [37] :: Shiva gives you a guest pass for the Matrix Restaurant.
         {39}, // [38] :: Shiva gives you your Cryptology chip.
-        {SKILL_BUY, 19}, // [39] :: I also have Hardware Repair for sale for $1000.
-        {DIALOG_CLOSE} // [40] :: I already gave it to you, cowboy.
+        {SKILL_BUY.num, 19}, // [39] :: I also have Hardware Repair for sale for $1000.
+        {DIALOG_CLOSE.num} // [40] :: I already gave it to you, cowboy.
     };
 
     /**

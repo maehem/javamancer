@@ -27,8 +27,10 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
  *
@@ -37,8 +39,8 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class R45Extras extends RoomExtras { // Street Robot (Matrix Rest.)
 
     protected static final int[][] DIALOG_CHAIN = {
-        {TO_JAIL}, // [0] :: Hold it there!  We got Armitage, now weve got you.
-        {DIALOG_CLOSE}, // [1] :: Move along citizen.
+        {TO_JAIL.num}, // [0] :: Hold it there!  We got Armitage, now weve got you.
+        {DIALOG_CLOSE.num}, // [1] :: Move along citizen.
     };
 
     @Override

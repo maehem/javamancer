@@ -27,6 +27,10 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC_DIRECT;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.logging.Level;
 
@@ -37,9 +41,9 @@ import java.util.logging.Level;
 public class R57Extras extends RoomExtras { // Hosaka
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0][1]
-        {DIALOG_END}, // [2] ::   As you pass through the doorway, the accounting computer recognizes you as an employee and generates your weekly paycheck, depositing the amount directly into your credit chip.
-        {DIALOG_END}, // [3] ::   The computer no longer gives you a check, since you havent done any work lately.
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
+        {DIALOG_END.num}, // [2] ::   As you pass through the doorway, the accounting computer recognizes you as an employee and generates your weekly paycheck, depositing the amount directly into your credit chip.
+        {DIALOG_END.num}, // [3] ::   The computer no longer gives you a check, since you havent done any work lately.
     };
 
     @Override
@@ -62,10 +66,10 @@ public class R57Extras extends RoomExtras { // Hosaka
             gs.hosakaDaysSincePaid = gs.hosakaDaysSincePaid % 7;
             gs.chipBalance += pay;
             LOGGER.log(Level.CONFIG, "Player receives Hosaka paycheck of ${0} to chip.", pay);
-            return DESC_DIRECT + 2;
+            return DESC_DIRECT.num + 2;
         }
 
-        return DESC_DIRECT + 3;
+        return DESC_DIRECT.num + 3;
     }
 
     @Override

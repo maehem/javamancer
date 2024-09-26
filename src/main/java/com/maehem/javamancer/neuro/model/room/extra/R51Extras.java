@@ -27,9 +27,11 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
-import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  *
@@ -38,7 +40,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class R51Extras extends RoomExtras { // Fuji
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0][1]
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
     };
 
     @Override

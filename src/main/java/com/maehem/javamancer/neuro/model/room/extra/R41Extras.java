@@ -27,9 +27,15 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DEATH;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
-import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.Map;
 import static java.util.Map.entry;
 
@@ -40,15 +46,15 @@ import static java.util.Map.entry;
 public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0] ::
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0] ::
         {7}, // [2] :: Please give your Bank Gemeinschaft security code or be destroyed.
         {8}, // [3] :: Code verified. You may enter the  vault.
         {7}, // [4] :: Security code is incorrect. Try again if you made a mistake.
         {9}, // [5] :: Access denied.  You are an intruder. Prepare to be destroyed.
         {}, // [6] ::
-        {WORD1}, // [7] :: My code is @---------------
-        {DIALOG_CLOSE, DESC, DIALOG_CLOSE}, // [8] :: The vault door opens.
-        {DESC, DEATH}, // [9] :: Your body is set ablaze with excruciating pain, you collapse to the floor and...die.
+        {WORD1.num}, // [7] :: My code is @---------------
+        {DIALOG_CLOSE.num, DESC.num, DIALOG_CLOSE.num}, // [8] :: The vault door opens.
+        {DESC.num, DEATH.num}, // [9] :: Your body is set ablaze with excruciating pain, you collapse to the floor and...die.
     };
 
     /**

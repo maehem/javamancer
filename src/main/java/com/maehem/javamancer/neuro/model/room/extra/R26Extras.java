@@ -28,6 +28,10 @@ package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD2;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.Map;
@@ -40,7 +44,7 @@ import static java.util.Map.entry;
 public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, // [0] :: One of Lonny Zones working girls is standing here in the street, leaning against a light tower. She carefully looks you over.
+        {LONG_DESC.num}, // [0] :: One of Lonny Zones working girls is standing here in the street, leaning against a light tower. She carefully looks you over.
         {2, 3, 4, 5}, // [1] :: Hey, sailor. New in town?
         {6}, // [2] :: Top of the mornin! Youre under arrest unless you answer some questions.
         {8}, // [3] :: Im not a sailor. Do I look like one?
@@ -52,8 +56,8 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
         {19}, // [9] :: Got any good software?
         {}, // [10] :: I doubt it. Im not lost.
         {}, // [11] :: I cant afford your kind of help.
-        {WORD1}, // [12] :: Do you know anything about @---------------
-        {WORD2}, // [13] :: Where is @---------------
+        {WORD1.num}, // [12] :: Do you know anything about @---------------
+        {WORD2.num}, // [13] :: Where is @---------------
         {}, // [14] ::
         {}, // [15] :: Buzz off, cybermo.
         {}, // [16] :: Some other time, then.
@@ -72,7 +76,7 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
         {12}, // [29] :: Go west. Youll run right into it.  I do a lot of biz there.  Get my drift?
         {12}, // [30] :: East of here, in the high-tech part of town. But you cant get through the gate unless youre an employee.
         {12}, // [31] :: I dont know, man.  Give me a break.
-        {DIALOG_END}, // [32] ::  The girl turns and struts away.
+        {DIALOG_END.num}, // [32] ::  The girl turns and struts away.
         {12}, // [33] :: You dont have enough money, man.
         {12}, // [34] :: I happen to be a friend of the police chief. A close friend if you know what I mean. So dont bug me, man.
         {12}, // [35] :: Akiko knows the link code for the  Bank of Zurich.

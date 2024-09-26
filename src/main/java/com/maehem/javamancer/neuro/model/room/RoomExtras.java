@@ -43,6 +43,7 @@ public abstract class RoomExtras {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
+    /*
     public static final int DESC = 50; // show in room desc instead of dialog.
     public static final int LONG_DESC = 51;
     public static final int SHORT_DESC = 52;
@@ -84,7 +85,7 @@ public abstract class RoomExtras {
     public static final int DIALOG_CLOSE = 98;
     public static final int DIALOG_END = 99;
     public static final int DESC_DIRECT = 500; // Subtract 500 and put remainder(index) in DESC box.
-
+*/
     public boolean onVendFinishedOpenDialog = false; // Semaphote to open dialog when vend finished.
 
     /**
@@ -92,6 +93,10 @@ public abstract class RoomExtras {
      * handled.
      */
     private boolean requestDialogPoppup = false;
+
+    public RoomExtras() {
+        LOGGER.log(Level.SEVERE, "New RoomExtra Created.");
+    }
 
     /**
      * Called when player gives item to NPC. Over-ride if NPC can receive
@@ -212,7 +217,7 @@ public abstract class RoomExtras {
     }
 
     public int exitX(GameState gs) {
-        return EXIT_R;
+        return DialogCommand.EXIT_R.num;
     }
 
     public boolean chipDeduct(GameState gs, int amt) {

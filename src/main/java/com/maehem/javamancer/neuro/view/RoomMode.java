@@ -32,11 +32,11 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.item.SoftwareItem;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
-import static com.maehem.javamancer.neuro.model.room.RoomExtras.LONG_DESC;
-import static com.maehem.javamancer.neuro.model.room.RoomExtras.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.RoomMap;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
 import com.maehem.javamancer.neuro.view.popup.BodyShopPopup;
@@ -156,7 +156,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             if (firstTime) {
                 LOGGER.log(Level.CONFIG, "RoomMode: First time visit of room. Use long description.");
                 int[] dc0 = extras.getDialogChain()[0]; // Long Description
-                if (dc0.length == 1 && dc0[0] == LONG_DESC) { // long desc. here
+                if (dc0.length == 1 && dc0[0] == LONG_DESC.num) { // long desc. here
                     LOGGER.log(Level.CONFIG, "RoomMode: Found long description in dialog chain.");
                     roomDescriptionPane.setText(roomText.getDescription());
                     roomPane.setEffect(new GaussianBlur(3.0));
@@ -171,7 +171,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             } else {
                 LOGGER.log(Level.CONFIG, "RoomMode: We\'ve been here before. Use short description.");
                 int[] dc1 = extras.getDialogChain()[1]; // Short Description
-                if (dc1.length == 1 && dc1[0] == SHORT_DESC) { // short desc. here
+                if (dc1.length == 1 && dc1[0] == SHORT_DESC.num) { // short desc. here
                     LOGGER.log(Level.CONFIG, "RoomMode: Found short description in dialog chain.");
                     roomDescriptionPane.setText(roomText.getShortDescription());
                 } else {

@@ -27,8 +27,13 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_R;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_X;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
  *
@@ -37,19 +42,19 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class R10Extras extends RoomExtras { // JAL - Shuttle To Orbit
 
     protected static final int[][] DIALOG_CHAIN = {
-        {LONG_DESC}, {SHORT_DESC}, //  [0] ::
+        {LONG_DESC.num}, {SHORT_DESC.num}, //  [0] ::
         {}, // [2] ::
-        {NPC, 4}, // [3] :: Welcome aboard!  Our entire crew appreciates the fact that you chose to fly on our shuttle!  Domo arigato!
-        {NPC, 5}, // [4] :: Please note there is only one exit. In the event of a fire on the ground, all passengers will have to fend for
-        {NPC, 6}, // [5] :: themselves, because the crew and I will be the first ones out that door. In the event of a pressure loss while
-        {NPC, 7}, // [6] :: were in transit, well all be sucking cold vacuum in a matter of seconds, so we hope you bought flight insurance.
-        {NPC, 8}, // [7] :: During the flight, we will not be serving beverages or food of any kind.We used to serve food, but the
-        {NPC, 9}, // [8] :: portions we served were getting so small that the passengers couldnt see them any more.  Speaking of food,
-        {NPC, 10}, // [9] :: if you are prone to space sickness, please do not throw up on the person next to you. In fact, wed prefer that
-        {NPC, 11}, // [10] :: you not throw up at all since it makes quite a mess in weightlessness. If you must, put your head in a bag.
-        {NPC, 12}, // [11] :: You will note that our in-flight holo- movie has just been zip-shot directly into your brain using psycho-graphics.
-        {NPC, 13}, // [12] :: We hope you enjoyed it. There will be an additional charge if youd like to "see" the movie again.  And now, Im
-        {EXIT_X}, // [13] :: sure it will come as big a surprise to you as it did to me that we have just arrived safely at our destination.
+        {NPC.num, 4}, // [3] :: Welcome aboard!  Our entire crew appreciates the fact that you chose to fly on our shuttle!  Domo arigato!
+        {NPC.num, 5}, // [4] :: Please note there is only one exit. In the event of a fire on the ground, all passengers will have to fend for
+        {NPC.num, 6}, // [5] :: themselves, because the crew and I will be the first ones out that door. In the event of a pressure loss while
+        {NPC.num, 7}, // [6] :: were in transit, well all be sucking cold vacuum in a matter of seconds, so we hope you bought flight insurance.
+        {NPC.num, 8}, // [7] :: During the flight, we will not be serving beverages or food of any kind.We used to serve food, but the
+        {NPC.num, 9}, // [8] :: portions we served were getting so small that the passengers couldnt see them any more.  Speaking of food,
+        {NPC.num, 10}, // [9] :: if you are prone to space sickness, please do not throw up on the person next to you. In fact, wed prefer that
+        {NPC.num, 11}, // [10] :: you not throw up at all since it makes quite a mess in weightlessness. If you must, put your head in a bag.
+        {NPC.num, 12}, // [11] :: You will note that our in-flight holo- movie has just been zip-shot directly into your brain using psycho-graphics.
+        {NPC.num, 13}, // [12] :: We hope you enjoyed it. There will be an additional charge if youd like to "see" the movie again.  And now, Im
+        {EXIT_X.num}, // [13] :: sure it will come as big a surprise to you as it did to me that we have just arrived safely at our destination.
     };
 
     @Override
@@ -83,7 +88,7 @@ public class R10Extras extends RoomExtras { // JAL - Shuttle To Orbit
     @Override
     public int exitX(GameState gs) {
         // Exit depending on what ticket was purchased.
-        return EXIT_R;
+        return EXIT_R.num;
     }
 
 }

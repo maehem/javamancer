@@ -29,6 +29,14 @@ package com.maehem.javamancer.neuro.model.room.extra;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.item.Item.Catalog.UXB;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_NO_MORE;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_L;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.UXB_BUY;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
@@ -42,20 +50,20 @@ import java.util.logging.Level;
 public class R25Extras extends RoomExtras { // Shin's Pawn
 
     protected static final int[][] DIALOG_CHAIN = { // Shin's Pawn
-        {LONG_DESC}, {SHORT_DESC}, // 0, 1
+        {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
         {3, 4, 5}, // [2] :: Ah. You back. I have your deck.
         {7}, // [3] :: Why are you in such a rush to give me my deck back?
         {6}, // [4] :: Okay. Give me the deck. I cant operate without one.
         {8}, // [5] :: I dont have the cash right now, Ill come back later.
-        {UXB_BUY}, // [6] :: Give ticket and money. Shin busy. Many customer.
+        {UXB_BUY.num}, // [6] :: Give ticket and money. Shin busy. Many customer.
         {3, 4, 5}, // [7] :: Your deck scare away good customer. No more favor.
         {9, 10}, // [8] :: What?  I no want deck!  Here!  Take deck now!  No charge!  Go away!
-        {UXB, DESC, 13}, // [9] :: Thanks for my deck, Shin. I really appreciate you looking after it.
-        {UXB, DESC, 13}, // [10] :: Okay, pal!  Ill go away!  And Ill tell all my friends about this place!
-        {UXB, DESC, 13}, // [11] :: Thanks, Shin.  I knew youd see it my way.
-        {DIALOG_NO_MORE, EXIT_L}, // [12] ::   Shin slams and bolts the door behind you as you leave.
-        {DESC, 12}, // [13] ::   Shin gives you your deck.
-        {UXB, DESC, 13}, // [14] :: No have ticket? Shin give deck   anyways.
+        {UXB.num, DESC.num, 13}, // [9] :: Thanks for my deck, Shin. I really appreciate you looking after it.
+        {UXB.num, DESC.num, 13}, // [10] :: Okay, pal!  Ill go away!  And Ill tell all my friends about this place!
+        {UXB.num, DESC.num, 13}, // [11] :: Thanks, Shin.  I knew youd see it my way.
+        {DIALOG_NO_MORE.num, EXIT_L.num}, // [12] ::   Shin slams and bolts the door behind you as you leave.
+        {DESC.num, 12}, // [13] ::   Shin gives you your deck.
+        {UXB.num, DESC.num, 13}, // [14] :: No have ticket? Shin give deck   anyways.
         //{DESC, 12}, // [15] ::   After UXB..
     };
 
@@ -82,7 +90,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
     @Override
     public int dialogWarmUp(GameState gs) {
         if (!gs.roomNpcTalk[gs.room.getIndex()]) {
-            return DIALOG_END;
+            return DIALOG_END.num;
         }
         if (gs.pawnRecent == GameState.PawnRecent.BUY) {
             //gs.pawnRecent = GameState.PawnRecent.NONE;
