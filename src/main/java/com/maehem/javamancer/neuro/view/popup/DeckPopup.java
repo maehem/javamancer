@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.popup;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
@@ -343,17 +344,18 @@ public class DeckPopup extends PopupPane {
             Database whoIs = gameState.dbList.whoIs(typedLinkCode.toString());
             if (whoIs != null) {
                 // Connect
-                if (whoIs.comlink > deck.getCurrentWarez().version) {
+                if ((deck.getCurrentWarez() instanceof CyberspaceWarez)
+                        || whoIs.comlink <= deck.getCurrentWarez().version) {
+                    gameState.database = whoIs;
+                    gameState.usingDeck.setMode(DeckItem.Mode.LINKCODE);
+
+                    siteContent(); // hand off to custom site handler.
+                } else {
                     // Error comlink version
                     gameState.usingDeck.setMode(DeckItem.Mode.NONE);
                     LOGGER.log(Level.CONFIG, "ComLink {0} required for this site.", whoIs.comlink);
                     linkEnterheading.setText(LINK_CODE_COMLINK_COMPAT);
                     linkCodeErr = true;
-                } else {
-                    gameState.database = whoIs;
-                    gameState.usingDeck.setMode(DeckItem.Mode.LINKCODE);
-
-                    siteContent(); // hand off to custom site handler.
                 }
             } else {
                 gameState.usingDeck.setMode(DeckItem.Mode.NONE);
