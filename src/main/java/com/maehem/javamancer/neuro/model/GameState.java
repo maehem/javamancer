@@ -30,7 +30,8 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.database.DatabaseList;
-import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
+import com.maehem.javamancer.neuro.model.deck.Cyberspace7DeckItem;
+import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
@@ -40,6 +41,7 @@ import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.lang.reflect.Constructor;
@@ -201,16 +203,19 @@ public class GameState {
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 75));
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Fine, 1000));
 
-        // Game Test Items
-        UXBDeckItem uxbDeckItem = new UXBDeckItem();
-        inventory.add(uxbDeckItem); // Test item
-        deckSlots = uxbDeckItem.nSlots;
+        // Standard inventory items
+        inventory.add(new CreditsItem());
+        inventory.add(new RealItem(Catalog.PAWNTICKET, 0));
 
-        inventory.add(new RealItem(Catalog.SECURITYPASS, 20));
+        // Game Test Items
+        Cyberspace7DeckItem textDeckItem = new Cyberspace7DeckItem();
+        inventory.add(textDeckItem); // Test item
+        deckSlots = textDeckItem.nSlots;
+        textDeckItem.addWarez(new CyberspaceWarez(1));
 
         //bankZurichCreated = "11/16/58"; // Test Item
         //bankZurichBalance = 2000; // Test Item
-        chipBalance = 10000; // Test Item
+        chipBalance = 30; // Test Item
 
 
     }
