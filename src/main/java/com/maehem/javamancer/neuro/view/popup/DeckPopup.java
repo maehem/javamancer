@@ -367,6 +367,11 @@ public class DeckPopup extends PopupPane {
         if (mode == Mode.DATABASE && databaseView != null) {
             databaseView.tick();
         }
+        if (gameState.chipBalance <= 0) {
+            cleanup();
+            LOGGER.log(Level.SEVERE, "Exit Deck (via out of credits).");
+            listener.popupExit();
+        }
     }
 
     @Override

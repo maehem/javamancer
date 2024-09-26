@@ -27,6 +27,7 @@
 
 package com.maehem.javamancer.neuro.model.item;
 
+import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -56,6 +57,7 @@ public abstract class DeckItem extends Item {
     private int zone = -1;
     private int cordX = 0;
     private int cordY = 0;
+    private boolean noFee = false; // Set when player connects using Cyberspace 1.0 warez.
 
     public DeckItem(Item.Catalog cat, int nSlots, boolean cyberspace, int startX, int startY) {
         super(cat);
@@ -96,6 +98,9 @@ public abstract class DeckItem extends Item {
     }
 
     public void setCurrentWarez(Warez w) {
+        if (w instanceof CyberspaceWarez) {
+            noFee = true;
+        }
         currentSoftwarez = w;
     }
 
@@ -137,6 +142,7 @@ public abstract class DeckItem extends Item {
     public void cleanUp() {
         mode = Mode.NONE;
         currentSoftwarez = null;
+        noFee = false;
     }
 
     public boolean addWarez(Warez warez) {
@@ -154,4 +160,7 @@ public abstract class DeckItem extends Item {
         return softwarez.remove(w);
     }
 
+    public boolean isNoFee() {
+        return noFee;
+    }
 }

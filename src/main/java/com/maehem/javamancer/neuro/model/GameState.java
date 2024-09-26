@@ -206,6 +206,7 @@ public class GameState {
         inventory.add(uxbDeckItem); // Test item
         deckSlots = uxbDeckItem.nSlots;
 
+        inventory.add(new RealItem(Catalog.SECURITYPASS, 20));
 
         //bankZurichCreated = "11/16/58"; // Test Item
         //bankZurichBalance = 2000; // Test Item
@@ -238,6 +239,19 @@ public class GameState {
                 timeHour = 0;
             }
             timeMinute = 0;
+        }
+
+        if (usingDeck != null && usingDeck.getMode() != DeckItem.Mode.NONE) {
+            if (!usingDeck.isNoFee()) {
+                if (chipBalance > 0) {
+                    chipBalance--;
+                    if (chipBalance == 0) {
+                        showMessage = "\n\nNot enough credits to use deck.\n";
+                    }
+                } // Deck Popup should check balance and exit if needed.
+
+            }
+
         }
     }
 
