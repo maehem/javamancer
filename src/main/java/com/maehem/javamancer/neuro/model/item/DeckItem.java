@@ -31,7 +31,6 @@ import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 
 /**
@@ -44,7 +43,9 @@ public abstract class DeckItem extends Item {
     public static final boolean CYBERSPACE = true;
 
     public final int nSlots;
-    public final ArrayList<Warez> softwarez = new ArrayList<>();
+
+    // Software is stored in GameState
+    // Slot capacity is the number of slots for the largest deck player has owned.
     private Warez currentSoftwarez = null;
     public final boolean cyberspaceCapable;
 
@@ -145,20 +146,20 @@ public abstract class DeckItem extends Item {
         noFee = false;
     }
 
-    public boolean addWarez(Warez warez) {
-        if (softwarez.size() < nSlots) {
-            return softwarez.add(warez);
-        } else {
-            LOGGER.log(Level.SEVERE, "Deck slots full. Erase items first.");
-            return false;
-        }
+//    public boolean addWarez(Warez warez) {
+//        if (softwarez.size() < nSlots) {
+//            return softwarez.add(warez);
+//        } else {
+//            LOGGER.log(Level.SEVERE, "Deck slots full. Erase items first.");
+//            return false;
+//        }
+//
+//    }
 
-    }
-
-    public boolean erase(Warez w) {
-        currentSoftwarez = null;
-        return softwarez.remove(w);
-    }
+//    public boolean erase(Warez w) {
+//        currentSoftwarez = null;
+//        return softwarez.remove(w);
+//    }
 
     public boolean isNoFee() {
         return noFee;
