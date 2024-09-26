@@ -28,8 +28,6 @@ package com.maehem.javamancer.neuro.model.deck;
 
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
-import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
-import com.maehem.javamancer.neuro.model.warez.SequencerWarez;
 
 /**
  *
@@ -43,9 +41,6 @@ public class UXBDeckItem extends DeckItem {
         );
         price = 1800;
 
-        softwarez.add(new ComLinkWarez(1));
-        softwarez.add(new ComLinkWarez(6));  // FOR DEBUG
-        softwarez.add(new SequencerWarez(1)); // Debug BozoBank
     }
 
     @Override
