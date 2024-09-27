@@ -27,6 +27,14 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.deck.BlueLightSpecialDeckItem;
+import com.maehem.javamancer.neuro.model.deck.BushidoDeckItem;
+import com.maehem.javamancer.neuro.model.deck.EdokkoDeckItem;
+import com.maehem.javamancer.neuro.model.deck.GaijinDeckItem;
+import com.maehem.javamancer.neuro.model.deck.HikiGaeruDeckItem;
+import com.maehem.javamancer.neuro.model.deck.Ninja3000DeckItem;
+import com.maehem.javamancer.neuro.model.deck.SL350DeckItem;
+import com.maehem.javamancer.neuro.model.deck.ZXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.CAVIAR;
@@ -39,6 +47,7 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 /**
@@ -46,6 +55,8 @@ import java.util.logging.Level;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class R40Extras extends RoomExtras { // Crazy Edo's
+
+    private boolean purchasedItem = false;
 
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
@@ -128,6 +139,31 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
         }
         return 2;
 
+    }
+
+    @Override
+    public ArrayList<Item> getVendItems(GameState gs) {
+        ArrayList<Item> list = new ArrayList<>();
+        list.add(new BlueLightSpecialDeckItem());
+        list.add(new HikiGaeruDeckItem());
+        list.add(new GaijinDeckItem());
+        list.add(new ZXBDeckItem());
+        list.add(new SL350DeckItem());
+        list.add(new BushidoDeckItem());
+        list.add(new Ninja3000DeckItem());
+        list.add(new EdokkoDeckItem());
+        return list;
+    }
+
+    @Override
+    public boolean onVendItemsFinished(GameState gs) {
+        if (!purchasedItem) {
+            // set dialog to 32 // Come back when you're ready
+            LOGGER.log(Level.SEVERE, "No item was purchased.");
+        } else {
+            LOGGER.log(Level.SEVERE, "Item was purchased.");
+        }
+        return false;
     }
 
     @Override
