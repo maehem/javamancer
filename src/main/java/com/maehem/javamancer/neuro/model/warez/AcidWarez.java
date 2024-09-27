@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.model.warez;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
-import java.util.logging.Level;
 
 /**
  *
@@ -44,7 +43,6 @@ public class AcidWarez extends VirusWarez {
     public String use(GameState gs) {
         String deckUse = super.use(gs);
         // TODO: Evaluate Cyberspace situation...
-        LOGGER.log(Level.SEVERE, "Only usable in ???.");
         return deckUse;
     }
 
