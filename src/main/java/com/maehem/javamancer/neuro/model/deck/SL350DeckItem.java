@@ -33,13 +33,13 @@ import com.maehem.javamancer.neuro.model.item.Item.Catalog;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class BlueLightSpecialDeckItem extends DeckItem {
+public class SL350DeckItem extends DeckItem {
 
-    public BlueLightSpecialDeckItem() {
-        super(Catalog.BLUELIGHTSPEC, 5, NON_CYBERSPACE,
+    public SL350DeckItem() {
+        super(Catalog._350SL, 10, NON_CYBERSPACE,
                 112, 80
         );
-        price = 1000;
+        price = 7500;
 
     }
 
@@ -47,6 +47,5 @@ public class BlueLightSpecialDeckItem extends DeckItem {
     public void use() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
 
 }

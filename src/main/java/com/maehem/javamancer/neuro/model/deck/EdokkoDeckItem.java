@@ -36,7 +36,7 @@ import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 public class EdokkoDeckItem extends DeckItem {
 
     public EdokkoDeckItem() {
-        super(Catalog.EDOKKO, 15, NON_CYBERSPACE,
+        super(Catalog.EDOKKO, 18, NON_CYBERSPACE,
                 112, 80
         );
         price = 10000;

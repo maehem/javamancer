@@ -33,14 +33,13 @@ import com.maehem.javamancer.neuro.model.item.Item.Catalog;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class BlueLightSpecialDeckItem extends DeckItem {
+public class BushidoDeckItem extends DeckItem {
 
-    public BlueLightSpecialDeckItem() {
-        super(Catalog.BLUELIGHTSPEC, 5, NON_CYBERSPACE,
+    public BushidoDeckItem() {
+        super(Catalog.BUSHIDO, 12, NON_CYBERSPACE,
                 112, 80
         );
-        price = 1000;
-
+        price = 7700;
     }
 
     @Override
