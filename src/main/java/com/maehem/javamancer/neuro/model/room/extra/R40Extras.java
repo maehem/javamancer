@@ -27,10 +27,9 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
-import static com.maehem.javamancer.neuro.model.item.Item.Catalog.CAVIAR;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.CAVIAR;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_T;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
@@ -98,25 +97,17 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
             LOGGER.log(Level.SEVERE, "Received item is not ComLink. Player doesn't take anyting else.");
             return false;
         }
-        for (Item ii : gs.inventory) {
-            if (ii instanceof DeckItem deck) {
-                if (gs.hasInventoryItem(Catalog.CAVIAR)
-                        && deck.softwarez.size() < deck.nSlots) {
-
-                    if (deck.addWarez(new ComLinkWarez(2))) {
-                        LOGGER.log(Level.SEVERE, "Warez installed.");
-                        gs.removeInventoryItem(Catalog.CAVIAR);
-                        LOGGER.log(Level.SEVERE, "Deck Warez:\n");
-                        deck.softwarez.forEach((w) -> {
-                            LOGGER.log(Level.SEVERE, w.getSimpleName() + "\n");
-                        });
-                        return true;
-                    } else {
-                        // Not installed, why?
-                        LOGGER.log(Level.SEVERE, "Could not install software! Unknown error.");
-                    }
-                }
+        if (gs.hasInventoryItem(Catalog.CAVIAR)) {
+            if (gs.addSoftware(new ComLinkWarez(2))) {
+                LOGGER.log(Level.SEVERE, "Warez installed.");
+                gs.removeInventoryItem(Catalog.CAVIAR);
+                return true;
+            } else {
+                // Not installed, why?
+                LOGGER.log(Level.SEVERE, "Could not install software! Unknown error.");
             }
+        } else {
+            LOGGER.log(Level.SEVERE, "Player does not have Caviar in inventory.");
         }
 
         return false;
