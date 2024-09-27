@@ -110,6 +110,7 @@ public abstract class DeckItem extends Item {
     }
 
     public void setMode(Mode mode) {
+        LOGGER.log(Level.SEVERE, getName() + ":: set mode to " + mode.name());
         this.mode = mode;
     }
 
