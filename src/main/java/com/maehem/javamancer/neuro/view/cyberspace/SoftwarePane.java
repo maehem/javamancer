@@ -102,7 +102,7 @@ public class SoftwarePane extends Pane {
 
         for (int i = 0; i < SOFT_LIST_SIZE; i++) {
             try {
-                Warez w = deck.softwarez.get(slotBase + i);
+                Warez w = gameState.software.get(slotBase + i);
                 Text itemText = new Text("\n" + (i + 1) + ". " + w.getMenuString());
                 tf.getChildren().add(itemText);
 
@@ -118,7 +118,7 @@ public class SoftwarePane extends Pane {
         tf.getChildren().add(new Text("\n"));
         tf.getChildren().add(navBox);
         prevButton.setVisible(slotBase >= SOFT_LIST_SIZE);
-        nextButton.setVisible(slotBase + SOFT_LIST_SIZE < deck.softwarez.size());
+        nextButton.setVisible(slotBase + SOFT_LIST_SIZE < gameState.software.size());
 
         getChildren().add(PopupPane.makeBox(this, tf));
 

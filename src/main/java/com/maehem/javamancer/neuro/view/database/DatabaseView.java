@@ -775,7 +775,7 @@ public abstract class DatabaseView {
 
         for (int i = 0; i < SOFT_LIST_SIZE; i++) {
             try {
-                Warez w = gameState.usingDeck.softwarez.get(slotBase + i);
+                Warez w = gameState.software.get(slotBase + i);
                 Text itemText = new Text("\n" + (i + 1) + ". " + w.getMenuString());
                 tf.getChildren().add(itemText);
 
@@ -804,7 +804,7 @@ public abstract class DatabaseView {
         tf.getChildren().add(new Text("\n"));
         tf.getChildren().add(navBox);
         prevButton.setVisible(slotBase >= SOFT_LIST_SIZE);
-        nextButton.setVisible(slotBase + SOFT_LIST_SIZE < gameState.usingDeck.softwarez.size());
+        nextButton.setVisible(slotBase + SOFT_LIST_SIZE < gameState.software.size());
 
         softwareSubPop.getChildren().add(tf);
 
@@ -907,7 +907,7 @@ public abstract class DatabaseView {
 
         // TODO: Deck software compatibility check
         // RESULT = deck.installSoftware( Warez )
-        gameState.usingDeck.softwarez.add(w);
+        gameState.addSoftware(w);
     }
 
     protected void composeMessage() {
