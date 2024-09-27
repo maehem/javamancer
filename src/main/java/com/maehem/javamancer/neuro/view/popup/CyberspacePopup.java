@@ -82,6 +82,9 @@ public class CyberspacePopup extends PopupPane {
         getChildren().addAll(
                 backdrop, visualPane, controlPanel, databsePane
         );
+
+        LOGGER.log(Level.SEVERE, "Cyberspace Popup: Set deck mode to CYBERSPACE.");
+        gs.usingDeck.setMode(DeckItem.Mode.CYBERSPACE);
     }
 
     @Override
