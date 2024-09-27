@@ -44,6 +44,7 @@ public abstract class Warez {
     public static final Logger LOGGER = Logging.LOGGER;
 
     public static final String USE_OK = "OK";
+    public static final String REQUIRES_ICE = "Requires ICE.";
 
     public final Item.Catalog item;
     public final int version;
