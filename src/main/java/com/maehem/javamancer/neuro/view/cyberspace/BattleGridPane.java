@@ -246,7 +246,7 @@ public class BattleGridPane extends GridPane {
                     }
                 }
                 case VirusWarez ww -> { // ICE Breaker but deletes after use.
-                    LOGGER.log(Level.SEVERE, "Using Virus Warez...{0}.  Todo: What happens here?", w.item.itemName);
+                    //LOGGER.log(Level.SEVERE, "Using Virus Warez...{0}.  Todo: What happens here?", w.item.itemName);
                     if (!ww.isRunning()) {
                         ww.setRunning(true);
                         fireShotPlayer();
@@ -349,9 +349,10 @@ public class BattleGridPane extends GridPane {
             gameState.database.applyWarezAttack(w, gameState);
 
             if (w instanceof VirusWarez) {
-                deck.softwarez.remove(w);
+                gameState.eraseSoftware(w);
             } else {
                 // Software has a chance of being worn/damaged.
+                LOGGER.log(Level.SEVERE, "TODO: Wear or Damage software.");
             }
 
             if (gameState.database.getIce() == 0) {
