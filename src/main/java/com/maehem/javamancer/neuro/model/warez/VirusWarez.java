@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.warez;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
+import java.util.logging.Level;
 
 /**
  * Weakens ICE. One shot use. Cyberspace only.
@@ -43,15 +44,19 @@ public abstract class VirusWarez extends Warez {
     @Override
     public String use(GameState gs) {
         if (gs.usingDeck != null) {
+            LOGGER.log(Level.SEVERE, "Using Deck Mode: " + gs.usingDeck.getMode().name());
             switch (gs.usingDeck.getMode()) {
                 case NONE, LINKCODE -> {
                     // Can't be used here.
-                    return "Can't be used here.";
+                    return "Cyberspace ICE Only.";
                 }
                 case CYBERSPACE -> {
                     // TODO: Check if at DB and DB has ICE.
-
-                    return USE_OK;
+                    if (gs.database.getIce() > 0) {
+                        return USE_OK;
+                    } else {
+                        return REQUIRES_ICE;
+                    }
                 }
             }
         }
