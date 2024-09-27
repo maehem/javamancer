@@ -377,10 +377,9 @@ public class GameState {
     }
 
     public final boolean eraseSoftware(Warez w) {
-        if (usingDeck != null) {
-            if (usingDeck.getCurrentWarez().item == w.item) {
-                usingDeck.setCurrentWarez(null);
-            }
+        if (usingDeck != null && usingDeck.getCurrentWarez() != null
+                && usingDeck.getCurrentWarez().item == w.item) {
+            usingDeck.setCurrentWarez(null);
         }
         return software.remove(w);
     }
