@@ -113,7 +113,7 @@ public class DeckPopup extends PopupPane {
 
         for (int i = 0; i < SOFT_LIST_SIZE; i++) {
             try {
-                Warez w = deck.softwarez.get(slotBase + i);
+                Warez w = gameState.software.get(slotBase + i);
                 Text itemText = new Text("\n" + (i + 1) + ". " + w.getMenuString());
                 tf.getChildren().add(itemText);
 
@@ -132,7 +132,7 @@ public class DeckPopup extends PopupPane {
         tf.getChildren().add(new Text("\n"));
         tf.getChildren().add(navBox);
         prevButton.setVisible(slotBase >= SOFT_LIST_SIZE);
-        nextButton.setVisible(slotBase + SOFT_LIST_SIZE < deck.softwarez.size());
+        nextButton.setVisible(slotBase + SOFT_LIST_SIZE < gameState.software.size());
 
         addBox(tf);
 
@@ -176,7 +176,7 @@ public class DeckPopup extends PopupPane {
 
     private void eraseSoftware(Warez w) {
         LOGGER.log(Level.SEVERE, "DeckPopup Erase Software: {0}", w.getSimpleName());
-        deck.erase(w);
+        gameState.eraseSoftware(w);
         softwarePrompt();
     }
 
@@ -227,7 +227,7 @@ public class DeckPopup extends PopupPane {
     private void enterCyberspace() {
         LOGGER.log(Level.SEVERE, "Enter Cyberspace.");
 
-        gameState.usingDeck.setMode(DeckItem.Mode.CYBERSPACE);
+        //gameState.usingDeck.setMode(DeckItem.Mode.CYBERSPACE);
         // Leave Deck pupup and open cyberspace popup.
         listener.popupExit(RoomMode.Popup.CYBERSPACE);
     }
@@ -352,12 +352,13 @@ public class DeckPopup extends PopupPane {
                     siteContent(); // hand off to custom site handler.
                 } else {
                     // Error comlink version
-                    gameState.usingDeck.setMode(DeckItem.Mode.NONE);
                     LOGGER.log(Level.CONFIG, "ComLink {0} required for this site.", whoIs.comlink);
+                    gameState.usingDeck.setMode(DeckItem.Mode.NONE);
                     linkEnterheading.setText(LINK_CODE_COMLINK_COMPAT);
                     linkCodeErr = true;
                 }
             } else {
+                LOGGER.log(Level.SEVERE, "Could not find link called " + typedLinkCode.toString());
                 gameState.usingDeck.setMode(DeckItem.Mode.NONE);
                 linkEnterheading.setText(LINK_CODE_UNKOWN_LINK);
                 linkCodeErr = true;
