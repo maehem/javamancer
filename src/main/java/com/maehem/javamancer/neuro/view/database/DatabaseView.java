@@ -1208,7 +1208,7 @@ public abstract class DatabaseView {
             contentTf.getChildren().addAll(gapText, editLinkText);
 
             editLinkText.setOnMouseClicked((t) -> {
-                LOGGER.log(Level.SEVERE, "Editing user name: " + p.getName());
+                LOGGER.log(Level.SEVERE, "Editing user name: {0}", p.getName());
                 t.consume();
                 nameCursorText.setVisible(true);
             });
