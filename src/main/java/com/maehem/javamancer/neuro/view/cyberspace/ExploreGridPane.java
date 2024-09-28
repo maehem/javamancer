@@ -181,13 +181,10 @@ public class ExploreGridPane extends GridPane {
         for (int x = -8; x <= 8; x++) {
             for (int y = 0; y <= 8; y++) {
 
-                int scanX = xPos + (x * GRID / 4);
-                int scanY = yPos + (y * GRID / 4);
                 Database dbHere = gameState.dbList.whatsAt(
                         xPos + (x * GRID / 4),
                         yPos + (y * GRID / 4)
                 );
-                double layY = (y / 4 * 12) + ((8 - y) * (8 - y)) * 1.15;
                 if (dbHere != null) {
                     LOGGER.log(Level.FINE, "There is a database at: {0},{1} :: {2}", new Object[]{x, y, dbHere.name});
                     database.show(dbShow[y]);
