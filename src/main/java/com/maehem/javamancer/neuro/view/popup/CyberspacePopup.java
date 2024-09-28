@@ -91,13 +91,11 @@ public class CyberspacePopup extends PopupPane {
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         LOGGER.log(Level.SEVERE, "CyberPopup: Key Event.");
         if (databaseView != null) {
-            if (databaseView != null) {
-                if (databaseView.handleKeyEvent(keyEvent)) {
-                    LOGGER.log(Level.SEVERE, "CyberPopup: Key Event: True returned from Database View.");
-                    databaseView = null;
-                    cleanup();
-                    return true;
-                }
+            if (databaseView.handleKeyEvent(keyEvent)) {
+                LOGGER.log(Level.SEVERE, "CyberPopup: Key Event: True returned from Database View.");
+                databaseView = null;
+                cleanup();
+                return true;
             }
         } else if (controlPanel.handleKeyEvent(keyEvent)) {
             LOGGER.log(Level.SEVERE, "CyberPopup: Key Event: True returned from control panel.");
@@ -142,7 +140,6 @@ public class CyberspacePopup extends PopupPane {
             this.databaseView = DatabaseView.getView(gameState, databsePane, listener);
             databsePane.setVisible(true);
         }
-
 
     }
 
