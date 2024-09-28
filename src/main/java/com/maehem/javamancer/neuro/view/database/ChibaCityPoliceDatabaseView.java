@@ -27,11 +27,10 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.TextResource;
+import com.maehem.javamancer.neuro.model.Person;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
-import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -114,84 +113,16 @@ public class ChibaCityPoliceDatabaseView extends DatabaseView {
             case "X" -> {
                 listener.popupExit();
             }
-            case "1" -> { // About system
-                warrantList(false);
+            case "1" -> {
+                personList(3, "POLICE0", true);
             }
             case "2" -> { // About tournaments
                 if (accessLevel > 1) {
-                    warrantList(true);
+                    mode = Mode.SUB;
+                    editablePersonList(gameState.chibaWantedList, 3, "POLICE0", true);
                 }
             }
         }
-    }
-
-    private void warrantList(boolean edit) {
-        LOGGER.log(Level.SEVERE, "Chiba Police: warrant list");
-        pane.getChildren().clear();
-
-        Text subHeadingText = new Text("\n" + dbTextResource.get(3) + "\n\n");
-
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
-
-        TextResource bamaList = gameState.resourceManager.getTextResource("POLICE0");
-        bamaList.forEach((item) -> {
-            Text t;
-            if (item.startsWith("\1")) {
-                t = new Text(
-                        String.format("%-19s", gameState.name)
-                        + item.substring(19)
-                );
-            } else {
-                t = new Text("\n" + item);
-            }
-
-            // TODO: Link item for editing BAMA ID???
-            contentTf.getChildren().add(t);
-        });
-
-        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
-
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
-    }
-
-    private void editWarrant(int index) {
-        LOGGER.log(Level.SEVERE, "Chiba Police: edit warrant");
-        pane.getChildren().clear();
-        mode = Mode.EDIT;
-
-        Text subHeadingText = new Text("\n" + dbTextResource.get(11) + "\n\n");
-
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
-
-        TextResource bamaList = gameState.resourceManager.getTextResource("POLICE0");
-        bamaList.forEach((item) -> {
-            Text t;
-            if (item.startsWith("\1")) {
-                t = new Text(
-                        String.format("%-19s", gameState.name)
-                        + item.substring(19)
-                );
-            } else {
-                t = new Text("\n" + item);
-            }
-
-            // TODO: Link item for editing BAMA ID???
-            contentTf.getChildren().add(t);
-        });
-
-        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
-
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
     }
 
     @Override
@@ -225,5 +156,16 @@ public class ChibaCityPoliceDatabaseView extends DatabaseView {
 
         }
         return super.handleKeyEvent(keyEvent);
+    }
+
+    @Override
+    protected void handlePersonListChanged() {
+        // List contains Larry's BAMA?
+        for (Person p : gameState.chibaWantedList) {
+            if (p.getBama().equals(GameState.LARRY_MODE_BAMA)) {
+                gameState.larryMoeWanted = true;
+                return;
+            }
+        }
     }
 }
