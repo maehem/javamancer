@@ -74,13 +74,18 @@ public class VisualPane extends Pane {
         }
     }
 
+    /**
+     * Player is moving around cyberspace.
+     *
+     * @param keyEvent
+     */
     private void handleExploreKeys(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
         DeckItem deck = gameState.usingDeck;
         switch (code) {
             case RIGHT -> {
                 keyEvent.consume();
-                if (deck.getCordX() <= GRID_MAX - GRID_SIZE) {
+                if (deck.getCordX() < GRID_MAX - GRID_SIZE) {
                     gridBasePane.animateTravel(ExploreGridPane.Direction.LEFT);
                 } else {
                     LOGGER.log(Level.SEVERE, "Max matrix X reached.");
@@ -96,7 +101,7 @@ public class VisualPane extends Pane {
             }
             case UP -> {
                 keyEvent.consume();
-                if (deck.getCordY() <= GRID_MAX - GRID_SIZE) {
+                if (deck.getCordY() < GRID_MAX - GRID_SIZE) {
                     gridBasePane.animateTravel(ExploreGridPane.Direction.FORWARD);
                 } else {
                     LOGGER.log(Level.SEVERE, "Max matrix Y reached.");
