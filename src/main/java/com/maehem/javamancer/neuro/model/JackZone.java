@@ -49,4 +49,31 @@ public enum JackZone {
         this.x = x;
         this.y = y;
     }
+
+    /**
+     * Look up JackZone from X/Y coordinates
+     *
+     * @param x coordinate
+     * @param y coordinate
+     * @return JackZone of coordinates.
+     */
+    public static final JackZone lookUp(int x, int y) {
+        return numToZone(y / 127 * 2 + x / 255);
+    }
+
+    /**
+     * Return JackZone for supplied number (0-7)
+     *
+     * @param num JackZone number
+     * @return JackZone for supplied number (0-7). Null if not in range.
+     */
+    public static final JackZone numToZone(int num) {
+        for (JackZone jz : values()) {
+            if (jz.num == num) {
+                return jz;
+            }
+        }
+
+        return null;
+    }
 }
