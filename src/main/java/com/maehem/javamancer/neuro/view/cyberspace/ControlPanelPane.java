@@ -136,31 +136,31 @@ public class ControlPanelPane extends Pane implements PopupListener {
 
     private void initButtons() {
         invRect.setOnMouseClicked((t) -> {
-            LOGGER.log(Level.SEVERE, "Cyberspace: Software Button Clicked...");
+            LOGGER.log(Level.CONFIG, "Cyberspace: Software Button Clicked...");
             softwarePane.softwarePrompt();
             t.consume();
         });
         skillRect.setOnMouseClicked((t) -> {
-            LOGGER.log(Level.SEVERE, "Cyberspace: Skill Button Clicked...");
+            LOGGER.log(Level.CONFIG, "Cyberspace: Skill Button Clicked...");
             skillsPopup.setVisible(true);
             t.consume();
         });
         romRect.setOnMouseClicked((t) -> {
-            LOGGER.log(Level.SEVERE, "Cyberspace: ROM Button Clicked...");
+            LOGGER.log(Level.CONFIG, "Cyberspace: ROM Button Clicked...");
             romPopup.setVisible(true);
             t.consume();
         });
         gameRect.setOnMouseClicked((t) -> {
-            LOGGER.log(Level.SEVERE, "Cyberspace: Game Button Clicked...");
+            LOGGER.log(Level.CONFIG, "Cyberspace: Game Button Clicked...");
             diskPopup.setVisible(true);
             t.consume();
         });
         eraseRect.setOnMouseClicked((t) -> {
-            LOGGER.log(Level.SEVERE, "Cyberspace: Erase Button Clicked...");
+            LOGGER.log(Level.CONFIG, "Cyberspace: Erase Button Clicked...");
             t.consume();
         });
         exitRect.setOnMouseClicked((t) -> {
-            LOGGER.log(Level.SEVERE, "Cyberspace: Exit Button Clicked...");
+            LOGGER.log(Level.CONFIG, "Cyberspace: Exit Button Clicked...");
             t.consume();
             listener.popupExit();
         });
@@ -236,7 +236,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                 }
                 case E -> { // Erase
                     ke.consume();
-
+                    LOGGER.log(Level.SEVERE, "Cyberspace: Erase Key Pressed... (TODO)");
                 }
             }
 
