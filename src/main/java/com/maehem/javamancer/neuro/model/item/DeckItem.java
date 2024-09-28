@@ -119,22 +119,29 @@ public abstract class DeckItem extends Item {
         return zone;
     }
 
-    public int getCordX() {
-        return cordX;
-    }
-
-    public int getCordY() {
-        return cordY;
-    }
-
+    /**
+     * Store the value of the zone this deck started in. When exploring the
+     * matrix, player should not be able to move outside this zone unless they
+     * are using EasyRiderWarez.
+     *
+     * @param z
+     */
     public void setZone(JackZone z) {
         this.zone = z;
         LOGGER.log(Level.FINER, "Deck: Zone changed: {0}", zone);
     }
 
+    public int getCordX() {
+        return cordX;
+    }
+
     public void setCordX(int x) {
         this.cordX = x;
         LOGGER.log(Level.FINER, "Deck: X changed: {0}", cordX);
+    }
+
+    public int getCordY() {
+        return cordY;
     }
 
     public void setCordY(int y) {
@@ -147,21 +154,6 @@ public abstract class DeckItem extends Item {
         currentSoftwarez = null;
         noFee = false;
     }
-
-//    public boolean addWarez(Warez warez) {
-//        if (softwarez.size() < nSlots) {
-//            return softwarez.add(warez);
-//        } else {
-//            LOGGER.log(Level.SEVERE, "Deck slots full. Erase items first.");
-//            return false;
-//        }
-//
-//    }
-
-//    public boolean erase(Warez w) {
-//        currentSoftwarez = null;
-//        return softwarez.remove(w);
-//    }
 
     public boolean isNoFee() {
         return noFee;
