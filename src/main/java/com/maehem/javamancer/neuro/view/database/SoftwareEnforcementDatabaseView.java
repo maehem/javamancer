@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.Person;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
@@ -273,12 +272,12 @@ public class SoftwareEnforcementDatabaseView extends DatabaseView {
 
     @Override
     protected void handlePersonListChanged() {
-        // List contains Larry's BAMA?
-        for (Person p : gameState.seaWantedList) {
-            if (p.getBama().equals(GameState.LARRY_MODE_BAMA)) {
-                gameState.larryMoeWanted = true;
-                return;
-            }
-        }
+        // TODO: What NPCs are affected by this?
+//        for (Person p : gameState.seaWantedList) {
+//            if (p.getBama().equals(GameState.LARRY_MODE_BAMA)) {
+//                gameState.larryMoeWanted = true;
+//                return;
+//            }
+//        }
     }
 }
