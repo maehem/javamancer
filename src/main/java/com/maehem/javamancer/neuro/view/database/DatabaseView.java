@@ -256,7 +256,7 @@ public abstract class DatabaseView {
                 }
             }
             case PERSON_VIEW -> {
-                if (handlePersonEditKeyEvent(keyEvent)) {
+                if (editingPerson != null && handlePersonEditKeyEvent(keyEvent)) {
                     keyEvent.consume();
                     editablePersonList();
                 }
@@ -696,25 +696,11 @@ public abstract class DatabaseView {
         softwareSubMode = SoftwarePopMode.UPLOAD;
 
         pane.getChildren().clear();
-        //mode = Mode.DOWNLOADS;
         TextFlow tf = pageHeadingTextFlow();
-        //tf.getChildren().add(new Text(centeredText("Upload Software") + "\n"));
-        //Text menuItem = new Text(PADDING + "X. Exit to main");
-        //tf.getChildren().add(menuItem);
-//        menuItem.setOnMouseClicked((t) -> {
-//            t.consume();
-//            LOGGER.log(Level.SEVERE, "User exit to main: ");
-//            siteContent();
-//        });
 
         refreshUploadSubPopup(); // Contains exit link.
 
         pane.getChildren().add(softwareSubPop);
-
-        int i = 1;
-//        i = addSoftware(i, database.warez1, tf);
-//        i = addSoftware(i, database.warez2, tf);
-//        addSoftware(i, database.warez3, tf);
 
         // TODO Add software in Deck.
         pane.getChildren().add(tf);
@@ -787,7 +773,7 @@ public abstract class DatabaseView {
                     } else if (softwareSubMode == SoftwarePopMode.RUN) {
                         // Begin sequencer animation.
                         // Close software popup
-                        if (w instanceof SequencerWarez seq) {
+                        if (w instanceof SequencerWarez) {
                             LOGGER.log(Level.SEVERE, "Run Sequencer...");
                             softwareSubPop.setVisible(false);
                             softwareSubMode = SoftwarePopMode.NONE;
@@ -1107,9 +1093,25 @@ public abstract class DatabaseView {
     }
 
     private void editablePersonList() {
-        LOGGER.log(Level.FINE, "Database View: Person list (cached)");
         pane.getChildren().clear();
         subMode = SubMode.PERSON_LIST;
+
+        TextResource bamaList = gameState.resourceManager.getTextResource(personEditResourceName);
+        ArrayList<Person> list;
+        if (personEditList != null) { // Using editable list.
+            list = personEditList;
+            LOGGER.log(Level.SEVERE, "Person list is from GameState, editable.");
+        } else {
+            list = new ArrayList<>();
+            LOGGER.log(Level.SEVERE, "Person list is local, read only.");
+        }
+        if (list.isEmpty()) {
+            LOGGER.log(Level.CONFIG, "Person list is empty. Let's fill it.");
+            // Copy text resource into list.
+            for (String item : bamaList) {
+                list.add(new Person(item));
+            }
+        }
 
         Text subHeadingText;
         if (personEditHeading >= 0) {
@@ -1121,55 +1123,21 @@ public abstract class DatabaseView {
         TextFlow contentTf = simpleTextFlow(subHeadingText);
         contentTf.setPadding(new Insets(0, 0, 0, 30));
 
-        TextResource bamaList = gameState.resourceManager.getTextResource(personEditResourceName);
-        // TODO:  If supplied person list is empty. Copy the bamaList over and use that.
-        if (personEditList != null) {
-            if (personEditList.isEmpty()) {
-                LOGGER.log(Level.FINER, "Person List cache is empty. Let's fill it.");
-                // Copy text resource into gameState list.
-                for (String item : bamaList) {
-                    personEditList.add(new Person(item));
-                }
-            }
-            int i = 1;
-            for (Person p : personEditList) {
-                String reasonStr = " ";
-                if (personEditIsWarrant) {
-                    reasonStr += WANTED[p.getReason()];
-                }
-                Text t = new Text("\n" + i + ". "
-                        + String.format("%-18s  ", p.getName().trim())
-                        + String.format("%-9s  ", p.getBama())
-                        + reasonStr
-                );
+        int i = 1;
+        for (Person p : list) {
+            Text t = new Text("\n" + i + ". "
+                    + String.format("%-18s  ", p.getName().trim())
+                    + String.format("%-9s  ", p.getBama())
+            );
 
-                t.setOnMouseClicked((ev) -> {
-                    // Item details/editing.
-                    LOGGER.log(Level.FINER, "User clicked: {0}", p.getName());
-                    ev.consume();
-                    editingPerson = p;
-                    personEdit();
-                });
+            t.setOnMouseClicked((ev) -> {
+                LOGGER.log(Level.FINER, "User clicked: {0}", p.getName());
+                ev.consume();
+                personDetails(p, personEditList != null);
+            });
 
-                contentTf.getChildren().add(t);
-                i++;
-            }
-        } else { // Read only list just print it.
-            int i = 0;
-            for (String item : bamaList) {
-                String[] split = item.split("\t");
-                int reason = split[2].charAt(3);
-                String reasonStr;
-                if (personEditIsWarrant) {
-                    reasonStr = " " + WANTED[reason];
-                } else {
-                    reasonStr = "";
-                }
-                Text t = new Text("\n" + split[0] + split[1] + reasonStr);
-
-                contentTf.getChildren().add(t);
-                i++;
-            }
+            contentTf.getChildren().add(t);
+            i++;
         }
 
         TextFlow pageTf = pageTextFlow(headingText, contentTf);
@@ -1184,8 +1152,9 @@ public abstract class DatabaseView {
         });
     }
 
-    private void personEdit() {
-        LOGGER.log(Level.SEVERE, "Database View: Edit Person");
+    private void personDetails(Person p, boolean canEdit) {
+        LOGGER.log(Level.SEVERE, "Database View: Person Details {0}",
+                canEdit ? " (editable)" : " (read only)");
         pane.getChildren().clear();
         subMode = SubMode.PERSON_VIEW;
 
@@ -1202,9 +1171,13 @@ public abstract class DatabaseView {
 
         Text nameLabelText = new Text("Name: ");
         Text idLabelText = new Text("\n  ID: ");
-        nameValueText = new Text(editingPerson.getName().trim());
-        idValueText = new Text(editingPerson.getBama().trim());
-        Text auxDataText = new Text("\nAux Data Text -- TODO");
+        nameValueText = new Text(p.getName().trim());
+        idValueText = new Text(p.getBama().trim());
+        String reasonStr = "\n      ";
+        if (personEditIsWarrant) {
+            reasonStr += WANTED[p.getReason()];
+        }
+        Text auxDataText = new Text(reasonStr);
 
         nameCursorText = new Text(CURSOR);
         idCursorText = new Text(CURSOR);
@@ -1219,27 +1192,29 @@ public abstract class DatabaseView {
                 auxDataText
         );
 
-        // NEED Exit and Edit links
         Text leftPadText = new Text("\n\n\n\n\n\n\n            ");
         Text exitLinkText = new Text("exit");
-        Text gapText = new Text("  ");
-        Text editLinkText = new Text("edit");
 
-        contentTf.getChildren().addAll(leftPadText, exitLinkText, gapText, editLinkText);
-
+        contentTf.getChildren().addAll(leftPadText, exitLinkText);
         exitLinkText.setOnMouseClicked((t) -> {
             t.consume();
             editablePersonList();
         });
 
-        editLinkText.setOnMouseClicked((t) -> {
-            LOGGER.log(Level.SEVERE, "Editing user name: " + editingPerson.getName());
-            t.consume();
-            nameCursorText.setVisible(true);
+        if (canEdit) {
+            Text gapText = new Text("  ");
+            Text editLinkText = new Text("edit");
+            editingPerson = p;
+            contentTf.getChildren().addAll(gapText, editLinkText);
 
-        });
-
+            editLinkText.setOnMouseClicked((t) -> {
+                LOGGER.log(Level.SEVERE, "Editing user name: " + p.getName());
+                t.consume();
+                nameCursorText.setVisible(true);
+            });
+        }
         pane.getChildren().add(pageTf);
+        pane.setOnMouseClicked(null);
     }
 
     private boolean handlePersonEditKeyEvent(KeyEvent ke) {
@@ -1274,6 +1249,7 @@ public abstract class DatabaseView {
                 // Collect name and ID value
                 editingPerson.setName(nameValueText.getText().trim().toUpperCase());
                 editingPerson.setBama(idValueText.getText());
+                editingPerson = null;
                 //pane.setOnKeyPressed(null); // No more typing.
                 // Do exit of edit mode. Back to list view.
                 LOGGER.log(Level.SEVERE, "Person changes recorded. Reload list.");
