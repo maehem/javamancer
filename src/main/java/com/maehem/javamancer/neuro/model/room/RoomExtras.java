@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.room;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.item.SoftwareItem;
@@ -43,49 +44,6 @@ public abstract class RoomExtras {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
-    /*
-    public static final int DESC = 50; // show in room desc instead of dialog.
-    public static final int LONG_DESC = 51;
-    public static final int SHORT_DESC = 52;
-    public static final int NPC = 53; // Don't toggle to PLAYER after this dialog
-    public static final int PLAYER = 54; // Don't toggle to PLAYER after this dialog
-    public static final int WORD1 = 55;
-    public static final int WORD2 = 56;
-    public static final int WHERE_IS = 57; // Street Light Girl - Where is Lonny Zone?
-    public static final int DISCOUNT = 58; // Apply vendor discount (asano 20%)
-    public static final int LUNGS = 60; // lungs removed at Hitachi
-    public static final int BODY_SELL = 61; // Bodyshop menu
-    public static final int BODY_BUY = 62; // Bodyshop menu
-    public static final int SKILL_SELL = 63; // ??? menu, maybe don't need
-    public static final int SKILL_BUY = 64; // Larry menu, TODO: move to ITEM_BUY
-    public static final int SKILL_UPGRADE = 65; // Larry menu, TODO: move to ITEM_BUY
-    public static final int UXB_BUY = 66; // Shin menu, TODO: move to ITEM_BUY
-    public static final int ITEM_BUY = 67; // Player buys item from NPC
-    public static final int ITEM_GET = 68; // player receives NPC item directly
-    public static final int SOFTWARE_BUY = 69; // player buys software  (Metro Holo)
-    public static final int EXIT_T = 70; // Exit Top
-    public static final int EXIT_R = 71; // Exit Right
-    public static final int EXIT_B = 72; // Exit Bottom
-    public static final int EXIT_L = 73; // Exit Left
-    public static final int EXIT_ST_CHAT = 74; // Exit Outside Chatsubo
-    public static final int EXIT_BDSHOP = 75; // Exit to body shop.
-    public static final int EXIT_SHUTTLE_FS = 76; // Exit To Freeside Shuttle
-    public static final int EXIT_SHUTTLE_ZION = 77; // Exit To Zion Shuttle
-    public static final int EXIT_X = 78; // Exit determined by code.
-    public static final int DEATH = 79; // Go to jail action
-    public static final int TO_JAIL = 80; // Go to jail action
-    public static final int DECK_WAIT = 81; // Wait till user exit's deck or leaves room.
-    public static final int UXB = 90; // Shin gives UXB
-    public static final int PASS = 91; // Shiva gives Rest. Pass
-    public static final int CAVIAR = 92; // Edo gives ConLink 2.0 for Caviar
-    public static final int CHIP = 94; // n credits.
-    public static final int FINE_BANK_500 = 95; // Fine bank
-    public static final int FINE_BANK_20K = 96; // Fine bank
-    public static final int DIALOG_NO_MORE = 97; // Like DIALOG_END but leave dialog open so next command can run.
-    public static final int DIALOG_CLOSE = 98;
-    public static final int DIALOG_END = 99;
-    public static final int DESC_DIRECT = 500; // Subtract 500 and put remainder(index) in DESC box.
-*/
     public boolean onVendFinishedOpenDialog = false; // Semaphote to open dialog when vend finished.
 
     /**
