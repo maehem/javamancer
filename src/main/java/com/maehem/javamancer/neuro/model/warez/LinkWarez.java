@@ -39,6 +39,8 @@ import static com.maehem.javamancer.neuro.model.warez.Warez.USE_OK;
  */
 public class LinkWarez extends Warez {
 
+    public static final String USE_NO_JACK = "No jack found.";
+
     public LinkWarez(Item.Catalog catItem, int version) {
         super(catItem, version);
     }
