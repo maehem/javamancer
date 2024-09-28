@@ -210,7 +210,7 @@ public class HosakaDatabaseView extends DatabaseView {
     protected void handlePersonListChanged() {
         // List contains player BAMA?
         for (Person p : gameState.hosakaEmployeeList) {
-            if (p.getBama().equals(gameState.bamaId)) {
+            if (p.getBama().equals(gameState.PLAYER_BAMA)) {
                 gameState.hosakaDaysSincePaid = 7;
             }
         }

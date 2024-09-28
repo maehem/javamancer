@@ -41,6 +41,7 @@ import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.model.warez.AcidWarez;
 import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
@@ -75,7 +76,8 @@ public class GameState {
     public String name = "Case";
 
     // Money
-    public final static String bamaId = "056306118"; // Final?
+    public final static String PLAYER_BAMA = "056306118";
+    public final static String LARRY_MODE_BAMA = "062788138";
     public int chipBalance = 6;
     public int bankBalance = 2000;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
@@ -103,6 +105,8 @@ public class GameState {
     public final ArrayList<Skill> skills = new ArrayList<>();
     public final ArrayList<BodyPart> soldBodyParts = new ArrayList<>();
     public final ArrayList<Warez> software = new ArrayList<>();
+    public final ArrayList<Person> seaWantedList = new ArrayList<>();
+    public final ArrayList<Person> chibaWantedList = new ArrayList<>();
 
     // Deck
     public int deckSlots = 0;
@@ -174,6 +178,7 @@ public class GameState {
     public boolean asanoDiscount = false; // Set by talking to Asano
     public boolean securityPassGiven = false; // Sense/Net pass. Given to computer.
     public boolean dixieInstalled = false; // ROM Construct: Dixie Flatline
+    public boolean larryMoeWanted = false; // Chiba Tectical Police wanted list
 
     // Hosaka Emplyee List
     public final ArrayList<Person> hosakaEmployeeList = new ArrayList<>();
@@ -183,10 +188,6 @@ public class GameState {
     // Sets to -1 if player removes BAMA from list.
     public int hosakaDaysSincePaid = -1;
 
-    // SEA Wanted List / Larry Moe Wanted List
-    public final static String LARRY_MODE_BAMA = "062788138";
-    public boolean larryMoeWanted = false;
-    public final ArrayList<Person> seaWantedList = new ArrayList<>();
 
     // Ephemeral -- Not saved
     public boolean pause = true;
@@ -213,6 +214,9 @@ public class GameState {
         inventory.add(textDeckItem); // Test item
         deckSlots = textDeckItem.nSlots;
         addSoftware(new CyberspaceWarez(1));
+        addSoftware(new AcidWarez(1)); // Should delete when used.
+
+        inventory.add(new RealItem(Catalog.CAVIAR, 1));
 
         //bankZurichCreated = "11/16/58"; // Test Item
         //bankZurichBalance = 2000; // Test Item

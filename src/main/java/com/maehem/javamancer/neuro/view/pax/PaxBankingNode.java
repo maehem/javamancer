@@ -108,7 +108,7 @@ public class PaxBankingNode extends PaxNode {
         Text row1 = new Text(
                 "   "
                 + String.format("%-20s", "name = " + gameState.name)
-                + "id = " + gameState.bamaId + "\n"
+                + "id = " + gameState.PLAYER_BAMA + "\n"
         );
         Text row2 = new Text(
                 "   "

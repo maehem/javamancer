@@ -77,7 +77,7 @@ public class R52Extras extends RoomExtras { // Security Gate
             case "hosaka" -> {
                 LOGGER.log(Level.SEVERE, "Matched Word: {0}", word);
                 for (Person p : gs.hosakaEmployeeList) {
-                    if (p.getBama().equals(gs.bamaId)) {
+                    if (p.getBama().equals(gs.PLAYER_BAMA)) {
                         return 10; // Cleared
                     }
                 }
