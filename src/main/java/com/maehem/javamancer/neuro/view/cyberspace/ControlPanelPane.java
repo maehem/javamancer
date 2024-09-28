@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
@@ -128,7 +129,12 @@ public class ControlPanelPane extends Pane implements PopupListener {
     }
 
     public void updateText() {
-        zoneText.setText(String.valueOf(gameState.usingDeck.getZone()));
+        JackZone currentZone = JackZone.lookUp(
+                gameState.usingDeck.getCordX(),
+                gameState.usingDeck.getCordY()
+        );
+
+        zoneText.setText(String.valueOf(currentZone.num));
         xText.setText(String.format("%03d", gameState.usingDeck.getCordX()));
         yText.setText(String.format("%03d", gameState.usingDeck.getCordY()));
         cashText.setText("$" + String.format("%8d", gameState.chipBalance));
@@ -192,7 +198,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
             switch (code) {
                 case X, ESCAPE -> {
                     ke.consume();
-                    if (softwarePane.isVisible()) {
+                    if (softwarePane.isVisible()) { // Unreachable?
                         softwarePane.setVisible(false);
                     } else {
                         return true;
@@ -242,7 +248,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
 
         }
 
-        if (!ke.isConsumed()) {
+        if (!ke.isConsumed()) { // If we got here, then non of the CP buttons were pressed.
             visualPane.handleKeyEvent(ke);
         } else {
             LOGGER.log(Level.FINE, "Cyberspace CP: Key event consumed, not sent to VisualPane.");
