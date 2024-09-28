@@ -113,15 +113,4 @@ public class R6Extras extends RoomExtras {
         //gs.doorBottomLocked = false; // Unlock door.
     }
 
-    @Override
-    public int jackZone() {
-        return 0; // TODO: Remove/Set to -1 after sufficient deck testing.
-    }
-
-    @Override
-    public boolean hasPAX() {
-        return true;
-    }
-
-
 }

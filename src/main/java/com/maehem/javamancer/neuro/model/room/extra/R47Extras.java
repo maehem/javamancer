@@ -153,9 +153,4 @@ public class R47Extras extends RoomExtras { // Matrix Restaurant
         gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
-    @Override
-    public int jackZone() {
-        return 5;
-    }
-
 }

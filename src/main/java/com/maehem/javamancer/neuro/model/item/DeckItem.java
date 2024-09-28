@@ -27,6 +27,7 @@
 
 package com.maehem.javamancer.neuro.model.item;
 
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.lang.reflect.Constructor;
@@ -55,7 +56,7 @@ public abstract class DeckItem extends Item {
 
     private Mode mode = Mode.NONE;
 
-    private int zone = -1;
+    private JackZone zone = null;
     private int cordX = 0;
     private int cordY = 0;
     private boolean noFee = false; // Set when player connects using Cyberspace 1.0 warez.
@@ -114,7 +115,7 @@ public abstract class DeckItem extends Item {
         this.mode = mode;
     }
 
-    public int getZone() {
+    public JackZone getZone() {
         return zone;
     }
 
@@ -126,7 +127,7 @@ public abstract class DeckItem extends Item {
         return cordY;
     }
 
-    public void setZone(int z) {
+    public void setZone(JackZone z) {
         this.zone = z;
         LOGGER.log(Level.FINER, "Deck: Zone changed: {0}", zone);
     }

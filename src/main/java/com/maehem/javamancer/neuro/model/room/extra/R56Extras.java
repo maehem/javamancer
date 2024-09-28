@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.*;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
@@ -67,6 +68,11 @@ public class R56Extras extends RoomExtras { // Sense Net
     );
 
     private int codeTries = 3;
+
+    @Override
+    public JackZone jackZone() {
+        return JackZone.FOUR;
+    }
 
     @Override
     public int askWord1(GameState gs, String word) {
@@ -133,11 +139,6 @@ public class R56Extras extends RoomExtras { // Sense Net
         }
         return 2;
 
-    }
-
-    @Override
-    public int jackZone() {
-        return 4;
     }
 
     @Override

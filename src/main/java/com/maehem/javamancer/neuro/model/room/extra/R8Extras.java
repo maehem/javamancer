@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
@@ -150,6 +151,16 @@ public class R8Extras extends RoomExtras {
     );
 
     @Override
+    public JackZone jackZone() {
+        return JackZone.ONE;
+    }
+
+    @Override
+    public boolean hasPAX() {
+        return true;
+    }
+
+    @Override
     public int askWord1(GameState gs, String word) {
         LOGGER.log(Level.SEVERE, "RoomExtra8: Ask Word: {0}", word);
         Integer index;
@@ -204,16 +215,6 @@ public class R8Extras extends RoomExtras {
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
         //gs.doorBottomLocked = false; // Unlock door.
-    }
-
-    @Override
-    public int jackZone() {
-        return 1;
-    }
-
-    @Override
-    public boolean hasPAX() {
-        return true;
     }
 
     @Override

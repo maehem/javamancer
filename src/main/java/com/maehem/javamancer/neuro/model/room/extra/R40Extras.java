@@ -171,9 +171,4 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
         gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
-    @Override
-    public int jackZone() {
-        return 1;
-    }
-
 }

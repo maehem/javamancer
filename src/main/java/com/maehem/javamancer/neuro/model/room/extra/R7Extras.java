@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
@@ -43,7 +44,7 @@ import java.util.logging.Level;
  */
 public class R7Extras extends RoomExtras { // Cheap Hotel
 
-    protected static final int[][] DIALOG_CHAIN = { //    The massage parlor.
+    protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
         {DIALOG_CLOSE.num}, // [2] :: Your room service order is delivered to you.
         {EXIT_R.num}, // [3] :: The management kicks you out
@@ -53,6 +54,16 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
     @Override
     public void initRoom(GameState gs) {
         //gs.resourceManager.getRoomText(Room.R7).dumpList();
+    }
+
+    @Override
+    public JackZone jackZone() {
+        return JackZone.ZERO;
+    }
+
+    @Override
+    public boolean hasPAX() {
+        return true;
     }
 
     @Override
@@ -95,11 +106,6 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
         //gs.doorBottomLocked = false; // Unlock door.
-    }
-
-    @Override
-    public boolean hasPAX() {
-        return true;
     }
 
 }

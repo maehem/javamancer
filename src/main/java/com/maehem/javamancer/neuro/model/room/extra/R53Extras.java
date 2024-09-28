@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DECK_WAIT;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
@@ -84,6 +85,11 @@ public class R53Extras extends RoomExtras { // Hitachi
     );
 
     @Override
+    public JackZone jackZone() {
+        return JackZone.TWO;
+    }
+
+    @Override
     public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);
         // Check agains game state for employment.
@@ -124,11 +130,6 @@ public class R53Extras extends RoomExtras { // Hitachi
     @Override
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
-    }
-
-    @Override
-    public int jackZone() {
-        return 2;
     }
 
 }

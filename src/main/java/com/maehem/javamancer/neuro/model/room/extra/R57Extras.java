@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC_DIRECT;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
@@ -55,6 +56,11 @@ public class R57Extras extends RoomExtras { // Hosaka
     }
 
     @Override
+    public JackZone jackZone() {
+        return JackZone.TWO;
+    }
+
+    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -75,11 +81,6 @@ public class R57Extras extends RoomExtras { // Hosaka
     @Override
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
-    }
-
-    @Override
-    public int jackZone() {
-        return 2;
     }
 
 }

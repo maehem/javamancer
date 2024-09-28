@@ -175,11 +175,6 @@ public class R12Extras extends RoomExtras {
     }
 
     @Override
-    public int jackZone() {
-        return 0; // TODO: Remove/Set to -1 after sufficient deck testing.
-    }
-
-    @Override
     public boolean hasPAX() {
         return false;
     }

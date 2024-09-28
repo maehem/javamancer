@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
@@ -57,6 +58,12 @@ public class R22Extras extends RoomExtras { // Spaceport Chiba
     }
 
     @Override
+    public JackZone jackZone() {
+        return JackZone.SEVEN;
+    }
+
+
+    @Override
     public boolean give(GameState gs, Item item, int aux) {
         return false;
     }
@@ -75,11 +82,6 @@ public class R22Extras extends RoomExtras { // Spaceport Chiba
     @Override
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
-    }
-
-    @Override
-    public int jackZone() {
-        return 7;
     }
 
 }

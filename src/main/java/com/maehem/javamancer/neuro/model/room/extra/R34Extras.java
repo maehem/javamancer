@@ -93,9 +93,4 @@ public class R34Extras extends RoomExtras { // Bank Berne Lobby
         gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
-    @Override
-    public int jackZone() {
-        return 3;
-    }
-
 }

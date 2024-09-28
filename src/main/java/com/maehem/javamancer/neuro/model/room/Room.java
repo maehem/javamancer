@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.room;
 
 import static com.maehem.javamancer.logging.Logging.LOGGER;
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.room.extra.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -145,15 +146,15 @@ public enum Room {
     }
 
     public boolean hasJack() {
-        return getJack() != -1;
+        return getJack() != null;
     }
 
-    public int getJack() {
+    public JackZone getJack() {
         if (extras != null) {
             return extras.jackZone();
         }
 
-        return -1;
+        return null;
     }
 
     public boolean hasPax() {

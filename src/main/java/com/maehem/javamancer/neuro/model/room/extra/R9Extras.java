@@ -27,7 +27,7 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.JackZone;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DEATH;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_R;
@@ -78,9 +78,8 @@ public class R9Extras extends RoomExtras {
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
+    public JackZone jackZone() {
+        return JackZone.SIX;
     }
 
     @Override

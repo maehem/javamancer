@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
@@ -36,7 +37,7 @@ import com.maehem.javamancer.neuro.model.room.RoomExtras;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class R35Extras extends RoomExtras { // Bank Berne Lobby
+public class R35Extras extends RoomExtras { // Bank Berne Mgr. Office (jack)
 
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, //  [0] ::
@@ -71,8 +72,8 @@ public class R35Extras extends RoomExtras { // Bank Berne Lobby
     }
 
     @Override
-    public int jackZone() {
-        return 7;
+    public JackZone jackZone() {
+        return JackZone.THREE;
     }
 
 }

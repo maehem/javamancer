@@ -35,8 +35,6 @@ import com.maehem.javamancer.neuro.model.item.Item;
  */
 public class ComLinkWarez extends LinkWarez {
 
-    public static final String USE_NO_JACK = "No jack found.";
-
     public ComLinkWarez(int version) {
         super(Item.Catalog.COMLINK, version);
     }
@@ -48,17 +46,14 @@ public class ComLinkWarez extends LinkWarez {
             return superUse;
         }
 
-        if (gs.room.extras != null) {
-            // Must be jack in room.
-            int jackZone = gs.room.extras.jackZone();
-            if (jackZone < 0) {
-                // Fail.
-                return USE_NO_JACK;
-            }
-
+        // Must be jack in room.
+        if (!gs.room.hasJack()) {
+            // No jack here.
+            return USE_NO_JACK;
+        } else {
             return Warez.USE_OK;
         }
-        return USE_NO_JACK;
+
     }
 
 }
