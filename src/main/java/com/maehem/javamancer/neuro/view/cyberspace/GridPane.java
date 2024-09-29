@@ -44,7 +44,7 @@ public abstract class GridPane extends Pane {
 
     protected static final Logger LOGGER = Logging.LOGGER;
     protected static final int HORIZON = 100;
-    protected static final int GRID = VisualPane.GRID_SIZE;
+    protected static final int GRID = GameState.GRID_SIZE;
 
     protected final GameState gameState;
     protected final ResourceManager resourceManager;

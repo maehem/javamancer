@@ -58,6 +58,9 @@ import java.util.logging.Logger;
 public class GameState {
 
     public static final Logger LOGGER = Logging.LOGGER;
+    public static final int GRID_MAX = 512;
+    public static final int GRID_SIZE = 16;
+
     private boolean flatlined = false;
     private boolean iceBroken;
 
