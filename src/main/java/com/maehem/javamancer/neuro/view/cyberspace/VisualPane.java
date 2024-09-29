@@ -28,7 +28,9 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.warez.EasyRiderWarez;
 import com.maehem.javamancer.neuro.view.popup.CyberspacePopup;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,9 +46,6 @@ import javafx.scene.layout.Pane;
 public class VisualPane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
-
-    public static final int GRID_MAX = 512;
-    public static final int GRID_SIZE = 16;
 
     private final GameState gameState;
     private final ExploreGridPane gridBasePane;
@@ -70,7 +69,9 @@ public class VisualPane extends Pane {
         if (gridBasePane.isVisible()) {
             handleExploreKeys(keyEvent);
         } else if (battlePane.isVisible()) {
-            handleBattleKeys(keyEvent);
+            // Battle Keys are handled by ControlPanelPane and effect gameState
+            // when actuated.  So, in this class we should monitor the gameState
+            // at each tick().
         }
     }
 
@@ -82,46 +83,77 @@ public class VisualPane extends Pane {
     private void handleExploreKeys(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
         DeckItem deck = gameState.usingDeck;
+        boolean hasEasyRider = (deck.getCurrentWarez() instanceof EasyRiderWarez);
         switch (code) {
             case RIGHT -> {
                 keyEvent.consume();
-                if (deck.getCordX() < GRID_MAX - GRID_SIZE) {
-                    gridBasePane.animateTravel(ExploreGridPane.Direction.LEFT);
+                if (deck.getCordX() < GameState.GRID_MAX - GameState.GRID_SIZE) {
+                    JackZone destZone = JackZone.lookUp(
+                            deck.getCordX() + GameState.GRID_SIZE,
+                            deck.getCordY()
+                    );
+                    LOGGER.log(Level.SEVERE, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
+                    if (deck.getZone().equals(destZone) || hasEasyRider) {
+                        gridBasePane.animateTravel(ExploreGridPane.Direction.LEFT);
+                    } else {
+                        LOGGER.log(Level.SEVERE, "Zone change not allowed.");
+                    }
                 } else {
                     LOGGER.log(Level.SEVERE, "Max matrix X reached.");
                 }
             }
             case LEFT -> {
                 keyEvent.consume();
-                if (deck.getCordX() >= GRID_SIZE) {
-                    gridBasePane.animateTravel(ExploreGridPane.Direction.RIGHT);
+                if (deck.getCordX() >= GameState.GRID_SIZE) {
+                    JackZone destZone = JackZone.lookUp(
+                            deck.getCordX() - GameState.GRID_SIZE,
+                            deck.getCordY()
+                    );
+                    LOGGER.log(Level.SEVERE, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
+                    if (deck.getZone().equals(destZone) || hasEasyRider) {
+                        gridBasePane.animateTravel(ExploreGridPane.Direction.RIGHT);
+                    } else {
+                        LOGGER.log(Level.SEVERE, "Zone change not allowed.");
+                    }
                 } else {
                     LOGGER.log(Level.SEVERE, "Min matrix X reached.");
                 }
             }
             case UP -> {
                 keyEvent.consume();
-                if (deck.getCordY() < GRID_MAX - GRID_SIZE) {
-                    gridBasePane.animateTravel(ExploreGridPane.Direction.FORWARD);
+                if (deck.getCordY() < GameState.GRID_MAX - GameState.GRID_SIZE) {
+                    JackZone destZone = JackZone.lookUp(
+                            deck.getCordX(),
+                            deck.getCordY() + GameState.GRID_SIZE
+                    );
+                    LOGGER.log(Level.SEVERE, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
+                    if (deck.getZone().equals(destZone) || hasEasyRider) {
+                        gridBasePane.animateTravel(ExploreGridPane.Direction.FORWARD);
+                    } else {
+                        LOGGER.log(Level.SEVERE, "Zone change not allowed.");
+                    }
                 } else {
                     LOGGER.log(Level.SEVERE, "Max matrix Y reached.");
                 }
             }
             case DOWN -> {
                 keyEvent.consume();
-                if (deck.getCordY() > GRID_SIZE) {
-                    gridBasePane.animateTravel(ExploreGridPane.Direction.BACKWARD);
+                if (deck.getCordY() > GameState.GRID_SIZE) {
+                    JackZone destZone = JackZone.lookUp(
+                            deck.getCordX(),
+                            deck.getCordY() - GameState.GRID_SIZE
+                    );
+                    LOGGER.log(Level.SEVERE, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
+                    if (deck.getZone().equals(destZone) || hasEasyRider) {
+                        gridBasePane.animateTravel(ExploreGridPane.Direction.BACKWARD);
+                    } else {
+                        LOGGER.log(Level.SEVERE, "Zone change not allowed.");
+                    }
                 } else {
                     LOGGER.log(Level.SEVERE, "Min matrix Y reached.");
                 }
             }
         }
-    }
-
-    private void handleBattleKeys(KeyEvent keyEvent) {
-        // Battle Keys are handled by ControlPanelPane and effect gameState
-        // when actuated.  So, in this class we should monitor the gameState
-        // at each tick().
     }
 
     public final void configState(CyberspacePopup.State state) {
