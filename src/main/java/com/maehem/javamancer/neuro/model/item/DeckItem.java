@@ -91,7 +91,9 @@ public abstract class DeckItem extends Item {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
             ex.printStackTrace();
         }
-        LOGGER.log(Level.SEVERE, "Could not get instance for DeckItem: " + d.getSimpleName());
+        LOGGER.log(Level.SEVERE,
+                "Could not get instance for DeckItem: {0}",
+                d.getSimpleName());
         return null;
     }
 
@@ -111,7 +113,8 @@ public abstract class DeckItem extends Item {
     }
 
     public void setMode(Mode mode) {
-        LOGGER.log(Level.SEVERE, getName() + ":: set mode to " + mode.name());
+        LOGGER.log(Level.SEVERE, "{0}:: set mode to {1}",
+                new Object[]{getName(), mode.name()});
         this.mode = mode;
     }
 
