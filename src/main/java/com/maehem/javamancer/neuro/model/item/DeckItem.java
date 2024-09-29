@@ -27,6 +27,7 @@
 
 package com.maehem.javamancer.neuro.model.item;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
@@ -132,6 +133,10 @@ public abstract class DeckItem extends Item {
     public void setZone(JackZone z) {
         this.zone = z;
         LOGGER.log(Level.FINER, "Deck: Zone changed: {0}", zone);
+
+        setCordX(z.x);
+        // Set start point back one grid sice we animate visual into actual postion.
+        setCordY(z.y - GameState.GRID_SIZE);
     }
 
     public int getCordX() {
