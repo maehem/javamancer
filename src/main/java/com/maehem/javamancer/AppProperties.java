@@ -288,4 +288,8 @@ public class AppProperties extends Properties {
     public File getAnhFolder() {
         return new File(getCacheFolder(), "anh");
     }
+
+    public String getSaveFolder() {
+        return getPropFile().getParent();
+    }
 }
