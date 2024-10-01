@@ -28,13 +28,11 @@ package com.maehem.javamancer.neuro;
 
 import com.maehem.javamancer.AppProperties;
 import com.maehem.javamancer.JavamancerPane;
-import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.view.NeuroGamePane;
 import com.maehem.javamancer.neuro.view.NeuroPaneListener;
 import com.maehem.javamancer.neuro.view.NeuroPaneListener.Action;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.Group;
 
 /**
@@ -45,7 +43,6 @@ import javafx.scene.Group;
  */
 public class NeuroPane extends JavamancerPane {
 
-    public static final Logger LOGGER = Logging.LOGGER;
     private final NeuroPaneListener listener;
 
     private final ResourceBundle MSG;
