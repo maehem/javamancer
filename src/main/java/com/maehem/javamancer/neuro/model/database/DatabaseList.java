@@ -95,4 +95,16 @@ public class DatabaseList extends ArrayList<Database> {
         return null;
     }
 
+    public Database lookup(String className) {
+        if (className == null) {
+            return null;
+        }
+
+        for (Database db : this) {
+            if (className.equals(db.getClass().getSimpleName())) {
+                return db;
+            }
+        }
+        return null;
+    }
 }
