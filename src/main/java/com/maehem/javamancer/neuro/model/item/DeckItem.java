@@ -33,6 +33,7 @@ import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 import java.util.logging.Level;
 
 /**
@@ -61,6 +62,7 @@ public abstract class DeckItem extends Item {
     private int cordX = 0;
     private int cordY = 0;
     private boolean noFee = false; // Set when player connects using Cyberspace 1.0 warez.
+    public boolean needsRepair;
 
     public DeckItem(Item.Catalog cat, int nSlots, boolean cyberspace, int startX, int startY) {
         super(cat);
@@ -68,6 +70,7 @@ public abstract class DeckItem extends Item {
         this.cordX = startX;
         this.cordY = startY;
         this.cyberspaceCapable = cyberspace;
+        this.needsRepair = false;
     }
 
     public static DeckItem getInstance(Class<? extends DeckItem> d) {
@@ -165,5 +168,17 @@ public abstract class DeckItem extends Item {
 
     public boolean isNoFee() {
         return noFee;
+    }
+
+    @Override
+    public void putProps(String prefix, Properties p) {
+        super.putProps(prefix, p);
+        p.put(prefix + ".needsRepair", String.valueOf(needsRepair));
+    }
+
+    public void pullProps(String prefix, Properties p) {
+        String get = p.getProperty(prefix + ".needsRepair", "false");
+        LOGGER.log(Level.SEVERE, "Restore Deck needsRepair value = " + get);
+        needsRepair = Boolean.parseBoolean(get);
     }
 }
