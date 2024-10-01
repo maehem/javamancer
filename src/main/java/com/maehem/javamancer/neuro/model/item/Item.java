@@ -30,6 +30,7 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.deck.*;
 import com.maehem.javamancer.neuro.model.skill.*;
 import com.maehem.javamancer.neuro.model.warez.*;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
@@ -41,68 +42,68 @@ public abstract class Item {
     public static final Logger LOGGER = Logging.LOGGER;
 
     public enum Catalog {
-        MIMIC(0, "Mimic", Warez.class),
-        JAMMIES(1, "Jammies", Warez.class),
-        THUNDERHEAD(2, "ThunderHead", Warez.class),
-        VACCINE(3, "Vaccine", Warez.class),
-        BLAMMO(4, "Blammo", Warez.class),
-        DOORSTOP(5, "DoorStop", Warez.class),
-        DECODER(6, "Decoder", Warez.class),
-        SEQUENCER(7, "Sequencer", Warez.class),
-        ARMORALL(8, "ArmorAll", Warez.class),
-        KGB(9, "KGB", Warez.class),
-        COMLINK(10, "Comlink", Warez.class),
-        BLOWTORCH(11, "BlowTorch", Warez.class),
-        PROBE(12, "Probe", Warez.class),
-        DRILL(13, "Drill", Warez.class),
-        HAMMER(14, "Hammer", Warez.class),
-        PYTHON(15, "Python", Warez.class),
-        ACID(16, "Acid", Warez.class),
-        INJECTOR(17, "Injector", Warez.class),
-        DEPTHCHARGE(18, "DepthCharge", Warez.class),
-        CONCRETE(19, "Concrete", Warez.class),
-        EASYRIDER(20, "EasyRider", Warez.class),
-        LOGICBOMB(21, "LogicBomb", Warez.class),
-        CYBERSPACE(22, "Cyberspace", Warez.class),
-        SLOW(23, "Slow", Warez.class),
-        BATTLECHESS(24, "BattleChess", Warez.class),
-        BATTLECHESS2(25, "BattleChess II", Warez.class),
-        SCOUT(26, "Scout", Warez.class),
-        HEMLOCK(27, "Hemlock", Warez.class),
-        KUANGELEVEN(28, "KuangEleven", Warez.class),
-        HIKIGAERU(29, "Hiki Gaeru", Warez.class),
-        GAIJIN(30, "Gaijin", Warez.class),
-        BUSHIDO(31, "Bushido", Warez.class),
-        EDOKKO(32, "Edokko", Warez.class),
-        KATANA(33, "Katana", Warez.class),
-        TOFU(34, "Tofu", Warez.class),
-        SHOGUN(35, "Shogun", Warez.class),
-        _188BJB(36, "188BJB", DeckItem.class), // DeckItem?
-        _350SL(37, "350SL", DeckItem.class), // DeckItem?
+        MIMIC(0, "Mimic", MimicWarez.class),
+        JAMMIES(1, "Jammies", JammiesWarez.class),
+        THUNDERHEAD(2, "ThunderHead", ThunderheadWarez.class),
+        VACCINE(3, "Vaccine", VaccineWarez.class),
+        BLAMMO(4, "Blammo", BlammoWarez.class),
+        DOORSTOP(5, "DoorStop", DoorStopWarez.class),
+        DECODER(6, "Decoder", DecoderWarez.class),
+        SEQUENCER(7, "Sequencer", SequencerWarez.class),
+        ARMORALL(8, "ArmorAll", ArmorallWarez.class),
+        KGB(9, "KGB", KGBWarez.class),
+        COMLINK(10, "Comlink", ComLinkWarez.class),
+        BLOWTORCH(11, "BlowTorch", BlowTorchWarez.class),
+        PROBE(12, "Probe", ProbeWarez.class),
+        DRILL(13, "Drill", DrillWarez.class),
+        HAMMER(14, "Hammer", HammerWarez.class),
+        PYTHON(15, "Python", PythonWarez.class),
+        ACID(16, "Acid", AcidWarez.class),
+        INJECTOR(17, "Injector", InjectorWarez.class),
+        DEPTHCHARGE(18, "DepthCharge", DepthChargeWarez.class),
+        CONCRETE(19, "Concrete", ConcreteWarez.class),
+        EASYRIDER(20, "EasyRider", EasyRiderWarez.class),
+        LOGICBOMB(21, "LogicBomb", LogicBombWarez.class),
+        CYBERSPACE(22, "Cyberspace", CyberspaceWarez.class),
+        SLOW(23, "Slow", SlowWarez.class),
+        BATTLECHESS(24, "BattleChess", BattleChessWarez.class),
+        BATTLECHESS2(25, "BattleChess II", BattleChessWarez.class),
+        SCOUT(26, "Scout", ScoutWarez.class),
+        HEMLOCK(27, "Hemlock", HemlockWarez.class),
+        KUANGELEVEN(28, "KuangEleven", KuangElevenWarez.class),
+        HIKIGAERU(29, "Hiki Gaeru", HikiGaeruDeckItem.class),
+        GAIJIN(30, "Gaijin", GaijinDeckItem.class),
+        BUSHIDO(31, "Bushido", BushidoDeckItem.class),
+        EDOKKO(32, "Edokko", EdokkoDeckItem.class),
+        KATANA(33, "Katana", KatanaDeckItem.class),
+        TOFU(34, "Tofu", TofuDeckItem.class),
+        SHOGUN(35, "Shogun", ShogunDeckItem.class),
+        _188BJB(36, "188BJB", BJB188DeckItem.class), // DeckItem?
+        _350SL(37, "350SL", SL350DeckItem.class), // DeckItem?
         UNK01(38, "", Object.class),
         UNK02(39, "", Object.class),
         UXB(40, "UXB", UXBDeckItem.class),
         UNK03(41, "", Object.class),
-        ZXB(42, "ZXB", DeckItem.class),
-        CYBERSPACEII(43, "Cyberspace II", DeckItem.class),
-        CYBERSPACEIII(44, "Cyberspace III", DeckItem.class),
+        ZXB(42, "ZXB", ZXBDeckItem.class),
+        CYBERSPACEII(43, "Cyberspace II", Cyberspace2DeckItem.class),
+        CYBERSPACEIII(44, "Cyberspace III", Cyberspace3DeckItem.class),
         UNK04(45, "", Object.class),
-        CYBERSPACEVII(46, "Cyberspace VII", DeckItem.class),
-        NINJA2000(47, "Ninja 2000", DeckItem.class),
-        NINJA3000(48, "Ninja 3000", DeckItem.class),
-        NINJA4000(49, "Ninja 4000", DeckItem.class),
-        NINJA5000(50, "Ninja 5000", DeckItem.class),
-        BLUELIGHTSPEC(51, "Blue Light Spec.", DeckItem.class),
-        SAMURAISEVEN(52, "Samurai Seven", DeckItem.class),
-        MINDBENDER(53, "Mindbender", Warez.class),
-        VIDEOSOFT(54, "Chaos Videosoft", Warez.class),
-        PICKUP(55, "PickUpGirls", Warez.class),
-        TOXIN(56, "Toxin", Warez.class),
-        SNAIL(57, "SnailBait", Warez.class),
-        MEGADEATH(58, "MegaDeath", Warez.class),
-        CENTURION(59, "Centurion", Warez.class),
-        BUDGETPAL(60, "Budget Pal", Warez.class),
-        RECEIPTFORGER(61, "Receipt Forger", Warez.class),
+        CYBERSPACEVII(46, "Cyberspace VII", Cyberspace7DeckItem.class),
+        NINJA2000(47, "Ninja 2000", Ninja2000DeckItem.class),
+        NINJA3000(48, "Ninja 3000", Ninja3000DeckItem.class),
+        NINJA4000(49, "Ninja 4000", Ninja4000DeckItem.class),
+        NINJA5000(50, "Ninja 5000", Ninja5000DeckItem.class),
+        BLUELIGHTSPEC(51, "Blue Light Spec.", BlueLightSpecialDeckItem.class),
+        SAMURAISEVEN(52, "Samurai Seven", SamuraiSevenDeckItem.class),
+        MINDBENDER(53, "Mindbender", MindBenderWarez.class),
+        VIDEOSOFT(54, "Chaos Videosoft", ChaosWarez.class),
+        PICKUP(55, "PickUpGirls", PickUpGirlsWarez.class),
+        TOXIN(56, "Toxin", ToxinWarez.class),
+        SNAIL(57, "SnailBait", SnailBaitWarez.class),
+        MEGADEATH(58, "MegaDeath", MegaDeathWarez.class),
+        CENTURION(59, "Centurion", CenturionWarez.class),
+        BUDGETPAL(60, "Budget Pal", BudgetPalWarez.class),
+        RECEIPTFORGER(61, "Receipt Forger", ReceiptForgerWarez.class),
         UNK14(62, "", Object.class),
         UNK15(63, "", Object.class),
         UNK16(64, "", Object.class),
@@ -184,5 +185,53 @@ public abstract class Item {
     public String toString() {
         return item.itemName;
     }
+
+    public static Catalog lookup(String itemName) {
+        for (Catalog cat : Catalog.values()) {
+            if (cat.name().equals(itemName)) {
+                return cat;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Prefix might look like "inventory.0." We might add UXB, UXB.damage
+     *
+     * Override for additional sub-properties.
+     *
+     * @param prefix
+     * @param p
+     */
+    public void putProps(String prefix, Properties p) {
+        p.put(prefix, item.name());
+    }
+
+//    public Item getItemInstance(Class<? extends Item> itemClazz) {
+//
+//        try {
+//            Constructor<?> ctor = itemClazz.getConstructor();
+//            Object object = ctor.newInstance(new Object[]{});
+//            LOGGER.log(Level.SEVERE, "Item Object created: " + itemClazz.getSimpleName());
+//            if (object instanceof Item freshItem) {
+//                return freshItem;
+//            } else {
+//                LOGGER.log(Level.SEVERE, "AI Creation Failed: " + itemClazz.getSimpleName());
+//            }
+//        } catch (InvocationTargetException
+//                | InstantiationException
+//                | IllegalAccessException
+//                | IllegalArgumentException
+//                | NoSuchMethodException
+//                | SecurityException ex) {
+//            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+//            ex.printStackTrace();
+//
+//        }
+//
+//        return null;
+//    }
+
 
 }
