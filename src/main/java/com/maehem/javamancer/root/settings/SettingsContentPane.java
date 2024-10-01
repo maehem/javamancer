@@ -56,7 +56,7 @@ public class SettingsContentPane extends GridPane {
         getColumnConstraints().addAll(col1, col2);
     }
 
-    public void rebuildSettings() {
+    public final void rebuildSettings() {
         getChildren().clear();
         DatFilesStatusItem datStat = new DatFilesStatusItem();
         addRow(0, datStat.getLabel(), datStat);
