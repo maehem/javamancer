@@ -110,6 +110,16 @@ public enum Room {
 
     }
 
+    public static Room lookup(String roomName) {
+        for (Room r : values()) {
+            if (roomName.equals(r.name())) {
+                return r;
+            }
+        }
+
+        return null;
+    }
+
     public int getIndex() {
         return Integer.parseInt(name().substring(1)) - 1;
     }
