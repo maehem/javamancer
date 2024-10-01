@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.GameStateUtils;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
@@ -49,6 +50,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 /**
+ * Disk Operations Popup Load, Save Pause and Quit functions.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
@@ -142,16 +144,16 @@ public class DiskPopup extends SmallPopupPane {
         addBox(heading, optionsBox, exitText).setSpacing(20);
 
         oneText.setOnMouseClicked((t) -> {
-            saveSlot(0);
-        });
-        twoText.setOnMouseClicked((t) -> {
             saveSlot(1);
         });
-        threeText.setOnMouseClicked((t) -> {
+        twoText.setOnMouseClicked((t) -> {
             saveSlot(2);
         });
-        fourText.setOnMouseClicked((t) -> {
+        threeText.setOnMouseClicked((t) -> {
             saveSlot(3);
+        });
+        fourText.setOnMouseClicked((t) -> {
+            saveSlot(4);
         });
         exitText.setOnMouseClicked((t) -> {
             mainMenu();
@@ -159,8 +161,9 @@ public class DiskPopup extends SmallPopupPane {
     }
 
     private void saveSlot(int slot) {
-        LOGGER.log(Level.SEVERE, "Do Load Slot: {0}", slot);
-        loadSaveStatus(slot, true);
+        LOGGER.log(Level.SEVERE, "Do Save Slot: {0}", slot);
+        loadSaveStatus(slot,
+                GameStateUtils.saveModel(gameState, slot));
     }
 
     private void loadSaveStatus(int slot, boolean status) {
@@ -181,7 +184,7 @@ public class DiskPopup extends SmallPopupPane {
         Text heading = new Text("    " + modeText1 + " Game");
         Text statusText;
         if (status) {
-            statusText = new Text("   Slot " + (slot + 1) + " " + modeText2);
+            statusText = new Text("   Slot " + slot + " " + modeText2);
         } else {
             statusText = new Text("     ERROR!");
         }
@@ -213,16 +216,16 @@ public class DiskPopup extends SmallPopupPane {
         addBox(heading, optionsBox, exitText).setSpacing(20);
 
         oneText.setOnMouseClicked((t) -> {
-            loadSlot(0);
-        });
-        twoText.setOnMouseClicked((t) -> {
             loadSlot(1);
         });
-        threeText.setOnMouseClicked((t) -> {
+        twoText.setOnMouseClicked((t) -> {
             loadSlot(2);
         });
-        fourText.setOnMouseClicked((t) -> {
+        threeText.setOnMouseClicked((t) -> {
             loadSlot(3);
+        });
+        fourText.setOnMouseClicked((t) -> {
+            loadSlot(4);
         });
         exitText.setOnMouseClicked((t) -> {
             mainMenu();
@@ -231,7 +234,13 @@ public class DiskPopup extends SmallPopupPane {
 
     private void loadSlot(int slot) {
         LOGGER.log(Level.SEVERE, "Do Load Slot: {0}", slot);
-        loadSaveStatus(slot, true);
+
+        // Tell gameState to leave room and load from file.
+        gameState.loadSlot(slot);
+
+//        loadSaveStatus(slot,
+//                GameStateUtils.loadModel(gameState, slot)
+//        );
     }
 
     private void pauseScreen() {
