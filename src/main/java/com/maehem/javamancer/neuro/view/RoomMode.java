@@ -126,15 +126,15 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     private Status statusMode = Status.DATE;
     private boolean firstTime = true;
 
-    public RoomMode(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState) {
-        super(listener, resourceManager, gameState);
+    public RoomMode(NeuroModePaneListener listener, GameState gameState) {
+        super(listener, gameState);
 
         // TODO: generate Room from gameState.roomNumber
         this.room = gameState.room;
 
         // A room is 'visited' once player fully reads/scrolls the room description.
         firstTime = !gameState.visited.contains(room);
-        roomText = resourceManager.getRoomText(room);
+        roomText = gameState.resourceManager.getRoomText(room);
 
         roomDescriptionPane = new RoomDescriptionPane(TEXT_SCALE);
         roomDescriptionPane.vvalueProperty().addListener(
@@ -147,7 +147,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 });
 
         ImageView cPanelView = new ImageView(getResourceManager().getSprite("NEURO_1"));
-        roomPane = new RoomPane(resourceManager, room);
+        roomPane = new RoomPane(gameState.resourceManager, room);
 
         if (room.getExtras() != null) {
             LOGGER.log(Level.CONFIG, "RoomMode: Room has \'extras\'. Configuring...");
@@ -233,7 +233,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             roomPane.updatePlayerPosition(gameState, gameState.roomPosX, gameState.roomPosY);
             RoomMusic mus = RoomMusic.get(room);
             if (mus != null) {
-                resourceManager.musicManager.playTrack(mus);
+                gameState.resourceManager.musicManager.playTrack(mus);
             } else {
                 LOGGER.log(Level.SEVERE, "No soundtrack for room {0}", room.name());
             }
