@@ -48,12 +48,10 @@ public abstract class NeuroModePane extends Pane {
     public static final Font VT_FONT = Font.loadFont(TitleMode.class.getResourceAsStream("/fonts/VT323-Regular.ttf"), FONT_SIZE);
 
     private final NeuroModePaneListener listener;
-    private final ResourceManager resourceManager;
     private final GameState gameState;
 
-    public NeuroModePane(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState) {
+    public NeuroModePane(NeuroModePaneListener listener, GameState gameState) {
         this.listener = listener;
-        this.resourceManager = resourceManager;
         this.gameState = gameState;
 
         getStylesheets().add(
@@ -70,7 +68,7 @@ public abstract class NeuroModePane extends Pane {
     }
 
     protected ResourceManager getResourceManager() {
-        return resourceManager;
+        return gameState.resourceManager;
     }
 
     public void initCursor() {
