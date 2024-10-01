@@ -51,9 +51,9 @@ public class TitleMode extends NeuroModePane {
     private LoadSaveDialog loadSaveDialog = null;
     private final TextFlow quitBox;
 
-    public TitleMode(NeuroModePaneListener listener, ResourceManager resourceManager, GameState gameState) {
-        super(listener, resourceManager, gameState);
-        resourceManager.musicManager.playTrack(MusicManager.Track.TITLE, 0.7, 30000, 1500, 500);
+    public TitleMode(NeuroModePaneListener listener, GameState gameState) {
+        super(listener, gameState);
+        gameState.resourceManager.musicManager.playTrack(MusicManager.Track.TITLE, 0.7, 30000, 1500, 500);
 
         ImageView titleView = new ImageView(getResourceManager().getSprite("TITLE_1"));
         ImageView snowBackground = makeSnowBackground(
