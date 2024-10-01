@@ -73,7 +73,7 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (!gs.roomNpcTalk[gs.room.getIndex()]) {
+        if (!gs.roomCanTalk()) {
             return DIALOG_END.num;
         }
         if (gs.hotelOnAccount < gs.hotelCharges) {

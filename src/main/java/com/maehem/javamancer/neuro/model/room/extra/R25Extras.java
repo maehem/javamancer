@@ -82,7 +82,16 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (!gs.roomNpcTalk[gs.room.getIndex()]) {
+        if (gs.roomCanTalk()) {
+            if (gs.pawnRecent == GameState.PawnRecent.BUY) {
+                //gs.pawnRecent = GameState.PawnRecent.NONE;
+                LOGGER.log(Level.SEVERE, "Player bought the deck. Do message 13.");
+
+                // Dialog to player with 9,10
+                return 8;
+            }
+            return 2;
+        } else {
             return DIALOG_END.num;
         }
     }

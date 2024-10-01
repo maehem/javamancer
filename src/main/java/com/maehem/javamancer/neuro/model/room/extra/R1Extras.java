@@ -103,13 +103,14 @@ public class R1Extras extends RoomExtras {
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (!gs.roomNpcTalk[gs.room.getIndex()]) {
-            return DIALOG_END.num;
-        }
-        if (gs.ratzPaid) {
-            return 11;
+        if (gs.roomCanTalk()) { // TODO: whoever calls this should check roomCanTalk()
+            if (gs.ratzPaid) {
+                return 11;
+            } else {
+                return 2;
+            }
         } else {
-            return 2;
+            return DIALOG_END.num;
         }
     }
 

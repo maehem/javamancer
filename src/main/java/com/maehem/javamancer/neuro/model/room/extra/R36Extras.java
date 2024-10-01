@@ -81,7 +81,7 @@ public class R36Extras extends RoomExtras { // House of Pong
         // Player give is joystick.
         if (item.item == Catalog.JOYSTICK) {
             gs.joystickGiven = true;
-            gs.roomNpcTalk[gs.room.getIndex()] = true;
+            gs.setRoomTalk(true);
             gs.inventory.remove(item);
             LOGGER.log(Level.SEVERE, "Joystick is given to NPC.");
             return true;
@@ -97,7 +97,7 @@ public class R36Extras extends RoomExtras { // House of Pong
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (!gs.roomNpcTalk[gs.room.getIndex()]) {
+        if (!gs.roomCanTalk()) {
             return DIALOG_END.num;
         }
         if (gs.joystickGiven) {
