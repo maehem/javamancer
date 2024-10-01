@@ -174,6 +174,7 @@ public class ResourceManager {
     }
 
     public void initNewsArticles(ArrayList<NewsArticle> articles, String playerName, String dateString) {
+        articles.clear();
         BufferedReader in;
         int index = 0;
         try {
@@ -224,6 +225,7 @@ public class ResourceManager {
     }
 
     public void initBbsMessages(ArrayList<BbsMessage> messages, String playerName) {
+        messages.clear();
         BufferedReader in;
         int index = 0;
         try {
