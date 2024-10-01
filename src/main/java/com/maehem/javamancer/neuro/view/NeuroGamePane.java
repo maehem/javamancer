@@ -28,10 +28,16 @@ package com.maehem.javamancer.neuro.view;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.GameStateUtils;
+import com.maehem.javamancer.neuro.model.deck.Cyberspace7DeckItem;
+import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds.Door;
 import com.maehem.javamancer.neuro.model.room.RoomMap;
 import com.maehem.javamancer.neuro.model.room.RoomPosition;
+import com.maehem.javamancer.neuro.model.warez.AcidWarez;
+import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -52,18 +58,18 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     public static final Logger LOGGER = Logging.LOGGER;
 
     //private static final Room ROOM_START = Room.R1;
-    private static final Room ROOM_START = Room.R16; // Debug value
+    private static final Room ROOM_START = Room.R1; // Debug value
 
     public static final int SYSTEM_WINDOW_HEADER_H = 20; // MacOS
     public static final int WIDTH = 640;
     public static final int HEIGHT = 480 + SYSTEM_WINDOW_HEADER_H;
     private EventHandler<ActionEvent> actionHandler;
-    private final ResourceManager resourceManager;
-    private final GameState gameState;
+    private GameState gameState;
 
     private NeuroModePane mode;
     private AnimationTimer timer;
     private int frameCount = 0;
+    private final ResourceManager resourceManager;
 
     //private boolean pause = false;
     public NeuroGamePane(File resourceFolder) {
@@ -72,13 +78,38 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         this.setHeight(HEIGHT);
         this.setClip(new Rectangle(WIDTH, HEIGHT));
 
-        this.resourceManager = new ResourceManager(resourceFolder);
+        resourceManager = new ResourceManager(resourceFolder);
         this.gameState = new GameState(resourceManager);
 
         // TODO: refernce resource manager from gamestate.
-        setMode(new TitleMode(this, resourceManager, gameState));
+        setMode(new TitleMode(this, gameState));
 
         initGameLoop();
+    }
+
+    /**
+     * Called near the end of NEW_GAME action.
+     *
+     * This should be empty for any release version.
+     */
+    private void initTestItems() {
+
+        gameState.room = Room.R8; // Gentleman Loser
+
+        // Game Test Items
+        Cyberspace7DeckItem testDeckItem = new Cyberspace7DeckItem();
+        testDeckItem.needsRepair = true;
+        gameState.inventory.add(testDeckItem); // Test item
+        gameState.deckSlots = testDeckItem.nSlots;
+        gameState.addSoftware(new CyberspaceWarez(1));
+        gameState.addSoftware(new AcidWarez(1)); // Should delete when used.
+
+        gameState.inventory.add(new RealItem(Item.Catalog.CAVIAR, 1));
+
+        //bankZurichCreated = "11/16/58"; // Test Item
+        //bankZurichBalance = 2000; // Test Item
+        gameState.chipBalance = 30; // Test Item
+
     }
 
     private void initGameLoop() {
@@ -103,7 +134,22 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         timer.start();
     }
 
+    private void loadSlot(int slot) {
+        gameState.cleanUp();
+
+        gameState = new GameState(resourceManager);
+        GameStateUtils.loadModel(gameState, slot);
+
+        setMode(new RoomMode(this, gameState));
+    }
+
     private void loop() {
+        if (gameState.loadSlot > 0) {
+            LOGGER.log(Level.CONFIG, "User requests load slot {0}.", gameState.loadSlot);
+
+            loadSlot(gameState.loadSlot);
+            return;
+        }
         if (gameState.requestQuit) {
             neuroModeActionPerformed(Action.QUIT, null);
         }
@@ -115,7 +161,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
             LOGGER.log(Level.SEVERE, "Move to new room: {0}:{1} from previous room door {2}",
                     new Object[]{gameState.room.name(), gameState.room.roomName, gameState.useDoor.name()}
             );
-            setMode(new RoomMode(this, resourceManager, gameState));
+            setMode(new RoomMode(this, gameState));
             RoomPosition roompos = RoomPosition.get(gameState.room);
             gameState.roomPosX = roompos.playerX;
             gameState.roomPosY = roompos.playerY;
@@ -162,6 +208,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
             }
             case LOAD -> {
                 LOGGER.log(Level.CONFIG, "Load Saved Game #{0}", actionObjects[0]);
+                gameState.loadSlot((int) actionObjects[0]);
             }
             case NEW_GAME -> {
                 Object actionObject = actionObjects[0];
@@ -170,22 +217,24 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                         gameState.name = s;
                     }
                     LOGGER.log(Level.CONFIG, "New Game with player name: {0}", gameState.name);
-                    initGame();
-
+                    gameState.initNewGame();
                     gameState.room = ROOM_START;
-                    setMode(new RoomMode(this, resourceManager, gameState));
-                    gameState.roomPosX = RoomPosition.get(ROOM_START).playerX;
-                    gameState.roomPosY = RoomPosition.get(ROOM_START).playerY;
+                    initTestItems();
+
                     LOGGER.log(Level.SEVERE, "Set default player position: {0},{1}",
                             new Object[]{gameState.roomPosX, gameState.roomPosY}
                     );
+                    gameState.roomPosX = RoomPosition.get(ROOM_START).playerX;
+                    gameState.roomPosY = RoomPosition.get(ROOM_START).playerY;
+
+                    setMode(new RoomMode(this, gameState));
                 } else {
                     LOGGER.log(Level.CONFIG, "New Game actionObject[0] was null!");
                 }
             }
             case MUTE_MUSIC -> {
                 // Toggle music mute state.
-                resourceManager.musicManager.toggleMute();
+                gameState.resourceManager.musicManager.toggleMute();
             }
         }
     }
@@ -211,15 +260,4 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         actionHandler = handler;
     }
 
-    private void initGame() {
-        resourceManager.initNewsArticles(
-                gameState.news,
-                gameState.name,
-                gameState.getDateString()
-        );
-        resourceManager.initBbsMessages(
-                gameState.bbs,
-                gameState.name
-        );
-    }
 }
