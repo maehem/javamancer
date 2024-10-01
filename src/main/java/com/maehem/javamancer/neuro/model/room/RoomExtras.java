@@ -60,10 +60,6 @@ public abstract class RoomExtras {
      * Called when player gives item to NPC. Over-ride if NPC can receive
      * things.
      *
-     * @param item usually RealItem,SkillItem or CreditsItem
-     * @param aux if CreditsItem, amount to give NPC.
-     *
-     * @return index of dialog.
      */
     public boolean give(GameState gs, Item item, int aux) {
         return false;
@@ -75,7 +71,8 @@ public abstract class RoomExtras {
 
     public void dialogNoMore(GameState gs) {
         LOGGER.log(Level.SEVERE, "Something set room to no more dialog.");
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
+        gs.setRoomTalk(false);
+        //gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
     public abstract void initRoom(GameState gs);
