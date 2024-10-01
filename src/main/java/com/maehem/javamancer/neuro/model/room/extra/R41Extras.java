@@ -94,8 +94,8 @@ public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
     }
 
     @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
+    public boolean hasPAX() {
+        return true;
     }
 
 
