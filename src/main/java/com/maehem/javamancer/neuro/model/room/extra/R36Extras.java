@@ -124,10 +124,4 @@ public class R36Extras extends RoomExtras { // House of Pong
         return true;
     }
 
-
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
-    }
-
 }

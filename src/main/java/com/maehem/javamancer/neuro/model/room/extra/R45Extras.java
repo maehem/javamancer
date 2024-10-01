@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
@@ -53,12 +52,6 @@ public class R45Extras extends RoomExtras { // Street Robot (Matrix Rest.)
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -67,11 +60,6 @@ public class R45Extras extends RoomExtras { // Street Robot (Matrix Rest.)
     public int dialogWarmUp(GameState gs) {
         return 1;
 
-    }
-
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
 }

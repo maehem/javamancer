@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
@@ -160,11 +159,6 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -173,11 +167,6 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
     public int dialogWarmUp(GameState gs) {
         return 1;
 
-    }
-
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
 }

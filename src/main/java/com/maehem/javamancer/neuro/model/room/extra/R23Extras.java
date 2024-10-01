@@ -140,11 +140,6 @@ public class R23Extras extends RoomExtras { // Panther Moderns
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

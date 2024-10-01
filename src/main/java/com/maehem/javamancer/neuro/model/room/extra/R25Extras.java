@@ -64,7 +64,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         {DIALOG_NO_MORE.num, EXIT_L.num}, // [12] ::   Shin slams and bolts the door behind you as you leave.
         {DESC.num, 12}, // [13] ::   Shin gives you your deck.
         {UXB.num, DESC.num, 13}, // [14] :: No have ticket? Shin give deck   anyways.
-        //{DESC, 12}, // [15] ::   After UXB..
+    //{DESC, 12}, // [15] ::   After UXB..
     };
 
     @Override
@@ -73,13 +73,6 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
         //gs.resourceManager.getRoomText(Room.R25).dumpList();
 
-    }
-
-    @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-
-        return false;
     }
 
     @Override
@@ -92,19 +85,11 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         if (!gs.roomNpcTalk[gs.room.getIndex()]) {
             return DIALOG_END.num;
         }
-        if (gs.pawnRecent == GameState.PawnRecent.BUY) {
-            //gs.pawnRecent = GameState.PawnRecent.NONE;
-            LOGGER.log(Level.SEVERE, "Player bought the deck. Do message 13.");
-
-            // Dialog to player with 9,10
-            return 8;
-        }
-        return 2;
     }
 
     @Override
     public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
+        super.dialogNoMore(gs);
 
         // Shin locks door as you leave.
         Room.R14.lockDoor(RoomBounds.Door.RIGHT);
@@ -117,11 +102,6 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         list.add(new UXBDeckItem());
 
         return list;
-    }
-
-    @Override
-    public boolean hasPAX() {
-        return false;
     }
 
 }

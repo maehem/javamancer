@@ -67,12 +67,6 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -100,12 +94,6 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
         }
 
         return DIALOG_CLOSE.num;
-    }
-
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
-        //gs.doorBottomLocked = false; // Unlock door.
     }
 
 }

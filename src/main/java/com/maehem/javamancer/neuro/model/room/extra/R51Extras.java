@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.JackZone;
-import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.Room;
@@ -59,19 +58,8 @@ public class R51Extras extends RoomExtras { // Fuji
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
-    }
-
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
     @Override

@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_R;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
@@ -121,11 +120,6 @@ public class R11Extras extends RoomExtras { // Zion
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -134,11 +128,6 @@ public class R11Extras extends RoomExtras { // Zion
     public int dialogWarmUp(GameState gs) {
         return 3;
 
-    }
-
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
     @Override

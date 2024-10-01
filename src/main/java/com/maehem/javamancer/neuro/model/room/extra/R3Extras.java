@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DEATH;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_BDSHOP;
@@ -104,12 +103,6 @@ public class R3Extras extends RoomExtras {
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -124,12 +117,6 @@ public class R3Extras extends RoomExtras {
         } else {
             return 2;
         }
-    }
-
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
-        //gs.doorBottomLocked = false; // Unlock door.
     }
 
 }

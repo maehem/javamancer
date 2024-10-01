@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DEATH;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
@@ -84,11 +83,6 @@ public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -103,5 +97,6 @@ public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
     public void dialogNoMore(GameState gs) {
         gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
+
 
 }

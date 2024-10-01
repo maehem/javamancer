@@ -114,12 +114,6 @@ public class R1Extras extends RoomExtras {
     }
 
     @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
-        //gs.doorBottomLocked = false; // Unlock door.
-    }
-
-    @Override
     public boolean hasPAX() {
         return true;
     }

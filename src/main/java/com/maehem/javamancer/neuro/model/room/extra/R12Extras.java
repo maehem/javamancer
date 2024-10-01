@@ -149,12 +149,6 @@ public class R12Extras extends RoomExtras {
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -166,12 +160,6 @@ public class R12Extras extends RoomExtras {
             return DIALOG_END.num;
         }
         return 2;
-    }
-
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
-        //gs.doorBottomLocked = false; // Unlock door.
     }
 
     @Override

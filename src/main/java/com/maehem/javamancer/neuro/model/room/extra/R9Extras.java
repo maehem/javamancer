@@ -93,10 +93,4 @@ public class R9Extras extends RoomExtras {
         return 2;
     }
 
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
-        //gs.doorBottomLocked = false; // Unlock door.
-    }
-
 }

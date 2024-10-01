@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.JackZone;
-import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DECK_WAIT;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_B;
@@ -111,12 +110,6 @@ public class R53Extras extends RoomExtras { // Hitachi
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -125,11 +118,6 @@ public class R53Extras extends RoomExtras { // Hitachi
     public int dialogWarmUp(GameState gs) {
         return 2;
 
-    }
-
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
 }

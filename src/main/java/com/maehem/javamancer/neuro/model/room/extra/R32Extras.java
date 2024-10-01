@@ -125,11 +125,6 @@ public class R32Extras extends RoomExtras { // Metro Holographix
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -166,12 +161,6 @@ public class R32Extras extends RoomExtras { // Metro Holographix
         list.add(new SoftwareItem(Item.Catalog.PROBE, 1, 500));
         list.add(new SoftwareItem(Item.Catalog.COMLINK, 1, 100));
         return list;
-    }
-
-    // TODO: Software For sale.
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
 }

@@ -136,12 +136,6 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

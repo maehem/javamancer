@@ -87,12 +87,6 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
         gs.resourceManager.getRoomText(Room.R40).dumpList();
     }
 
-    @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
-    }
-
     /**
      * Crazy Edo will give player ComLink 2.0 if the player has Caviar in their
      * inventory.
@@ -164,11 +158,6 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
             LOGGER.log(Level.SEVERE, "Item was purchased.");
         }
         return false;
-    }
-
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
 
 }

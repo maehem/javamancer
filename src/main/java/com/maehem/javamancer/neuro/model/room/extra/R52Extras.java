@@ -128,9 +128,4 @@ public class R52Extras extends RoomExtras { // Security Gate
 
     }
 
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
-    }
-
 }

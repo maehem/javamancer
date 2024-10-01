@@ -78,9 +78,4 @@ public class R57Extras extends RoomExtras { // Hosaka
         return DESC_DIRECT.num + 3;
     }
 
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
-    }
-
 }

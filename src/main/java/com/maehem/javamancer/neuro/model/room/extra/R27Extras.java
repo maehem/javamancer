@@ -147,12 +147,6 @@ public class R27Extras extends RoomExtras {
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -178,12 +172,6 @@ public class R27Extras extends RoomExtras {
         list.add(new SkillItem(Item.Catalog.PHILOSOPHY, 1, 1000));
         list.add(new SkillItem(Item.Catalog.PHENOMENOLOGY, 1, 1000));
         return list;
-    }
-
-    @Override
-    public void dialogNoMore(GameState gs) {
-        gs.roomNpcTalk[gs.room.getIndex()] = false;
-        //gs.doorBottomLocked = false; // Unlock door.
     }
 
 }
