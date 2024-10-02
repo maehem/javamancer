@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.item.Item;
+
 /**
  * Reveal weakness of AI.
  *
@@ -34,7 +36,7 @@ package com.maehem.javamancer.neuro.model.skill;
 public class PsychoanalysisSkill extends Skill {
 
     public PsychoanalysisSkill(int level) {
-        super(Type.PHILOSOPHY, level);
+        super(Item.Catalog.PHILOSOPHY, level);
     }
 
     @Override
@@ -42,4 +44,8 @@ public class PsychoanalysisSkill extends Skill {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public String getDescription() {
+        return "Find the weakness of an AI.";
+    }
 }

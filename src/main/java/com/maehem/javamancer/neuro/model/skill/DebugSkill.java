@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
@@ -35,12 +36,17 @@ import java.util.logging.Level;
 public class DebugSkill extends Skill {
 
     public DebugSkill(int level) {
-        super(Type.DEBUG, level);
+        super(Item.Catalog.DEBUG, level);
     }
 
     @Override
     public void use() {
-        LOGGER.log(Level.SEVERE, type.description);
+        LOGGER.log(Level.SEVERE, "{0}Use skill: ", catalog.itemName);
+    }
+
+    @Override
+    public String getDescription() {
+        return "Fix broken software.";
     }
 
 }

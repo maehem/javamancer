@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
@@ -35,12 +36,16 @@ import java.util.logging.Level;
 public class HardwareRepairSkill extends Skill {
 
     public HardwareRepairSkill(int level) {
-        super(Type.HW_REPAIR, level);
+        super(Item.Catalog.HARDWAREREPAIR, level);
     }
 
     @Override
     public void use() {
-        LOGGER.log(Level.SEVERE, type.description);
+        LOGGER.log(Level.SEVERE, "Use skill: {0}", catalog.itemName);
     }
 
+    @Override
+    public String getDescription() {
+        return "Repair your deck.";
+    }
 }

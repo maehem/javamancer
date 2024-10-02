@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
@@ -35,12 +36,17 @@ import java.util.logging.Level;
 public class EvasionSkill extends Skill {
 
     public EvasionSkill(int level) {
-        super(Type.EVASION, level);
+        super(Item.Catalog.EVASION, level);
     }
 
     @Override
     public void use() {
-        LOGGER.log(Level.SEVERE, type.description);
+        LOGGER.log(Level.SEVERE, "Use Skill: {0}", catalog.itemName);
+    }
+
+    @Override
+    public String getDescription() {
+        return "Enable escape during battle with AI.";
     }
 
 }

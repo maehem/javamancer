@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
@@ -35,12 +36,16 @@ import java.util.logging.Level;
 public class IceBreakingSkill extends Skill {
 
     public IceBreakingSkill(int level) {
-        super(Type.ICE_BREAKING, level);
+        super(Item.Catalog.ICEBREAKING, level);
     }
 
     @Override
     public void use() {
-        LOGGER.log(Level.SEVERE, type.description);
+        LOGGER.log(Level.SEVERE, "Use skill: {0}", catalog.itemName);
     }
 
+    @Override
+    public String getDescription() {
+        return "Easier break through ice. Increases with each zone.";
+    }
 }

@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
@@ -35,12 +36,17 @@ import java.util.logging.Level;
 public class CopTalkSkill extends Skill {
 
     public CopTalkSkill(int level) {
-        super(Type.COPTALK, level);
+        super(Item.Catalog.COPTALK, level);
     }
 
     @Override
     public void use() {
-        LOGGER.log(Level.SEVERE, type.description);
+        LOGGER.log(Level.SEVERE, "Use skill: {0}", catalog.itemName);
+    }
+
+    @Override
+    public String getDescription() {
+        return "Talk like a cop and sometimes get better answers from NPCs.";
     }
 
 }

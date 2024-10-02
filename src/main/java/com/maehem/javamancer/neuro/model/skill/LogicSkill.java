@@ -26,6 +26,10 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.skill.Skill.LOGGER;
+import java.util.logging.Level;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -33,12 +37,16 @@ package com.maehem.javamancer.neuro.model.skill;
 public class LogicSkill extends Skill {
 
     public LogicSkill(int level) {
-        super(Type.LOGIC, level);
+        super(Item.Catalog.LOGIC, level);
     }
 
     @Override
     public void use() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        LOGGER.log(Level.SEVERE, "Use skill: {0}", catalog.itemName);
     }
 
+    @Override
+    public String getDescription() {
+        return "AI fight skill. +1 after every AI victory.";
+    }
 }

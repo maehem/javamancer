@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
@@ -35,12 +36,18 @@ import java.util.logging.Level;
 public class CryptologySkill extends Skill {
 
     public CryptologySkill(int level) {
-        super(Type.CRYPTOLOGY, level);
+        super(Item.Catalog.CRYPTOLOGY, level);
     }
 
     @Override
     public void use() {
-        LOGGER.log(Level.SEVERE, type.description);
+        LOGGER.log(Level.SEVERE, "Use Skill: {0}", new Object[]{catalog.itemName});
+        // Should invoke a popup for password to decode.
+    }
+
+    @Override
+    public String getDescription() {
+        return "Decode encoded passwords.";
     }
 
 }

@@ -27,6 +27,12 @@
 package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.Item.Catalog;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -37,46 +43,94 @@ public abstract class Skill {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
-    public final Type type;
+//    public enum Type {
+//        NONE("none", Skill.class),
+//        BARGAINING("Barganing", BargainingSkill.class),
+//        COPTALK("Cop Talk", CopTalkSkill.class),
+//        WAREZ_ANALYSIS("Warez Analysis", WarezAnalysisSkill.class),
+//        DEBUG("Debug", DebugSkill.class),
+//        HW_REPAIR("Hardware Repair", HardwareRepairSkill.class),
+//        ICE_BREAKING("I.C.E. Breaking", IceBreakingSkill.class),
+//        EVASION("Evasion", EvasionSkill.class),
+//        CRYPTOLOGY("Cryptology", CryptologySkill.class),
+//        JAPANESE("Japanese", JapaneseSkill.class),
+//        LOGIC("Logic", LogicSkill.class),
+//        PSYCHOANALYSIS("Psychoanalysis", PsychoanalysisSkill.class),
+//        PHENOMENOLOGY("Phenomenology", PhenomenologySkill.class),
+//        PHILOSOPHY("Philosophy", PhilosophySkill.class),
+//        SOPHISTRY("Sophistry", SophistrySkill.class),
+//        ZEN("Zen", ZenSkill.class),
+//        MUSICIANSHIP("Muscianship", MusicianshipSkill.class);
+//
+//        public final String itemName;
+//        public final Class clazz;
+//
+//        private Type(String name, Class<? extends Skill> clazz) {
+//            this.itemName = name;
+//            this.clazz = clazz;
+//        }
+//
+//    };
+    //public final Type type;
+    public final Item.Catalog catalog;
     public int level;
 
-    public enum Type {
-        NONE("none", "..."),
-        BARGAINING("Barganing", "Use for getting better pricing."),
-        COPTALK("Cop Talk", "Freeze dirtag!!!"),
-        WAREZ_ANALYSIS("Warez Analysis", "What version of PowerPoint is this?"),
-        DEBUG("Debug", "More like whack-a-mole."),
-        HW_REPAIR("Hardware Repair", "Turn it off and then turn it back on."),
-        ICE_BREAKING("I.C.E. Breaking", "I'm in!"),
-        EVASION("Evasion", "Slippery little bugger!"),
-        CRYPTOLOGY("Cryptology", "I know PGP!"),
-        JAPANESE("Japanese", "In Ohio, goats are a mess."),
-        LOGIC("Logic", "result = 2B | !2B"),
-        PSYCHOANALYSIS("Psychoanalysis", "Come lay on the couch..."),
-        PHENOMENOLOGY("Phenomenology", "Why are we here?"),
-        PHILOSOPHY("Philosophy", "excuse me, I was still talking."),
-        SOPHISTRY("Sophistry", "Gaslight Express! Arriving on track One."),
-        ZEN("Zen", "Mommy needs some \"quiet time\"."),
-        MUSICIANSHIP("Muscianship", "Name that tune...");
-
-        public final String itemName;
-        public final String description;
-
-        private Type(String name, String description) {
-            this.itemName = name;
-            this.description = description;
-        }
-
-    };
-
-    public Skill(Type type, int level) {
-        this.type = type;
+    public Skill(Item.Catalog catalog, int level) {
+        //this.type = type;
+        this.catalog = catalog;
         this.level = level;
     }
+
+    public abstract String getDescription();
 
     public abstract void use();
 
     public String getVersionedName() {
-        return type.itemName + " " + level;
+        return catalog.itemName + " " + level;
+    }
+
+    /**
+     *
+     * @param prefix
+     * @param p
+     */
+    public void putProps(String prefix, Properties p) {
+        p.put(prefix, catalog.name());
+        p.put(prefix + ".level", String.valueOf(level));
+    }
+
+    public void pullProps(String prefix, Properties p) {
+        String get = p.getProperty(prefix + ".level", "1");
+        LOGGER.log(Level.SEVERE, "Restore Skill level value = " + get);
+        level = Integer.parseInt(get);
+    }
+
+    public static Skill getInstance(Catalog item, int level) {
+        LOGGER.log(Level.FINER, "Get Skill instance.");
+        try {
+            @SuppressWarnings("unchecked")
+            Constructor<?> ctor = item.clazz.getConstructor(
+                    new Class[]{int.class}
+            );
+
+            Object object = ctor.newInstance(
+                    new Object[]{level});
+            LOGGER.log(Level.CONFIG, "Skill Object created.");
+            if (object instanceof Skill sk) {
+                return sk;
+            } else {
+                LOGGER.log(Level.SEVERE, "Thing is not a Skill.");
+            }
+        } catch (InstantiationException
+                | IllegalAccessException
+                | IllegalArgumentException
+                | InvocationTargetException
+                | NoSuchMethodException
+                | SecurityException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            ex.printStackTrace();
+        }
+
+        return null;
     }
 }
