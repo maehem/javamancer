@@ -27,13 +27,13 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_T;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
-import com.maehem.javamancer.neuro.model.skill.Skill;
 
 /**
  * Room 6 -- Donut World
@@ -94,7 +94,7 @@ public class R6Extras extends RoomExtras {
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (gs.activeSkill != null && gs.activeSkill.type.equals(Skill.Type.COPTALK)) {
+        if (gs.activeSkill != null && gs.activeSkill.catalog.equals(Item.Catalog.COPTALK)) {
             return 35; // Talk like a cop.
         }
 
