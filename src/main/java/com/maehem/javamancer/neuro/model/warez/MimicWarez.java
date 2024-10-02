@@ -28,7 +28,7 @@ package com.maehem.javamancer.neuro.model.warez;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
-import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import java.util.logging.Level;
 
 /**
@@ -49,7 +49,7 @@ public class MimicWarez extends UtilityWarez {
 
     @Override
     public int getEffect(GameState gs) {
-        if (gs.activeSkill.type == Skill.Type.COPTALK) {
+        if (gs.activeSkill.catalog == Catalog.COPTALK) {
             int percent = gs.activeSkillLevel * 100;
             int random = (int) (Math.random() * 500);
             if (version * (percent + random) > gs.database.getIce()) {

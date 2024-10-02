@@ -131,7 +131,7 @@ public class SkillsPopup extends SmallPopupPane {
 
             getChildren().clear();
             mode = Mode.USE;
-            Text heading = new Text(skill.type.itemName);
+            Text heading = new Text(skill.catalog.itemName);
             Text exitText = new Text("X. Exit\n");
 
             VBox box = new VBox(
@@ -157,7 +157,7 @@ public class SkillsPopup extends SmallPopupPane {
 
     private Node itemUse(Skill skill) {
         Text text = new Text("Using item:\n");
-        Text text2 = new Text(skill.type.description);
+        Text text2 = new Text(skill.getDescription());
 
         TextFlow tf = new TextFlow(text, text2);
 
