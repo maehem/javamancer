@@ -202,29 +202,6 @@ public class GameState {
         this.resourceManager = rm;
 
         this.dbList = new DatabaseList(rm);
-
-        bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 120));
-        bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 56));
-        bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 75));
-        bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Fine, 1000));
-
-        // Standard inventory items
-        inventory.add(new CreditsItem());
-        inventory.add(new RealItem(Catalog.PAWNTICKET, 0));
-
-        // Game Test Items
-        Cyberspace7DeckItem textDeckItem = new Cyberspace7DeckItem();
-        inventory.add(textDeckItem); // Test item
-        deckSlots = textDeckItem.nSlots;
-        addSoftware(new CyberspaceWarez(1));
-        addSoftware(new AcidWarez(1)); // Should delete when used.
-
-        inventory.add(new RealItem(Catalog.CAVIAR, 1));
-
-        //bankZurichCreated = "11/16/58"; // Test Item
-        //bankZurichBalance = 2000; // Test Item
-        chipBalance = 30; // Test Item
-
     }
 
     public boolean roomCanTalk() {
