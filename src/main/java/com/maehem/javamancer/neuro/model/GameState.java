@@ -205,11 +205,18 @@ public class GameState {
     }
 
     public boolean roomCanTalk() {
-        return roomNpcTalk[room.getIndex()];
+        return dialogAllowed.contains(room);
     }
 
     public void setRoomTalk(boolean val) {
-        roomNpcTalk[room.getIndex()] = val;
+        //roomNpcTalk[room.getIndex()] = val;
+        if (val) {
+            if (!roomCanTalk()) {
+                dialogAllowed.add(room);
+            }
+        } else {
+            dialogAllowed.remove(room);
+        }
     }
 
     public void addMinute() {
