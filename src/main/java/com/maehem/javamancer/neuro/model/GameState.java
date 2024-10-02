@@ -278,7 +278,7 @@ public class GameState {
     public boolean hasInstalledSkill(SkillItem skillItem) {
         for (Skill skill : skills) {
             if (skill.getClass().equals(skillItem.item.clazz)) {
-                LOGGER.log(Level.CONFIG, "{0} already installed.", skill.type.itemName);
+                LOGGER.log(Level.CONFIG, "{0} already installed.", skill.catalog.itemName);
                 return true;
             }
         }
@@ -288,7 +288,7 @@ public class GameState {
     public Skill getInstalledSkill(SkillItem skillItem) {
         for (Skill skill : skills) {
             if (skill.getClass().equals(skillItem.item.clazz)) {
-                LOGGER.log(Level.CONFIG, "Found skill {0} is installed.", skill.type.itemName);
+                LOGGER.log(Level.CONFIG, "Found skill {0} is installed.", skill.catalog.itemName);
                 return skill;
             }
         }
