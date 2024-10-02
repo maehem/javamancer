@@ -30,7 +30,6 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.database.DatabaseList;
-import com.maehem.javamancer.neuro.model.deck.Cyberspace7DeckItem;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
@@ -39,10 +38,9 @@ import com.maehem.javamancer.neuro.model.item.ItemCatalog;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
+import static com.maehem.javamancer.neuro.model.room.Room.*;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
-import com.maehem.javamancer.neuro.model.warez.AcidWarez;
-import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.lang.reflect.Constructor;
@@ -61,9 +59,6 @@ public class GameState {
     public static final int GRID_MAX = 512;
     public static final int GRID_SIZE = 16;
 
-    private boolean flatlined = false;
-    private boolean iceBroken;
-
     public enum BodyShopRecent {
         NONE, BUY, SELL, REVIVED;
     }
@@ -74,21 +69,10 @@ public class GameState {
 
     public final ResourceManager resourceManager;
     public final DatabaseList dbList;// = new DatabaseList();
+    public int loadSlot = -1; // Handled each loop() by NeuroGamePane.
 
     public final static int NAME_LEN_MAX = 12;
     public String name = "Case";
-
-    // Money
-    public final static String PLAYER_BAMA = "056306118";
-    public final static String LARRY_MODE_BAMA = "062788138";
-    public int chipBalance = 6;
-    public int bankBalance = 2000;
-    public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
-    public int bankZurichBalance = 0;  // Create account by accessing Zurich via sequencer of cyberspace.
-    public int bankGemeinBalance = 30000;  // Create account by accessing Zurich via sequencer of cyberspace.
-    public String bankZurichCreated = null; // Date string when account created.
-    public final static String BANK_ZURICH_ID = "712345450134";
-    public final static String BANK_GEMEIN_ID = "646328356481";
 
     // Health
     public final int CONSTITUTION_MAX = 2000;
@@ -102,6 +86,18 @@ public class GameState {
     public int dateDay = 16;
     public int dateYear = 2058;
 
+    // Money
+    public final static String PLAYER_BAMA = "056306118";
+    public final static String LARRY_MODE_BAMA = "062788138";
+    public int chipBalance = 6;
+    public int bankBalance = 2000;
+    public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
+    public int bankZurichBalance = 0;  // Create account by accessing Zurich via sequencer of cyberspace.
+    public int bankGemeinBalance = 30000;  // Create account by accessing Zurich via sequencer of cyberspace.
+    public String bankZurichCreated = null; // Date string when account created.
+    public final static String BANK_ZURICH_ID = "712345450134";
+    public final static String BANK_GEMEIN_ID = "646328356481";
+
     public final ArrayList<NewsArticle> news = new ArrayList<>();
     public final ArrayList<BbsMessage> bbs = new ArrayList<>();
     public final ArrayList<Item> inventory = new ArrayList<>();
@@ -110,6 +106,11 @@ public class GameState {
     public final ArrayList<Warez> software = new ArrayList<>();
     public final ArrayList<Person> seaWantedList = new ArrayList<>();
     public final ArrayList<Person> chibaWantedList = new ArrayList<>();
+    public final ArrayList<Person> hosakaEmployeeList = new ArrayList<>();
+    public final ArrayList<Room> visited = new ArrayList<>();
+    public final ArrayList<Room> dialogAllowed = new ArrayList<>();
+    public final ArrayList<AI> aiList = new ArrayList<>();
+    public final ArrayList<BbsMessage> messageSent = new ArrayList<>();
 
     // Deck
     public int deckSlots = 0;
@@ -117,39 +118,20 @@ public class GameState {
     // Matrix Stuff
     public Database database = null;
     public DeckItem usingDeck = null;
-    public boolean usingDeckErase = false;
-    public int matrixPosX = 112;
-    public int matrixPosY = 96;
-    public boolean databaseBattle = false;
-    public boolean databaseArrived = false; // Set by explorer when at a DB.
-    public boolean databaseBattleBegin = false;
-    public final ArrayList<AI> aiList = new ArrayList<>();
+    public boolean usingDeckErase = false; // Ephemeral
+    //public int matrixPosX = 112;
+    //public int matrixPosY = 96;
+    public boolean databaseBattle = false; // Ephemeral. No save during battle
+    public boolean databaseArrived = false; // Ephemeral. Set by explorer when at a DB.
+    public boolean databaseBattleBegin = false; // Ephemeral.
+    private boolean flatlined = false; // Ephemaral
+    private boolean iceBroken = false; // Ephemeral
 
     // Room Stuff
     public int roomPosX = 160;
     public int roomPosY = 90;
     public Room room = null;
-    public RoomBounds.Door useDoor = RoomBounds.Door.NONE; // Set when player collides with door.
-
-    public final ArrayList<BbsMessage> messageSent = new ArrayList<>();
-
-    // TODO: Use ArrayList for roomsVisited
-    public final ArrayList<Room> visited = new ArrayList<>();
-
-    public final boolean roomNpcTalk[] = { // 58 Slots  [0..57] Room # = index+1
-        true, true, true, true, false, // 1-5
-        true, true, true, false, false, // 6-10
-        false, true, false, false, false, // 11-15
-        false, false, false, false, false, // 16-20
-        false, false, true, true, true, // 21-25
-        true, true, false, false, false, //26-30
-        false, true, false, false, false, // 31-35
-        true, false, false, false, true, // 36-40
-        false, false, false, true, true, // 41-45
-        true, false, false, false, false, // 46-50
-        true, true, false, false, false, // 50-55
-        true, true, false // 56-58
-    };
+    public RoomBounds.Door useDoor = RoomBounds.Door.NONE; // Ephemeral. Set when player collides with door.
 
     public boolean msgToArmitageSent = false;
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
@@ -183,20 +165,16 @@ public class GameState {
     public boolean dixieInstalled = false; // ROM Construct: Dixie Flatline
     public boolean larryMoeWanted = false; // Chiba Tectical Police wanted list
 
-    // Hosaka Emplyee List
-    public final ArrayList<Person> hosakaEmployeeList = new ArrayList<>();
-
     // Sets to 1 when player adds name. Paid on 1, 8, 15, etc.
     // Sets to 0 when player is paid.
     // Sets to -1 if player removes BAMA from list.
     public int hosakaDaysSincePaid = -1;
 
-
     // Ephemeral -- Not saved
-    public boolean pause = true;
-    public boolean requestQuit = false; // Set by Disk Menu Quit option.
-    public String showMessage = ""; // RoomMode.tick() will place text in description area.
-    public String showMessageNextRoom = ""; // RoomMode.tick() will place text in description area of next room.
+    public boolean pause = true; // Ephemeral
+    public boolean requestQuit = false; // Ephemeral. Set by Disk Menu Quit option.
+    public String showMessage = ""; // Ephemeral. RoomMode.tick() will place text in description area.
+    public String showMessageNextRoom = ""; // Ephemeral. RoomMode.tick() will place text in description area of next room.
 
     public GameState(ResourceManager rm) {
         this.resourceManager = rm;
