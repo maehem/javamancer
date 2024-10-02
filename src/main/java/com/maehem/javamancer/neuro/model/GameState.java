@@ -460,8 +460,41 @@ public class GameState {
         return iceBroken;
     }
 
-}
+    public void initNewGame() {
+        // Standard inventory items
+        inventory.add(new CreditsItem());
+        inventory.add(new RealItem(Catalog.PAWNTICKET, 0));
 
+        resourceManager.initNewsArticles(
+                news,
+                name,
+                getDateString()
+        );
+        resourceManager.initBbsMessages(
+                bbs,
+                name
+        );
+
+        dialogAllowed.add(R1);
+        dialogAllowed.add(R2);
+        dialogAllowed.add(R3);
+        dialogAllowed.add(R4);
+        dialogAllowed.add(R6);
+        dialogAllowed.add(R7);
+        dialogAllowed.add(R8);
+        dialogAllowed.add(R12);
+        dialogAllowed.add(R23);
+        dialogAllowed.add(R24);
+        dialogAllowed.add(R25);
+        dialogAllowed.add(R32);
+        dialogAllowed.add(R36);
+        dialogAllowed.add(R44);
+        dialogAllowed.add(R45);
+        dialogAllowed.add(R46);
+        dialogAllowed.add(R50);
+        dialogAllowed.add(R51);
+        dialogAllowed.add(R56);
+        dialogAllowed.add(R57);
 
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 120));
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 56));
