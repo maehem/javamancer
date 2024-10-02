@@ -50,10 +50,13 @@ public enum GameStateDefaults {
     DECK_SLOTS("deckSlots", 0),
     DATABASE("database", null),
     USING_DECK("usingDeck", null),
+    MATRIX_POS_X("matrixPosX", 112),
+    MATRIX_POS_Y("matrixPosY", 96),
+    DIXIE_INSTALLED("dixieInstalled", false),
+    // Room
     ROOM_POS_X("roomPosX", 160),
     ROOM_POS_Y("roomPosY", 90),
     ROOM("room", null),
-    DIXIE_INSTALLED("dixieInstalled", false),
     // VARIOUS
     MSG_TO_ARMITAGE_SENT("msgToArmitageSent", false),
     RATZ_PAID("ratzPaid", false),
