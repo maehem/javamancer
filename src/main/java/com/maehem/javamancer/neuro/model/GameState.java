@@ -289,6 +289,8 @@ public class GameState {
 
     public void loadSlot(int i) {
         LOGGER.log(Level.SEVERE, "Load Slot {0} requested", i);
+
+        loadSlot = i; // Causes NeuroModePane.loop() to load new game.
     }
 
     public void saveSlot(int i) {
