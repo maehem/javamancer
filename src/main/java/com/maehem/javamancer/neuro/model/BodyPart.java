@@ -90,4 +90,14 @@ public enum BodyPart {
         this.constDamage = constDamage;
     }
 
+    public static BodyPart lookup(String partName) {
+        for (BodyPart part : values()) {
+            if (part.name().equals(partName)) {
+                return part;
+            }
+        }
+
+        return null;
+    }
+
 }
