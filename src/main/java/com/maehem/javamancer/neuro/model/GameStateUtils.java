@@ -141,7 +141,8 @@ public class GameStateUtils {
         putPersonList(gs.hosakaEmployeeList, "hosakaEmployee", props);
 
         putVisitedRooms(gs, props);
-//        putDialogAllowed();
+        putDialogRooms(gs, props);
+
         putAIList(gs, props);
 //        putMessageSent();
 
@@ -216,6 +217,8 @@ public class GameStateUtils {
         restorePersonList(gs.hosakaEmployeeList, "hosakaEmployee", p);
 
         restoreVisitedRooms(gs, p);
+        restoreDialogRooms(gs, p);
+
         // Deck
         gs.deckSlots = getInt(DECK_SLOTS, p);
         //gs.database = gs.dbList.lookup(getStr(DATABASE, p));
@@ -418,6 +421,27 @@ public class GameStateUtils {
         for (String rStr : visited) {
             LOGGER.log(Level.SEVERE, "Restore visited room: " + rStr);
             gs.visited.add(Room.lookup(rStr));
+        }
+    }
+
+    private static void putDialogRooms(GameState gs, Properties p) {
+        StringBuilder sb = new StringBuilder();
+        for (Room r : gs.dialogAllowed) {
+            LOGGER.log(Level.SEVERE, "Put dialog room: " + r.name());
+            if (!sb.isEmpty()) {
+                sb.append(",");
+            }
+
+            sb.append(r.name());
+        }
+        p.put("dialogAllowed", sb.toString());
+    }
+
+    private static void restoreDialogRooms(GameState gs, Properties p) {
+        String visited[] = ((String) (p.get("dialogAllowed"))).split(",");
+        for (String rStr : visited) {
+            LOGGER.log(Level.SEVERE, "Restore dialog room: " + rStr);
+            gs.dialogAllowed.add(Room.lookup(rStr));
         }
     }
 }
