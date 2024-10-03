@@ -26,24 +26,25 @@
  */
 package com.maehem.javamancer.neuro.model;
 
+import com.maehem.javamancer.logging.Logging;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class BbsMessage {
 
-    public static final String msgDates[] = {
-        "11/14/58", "11/14/58", "11/14/58", "11/14/58", "11/14/58",
-        "11/15/58", "11/15/58", "11/16/58", "11/16/58", "11/16/58",
-        "11/16/58", "11/16/58"
-    };
+    public static final Logger LOGGER = Logging.LOGGER;
 
     public final int dbNumber; // 0 == PAX
     public String date;
     public final String to;
     public final String from;
     public String body;
-    public final int prefillIndex;
+    public int prefillIndex;
     public boolean show;
 
     public static final int defaultShow = 3; // Default show articles 0..3
@@ -97,5 +98,42 @@ public class BbsMessage {
         return date + " " + toStr + " " + fromStr;
     }
 
+    /**
+     *
+     * @param prefix
+     * @param p
+     */
+    public void putProps(String prefix, Properties p) {
+        p.put(prefix + ".dbNumber", String.valueOf(dbNumber));
+        p.put(prefix + ".date", date);
+        p.put(prefix + ".to", to);
+        p.put(prefix + ".from", from);
+        p.put(prefix + ".body", body);
+        p.put(prefix + ".index", String.valueOf(prefillIndex));
+        p.put(prefix + ".show", String.valueOf(show));
+    }
+
+    /**
+     * Prefix is in the form example: "messages.0"
+     *
+     * @param prefix
+     * @param p
+     * @return
+     */
+    public static BbsMessage pullMessage(String prefix, Properties p) {
+        int dbNumber = Integer.parseInt(p.getProperty(prefix + ".dbNumber", "999"));
+        String date = p.getProperty(prefix + ".date", "ERROR");
+        String to = p.getProperty(prefix + ".to", "ERROR");
+        String from = p.getProperty(prefix + ".from", "ERROR");
+        String body = p.getProperty(prefix + ".body", "ERROR");
+        int prefillIndex = Integer.parseInt(p.getProperty(prefix + ".index", "-1"));
+        boolean show = Boolean.parseBoolean(p.getProperty(prefix + ".show", "false"));
+        LOGGER.log(Level.SEVERE, "Restore Message: {0} :: {1}", new Object[]{dbNumber, to});
+
+        BbsMessage bbsMessage = new BbsMessage(dbNumber, date, to, from, body, show);
+        bbsMessage.prefillIndex = prefillIndex;
+
+        return bbsMessage;
+    }
 
 }
