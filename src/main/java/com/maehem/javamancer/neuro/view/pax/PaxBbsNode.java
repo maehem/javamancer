@@ -468,11 +468,13 @@ public class PaxBbsNode extends PaxNode {
             }
         }
         bbs.add(index + 1, message);
+        message.prefillIndex = index;
+        gameState.messageSent.add(message);
 
         LOGGER.log(Level.SEVERE, "Message sent to: {0}", typedTo);
         // Check if to armitage and contains BAMA id.
         if ("armitage".equals(typedTo.toString().toLowerCase())
-                && typedMessage.indexOf(gameState.PLAYER_BAMA) >= 0) {
+                && typedMessage.indexOf(GameState.PLAYER_BAMA) >= 0) {
             LOGGER.log(Level.SEVERE, "Found message to armitage with bama ID!");
             if (!gameState.msgToArmitageSent) {
                 gameState.msgToArmitageSent = true;
