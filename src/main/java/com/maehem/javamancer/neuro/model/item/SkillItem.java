@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.item;
 
+import com.maehem.javamancer.neuro.model.skill.Skill;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 /**
@@ -55,4 +57,64 @@ public class SkillItem extends Item {
         LOGGER.log(Level.SEVERE, "Install Skill Item: " + item.itemName);
     }
 
+    public static boolean hasSkill(SkillItem skillItem, ArrayList<Skill> skills) {
+        for (Skill skill : skills) {
+            if (skill.catalog.equals(skillItem.item) && skillItem.level == skill.level) {
+                LOGGER.log(Level.CONFIG, "{0} already installed.", skill.catalog.itemName);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static Skill getSkill(SkillItem skillItem, ArrayList<Skill> skills) {
+        for (Skill skill : skills) {
+            if (skill.catalog.equals(skillItem.item) && skillItem.level == skill.level) {
+                LOGGER.log(Level.CONFIG, "Found skill {0} in list.", skill.catalog.itemName);
+
+                return skill;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Install or Upgrade SkillItem
+     *
+     * @param skillItem
+     * @param skills
+     * @return true if installed or upgraded. false if already installed.
+     */
+    public static Skill installSkillItem(SkillItem skillItem, ArrayList<Skill> skills) {
+        LOGGER.log(Level.CONFIG, "Start install skill item.");
+
+        Skill skill;
+        if ((skill = getSkill(skillItem, skills)) != null) {
+            int oldLevel = skill.level;
+            LOGGER.log(Level.CONFIG, "Seem to have the skill aready? Try upgrade...");
+            if (skillItem.level > skill.level) {
+                skill.level = skillItem.level;
+                LOGGER.log(Level.CONFIG, "Upgraded skill {0} from {1} to {2}.",
+                        new Object[]{skill.catalog.itemName, oldLevel, skill.level});
+                return skill;
+            }
+        } else {
+            LOGGER.log(Level.FINER, "Skill OK to install.");
+            Skill instance = Skill.getInstance(skillItem.item, skillItem.level);
+            if (instance != null) {
+                LOGGER.log(Level.CONFIG,
+                        "Install {0} Skill...",
+                        instance.catalog.itemName);
+                skills.add(instance);
+                return instance;
+            } else {
+                LOGGER.log(Level.SEVERE, "Unable to install skill " + skillItem.item.name());
+            }
+        }
+
+        return null;
+    }
 }
