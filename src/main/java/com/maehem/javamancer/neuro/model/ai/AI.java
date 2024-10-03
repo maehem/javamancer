@@ -26,11 +26,20 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
+import com.maehem.javamancer.logging.Logging;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class AI {
+    public static final Logger LOGGER = Logging.LOGGER;
+
     public final String name;
     public final int index; // matching the sprite face
     private int constitution = 2000;
@@ -55,4 +64,52 @@ public class AI {
         }
     }
 
+    /**
+     *
+     * @param prefix
+     * @param p
+     */
+    public void putProps(String prefix, Properties p) {
+        p.put(prefix, getClass().getSimpleName());
+        p.put(prefix + ".constitution", String.valueOf(constitution));
+    }
+
+    public void pullProps(String prefix, Properties p) {
+        String get = p.getProperty(prefix + ".constitution", "1");
+        LOGGER.log(Level.SEVERE, "Restore Skill level value = " + get);
+        constitution = Integer.parseInt(get);
+    }
+
+    public static AI lookup(String clazzName) {
+        LOGGER.log(Level.FINER, "Get AI instance.");
+        try {
+            Class<?> clazz = Class.forName(AI.class.getPackageName() + "." + clazzName);
+            if (AI.class.isAssignableFrom(clazz)) {
+                LOGGER.log(Level.SEVERE, "It's an AI class.");
+            } else {
+                LOGGER.log(Level.SEVERE, "It's NOT an AI class.");
+            }
+            @SuppressWarnings("unchecked")
+            Constructor<?> ctor = clazz.getConstructor();
+
+            Object object = ctor.newInstance();
+            LOGGER.log(Level.CONFIG, "AI Object created: {0}", object.getClass().getSimpleName());
+            if (object instanceof AI ai) {
+                return ai;
+            } else {
+                LOGGER.log(Level.SEVERE, "Thing is not a AI.");
+            }
+        } catch (ClassNotFoundException
+                | InstantiationException
+                | IllegalAccessException
+                | IllegalArgumentException
+                | InvocationTargetException
+                | NoSuchMethodException
+                | SecurityException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
 }
