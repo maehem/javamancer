@@ -226,4 +226,29 @@ public class GameStateUtils {
         }
     }
 
+    private static void putSkills(GameState gs, Properties p) {
+        int i = 0;
+        for (Skill skill : gs.skills) {
+            LOGGER.log(Level.SEVERE, "Put skill: " + skill.catalog.name());
+            skill.putProps("skills." + i, p);
+            i++;
+        }
+    }
+
+    private static void restoreSkills(GameState gs, Properties p) {
+        int i = 0;
+        String val;
+        while ((val = p.getProperty("skills." + i)) != null) {
+            LOGGER.log(Level.SEVERE, "Restore skill: " + val);
+            Catalog lookup = Item.lookup(val);
+
+            LOGGER.log(Level.SEVERE, "Create Skill Item");
+            Skill skill = Skill.getInstance(lookup, 1);
+            skill.pullProps("skills." + i, p);
+
+            gs.skills.add(skill);
+
+            i++;
+        }
+    }
 }
