@@ -140,7 +140,7 @@ public class GameStateUtils {
         putPersonList(gs.chibaWantedList, "chibaPolice", props);
         putPersonList(gs.hosakaEmployeeList, "hosakaEmployee", props);
 
-//        putRoomVisited();
+        putVisitedRooms(gs, props);
 //        putDialogAllowed();
         putAIList(gs, props);
 //        putMessageSent();
@@ -215,6 +215,7 @@ public class GameStateUtils {
         restorePersonList(gs.chibaWantedList, "chibaPolice", p);
         restorePersonList(gs.hosakaEmployeeList, "hosakaEmployee", p);
 
+        restoreVisitedRooms(gs, p);
         // Deck
         gs.deckSlots = getInt(DECK_SLOTS, p);
         //gs.database = gs.dbList.lookup(getStr(DATABASE, p));
@@ -342,8 +343,6 @@ public class GameStateUtils {
             LOGGER.log(Level.SEVERE, "Restore AI: " + val);
             AI lookup = AI.lookup(val);
 
-//            LOGGER.log(Level.SEVERE, "Create AI");
-//            Skill skill = Skill.getInstance(lookup, 1);
             lookup.pullProps("ai." + i, p);
 
             gs.aiList.add(lookup);
@@ -401,4 +400,24 @@ public class GameStateUtils {
         }
     }
 
+    private static void putVisitedRooms(GameState gs, Properties p) {
+        StringBuilder sb = new StringBuilder();
+        for (Room r : gs.visited) {
+            LOGGER.log(Level.SEVERE, "Put visited room: " + r.name());
+            if ( !sb.isEmpty() ) {
+                sb.append(",");
+            }
+
+            sb.append(r.name());
+        }
+        p.put("visited", sb.toString());
+    }
+
+    private static void restoreVisitedRooms(GameState gs, Properties p) {
+        String visited[] = ((String) (p.get("visited"))).split(",");
+        for (String rStr : visited) {
+            LOGGER.log(Level.SEVERE, "Restore visited room: " + rStr);
+            gs.visited.add(Room.lookup(rStr));
+        }
+    }
 }
