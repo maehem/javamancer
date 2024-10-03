@@ -64,7 +64,7 @@ public class R4Extras extends RoomExtras {
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(gs.room).dumpList();
+        //gs.resourceManager.getRoomText(gs.room).dumpList();
     }
 
     @Override
