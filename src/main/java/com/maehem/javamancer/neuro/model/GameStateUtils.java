@@ -35,6 +35,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.skill.Skill;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -128,19 +129,58 @@ public class GameStateUtils {
             props.put(BANK_ZURICH_CREATED.key, gs.bankZurichCreated);
         }
 
-        props.put(DECK_SLOTS.key, String.valueOf(gs.deckSlots));
         putSkills(gs, props);
+//        putBodyParts();
+//        putSoftware();
+//        putSeaWanted();
+//        putChibaWanted();
+//        putHosakaEmployees();
+//        putRoomVisited();
+//        putDialogAllowed();
+//        putAiList();
+//        putMessageSent();
 
-        props.put(ROOM_POS_X.key, String.valueOf(gs.roomPosX));
-        props.put(ROOM_POS_Y.key, String.valueOf(gs.roomPosY));
+        //props.put(DECK_SLOTS.key, String.valueOf(gs.deckSlots));
+        pPut(props, DECK_SLOTS, gs.deckSlots);
+
+        if (gs.usingDeck != null) {
+            pPut(props, USING_DECK, gs.usingDeck.item.name());
+        } else {
+            pPut(props, USING_DECK, "null");
+        }
+
+        pPut(props, MATRIX_POS_X, gs.matrixPosX);
+        pPut(props, MATRIX_POS_Y, gs.matrixPosY);
+
+        pPut(props, DIXIE_INSTALLED, gs.dixieInstalled);
+
+        pPut(props, ROOM_POS_X, gs.roomPosX);
+        pPut(props, ROOM_POS_Y, gs.roomPosY);
 
         props.put(ROOM.key, gs.room.name());
-
-        props.put(DIXIE_INSTALLED.key, String.valueOf(gs.dixieInstalled));
 
         return props;
     }
 
+    private static void pPut(Properties p, GameStateDefaults k, String value) {
+        p.put(k.key, value);
+    }
+
+    private static void pPut(Properties p, GameStateDefaults k, int value) {
+        p.put(k.key, String.valueOf(value));
+    }
+
+    private static void pPut(Properties p, GameStateDefaults k, boolean value) {
+        p.put(k.key, String.valueOf(value));
+    }
+
+    /**
+     * Restore GameState settings from Properties. The elements here should
+     * match those in gatherProperties().
+     *
+     * @param gs
+     * @param p
+     */
     private static void restoreFromProperties(GameState gs, Properties p) {
         // Player
         gs.name = getStr(NAME, p);
@@ -197,7 +237,6 @@ public class GameStateUtils {
         for (Item item : gs.inventory) {
             LOGGER.log(Level.SEVERE, "Put inventory item: " + item.item.name());
             item.putProps("inventory." + i, p);
-            //p.put("inventory." + i, item.item.name());
             i++;
         }
     }
