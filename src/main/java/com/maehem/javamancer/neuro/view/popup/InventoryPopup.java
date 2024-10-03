@@ -35,8 +35,6 @@ import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
@@ -242,7 +240,8 @@ public class InventoryPopup extends SmallPopupPane {
             case INSTALL -> {
                 switch (code) {
                     case Y -> {
-                        installSkillItem((SkillItem) currentItem);
+                        Skill installedSkill = SkillItem.installSkillItem((SkillItem) currentItem, gameState.skills);
+                        installSkillSummary(installedSkill, installedSkill != null);
                     }
                     case N -> {
                         itemOptions();
@@ -383,60 +382,16 @@ public class InventoryPopup extends SmallPopupPane {
         addBox(heading, heading2, tf);
 
         yesText.setOnMouseClicked((t) -> {
-            installSkillItem(skillItem);
+            //installSkillItem(skillItem);
+            Skill installedSkill = SkillItem.installSkillItem(skillItem, gameState.skills);
+            installSkillSummary(installedSkill, installedSkill != null);
+            if (installedSkill != null) {
+                gameState.removeInventoryItem(skillItem.item);
+            }
         });
         noText.setOnMouseClicked((t) -> {
             itemOptions(); // Back to item's menu.
         });
-    }
-
-    private void installSkillItem(SkillItem skillItem) {
-        LOGGER.log(Level.CONFIG, "Start install skill item.");
-        ArrayList<Skill> skills = gameState.skills;
-        boolean hasSkill = false;
-        for (Skill skill : skills) {
-            if (skill.getClass().equals(skillItem.item.clazz) && skillItem.level == skill.level) {
-                LOGGER.log(Level.CONFIG, "{0} already installed.", skill.type.itemName);
-                installSkillSummary(skill, false);
-                hasSkill = true;
-                break;
-            }
-
-            // TODO: Need special case to upgrade skill if same class but higher level.
-        }
-
-        if (!hasSkill) {
-            LOGGER.log(Level.FINER, "Skill OK to install.");
-            try {
-                @SuppressWarnings("unchecked")
-                Constructor<?> ctor = currentItem.item.clazz.getConstructor(
-                        new Class[]{int.class}
-                );
-
-                Object object = ctor.newInstance(
-                        new Object[]{skillItem.level});
-                LOGGER.log(Level.FINER, "Object created.");
-                if (object instanceof Skill skill) {
-                    LOGGER.log(Level.FINER, "Try to install Skill...");
-                    skills.add(skill);
-                    gameState.inventory.remove(currentItem);
-                    installSkillSummary(skill, true);
-                } else {
-                    LOGGER.log(Level.SEVERE, "Thing is not a Skill.");
-                }
-            } catch (InstantiationException
-                    | IllegalAccessException
-                    | IllegalArgumentException
-                    | InvocationTargetException
-                    | NoSuchMethodException
-                    | SecurityException ex) {
-                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-                ex.printStackTrace();
-                installSkillSummary(null, false);
-            }
-        } else {
-            LOGGER.log(Level.WARNING, "Seem to have the skill aready?");
-        }
     }
 
     private void installSkillSummary(Skill skill, boolean state) {
