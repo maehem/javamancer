@@ -27,6 +27,8 @@
 package com.maehem.javamancer.neuro.model;
 
 import com.maehem.javamancer.logging.Logging;
+import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -42,7 +44,7 @@ public class Person {
 
     private String name;
     private String bama;
-    private final String auxData;
+    private String auxData;
 
     public Person(String name, String bama, String auxData) {
         this.name = name;
@@ -111,4 +113,25 @@ public class Person {
         //Otherwise any printable ASCII char. is OK.
         return (code >= 32 && code <= 126);
     }
+
+    /**
+     *
+     * @param prefix
+     * @param p
+     */
+    public void putProps(String prefix, Properties p) {
+        p.put(prefix + ".name", name);
+        p.put(prefix + ".bama", bama);
+        p.put(prefix + ".aux", auxData);
+    }
+
+    public static Person pullPerson(String prefix, Properties p) {
+        String name = p.getProperty(prefix + ".name", "ERROR");
+        String bama = p.getProperty(prefix + ".bama", "ERROR");
+        String aux = p.getProperty(prefix + ".aux", "ERROR");
+        LOGGER.log(Level.SEVERE, "Restore Person: {0} :: {1}", new Object[]{name, bama});
+
+        return new Person(name, bama, aux);
+    }
+
 }

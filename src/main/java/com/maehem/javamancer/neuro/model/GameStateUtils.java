@@ -43,6 +43,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -135,15 +136,15 @@ public class GameStateUtils {
         putSoldBodyParts(gs, props);
 
         putWarez(gs, props);
-//        putSeaWanted();
-//        putChibaWanted();
-//        putHosakaEmployees();
+        putPersonList(gs.seaWantedList, "seaWanted", props);
+        putPersonList(gs.chibaWantedList, "chibaPolice", props);
+        putPersonList(gs.hosakaEmployeeList, "hosakaEmployee", props);
+
 //        putRoomVisited();
 //        putDialogAllowed();
         putAIList(gs, props);
 //        putMessageSent();
 
-        //props.put(DECK_SLOTS.key, String.valueOf(gs.deckSlots));
         pPut(props, DECK_SLOTS, gs.deckSlots);
 
         if (gs.usingDeck != null) {
@@ -210,6 +211,9 @@ public class GameStateUtils {
         restoreSoldBodyParts(gs, p);
         restoreAIList(gs, p);
         restoreWarez(gs, p);
+        restorePersonList(gs.seaWantedList, "seaWanted", p);
+        restorePersonList(gs.chibaWantedList, "chibaPolice", p);
+        restorePersonList(gs.hosakaEmployeeList, "hosakaEmployee", p);
 
         // Deck
         gs.deckSlots = getInt(DECK_SLOTS, p);
@@ -303,7 +307,7 @@ public class GameStateUtils {
     private static void putSoldBodyParts(GameState gs, Properties p) {
         int i = 0;
         for (BodyPart part : gs.soldBodyParts) {
-            LOGGER.log(Level.SEVERE, "Put body part: " + part.name());
+            LOGGER.log(Level.SEVERE, "Put sold body part: " + part.name());
             p.put("bodyPart." + i, part.name());
             i++;
         }
@@ -361,7 +365,7 @@ public class GameStateUtils {
         int i = 0;
         String val;
         while ((val = p.getProperty("warez." + i)) != null) {
-            LOGGER.log(Level.SEVERE, "Restore warez: " + val);
+            LOGGER.log(Level.SEVERE, "Restore warez: {0}", val);
             Catalog lookup = Item.lookup(val);
 
             LOGGER.log(Level.SEVERE, "Create Warez Item");
@@ -369,6 +373,29 @@ public class GameStateUtils {
             w.pullProps("warez." + i, p);
 
             gs.software.add(w);
+
+            i++;
+        }
+    }
+
+    private static void putPersonList(ArrayList<Person> list, String prefix, Properties p) {
+        int i = 0;
+        for (Person person : list) {
+            LOGGER.log(Level.SEVERE, "Put {0} person: {1}", new Object[]{prefix, person.getName()});
+            person.putProps(prefix + "." + i, p);
+            i++;
+        }
+    }
+
+    private static void restorePersonList(ArrayList<Person> list, String prefix, Properties p) {
+        int i = 0;
+
+        while (p.getProperty(prefix + "." + i + ".name") != null) {
+            String itemPrefix = prefix + "." + i + ".name";
+
+            LOGGER.log(Level.SEVERE, "Restore person: {0}.{1}", new Object[]{prefix, i});
+            Person person = Person.pullPerson(itemPrefix, p);
+            list.add(person);
 
             i++;
         }
