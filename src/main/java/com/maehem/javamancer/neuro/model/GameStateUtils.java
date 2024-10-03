@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.model;
 import com.maehem.javamancer.AppProperties;
 import com.maehem.javamancer.logging.Logging;
 import static com.maehem.javamancer.neuro.model.GameStateDefaults.*;
+import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
@@ -130,14 +131,15 @@ public class GameStateUtils {
         }
 
         putSkills(gs, props);
-//        putBodyParts();
+        putSoldBodyParts(gs, props);
+
 //        putSoftware();
 //        putSeaWanted();
 //        putChibaWanted();
 //        putHosakaEmployees();
 //        putRoomVisited();
 //        putDialogAllowed();
-//        putAiList();
+        putAIList(gs, props);
 //        putMessageSent();
 
         //props.put(DECK_SLOTS.key, String.valueOf(gs.deckSlots));
@@ -204,6 +206,8 @@ public class GameStateUtils {
         gs.bankZurichCreated = getStr(BANK_ZURICH_CREATED, p);
 
         restoreSkills(gs, p);
+        restoreSoldBodyParts(gs, p);
+        restoreAIList(gs, p);
 
         // Deck
         gs.deckSlots = getInt(DECK_SLOTS, p);
@@ -293,4 +297,53 @@ public class GameStateUtils {
             i++;
         }
     }
+
+    private static void putSoldBodyParts(GameState gs, Properties p) {
+        int i = 0;
+        for (BodyPart part : gs.soldBodyParts) {
+            LOGGER.log(Level.SEVERE, "Put body part: " + part.name());
+            p.put("bodyPart." + i, part.name());
+            i++;
+        }
+    }
+
+    private static void restoreSoldBodyParts(GameState gs, Properties p) {
+        int i = 0;
+        String val;
+        while ((val = p.getProperty("bodyPart." + i)) != null) {
+            LOGGER.log(Level.SEVERE, "Restore sold body part: " + val);
+            BodyPart lookup = BodyPart.lookup(val);
+
+            gs.soldBodyParts.add(lookup);
+
+            i++;
+        }
+    }
+
+    private static void putAIList(GameState gs, Properties p) {
+        int i = 0;
+        for (AI ai : gs.aiList) {
+            LOGGER.log(Level.SEVERE, "Put AI: " + ai.getClass().getSimpleName());
+            ai.putProps("ai." + i, p);
+            i++;
+        }
+    }
+
+    private static void restoreAIList(GameState gs, Properties p) {
+        int i = 0;
+        String val;
+        while ((val = p.getProperty("ai." + i)) != null) {
+            LOGGER.log(Level.SEVERE, "Restore AI: " + val);
+            AI lookup = AI.lookup(val);
+
+//            LOGGER.log(Level.SEVERE, "Create AI");
+//            Skill skill = Skill.getInstance(lookup, 1);
+            lookup.pullProps("ai." + i, p);
+
+            gs.aiList.add(lookup);
+
+            i++;
+        }
+    }
+
 }
