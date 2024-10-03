@@ -71,6 +71,9 @@ public class GameState {
     public final DatabaseList dbList;// = new DatabaseList();
     public int loadSlot = -1; // Handled each loop() by NeuroGamePane.
 
+    public final ArrayList<NewsArticle> news = new ArrayList<>();
+    public final ArrayList<BbsMessage> bbs = new ArrayList<>();
+
     public final static int NAME_LEN_MAX = 12;
     public String name = "Case";
 
@@ -78,6 +81,8 @@ public class GameState {
     public final int CONSTITUTION_MAX = 2000;
     public final int CONSTITUTION_HEAL_RATE = 40;
     public int damage = 0; // Heal after revived, decays HEAL_RATE per 15 ticks.
+
+    public final ArrayList<Item> inventory = new ArrayList<>();
 
     // Time/Date
     public int timeMinute = 0;
@@ -98,9 +103,6 @@ public class GameState {
     public final static String BANK_ZURICH_ID = "712345450134";
     public final static String BANK_GEMEIN_ID = "646328356481";
 
-    public final ArrayList<NewsArticle> news = new ArrayList<>();
-    public final ArrayList<BbsMessage> bbs = new ArrayList<>();
-    public final ArrayList<Item> inventory = new ArrayList<>();
     public final ArrayList<Skill> skills = new ArrayList<>();
     public final ArrayList<BodyPart> soldBodyParts = new ArrayList<>();
     public final ArrayList<Warez> software = new ArrayList<>();
@@ -118,9 +120,9 @@ public class GameState {
     // Matrix Stuff
     public Database database = null;
     public DeckItem usingDeck = null;
+    public int matrixPosX = 112;
+    public int matrixPosY = 96;
     public boolean usingDeckErase = false; // Ephemeral
-    //public int matrixPosX = 112;
-    //public int matrixPosY = 96;
     public boolean databaseBattle = false; // Ephemeral. No save during battle
     public boolean databaseArrived = false; // Ephemeral. Set by explorer when at a DB.
     public boolean databaseBattleBegin = false; // Ephemeral.
