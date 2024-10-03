@@ -37,6 +37,7 @@ import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -133,7 +134,7 @@ public class GameStateUtils {
         putSkills(gs, props);
         putSoldBodyParts(gs, props);
 
-//        putSoftware();
+        putWarez(gs, props);
 //        putSeaWanted();
 //        putChibaWanted();
 //        putHosakaEmployees();
@@ -208,6 +209,7 @@ public class GameStateUtils {
         restoreSkills(gs, p);
         restoreSoldBodyParts(gs, p);
         restoreAIList(gs, p);
+        restoreWarez(gs, p);
 
         // Deck
         gs.deckSlots = getInt(DECK_SLOTS, p);
@@ -341,6 +343,32 @@ public class GameStateUtils {
             lookup.pullProps("ai." + i, p);
 
             gs.aiList.add(lookup);
+
+            i++;
+        }
+    }
+
+    private static void putWarez(GameState gs, Properties p) {
+        int i = 0;
+        for (Warez w : gs.software) {
+            LOGGER.log(Level.SEVERE, "Put warez: " + w.item.name());
+            w.putProps("warez." + i, p);
+            i++;
+        }
+    }
+
+    private static void restoreWarez(GameState gs, Properties p) {
+        int i = 0;
+        String val;
+        while ((val = p.getProperty("warez." + i)) != null) {
+            LOGGER.log(Level.SEVERE, "Restore warez: " + val);
+            Catalog lookup = Item.lookup(val);
+
+            LOGGER.log(Level.SEVERE, "Create Warez Item");
+            Warez w = Warez.getInstance(lookup, 1);
+            w.pullProps("warez." + i, p);
+
+            gs.software.add(w);
 
             i++;
         }
