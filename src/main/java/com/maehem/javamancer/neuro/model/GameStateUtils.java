@@ -129,6 +129,7 @@ public class GameStateUtils {
         }
 
         props.put(DECK_SLOTS.key, String.valueOf(gs.deckSlots));
+        putSkills(gs, props);
 
         props.put(ROOM_POS_X.key, String.valueOf(gs.roomPosX));
         props.put(ROOM_POS_Y.key, String.valueOf(gs.roomPosY));
@@ -161,6 +162,8 @@ public class GameStateUtils {
         gs.bankZurichBalance = getInt(BANK_ZURICH_BALANCE, p);
         gs.bankGemeinBalance = getInt(BANK_GEMEIN_BALANCE, p);
         gs.bankZurichCreated = getStr(BANK_ZURICH_CREATED, p);
+
+        restoreSkills(gs, p);
 
         // Deck
         gs.deckSlots = getInt(DECK_SLOTS, p);
