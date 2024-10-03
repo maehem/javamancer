@@ -144,7 +144,7 @@ public class GameStateUtils {
         putDialogRooms(gs, props);
 
         putAIList(gs, props);
-//        putMessageSent();
+        putSentMessageList(gs.messageSent, props);
 
         pPut(props, DECK_SLOTS, gs.deckSlots);
 
@@ -191,6 +191,19 @@ public class GameStateUtils {
         gs.name = getStr(NAME, p);
         gs.damage = getInt(DAMAGE, p);
 
+        // Set News to "New Game" state.
+        gs.resourceManager.initNewsArticles(
+                gs.news,
+                gs.name,
+                gs.getDateString()
+        );
+
+        // Set PAX BBS messages to "New Game" state.
+        gs.resourceManager.initPaxBbsMessages(
+                gs.bbs,
+                gs.name
+        );
+
         // Inventory
         restoreInventory(gs, p);
 
@@ -218,6 +231,8 @@ public class GameStateUtils {
 
         restoreVisitedRooms(gs, p);
         restoreDialogRooms(gs, p);
+
+        restoreSentMessageList(gs, p);
 
         // Deck
         gs.deckSlots = getInt(DECK_SLOTS, p);
@@ -444,4 +459,33 @@ public class GameStateUtils {
             gs.dialogAllowed.add(Room.lookup(rStr));
         }
     }
+
+    private static void putSentMessageList(ArrayList<BbsMessage> list, Properties p) {
+        int i = 0;
+        for (BbsMessage msg : list) {
+            LOGGER.log(Level.SEVERE, "Put sent BBS message: {0} ==> to: {1}", new Object[]{i, msg.to});
+            msg.putProps("sentMessage." + i, p);
+            i++;
+        }
+    }
+
+    private static void restoreSentMessageList(GameState gs, Properties p) {
+        int i = 0;
+
+        while (p.getProperty("sentMessage." + i + ".to") != null) {
+            String itemPrefix = "sentMessage." + i;
+
+            LOGGER.log(Level.SEVERE, "Restore sent BBS message: {0}", new Object[]{itemPrefix});
+            BbsMessage msg = BbsMessage.pullMessage(itemPrefix, p);
+            gs.messageSent.add(msg);
+            if (msg.dbNumber == 99) { // PAX BBS messages.
+                gs.bbs.add(msg.prefillIndex, msg);
+            }
+
+            i++;
+        }
+
+        // TODO: Iterate through all DBs and merge sent messages.
+    }
+
 }
