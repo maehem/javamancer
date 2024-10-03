@@ -62,6 +62,12 @@ public class ResourceManager {
     //public static final int PIC_W = 304;
     //public static final int PIC_H = 112;
 
+    public static final String[] PAX_MSG_DATES = { // For PAX messages.
+        "11/14/58", "11/14/58", "11/14/58", "11/14/58", "11/14/58",
+        "11/15/58", "11/15/58", "11/16/58", "11/16/58", "11/16/58",
+        "11/16/58", "11/16/58"
+    };
+
     private final File resourceFolder;
     private final File imhFolder;
     private final File picFolder;
@@ -224,7 +230,7 @@ public class ResourceManager {
 
     }
 
-    public void initBbsMessages(ArrayList<BbsMessage> messages, String playerName) {
+    public void initPaxBbsMessages(ArrayList<BbsMessage> messages, String playerName) {
         messages.clear();
         BufferedReader in;
         int index = 0;
@@ -260,8 +266,8 @@ public class ResourceManager {
 
                         String dateString;
                         boolean showMessage;
-                        if (index < BbsMessage.msgDates.length) {
-                            dateString = BbsMessage.msgDates[index];
+                        if (index < PAX_MSG_DATES.length) {
+                            dateString = PAX_MSG_DATES[index];
                             showMessage = true;
                         } else {
                             dateString = "XX/XX/XX"; // To be filled in by game actions.
@@ -287,6 +293,13 @@ public class ResourceManager {
 
     }
 
+    /**
+     * Restore, merge and show messages from loaded file data.
+     *
+     */
+    public void restorePaxBbsMessages() {
+
+    }
     // TODO:
 //    public Animation getAnimation( String name ) {
 //

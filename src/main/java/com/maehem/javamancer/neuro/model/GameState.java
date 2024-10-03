@@ -436,7 +436,7 @@ public class GameState {
                 name,
                 getDateString()
         );
-        resourceManager.initBbsMessages(
+        resourceManager.initPaxBbsMessages(
                 bbs,
                 name
         );
