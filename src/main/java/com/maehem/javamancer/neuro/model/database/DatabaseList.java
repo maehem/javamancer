@@ -107,4 +107,13 @@ public class DatabaseList extends ArrayList<Database> {
         }
         return null;
     }
+
+    public Database lookup(int number) {
+        for (Database db : this) {
+            if (number == db.number) {
+                return db;
+            }
+        }
+        return null;
+    }
 }
