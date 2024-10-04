@@ -30,6 +30,7 @@ import com.maehem.javamancer.AppProperties;
 import com.maehem.javamancer.logging.Logging;
 import static com.maehem.javamancer.neuro.model.GameStateDefaults.*;
 import com.maehem.javamancer.neuro.model.ai.AI;
+import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
@@ -480,12 +481,14 @@ public class GameStateUtils {
             gs.messageSent.add(msg);
             if (msg.dbNumber == 99) { // PAX BBS messages.
                 gs.bbs.add(msg.prefillIndex, msg);
+            } else {
+                Database db = gs.dbList.lookup(msg.dbNumber);
+                db.bbsMessages.add(msg);
             }
 
             i++;
         }
 
-        // TODO: Iterate through all DBs and merge sent messages.
     }
 
 }
