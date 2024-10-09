@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -110,5 +111,20 @@ public class RoomDescriptionPane extends ScrollPane {
         textFlow.getChildren().add(mText);
 
         textFlow.heightProperty().addListener(observable -> setVvalue(1D));
+    }
+
+    public boolean handleEvent(KeyEvent ke) {
+        switch (ke.getCode()) {
+            case UP -> {
+                setVvalue(getVvalue() - 0.1);
+            }
+            case DOWN -> {
+                setVvalue(getVvalue() + 0.1);
+            }
+            case SPACE -> {
+                setVvalue(getVvalue() + 0.2);
+            }
+        }
+        return false;
     }
 }
