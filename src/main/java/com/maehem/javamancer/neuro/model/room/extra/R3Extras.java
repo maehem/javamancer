@@ -49,13 +49,13 @@ public class R3Extras extends RoomExtras {
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
         {NPC.num, 3}, // 2   "You have been charged"
-        {4}, // 3    "I'd like to offer my services"
+        {NPC.num, 4}, // 3    "I'd like to offer my services"
         {5, 6, 7, 8}, // 4  Judge: He's right
         {NPC.num, 18}, // 5  Fine, I'll pay lawyer fee.
         {NPC.num, 9}, // 6  I can't afford lawyer.
         {NPC.num, 9}, // 7  I don't need lawyer.
         {10}, // 8  This is an outrage.
-        {10}, // 9  OK. defend yourself.
+        {NPC.num, 10}, // 9  OK. defend yourself.
         {11, 12, 13, 14}, // 10 How do you plead.
         {15}, // 11 This is an outrage. I haven't...
         {15}, // 12 I'm innocent.
@@ -113,8 +113,9 @@ public class R3Extras extends RoomExtras {
             return DIALOG_END.num;
         }
         if (gs.ratzPaid) {
-            return 11;
+            return 2;
         } else {
+            gs.ratzPaid = true; // Only get arrested once.
             return 2;
         }
     }

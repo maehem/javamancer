@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
@@ -37,15 +38,13 @@ import com.maehem.javamancer.neuro.model.room.RoomExtras;
 public class R2Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = {
-        {TO_JAIL.num}, {1} // 0, 1
+        {TO_JAIL.num}, {NPC.num, 1} // 0, 1
 
 
     };
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
     }
 
     @Override
