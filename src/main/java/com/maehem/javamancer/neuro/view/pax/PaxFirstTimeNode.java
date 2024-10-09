@@ -30,6 +30,8 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import java.util.logging.Logger;
 import javafx.scene.control.ScrollPane;
+import static javafx.scene.input.KeyCode.DOWN;
+import static javafx.scene.input.KeyCode.SPACE;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -79,8 +81,11 @@ public class PaxFirstTimeNode extends PaxNode {
             case UP -> {
                 sp.setVvalue(sp.getVvalue() - 0.1);
             }
-            case DOWN, SPACE -> {
+            case DOWN -> {
                 sp.setVvalue(sp.getVvalue() + 0.1);
+            }
+            case SPACE -> {
+                sp.setVvalue(sp.getVvalue() + 0.2);
             }
         }
         return false;
