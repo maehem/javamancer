@@ -170,7 +170,8 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
                         keyEvent.consume();
                         getChildren().clear();
                         mode = Mode.FIRST;
-                        getChildren().add(new PaxFirstTimeNode(this, resourceManager));
+                        paxNode = new PaxFirstTimeNode(this, resourceManager);
+                        getChildren().add(paxNode);
                         return false;
                     }
                     case DIGIT2 -> {
@@ -203,7 +204,7 @@ public class PaxPopupPane extends LargePopupPane implements PaxNodeListener {
                 }
             }
             case FIRST -> {
-                if (keyEvent.getCode().isLetterKey()) {
+                if (paxNode.handleEvent(keyEvent)) {
                     keyEvent.consume();
                     getChildren().clear();
                     mode = Mode.MENU;

@@ -41,6 +41,7 @@ import javafx.scene.text.TextFlow;
 public class PaxFirstTimeNode extends PaxNode {
 
     public static final Logger LOGGER = Logging.LOGGER;
+    private final ScrollPane sp;
     public PaxFirstTimeNode(PaxNodeListener l, ResourceManager rm) {
         super(l, null);
 
@@ -58,7 +59,7 @@ public class PaxFirstTimeNode extends PaxNode {
         tf.setLineSpacing(LINE_SPACING);
         tf.setPrefSize(380, 164);
 
-        ScrollPane sp = new ScrollPane(tf);
+        sp = new ScrollPane(tf);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
@@ -71,7 +72,17 @@ public class PaxFirstTimeNode extends PaxNode {
 
     @Override
     public boolean handleEvent(KeyEvent ke) {
-        listener.paxNodeExit();
+        switch (ke.getCode()) {
+            case ENTER, ESCAPE, X -> { // Dismiss popup
+                return true;
+            }
+            case UP -> {
+                sp.setVvalue(sp.getVvalue() - 0.1);
+            }
+            case DOWN, SPACE -> {
+                sp.setVvalue(sp.getVvalue() + 0.1);
+            }
+        }
         return false;
     }
 
