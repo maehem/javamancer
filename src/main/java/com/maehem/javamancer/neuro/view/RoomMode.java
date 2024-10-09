@@ -58,12 +58,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import static javafx.scene.input.KeyCode.DIGIT1;
 import static javafx.scene.input.KeyCode.I;
 import javafx.scene.input.MouseEvent;
@@ -330,11 +328,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             } else {
                 if (firstTime) { // Only space bar works on new room.
                     keyEvent.consume();
-                    LOGGER.log(Level.SEVERE, "No key interaction until room description is read.");
-                    if (keyEvent.getCode() == KeyCode.SPACE) {
-                        DoubleProperty scrollPos = roomDescriptionPane.vvalueProperty();
-                        scrollPos.set(scrollPos.get() + 0.15);
-                    }
+                    LOGGER.log(Level.FINER, "No key interaction until room description is read.");
+                    roomDescriptionPane.handleEvent(keyEvent);
                 } else {
                     switch (keyEvent.getCode()) {
                         case I -> {
