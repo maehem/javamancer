@@ -33,6 +33,7 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_B;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SKILL_BUY;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
@@ -70,7 +71,7 @@ public class R12Extras extends RoomExtras {
         {21}, //[18] :: 200
         {21}, //[19] :: 300
         {23}, //[20] :: Whoops! I dont have
-        {22}, //[21] :: All right.  // Give sets dialog to 22.
+        {NPC.num, 22}, //[21] :: All right.  // Give sets dialog to 22.
         {EXIT_B.num}, //[22] :: What a rube!  You really
         {EXIT_B.num}, //[23] :: No money, no meeting.
         {}, //[24] :: Im a cop,
