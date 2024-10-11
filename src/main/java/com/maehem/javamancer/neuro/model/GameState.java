@@ -84,8 +84,8 @@ public class GameState {
     public final ArrayList<Item> inventory = new ArrayList<>();
 
     // Time/Date
-    public int timeMinute = 0;
-    public int timeHour = 12;
+    public int dateMinute = 0;
+    public int dateHour = 12;
     public int dateMonth = 11;
     public int dateDay = 16;
     public int dateYear = 2058;
@@ -202,8 +202,8 @@ public class GameState {
     }
 
     public void addMinute() {
-        if (++timeMinute > 59) {
-            if (++timeHour > 23) {
+        if (++dateMinute > 59) {
+            if (++dateHour > 23) {
                 if (++dateDay > 30) {
                     if (++dateMonth > 12) {
                         dateYear++;
@@ -214,9 +214,9 @@ public class GameState {
                 if (hosakaDaysSincePaid >= 0) { // < 0 means unconfigured
                     hosakaDaysSincePaid++;
                 }
-                timeHour = 0;
+                dateHour = 0;
             }
-            timeMinute = 0;
+            dateMinute = 0;
         }
 
         if (usingDeck != null && usingDeck.getMode() != DeckItem.Mode.NONE) {

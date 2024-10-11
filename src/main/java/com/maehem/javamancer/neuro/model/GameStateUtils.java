@@ -119,8 +119,8 @@ public class GameStateUtils {
         putInventory(gs, props);
 
         // Time/Date
-        props.put(TIME_MINUTE.key, String.valueOf(gs.timeMinute));
-        props.put(TIME_HOUR.key, String.valueOf(gs.timeHour));
+        props.put(TIME_MINUTE.key, String.valueOf(gs.dateMinute));
+        props.put(TIME_HOUR.key, String.valueOf(gs.dateHour));
         props.put(DATE_MONTH.key, String.valueOf(gs.dateMonth));
         props.put(DATE_DAY.key, String.valueOf(gs.dateDay));
         props.put(DATE_YEAR.key, String.valueOf(gs.dateYear));
@@ -241,8 +241,8 @@ public class GameStateUtils {
         restoreInventory(gs, p);
 
         // Time/Date
-        gs.timeMinute = getInt(TIME_MINUTE, p);
-        gs.timeHour = getInt(TIME_HOUR, p);
+        gs.dateMinute = getInt(TIME_MINUTE, p);
+        gs.dateHour = getInt(TIME_HOUR, p);
         gs.dateMonth = getInt(DATE_MONTH, p);
         gs.dateDay = getInt(DATE_DAY, p);
         gs.dateYear = getInt(DATE_YEAR, p);

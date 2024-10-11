@@ -583,8 +583,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 statusText.setText(" " + gs.getDateString());
             }
             case TIME -> {
-                String hour = String.format("%02d", gs.timeHour);
-                String minute = String.format("%02d", gs.timeMinute);
+                String hour = String.format("%02d", gs.dateHour);
+                String minute = String.format("%02d", gs.dateMinute);
                 String time = String.format("%1$10s", hour + ":" + minute);
                 statusText.setText(time);
             }
