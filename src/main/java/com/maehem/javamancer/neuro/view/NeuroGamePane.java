@@ -29,15 +29,10 @@ package com.maehem.javamancer.neuro.view;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.GameStateUtils;
-import com.maehem.javamancer.neuro.model.deck.Cyberspace7DeckItem;
-import com.maehem.javamancer.neuro.model.item.Item;
-import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds.Door;
 import com.maehem.javamancer.neuro.model.room.RoomMap;
 import com.maehem.javamancer.neuro.model.room.RoomPosition;
-import com.maehem.javamancer.neuro.model.warez.AcidWarez;
-import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -94,22 +89,14 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
      */
     private void initTestItems() {
 
-        gameState.room = Room.R8; // Gentleman Loser
-
+//        gameState.room = Room.R8; // Gentleman Loser
         // Game Test Items
-        Cyberspace7DeckItem testDeckItem = new Cyberspace7DeckItem();
-        testDeckItem.needsRepair = true;
-        gameState.inventory.add(testDeckItem); // Test item
-        gameState.deckSlots = testDeckItem.nSlots;
-        gameState.addSoftware(new CyberspaceWarez(1));
-        gameState.addSoftware(new AcidWarez(1)); // Should delete when used.
-
-        gameState.inventory.add(new RealItem(Item.Catalog.CAVIAR, 1));
-
-        //bankZurichCreated = "11/16/58"; // Test Item
-        //bankZurichBalance = 2000; // Test Item
-        gameState.chipBalance = 30; // Test Item
-
+//        Cyberspace7DeckItem testDeckItem = new Cyberspace7DeckItem();
+//        testDeckItem.needsRepair = true;
+//        gameState.inventory.add(testDeckItem); // Test item
+//        gameState.deckSlots = testDeckItem.nSlots;
+//        gameState.addSoftware(new CyberspaceWarez(1));
+//        gameState.addSoftware(new AcidWarez(1)); // Should delete when used.
     }
 
     private void initGameLoop() {
