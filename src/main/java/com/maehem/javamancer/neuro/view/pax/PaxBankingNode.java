@@ -283,11 +283,21 @@ public class PaxBankingNode extends PaxNode {
                 case DOWNLOAD -> {
                     gameState.chipBalance += amount;
                     gameState.bankBalance -= amount;
+                    gameState.bankTransactionRecord.add(new BankTransaction(
+                            gameState.getDateString(),
+                            BankTransaction.Operation.Download,
+                            amount
+                    ));
                     enteredNumber.setLength(0);
                 }
                 case UPLOAD -> {
                     gameState.chipBalance -= amount;
                     gameState.bankBalance += amount;
+                    gameState.bankTransactionRecord.add(new BankTransaction(
+                            gameState.getDateString(),
+                            BankTransaction.Operation.Upload,
+                            amount
+                    ));
                     enteredNumber.setLength(0);
                 }
             }
