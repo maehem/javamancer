@@ -29,7 +29,6 @@ package com.maehem.javamancer.neuro.view.pax;
 import com.maehem.javamancer.neuro.model.BankTransaction;
 import com.maehem.javamancer.neuro.model.GameState;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -52,6 +51,7 @@ public class PaxBankingNode extends PaxNode {
 
     private Mode mode = Mode.MAIN;
 
+    private final ScrollPane sp = new ScrollPane();
     private final String enterPrefix = "Enter amount:";
     private final String enterCursor = "<";
     private final Text enterCode = new Text();
@@ -87,7 +87,6 @@ public class PaxBankingNode extends PaxNode {
                 infoBox2(),
                 menuItems);
         box.setSpacing(4);
-
 
         exitItem.setOnMouseClicked((t) -> {
             listener.paxNodeExit();
@@ -176,12 +175,16 @@ public class PaxBankingNode extends PaxNode {
                 return false;
             }
             case TRANSACTIONS -> {
-                if (ke.getCode().isLetterKey()) {
-                    switch (ke.getCode()) {
-                        case X, ESCAPE -> {
-                            mainMenu();
-                            return false;
-                        }
+                switch (ke.getCode()) {
+                    case X, ESCAPE -> {
+                        mainMenu();
+                        return false;
+                    }
+                    case UP -> {
+                        sp.setVvalue(sp.getVvalue() - 0.2);
+                    }
+                    case DOWN, SPACE -> {
+                        sp.setVvalue(sp.getVvalue() + 0.2);
                     }
                 }
 
@@ -313,8 +316,9 @@ public class PaxBankingNode extends PaxNode {
         VBox box = addBox(titleItem,
                 infoBox2(),
                 header,
-                transactionList());
-        box.setSpacing(4);
+                transactionList()
+        );
+        box.setSpacing(0);
 
         box.setOnMouseClicked((t) -> {
             mainMenu();
@@ -324,16 +328,17 @@ public class PaxBankingNode extends PaxNode {
     private Node transactionList() {
         TextFlow tf = new TextFlow();
         ArrayList<BankTransaction> list = gameState.bankTransactionRecord;
-        List<BankTransaction> subList = list.subList(list.size() - 4, list.size());
-        subList.forEach((bt) -> {
+        //List<BankTransaction> subList = list.subList(list.size() - 4, list.size());
+        list.forEach((bt) -> {
             tf.getChildren().add(new Text(bt.toString() + "\n"));
         });
 
         tf.setLineSpacing(LINE_SPACING);
-        ScrollPane sp = new ScrollPane(tf);
+        sp.setContent(tf);
+        sp.setVvalue(0);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sp.setPrefSize(440, 94);
+        sp.setPrefSize(440, 98);
         sp.setPadding(new Insets(0, 0, 0, 40));
 
         return sp;
