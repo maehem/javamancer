@@ -31,6 +31,7 @@ import com.maehem.javamancer.logging.Logging;
 import static com.maehem.javamancer.neuro.model.GameStateDefaults.*;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.database.Database;
+import com.maehem.javamancer.neuro.model.deck.DeckUtils;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
@@ -127,6 +128,8 @@ public class GameStateUtils {
         // Money
         props.put(CHIP_BALANCE.key, String.valueOf(gs.chipBalance));
         props.put(BANK_BALANCE.key, String.valueOf(gs.bankBalance));
+        putBankTransactions(gs.bankTransactionRecord, props);
+
         props.put(BANK_ZURICH_BALANCE.key, String.valueOf(gs.bankZurichBalance));
         props.put(BANK_GEMEIN_BALANCE.key, String.valueOf(gs.bankGemeinBalance));
         if (gs.bankZurichCreated != null) {
@@ -137,9 +140,9 @@ public class GameStateUtils {
         putSoldBodyParts(gs, props);
 
         putWarez(gs, props);
-        putPersonList(gs.seaWantedList, "seaWanted", props);
-        putPersonList(gs.chibaWantedList, "chibaPolice", props);
-        putPersonList(gs.hosakaEmployeeList, "hosakaEmployee", props);
+        putPersonList(gs.seaWantedList, SEA_WANTED.key, props);
+        putPersonList(gs.chibaWantedList, CHIBA_POLICE.key, props);
+        putPersonList(gs.hosakaEmployeeList, HOSAKA_EMPLOYEE.key, props);
 
         putVisitedRooms(gs, props);
         putDialogRooms(gs, props);
@@ -163,7 +166,36 @@ public class GameStateUtils {
         pPut(props, ROOM_POS_X, gs.roomPosX);
         pPut(props, ROOM_POS_Y, gs.roomPosY);
 
-        props.put(ROOM.key, gs.room.name());
+        pPut(props, ROOM, gs.room.name());
+
+        // Hotel
+        pPut(props, HOTEL_CHARGES, gs.hotelCharges);
+        pPut(props, HOTEL_ON_ACCOUNT, gs.hotelOnAccount);
+        pPut(props, HOTEL_CAVIAR, gs.hotelCaviar);
+        pPut(props, HOTEL_SAKE, gs.hotelSake);
+        pPut(props, HOTEL_DELIVER_CAVIAR, gs.hotelDeliverCaviar);
+        pPut(props, HOTEL_DELIVER_SAKE, gs.hotelDeliverSake);
+
+        // Misc. Flags
+        pPut(props, MSG_TO_ARMITAGE_SENT, gs.msgToArmitageSent);
+        pPut(props, RATZ_PAID, gs.ratzPaid);
+        pPut(props, SHIVA_CHIP_MENTIONED, gs.shivaChipMentioned);
+        pPut(props, SHIVA_CHIP_GIVEN, gs.shivaGaveChip);
+        pPut(props, RESTAURANT_PASS_GIVEN, gs.shivaGavePass);
+        pPut(props, JOYSTICK_GIVEN, gs.joystickGiven);
+        pPut(props, GAS_MASK_ON, gs.gasMaskIsOn);
+
+        pPut(props, BODY_PART_DISCOUNT, gs.bodyPartDiscount);
+        pPut(props, ACTIVE_SKILL, gs.activeSkill != null ? gs.activeSkill.catalog.name() : "null");
+        pPut(props, BANK_ZURICH_ROBBED, gs.bankZurichRobbed);
+        pPut(props, COMLINK2_RECIEVED, gs.comlink2recieved);
+        pPut(props, COMLINK6_UPLOADED, gs.comlink6uploaded);
+        pPut(props, ASANO_DISCOUNT, gs.asanoDiscount);
+        pPut(props, SECURITY_PASS_GIVEN, gs.securityPassGiven);
+        pPut(props, LARRY_MOE_WANTED, gs.larryMoeWanted);
+        pPut(props, PSYCHO_PROBE_COUNT, gs.psychoProbeCount);
+
+        pPut(props, HOSAKA_DAYS_SINCE_PAID, gs.hosakaDaysSincePaid);
 
         return props;
     }
@@ -218,6 +250,7 @@ public class GameStateUtils {
         // Money
         gs.chipBalance = getInt(CHIP_BALANCE, p);
         gs.bankBalance = getInt(BANK_BALANCE, p);
+        restorebankTransactions(gs.bankTransactionRecord, p);
         gs.bankZurichBalance = getInt(BANK_ZURICH_BALANCE, p);
         gs.bankGemeinBalance = getInt(BANK_GEMEIN_BALANCE, p);
         gs.bankZurichCreated = getStr(BANK_ZURICH_CREATED, p);
@@ -226,9 +259,9 @@ public class GameStateUtils {
         restoreSoldBodyParts(gs, p);
         restoreAIList(gs, p);
         restoreWarez(gs, p);
-        restorePersonList(gs.seaWantedList, "seaWanted", p);
-        restorePersonList(gs.chibaWantedList, "chibaPolice", p);
-        restorePersonList(gs.hosakaEmployeeList, "hosakaEmployee", p);
+        restorePersonList(gs.seaWantedList, SEA_WANTED.key, p);
+        restorePersonList(gs.chibaWantedList, CHIBA_POLICE.key, p);
+        restorePersonList(gs.hosakaEmployeeList, HOSAKA_EMPLOYEE.key, p);
 
         restoreVisitedRooms(gs, p);
         restoreDialogRooms(gs, p);
@@ -237,17 +270,49 @@ public class GameStateUtils {
 
         // Deck
         gs.deckSlots = getInt(DECK_SLOTS, p);
-        //gs.database = gs.dbList.lookup(getStr(DATABASE, p));
+
+        // Matrix Stuff
+        gs.usingDeck = DeckUtils.getUsingDeck(gs, getStr(USING_DECK, p));
+        gs.matrixPosX = getInt(MATRIX_POS_X, p);
+        gs.matrixPosY = getInt(MATRIX_POS_Y, p);
+        gs.dixieInstalled = getBool(DIXIE_INSTALLED, p);
+
 
         // Need to configure deck as if entering cyberspace
         // need to set deck location?
         //gs.usingDeck =
         gs.roomPosX = getInt(ROOM_POS_X, p);
         gs.roomPosY = getInt(ROOM_POS_Y, p);
-
-        // Need to configure room ???
         gs.room = Room.lookup(getStr(ROOM, p));
-        gs.dixieInstalled = getBool(DIXIE_INSTALLED, p);
+
+        // Cheap Hotel
+        gs.hotelCharges = getInt(HOTEL_CHARGES, p);
+        gs.hotelOnAccount = getInt(HOTEL_ON_ACCOUNT, p);
+        gs.hotelCaviar = getInt(HOTEL_CAVIAR, p);
+        gs.hotelSake = getInt(HOTEL_SAKE, p);
+        gs.hotelDeliverCaviar = getInt(HOTEL_DELIVER_CAVIAR, p);
+        gs.hotelDeliverSake = getInt(HOTEL_DELIVER_SAKE, p);
+
+        gs.msgToArmitageSent = getBool(MSG_TO_ARMITAGE_SENT, p);
+        gs.ratzPaid = getBool(RATZ_PAID, p);
+        gs.shivaChipMentioned = getBool(SHIVA_CHIP_MENTIONED, p);
+        gs.shivaGaveChip = getBool(SHIVA_CHIP_GIVEN, p);
+        gs.shivaGavePass = getBool(RESTAURANT_PASS_GIVEN, p);
+        gs.joystickGiven = getBool(JOYSTICK_GIVEN, p);
+        gs.gasMaskIsOn = getBool(GAS_MASK_ON, p);
+
+        gs.bodyPartDiscount = getBool(BODY_PART_DISCOUNT, p);
+        gs.activeSkill = skillLookup(gs, getStr(ACTIVE_SKILL, p));
+        gs.bankZurichRobbed = getBool(BANK_ZURICH_ROBBED, p);
+        gs.comlink2recieved = getBool(COMLINK2_RECIEVED, p);
+        gs.comlink6uploaded = getBool(COMLINK6_UPLOADED, p);
+        gs.asanoDiscount = getBool(ASANO_DISCOUNT, p);
+        gs.securityPassGiven = getBool(SECURITY_PASS_GIVEN, p);
+        gs.larryMoeWanted = getBool(LARRY_MOE_WANTED, p);
+        gs.psychoProbeCount = getInt(PSYCHO_PROBE_COUNT, p);
+
+        gs.hosakaDaysSincePaid = getInt(HOSAKA_DAYS_SINCE_PAID, p);
+
     }
 
     private static String getStr(GameStateDefaults gsd, Properties p) {
@@ -265,7 +330,7 @@ public class GameStateUtils {
     private static void putInventory(GameState gs, Properties p) {
         int i = 0;
         for (Item item : gs.inventory) {
-            LOGGER.log(Level.SEVERE, "Put inventory item: " + item.item.name());
+            LOGGER.log(Level.SEVERE, "Put inventory item: {0}", item.item.name());
             item.putProps("inventory." + i, p);
             i++;
         }
@@ -276,7 +341,7 @@ public class GameStateUtils {
         int i = 0;
         String val;
         while ((val = p.getProperty("inventory." + i)) != null) {
-            LOGGER.log(Level.SEVERE, "Restore inventory item: " + val);
+            LOGGER.log(Level.SEVERE, "Restore inventory item: {0}", val);
             Catalog lookup = Item.lookup(val);
             if (RealItem.class.isAssignableFrom(lookup.clazz)) {
                 LOGGER.log(Level.SEVERE, "Found RealItem");
@@ -301,7 +366,7 @@ public class GameStateUtils {
     private static void putSkills(GameState gs, Properties p) {
         int i = 0;
         for (Skill skill : gs.skills) {
-            LOGGER.log(Level.SEVERE, "Put skill: " + skill.catalog.name());
+            LOGGER.log(Level.SEVERE, "Put skill: {0}", skill.catalog.name());
             skill.putProps("skills." + i, p);
             i++;
         }
@@ -311,7 +376,7 @@ public class GameStateUtils {
         int i = 0;
         String val;
         while ((val = p.getProperty("skills." + i)) != null) {
-            LOGGER.log(Level.SEVERE, "Restore skill: " + val);
+            LOGGER.log(Level.SEVERE, "Restore skill: {0}", val);
             Catalog lookup = Item.lookup(val);
 
             LOGGER.log(Level.SEVERE, "Create Skill Item");
@@ -324,10 +389,20 @@ public class GameStateUtils {
         }
     }
 
+    private static Skill skillLookup(GameState gs, String str) {
+        for (Skill skill : gs.skills) {
+            if (skill.catalog.name().equals(str)) {
+                return skill;
+            }
+        }
+
+        return null;
+    }
+
     private static void putSoldBodyParts(GameState gs, Properties p) {
         int i = 0;
         for (BodyPart part : gs.soldBodyParts) {
-            LOGGER.log(Level.SEVERE, "Put sold body part: " + part.name());
+            LOGGER.log(Level.SEVERE, "Put sold body part: {0}", part.name());
             p.put("bodyPart." + i, part.name());
             i++;
         }
@@ -337,7 +412,7 @@ public class GameStateUtils {
         int i = 0;
         String val;
         while ((val = p.getProperty("bodyPart." + i)) != null) {
-            LOGGER.log(Level.SEVERE, "Restore sold body part: " + val);
+            LOGGER.log(Level.SEVERE, "Restore sold body part: {0}", val);
             BodyPart lookup = BodyPart.lookup(val);
 
             gs.soldBodyParts.add(lookup);
@@ -349,7 +424,7 @@ public class GameStateUtils {
     private static void putAIList(GameState gs, Properties p) {
         int i = 0;
         for (AI ai : gs.aiList) {
-            LOGGER.log(Level.SEVERE, "Put AI: " + ai.getClass().getSimpleName());
+            LOGGER.log(Level.SEVERE, "Put AI: {0}", ai.getClass().getSimpleName());
             ai.putProps("ai." + i, p);
             i++;
         }
@@ -359,7 +434,7 @@ public class GameStateUtils {
         int i = 0;
         String val;
         while ((val = p.getProperty("ai." + i)) != null) {
-            LOGGER.log(Level.SEVERE, "Restore AI: " + val);
+            LOGGER.log(Level.SEVERE, "Restore AI: {0}", val);
             AI lookup = AI.lookup(val);
 
             lookup.pullProps("ai." + i, p);
@@ -373,7 +448,7 @@ public class GameStateUtils {
     private static void putWarez(GameState gs, Properties p) {
         int i = 0;
         for (Warez w : gs.software) {
-            LOGGER.log(Level.SEVERE, "Put warez: " + w.item.name());
+            LOGGER.log(Level.SEVERE, "Put warez: {0}", w.item.name());
             w.putProps("warez." + i, p);
             i++;
         }
@@ -422,8 +497,8 @@ public class GameStateUtils {
     private static void putVisitedRooms(GameState gs, Properties p) {
         StringBuilder sb = new StringBuilder();
         for (Room r : gs.visited) {
-            LOGGER.log(Level.SEVERE, "Put visited room: " + r.name());
-            if ( !sb.isEmpty() ) {
+            LOGGER.log(Level.SEVERE, "Put visited room: {0}", r.name());
+            if (!sb.isEmpty()) {
                 sb.append(",");
             }
 
@@ -435,7 +510,7 @@ public class GameStateUtils {
     private static void restoreVisitedRooms(GameState gs, Properties p) {
         String visited[] = ((String) (p.get("visited"))).split(",");
         for (String rStr : visited) {
-            LOGGER.log(Level.SEVERE, "Restore visited room: " + rStr);
+            LOGGER.log(Level.SEVERE, "Restore visited room: {0}", rStr);
             gs.visited.add(Room.lookup(rStr));
         }
     }
@@ -443,7 +518,7 @@ public class GameStateUtils {
     private static void putDialogRooms(GameState gs, Properties p) {
         StringBuilder sb = new StringBuilder();
         for (Room r : gs.dialogAllowed) {
-            LOGGER.log(Level.SEVERE, "Put dialog room: " + r.name());
+            LOGGER.log(Level.SEVERE, "Put dialog room: {0}", r.name());
             if (!sb.isEmpty()) {
                 sb.append(",");
             }
@@ -456,7 +531,7 @@ public class GameStateUtils {
     private static void restoreDialogRooms(GameState gs, Properties p) {
         String visited[] = ((String) (p.get("dialogAllowed"))).split(",");
         for (String rStr : visited) {
-            LOGGER.log(Level.SEVERE, "Restore dialog room: " + rStr);
+            LOGGER.log(Level.SEVERE, "Restore dialog room: {0}", rStr);
             gs.dialogAllowed.add(Room.lookup(rStr));
         }
     }
@@ -489,6 +564,29 @@ public class GameStateUtils {
             i++;
         }
 
+    }
+
+    private static void putBankTransactions(ArrayList<BankTransaction> list, Properties p) {
+        int i = 0;
+        for (BankTransaction transaction : list) {
+            LOGGER.log(Level.SEVERE, "Put {0} bank transaction: {1}", new Object[]{BANK_TRANSACTIONS.key, transaction.toString()});
+            transaction.putProps(BANK_TRANSACTIONS.key + "." + i, p);
+            i++;
+        }
+    }
+
+    private static void restorebankTransactions(ArrayList<BankTransaction> list, Properties p) {
+        int i = 0;
+
+        while (p.getProperty(BANK_TRANSACTIONS.key + "." + i + ".name") != null) {
+            String itemPrefix = BANK_TRANSACTIONS.key + "." + i + ".name";
+
+            LOGGER.log(Level.SEVERE, "Restore bank transaction: {0}.{1}", new Object[]{BANK_TRANSACTIONS.key, i});
+            BankTransaction transaction = BankTransaction.pullTransaction(itemPrefix, p);
+            list.add(transaction);
+
+            i++;
+        }
     }
 
 }

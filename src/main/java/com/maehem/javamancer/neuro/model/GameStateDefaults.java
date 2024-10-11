@@ -42,10 +42,15 @@ public enum GameStateDefaults {
     // Money
     CHIP_BALANCE("chipBalance", 6),
     BANK_BALANCE("bankBalance", 1000),
+    BANK_TRANSACTIONS("bankTransactions", 0),
     BANK_ZURICH_BALANCE("bankZurichBalance", 0),
     BANK_GEMEIN_BALANCE("bankGemeinBalance", 30000),
     BANK_ZURICH_CREATED("bankZurichCreated", null),
     HOSAKA_DAYS_SINCE_PAID("hosakaDaysSincePaid", -1),
+    // Person Lists
+    SEA_WANTED("seaWanted", 0),
+    CHIBA_POLICE("chibaPolice", 0),
+    HOSAKA_EMPLOYEE("hosakaEmployee", 0),
     // Deck
     DECK_SLOTS("deckSlots", 0),
     DATABASE("database", null),
@@ -64,13 +69,16 @@ public enum GameStateDefaults {
     SHIVA_CHIP_GIVEN("shivaGaveChip", false),
     RESTAURANT_PASS_GIVEN("shivaGavePass", false),
     JOYSTICK_GIVEN("joystickGiven", false),
-    GAS_MASK_GIVEN("gasMaskGiven", false),
+    GAS_MASK_ON("gasMaskOn", false),
+    BODY_PART_DISCOUNT("bodyPartDiscount", false),
+    ACTIVE_SKILL("activeSkill", null),
     BANK_ZURICH_ROBBED("swissBankRobbed", false),
     COMLINK2_RECIEVED("comlink2received", false),
     COMLINK6_UPLOADED("comlink6uploaded", false),
     ASANO_DISCOUNT("asanoDiscount", false),
     SECURITY_PASS_GIVEN("securityPassGiven", false),
     LARRY_MOE_WANTED("larryMoeWanted", false),
+    PSYCHO_PROBE_COUNT("psychoProbeCount", 0),
     // Hotel
     HOTEL_CHARGES("hotelCharges", 1000),
     HOTEL_ON_ACCOUNT("hotelOnAccount", 0),

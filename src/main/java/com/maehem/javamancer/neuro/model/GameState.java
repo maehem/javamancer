@@ -34,7 +34,6 @@ import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
-import com.maehem.javamancer.neuro.model.item.ItemCatalog;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
@@ -118,11 +117,12 @@ public class GameState {
     public int deckSlots = 0;
 
     // Matrix Stuff
-    public Database database = null;
     public DeckItem usingDeck = null;
     public int matrixPosX = 112;
     public int matrixPosY = 96;
+    public boolean dixieInstalled = false; // ROM Construct: Dixie Flatline
     public boolean usingDeckErase = false; // Ephemeral
+    public Database database = null; // Ephemeral
     public boolean databaseBattle = false; // Ephemeral. No save during battle
     public boolean databaseArrived = false; // Ephemeral. Set by explorer when at a DB.
     public boolean databaseBattleBegin = false; // Ephemeral.
@@ -135,14 +135,6 @@ public class GameState {
     public Room room = null;
     public RoomBounds.Door useDoor = RoomBounds.Door.NONE; // Ephemeral. Set when player collides with door.
 
-    public boolean msgToArmitageSent = false;
-    public boolean ratzPaid = false; // Player must give Ratz 46 credits.
-    public boolean shivaChipMentioned = false;
-    public boolean shivaGaveChip = false;
-    public boolean shivaGavePass = false;
-    public boolean joystickGiven = false; // Player must give Nolan the joystick.
-    public boolean gasMaskIsOn = false;
-
     // Cheap Hotel
     public int hotelCharges = 1000;
     public int hotelOnAccount = 0;
@@ -151,26 +143,36 @@ public class GameState {
     public int hotelDeliverCaviar = 0; // Add this many caviar to player inventory upon next hotel visit.
     public int hotelDeliverSake = 0; // Add this many sake to player inventory upon next hotel visit.
 
-    public ItemCatalog activeItem = ItemCatalog.NONE;
-    public Skill previousSkill = null;
+    public boolean msgToArmitageSent = false;
+    public boolean ratzPaid = false; // Player must give Ratz 46 credits.
+    public boolean shivaChipMentioned = false;
+    public boolean shivaGaveChip = false;
+    public boolean shivaGavePass = false;
+    public boolean joystickGiven = false; // Player must give Nolan the joystick.
+    public boolean gasMaskIsOn = false;
+    //public boolean gasMaskGiven = false; // Not used.
+
+    public boolean bodyPartDiscount = false;
     public Skill activeSkill = null;
-    public int activeSkillLevel = 0;
-    public boolean bodyPartDiscount = true;
-    public BodyShopRecent bodyShopRecent = BodyShopRecent.NONE; // Fix me. Probably a better way to do.
-    public PawnRecent pawnRecent = PawnRecent.NONE;
-    public int psychoProbeCount = 0; // Increaase each time player gets probed.
-    public boolean swissBankRobbed = false;
+    public boolean bankZurichRobbed = false;
     public boolean comlink2recieved = false; // Set by Edo given Caviar
     public boolean comlink6uploaded = false; // Set by uploading to Hosaka.
     public boolean asanoDiscount = false; // Set by talking to Asano
     public boolean securityPassGiven = false; // Sense/Net pass. Given to computer.
-    public boolean dixieInstalled = false; // ROM Construct: Dixie Flatline
     public boolean larryMoeWanted = false; // Chiba Tectical Police wanted list
+    public int psychoProbeCount = 0; // Increaase each time player gets probed.
 
     // Sets to 1 when player adds name. Paid on 1, 8, 15, etc.
     // Sets to 0 when player is paid.
     // Sets to -1 if player removes BAMA from list.
     public int hosakaDaysSincePaid = -1;
+
+    // Ephemeral. Not game saved.
+    //public ItemCatalog activeItem = ItemCatalog.NONE;
+    public Skill previousSkill = null;
+    public int activeSkillLevel = 0;
+    public BodyShopRecent bodyShopRecent = BodyShopRecent.NONE; // Fix me. Probably a better way to do.
+    public PawnRecent pawnRecent = PawnRecent.NONE;
 
     // Ephemeral -- Not saved
     public boolean pause = true; // Ephemeral
