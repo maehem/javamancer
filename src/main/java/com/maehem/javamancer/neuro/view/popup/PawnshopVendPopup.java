@@ -190,17 +190,6 @@ public class PawnshopVendPopup extends SmallPopupPane {
                 }
             }
             case SELL -> {
-//                if (!gameState.soldBodyParts.contains(part)) {
-//                    // Try to sell it.
-//                    int price = part.sellPrice;
-//                    LOGGER.log(Level.SEVERE, "Player sold " + part.itemName);
-//                    gameState.chipBalance += price;
-//                    gameState.constitution -= part.constDamage;
-//                    gameState.soldBodyParts.add(part);
-//                    gameState.bodyShopRecent = GameState.BodyShopRecent.SELL;
-//                } else {
-//                    LOGGER.log(Level.SEVERE, "Can't sell part as we already sold it.");
-//                }
             }
         }
     }
