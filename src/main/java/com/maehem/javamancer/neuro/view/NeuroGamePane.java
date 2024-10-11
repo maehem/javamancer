@@ -113,7 +113,6 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     }
 
     private void initGameLoop() {
-        // toggle the visibility of 'rect' every 500ms
         timer = new AnimationTimer() {
 
             private long lastToggle;
@@ -170,7 +169,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
             );
         } else {
             if (!gameState.pause) {
-                // Handlemusic state.
+                // Handle music state.
                 if (++frameCount > 15) {
                     gameState.addMinute();
                     frameCount = 0;
