@@ -510,6 +510,9 @@ public class GameStateUtils {
     private static void restoreVisitedRooms(GameState gs, Properties p) {
         String visited[] = ((String) (p.get("visited"))).split(",");
         for (String rStr : visited) {
+            if (rStr.isBlank()) {
+                continue;
+            }
             LOGGER.log(Level.SEVERE, "Restore visited room: {0}", rStr);
             gs.visited.add(Room.lookup(rStr));
         }
