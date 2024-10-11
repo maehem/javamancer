@@ -137,7 +137,7 @@ public class IRSDatabaseView extends DatabaseView {
             }
             case "3" -> {
                 if (accessLevel > 1) {
-                    if (gameState.swissBankRobbed) {
+                    if (gameState.bankZurichRobbed) {
                         viewText(13);
                     } else {
                         viewText(12);
