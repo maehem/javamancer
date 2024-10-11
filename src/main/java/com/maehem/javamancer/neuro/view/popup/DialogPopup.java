@@ -551,7 +551,9 @@ public class DialogPopup extends DialogPopupPane {
                 }
                 if (!hasItem) {
                     LOGGER.log(Level.SEVERE, "Add UXB to player inventory.");
-                    gameState.inventory.add(new UXBDeckItem());
+                    UXBDeckItem uxbDeckItem = new UXBDeckItem();
+                    uxbDeckItem.needsRepair = true;
+                    gameState.inventory.add(uxbDeckItem);
                 }
                 npcResponse(1);
             }

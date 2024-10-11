@@ -29,13 +29,13 @@ package com.maehem.javamancer.neuro.model.room.extra;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
-import static com.maehem.javamancer.neuro.model.item.Item.Catalog.UXB;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_NO_MORE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_L;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.UXB;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.UXB_BUY;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
@@ -108,7 +108,10 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
     public ArrayList<Item> getVendItems(GameState gs) {
         ArrayList<Item> list = new ArrayList<>();
 
-        list.add(new UXBDeckItem());
+        UXBDeckItem uxbDeckItem = new UXBDeckItem();
+        uxbDeckItem.price = 100;
+        uxbDeckItem.needsRepair = true;
+        list.add(uxbDeckItem);
 
         return list;
     }
