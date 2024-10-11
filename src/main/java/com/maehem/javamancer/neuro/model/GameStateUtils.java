@@ -295,6 +295,7 @@ public class GameStateUtils {
 
         gs.msgToArmitageSent = getBool(MSG_TO_ARMITAGE_SENT, p);
         gs.ratzPaid = getBool(RATZ_PAID, p);
+        LOGGER.log(Level.SEVERE, "Ratz Paid: " + String.valueOf(gs.ratzPaid));
         gs.shivaChipMentioned = getBool(SHIVA_CHIP_MENTIONED, p);
         gs.shivaGaveChip = getBool(SHIVA_CHIP_GIVEN, p);
         gs.shivaGavePass = getBool(RESTAURANT_PASS_GIVEN, p);
@@ -324,7 +325,7 @@ public class GameStateUtils {
     }
 
     private static boolean getBool(GameStateDefaults gsd, Properties p) {
-        return Boolean.getBoolean(getStr(gsd, p));
+        return Boolean.parseBoolean(getStr(gsd, p));
     }
 
     private static void putInventory(GameState gs, Properties p) {
