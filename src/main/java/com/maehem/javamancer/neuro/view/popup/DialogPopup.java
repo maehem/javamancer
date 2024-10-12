@@ -513,10 +513,10 @@ public class DialogPopup extends DialogPopupPane {
                 typedText.setText(""); // Clear it.
                 npcResponse(1); // Show text.
             }
-            case UXB_BUY -> {
-                LOGGER.log(Level.SEVERE, "Buy UXB from Shin.");
-                listener.popupExit(RoomMode.Popup.ITEMS_BUY);
-            }
+//            case UXB_BUY -> {
+//                LOGGER.log(Level.SEVERE, "Buy UXB from Shin.");
+//                listener.popupExit(RoomMode.Popup.ITEMS_BUY);
+//            }
             case ITEM_BUY -> {
                 LOGGER.log(Level.SEVERE, "Buy ITEM from NPC.");
                 listener.popupExit(RoomMode.Popup.ITEMS_BUY);
