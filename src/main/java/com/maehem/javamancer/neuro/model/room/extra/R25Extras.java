@@ -33,10 +33,10 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_NO_MORE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_L;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.UXB;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.UXB_BUY;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
@@ -55,7 +55,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         {7}, // [3] :: Why are you in such a rush to give me my deck back?
         {6}, // [4] :: Okay. Give me the deck. I cant operate without one.
         {8}, // [5] :: I dont have the cash right now, Ill come back later.
-        {UXB_BUY.num}, // [6] :: Give ticket and money. Shin busy. Many customer.
+        {ITEM_BUY.num}, // [6] :: Give ticket and money. Shin busy. Many customer.
         {3, 4, 5}, // [7] :: Your deck scare away good customer. No more favor.
         {9, 10}, // [8] :: What?  I no want deck!  Here!  Take deck now!  No charge!  Go away!
         {UXB.num, DESC.num, 13}, // [9] :: Thanks for my deck, Shin. I really appreciate you looking after it.
@@ -83,9 +83,9 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
     @Override
     public int dialogWarmUp(GameState gs) {
         if (gs.roomCanTalk()) {
-            if (gs.pawnRecent == GameState.PawnRecent.BUY) {
+            if (gs.hasInventoryItem(Item.Catalog.UXB)) {
                 //gs.pawnRecent = GameState.PawnRecent.NONE;
-                LOGGER.log(Level.SEVERE, "Player bought the deck. Do message 13.");
+                LOGGER.log(Level.SEVERE, "Player bought the deck.");
 
                 // Dialog to player with 9,10
                 return 8;
@@ -114,6 +114,16 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         list.add(uxbDeckItem);
 
         return list;
+    }
+
+    @Override
+    public boolean onVendItemsFinished(GameState gs) {
+        if (gs.hasInventoryItem(Item.Catalog.UXB)) {
+            // Shin locks door as you leave.
+            Room.R14.lockDoor(RoomBounds.Door.RIGHT);
+            return true;
+        }
+        return false;
     }
 
 }
