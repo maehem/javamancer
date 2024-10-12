@@ -183,7 +183,7 @@ public class DialogPopup extends DialogPopupPane {
     private void npcResponse(int sub) {
         LOGGER.log(Level.CONFIG, mode.name() + ": Do response.");
         mode = Mode.NPC;
-        LOGGER.log(Level.SEVERE, "[179] Mode = NPC");
+        LOGGER.log(Level.SEVERE, "[186] Mode = NPC");
 
         bubble.setMode(DialogBubble.Mode.NONE); // The thing that hangs under the words.
         dialogSubIndex = sub;
@@ -192,9 +192,6 @@ public class DialogPopup extends DialogPopupPane {
                 new Object[]{dialogIndex, dialogSubIndex});
         // Fill in NPC Response
         int newDialog = dialogChain[dialogIndex][dialogSubIndex];
-        if (newDialog == 4) {
-            int a = 0;
-        }
         LOGGER.log(Level.CONFIG, "new dialog:             == {0}",
                 new Object[]{newDialog});
         if (gameState.room.getExtras() != null) {
@@ -258,7 +255,7 @@ public class DialogPopup extends DialogPopupPane {
                     }
                 }
                 if (askWord > 0) {
-                    LOGGER.log(Level.SEVERE, "askWord() returned: " + askWord);
+                    LOGGER.log(Level.SEVERE, "askWord() returned: {0}", askWord);
                     dialogIndex = askWord;
                     dialogSubIndex = 0;
                     typedText.setText("");
