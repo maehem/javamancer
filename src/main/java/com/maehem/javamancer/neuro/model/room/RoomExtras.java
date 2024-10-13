@@ -216,4 +216,8 @@ public abstract class RoomExtras {
         return requestDialogPoppup;
     }
 
+    public int onInfoBuy(GameState gs) {
+        return 2;
+    }
+
 }
