@@ -31,13 +31,7 @@ import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_R;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.SKILL_BUY;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.*;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.ArrayList;
 import java.util.Map;
@@ -53,7 +47,7 @@ public class R8Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = { // G-Loser
         {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
-        {4, 5}, // [2] :: Hey, geek!  Cmere!  I got somethin for ya!
+        {ON_FILTER_1.num}, // [2] :: Hey, geek!  Cmere!  I got somethin for ya!
         {8}, // [3] :: Sure and begorrah. Youre under arrest unless you answer some questions.
         {6}, // [4] :: Whatever it is, I hope its not contagious.
         {7}, // [5] :: Later. Ive got biz to attend to right now.
@@ -196,7 +190,7 @@ public class R8Extras extends RoomExtras {
     public int dialogWarmUp(GameState gs) {
         if (gs.shivaChipMentioned) {
             if (gs.shivaGaveChip) {
-                return 17; // Maybe answer some questions.
+                return 2; // Maybe answer some questions.
             } else {
                 return 16; // You must be ...
             }
@@ -244,5 +238,18 @@ public class R8Extras extends RoomExtras {
         return false;
     }
 
+    @Override
+    public int[] onFilter1(GameState gs) {
+        if (!gs.shivaGaveChip) {
+            return new int[]{4, 5};
+        } else {
+            return new int[]{17, 18}; // What do you know about
+        }
+    }
+
+    @Override
+    public double getNpcPosition() {
+        return 100;
+    }
 
 }
