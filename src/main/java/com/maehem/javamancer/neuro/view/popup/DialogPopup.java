@@ -120,7 +120,7 @@ public class DialogPopup extends DialogPopupPane {
         if (mode == Mode.NPC) {
             if (dialogIndex < 50) {
                 // Might be a command.
-                LOGGER.log(Level.CONFIG, "first text: {0}\n{1}",
+                LOGGER.log(Level.CONFIG, "first text: {0}\n{1}\t\t\t",
                         new Object[]{
                             dialogIndex,
                             textResource.get(dialogIndex)
@@ -216,7 +216,7 @@ public class DialogPopup extends DialogPopupPane {
             // Control character '01' is a token for the player's name. Replace it here.
             wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
             bubble.setMode(DialogBubble.Mode.NPC_SAY);
-            LOGGER.log(Level.SEVERE, "Text: \n" + wordText.getText());
+            LOGGER.log(Level.SEVERE, "Text: \n{0}\t\t\t", wordText.getText());
             dialogCountDown = -1;
             dialogSubIndex = -1;
             if (items.length > 0) {
@@ -270,6 +270,7 @@ public class DialogPopup extends DialogPopupPane {
                     typedText.setText("");
                     //npcResponse(0);
                     wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
+                    LOGGER.log(Level.SEVERE, "Text: \n{0}\t\t\t", wordText.getText());
                     dialogCountDown = DIALOG_COUNT;
                     if (gameState.room.getExtras() != null) {
                         gameState.room.getExtras().onDialog(gameState, askWord);
@@ -327,7 +328,8 @@ public class DialogPopup extends DialogPopupPane {
                 } else {
                     // Get response for NPC dialog.
                     // Display bubbles.
-                    LOGGER.log(Level.CONFIG, "SPACE: Show new player response. d[{0}][{1}] = {2}\n{3}",
+                    LOGGER.log(Level.CONFIG,
+                            "SPACE: Show new player response. d[{0}][{1}] = {2}\n{3}\t\t\t",
                             new Object[]{
                                 dialogIndex, dialogSubIndex,
                                 items[dialogSubIndex],
@@ -559,7 +561,8 @@ public class DialogPopup extends DialogPopupPane {
 
                 // Control character '01' is a token for the player's name. Replace it here.
                 wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
-                LOGGER.log(Level.SEVERE, "Text: \n{0}", wordText.getText());
+                LOGGER.log(Level.SEVERE, "Text: \n{0}\t\t\t",
+                        wordText.getText());
                 dialogCountDown = -1;
                 dialogSubIndex = -1;
                 if (items.length > 0) {
@@ -612,7 +615,8 @@ public class DialogPopup extends DialogPopupPane {
                 bubble.setMode(DialogBubble.Mode.PLAYER_THINK);
                 // Get response for NPC dialog.
                 // Display bubbles.
-                LOGGER.log(Level.CONFIG, "FILTER_1 SPACE: Show new player response. items[{1}] = {2}\n{3}",
+                LOGGER.log(Level.CONFIG,
+                        "FILTER_1 SPACE: Show new player response. items[{1}] = {2}\n{3} \t\t\t",
                         new Object[]{
                             dialogIndex, dialogSubIndex,
                             items[dialogSubIndex],
