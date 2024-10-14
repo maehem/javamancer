@@ -220,4 +220,13 @@ public abstract class RoomExtras {
         return 2;
     }
 
+    public int[] onFilter1(GameState gs) {
+        LOGGER.log(Level.SEVERE, "onFilter1() called but not over-ridden!");
+        return new int[]{2};
+    }
+
+    public double getNpcPosition() {
+        return 600;
+    }
+
 }
