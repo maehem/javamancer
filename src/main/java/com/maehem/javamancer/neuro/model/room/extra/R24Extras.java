@@ -27,14 +27,17 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.CreditsItem;
-import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.CHIP;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_L;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.INFO_BUY;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import java.util.logging.Level;
 
 /**
  *
@@ -45,25 +48,25 @@ public class R24Extras extends RoomExtras {
     protected static final int[][] DIALOG_CHAIN = { //    The massage parlor.
         {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
         {3, 4, 5, 6}, // [2] :: Greetings, cowboy.
-        {}, // [3] :: Top of the mornin! Youre under
-        {17}, // [4] :: Im sure Ill think of
+        {18}, // [3] :: Top of the mornin! Youre under
+        {16}, // [4] :: Im sure Ill think of
         {8}, // [5] :: Uh, excuse me, Im just
         {19, CHIP.num, 20}, // [6] :: I wanna buy some info
         {}, // [7] ::
         {DIALOG_END.num}, // [8] :: You dont know what youre
-        {}, // [9] :: I just remembered I have
-        {TO_JAIL.num}, // [10] :: Heres a hot tip. The Panther
-        {}, // [11] :: The banking center is on the
-        {}, // [12] :: Be careful when dealing with the
-        {}, // [13] :: Some cowboy said he avoids court
-        {}, // [14] :: Just heard that Maas Biolabs finished
-        {}, // [15] :: CyberEyes, you dont need a regular
-        {}, // [16] :: Take a hike, meatball!
+        {EXIT_L.num}, // [9] :: I just remembered I have
+        {NPC.num, 17}, // [10] :: Heres a hot tip. The Panther
+        {NPC.num, 17}, // [11] :: The banking center is on the
+        {NPC.num, 17}, // [12] :: Be careful when dealing with the
+        {NPC.num, 17}, // [13] :: Some cowboy said he avoids court
+        {NPC.num, 17}, // [14] :: Just heard that Maas Biolabs finished
+        {NPC.num, 17}, // [15] :: CyberEyes, you dont need a regular
+        {EXIT_L.num}, // [16] :: Take a hike, meatball!
         {TO_JAIL.num}, // [17] :: Look out!  Its
-        {}, // [18] :: Get serious!  No discounts here, buckaroo!
-        {10}, // [19] :: You just bought yourself some
+        {EXIT_L.num}, // [18] :: Get serious!  No discounts here, buckaroo!
+        {INFO_BUY.num, 20}, // [19] :: You just bought yourself some
         {}, // [20] :: The girl relieves you of <== Place in room description
-        {}, // [21] :: I have more info, if you
+        {DIALOG_CLOSE.num}, // [21] :: I have more info, if you
         {} // [22] :: You know more than me
     };
 
@@ -74,36 +77,21 @@ public class R24Extras extends RoomExtras {
     }
 
     @Override
-    public boolean give(GameState gs, Item item, int aux) {
-        // Player give is credits.
-        if (item instanceof CreditsItem cr) {
-            // Credit amount is 46
-            if (aux == 46) {
-                gs.ratzPaid = true;
-                gs.chipBalance -= 46;
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (gs.roomCanTalk()) {
-            if (gs.ratzPaid) {
-                return 11;
-            } else {
-                return 2;
-            }
-        } else {
-            return DIALOG_END.num;
-        }
+        return 2;
     }
+
+    @Override
+    public int onInfoBuy(GameState gs) {
+        LOGGER.log(Level.SEVERE, "Massage Parlor: Player bought info...");
+
+        return 10 + (int) (Math.random() * 6);
+    }
+
 
 }

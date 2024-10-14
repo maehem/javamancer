@@ -48,7 +48,7 @@ public enum DialogCommand {
     SKILL_SELL(63), // ??? menu, maybe don't need
     SKILL_BUY(64), // Larry menu, TODO: move to ITEM_BUY
     SKILL_UPGRADE(65), // Larry menu, TODO: move to ITEM_BUY
-    UXB_BUY(66), // Shin menu, TODO: move to ITEM_BUY
+    INFO_BUY(66), // Massage parlor buy info
     ITEM_BUY(67), // Player buys item from NPC
     ITEM_GET(68), // player receives NPC item directly
     SOFTWARE_BUY(69), // player buys software  (Metro Holo)

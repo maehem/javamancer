@@ -510,10 +510,6 @@ public class DialogPopup extends DialogPopupPane {
                 typedText.setText(""); // Clear it.
                 npcResponse(1); // Show text.
             }
-//            case UXB_BUY -> {
-//                LOGGER.log(Level.SEVERE, "Buy UXB from Shin.");
-//                listener.popupExit(RoomMode.Popup.ITEMS_BUY);
-//            }
             case ITEM_BUY -> {
                 LOGGER.log(Level.SEVERE, "Buy ITEM from NPC.");
                 listener.popupExit(RoomMode.Popup.ITEMS_BUY);
@@ -521,6 +517,39 @@ public class DialogPopup extends DialogPopupPane {
             case SOFTWARE_BUY -> {
                 LOGGER.log(Level.SEVERE, "Buy Software from NPC.");
                 listener.popupExit(RoomMode.Popup.SOFTWARE_BUY);
+            }
+            case INFO_BUY -> {
+                LOGGER.log(Level.SEVERE, "Buy Info from NPC.");
+                dialogSubIndex++;
+                int dItem = dialogChain[dialogIndex][dialogSubIndex];
+                listener.showMessage(textResource.get(dItem));
+
+                mode = Mode.PLAYER;
+                // Index of next respose
+                dialogIndex = gameState.room.getExtras().onInfoBuy(gameState);
+                dialogSubIndex = 0;
+                LOGGER.log(Level.CONFIG, "{0}: Do INFO_BUY response.", mode.name());
+
+                bubble.setMode(DialogBubble.Mode.NONE); // The thing that hangs under the words.
+
+                LOGGER.log(Level.CONFIG, "INFO_BUY: new dialog: d[{0}][{1}]",
+                        new Object[]{dialogIndex, dialogSubIndex});
+                // Fill in NPC Response
+                int newDialog = dialogChain[dialogIndex][dialogSubIndex];
+                LOGGER.log(Level.CONFIG, "INFO_BUY: new dialog == {0}",
+                        new Object[]{newDialog});
+                if (gameState.room.getExtras() != null) {
+                    gameState.room.getExtras().onDialog(gameState, newDialog);
+                }
+
+                // Control character '01' is a token for the player's name. Replace it here.
+                wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
+                LOGGER.log(Level.SEVERE, "Text: \n{0}", wordText.getText());
+                dialogCountDown = -1;
+                dialogSubIndex = -1;
+                if (dialogChain[dialogIndex].length > 0) {
+                    dialogCountDown = DIALOG_COUNT;
+                }
             }
             case DISCOUNT -> {
                 LOGGER.log(Level.SEVERE, "Apply discount from NPC.");
