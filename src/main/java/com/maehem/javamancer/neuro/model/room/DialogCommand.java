@@ -73,6 +73,7 @@ public enum DialogCommand {
     DIALOG_NO_MORE(97), // Like DIALOG_END but leave dialog open so next command can run.
     DIALOG_CLOSE(98),
     DIALOG_END(99),
+    ON_FILTER_1(400), // Call onFilter1() and return the array of int reposnses.
     DESC_DIRECT(500); // Subtract 500 and put remainder(index) in DESC box.// Subtract 500 and put remainder(index) in DESC box.
 
     public final int num;
