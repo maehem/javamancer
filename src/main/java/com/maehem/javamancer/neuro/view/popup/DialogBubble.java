@@ -38,22 +38,24 @@ public class DialogBubble extends ImageView {
 
     private static final int FLIP_X = 300;
     private int index;
-    private double position;
+    private double playerX;
+    private double npcX;
 
     protected enum Mode {
-        NONE, SAY, THINK
+        NONE, PLAYER_SAY, PLAYER_THINK, NPC_SAY
     }
 
     private Mode mode = Mode.NONE;
     private final Image view[] = new Image[5];
 
-    public DialogBubble(ResourceManager rm, double posX, double posY) {
+    public DialogBubble(ResourceManager rm, double playerX, double npcX, double posY) {
         view[0] = null;
         for (int i = 1; i < view.length; i++) {
             view[i] = rm.getSprite("BUBBLES_" + i);
         }
-        this.position = posX;
-        this.setLayoutX(posX + (posX < FLIP_X ? 38 : -38));
+        this.playerX = playerX;
+        this.npcX = npcX;
+        this.setLayoutX(playerX + (playerX < FLIP_X ? 38 : -38));
         this.setLayoutY(posY);
         update();
     }
@@ -69,11 +71,18 @@ public class DialogBubble extends ImageView {
             case NONE -> {
                 index = 0;
             }
-            case SAY -> {
-                index = 1 + (position < FLIP_X ? 1 : 0);
+            case PLAYER_SAY -> {
+                index = 1 + (playerX < FLIP_X ? 1 : 0);
+                this.setLayoutX(playerX + (playerX < FLIP_X ? 38 : -38));
+
             }
-            case THINK -> {
-                index = 3 + (position < FLIP_X ? 1 : 0);
+            case PLAYER_THINK -> {
+                index = 3 + (playerX < FLIP_X ? 1 : 0);
+                this.setLayoutX(playerX + (playerX < FLIP_X ? 38 : -38));
+            }
+            case NPC_SAY -> {
+                index = 1 + (npcX < FLIP_X ? 1 : 0);
+                this.setLayoutX(npcX + (npcX < FLIP_X ? 38 : -38));
             }
         }
         setImage(view[index]);
