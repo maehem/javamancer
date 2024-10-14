@@ -127,7 +127,15 @@ public class InventoryPopup extends SmallPopupPane {
                 if (item.item.equals(Catalog.CREDITS)) {
                     listItem = new Text(newLine + (i + 1) + ".  " + item.item.itemName + " " + gameState.chipBalance);
                 } else {
-                    listItem = new Text(newLine + (i + 1) + ".  " + item.item.itemName);
+                    String needsRepair = " ";
+                    if (item instanceof DeckItem di) {
+                        if (di.needsRepair) {
+                            needsRepair = "-";
+                        }
+                    }
+                    listItem = new Text(newLine + (i + 1) + ". "
+                            + needsRepair
+                            + item.item.itemName);
                 }
 
                 tf.getChildren().add(listItem);
