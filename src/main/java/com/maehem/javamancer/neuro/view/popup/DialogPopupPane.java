@@ -36,9 +36,9 @@ import com.maehem.javamancer.neuro.view.PopupListener;
 public abstract class DialogPopupPane extends PopupPane {
 
     private static final int WIDTH = (int) (624);
-    private static final int HEIGHT = 80;
+    private static final int HEIGHT = 70;
     private static final int X = 8;
-    private static final int Y = 8;
+    private static final int Y = 2;
 
     public DialogPopupPane(PopupListener l, GameState gs) {
         this(l, gs, WIDTH);
