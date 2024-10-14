@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.CHIP;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_L;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.INFO_BUY;
@@ -55,18 +54,18 @@ public class R24Extras extends RoomExtras {
         {}, // [7] ::
         {DIALOG_END.num}, // [8] :: You dont know what youre
         {EXIT_L.num}, // [9] :: I just remembered I have
-        {NPC.num, 17}, // [10] :: Heres a hot tip. The Panther
-        {NPC.num, 17}, // [11] :: The banking center is on the
-        {NPC.num, 17}, // [12] :: Be careful when dealing with the
-        {NPC.num, 17}, // [13] :: Some cowboy said he avoids court
-        {NPC.num, 17}, // [14] :: Just heard that Maas Biolabs finished
-        {NPC.num, 17}, // [15] :: CyberEyes, you dont need a regular
+        {NPC.num, 21}, // [10] :: Heres a hot tip. The Panther
+        {NPC.num, 21}, // [11] :: The banking center is on the
+        {NPC.num, 21}, // [12] :: Be careful when dealing with the
+        {NPC.num, 21}, // [13] :: Some cowboy said he avoids court
+        {NPC.num, 21}, // [14] :: Just heard that Maas Biolabs finished
+        {NPC.num, 21}, // [15] :: CyberEyes, you dont need a regular
         {EXIT_L.num}, // [16] :: Take a hike, meatball!
         {TO_JAIL.num}, // [17] :: Look out!  Its
         {EXIT_L.num}, // [18] :: Get serious!  No discounts here, buckaroo!
         {INFO_BUY.num, 20}, // [19] :: You just bought yourself some
         {}, // [20] :: The girl relieves you of <== Place in room description
-        {DIALOG_CLOSE.num}, // [21] :: I have more info, if you
+        {NPC.num, 17}, // [21] :: I have more info, if you
         {} // [22] :: You know more than me
     };
 
@@ -89,6 +88,11 @@ public class R24Extras extends RoomExtras {
     @Override
     public int onInfoBuy(GameState gs) {
         LOGGER.log(Level.SEVERE, "Massage Parlor: Player bought info...");
+        if (gs.chipBalance < 20) {
+            return 21;
+        }
+
+        gs.chipBalance -= 20;
 
         return 10 + (int) (Math.random() * 6);
     }
