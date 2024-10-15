@@ -38,6 +38,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.io.File;
@@ -146,6 +147,7 @@ public class GameStateUtils {
 
         putVisitedRooms(gs, props);
         putDialogRooms(gs, props);
+        putLockedRooms(gs, props);
 
         putAIList(gs, props);
         putSentMessageList(gs.messageSent, props);
@@ -265,6 +267,7 @@ public class GameStateUtils {
 
         restoreVisitedRooms(gs, p);
         restoreDialogRooms(gs, p);
+        restoreLockedRooms(gs, p);
 
         restoreSentMessageList(gs, p);
 
@@ -591,5 +594,72 @@ public class GameStateUtils {
             i++;
         }
     }
+
+    /**
+     * Format example:  locked = R12:T|R|B|L,R22:T|L,R45:R|B
+     *
+     * Only rooms with one or more door locked are written.
+     *
+     * @param gs
+     * @param p
+     */
+    private static void putLockedRooms(GameState gs, Properties p) {
+        StringBuilder mainSb = new StringBuilder();
+        for (Room r : Room.values()) {
+            LOGGER.log(Level.SEVERE, "Put locked room: {0}", r.name());
+            StringBuilder sb = new StringBuilder();
+//            if (!sb.isEmpty()) {
+//                sb.append(",");
+//            }
+
+            for ( RoomBounds.Door d: RoomBounds.Door.values() ) {
+                if ( r.isDoorLocked(d) ) {
+                    if ( !sb.isEmpty() ) {
+                        sb.append("|");
+                    }
+                    sb.append(d.name().substring(0, 1));
+                }
+            }
+            if ( !sb.isEmpty() ) {
+                if (!mainSb.isEmpty()) {
+                    mainSb.append(",");
+                }
+                mainSb.append(r.name());
+                mainSb.append(":");
+                mainSb.append(sb.toString());
+            }
+        }
+        p.put("locked", mainSb.toString());
+    }
+
+    private static void restoreLockedRooms(GameState gs, Properties p) {
+        String lockedDoorProps = (String) p.get("locked");
+        if (lockedDoorProps == null) {
+            return;
+        }
+
+        String locked[] = lockedDoorProps.split(",");
+        for (String rStr : locked) { // Rxx:T|R|B|L
+            if (rStr.isBlank()) {
+                continue;
+            }
+            String elements[] = rStr.split(":");
+            LOGGER.log(Level.SEVERE, "Restore locked room: {0}", elements[0]);
+            Room room = Room.lookup(elements[0]);
+            for ( String dStr: elements[1].split("|")) {
+                if (dStr.startsWith("T")) {
+                    room.lockDoor(RoomBounds.Door.TOP);
+                } else if (dStr.startsWith("R")) {
+                    room.lockDoor(RoomBounds.Door.RIGHT);
+                } else if (dStr.startsWith("B")) {
+                    room.lockDoor(RoomBounds.Door.BOTTOM);
+                } else if (dStr.startsWith("L")) {
+                    room.lockDoor(RoomBounds.Door.LEFT);
+                }
+            }
+
+        }
+    }
+
 
 }
