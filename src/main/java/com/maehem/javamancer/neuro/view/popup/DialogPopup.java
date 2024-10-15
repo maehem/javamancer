@@ -172,7 +172,9 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.CONFIG, "Player: Talk countdown finished.");
                 npcResponse(0);
             } else { // NPC count down done.
-                LOGGER.log(Level.CONFIG, "NPC: Talk countdown finished.  dialogChain[dialogIndex][0] == " + items[0]);
+                LOGGER.log(Level.CONFIG,
+                        "NPC: Talk countdown finished.  dialogChain[dialogIndex][0] == {0}",
+                        items[0]);
                 if (items[0] >= 50) {
                     dialogSubIndex = 0;
                     processCommand2(DialogCommand.getCommand(items[dialogSubIndex]));
@@ -186,7 +188,7 @@ public class DialogPopup extends DialogPopupPane {
     }
 
     private void npcResponse(int sub) {
-        LOGGER.log(Level.CONFIG, mode.name() + ": Do response.");
+        LOGGER.log(Level.CONFIG, "{0}: Do response.", mode.name());
         mode = Mode.NPC;
         LOGGER.log(Level.SEVERE, "[186] Mode = NPC");
 
