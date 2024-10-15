@@ -151,10 +151,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             LOGGER.log(Level.CONFIG, "RoomMode: Room has \'extras\'. Configuring...");
             RoomExtras extras = room.getExtras();
             extras.initRoom(gameState);
+            int[][] dc = extras.getDialogChain();
             if (firstTime) {
                 LOGGER.log(Level.CONFIG, "RoomMode: First time visit of room. Use long description.");
-                int[] dc0 = extras.getDialogChain()[0]; // Long Description
-                if (dc0.length == 1 && dc0[0] == LONG_DESC.num) { // long desc. here
+                //int[] dc0 = extras.getDialogChain()[0]; // Long Description
+                if (dc != null && dc[0].length == 1 && dc[0][0] == LONG_DESC.num) { // long desc. here
                     LOGGER.log(Level.CONFIG, "RoomMode: Found long description in dialog chain.");
                     roomDescriptionPane.setText(roomText.getDescription());
                     roomPane.setEffect(new GaussianBlur(3.0));
@@ -168,8 +169,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 }
             } else {
                 LOGGER.log(Level.CONFIG, "RoomMode: We\'ve been here before. Use short description.");
-                int[] dc1 = extras.getDialogChain()[1]; // Short Description
-                if (dc1.length == 1 && dc1[0] == SHORT_DESC.num) { // short desc. here
+                //int[] dc1 = extras.getDialogChain()[1]; // Short Description
+                if (dc != null && dc[1].length == 1 && dc[1][0] == SHORT_DESC.num) { // short desc. here
                     LOGGER.log(Level.CONFIG, "RoomMode: Found short description in dialog chain.");
                     roomDescriptionPane.setText(roomText.getShortDescription());
                 } else {
