@@ -133,7 +133,7 @@ public class DialogPopup extends DialogPopupPane {
             } else {
                 LOGGER.log(Level.SEVERE, "first text appears to be a command.");
                 //processCommand(dialogIndex);
-                processCommand2(DialogCommand.getCommand(dialogIndex));
+                processCommand(DialogCommand.getCommand(dialogIndex));
             }
         }
 
@@ -177,7 +177,7 @@ public class DialogPopup extends DialogPopupPane {
                         items[0]);
                 if (items[0] >= 50) {
                     dialogSubIndex = 0;
-                    processCommand2(DialogCommand.getCommand(items[dialogSubIndex]));
+                    processCommand(DialogCommand.getCommand(items[dialogSubIndex]));
                 } else {
                     //LOGGER.log(Level.SEVERE, "Dialog arg should be command, but it's not!");
                     handleCode(KeyCode.SPACE);
@@ -207,7 +207,7 @@ public class DialogPopup extends DialogPopupPane {
         //dialogSubIndex = 0;
         if (newDialog >= 50) {
             //LOGGER.log(Level.SEVERE, "{0} runs command: {1}", new Object[]{mode.name(), command.name()});
-            processCommand2(DialogCommand.getCommand(newDialog));
+            processCommand(DialogCommand.getCommand(newDialog));
             dialogSubIndex++;
         } else {
             //dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
@@ -326,7 +326,7 @@ public class DialogPopup extends DialogPopupPane {
                 // Is it a command?
                 if (items[dialogSubIndex] >= 50) {
                     LOGGER.log(Level.SEVERE, "Command found for response.");
-                    processCommand2(DialogCommand.getCommand(items[dialogSubIndex]));
+                    processCommand(DialogCommand.getCommand(items[dialogSubIndex]));
                 } else {
                     // Get response for NPC dialog.
                     // Display bubbles.
@@ -405,7 +405,7 @@ public class DialogPopup extends DialogPopupPane {
         }
     }
 
-    private void processCommand2(DialogCommand command) {
+    private void processCommand(DialogCommand command) {
         LOGGER.log(Level.SEVERE, "Process command: {0}::{1}", new Object[]{command.num, command.name()});
 
         switch (command) {
