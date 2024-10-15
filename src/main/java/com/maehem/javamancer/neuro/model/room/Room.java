@@ -56,7 +56,7 @@ public enum Room {
     R14("Street Shin's", null),
     R15("Street Cheap Hotel", null),
     R16("Street G-Loser", null),
-    R17("Street Maas Biolabs", null),
+    R17("Street Maas Biolabs", R17Extras.class), // Supress use of description.
     R18("Street Spaceport", null),
     R19("Spaceport", R19Extras.class),
     R20("Marcus Garvey", null),
@@ -176,6 +176,7 @@ public enum Room {
     }
 
     public void lockDoor(RoomBounds.Door d) {
+        LOGGER.log(Level.SEVERE, "Room:{0}: Lock Door {1}", new Object[]{name(), d.name()});
         locked.add(d);
     }
 
