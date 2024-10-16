@@ -41,7 +41,7 @@ public enum RoomMap {
     R8(Room.R8, null, Room.R16, null, null), // Gentleman Loser
     R9(Room.R9, null, null, null, null), // Maas Biolabs
     R10(Room.R10, null, null, null, null), // JAL Shuttle
-    R11(Room.R11, null, null, null, null), // Zion
+    R11(Room.R11, null, Room.R20, null, null), // Zion
     R12(Room.R12, Room.R23, null, Room.R13, null), // Larrys
     R13(Room.R13, Room.R12, Room.R24, Room.R14, Room.R5), // Street Microsofts
     R14(Room.R14, Room.R13, Room.R25, Room.R15, null), // Street Shin's
@@ -50,7 +50,7 @@ public enum RoomMap {
     R17(Room.R17, Room.R16, Room.R27, Room.R18, Room.R9), // Street Maas Bio
     R18(Room.R18, Room.R17, null, null, Room.R19), // Street Spaceport
     R19(Room.R19, null, Room.R18, null, null), // Spaceport
-    R20(Room.R20, null, null, null, null), // Marcus Garvey
+    R20(Room.R20, null, null, null, Room.R11), // Marcus Garvey
     R21(Room.R21, Room.R22, Room.R30, null, null), // Villa Straylight, ext.
     R22(Room.R22, null, null, Room.R21, null), // Villa Straylight
     R23(Room.R23, null, null, Room.R12, null), // Panther Moderns (in Larry's)
