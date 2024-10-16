@@ -27,19 +27,25 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.room.DialogCommand;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_R;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_SHUTTLE_FS;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_SHUTTLE_ZION;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import java.util.logging.Level;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class R19Extras extends RoomExtras { // Spaceport Chiba
+
+    private static final int FS_TICKET = 1000;
+    private static final int ZION_TICKET = 500;
 
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, //  [0] ::
@@ -78,8 +84,36 @@ public class R19Extras extends RoomExtras { // Spaceport Chiba
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        return 1;
-
+        return 2;
     }
+
+    @Override
+    public int onDialogCommand(GameState gs, DialogCommand command) {
+        switch (command) {
+            case EXIT_SHUTTLE_FS -> {
+                LOGGER.log(Level.SEVERE, "Do something about purchase of ticket Free Side.");
+                if (gs.chipBalance < FS_TICKET) {
+                    LOGGER.log(Level.SEVERE, "Not enough money for Free Side.");
+                    return 20;
+                } else {
+                    gs.chipBalance -= FS_TICKET;
+                    gs.shuttleDest = RoomBounds.Door.FREESIDE;
+                }
+            }
+            case EXIT_SHUTTLE_ZION -> {
+                LOGGER.log(Level.SEVERE, "Do something about purchase of ticket Zion.");
+                if (gs.chipBalance < ZION_TICKET) {
+                    LOGGER.log(Level.SEVERE, "Not enough money for Zion.");
+                    return 20;
+                } else {
+                    gs.chipBalance -= ZION_TICKET;
+                    gs.shuttleDest = RoomBounds.Door.ZION;
+                }
+            }
+        }
+
+        return -1;
+    }
+
 
 }
