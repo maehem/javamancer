@@ -478,6 +478,29 @@ public class DialogPopup extends DialogPopupPane {
                 gameState.useDoor = RoomBounds.Door.BODY_SHOP;
                 return;
             }
+            case EXIT_SHUTTLE_FS, EXIT_SHUTTLE_ZION -> {
+                // Ticket agent handles ticket sale.
+                // Also sets the gameState.shuttleDest.
+                int index = gameState.room.getExtras().onDialogCommand(gameState, command);
+                if (index < 0) {
+                    LOGGER.log(Level.CONFIG, "NPC sends player to Shuttle.");
+                    listener.popupExit();
+                    gameState.useDoor = RoomBounds.Door.SHUTTLE;
+                } else {
+                    // Not enough money.
+                    dialogIndex = index;
+                    items = dialogChain[dialogIndex];
+                    dialogSubIndex = 0;
+                    npcResponse(0);
+                }
+            }
+            case EXIT_X -> {
+                LOGGER.log(Level.CONFIG, "NPC sends player to new room via left.");
+                listener.popupExit();
+                //gameState.room.getExtras().exitX(gameState); // Sets gameState.useDoor
+                gameState.useDoor = gameState.shuttleDest;
+                return;
+            }
             case DIALOG_CLOSE -> {
                 listener.popupExit();
             }
