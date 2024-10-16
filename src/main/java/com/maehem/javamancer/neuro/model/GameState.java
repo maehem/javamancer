@@ -452,7 +452,9 @@ public class GameState {
         dialogAllowed.add(R6);
         dialogAllowed.add(R7);
         dialogAllowed.add(R8);
+        dialogAllowed.add(R10);
         dialogAllowed.add(R12);
+        dialogAllowed.add(R19);
         dialogAllowed.add(R23);
         dialogAllowed.add(R24);
         dialogAllowed.add(R25);
@@ -466,6 +468,8 @@ public class GameState {
         dialogAllowed.add(R51);
         dialogAllowed.add(R56);
         dialogAllowed.add(R57);
+
+        visited.add(R10); // TODO: Shuttle doesn't work as "firstTime" visit.
 
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 120));
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 56));
