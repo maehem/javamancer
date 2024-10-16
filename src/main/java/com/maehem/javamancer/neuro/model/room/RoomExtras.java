@@ -229,4 +229,15 @@ public abstract class RoomExtras {
         return 600;
     }
 
+    /**
+     * Override to take action on a dialog command.
+     *
+     * @param command
+     * @return true if command can run
+     */
+    public int onDialogCommand(GameState gs, DialogCommand command) {
+        LOGGER.log(Level.SEVERE, "onDialogCommand() called but not over-ridden!");
+        return -1;
+    }
+
 }
