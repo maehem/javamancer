@@ -119,9 +119,6 @@ public class R32Extras extends RoomExtras { // Metro Holographix
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        //gs.resourceManager.getRoomText(Room.R32).dumpList();
     }
 
     @Override
@@ -145,8 +142,6 @@ public class R32Extras extends RoomExtras { // Metro Holographix
     @Override
     public ArrayList<SkillItem> getVendSkillItems(GameState gs) {
         ArrayList<SkillItem> list = new ArrayList<>();
-        list.add(new SkillItem(Item.Catalog.ZEN, 1, 0));
-        list.add(new SkillItem(Item.Catalog.SOPHISTRY, 1, 0));
         list.add(new SkillItem(Item.Catalog.ICEBREAKING, 1, 1000));
         list.add(new SkillItem(Item.Catalog.DEBUG, 1, 1000));
         return list;
