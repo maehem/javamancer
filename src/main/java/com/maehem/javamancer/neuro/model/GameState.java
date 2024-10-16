@@ -452,6 +452,7 @@ public class GameState {
         dialogAllowed.add(R6);
         dialogAllowed.add(R7);
         dialogAllowed.add(R8);
+        dialogAllowed.add(R9);
         dialogAllowed.add(R10);
         dialogAllowed.add(R12);
         dialogAllowed.add(R19);
@@ -466,6 +467,7 @@ public class GameState {
         dialogAllowed.add(R46);
         dialogAllowed.add(R50);
         dialogAllowed.add(R51);
+        dialogAllowed.add(R52);
         dialogAllowed.add(R56);
         dialogAllowed.add(R57);
 
