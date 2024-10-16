@@ -174,6 +174,8 @@ public class GameState {
     public BodyShopRecent bodyShopRecent = BodyShopRecent.NONE; // Fix me. Probably a better way to do.
     public PawnRecent pawnRecent = PawnRecent.NONE;
 
+    public RoomBounds.Door shuttleDest = null; // Ephemeral. Used at spaceports.
+
     // Ephemeral -- Not saved
     public boolean pause = true; // Ephemeral
     public boolean requestQuit = false; // Ephemeral. Set by Disk Menu Quit option.
