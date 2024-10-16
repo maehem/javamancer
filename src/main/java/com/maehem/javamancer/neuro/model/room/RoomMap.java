@@ -115,6 +115,18 @@ public enum RoomMap {
         if (d == RoomBounds.Door.BODY_SHOP) {
             return Room.R4;
         }
+        if (d == RoomBounds.Door.SHUTTLE) {
+            return Room.R10;
+        }
+        if (d == RoomBounds.Door.SPACEPORT) {
+            return Room.R19;
+        }
+        if (d == RoomBounds.Door.FREESIDE) {
+            return Room.R29;
+        }
+        if (d == RoomBounds.Door.ZION) {
+            return Room.R11;
+        }
         for (RoomMap rm : values()) {
             if (r.equals(rm.room)) {
                 switch (d) {
