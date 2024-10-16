@@ -218,7 +218,7 @@ public class DialogPopup extends DialogPopupPane {
             // Control character '01' is a token for the player's name. Replace it here.
             wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
             bubble.setMode(DialogBubble.Mode.NPC_SAY);
-            LOGGER.log(Level.SEVERE, "Text: \n{0}\t\t\t", wordText.getText());
+            LOGGER.log(Level.SEVERE, "npcResponse() NPC Text: \n{0}\t\t\t", wordText.getText());
             dialogCountDown = -1;
             dialogSubIndex = -1;
             if (items.length > 0) {
@@ -272,7 +272,8 @@ public class DialogPopup extends DialogPopupPane {
                     typedText.setText("");
                     //npcResponse(0);
                     wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
-                    LOGGER.log(Level.SEVERE, "Text: \n{0}\t\t\t", wordText.getText());
+                    bubble.setMode(DialogBubble.Mode.NPC_SAY);
+                    LOGGER.log(Level.SEVERE, "handleTypedText() NPC Text: \n{0}\t\t\t", wordText.getText());
                     dialogCountDown = DIALOG_COUNT;
                     if (gameState.room.getExtras() != null) {
                         gameState.room.getExtras().onDialog(gameState, askWord);
@@ -385,7 +386,7 @@ public class DialogPopup extends DialogPopupPane {
                             //LOGGER.log(Level.CONFIG, "ENTER PRESSED. Begin countdown...");
                             // Start one second countdown to show response.
                             dialogCountDown = DIALOG_COUNT;
-                            bubble.setMode(DialogBubble.Mode.NONE);
+                            //bubble.setMode(DialogBubble.Mode.NONE);
 
                             LOGGER.log(Level.CONFIG, "ENTER: start countdown. current dialog index: {0}   next NPC response. d[{1}][{2}] = {3}",
                                     new Object[]{
@@ -586,7 +587,8 @@ public class DialogPopup extends DialogPopupPane {
 
                 // Control character '01' is a token for the player's name. Replace it here.
                 wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
-                LOGGER.log(Level.SEVERE, "Text: \n{0}\t\t\t",
+                bubble.setMode(DialogBubble.Mode.NPC_SAY);
+                LOGGER.log(Level.SEVERE, "INFO_BUY NPC Text: \n{0}\t\t\t",
                         wordText.getText());
                 dialogCountDown = -1;
                 dialogSubIndex = -1;
