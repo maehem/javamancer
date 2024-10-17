@@ -114,6 +114,7 @@ public class AppProperties extends Properties {
     private static File initPropFile() {
         final String os = System.getProperty("os.name");
         if (os != null && os.startsWith("Mac")) {
+            // It is said not to hard-code MacOS path. So maybe the other solution below?
             return new File(System.getProperty("user.home")
                     + File.separator + "Library"
                     + File.separator + "Application Support"
@@ -123,6 +124,14 @@ public class AppProperties extends Properties {
             );
         } else {
             // TODO: Sort this out per platform later.
+            // On windows/mac/linux? this might work:  System.getenv("APPDATA")
+            // or System.getenv("AppData");
+            //
+            // Windows: C:\Users\<username>\AppData\Roaming\YourCompany\YourAppName
+            // macOS: /Users/<username>/Library/Application Support/YourAppName
+            // Linux: /home/<username>/.local/share/YourAppName
+            //
+            // See: https://stackoverflow.com/questions/11113974/what-is-the-cross-platform-way-of-obtaining-the-path-to-the-local-application-da
             return new File(System.getProperty("user.home")
                     + File.separator + "javamancer-settings.properies"
             );
