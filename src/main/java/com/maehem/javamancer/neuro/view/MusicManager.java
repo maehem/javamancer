@@ -54,7 +54,8 @@ public class MusicManager {
         STREET_1("ketamine-infusion"),
         STREET_2("2AM-zzZZZ"),
         STREET_3("Jupiter_Function"),
-        MATRIX_1("(empty)");
+        MATRIX_1("(empty)"),
+        TESSIER("tessier-lobby");
 
         public final String fileName;
 
