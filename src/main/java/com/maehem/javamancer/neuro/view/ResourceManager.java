@@ -52,6 +52,7 @@ public class ResourceManager {
 
     private static final Logger LOGGER = Logging.LOGGER;
     public final MusicManager musicManager;
+    public final SoundEffectsManager soundFxManager;
 
     public enum Type {
         IMH, PIC, BIH, ANH
@@ -85,7 +86,7 @@ public class ResourceManager {
         this.txhFolder = new File(resourceFolder, "txh");
 
         this.musicManager = new MusicManager();
-
+        this.soundFxManager = new SoundEffectsManager();
     }
 
     public Image getSprite(String name) {
