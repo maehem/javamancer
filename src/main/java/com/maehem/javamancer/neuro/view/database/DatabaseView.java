@@ -36,6 +36,7 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.warez.SequencerWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.PopupListener;
+import com.maehem.javamancer.neuro.view.SoundEffectsManager;
 import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -233,6 +234,8 @@ public abstract class DatabaseView {
                         case Y -> {
                             // Send the message.
                             sendMessage(typedTo.toString(), typedMessage.toString());
+                            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
+
                             subMode = SubMode.MAIN;
                             siteContent();
                         }
@@ -861,6 +864,11 @@ public abstract class DatabaseView {
      */
     protected boolean onUploadDone(boolean uploadOK) {
         // Override in sub-class if needed.
+        if (uploadOK) {
+            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
+        } else {
+            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
+        }
         return false;
     }
 
@@ -889,10 +897,14 @@ public abstract class DatabaseView {
     }
 
     private void attemptSoftwareDownload(Warez w) {
+        // TODO: This should be a sequence where "Tramitting..." appears for about a second.
+        //
         LOGGER.log(Level.SEVERE, "Software Download: Attempt to download: {0}", w.getSimpleName());
 
         // TODO: Deck software compatibility check
         // RESULT = deck.installSoftware( Warez )
+        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
+
         gameState.addSoftware(w);
     }
 

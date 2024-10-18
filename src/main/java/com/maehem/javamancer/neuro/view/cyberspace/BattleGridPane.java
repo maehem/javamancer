@@ -37,6 +37,7 @@ import com.maehem.javamancer.neuro.model.warez.LinkWarez;
 import com.maehem.javamancer.neuro.model.warez.ShotgunWarez;
 import com.maehem.javamancer.neuro.model.warez.VirusWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
+import com.maehem.javamancer.neuro.view.SoundEffectsManager;
 import java.util.logging.Level;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
@@ -280,7 +281,7 @@ public class BattleGridPane extends GridPane {
                 }
             }
         }
-        if (!dbAttackRunning) {
+        if (!dbAttackRunning && gameState.database.getIce() > 0) {
             // DB attack
             fireShotDB();
         }
@@ -329,6 +330,7 @@ public class BattleGridPane extends GridPane {
         shotsLivePlayerPane.setLayoutY(200);
         shotsLivePlayerPane.setVisible(true);
         shotLivePlayerSequence.start();
+        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.PLAYER_FIRE);
 
         TranslateTransition tt = shotMoveInit(
                 shotsLivePlayerPane,
@@ -356,6 +358,7 @@ public class BattleGridPane extends GridPane {
             }
 
             if (gameState.database.getIce() == 0) {
+                gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
                 iceBroken(iceFrontPane);
                 iceBroken(iceRearPane);
             }
@@ -370,6 +373,8 @@ public class BattleGridPane extends GridPane {
         shotsLiveDBPane.setVisible(true);
         shotLiveDBSequence.start();
         dbAttackRunning = true;
+        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_HIT);
+
 
         TranslateTransition tt = shotMoveInit(shotsLiveDBPane, 80, db.shotDuration);
         tt.setOnFinished((t) -> {
@@ -390,8 +395,9 @@ public class BattleGridPane extends GridPane {
      * ICE Opacity fades over two seconds
      */
     private FadeTransition iceBroken(Node fadingNode) {
+
         fadingNode.setVisible(true);
-        FadeTransition ft = new FadeTransition(Duration.millis(2000), fadingNode);
+        FadeTransition ft = new FadeTransition(Duration.millis(3200), fadingNode);
         ft.setFromValue(1.0);
         ft.setToValue(0.0);
         ft.setCycleCount(1);
