@@ -48,10 +48,15 @@ public class ANHEntry {
     private final byte[] data;
     public final int totalFrames;
     public final ArrayList<ANHAnima> frames = new ArrayList<>();
+    private final byte roomPic[];
 
     public ANHEntry(byte[] data, byte[] roomData) {
         this.data = new byte[data.length];
         System.arraycopy(data, 0, this.data, 0, data.length);
+
+        // Modified by each frame data application.
+        roomPic = new byte[roomData.length];
+        System.arraycopy(roomData, 0, roomPic, 0, roomData.length);
 
         int dIndex = 0;
 
@@ -93,7 +98,7 @@ public class ANHEntry {
         System.arraycopy(data, dIndex, frameBytes, 0, bLen);
 
         for (int i = 0; i < totalFrames; i++) {
-            frames.add(new ANHAnima(frameData[i][0], frameData[i][1], frameBytes, roomData));
+            frames.add(new ANHAnima(frameData[i][0], frameData[i][1], frameBytes, roomPic));
         }
 
     }
