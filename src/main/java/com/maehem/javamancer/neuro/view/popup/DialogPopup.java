@@ -160,12 +160,14 @@ public class DialogPopup extends DialogPopupPane {
 
     }
 
+    // TODO: Get rid of dialog counter and require mouse click or space
+    // to move dialog forward.
     public void dialogCounter() {
         if (dialogCountDown < 0) { // Nothing to count down
             return;
         }
         if (dialogCountDown > 0) { // Count one.
-            dialogCountDown--;
+            //dialogCountDown--;
         } else { // Finished countdown. Do something.
             dialogCountDown = -1;
             if (mode == Mode.PLAYER) {
