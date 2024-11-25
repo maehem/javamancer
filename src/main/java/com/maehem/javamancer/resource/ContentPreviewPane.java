@@ -150,38 +150,18 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                             }
                             // Draw room pic
                             {
-                            LOGGER.log(Level.FINEST, "Add PIC.");
-                            ImageView iv = new ImageView(new Image(
-                                    new FileInputStream(roomPngFile),
-                                    ViewUtils.PIC_PREF_WIDTH, 0, true, true
-                            ));
-                            compGroup.getChildren().add(iv);
-                        }
-
-                            // Load frames.
-                            File[] pngFiles = file.listFiles((dir, name) -> {
-                                return name.endsWith(".png");
-                            });
-                            Arrays.sort(pngFiles);
-                            int listIndex = 0;
-                            for (File pngFile : pngFiles) {
-                                Image img0 = new Image(new FileInputStream(pngFile));
-                                double w = img0.getWidth() * ViewUtils.PIC_PREVIEW_SCALE;
-                                Image img = new Image(new FileInputStream(pngFile), w, 0, true, true);
-
-                                ImageView iv = new ImageView(img);
-                                animSequence.images.add(iv);
-                                //iv.setBlendMode(BlendMode.EXCLUSION);
-
-                                String[] split = locList.get(listIndex).split(",");
-                                iv.setLayoutX((Integer.parseInt(split[0]) - 4) * ViewUtils.PIC_PREVIEW_SCALE * 2.0);
-                                iv.setLayoutY((Integer.parseInt(split[1]) - 8) * ViewUtils.PIC_PREVIEW_SCALE);
-                                LOGGER.log(Level.FINEST, "Add anim frame.");
-
+                                LOGGER.log(Level.FINEST, "Add PIC.");
+                                ImageView iv = new ImageView(new Image(
+                                        new FileInputStream(roomPngFile),
+                                        ViewUtils.PIC_PREF_WIDTH, 0, true, true
+                                ));
                                 compGroup.getChildren().add(iv);
-                                iv.setVisible(listIndex == 0);
-                                listIndex++;
                             }
+
+                            fillAnimSequence(file, animSequence, locList);
+                            animSequence.images.forEach((img) -> {
+                                compGroup.getChildren().add(img);
+                            });
 
                             timeline = new Timeline(new KeyFrame(
                                     Duration.millis(animSequence.getSleep() * 50),
@@ -213,6 +193,36 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
             default -> {
             }
         }
+    }
+
+    private void fillAnimSequence(File pngDir,
+            AnimationSequence animSequence,
+            ArrayList<String> locList) throws FileNotFoundException {
+
+        // Load frames.
+        File[] pngFiles = pngDir.listFiles((dir, name) -> {
+            return name.matches("[0-9][0-9].png"); // ex.  00.png, 01.png, etc.
+        });
+        Arrays.sort(pngFiles);
+        int listIndex = 0;
+        for (File pngFile : pngFiles) {
+            Image img0 = new Image(new FileInputStream(pngFile));
+            double w = img0.getWidth() * ViewUtils.PIC_PREVIEW_SCALE;
+            Image img = new Image(new FileInputStream(pngFile), w, 0, true, true);
+
+            ImageView iv = new ImageView(img);
+            animSequence.images.add(iv);
+
+            String[] split = locList.get(listIndex).split(",");
+            iv.setLayoutX((Integer.parseInt(split[0]) - 4) * ViewUtils.PIC_PREVIEW_SCALE * 2.0);
+            iv.setLayoutY((Integer.parseInt(split[1]) - 8) * ViewUtils.PIC_PREVIEW_SCALE);
+            LOGGER.log(Level.FINEST, "Add anim frame.");
+
+            //compGroup.getChildren().add(iv);
+            iv.setVisible(listIndex == 0);
+            listIndex++;
+        }
+
     }
 
     private static ImageView doImage(File clickedFile, int width) {
