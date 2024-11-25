@@ -89,14 +89,14 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
      */
     private void initTestItems() {
 
-//        gameState.room = Room.R8; // Gentleman Loser
+        //gameState.room = Room.R22; // Gentleman Loser
         // Game Test Items
-//        Cyberspace7DeckItem testDeckItem = new Cyberspace7DeckItem();
+        //Cyberspace7DeckItem testDeckItem = new Cyberspace7DeckItem();
 //        testDeckItem.needsRepair = true;
-//        gameState.inventory.add(testDeckItem); // Test item
-//        gameState.deckSlots = testDeckItem.nSlots;
-//        gameState.addSoftware(new CyberspaceWarez(1));
-//        gameState.addSoftware(new AcidWarez(1)); // Should delete when used.
+        //gameState.inventory.add(testDeckItem); // Test item
+        //gameState.deckSlots = testDeckItem.nSlots;
+        //gameState.addSoftware(new CyberspaceWarez(1));
+        //gameState.addSoftware(new AcidWarez(3)); // Should delete when used.
     }
 
     private void initGameLoop() {
