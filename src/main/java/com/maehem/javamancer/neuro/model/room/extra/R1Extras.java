@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.model.room.extra;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.Item;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
@@ -48,7 +49,8 @@ public class R1Extras extends RoomExtras {
         {7}, // 5
         {8}, // 6
         {3, 4, 5, 6}, // 7
-        {3, 4, 5, 6}, // 8
+        //{3, 4, 5, 6}, // 8
+        {DIALOG_CLOSE.num}, // 8
         {}, // 9
         {}, // 10
         {12, 13, 14}, // 11
