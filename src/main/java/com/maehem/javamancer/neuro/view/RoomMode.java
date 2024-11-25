@@ -435,7 +435,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
             // Load revive room scene?
             // Player has died in previous tick.
-            // Apply low costitution and revice in Body Shop.
+            // Apply low costitution and revive in Body Shop.
             getGameState().revive();
         }
     }
