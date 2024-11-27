@@ -1,0 +1,43 @@
+{
+    "bin": {
+        "javamancer": "jdeploy-bundle/jdeploy.js"
+    },
+    "author": "Mark J. Koch",
+    "description": "JavaFX port of Neuromancer PC Game",
+    "main": "index.js",
+    "preferGlobal": true,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/maehem/javamancer.git"
+    },
+    "version": "0.0.1",
+    "jdeploy": {
+        "jar": "target/javamancer-1.0-SNAPSHOT.jar",
+        "jdk": false,
+        "javaVersion": "21",
+        "javafx": true,
+        "title": "Javamancer"
+    },
+    "dependencies": {
+        "command-exists-promise": "^2.0.2",
+        "node-fetch": "2.6.7",
+        "shelljs": "^0.8.4",
+        "tar": "^7.4.3",
+        "yauzl": "^2.10.0"
+    },
+    "license": "MIT",
+    "name": "javamancer",
+    "files": [
+        "jdeploy-bundle"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "neuromancer"
+    ],
+    "bugs": {
+        "url": "https://github.com/maehem/javamancer/issues"
+    },
+    "homepage": "https://github.com/maehem/javamancer#readme"
+}

@@ -25,3 +25,5 @@ replay_pid*
 /target/
 sandbox/
 /target 2/
+/jdeploy-bundle/
+/node_modules/
