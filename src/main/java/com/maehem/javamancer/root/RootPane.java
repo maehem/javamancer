@@ -133,7 +133,7 @@ public class RootPane extends JavamancerPane {
     }
 
     @Override
-    public void refresh() {
+    public final void refresh() {
         boolean datFilesPresent = AppProperties.getInstance().datFilesPresent();
         boolean cacheFilesPresent = AppProperties.getInstance().cacheFilesPresent();
         gameButton.setDisable(!datFilesPresent || !cacheFilesPresent);
