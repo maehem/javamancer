@@ -56,7 +56,7 @@ public class RoomPane extends Pane {
     private static final int DOOR_THICK = 12;
     private static final Color DOOR_COLOR = Color.RED;
     private static final Color BOUNDS_COLOR = Color.YELLOW;
-    private static final double BOUNDS_OPACITY = 0.01;
+    private static final double BOUNDS_OPACITY = 0.21;
 
     private final Rectangle walkBounds;
     private final Rectangle topDoor;

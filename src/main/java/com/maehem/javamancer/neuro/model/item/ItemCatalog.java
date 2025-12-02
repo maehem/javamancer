@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.item;
 
 /**
+ * DEPRICATED --- Delete Me
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

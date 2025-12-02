@@ -55,7 +55,7 @@ public class SoundEffectsManager {
             try {
                 this.audioClip = new AudioClip(getClass().getResource(fileName).toURI().toString());
             } catch (URISyntaxException ex) {
-                Logger.getLogger(SoundEffectsManager.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
         }
     }
