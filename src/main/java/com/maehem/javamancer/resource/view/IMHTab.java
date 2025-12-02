@@ -27,9 +27,11 @@
 package com.maehem.javamancer.resource.view;
 
 import com.maehem.javamancer.AppProperties;
+import static com.maehem.javamancer.logging.Logging.LOGGER;
 import java.io.File;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListCell;
@@ -58,6 +60,7 @@ public class IMHTab extends Tab {
         File[] listFiles = picFolder.listFiles((File dir, String name) -> name.endsWith(".png"));
         ObservableList<File> items = FXCollections.observableArrayList(Arrays.asList(listFiles)).sorted();
 
+        LOGGER.log(Level.INFO, "IMH has {0} items.", listFiles.length);
         list.setItems(items);
         configCellFactory(list);
 
