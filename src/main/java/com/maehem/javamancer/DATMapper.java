@@ -99,7 +99,7 @@ public class DATMapper extends Application {
         long fileLength = dat1.length();
         int w = BYTE_W * 2;
         int h = (int) (2 * fileLength / BYTE_W);
-        LOGGER.log(Level.SEVERE, "Map has " + (h / 2) + " rows. Image is 2X");
+        LOGGER.log(Level.INFO, () -> "Map has " + (h / 2) + " rows. Image is 2X");
         WritableImage img = new WritableImage(w, h);
         PixelWriter pw = img.getPixelWriter();
         // Fill background

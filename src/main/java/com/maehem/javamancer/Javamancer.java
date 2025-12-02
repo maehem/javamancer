@@ -140,7 +140,7 @@ public class Javamancer extends Application implements RootButtonListener, About
     public void rootButtonPressed(Mode button) {
         switch (button) {
             case GAME -> {
-                LOGGER.log(Level.SEVERE, "Game Button Pressed");
+                LOGGER.log(Level.INFO, "Game Button Pressed");
 
                 if (gamePane == null) {
                     gamePane = new NeuroPane(this);
@@ -150,7 +150,7 @@ public class Javamancer extends Application implements RootButtonListener, About
                 mode = Mode.GAME;
             }
             case BROWSER -> {
-                LOGGER.log(Level.SEVERE, "Browser Button Pressed");
+                LOGGER.log(Level.INFO, "Browser Button Pressed");
 
                 if (!appProperties.cacheFilesPresent()) {
                     if (dat == null) {
@@ -170,7 +170,7 @@ public class Javamancer extends Application implements RootButtonListener, About
                 mode = Mode.BROWSER;
             }
             case SETTINGS -> {
-                LOGGER.log(Level.SEVERE, "Settings Button Pressed");
+                LOGGER.log(Level.INFO, "Settings Button Pressed");
                 if (settingsPane == null) {
                     settingsPane = new SettingsPane(this);
                 }
@@ -179,7 +179,7 @@ public class Javamancer extends Application implements RootButtonListener, About
                 mode = Mode.SETTINGS;
             }
             case ABOUT -> {
-                LOGGER.log(Level.SEVERE, "About Button Pressed");
+                LOGGER.log(Level.INFO, "About Button Pressed");
                 if (aboutPane == null) {
                     aboutPane = new AboutPane(this);
                 }

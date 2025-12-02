@@ -79,7 +79,7 @@ public class AppProperties extends Properties {
     public final void load() {
         try {
             load(new FileInputStream(propFile));
-            LOGGER.log(Level.SEVERE, "Loaded Javamancer settings file: {0}", propFile.getAbsolutePath());
+            LOGGER.log(Level.CONFIG, "Loaded Javamancer settings file: {0}", propFile.getAbsolutePath());
         } catch (FileNotFoundException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -99,7 +99,7 @@ public class AppProperties extends Properties {
                 msg = "Created New Javamancer Settings File.";
             }
             store(new FileOutputStream(propFile), msg);
-            LOGGER.log(Level.SEVERE, "{0} :: {1}", new Object[]{msg, propFile.getAbsolutePath()});
+            LOGGER.log(Level.CONFIG, "{0} :: {1}", new Object[]{msg, propFile.getAbsolutePath()});
         } catch (FileNotFoundException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -141,17 +141,17 @@ public class AppProperties extends Properties {
     private void initDatFolder() {
         File df = getDatFolder();
         if (df.exists() && df.isDirectory() && df.canRead() && df.canWrite() && df.canExecute()) {
-            LOGGER.log(Level.SEVERE, "DAT Folder exists and seems OK for use.");
+            LOGGER.log(Level.CONFIG, "DAT Folder exists and seems OK for use.");
             if (!datFilesPresent()) {
-                LOGGER.log(Level.SEVERE, "DAT Files do not seem to be installed yet. User must do this manually.");
+                LOGGER.log(Level.WARNING, "DAT Files do not seem to be installed yet. User must do this manually.");
             }
         } else {
             if (df.exists()) {
                 LOGGER.log(Level.SEVERE, "DAT Folder exists but is either a file or permissions are wrong.");
             } else {
-                LOGGER.log(Level.SEVERE, "DAT Folder does not exist. Creating...");
+                LOGGER.log(Level.CONFIG, "DAT Folder does not exist. Creating...");
                 if (df.mkdirs()) {
-                    LOGGER.log(Level.SEVERE, "DAT Folder created.");
+                    LOGGER.log(Level.INFO, "DAT Folder created.");
                 } else {
                     LOGGER.log(Level.SEVERE, "DAT Folder could not be created. Unknown reason.");
                 }
@@ -162,9 +162,9 @@ public class AppProperties extends Properties {
     public void initCacheFolder(DAT dat) {
         File cacheFolder = getCacheFolder();
         if (cacheFolder.exists() && cacheFolder.isDirectory() && cacheFolder.canRead() && cacheFolder.canWrite() && cacheFolder.canExecute()) {
-            LOGGER.log(Level.SEVERE, "Cache Folder exists and seems OK for use.");
+            LOGGER.log(Level.INFO, "Cache Folder exists and seems OK for use.");
             if (!cacheFilesPresent()) {
-                LOGGER.log(Level.SEVERE, "Cache Files do not seem to be installed yet. Need to regenerate from DAT.");
+                LOGGER.log(Level.CONFIG, "Cache Files do not seem to be installed yet. Need to regenerate from DAT.");
 
                 // Generate from DAT.
                 DATUtil.createCache(dat, cacheFolder);
@@ -173,9 +173,9 @@ public class AppProperties extends Properties {
             if (cacheFolder.exists()) {
                 LOGGER.log(Level.SEVERE, "Cache Folder exists but is either a file or permissions are wrong.");
             } else {
-                LOGGER.log(Level.SEVERE, "Cache Folder does not exist. Creating...");
+                LOGGER.log(Level.CONFIG, "Cache Folder does not exist. Creating...");
                 if (cacheFolder.mkdirs()) {
-                    LOGGER.log(Level.SEVERE, "Cache Folder created.");
+                    LOGGER.log(Level.INFO, "Cache Folder created.");
 
                     // Generate from DAT.
                     DATUtil.createCache(dat, cacheFolder);
@@ -242,28 +242,28 @@ public class AppProperties extends Properties {
                 LOGGER.log(Level.CONFIG, "  Found: ANH Folder");
                 // Check sub-folders against ANH model list.
             } else {
-                LOGGER.log(Level.SEVERE, "Missing: ANH Folder");
+                LOGGER.log(Level.WARNING, "Missing: ANH Folder");
                 retVal = false;
             }
             if (bihDir.isDirectory() && bihDir.canRead()) {
                 LOGGER.log(Level.CONFIG, "  Found: BIH Folder");
                 // Check sub-folders against BIH model list.
             } else {
-                LOGGER.log(Level.SEVERE, "Missing: BIH Folder");
+                LOGGER.log(Level.WARNING, "Missing: BIH Folder");
                 retVal = false;
             }
             if (imhDir.isDirectory() && imhDir.canRead()) {
                 LOGGER.log(Level.CONFIG, "  Found: IMH Folder");
                 // Check sub-folders against IMH model list.
             } else {
-                LOGGER.log(Level.SEVERE, "Missing: IMH Folder");
+                LOGGER.log(Level.WARNING, "Missing: IMH Folder");
                 retVal = false;
             }
             if (picDir.isDirectory() && picDir.canRead()) {
                 LOGGER.log(Level.CONFIG, "  Found: PIC Folder");
                 // Check sub-folders against PIC model list.
             } else {
-                LOGGER.log(Level.SEVERE, "Missing: PIC Folder");
+                LOGGER.log(Level.WARNING, "Missing: PIC Folder");
                 retVal = false;
             }
         } else {

@@ -63,7 +63,7 @@ public class BIHTab extends Tab {
         ObservableList<File> items = FXCollections.observableArrayList(Arrays.asList(listFiles)).sorted();
         //ObservableList<File> rItems = FXCollections.observableArrayList(Arrays.asList(listFiles)).sorted();
 
-        LOGGER.log(Level.SEVERE, "BIH has {0} items.", listFiles.length);
+        LOGGER.log(Level.INFO, "BIH has {0} items.", listFiles.length);
 //        treeView.setShowRoot(false);
 //        rootNode.setExpanded(true);
         list.setItems(items);

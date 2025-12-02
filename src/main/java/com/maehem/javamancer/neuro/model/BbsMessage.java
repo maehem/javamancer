@@ -128,7 +128,7 @@ public class BbsMessage {
         String body = p.getProperty(prefix + ".body", "ERROR");
         int prefillIndex = Integer.parseInt(p.getProperty(prefix + ".index", "-1"));
         boolean show = Boolean.parseBoolean(p.getProperty(prefix + ".show", "false"));
-        LOGGER.log(Level.SEVERE, "Restore Message: {0} :: {1}", new Object[]{dbNumber, to});
+        LOGGER.log(Level.INFO, "Restore Message: {0} :: {1}", new Object[]{dbNumber, to});
 
         BbsMessage bbsMessage = new BbsMessage(dbNumber, date, to, from, body, show);
         bbsMessage.prefillIndex = prefillIndex;

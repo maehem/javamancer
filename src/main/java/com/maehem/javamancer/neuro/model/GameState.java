@@ -263,7 +263,7 @@ public class GameState {
 
     public void updateConstitution() {
         if (damage > 0 && usingDeck == null) {
-            LOGGER.log(Level.SEVERE, "Heal Constitution.");
+            LOGGER.log(Level.FINE, "Heal Constitution.");
             damage -= CONSTITUTION_HEAL_RATE;
             if (damage < 0) {
                 damage = 0;
@@ -272,7 +272,7 @@ public class GameState {
     }
 
     public void loadSlot(int i) {
-        LOGGER.log(Level.SEVERE, "Load Slot {0} requested", i);
+        LOGGER.log(Level.FINE, "Load Slot {0} requested", i);
 
         loadSlot = i; // Causes NeuroModePane.loop() to load new game.
     }
@@ -304,7 +304,7 @@ public class GameState {
     public boolean hasInventoryItem(Item checkItem) {
         for (Item item : inventory) {
             if (item.getName().equals(checkItem.getName())) {
-                LOGGER.log(Level.SEVERE, "Matched Item name: " + item.getName());
+                LOGGER.log(Level.FINER, () -> "Matched Item name: " + item.getName());
                 return true;
             }
         }
@@ -315,7 +315,7 @@ public class GameState {
     public boolean hasInventoryItem(Catalog checkItem) {
         for (Item item : inventory) {
             if (item.item.equals(checkItem)) {
-                LOGGER.log(Level.SEVERE, "Matched Item name: " + item.getName());
+                LOGGER.log(Level.FINER, () -> "Matched Item name: " + item.getName());
                 return true;
             }
         }
@@ -326,7 +326,7 @@ public class GameState {
     public boolean removeInventoryItem(Catalog removeItem) {
         for (Item item : inventory.toArray(Item[]::new)) {
             if (item.item.equals(removeItem)) {
-                LOGGER.log(Level.SEVERE, "Matched Item name: " + item.getName() + ". Removing.");
+                LOGGER.log(Level.FINER, () -> "Matched Item name: " + item.getName() + ". Removing.");
                 inventory.remove(item);
                 return true;
             }
@@ -340,7 +340,7 @@ public class GameState {
             if (software.add(w)) {
                 LOGGER.log(Level.SEVERE, "Deck Warez:\n");
                 software.forEach((dw) -> {
-                    LOGGER.log(Level.SEVERE, dw.getSimpleName() + "\n");
+                    LOGGER.log(Level.FINER, () -> dw.getSimpleName() + "\n");
                 });
                 return true;
             } else {
@@ -348,7 +348,7 @@ public class GameState {
                 return false;
             }
         } else {
-            LOGGER.log(Level.SEVERE, "Deck slots full. Erase items first or buy better deck.");
+            LOGGER.log(Level.WARNING, "Deck slots full. Erase items first or buy better deck.");
             return false;
         }
     }
@@ -377,12 +377,12 @@ public class GameState {
         try {
             Constructor<?> ctor = aiClazz.getConstructor();
             Object object = ctor.newInstance(new Object[]{});
-            LOGGER.log(Level.SEVERE, "AI Object created: " + aiClazz.getSimpleName());
+            LOGGER.log(Level.FINE, () -> "AI Object created: " + aiClazz.getSimpleName());
             if (object instanceof AI freshAI) {
                 aiList.add(freshAI);
                 return freshAI;
             } else {
-                LOGGER.log(Level.SEVERE, "AI Creation Failed: " + aiClazz.getSimpleName());
+                LOGGER.log(Level.SEVERE, () -> "AI Creation Failed: " + aiClazz.getSimpleName());
             }
         } catch (InvocationTargetException
                 | InstantiationException
@@ -414,7 +414,7 @@ public class GameState {
     }
 
     public void revive() {
-        LOGGER.log(Level.SEVERE, "Revive player.");
+        LOGGER.log(Level.CONFIG, "Revive player.");
         damage = getConstitutionUsable() - 10;
         chipBalance = 0;
         flatlined = false;

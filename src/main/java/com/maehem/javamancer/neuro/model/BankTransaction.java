@@ -72,7 +72,7 @@ public class BankTransaction {
         String date = p.getProperty(prefix + ".date", "ERROR");
         String op = p.getProperty(prefix + ".op", "ERROR");
         int amount = Integer.parseInt(p.getProperty(prefix + ".amount", "ERROR"));
-        LOGGER.log(Level.SEVERE, "Restore Bank Transaction: {0} :: {1}", new Object[]{date, op});
+        LOGGER.log(Level.INFO, "Restore Bank Transaction: {0} :: {1}", new Object[]{date, op});
 
         return new BankTransaction(date, lookup(op), amount);
     }
