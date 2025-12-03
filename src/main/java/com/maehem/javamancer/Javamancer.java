@@ -83,7 +83,7 @@ public class Javamancer extends Application implements RootButtonListener, About
 
         //Locale.setDefault(Locale.GERMANY);  // uncomment for i18n debug
         MSG = ResourceBundle.getBundle("i18n/App"); // Must be done after super() called.
-        LOGGER.setLevel(Level.FINEST);
+        LOGGER.setLevel(Level.INFO);
         LOGGER.log(Level.CONFIG, "Log Start");
 
         appProperties = AppProperties.getInstance();
