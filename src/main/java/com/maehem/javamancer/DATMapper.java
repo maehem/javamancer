@@ -157,9 +157,6 @@ public class DATMapper extends Application {
             int iii = offset + i;
             int x = 2 * (iii % BYTE_W);
             int y = 2 * (iii / BYTE_W);
-            if (x == 0) {
-                //LOGGER.log(Level.SEVERE, "Y=" + y / 2);
-            }
 
             pw.setColor(x, y, color);
             pw.setColor(x + 1, y, color);
