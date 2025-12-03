@@ -100,7 +100,7 @@ public class TitleMode extends NeuroModePane {
         getChildren().addAll(newLoadBox2, quitBox);
 
         addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent t) -> {
-            LOGGER.log(Level.INFO, "TitleMode: Key pressed.");
+            LOGGER.log(Level.FINER, "TitleMode: Key pressed.");
             if (newGameDialog != null) {
                 if (t.getCode().equals(KeyCode.ESCAPE)) {
                     getChildren().remove(newGameDialog);
