@@ -99,7 +99,7 @@ public class MusicManager {
                 }
                 player.play();
                 player.setCycleCount(INDEFINITE);
-                LOGGER.log(Level.SEVERE, "Track begin: {0}", track.name());
+                LOGGER.log(Level.FINE, "Track begin: {0}", track.name());
                 activeMedia.add(mediaItem);
 
 //                player.setOnEndOfMedia(() -> {
@@ -110,7 +110,7 @@ public class MusicManager {
                 LOGGER.log(Level.SEVERE, e.getMessage(), e);
             }
         } else {
-            LOGGER.log(Level.SEVERE, "Track already active. Stop fade.");
+            LOGGER.log(Level.INFO, "Track already active. Stop fade.");
             found.fadeOut.stop();
             found.fadeOut = null;
         }
@@ -138,7 +138,7 @@ public class MusicManager {
                     double vol = startVol * (1.0 - frac);
                     found.player.volumeProperty().set(vol);
                     if ( vol <= 0 ) {
-                        LOGGER.log(Level.SEVERE, "{0}: Fade End. Remove from active media.", found.track.name());
+                        LOGGER.log(Level.INFO, "{0}: Fade End. Remove from active media.", found.track.name());
                         found.player.stop();
                         activeMedia.remove(found);
                     }
@@ -146,7 +146,7 @@ public class MusicManager {
 
             };
 
-            LOGGER.log(Level.SEVERE, "Begin Track fade out: {0} --> {1}ms", new Object[]{track.name(), milliSeconds});
+            LOGGER.log(Level.FINE, "Begin Track fade out: {0} --> {1}ms", new Object[]{track.name(), milliSeconds});
             found.setFadeOut(animation);
             animation.play();
         }
@@ -187,7 +187,7 @@ public class MusicManager {
     }
 
     public void stopAll() {
-        LOGGER.log(Level.SEVERE, "Music Manager: All music stop.");
+        LOGGER.log(Level.CONFIG, "Music Manager: All music stop.");
         for (MediaItem item : activeMedia.toArray(MediaItem[]::new)) {
             item.player.stop();
             activeMedia.remove(item);

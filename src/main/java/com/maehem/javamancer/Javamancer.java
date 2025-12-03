@@ -157,7 +157,7 @@ public class Javamancer extends Application implements RootButtonListener, About
                         try {
                             dat = Ingest.ingestDAT(appProperties.getDatFiles());
                         } catch (FileNotFoundException ex) {
-                            Logger.getLogger(Javamancer.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(Javamancer.class.getName()).log(Level.SEVERE, "File Not Found! ", ex);
                         }
                     }
                     appProperties.initCacheFolder(dat);

@@ -106,7 +106,7 @@ public class R56Extras extends RoomExtras { // Sense Net
             gs.setRoomTalk(true);
             gs.inventory.remove(item);
             countdown = -1;
-            LOGGER.log(Level.SEVERE, "Security Pass is given to NPC.");
+            LOGGER.log(Level.FINE, "Security Pass is given to NPC.");
 
             return true;
         }
@@ -130,7 +130,7 @@ public class R56Extras extends RoomExtras { // Sense Net
             countdown = -1;
             return 3;
         }
-        LOGGER.log(Level.SEVERE, "DialogWarmup: countdown is: " + countdown);
+        LOGGER.log(Level.INFO, () -> "DialogWarmup: countdown is: " + countdown);
         if (countdown == 0) {
             countdown = -1;
             // DESC 11
@@ -143,9 +143,8 @@ public class R56Extras extends RoomExtras { // Sense Net
 
     @Override
     public void onDialog(GameState gs, int dialog) {
-        //LOGGER.log(Level.SEVERE, "OnDialog for RoomExtra called. dialog == {0}", dialog);
         if (dialog == 2) {
-            LOGGER.log(Level.SEVERE, "Gave 30 second warning.");
+            LOGGER.log(Level.INFO, "Gave 30 second warning.");
             // Begin 30 second timer.
             countdown = COUNTDOWN_TICKS;
 
@@ -153,7 +152,7 @@ public class R56Extras extends RoomExtras { // Sense Net
             dialogNoMore(gs);
         } else if (dialog == 5) { // Code verified.
             // Get ROM Consctruct
-            LOGGER.log(Level.SEVERE, "Player recieves ROM construct.");
+            LOGGER.log(Level.FINE, "Player recieves ROM construct.");
             gs.showMessage = gs.resourceManager.getRoomText(gs.room).get(10);
             gs.dixieInstalled = true;
             countdown = -1;
@@ -167,7 +166,7 @@ public class R56Extras extends RoomExtras { // Sense Net
             countdown--;
         }
         if (countdown == 0) {
-            LOGGER.log(Level.SEVERE, "Security countdown finished. Open dialog, then exit.");
+            LOGGER.log(Level.FINE, "Security countdown finished. Open dialog, then exit.");
             //countdown = -1;
             //open dialog
             setRequestDialogPopup(true);

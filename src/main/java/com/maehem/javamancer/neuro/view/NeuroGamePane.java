@@ -142,16 +142,16 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
         if (!gameState.useDoor.equals(Door.NONE)) {
             // Switch room
-            LOGGER.log(Level.SEVERE, "Use Door: {0}", gameState.useDoor.name());
+            LOGGER.log(Level.INFO, "Use Door: {0}", gameState.useDoor.name());
             gameState.room = RoomMap.getRoom(gameState.room, gameState.useDoor);
-            LOGGER.log(Level.SEVERE, "Move to new room: {0}:{1} from previous room door {2}",
+            LOGGER.log(Level.INFO, "Move to new room: {0}:{1} from previous room door {2}",
                     new Object[]{gameState.room.name(), gameState.room.roomName, gameState.useDoor.name()}
             );
             setMode(new RoomMode(this, gameState));
             RoomPosition roompos = RoomPosition.get(gameState.room);
             gameState.roomPosX = roompos.playerX;
             gameState.roomPosY = roompos.playerY;
-            LOGGER.log(Level.SEVERE, "TODO: Set default player position: {0},{1}",
+            LOGGER.log(Level.WARNING, "TODO: Set default player position: {0},{1}",
                     new Object[]{gameState.roomPosX, gameState.roomPosY}
             );
         } else {
@@ -207,7 +207,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                     gameState.room = ROOM_START;
                     initTestItems();
 
-                    LOGGER.log(Level.SEVERE, "Set default player position: {0},{1}",
+                    LOGGER.log(Level.CONFIG, "Set default player position: {0},{1}",
                             new Object[]{gameState.roomPosX, gameState.roomPosY}
                     );
                     gameState.roomPosX = RoomPosition.get(ROOM_START).playerX;

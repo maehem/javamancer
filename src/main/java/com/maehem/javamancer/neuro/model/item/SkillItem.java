@@ -54,7 +54,7 @@ public class SkillItem extends Item {
         // that install code here?
 
         // Install into Skills.
-        LOGGER.log(Level.SEVERE, "Install Skill Item: " + item.itemName);
+        LOGGER.log(Level.INFO, "Install Skill Item: " + item.itemName);
     }
 
     public static boolean hasSkill(SkillItem skillItem, ArrayList<Skill> skills) {
@@ -111,7 +111,7 @@ public class SkillItem extends Item {
                 skills.add(instance);
                 return instance;
             } else {
-                LOGGER.log(Level.SEVERE, "Unable to install skill " + skillItem.item.name());
+                LOGGER.log(Level.SEVERE, () -> "Unable to install skill " + skillItem.item.name());
             }
         }
 

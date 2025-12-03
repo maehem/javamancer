@@ -156,11 +156,11 @@ public class R8Extras extends RoomExtras {
 
     @Override
     public int askWord1(GameState gs, String word) {
-        LOGGER.log(Level.SEVERE, "RoomExtra8: Ask Word: {0}", word);
+        LOGGER.log(Level.FINE, "RoomExtra8: Ask Word: {0}", word);
         Integer index;
         if (gs.shivaGaveChip) {
             index = map2.get(word);
-            LOGGER.log(Level.SEVERE, "Return map2 index: " + index);
+            LOGGER.log(Level.INFO, () -> "Return map2 index: " + index);
         } else {
             index = map1.get(word);
         }

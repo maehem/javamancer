@@ -152,7 +152,7 @@ public class R23Extras extends RoomExtras { // Panther Moderns
 
     @Override
     public int askWord1(GameState gs, String word) {
-        LOGGER.log(Level.SEVERE, "RoomExtra R23: Ask Word: {0}", word);
+        LOGGER.log(Level.FINE, "RoomExtra R23: Ask Word: {0}", word);
         Integer index;
         index = map1.get(word);
         if (index == null) {
@@ -191,7 +191,7 @@ public class R23Extras extends RoomExtras { // Panther Moderns
     @Override
     public void onDialog(GameState gs, int dialogNumber) {
         if (dialogNumber == 7) {
-            LOGGER.log(Level.SEVERE, "Dialog 7: Lupus says you\'re ok.  Discount applied.");
+            LOGGER.log(Level.INFO, "Dialog 7: Lupus says you\'re ok.  Discount applied.");
             discount = true;
         }
     }

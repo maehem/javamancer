@@ -41,7 +41,7 @@ public class EvasionSkill extends Skill {
 
     @Override
     public void use() {
-        LOGGER.log(Level.SEVERE, "Use Skill: {0}", catalog.itemName);
+        LOGGER.log(Level.INFO, "Use Skill: {0}", catalog.itemName);
     }
 
     @Override

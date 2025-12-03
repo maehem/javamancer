@@ -53,7 +53,7 @@ public abstract class RoomExtras {
     private boolean requestDialogPoppup = false;
 
     public RoomExtras() {
-        LOGGER.log(Level.SEVERE, "New RoomExtra Created.");
+        LOGGER.log(Level.CONFIG, "New RoomExtra Created.");
     }
 
     /**
@@ -70,7 +70,7 @@ public abstract class RoomExtras {
     public abstract int dialogWarmUp(GameState gs);
 
     public void dialogNoMore(GameState gs) {
-        LOGGER.log(Level.SEVERE, "Something set room to no more dialog.");
+        LOGGER.log(Level.INFO, "Something set room to no more dialog.");
         gs.setRoomTalk(false);
         //gs.roomNpcTalk[gs.room.getIndex()] = false;
     }
@@ -86,7 +86,7 @@ public abstract class RoomExtras {
     }
 
     /**
-     * Player gets item from NPC. ex. Player recieves ComLink 2.0 in exchange
+     * Player gets item from NPC. ex. Player receives ComLink 2.0 in exchange
      * for Caviar
      *
      *
@@ -189,12 +189,12 @@ public abstract class RoomExtras {
     }
 
     public int getDiscount(GameState gs) {
-        LOGGER.log(Level.SEVERE, "Discount is not overridden.");
+        LOGGER.log(Level.WARNING, "Discount is not overridden.");
         return 0;
     }
 
     public int getSkillDiscount(GameState gs) {
-        LOGGER.log(Level.SEVERE, "Skill Discount is not overridden.");
+        LOGGER.log(Level.WARNING, "Skill Discount is not overridden.");
         return 0;
     }
 
@@ -207,7 +207,7 @@ public abstract class RoomExtras {
     }
 
     public void setRequestDialogPopup(boolean value) {
-        LOGGER.log(Level.SEVERE, "Set requestPopup: {0}", value ? "TRUE" : "FALSE");
+        LOGGER.log(Level.INFO, "Set requestPopup: {0}", value ? "TRUE" : "FALSE");
         requestDialogPoppup = value;
     }
 
@@ -221,7 +221,7 @@ public abstract class RoomExtras {
     }
 
     public int[] onFilter1(GameState gs) {
-        LOGGER.log(Level.SEVERE, "onFilter1() called but not over-ridden!");
+        LOGGER.log(Level.WARNING, "onFilter1() called but not over-ridden!");
         return new int[]{2};
     }
 
@@ -236,7 +236,7 @@ public abstract class RoomExtras {
      * @return true if command can run
      */
     public int onDialogCommand(GameState gs, DialogCommand command) {
-        LOGGER.log(Level.SEVERE, "onDialogCommand() called but not over-ridden!");
+        LOGGER.log(Level.WARNING, "onDialogCommand() called but not over-ridden!");
         return -1;
     }
 

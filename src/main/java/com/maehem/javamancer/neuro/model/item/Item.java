@@ -213,7 +213,7 @@ public abstract class Item {
 //        try {
 //            Constructor<?> ctor = itemClazz.getConstructor();
 //            Object object = ctor.newInstance(new Object[]{});
-//            LOGGER.log(Level.SEVERE, "Item Object created: " + itemClazz.getSimpleName());
+//            LOGGER.log(Level.INFO, "Item Object created: " + itemClazz.getSimpleName());
 //            if (object instanceof Item freshItem) {
 //                return freshItem;
 //            } else {

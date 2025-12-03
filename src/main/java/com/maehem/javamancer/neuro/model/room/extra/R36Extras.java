@@ -83,7 +83,7 @@ public class R36Extras extends RoomExtras { // House of Pong
             gs.joystickGiven = true;
             gs.setRoomTalk(true);
             gs.inventory.remove(item);
-            LOGGER.log(Level.SEVERE, "Joystick is given to NPC.");
+            LOGGER.log(Level.INFO, "Joystick is given to NPC.");
             return true;
         }
 
@@ -101,7 +101,7 @@ public class R36Extras extends RoomExtras { // House of Pong
             return DIALOG_END.num;
         }
         if (gs.joystickGiven) {
-            LOGGER.log(Level.SEVERE, "Start dialog at Joystick Given.");
+            LOGGER.log(Level.INFO, "Start dialog at Joystick Given.");
             return 20;
         }
         return 2;

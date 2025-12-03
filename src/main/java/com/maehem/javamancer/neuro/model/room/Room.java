@@ -133,7 +133,7 @@ public enum Room {
             try {
                 Constructor<?> ctor = extraClazz.getConstructor();
                 Object object = ctor.newInstance(new Object[]{});
-                LOGGER.log(Level.SEVERE, "Extras Room Object created.");
+                LOGGER.log(Level.INFO, "Extras Room Object created.");
                 if (object instanceof RoomExtras re) {
                     extras = re;
                 } else {
@@ -176,7 +176,7 @@ public enum Room {
     }
 
     public void lockDoor(RoomBounds.Door d) {
-        LOGGER.log(Level.SEVERE, "Room:{0}: Lock Door {1}", new Object[]{name(), d.name()});
+        LOGGER.log(Level.CONFIG, "Room:{0}: Lock Door {1}", new Object[]{name(), d.name()});
         locked.add(d);
     }
 

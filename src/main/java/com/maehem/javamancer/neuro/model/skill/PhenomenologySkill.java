@@ -43,7 +43,7 @@ public class PhenomenologySkill extends Skill {
 
     @Override
     public void use() {
-        LOGGER.log(Level.SEVERE, "Use skill: {0}", catalog.itemName);
+        LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
     }
 
     @Override

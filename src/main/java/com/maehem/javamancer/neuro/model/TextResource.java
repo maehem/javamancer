@@ -53,7 +53,7 @@ public class TextResource extends ArrayList<String> {
     }
 
     public void dumpList() {
-        LOGGER.log(Level.SEVERE, "*** Text Elements ***");
+        LOGGER.log(Level.INFO, "*** Text Elements ***");
         int i = 0;
         StringBuilder sb = new StringBuilder("\n");
         for (String s : toArray(String[]::new)) {
@@ -62,6 +62,6 @@ public class TextResource extends ArrayList<String> {
                     append("\n");
             i++;
         }
-        LOGGER.log(Level.SEVERE, sb.toString());
+        LOGGER.log(Level.INFO, sb.toString());
     }
 }

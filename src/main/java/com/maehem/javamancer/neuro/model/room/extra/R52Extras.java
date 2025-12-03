@@ -75,7 +75,7 @@ public class R52Extras extends RoomExtras { // Security Gate
                 return 8; // not listed
             }
             case "hosaka" -> {
-                LOGGER.log(Level.SEVERE, "Matched Word: {0}", word);
+                LOGGER.log(Level.FINE, "Matched Word: {0}", word);
                 for (Person p : gs.hosakaEmployeeList) {
                     if (p.getBama().equals(gs.PLAYER_BAMA)) {
                         return 10; // Cleared
@@ -87,28 +87,28 @@ public class R52Extras extends RoomExtras { // Security Gate
                 return 8; // not listed
             }
             case "musabori" -> {
-                LOGGER.log(Level.SEVERE, "Matched Word: {0}", word);
+                LOGGER.log(Level.FINE, "Matched Word: {0}", word);
                 if (wordTries > 1) {
                     return 9; // go to jail
                 }
                 return 8; // not listed
             }
             case "hitachi" -> {
-                LOGGER.log(Level.SEVERE, "Matched Word: {0}", word);
+                LOGGER.log(Level.FINE, "Matched Word: {0}", word);
                 if (wordTries > 1) {
                     return 9; // go to jail
                 }
                 return 8; // not listed
             }
             case "sensenet", "sense net", "sense-net", "sense/net" -> {
-                LOGGER.log(Level.SEVERE, "Matched Word: {0}", word);
+                LOGGER.log(Level.FINE, "Matched Word: {0}", word);
                 if (wordTries > 1) {
                     return 9; // go to jail
                 }
                 return 8; // not listed
             }
         }
-        LOGGER.log(Level.SEVERE, "No word match for {0}", word);
+        LOGGER.log(Level.INFO, "No word match for {0}", word);
         return 15; // Doesn't know
     }
 

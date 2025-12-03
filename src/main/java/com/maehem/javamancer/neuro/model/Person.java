@@ -129,7 +129,7 @@ public class Person {
         String name = p.getProperty(prefix + ".name", "ERROR");
         String bama = p.getProperty(prefix + ".bama", "ERROR");
         String aux = p.getProperty(prefix + ".aux", "ERROR");
-        LOGGER.log(Level.SEVERE, "Restore Person: {0} :: {1}", new Object[]{name, bama});
+        LOGGER.log(Level.INFO, "Restore Person: {0} :: {1}", new Object[]{name, bama});
 
         return new Person(name, bama, aux);
     }

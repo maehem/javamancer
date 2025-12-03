@@ -69,7 +69,7 @@ public class SoundEffectsManager {
 
     public void playTrack(Sound track, double volume) {
         track.audioClip.play();
-        LOGGER.log(Level.SEVERE, "SoundEffect begin: {0}", track.name());
+        LOGGER.log(Level.INFO, "SoundEffect begin: {0}", track.name());
     }
 
     public void setVolume(Sound track, double value) {

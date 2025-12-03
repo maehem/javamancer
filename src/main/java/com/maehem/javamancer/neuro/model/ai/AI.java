@@ -76,7 +76,7 @@ public class AI {
 
     public void pullProps(String prefix, Properties p) {
         String get = p.getProperty(prefix + ".constitution", "1");
-        LOGGER.log(Level.SEVERE, "Restore Skill level value = " + get);
+        LOGGER.log(Level.INFO, () -> "Restore Skill level value = " + get);
         constitution = Integer.parseInt(get);
     }
 
@@ -85,9 +85,9 @@ public class AI {
         try {
             Class<?> clazz = Class.forName(AI.class.getPackageName() + "." + clazzName);
             if (AI.class.isAssignableFrom(clazz)) {
-                LOGGER.log(Level.SEVERE, "It's an AI class.");
+                LOGGER.log(Level.FINER, "It's an AI class.");
             } else {
-                LOGGER.log(Level.SEVERE, "It's NOT an AI class.");
+                LOGGER.log(Level.WARNING, "It's NOT an AI class.");
             }
             @SuppressWarnings("unchecked")
             Constructor<?> ctor = clazz.getConstructor();

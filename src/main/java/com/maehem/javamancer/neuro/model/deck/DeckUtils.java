@@ -123,7 +123,7 @@ public class DeckUtils {
                 software.add(w);
                 return true;
             } else {
-                LOGGER.log(Level.SEVERE, "Thing is not a Software.");
+                LOGGER.log(Level.WARNING, "Thing is not a Software.");
             }
         } catch (InstantiationException
                 | IllegalAccessException

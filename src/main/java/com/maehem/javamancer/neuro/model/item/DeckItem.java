@@ -80,11 +80,11 @@ public abstract class DeckItem extends Item {
 
             Object object = ctor.newInstance(new Object[]{});
             if (object instanceof DeckItem deckItem) {
-                LOGGER.log(Level.SEVERE, "Instance Deck: {0} with {1} slots.",
+                LOGGER.log(Level.INFO, "Instance Deck: {0} with {1} slots.",
                         new Object[]{deckItem.getName(), deckItem.nSlots});
                 return deckItem;
             } else {
-                LOGGER.log(Level.SEVERE, "Thing is not a Deck.");
+                LOGGER.log(Level.WARNING, "Thing is not a Deck.");
             }
         } catch (InstantiationException
                 | IllegalAccessException

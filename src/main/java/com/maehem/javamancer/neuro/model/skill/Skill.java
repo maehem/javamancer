@@ -101,7 +101,7 @@ public abstract class Skill {
 
     public void pullProps(String prefix, Properties p) {
         String get = p.getProperty(prefix + ".level", "1");
-        LOGGER.log(Level.SEVERE, "Restore Skill level value = " + get);
+        LOGGER.log(Level.INFO, () -> "Restore Skill level value = " + get);
         level = Integer.parseInt(get);
     }
 
@@ -119,7 +119,7 @@ public abstract class Skill {
             if (object instanceof Skill sk) {
                 return sk;
             } else {
-                LOGGER.log(Level.SEVERE, "Thing is not a Skill.");
+                LOGGER.log(Level.WARNING, "Thing is not a Skill.");
             }
         } catch (InstantiationException
                 | IllegalAccessException

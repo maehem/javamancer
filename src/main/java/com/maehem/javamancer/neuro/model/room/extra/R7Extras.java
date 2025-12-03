@@ -81,12 +81,12 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
         }
         if (gs.hotelDeliverCaviar > 0 || gs.hotelDeliverSake > 0) {
             while (gs.hotelDeliverCaviar > 0) {
-                LOGGER.log(Level.SEVERE, "Add one Caviar to player invetory.");
+                LOGGER.log(Level.FINE, "Add one Caviar to player inventory.");
                 gs.hotelDeliverCaviar--;
                 gs.inventory.add(new RealItem(Item.Catalog.CAVIAR, 0));
             }
             while (gs.hotelDeliverSake > 0) {
-                LOGGER.log(Level.SEVERE, "Add one Sake to player invetory.");
+                LOGGER.log(Level.FINE, "Add one Sake to player inventory.");
                 gs.hotelDeliverSake--;
                 gs.inventory.add(new RealItem(Item.Catalog.SAKE, 0));
             }

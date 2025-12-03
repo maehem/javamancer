@@ -41,7 +41,7 @@ public class CryptologySkill extends Skill {
 
     @Override
     public void use() {
-        LOGGER.log(Level.SEVERE, "Use Skill: {0}", new Object[]{catalog.itemName});
+        LOGGER.log(Level.INFO, "Use Skill: {0}", new Object[]{catalog.itemName});
         // Should invoke a popup for password to decode.
     }
 

@@ -85,7 +85,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         if (gs.roomCanTalk()) {
             if (gs.hasInventoryItem(Item.Catalog.UXB)) {
                 //gs.pawnRecent = GameState.PawnRecent.NONE;
-                LOGGER.log(Level.SEVERE, "Player bought the deck.");
+                LOGGER.log(Level.INFO, "Player bought the deck.");
 
                 // Dialog to player with 9,10
                 return 8;

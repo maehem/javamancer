@@ -91,9 +91,9 @@ public class R19Extras extends RoomExtras { // Spaceport Chiba
     public int onDialogCommand(GameState gs, DialogCommand command) {
         switch (command) {
             case EXIT_SHUTTLE_FS -> {
-                LOGGER.log(Level.SEVERE, "Do something about purchase of ticket Free Side.");
+                LOGGER.log(Level.INFO, "Do something about purchase of ticket Free Side.");
                 if (gs.chipBalance < FS_TICKET) {
-                    LOGGER.log(Level.SEVERE, "Not enough money for Free Side.");
+                    LOGGER.log(Level.FINE, "Not enough money for Free Side.");
                     return 20;
                 } else {
                     gs.chipBalance -= FS_TICKET;
@@ -101,9 +101,9 @@ public class R19Extras extends RoomExtras { // Spaceport Chiba
                 }
             }
             case EXIT_SHUTTLE_ZION -> {
-                LOGGER.log(Level.SEVERE, "Do something about purchase of ticket Zion.");
+                LOGGER.log(Level.INFO, "Do something about purchase of ticket Zion.");
                 if (gs.chipBalance < ZION_TICKET) {
-                    LOGGER.log(Level.SEVERE, "Not enough money for Zion.");
+                    LOGGER.log(Level.FINE, "Not enough money for Zion.");
                     return 20;
                 } else {
                     gs.chipBalance -= ZION_TICKET;

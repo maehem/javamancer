@@ -99,20 +99,20 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
     @Override
     public boolean getItem(GameState gs, Item item) {
         if (item.item != Catalog.COMLINK) {
-            LOGGER.log(Level.SEVERE, "Received item is not ComLink. Player doesn't take anyting else.");
+            LOGGER.log(Level.WARNING, "Received item is not ComLink. Player doesn't take anyting else.");
             return false;
         }
         if (gs.hasInventoryItem(Catalog.CAVIAR)) {
             if (gs.addSoftware(new ComLinkWarez(2))) {
-                LOGGER.log(Level.SEVERE, "Warez installed.");
+                LOGGER.log(Level.FINE, "Warez installed.");
                 gs.removeInventoryItem(Catalog.CAVIAR);
                 return true;
             } else {
                 // Not installed, why?
-                LOGGER.log(Level.SEVERE, "Could not install software! Unknown error.");
+                LOGGER.log(Level.WARNING, "Could not install software! Unknown error.");
             }
         } else {
-            LOGGER.log(Level.SEVERE, "Player does not have Caviar in inventory.");
+            LOGGER.log(Level.INFO, "Player does not have Caviar in inventory.");
         }
 
         return false;
@@ -153,9 +153,9 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
     public boolean onVendItemsFinished(GameState gs) {
         if (!purchasedItem) {
             // set dialog to 32 // Come back when you're ready
-            LOGGER.log(Level.SEVERE, "No item was purchased.");
+            LOGGER.log(Level.WARNING, "No item was purchased.");
         } else {
-            LOGGER.log(Level.SEVERE, "Item was purchased.");
+            LOGGER.log(Level.FINE, "Item was purchased.");
         }
         return false;
     }

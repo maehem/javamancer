@@ -87,7 +87,7 @@ public class R24Extras extends RoomExtras {
 
     @Override
     public int onInfoBuy(GameState gs) {
-        LOGGER.log(Level.SEVERE, "Massage Parlor: Player bought info...");
+        LOGGER.log(Level.INFO, "Massage Parlor: Player bought info...");
         if (gs.chipBalance < 20) {
             return 21;
         }

@@ -138,11 +138,11 @@ public abstract class Database {
             damage += ice; // ice is negative, so lower damage reported.
             ice = 0;
         }
-        LOGGER.log(Level.SEVERE, "Apply " + damage + " to database.");
+        LOGGER.log(Level.INFO, "Apply " + damage + " to database.");
         if (ice == 0) {
-            LOGGER.log(Level.SEVERE, "Database reached 0 ice.");
+            LOGGER.log(Level.FINE, "Database reached 0 ice.");
         } else {
-            LOGGER.log(Level.SEVERE, "Database ice  = " + ice);
+            LOGGER.log(Level.FINE, "Database ice  = " + ice);
         }
         return damage;
     }

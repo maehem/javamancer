@@ -278,7 +278,7 @@ public class GameState {
     }
 
     public void saveSlot(int i) {
-        LOGGER.log(Level.SEVERE, "Save Slot {0} requested", i);
+        LOGGER.log(Level.CONFIG, "Save Slot {0} requested", i);
     }
 
     public boolean hasInstalledSkill(SkillItem skillItem) {
@@ -338,7 +338,7 @@ public class GameState {
     public final boolean addSoftware(Warez w) {
         if (software.size() < deckSlots) {
             if (software.add(w)) {
-                LOGGER.log(Level.SEVERE, "Deck Warez:\n");
+                LOGGER.log(Level.INFO, "Deck Warez:\n");
                 software.forEach((dw) -> {
                     LOGGER.log(Level.FINER, () -> dw.getSimpleName() + "\n");
                 });

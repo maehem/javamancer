@@ -41,7 +41,7 @@ public class DebugSkill extends Skill {
 
     @Override
     public void use() {
-        LOGGER.log(Level.SEVERE, "{0}Use skill: ", catalog.itemName);
+        LOGGER.log(Level.INFO, "{0}Use skill: ", catalog.itemName);
     }
 
     @Override

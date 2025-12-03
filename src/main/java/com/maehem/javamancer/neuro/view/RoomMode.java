@@ -234,7 +234,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             if (mus != null) {
                 gameState.resourceManager.musicManager.playTrack(mus);
             } else {
-                LOGGER.log(Level.SEVERE, "No soundtrack for room {0}", room.name());
+                LOGGER.log(Level.WARNING, "No soundtrack for room {0}", room.name());
             }
         });
 
@@ -401,13 +401,13 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         // }
         // then allow
         if (popup != null) {
-            //LOGGER.log(Level.SEVERE, "Popup is: " + popup.getClass().getSimpleName());
+            LOGGER.log(Level.FINEST, () -> "Popup is: " + popup.getClass().getSimpleName());
             switch (popup) {
-                case DialogPopup dp -> //LOGGER.log(Level.SEVERE, "Dialog tick.");
+                case DialogPopup dp -> 
                     dp.dialogCounter();
-                case DeckPopup dp -> //LOGGER.log(Level.SEVERE, "Dialog tick.");
+                case DeckPopup dp ->
                     dp.tick();
-                case CyberspacePopup dp -> //LOGGER.log(Level.SEVERE, "Cyberspace tick.");
+                case CyberspacePopup dp -> 
                     dp.tick();
                 default -> {
                 }
@@ -430,7 +430,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         }
 
         if (getGameState().isFlatline()) {
-            LOGGER.log(Level.SEVERE, "RoomMode: player is flatlined.");
+            LOGGER.log(Level.INFO, "RoomMode: player is flatlined.");
             popup = null;
 
             // Load revive room scene?
@@ -459,12 +459,12 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case TALK -> {
                 GameState gs = getGameState();
                 boolean canTalk = gs.roomCanTalk();
-                LOGGER.log(Level.SEVERE, "Room {0} can talk: {1}", new Object[]{gs.room.getIndex() + 1, canTalk ? "YES" : "NO"});
+                LOGGER.log(Level.FINE, "Room {0} can talk: {1}", new Object[]{gs.room.getIndex() + 1, canTalk ? "YES" : "NO"});
                 if (canTalk) {
-                    LOGGER.log(Level.SEVERE, "Create new TALK popup.");
+                    LOGGER.log(Level.INFO, "Create new TALK popup.");
                     popup = new DialogPopup(this, gs, getResourceManager());
                 } else {
-                    LOGGER.log(Level.SEVERE, "No NPC or NPC has no more to talk about.");
+                    LOGGER.log(Level.FINE, "No NPC or NPC has no more to talk about.");
                 }
             }
             case SKILLS -> {
@@ -480,7 +480,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 // Let's do matrix stuff.
                 DeckItem deck = getGameState().usingDeck;
                 if (deck != null) {
-                    LOGGER.log(Level.CONFIG, "Popup created for Deck: {0}", deck.getName());
+                    LOGGER.log(Level.INFO, "Popup created for Deck: {0}", deck.getName());
                     popup = new DeckPopup(this, getGameState());
                 } else {
                     LOGGER.log(Level.SEVERE, "Room tried to use a null deck!  Did something go wrong?");
@@ -489,11 +489,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             }
             case BODYSHOP_BUY -> {
                 popup = new BodyShopPopup(BodyShopPopup.Mode.BUY, this, getGameState());
-                LOGGER.log(Level.SEVERE, "Set popup to: BodyShop - BUY");
+                LOGGER.log(Level.INFO, "Set popup to: BodyShop - BUY");
             }
             case BODYSHOP_SELL -> {
                 popup = new BodyShopPopup(BodyShopPopup.Mode.SELL, this, getGameState());
-                LOGGER.log(Level.SEVERE, "Set popup to: BodyShop - SELL");
+                LOGGER.log(Level.INFO, "Set popup to: BodyShop - SELL");
             }
             case SKILLS_BUY -> {
                 RoomExtras roomExtras = room.getExtras();
@@ -504,7 +504,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                                 SkillsVendPopup.Mode.BUY,
                                 this, getGameState(), items
                         );
-                        LOGGER.log(Level.SEVERE, "Set popup to: Skills - BUY");
+                        LOGGER.log(Level.INFO, "Set popup to: Skills - BUY");
                     }
                 }
             }
@@ -517,7 +517,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                                 SkillsVendPopup.Mode.UPGRADE,
                                 this, getGameState(), items
                         );
-                        LOGGER.log(Level.SEVERE, "Set popup to: Skills - UPGRADE");
+                        LOGGER.log(Level.INFO, "Set popup to: Skills - UPGRADE");
                     }
                 }
             }
@@ -531,7 +531,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                                 PawnshopVendPopup.Mode.BUY,
                                 this, getGameState(), vendItems
                         );
-                        LOGGER.log(Level.SEVERE, "Set popup to: Items - BUY");
+                        LOGGER.log(Level.INFO, "Set popup to: Items - BUY");
                     }
                 }
             }
@@ -544,17 +544,17 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                                 SoftwareVendPopup.Mode.BUY,
                                 this, getGameState(), vendItems
                         );
-                        LOGGER.log(Level.SEVERE, "Set popup to: Software - BUY");
+                        LOGGER.log(Level.INFO, "Set popup to: Software - BUY");
                     }
                 }
             }
             case CYBERSPACE -> {
                 popup = new CyberspacePopup(this, getGameState());
-                LOGGER.log(Level.SEVERE, "Set popup to: Cyberspace");
+                LOGGER.log(Level.INFO, "Set popup to: Cyberspace");
             }
         }
         if (popup != null) {
-            LOGGER.log(Level.SEVERE, "Add popup to scene: {0}", popup.getClass().getSimpleName());
+            LOGGER.log(Level.INFO, "Add popup to scene: {0}", popup.getClass().getSimpleName());
             getChildren().add(popup);
             //getGameState().pause = true;
         }
@@ -563,7 +563,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     @Override
     public void destroy() {
         if (!getGameState().visited.contains(room)) {
-            LOGGER.log(Level.SEVERE, "Set room {0} as visited.", room.name());
+            LOGGER.log(Level.FINE, "Set room {0} as visited.", room.name());
             getGameState().visited.add(room);
         }
 
@@ -605,7 +605,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     private void handleMouseClick(double x, double y) {
         if (firstTime) {
-            LOGGER.log(Level.WARNING, "No mouse interaction until room description is read.");
+            LOGGER.log(Level.CONFIG, "No mouse interaction until room description is read.");
             return;
         }
         LOGGER.log(Level.FINER, "Mouse Click at: {0},{1}", new Object[]{(int) x, (int) y});

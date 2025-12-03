@@ -44,7 +44,7 @@ public abstract class VirusWarez extends Warez {
     @Override
     public String use(GameState gs) {
         if (gs.usingDeck != null) {
-            LOGGER.log(Level.SEVERE, "Using Deck Mode: " + gs.usingDeck.getMode().name());
+            LOGGER.log(Level.FINE, () -> "Using Deck Mode: " + gs.usingDeck.getMode().name());
             switch (gs.usingDeck.getMode()) {
                 case NONE, LINKCODE -> {
                     // Can't be used here.

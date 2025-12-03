@@ -61,7 +61,7 @@ public abstract class Warez {
     }
 
     public String use(GameState gs) {
-        LOGGER.log(Level.SEVERE, "Warez: Use(): " + getClass().getSimpleName() + " USE_OK");
+        LOGGER.log(Level.FINE, "Warez: Use(): " + getClass().getSimpleName() + " USE_OK");
         return USE_OK;
     }
 
@@ -124,7 +124,7 @@ public abstract class Warez {
 
     public void pullProps(String prefix, Properties p) {
         String get = p.getProperty(prefix + ".version", "1");
-        LOGGER.log(Level.SEVERE, "Restore Warez version value = " + get);
+        LOGGER.log(Level.FINE, "Restore Warez version value = " + get);
         version = Integer.parseInt(get);
     }
 
@@ -142,7 +142,7 @@ public abstract class Warez {
             if (object instanceof Warez w) {
                 return w;
             } else {
-                LOGGER.log(Level.SEVERE, "Thing is not a Warez.");
+                LOGGER.log(Level.WARNING, "Thing is not a Warez.");
             }
         } catch (InstantiationException
                 | IllegalAccessException

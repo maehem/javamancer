@@ -206,14 +206,14 @@ public class R44Extras extends RoomExtras { // Asano's
 
     @Override
     public void applyDiscount(GameState gs) {
-        LOGGER.log(Level.SEVERE, "Apply discount because Asano likes you.");
+        LOGGER.log(Level.FINE, "Apply discount because Asano likes you.");
         gs.asanoDiscount = true;
     }
 
     @Override
     public int getDiscount(GameState gs) {
         if (gs.asanoDiscount) {
-            LOGGER.log(Level.SEVERE, "Discount is 20%.");
+            LOGGER.log(Level.FINE, "Discount is 20%.");
             return 20;
         }
         return 0;
