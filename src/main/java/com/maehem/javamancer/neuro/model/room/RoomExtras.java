@@ -212,7 +212,7 @@ public abstract class RoomExtras {
     }
 
     public boolean isRequestDialogPopup() {
-        //LOGGER.log(Level.SEVERE, "Request DialogPopup is: {0}", requestDialogPoppup ? "TRUE" : "FALSE");
+        //LOGGER.log(Level.INFO, "Request DialogPopup is: {0}", requestDialogPoppup ? "TRUE" : "FALSE");
         return requestDialogPoppup;
     }
 

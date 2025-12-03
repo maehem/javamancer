@@ -155,7 +155,7 @@ public enum PicResource implements Resource {
             int width = 152;
             int height = 112;
             int size = width * height;
-            LOGGER.log(Level.SEVERE, "\nSub-image: {0}x{1}", new Object[]{width, height});
+            LOGGER.log(Level.FINE, "\nSub-image: {0}x{1}", new Object[]{width, height});
 
             //memmove(dst, src, sizeof(imh_hdr_t))
 //            for (int ii = 0; ii < imhSize; ii++) { // Copy x/y w/h values to dst[].
@@ -173,10 +173,10 @@ public enum PicResource implements Resource {
             Util.xorRows(dst, dstIdx, width, height);
             dstIdx += size; // Add size to dstIdx
 
-            LOGGER.log(Level.SEVERE, "Pretty XOR Result with header ===>");
+            LOGGER.log(Level.FINE, "Pretty XOR Result with header ===>");
             HexFormat hexFormat = HexFormat.of();
             int prettyIdx = dstIdx - size; // - imhSize;
-            LOGGER.log(Level.SEVERE,
+            LOGGER.log(Level.FINE,
                     "#### XY: {1}{0} {3}{2}    W:{5}{4}   H:{7}{6}",
                     new Object[]{
                         dst[prettyIdx++], dst[prettyIdx++], dst[prettyIdx++], dst[prettyIdx++],
@@ -190,7 +190,7 @@ public enum PicResource implements Resource {
                 for (int ww = 0; ww < width; ww++) {
                     sb.append(hexFormat.toHexDigits(dst[j + ww])).append(" ");
                 }
-                LOGGER.log(Level.SEVERE, sb.toString());
+                LOGGER.log(Level.FINE, sb.toString());
             }
 
         }

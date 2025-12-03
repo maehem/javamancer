@@ -59,11 +59,11 @@ public class PICThing {
             byte blob[] = new byte[size];
             System.arraycopy(data, i, blob, 0, size);
             i += size;
-            LOGGER.log(Level.SEVERE, "PICThing Added a blob: {0}x{1}", new Object[]{width, height});
+            LOGGER.log(Level.FINE, "PICThing Added a blob: {0}x{1}", new Object[]{width, height});
             dataBlock.add(blob);
         }
 
-        LOGGER.log(Level.SEVERE, "{0}:: PIC Blob count = {1}", new Object[]{name, dataBlock.size()});
+        LOGGER.log(Level.FINE, "{0}:: PIC Blob count = {1}", new Object[]{name, dataBlock.size()});
     }
 
 }

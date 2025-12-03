@@ -160,7 +160,7 @@ public class HosakaDatabaseView extends DatabaseView {
     protected boolean onUploadDone(boolean uploadOK) {
         if (uploadOK && !gameState.comlink6uploaded) {
             // Add 7500 credits to chip.
-            LOGGER.log(Level.SEVERE, "Hosaka added 7500 credits to player chip.");
+            LOGGER.log(Level.FINE, "Hosaka added 7500 credits to player chip.");
             gameState.chipBalance += 7500;
             gameState.comlink6uploaded = true;
             return true;
@@ -193,7 +193,7 @@ public class HosakaDatabaseView extends DatabaseView {
 //            case EDIT -> {
 //                if (code.equals(KeyCode.X)
 //                        || code.equals(KeyCode.ESCAPE)) {
-//                    LOGGER.log(Level.SEVERE, "Go back up menu level.");
+//                    LOGGER.log(Level.FINE, "Go back up menu level.");
 //                    mainMenu();
 //                    keyEvent.consume();
 //                    return false;
@@ -202,7 +202,7 @@ public class HosakaDatabaseView extends DatabaseView {
             // else ignore key
 
         }
-        LOGGER.log(Level.SEVERE, "Do super.handleKeyEvent()");
+        LOGGER.log(Level.FINE, "Do super.handleKeyEvent()");
         return super.handleKeyEvent(keyEvent);
     }
 

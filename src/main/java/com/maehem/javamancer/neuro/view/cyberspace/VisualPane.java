@@ -92,14 +92,14 @@ public class VisualPane extends Pane {
                             deck.getCordX() + GameState.GRID_SIZE,
                             deck.getCordY()
                     );
-                    LOGGER.log(Level.SEVERE, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
+                    LOGGER.log(Level.INFO, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
                     if (deck.getZone().equals(destZone) || hasEasyRider) {
                         gridBasePane.animateTravel(ExploreGridPane.Direction.LEFT);
                     } else {
-                        LOGGER.log(Level.SEVERE, "Zone change not allowed.");
+                        LOGGER.log(Level.WARNING, "Zone change not allowed.");
                     }
                 } else {
-                    LOGGER.log(Level.SEVERE, "Max matrix X reached.");
+                    LOGGER.log(Level.INFO, "Max matrix X reached.");
                 }
             }
             case LEFT -> {
@@ -109,14 +109,14 @@ public class VisualPane extends Pane {
                             deck.getCordX() - GameState.GRID_SIZE,
                             deck.getCordY()
                     );
-                    LOGGER.log(Level.SEVERE, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
+                    LOGGER.log(Level.INFO, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
                     if (deck.getZone().equals(destZone) || hasEasyRider) {
                         gridBasePane.animateTravel(ExploreGridPane.Direction.RIGHT);
                     } else {
-                        LOGGER.log(Level.SEVERE, "Zone change not allowed.");
+                        LOGGER.log(Level.WARNING, "Zone change not allowed.");
                     }
                 } else {
-                    LOGGER.log(Level.SEVERE, "Min matrix X reached.");
+                    LOGGER.log(Level.INFO, "Min matrix X reached.");
                 }
             }
             case UP -> {
@@ -126,14 +126,14 @@ public class VisualPane extends Pane {
                             deck.getCordX(),
                             deck.getCordY() + GameState.GRID_SIZE
                     );
-                    LOGGER.log(Level.SEVERE, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
+                    LOGGER.log(Level.INFO, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
                     if (deck.getZone().equals(destZone) || hasEasyRider) {
                         gridBasePane.animateTravel(ExploreGridPane.Direction.FORWARD);
                     } else {
-                        LOGGER.log(Level.SEVERE, "Zone change not allowed.");
+                        LOGGER.log(Level.WARNING, "Zone change not allowed.");
                     }
                 } else {
-                    LOGGER.log(Level.SEVERE, "Max matrix Y reached.");
+                    LOGGER.log(Level.INFO, "Max matrix Y reached.");
                 }
             }
             case DOWN -> {
@@ -143,14 +143,14 @@ public class VisualPane extends Pane {
                             deck.getCordX(),
                             deck.getCordY() - GameState.GRID_SIZE
                     );
-                    LOGGER.log(Level.SEVERE, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
+                    LOGGER.log(Level.INFO, "StartZone: {0}  ==> Destination Zone: {1}", new Object[]{deck.getZone(), destZone});
                     if (deck.getZone().equals(destZone) || hasEasyRider) {
                         gridBasePane.animateTravel(ExploreGridPane.Direction.BACKWARD);
                     } else {
-                        LOGGER.log(Level.SEVERE, "Zone change not allowed.");
+                        LOGGER.log(Level.WARNING, "Zone change not allowed.");
                     }
                 } else {
-                    LOGGER.log(Level.SEVERE, "Min matrix Y reached.");
+                    LOGGER.log(Level.INFO, "Min matrix Y reached.");
                 }
             }
         }

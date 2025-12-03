@@ -240,41 +240,41 @@ public class BattleGridPane extends GridPane {
                     deck.setCurrentWarez(null);
                 }
                 case IceBreakerWarez ww -> {
-                    LOGGER.log(Level.SEVERE, "Using IceBreaker Warez... {0}", w.item.itemName);
+                    LOGGER.log(Level.INFO, "Using IceBreaker Warez... {0}", w.item.itemName);
                     if (!ww.isRunning()) {
                         ww.setRunning(true);
                         fireShotPlayer();
                     }
                 }
                 case VirusWarez ww -> { // ICE Breaker but deletes after use.
-                    //LOGGER.log(Level.SEVERE, "Using Virus Warez...{0}.  Todo: What happens here?", w.item.itemName);
+                    LOGGER.log(Level.CONFIG, "Using Virus Warez...{0}.  Todo: What happens here?", w.item.itemName);
                     if (!ww.isRunning()) {
                         ww.setRunning(true);
                         fireShotPlayer();
                     }
                 }
                 case CorruptorWarez ww -> {
-                    LOGGER.log(Level.SEVERE, "Using Corruptor Warez...{0}.  Todo: What happens here?", w.item.itemName);
+                    LOGGER.log(Level.INFO, "Using Corruptor Warez...{0}.  Todo: What happens here?", w.item.itemName);
                     if (!ww.isRunning()) {
                         ww.setRunning(true);
                         fireShotPlayer();
                     }
                 }
                 case ShotgunWarez ww -> {
-                    LOGGER.log(Level.SEVERE, "Using Shotgun Warez...{0}.  Todo: What happens here?", w.item.itemName);
+                    LOGGER.log(Level.INFO, "Using Shotgun Warez...{0}.  Todo: What happens here?", w.item.itemName);
                     if (!ww.isRunning()) {
                         ww.setRunning(true);
                         fireShotPlayer();
                     }
                 }
                 case ChessWarez ww -> {
-                    LOGGER.log(Level.SEVERE, "Using Chess Warez...{0}.  Todo: What happens here?", w.item.itemName);
+                    LOGGER.log(Level.INFO, "Using Chess Warez...{0}.  Todo: What happens here?", w.item.itemName);
                     w.setRunning(true); // must toggle for event to work
                     w.setRunning(false);
                     deck.setCurrentWarez(null);
                 }
                 default -> {
-                    LOGGER.log(Level.SEVERE, "Using Non-Applicable Warez...{0}. Remove from use.", w.item.itemName);
+                    LOGGER.log(Level.INFO, "Using Non-Applicable Warez...{0}. Remove from use.", w.item.itemName);
                     w.setRunning(true); // must toggle for event to work
                     w.setRunning(false);
                     deck.setCurrentWarez(null);
@@ -338,7 +338,7 @@ public class BattleGridPane extends GridPane {
                 w.getRunDuration()
         );
         tt.setOnFinished((t) -> {
-            LOGGER.log(Level.SEVERE, "Warez " + w.item.itemName + " finished. Un-slot.");
+            LOGGER.log(Level.INFO, () -> "Warez " + w.item.itemName + " finished. Un-slot.");
             w.setRunning(false);
             deck.setCurrentWarez(null);
 
@@ -354,7 +354,7 @@ public class BattleGridPane extends GridPane {
                 gameState.eraseSoftware(w);
             } else {
                 // Software has a chance of being worn/damaged.
-                LOGGER.log(Level.SEVERE, "TODO: Wear or Damage software.");
+                LOGGER.log(Level.INFO, "TODO: Wear or Damage software.");
             }
 
             if (gameState.database.getIce() == 0) {
@@ -366,7 +366,7 @@ public class BattleGridPane extends GridPane {
     }
 
     private void fireShotDB() {
-        LOGGER.log(Level.SEVERE, "Database Fires Attack Round...");
+        LOGGER.log(Level.INFO, "Database Fires Attack Round...");
         Database db = gameState.database;
 
         shotsLiveDBPane.setLayoutY(120);
@@ -378,7 +378,7 @@ public class BattleGridPane extends GridPane {
 
         TranslateTransition tt = shotMoveInit(shotsLiveDBPane, 80, db.shotDuration);
         tt.setOnFinished((t) -> {
-            LOGGER.log(Level.SEVERE, "DB Attack finished.");
+            LOGGER.log(Level.INFO, "DB Attack finished.");
             dbAttackRunning = false;
 
             //int effect = db.getEffect(gameState);

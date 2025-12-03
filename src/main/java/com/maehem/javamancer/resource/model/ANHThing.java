@@ -62,7 +62,7 @@ public class ANHThing {
 
         int nEntries = ((data[1] & 0xFF) << 8) + (data[0] & 0xFF);
         int offset = 2;
-        LOGGER.log(Level.SEVERE, "ANHThing: {0} items found.", nEntries);
+        LOGGER.log(Level.FINE, "ANHThing: {0} items found.", nEntries);
         for (int i = 0; i < nEntries; i++) {
             int entLen = ((data[offset + 1] & 0xFF) << 8) + (data[offset] & 0xFF);
             offset += 2;
@@ -74,7 +74,7 @@ public class ANHThing {
             offset += entLen;
         }
 
-        LOGGER.log(Level.SEVERE, "ANHThing Ingested " + nEntries + " entries.");
+        LOGGER.log(Level.FINE, () -> "ANHThing Ingested " + nEntries + " entries.");
     }
 
 }

@@ -149,13 +149,13 @@ public class GentlemanLoserDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "Handle key event.");
+        LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
+                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
                     keyEvent.consume();
                     return true;
                 } else if (code.isDigitKey()) {

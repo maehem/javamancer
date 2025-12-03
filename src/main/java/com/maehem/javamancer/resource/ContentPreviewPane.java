@@ -84,7 +84,7 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                     LOGGER.log(Level.FINEST, "Clear clicked.");
                     getChildren().clear();
                 } else {
-                    LOGGER.log(Level.SEVERE, "User clicked: {0}", clickedFile.getName());
+                    LOGGER.log(Level.FINE, "User clicked: {0}", clickedFile.getName());
                     getChildren().clear();
                     String parent = clickedFile.getParentFile().getName();
                     switch (parent) {
@@ -166,7 +166,7 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                             timeline = new Timeline(new KeyFrame(
                                     Duration.millis(animSequence.getSleep() * 50),
                                     ae -> {
-                                        //LOGGER.log(Level.SEVERE, "Anim Frame Event.");
+                                        //LOGGER.log(Level.FINE, "Anim Frame Event.");
                                         ArrayList<ImageView> images = animSequence.images;
                                         int next = 0;
                                         for (int i = 0; i < images.size(); i++) {
@@ -176,7 +176,7 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                                             }
                                         }
                                         next %= images.size();
-                                        //LOGGER.log(Level.SEVERE, "SetVisible: " + next);
+                                        //LOGGER.log(Level.FINE, "SetVisible: " + next);
                                         images.get(next).setVisible(true);
                                     }
                             ));
@@ -231,14 +231,14 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
             ImageView iv = new ImageView(img);
             return iv;
         } catch (FileNotFoundException ex) {
-            LOGGER.log(Level.SEVERE, ex.toString(), ex);
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
 
         return null;
     }
 
     private static VBox bihPreview(File roomFile) {
-        LOGGER.log(Level.SEVERE, "Do BIH Preview: {0}", roomFile.getAbsolutePath());
+        LOGGER.log(Level.FINE, "Do BIH Preview: {0}", roomFile.getAbsolutePath());
         VBox box = new VBox();
         box.setMaxHeight(Double.MAX_VALUE);
 
@@ -254,7 +254,7 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
             VBox.setVgrow(textArea, Priority.ALWAYS);
             box.getChildren().add(textArea);
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, ex.toString(), ex);
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
 
         return box;

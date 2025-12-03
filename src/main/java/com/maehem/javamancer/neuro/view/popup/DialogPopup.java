@@ -131,7 +131,7 @@ public class DialogPopup extends DialogPopupPane {
                 wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name));
                 dialogCountDown = DIALOG_COUNT;
             } else {
-                LOGGER.log(Level.SEVERE, "first text appears to be a command.");
+                LOGGER.log(Level.FINE, "first text appears to be a command.");
                 //processCommand(dialogIndex);
                 processCommand(DialogCommand.getCommand(dialogIndex));
             }
@@ -181,7 +181,7 @@ public class DialogPopup extends DialogPopupPane {
                     dialogSubIndex = 0;
                     processCommand(DialogCommand.getCommand(items[dialogSubIndex]));
                 } else {
-                    //LOGGER.log(Level.SEVERE, "Dialog arg should be command, but it's not!");
+                    //LOGGER.log(Level.FINE, "Dialog arg should be command, but it's not!");
                     handleCode(KeyCode.SPACE);
                 }
             }
@@ -192,7 +192,7 @@ public class DialogPopup extends DialogPopupPane {
     private void npcResponse(int sub) {
         LOGGER.log(Level.CONFIG, "{0}: Do response.", mode.name());
         mode = Mode.NPC;
-        LOGGER.log(Level.SEVERE, "[186] Mode = NPC");
+        LOGGER.log(Level.FINE, "[186] Mode = NPC");
 
         bubble.setMode(DialogBubble.Mode.NONE); // The thing that hangs under the words.
         dialogSubIndex = sub;
@@ -208,7 +208,7 @@ public class DialogPopup extends DialogPopupPane {
         }
         //dialogSubIndex = 0;
         if (newDialog >= 50) {
-            //LOGGER.log(Level.SEVERE, "{0} runs command: {1}", new Object[]{mode.name(), command.name()});
+            //LOGGER.log(Level.FINE, "{0} runs command: {1}", new Object[]{mode.name(), command.name()});
             processCommand(DialogCommand.getCommand(newDialog));
             dialogSubIndex++;
         } else {
@@ -220,7 +220,7 @@ public class DialogPopup extends DialogPopupPane {
             // Control character '01' is a token for the player's name. Replace it here.
             wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
             bubble.setMode(DialogBubble.Mode.NPC_SAY);
-            LOGGER.log(Level.SEVERE, "npcResponse() NPC Text: \n{0}\t\t\t", wordText.getText());
+            LOGGER.log(Level.FINE, "npcResponse() NPC Text: \n{0}\t\t\t", wordText.getText());
             dialogCountDown = -1;
             dialogSubIndex = -1;
             if (items.length > 0) {
@@ -250,7 +250,7 @@ public class DialogPopup extends DialogPopupPane {
         KeyCode code = ke.getCode();
         if (code == KeyCode.ENTER) {
             // Submit typed thing.
-            LOGGER.log(Level.SEVERE, "Set Cursor In-Visible.");
+            LOGGER.log(Level.FINE, "Set Cursor In-Visible.");
             CURSOR_FILL.setText(" ");
             mode = Mode.NPC;
 
@@ -267,7 +267,7 @@ public class DialogPopup extends DialogPopupPane {
                     }
                 }
                 if (askWord > 0) {
-                    LOGGER.log(Level.SEVERE, "askWord() returned: {0}", askWord);
+                    LOGGER.log(Level.FINE, "askWord() returned: {0}", askWord);
                     dialogIndex = askWord;
                     items = dialogChain[dialogIndex];
                     dialogSubIndex = 0;
@@ -275,13 +275,13 @@ public class DialogPopup extends DialogPopupPane {
                     //npcResponse(0);
                     wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
                     bubble.setMode(DialogBubble.Mode.NPC_SAY);
-                    LOGGER.log(Level.SEVERE, "handleTypedText() NPC Text: \n{0}\t\t\t", wordText.getText());
+                    LOGGER.log(Level.FINE, "handleTypedText() NPC Text: \n{0}\t\t\t", wordText.getText());
                     dialogCountDown = DIALOG_COUNT;
                     if (gameState.room.getExtras() != null) {
                         gameState.room.getExtras().onDialog(gameState, askWord);
                     }
                 } else {
-                    LOGGER.log(Level.SEVERE, "RoomExtras.askWord has returned unexpected value! -1");
+                    LOGGER.log(Level.WARNING, "RoomExtras.askWord has returned unexpected value! -1");
                 }
             }
             fillingText = 0;
@@ -304,7 +304,7 @@ public class DialogPopup extends DialogPopupPane {
 
         switch (code) {
             case SPACE -> {
-                LOGGER.log(Level.SEVERE, "SPACE BAR");
+                LOGGER.log(Level.FINE, "SPACE BAR");
                 switch (mode) {
                     case PLAYER -> {
                         // Nothing to do.
@@ -322,13 +322,13 @@ public class DialogPopup extends DialogPopupPane {
                 if (dialogSubIndex < 0 || dialogSubIndex >= items.length) {
                     dialogSubIndex = 0;
                 }
-                LOGGER.log(Level.SEVERE, "Dialog is now:  d[{0}][{1}] = {2}",
+                LOGGER.log(Level.FINE, "Dialog is now:  d[{0}][{1}] = {2}",
                         new Object[]{dialogIndex, dialogSubIndex,
                             items[dialogSubIndex]
                         });
                 // Is it a command?
                 if (items[dialogSubIndex] >= 50) {
-                    LOGGER.log(Level.SEVERE, "Command found for response.");
+                    LOGGER.log(Level.FINE, "Command found for response.");
                     processCommand(DialogCommand.getCommand(items[dialogSubIndex]));
                 } else {
                     // Get response for NPC dialog.
@@ -343,7 +343,7 @@ public class DialogPopup extends DialogPopupPane {
                     typedText.setText("");
                     String toSay = textResource.get(items[dialogSubIndex]);
                     if (toSay.contains(WORD_FILL_MN)) {
-                        LOGGER.log(Level.SEVERE, "WORD_FILL_IN detected.");
+                        LOGGER.log(Level.FINE, "WORD_FILL_IN detected.");
                         toSay = toSay.replace(WORD_FILL_MN, "");
                         typedText.setText(FILL_STRING);
                         CURSOR_FILL.setText("?\n                             ");
@@ -360,7 +360,7 @@ public class DialogPopup extends DialogPopupPane {
                         // Nothing happens.
                     }
                     case PLAYER -> {
-                        LOGGER.log(Level.SEVERE, "handle code: ENTER -> PLAYER");
+                        LOGGER.log(Level.FINE, "handle code: ENTER -> PLAYER");
                         bubble.setMode(DialogBubble.Mode.PLAYER_SAY);
 
                         dialogIndex = items[dialogSubIndex];
@@ -368,10 +368,10 @@ public class DialogPopup extends DialogPopupPane {
                         dialogSubIndex = 0;
                         String newText = textResource.get(dialogIndex);
                         int commandNum = items[dialogSubIndex];
-                        //LOGGER.log(Level.SEVERE, "Evaluate text: " + newText);
+                        //LOGGER.log(Level.FINE, "Evaluate text: " + newText);
                         if (newText.contains(WORD_FILL_MN)
                                 && (commandNum == WORD1.num || commandNum == WORD2.num)) {
-                            LOGGER.log(Level.SEVERE, "Text is a fill-in.");
+                            LOGGER.log(Level.FINE, "Text is a fill-in.");
                             DialogCommand command = DialogCommand.getCommand(commandNum);
                             switch (command) {
                                 case WORD1 -> {
@@ -409,7 +409,7 @@ public class DialogPopup extends DialogPopupPane {
     }
 
     private void processCommand(DialogCommand command) {
-        LOGGER.log(Level.SEVERE, "Process command: {0}::{1}", new Object[]{command.num, command.name()});
+        LOGGER.log(Level.FINE, "Process command: {0}::{1}", new Object[]{command.num, command.name()});
 
         switch (command) {
             case DIALOG_END -> { // NPC no longer talks.
@@ -508,10 +508,10 @@ public class DialogPopup extends DialogPopupPane {
                 listener.popupExit();
             }
             case NPC -> {
-                LOGGER.log(Level.SEVERE, "NPC Command.");
+                LOGGER.log(Level.FINE, "NPC Command.");
                 //dialogSubIndex++;
                 mode = Mode.PLAYER; // Causes next loop to toggle to NPC again.
-                LOGGER.log(Level.SEVERE, "[482] Mode = PLAYER");
+                LOGGER.log(Level.FINE, "[514] Mode = PLAYER");
                 npcResponse(1);
                 return;
             }
@@ -520,7 +520,7 @@ public class DialogPopup extends DialogPopupPane {
                 return;
             }
             case FINE_BANK_500 -> {
-                LOGGER.log(Level.SEVERE, "Fine from bank 500.");
+                LOGGER.log(Level.FINE, "Fine from bank 500.");
                 int amt = 500;
                 gameState.bankBalance -= amt;
                 if (gameState.bankBalance < 0) {
@@ -535,7 +535,7 @@ public class DialogPopup extends DialogPopupPane {
                 npcResponse(1);
             }
             case FINE_BANK_20K -> {
-                LOGGER.log(Level.SEVERE, "Fine from bank 20K.");
+                LOGGER.log(Level.FINE, "Fine from bank 20K.");
                 int amt = 20000;
                 gameState.bankBalance -= amt;
                 if (gameState.bankBalance < 0) {
@@ -550,20 +550,20 @@ public class DialogPopup extends DialogPopupPane {
                 npcResponse(1);
             }
             case WORD1 -> {
-                LOGGER.log(Level.SEVERE, "WORD1: Type word into dialog area.");
+                LOGGER.log(Level.FINE, "WORD1: Type word into dialog area.");
                 typedText.setText(""); // Clear it.
                 npcResponse(1); // Show text.
             }
             case ITEM_BUY -> {
-                LOGGER.log(Level.SEVERE, "Buy ITEM from NPC.");
+                LOGGER.log(Level.FINE, "Buy ITEM from NPC.");
                 listener.popupExit(RoomMode.Popup.ITEMS_BUY);
             }
             case SOFTWARE_BUY -> {
-                LOGGER.log(Level.SEVERE, "Buy Software from NPC.");
+                LOGGER.log(Level.FINE, "Buy Software from NPC.");
                 listener.popupExit(RoomMode.Popup.SOFTWARE_BUY);
             }
             case INFO_BUY -> {
-                LOGGER.log(Level.SEVERE, "Buy Info from NPC.");
+                LOGGER.log(Level.FINE, "Buy Info from NPC.");
                 dialogSubIndex++;
                 int dItem = items[dialogSubIndex];
                 listener.showMessage(textResource.get(dItem));
@@ -590,7 +590,7 @@ public class DialogPopup extends DialogPopupPane {
                 // Control character '01' is a token for the player's name. Replace it here.
                 wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
                 bubble.setMode(DialogBubble.Mode.NPC_SAY);
-                LOGGER.log(Level.SEVERE, "INFO_BUY NPC Text: \n{0}\t\t\t",
+                LOGGER.log(Level.FINE, "INFO_BUY NPC Text: \n{0}\t\t\t",
                         wordText.getText());
                 dialogCountDown = -1;
                 dialogSubIndex = -1;
@@ -599,14 +599,14 @@ public class DialogPopup extends DialogPopupPane {
                 }
             }
             case DISCOUNT -> {
-                LOGGER.log(Level.SEVERE, "Apply discount from NPC.");
+                LOGGER.log(Level.FINE, "Apply discount from NPC.");
                 gameState.room.extras.applyDiscount(gameState);
             }
             case DESC -> {
-                LOGGER.log(Level.SEVERE, "Print next response into room description window.");
+                LOGGER.log(Level.FINE, "Print next response into room description window.");
                 dialogSubIndex++;
                 int dItem = items[dialogSubIndex];
-                LOGGER.log(Level.SEVERE, "Name: {0} == [{1}][{2}]", new Object[]{dItem, dialogIndex, dialogSubIndex});
+                LOGGER.log(Level.FINE, "Name: {0} == [{1}][{2}]", new Object[]{dItem, dialogIndex, dialogSubIndex});
 
                 listener.showMessage(textResource.get(dItem));
                 dialogIndex = dItem; // Move dialog to next dialog item.
@@ -615,16 +615,16 @@ public class DialogPopup extends DialogPopupPane {
                 dialogCountDown = DIALOG_COUNT;
             }
             case UXB -> {
-                LOGGER.log(Level.SEVERE, "Give UXB to player.");
+                LOGGER.log(Level.FINE, "Give UXB to player.");
                 boolean hasItem = false;
                 for (Item item : gameState.inventory) {
                     if (item instanceof UXBDeckItem) {
                         hasItem = true;
-                        LOGGER.log(Level.SEVERE, "Player already has UXB.");
+                        LOGGER.log(Level.FINE, "Player already has UXB.");
                     }
                 }
                 if (!hasItem) {
-                    LOGGER.log(Level.SEVERE, "Add UXB to player inventory.");
+                    LOGGER.log(Level.FINE, "Add UXB to player inventory.");
                     UXBDeckItem uxbDeckItem = new UXBDeckItem();
                     uxbDeckItem.needsRepair = true;
                     gameState.inventory.add(uxbDeckItem);
@@ -632,13 +632,13 @@ public class DialogPopup extends DialogPopupPane {
                 npcResponse(1);
             }
             case CAVIAR -> { // Edo gives ComLink 2.0 for caviar.
-                LOGGER.log(Level.SEVERE, "Player receives ComLink from Edo.");
+                LOGGER.log(Level.FINE, "Player receives ComLink from Edo.");
                 if (gameState.room.getExtras().getItem(gameState, new SoftwareItem(Catalog.COMLINK))) {
                     npcResponse(1);
                 }
             }
             case ON_FILTER_1 -> {
-                LOGGER.log(Level.SEVERE, "OnFilter1 called.");
+                LOGGER.log(Level.FINE, "OnFilter1 called.");
                 items = gameState.room.getExtras().onFilter1(gameState);
 
                 bubble.setMode(DialogBubble.Mode.PLAYER_THINK);
@@ -654,7 +654,7 @@ public class DialogPopup extends DialogPopupPane {
                 typedText.setText("");
                 String toSay = textResource.get(items[dialogSubIndex]);
                 if (toSay.contains(WORD_FILL_MN)) {
-                    LOGGER.log(Level.SEVERE, "WORD_FILL_IN detected.");
+                    LOGGER.log(Level.FINE, "WORD_FILL_IN detected.");
                     toSay = toSay.replace(WORD_FILL_MN, "");
                     typedText.setText(FILL_STRING);
                     CURSOR_FILL.setText("?\n                             ");

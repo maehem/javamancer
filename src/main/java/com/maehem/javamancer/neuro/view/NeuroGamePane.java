@@ -167,7 +167,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
                 mode.tick();
             } else {
-                //LOGGER.log(Level.SEVERE, "Paused");
+                //LOGGER.log(Level.CONFIG, "Paused");
             }
         }
     }

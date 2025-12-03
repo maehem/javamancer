@@ -70,7 +70,7 @@ public class ANHEntry {
 //            columns = 16;
 //        }
 //        HexFormat hexFormat = HexFormat.of();
-//        LOGGER.log(Level.SEVERE, "ANH Entry => ");
+//        LOGGER.log(Level.FINE, "ANH Entry => ");
 //        for (int ii = 0; ii < this.data.length; ii += columns) {
 //            StringBuilder sb = new StringBuilder(String.format("%04X", ii & 0xFFFF) + ": ");
 //            try {
@@ -81,7 +81,7 @@ public class ANHEntry {
 //            } catch (IndexOutOfBoundsException ex) {
 //
 //            }
-//            Logging.LOGGER.log(Level.SEVERE, sb.toString());
+//            Logging.LOGGER.log(Level.FINE, sb.toString());
 //        }
 
         int frameData[][] = new int[totalFrames][2];

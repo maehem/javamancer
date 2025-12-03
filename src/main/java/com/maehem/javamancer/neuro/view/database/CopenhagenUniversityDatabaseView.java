@@ -145,8 +145,9 @@ public class CopenhagenUniversityDatabaseView extends DatabaseView {
         }
     }
 
+    /*
     private void warrantList(boolean edit) {
-        LOGGER.log(Level.SEVERE, "Chiba Police: warrant list");
+        LOGGER.log(Level.FINE, "Chiba Police: warrant list");
         pane.getChildren().clear();
 
         Text subHeadingText = new Text("\n" + dbTextResource.get(3) + "\n\n");
@@ -178,9 +179,10 @@ public class CopenhagenUniversityDatabaseView extends DatabaseView {
             mainMenu();
         });
     }
-
+     */
+    /*
     private void editWarrant(int index) {
-        LOGGER.log(Level.SEVERE, "Chiba Police: edit warrant");
+        LOGGER.log(Level.FINE, "Chiba Police: edit warrant");
         pane.getChildren().clear();
         mode = Mode.EDIT;
 
@@ -213,17 +215,17 @@ public class CopenhagenUniversityDatabaseView extends DatabaseView {
             mainMenu();
         });
     }
-
+*/
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "Handle key event.");
+        LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
+                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
                     keyEvent.consume();
                     return true;
                 } else if (code.isDigitKey()) {
@@ -235,7 +237,7 @@ public class CopenhagenUniversityDatabaseView extends DatabaseView {
             case EDIT -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Go back up menu level.");
+                    LOGGER.log(Level.FINE, "Go back up menu level.");
                     mainMenu();
                     keyEvent.consume();
                     return false;

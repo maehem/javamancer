@@ -122,7 +122,7 @@ public class PNGWriter {
                 chunk[2] = 'A';
                 chunk[3] = 'T';
                 for (int ii = 4; ii < chunk.length; ii++) {
-                    //LOGGER.log(Level.SEVERE, "Chunk Index: {0}", size - len + ii - 4);
+                    //LOGGER.log(Level.FINE, "Chunk Index: {0}", size - len + ii - 4);
                     try {
                         chunk[ii] = bb.get(size - len + ii - 4);
                     } catch (IndexOutOfBoundsException ex) {

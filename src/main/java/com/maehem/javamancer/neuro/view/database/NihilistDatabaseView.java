@@ -129,13 +129,13 @@ public class NihilistDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "Handle key event.");
+        LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
+                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
                     keyEvent.consume();
                     return true;
                 } else if (code.isDigitKey()) {
@@ -147,7 +147,7 @@ public class NihilistDatabaseView extends DatabaseView {
 //            case EDIT -> {
 //                if (code.equals(KeyCode.X)
 //                        || code.equals(KeyCode.ESCAPE)) {
-//                    LOGGER.log(Level.SEVERE, "Go back up menu level.");
+//                    LOGGER.log(Level.FINE, "Go back up menu level.");
 //                    mainMenu();
 //                    keyEvent.consume();
 //                    return false;

@@ -165,7 +165,7 @@ public class DATUtil {
                     // Save to PNG
                     pngWriter.write(new File(folder, imh.name + "_" + (indexOf + 1) + ".png"), img);
                 } catch (IOException ex) {
-                    LOG.log(Level.SEVERE, null, ex);
+                    LOG.log(Level.SEVERE, ex.getMessage(), ex);
                 }
             });
 
@@ -191,7 +191,7 @@ public class DATUtil {
                         pngWriter.write(new File(folder, pic.name + ".png"), img);
                     }
                 } catch (IOException ex) {
-                    LOG.log(Level.SEVERE, ex.toString(), ex);
+                    LOG.log(Level.SEVERE, ex.getMessage(), ex);
                 }
             });
 
@@ -237,9 +237,9 @@ public class DATUtil {
                             }
                         }
                     } catch (FileNotFoundException ex) {
-                        LOG.log(Level.SEVERE, ex.toString(), ex);
+                        LOG.log(Level.SEVERE, ex.getMessage(), ex);
                     } catch (IOException ex) {
-                        LOG.log(Level.SEVERE, ex.toString(), ex);
+                        LOG.log(Level.SEVERE, ex.getMessage(), ex);
                     }
                 }
             }
@@ -337,9 +337,9 @@ public class DATUtil {
                 writer.writeBytes("ctrlStructAddr:" + String.valueOf(bihThing.ctrlStructAddr) + "\n");
 
             } catch (FileNotFoundException ex) {
-                LOG.log(Level.SEVERE, ex.toString(), ex);
+                LOG.log(Level.SEVERE, ex.getMessage(), ex);
             } catch (IOException ex) {
-                LOG.log(Level.SEVERE, ex.toString(), ex);
+                LOG.log(Level.SEVERE, ex.getMessage(), ex);
             }
 
             // Save raw BIH as a binary file.
@@ -350,7 +350,7 @@ public class DATUtil {
                 binWriter.write(bihThing.data);
                 binWriter.close();
             } catch (IOException ex) {
-                LOG.log(Level.SEVERE, ex.toString(), ex);
+                LOG.log(Level.SEVERE, ex.getMessage(), ex);
             }
 
         });
@@ -386,7 +386,7 @@ public class DATUtil {
             pngWriter.write(file, img); // Save to PNG
 
         } catch (IOException ex) {
-            LOG.log(Level.SEVERE, ex.toString(), ex);
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
             return false;
         }
 

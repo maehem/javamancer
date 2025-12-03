@@ -159,7 +159,7 @@ public class IRSDatabaseView extends DatabaseView {
     }
 
     private void auditList() {
-        LOGGER.log(Level.SEVERE, "IRS: audit list");
+        LOGGER.log(Level.FINE, "IRS: audit list");
         pane.getChildren().clear();
         mode = Mode.AUDIT;
 
@@ -200,13 +200,13 @@ public class IRSDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "Handle key event.");
+        LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
+                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
                     keyEvent.consume();
                     return true;
                 } else if (code.isDigitKey()) {
@@ -218,7 +218,7 @@ public class IRSDatabaseView extends DatabaseView {
             case AUDIT -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Go back up menu level.");
+                    LOGGER.log(Level.FINE, "Go back up menu level.");
                     mainMenu();
                     keyEvent.consume();
                     return false;

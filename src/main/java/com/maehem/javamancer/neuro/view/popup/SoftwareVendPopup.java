@@ -94,7 +94,7 @@ public class SoftwareVendPopup extends SmallPopupPane {
             LOGGER.log(Level.CONFIG, "Clicked Software Vend Exit.");
             if (gameState.room.extras.onVendFinishedOpenDialog || gameState.bodyShopRecent != GameState.BodyShopRecent.NONE) {
                 listener.popupExit(RoomMode.Popup.TALK);
-                LOGGER.log(Level.SEVERE, "Vend: End dialog and open Room TALK.");
+                LOGGER.log(Level.FINE, "Vend: End dialog and open Room TALK.");
                 t.consume();
             } else {
                 t.consume();
@@ -157,14 +157,14 @@ public class SoftwareVendPopup extends SmallPopupPane {
                     // Try to buy it.
                     int price = item.price;
                     if (gameState.chipBalance >= price) {
-                        LOGGER.log(Level.SEVERE, "Player bought " + item.getSimpleName());
+                        LOGGER.log(Level.FINE, () -> "Player bought " + item.getSimpleName());
                         gameState.chipBalance -= price;
                         DeckUtils.installSoftware(gameState, item);
                     } else {
-                        LOGGER.log(Level.SEVERE, "Not enough money to buy skill.");
+                        LOGGER.log(Level.FINE, "Not enough money to buy skill.");
                     }
                 } else {
-                    LOGGER.log(Level.SEVERE, "Can't buy skill. We already have one.");
+                    LOGGER.log(Level.WARNING, "Can't buy skill. We already have one.");
                 }
             }
             case SELL -> {
@@ -195,14 +195,14 @@ public class SoftwareVendPopup extends SmallPopupPane {
             }
             case M -> {
                 if (itemIndex < (BodyPart.values().length - NUM_ITEMS)) {
-                    LOGGER.log(Level.SEVERE, "User pressed M (more)");
+                    LOGGER.log(Level.FINE, "User pressed M (more)");
                     itemIndex += NUM_ITEMS;
                     itemListPage();
                 }
             }
             case N -> {
                 if (itemIndex >= NUM_ITEMS) {
-                    LOGGER.log(Level.SEVERE, "User pressed N (previous)");
+                    LOGGER.log(Level.FINE, "User pressed N (previous)");
                     itemIndex -= NUM_ITEMS;
                     itemListPage();
                 }

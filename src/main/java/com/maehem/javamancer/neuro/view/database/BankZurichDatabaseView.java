@@ -254,7 +254,7 @@ public class BankZurichDatabaseView extends DatabaseView {
     }
 
     private void transferCredits(boolean txfrMode) {
-        LOGGER.log(Level.SEVERE, "BankZurich: transfer credits");
+        LOGGER.log(Level.INFO, "BankZurich: transfer credits");
         pane.getChildren().clear();
         mode = Mode.TRANSFER;
         transferMode = txfrMode;
@@ -296,13 +296,13 @@ public class BankZurichDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "BankZurichDatabaseView: Handle key event.");
+        LOGGER.log(Level.FINE, "BankZurichDatabaseView: Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
+                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
                     keyEvent.consume();
                     return true;
                 } else if (code.isDigitKey()) {
@@ -315,7 +315,7 @@ public class BankZurichDatabaseView extends DatabaseView {
                 keyEvent.consume();
                 if (code == KeyCode.X || code == KeyCode.ESCAPE) {
                     if (!CONTINUE_TEXT.isVisible()) {
-                        LOGGER.log(Level.SEVERE, "Go back up menu level.");
+                        LOGGER.log(Level.FINE, "Go back up menu level.");
                         mainMenu();
                     }
                     return false;
@@ -349,7 +349,7 @@ public class BankZurichDatabaseView extends DatabaseView {
                 if (null != code) {
                     switch (code) {
                         case X, ESCAPE -> {
-                            LOGGER.log(Level.SEVERE, "Go back up menu level.");
+                            LOGGER.log(Level.FINE, "Go back up menu level.");
                             mainMenu();
                             return false;
                         }

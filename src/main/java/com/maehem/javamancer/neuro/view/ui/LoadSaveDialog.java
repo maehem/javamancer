@@ -84,7 +84,7 @@ public class LoadSaveDialog extends SmallPopupPane {
             Text text = OPTIONS.get(n);
             final int nn = n;
             text.setOnMousePressed((event) -> {
-                LOGGER.log(Level.SEVERE, "Mouse Click: {0} game {1}", new Object[]{modeString, nn});
+                LOGGER.log(Level.FINE, "Mouse Click: {0} game {1}", new Object[]{modeString, nn});
                 select(nn);
             });
             tf.getChildren().add(text);

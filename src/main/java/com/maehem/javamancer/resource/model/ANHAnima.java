@@ -72,7 +72,7 @@ public class ANHAnima {
 
             frames.add(new ANHFrame(xOff, yOff, w, h, rleBlob));
         }
-        LOGGER.log(Level.SEVERE, "Animation has " + frames.size() + " frames.");
+        LOGGER.log(Level.FINE, () -> "Animation has " + frames.size() + " frames.");
 
         // Apply XOR frames to room PIC
         // Copy Room data. Original might be used elsewhere.

@@ -179,7 +179,7 @@ public class PaxBbsNode extends PaxNode {
             }
         }
         numMessages = tf.getChildren().size();
-        LOGGER.log(Level.SEVERE, "Num Messages: {0}", numMessages);
+        LOGGER.log(Level.FINE, "Num Messages: {0}", numMessages);
     }
 
     private void showMessage(BbsMessage message) {
@@ -471,11 +471,11 @@ public class PaxBbsNode extends PaxNode {
         message.prefillIndex = index;
         gameState.messageSent.add(message);
 
-        LOGGER.log(Level.SEVERE, "Message sent to: {0}", typedTo);
+        LOGGER.log(Level.FINE, "Message sent to: {0}", typedTo);
         // Check if to armitage and contains BAMA id.
         if ("armitage".equals(typedTo.toString().toLowerCase())
                 && typedMessage.indexOf(GameState.PLAYER_BAMA) >= 0) {
-            LOGGER.log(Level.SEVERE, "Found message to armitage with bama ID!");
+            LOGGER.log(Level.FINE, "Found message to armitage with bama ID!");
             if (!gameState.msgToArmitageSent) {
                 gameState.msgToArmitageSent = true;
 

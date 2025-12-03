@@ -83,22 +83,22 @@ public class CyberspacePopup extends PopupPane {
                 backdrop, visualPane, controlPanel, databsePane
         );
 
-        LOGGER.log(Level.SEVERE, "Cyberspace Popup: Set deck mode to CYBERSPACE.");
+        LOGGER.log(Level.FINE, "Cyberspace Popup: Set deck mode to CYBERSPACE.");
         gs.usingDeck.setMode(DeckItem.Mode.CYBERSPACE);
     }
 
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
-        LOGGER.log(Level.SEVERE, "CyberPopup: Key Event.");
+        LOGGER.log(Level.FINE, "CyberPopup: Key Event.");
         if (databaseView != null) {
             if (databaseView.handleKeyEvent(keyEvent)) {
-                LOGGER.log(Level.SEVERE, "CyberPopup: Key Event: True returned from Database View.");
+                LOGGER.log(Level.FINE, "CyberPopup: Key Event: True returned from Database View.");
                 databaseView = null;
                 cleanup();
                 return true;
             }
         } else if (controlPanel.handleKeyEvent(keyEvent)) {
-            LOGGER.log(Level.SEVERE, "CyberPopup: Key Event: True returned from control panel.");
+            LOGGER.log(Level.FINE, "CyberPopup: Key Event: True returned from control panel.");
             return true;
         }
 
@@ -107,7 +107,7 @@ public class CyberspacePopup extends PopupPane {
 
     @Override
     public void cleanup() {
-        LOGGER.log(Level.SEVERE, "Cyberspace Popup: Cleanup called.");
+        LOGGER.log(Level.FINE, "Cyberspace Popup: Cleanup called.");
         gameState.usingDeck.setMode(DeckItem.Mode.NONE);
         gameState.databaseBattle = false;
         databaseView = null;

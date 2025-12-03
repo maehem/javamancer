@@ -161,7 +161,7 @@ public class DiskPopup extends SmallPopupPane {
     }
 
     private void saveSlot(int slot) {
-        LOGGER.log(Level.SEVERE, "Do Save Slot: {0}", slot);
+        LOGGER.log(Level.FINE, "Do Save Slot: {0}", slot);
         loadSaveStatus(slot,
                 GameStateUtils.saveModel(gameState, slot));
     }
@@ -233,7 +233,7 @@ public class DiskPopup extends SmallPopupPane {
     }
 
     private void loadSlot(int slot) {
-        LOGGER.log(Level.SEVERE, "Do Load Slot: {0}", slot);
+        LOGGER.log(Level.FINE, "Do Load Slot: {0}", slot);
 
         // Tell gameState to leave room and load from file.
         gameState.loadSlot(slot);

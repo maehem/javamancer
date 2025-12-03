@@ -78,7 +78,7 @@ public class SoftwarePane extends Pane {
     }
 
     public final void softwarePrompt() {
-        LOGGER.log(Level.SEVERE, "Cyberspace: Show Software Prompt");
+        LOGGER.log(Level.CONFIG, "Cyberspace: Show Software Prompt");
         //mode = Mode.SOFTWARE;
 
         usedWarez = null;
@@ -137,7 +137,7 @@ public class SoftwarePane extends Pane {
             });
         }
         exitButton.setOnMouseClicked((t) -> {
-            LOGGER.log(Level.SEVERE, "Cyberspace: Exit Software Menu (via mouse click).");
+            LOGGER.log(Level.INFO, "Cyberspace: Exit Software Menu (via mouse click).");
             t.consume();
             setVisible(false);
             //listener.popupExit();
@@ -146,29 +146,29 @@ public class SoftwarePane extends Pane {
     }
 
     private void useSoftware(Warez w) {
-        LOGGER.log(Level.SEVERE, "Cyberspace: Use Software: {0}", w.item.itemName);
+        LOGGER.log(Level.INFO, "Cyberspace: Use Software: {0}", w.item.itemName);
         usedResponse = w.use(gameState);
         usedWarez = w;
         if (!usedResponse.equals(Warez.USE_OK)) {
-            LOGGER.log(Level.SEVERE, "Use Software Not OK: {0}", usedResponse);
+            LOGGER.log(Level.INFO, "Use Software Not OK: {0}", usedResponse);
             //displayResponse(usedResponse);
             // TODO: Play 'bad' sound.
             setVisible(false);
         } else {
             gameState.usingDeck.setCurrentWarez(w);
-            LOGGER.log(Level.SEVERE, "Use Software OK.");
+            LOGGER.log(Level.INFO, "Use Software OK.");
             // TODO: Play 'fire' sound.
             displayUsingSoftware();
             // Listen for warez to finish.
             usedWarez.setOnFinished((t) -> {
-                LOGGER.log(Level.SEVERE, "Warez finished. " + w.item.itemName);
+                LOGGER.log(Level.INFO, () -> "Warez finished. " + w.item.itemName);
                 setVisible(false);
             });
         }
     }
 
     private void displayResponse(String response) {
-        LOGGER.log(Level.SEVERE, "Show Deck use() response");
+        LOGGER.log(Level.INFO, "Show Deck use() response");
 
         getChildren().clear();
         setVisible(true);
@@ -185,7 +185,7 @@ public class SoftwarePane extends Pane {
     }
 
     private void displayUsingSoftware() {
-        LOGGER.log(Level.SEVERE, "Show Deck use() in progress");
+        LOGGER.log(Level.INFO, "Show Deck use() in progress");
 
         getChildren().clear();
         setVisible(true);
@@ -202,26 +202,26 @@ public class SoftwarePane extends Pane {
         ke.consume();
         switch (code) {
             case X, ESCAPE -> {
-                LOGGER.log(Level.SEVERE, "Cyberspace: SoftwarePane: Exit Pressed...");
+                LOGGER.log(Level.INFO, "Cyberspace: SoftwarePane: Exit Pressed...");
                 setVisible(false);
             }
             case DIGIT1 -> { // Inventory/Software/Slots
-                LOGGER.log(Level.SEVERE, "Cyberspace: SoftwarePane: 1 Pressed...");
+                LOGGER.log(Level.INFO, "Cyberspace: SoftwarePane: 1 Pressed...");
             }
             case DIGIT2 -> {
-                LOGGER.log(Level.SEVERE, "Cyberspace: SoftwarePane: 2 Pressed...");
+                LOGGER.log(Level.INFO, "Cyberspace: SoftwarePane: 2 Pressed...");
             }
             case DIGIT3 -> {
-                LOGGER.log(Level.SEVERE, "Cyberspace: SoftwarePane: 3 Pressed...");
+                LOGGER.log(Level.INFO, "Cyberspace: SoftwarePane: 3 Pressed...");
             }
             case DIGIT4 -> {
-                LOGGER.log(Level.SEVERE, "Cyberspace: SoftwarePane: 4 Pressed...");
+                LOGGER.log(Level.INFO, "Cyberspace: SoftwarePane: 4 Pressed...");
             }
             case N -> {
-                LOGGER.log(Level.SEVERE, "Cyberspace: SoftwarePane: Previous Pressed...");
+                LOGGER.log(Level.INFO, "Cyberspace: SoftwarePane: Previous Pressed...");
             }
             case M -> {
-                LOGGER.log(Level.SEVERE, "Cyberspace: SoftwarePane: More Pressed...");
+                LOGGER.log(Level.INFO, "Cyberspace: SoftwarePane: More Pressed...");
             }
         }
 

@@ -117,7 +117,7 @@ public abstract class DeckItem extends Item {
     }
 
     public void setMode(Mode mode) {
-        LOGGER.log(Level.SEVERE, "{0}:: set mode to {1}",
+        LOGGER.log(Level.CONFIG, "{0}:: set mode to {1}",
                 new Object[]{getName(), mode.name()});
         this.mode = mode;
     }
@@ -178,7 +178,7 @@ public abstract class DeckItem extends Item {
 
     public void pullProps(String prefix, Properties p) {
         String get = p.getProperty(prefix + ".needsRepair", "false");
-        LOGGER.log(Level.SEVERE, "Restore Deck needsRepair value = " + get);
+        LOGGER.log(Level.INFO, () -> "Restore Deck needsRepair value = " + get);
         needsRepair = Boolean.parseBoolean(get);
     }
 }

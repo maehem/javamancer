@@ -250,7 +250,7 @@ public class BIHThing {
     }
 
     private int smallestOf(int a, int b, int c, int d) {
-        LOGGER.log(Level.SEVERE,
+        LOGGER.log(Level.FINE,
                 "smallestOf:  a:{0} ::: b:{1}  c:{2}  d:{3}",
                 new Object[]{a, b, c, d}
         );

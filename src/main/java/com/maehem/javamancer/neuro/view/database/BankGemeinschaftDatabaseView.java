@@ -201,7 +201,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
     }
 
     private void transfer1() {
-        LOGGER.log(Level.SEVERE, "Bank Gemeinschaft: funds transfer part 1");
+        LOGGER.log(Level.FINE, "Bank Gemeinschaft: funds transfer part 1");
         mode = Mode.TRANSFER1;
         pane.getChildren().clear();
 
@@ -225,7 +225,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
     }
 
     private void transfer2() {
-        LOGGER.log(Level.SEVERE, "Bank Gemeinschaft: funds transfer part 2");
+        LOGGER.log(Level.FINE, "Bank Gemeinschaft: funds transfer part 2");
         mode = Mode.TRANSFER2;
         txMode = TransferMode.LINK;
 
@@ -284,13 +284,13 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "Handle key event.");
+        LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
+                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
                     keyEvent.consume();
                     return true;
                 } else if (code.isDigitKey()) {
@@ -302,7 +302,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
             case EDIT -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Go back up menu level.");
+                    LOGGER.log(Level.FINE, "Go back up menu level.");
                     mainMenu();
                     keyEvent.consume();
                     return false;
@@ -331,7 +331,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                     if (typedText.getText().equals(GameState.BANK_GEMEIN_ID)) {
                         transfer2();
                     } else {
-                        LOGGER.log(Level.SEVERE, "Wrong source acct number");
+                        LOGGER.log(Level.WARNING, "Wrong source acct number");
                         txResultMessage.setText(unknownAcctStr);
                         pane.requestLayout();
                         pane.setOnMouseClicked((t) -> {
@@ -351,7 +351,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
 
     private void handleTransfer2KeyEvent(KeyEvent ke) {
         KeyCode code = ke.getCode();
-        LOGGER.log(Level.SEVERE, "Handle Code: " + code.getName());
+        LOGGER.log(Level.INFO, () -> "Handle Code: " + code.getName());
         if (code == KeyCode.ESCAPE) {
             siteContent();
             return;
@@ -378,7 +378,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                         cursorText2.setText(CURSOR);
                         txMode = TransferMode.AMOUNT;
                     } else { // invaalid link code
-                        LOGGER.log(Level.SEVERE, "Wrong source acct number");
+                        LOGGER.log(Level.WARNING, "Wrong source acct number");
                         txResultMessage.setText(unknownBankStr);
                     }
                 } else if (code == KeyCode.BACK_SPACE) {
@@ -412,7 +412,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                         this.transferAmount = amount;
                         txMode = TransferMode.DEST_ACCT;
                     } else { // invaalid link code
-                        LOGGER.log(Level.SEVERE, "Wrong amount.");
+                        LOGGER.log(Level.WARNING, "Wrong amount.");
                         txResultMessage.setText(txUnableStr);
                     }
                 } else if (code == KeyCode.BACK_SPACE) {
@@ -444,7 +444,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                         txMessage.setVisible(true);
                         transferTicks = TX_TICKS;
                     } else { // invaalid link code
-                        LOGGER.log(Level.SEVERE, "Wrong account.");
+                        LOGGER.log(Level.WARNING, "Wrong account.");
                         txResultMessage.setText(unknownAcctStr);
                     }
                 } else if (code == KeyCode.BACK_SPACE) {
@@ -485,7 +485,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                 bankBalanceText.setText(String.valueOf(gameState.bankGemeinBalance));
                 CONTINUE_TEXT.setVisible(true);
                 txMode = TransferMode.RESULT;
-                LOGGER.log(Level.SEVERE, "Bank Transfer completed.");
+                LOGGER.log(Level.INFO, "Bank Transfer completed.");
             }
         }
     }

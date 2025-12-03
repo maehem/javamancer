@@ -146,7 +146,7 @@ public class InventoryPopup extends SmallPopupPane {
             }
         }
         numItems = tf.getChildren().size();
-        LOGGER.log(Level.SEVERE, "Num Items: {0}", numItems);
+        LOGGER.log(Level.FINE, "Num Items: {0}", numItems);
     }
 
     private void itemOptions(int index) {
@@ -301,10 +301,10 @@ public class InventoryPopup extends SmallPopupPane {
     private void operateItem(boolean altMode) {
         if (currentItem != null) {
             if (currentItem instanceof SkillItem si) {
-                LOGGER.log(Level.CONFIG, "Operate(Install) Skill: {0}", si);
+                LOGGER.log(Level.INFO, "Operate(Install) Skill: {0}", si);
                 askInstallSkillItem(si);
             } else if (currentItem instanceof DeckItem deck) {
-                LOGGER.log(Level.SEVERE, "Operate Deck: {0}", deck);
+                LOGGER.log(Level.INFO, "Operate Deck: {0}", deck);
                 gameState.usingDeck = deck;
                 gameState.usingDeckErase = altMode;
                 deck.setZone(gameState.room.getJack());
@@ -322,10 +322,10 @@ public class InventoryPopup extends SmallPopupPane {
     private void giveItem() {
         LOGGER.log(Level.CONFIG, "Give: {0}", currentItem);
         if (currentItem instanceof CreditsItem) {
-            LOGGER.log(Level.SEVERE, "Give Credits selected.");
+            LOGGER.log(Level.FINE, "Give Credits selected.");
             giveCreditsEnterAmount();
         } else {
-            LOGGER.log(Level.SEVERE, "Give Item selected.");
+            LOGGER.log(Level.FINE, "Give Item selected.");
             gameState.room.getExtras().give(gameState, currentItem, 0);
             giveItemAreYouSure();
         }
@@ -403,7 +403,7 @@ public class InventoryPopup extends SmallPopupPane {
     }
 
     private void installSkillSummary(Skill skill, boolean state) {
-        LOGGER.log(Level.SEVERE, "Install Summary: {0}  {1}", new Object[]{skill == null ? "null" : "OK", state ? "YES" : "NO"});
+        LOGGER.log(Level.FINE, "Install Summary: {0}  {1}", new Object[]{skill == null ? "null" : "OK", state ? "YES" : "NO"});
         // Skill == null ==  FUBAR
         // state == true == installed.
         // state == false == already exists, not installed.
@@ -519,10 +519,10 @@ public class InventoryPopup extends SmallPopupPane {
 
     private void doGiveItem() {
         if (!gameState.room.getExtras().give(gameState, currentItem, -1)) {
-            LOGGER.log(Level.SEVERE, "NPC did not accept or handle given item. But you gave it away.");
+            LOGGER.log(Level.WARNING, "NPC did not accept or handle given item. But you gave it away.");
         }
         gameState.inventory.remove(currentItem);
-        LOGGER.log(Level.SEVERE, "Item {0} removed from inventory.", currentItem.getName());
+        LOGGER.log(Level.FINE, "Item {0} removed from inventory.", currentItem.getName());
         currentItem = null;
         listener.popupExit(RoomMode.Popup.TALK); // Talk to NPC now.
     }

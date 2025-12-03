@@ -205,7 +205,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                     }
                 }
                 case I -> { // Inventory/Software/Slots
-                    LOGGER.log(Level.SEVERE, "Cyberspace: Software Key Pressed...");
+                    LOGGER.log(Level.INFO, "Cyberspace: Software Key Pressed...");
                     ke.consume();
                     // Close other popups.
                     softwarePane.softwarePrompt();
@@ -214,7 +214,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                     romPopup.setVisible(false);
                 }
                 case R -> { // ROM
-                    LOGGER.log(Level.SEVERE, "Cyberspace: Skills Key Pressed...");
+                    LOGGER.log(Level.INFO, "Cyberspace: Skills Key Pressed...");
                     ke.consume();
                     // Close other popups.
                     skillsPopup.setVisible(false);
@@ -223,7 +223,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                     romPopup.setVisible(true);
                 }
                 case S -> { // Skills
-                    LOGGER.log(Level.SEVERE, "Cyberspace: Skills Key Pressed...");
+                    LOGGER.log(Level.INFO, "Cyberspace: Skills Key Pressed...");
                     ke.consume();
                     // Close other popups.
                     skillsPopup.setVisible(true);
@@ -232,7 +232,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                     romPopup.setVisible(false);
                 }
                 case D -> { // Disk
-                    LOGGER.log(Level.SEVERE, "Cyberspace: Disk Key Pressed...");
+                    LOGGER.log(Level.INFO, "Cyberspace: Disk Key Pressed...");
                     ke.consume();
                     // Close other popups.
                     skillsPopup.setVisible(false);
@@ -242,7 +242,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                 }
                 case E -> { // Erase
                     ke.consume();
-                    LOGGER.log(Level.SEVERE, "Cyberspace: Erase Key Pressed... (TODO)");
+                    LOGGER.log(Level.INFO, "Cyberspace: Erase Key Pressed... (TODO)");
                 }
             }
 
@@ -251,7 +251,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
         if (!ke.isConsumed()) { // If we got here, then non of the CP buttons were pressed.
             visualPane.handleKeyEvent(ke);
         } else {
-            LOGGER.log(Level.FINE, "Cyberspace CP: Key event consumed, not sent to VisualPane.");
+            LOGGER.log(Level.FINEST, "Cyberspace CP: Key event consumed, not sent to VisualPane.");
         }
 
         return false;

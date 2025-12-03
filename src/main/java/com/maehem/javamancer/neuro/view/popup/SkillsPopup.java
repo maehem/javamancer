@@ -121,7 +121,7 @@ public class SkillsPopup extends SmallPopupPane {
             }
         }
         numItems = tf.getChildren().size();
-        LOGGER.log(Level.SEVERE, "Num Skills: {0}", numItems);
+        LOGGER.log(Level.FINE, "Num Skills: {0}", numItems);
     }
 
     private void use(int index) {

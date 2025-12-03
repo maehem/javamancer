@@ -103,7 +103,7 @@ public class MusicManager {
                 activeMedia.add(mediaItem);
 
 //                player.setOnEndOfMedia(() -> {
-//                    LOGGER.log(Level.SEVERE, "Track end: {0}", track.name());
+//                    LOGGER.log(Level.INFO, "Track end: {0}", track.name());
 //                    activeMedia.remove(findTrack(track));
 //                });
             } catch (URISyntaxException e) {

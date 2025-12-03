@@ -57,11 +57,11 @@ public class IMHThing {
             byte blob[] = new byte[size];
             System.arraycopy(data, i, blob, 0, size);
             i += size;
-            LOGGER.log(Level.SEVERE, "IMHThing Added a blob: {0}x{1}", new Object[]{width, height});
+            LOGGER.log(Level.FINE, "IMHThing Added a blob: {0}x{1}", new Object[]{width, height});
             dataBlock.add(blob);
         }
 
-        LOGGER.log(Level.SEVERE, "{0}:: Blob count = {1}", new Object[]{name, dataBlock.size()});
+        LOGGER.log(Level.FINE, "{0}:: Blob count = {1}", new Object[]{name, dataBlock.size()});
     }
 
 }

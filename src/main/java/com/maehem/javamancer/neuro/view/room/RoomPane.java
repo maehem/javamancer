@@ -181,7 +181,7 @@ public class RoomPane extends Pane {
                 if (Math.abs(walkToX - gs.roomPosX) < stepSizeRL) {
                     walkToX = 0;
                     walkToY = 0;
-                    //LOGGER.log(Level.SEVERE, "End walking L-R");
+                    //LOGGER.log(Level.FINE, "End walking L-R");
                     return true;
                 }
                 if (walkToX > gs.roomPosX) {
@@ -197,7 +197,7 @@ public class RoomPane extends Pane {
                 if (Math.abs(walkToY - gs.roomPosY) < stepSizeTA) {
                     walkToX = 0;
                     walkToY = 0;
-                    //LOGGER.log(Level.SEVERE, "End walking T-A");
+                    //LOGGER.log(Level.FINE, "End walking T-A");
                     return true;
                 }
                 if (walkToY > gs.roomPosY) {
@@ -255,7 +255,7 @@ public class RoomPane extends Pane {
             retVal = true;
         } else {
             // Out of bounds. Move back.
-            LOGGER.log(Level.SEVERE, "Bumped Wall. No moving.");
+            LOGGER.log(Level.FINE, "Bumped Wall. No moving.");
             playerGroup.setLayoutX(gs.roomPosX);
             playerGroup.setLayoutY(gs.roomPosY);
             retVal = false;

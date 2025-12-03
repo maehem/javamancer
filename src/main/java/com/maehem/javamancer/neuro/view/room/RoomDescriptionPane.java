@@ -88,7 +88,7 @@ public class RoomDescriptionPane extends ScrollPane {
     }
 
     public void setText(String text) {
-        LOGGER.log(Level.SEVERE, "Set Room Description Text.");
+        LOGGER.log(Level.FINE, "Set Room Description Text.");
         this.text.setText(text);
     }
 

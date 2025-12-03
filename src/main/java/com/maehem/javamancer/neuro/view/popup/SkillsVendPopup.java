@@ -94,7 +94,7 @@ public class SkillsVendPopup extends SmallPopupPane {
             LOGGER.log(Level.CONFIG, "Clicked Skill Vend Exit.");
             if (gameState.room.extras.onVendFinishedOpenDialog || gameState.bodyShopRecent != GameState.BodyShopRecent.NONE) {
                 listener.popupExit(RoomMode.Popup.TALK);
-                LOGGER.log(Level.SEVERE, "Vend: End dialog and open Room TALK.");
+                LOGGER.log(Level.FINE, "Vend: End dialog and open Room TALK.");
                 t.consume();
             } else {
                 t.consume();
@@ -119,21 +119,25 @@ public class SkillsVendPopup extends SmallPopupPane {
         LOGGER.log(Level.FINER, "Build Skill Vend {0} List", mode.name());
         //ArrayList<Skill> installedSkills = gameState.skills;
         int discount = gameState.room.getExtras().getSkillDiscount(gameState);
-        LOGGER.log(Level.SEVERE, "Discount is: " + discount);
+        LOGGER.log(Level.FINE, () -> "Discount is: " + discount);
         for (int i = 0; i < NUM_ITEMS; i++) {
             if (i + itemIndex < vendItems.size()) {
                 String newLine = i > 0 ? "\n" : "";
 
                 SkillItem skillItem = vendItems.get(i + itemIndex);
                 String soldmarker;
-                if (mode == Mode.BUY) {
-                    boolean inventoryHasSkillItem = gameState.hasInventoryItem(skillItem);
-                    soldmarker = (gameState.hasInstalledSkill(skillItem) || inventoryHasSkillItem) ? "-" : " ";
-                } else if ( mode == Mode.UPGRADE ) {
-                    Skill installedSkill = gameState.getInstalledSkill(skillItem);
-                    soldmarker = (installedSkill == null || skillItem.level <= installedSkill.level) ? "-" : " ";
-                } else {
+                if (null == mode) {
                     soldmarker = " ";
+                } else switch (mode) {
+                    case BUY -> {
+                        boolean inventoryHasSkillItem = gameState.hasInventoryItem(skillItem);
+                        soldmarker = (gameState.hasInstalledSkill(skillItem) || inventoryHasSkillItem) ? "-" : " ";
+                    }
+                    case UPGRADE -> {
+                        Skill installedSkill = gameState.getInstalledSkill(skillItem);
+                        soldmarker = (installedSkill == null || skillItem.level <= installedSkill.level) ? "-" : " ";
+                    }
+                    default -> soldmarker = " ";
                 }
                 String itemName = String.format("%-24s", skillItem.item.itemName);
                 String priceRaw = "";
@@ -169,16 +173,16 @@ public class SkillsVendPopup extends SmallPopupPane {
                     // Try to buy it.
                     int price = computePrice(skillItem.price, discount);
                     if (gameState.chipBalance >= price) {
-                        LOGGER.log(Level.SEVERE, "Player bought " + skillItem.item.itemName);
+                        LOGGER.log(Level.FINE, () -> "Player bought " + skillItem.item.itemName);
                         gameState.chipBalance -= price;
                         gameState.inventory.add(skillItem);
                         //vendItems.remove(part);
                         //gameState.bodyShopRecent = GameState.BodyShopRecent.BUY;
                     } else {
-                        LOGGER.log(Level.SEVERE, "Not enough money to buy skill.");
+                        LOGGER.log(Level.FINE, "Not enough money to buy skill.");
                     }
                 } else {
-                    LOGGER.log(Level.SEVERE, "Can't buy skill. We already have one.");
+                    LOGGER.log(Level.WARNING, "Can't buy skill. We already have one.");
                 }
             }
             case UPGRADE -> {
@@ -189,27 +193,27 @@ public class SkillsVendPopup extends SmallPopupPane {
                     int price = skillItem.price;
                     if (gameState.chipBalance >= price && skillItem.level > toUpgrade.level) {
 
-                        LOGGER.log(Level.SEVERE, "Player upgrades {0} from {1} to {2}", new Object[]{skillItem.item.itemName, toUpgrade.level, toUpgrade.level + 1});
+                        LOGGER.log(Level.FINE, "Player upgrades {0} from {1} to {2}", new Object[]{skillItem.item.itemName, toUpgrade.level, toUpgrade.level + 1});
                         gameState.chipBalance -= price;
                         toUpgrade.level++;
                     } else {
-                        LOGGER.log(Level.SEVERE, "Not enough money to buy skill.");
+                        LOGGER.log(Level.FINE, "Not enough money to buy skill.");
                     }
                 } else {
-                    LOGGER.log(Level.SEVERE, "Can't upgrade skill. We don't have it or it's not installed.");
+                    LOGGER.log(Level.INFO, "Can't upgrade skill. We don't have it or it's not installed.");
                 }
             }
             case SELL -> {
 //                if (!gameState.soldBodyParts.contains(part)) {
 //                    // Try to sell it.
 //                    int price = part.sellPrice;
-//                    LOGGER.log(Level.SEVERE, "Player sold " + part.itemName);
+//                    LOGGER.log(Level.FINE, "Player sold " + part.itemName);
 //                    gameState.chipBalance += price;
 //                    gameState.constitution -= part.constDamage;
 //                    gameState.soldBodyParts.add(part);
 //                    gameState.bodyShopRecent = GameState.BodyShopRecent.SELL;
 //                } else {
-//                    LOGGER.log(Level.SEVERE, "Can't sell part as we already sold it.");
+//                    LOGGER.log(Level.FINE, "Can't sell part as we already sold it.");
 //                }
             }
         }
@@ -237,14 +241,14 @@ public class SkillsVendPopup extends SmallPopupPane {
             }
             case M -> {
                 if (itemIndex < (BodyPart.values().length - NUM_ITEMS)) {
-                    LOGGER.log(Level.SEVERE, "User pressed M (more)");
+                    LOGGER.log(Level.FINE, "User pressed M (more)");
                     itemIndex += NUM_ITEMS;
                     itemListPage();
                 }
             }
             case N -> {
                 if (itemIndex >= NUM_ITEMS) {
-                    LOGGER.log(Level.SEVERE, "User pressed N (previous)");
+                    LOGGER.log(Level.FINE, "User pressed N (previous)");
                     itemIndex -= NUM_ITEMS;
                     itemListPage();
                 }

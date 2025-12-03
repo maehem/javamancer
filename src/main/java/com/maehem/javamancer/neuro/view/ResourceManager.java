@@ -199,7 +199,7 @@ public class ResourceManager {
                     } else if (txt.isEmpty()) {
                         // Comment line, ignore
                     } else {
-                        //LOGGER.log(Level.SEVERE, "Process: " + txt.substring(0, 12));
+                        //LOGGER.log(Level.CONFIG, "Process: " + txt.substring(0, 12));
                         int bodyStart = txt.indexOf("\r");
                         if (bodyStart < 0) {
                             // One of the news articles does not contain a '\r'
@@ -250,7 +250,7 @@ public class ResourceManager {
                     } else if (txt.isEmpty()) {
                         // Comment line, ignore
                     } else {
-                        //LOGGER.log(Level.SEVERE, "Process: " + txt.substring(0, 12));
+                        //LOGGER.log(Level.CONFIG, "Process: " + txt.substring(0, 12));
                         String[] split = txt.split("\r");
                         String to = "???";
                         String from = "???";

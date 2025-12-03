@@ -88,7 +88,7 @@ public class Ingest {
             }
 
             if (roomData.length == 0) {
-                LOGGER.log(Level.SEVERE, "PIC data missing! Room: " + anh.getName());
+                LOGGER.log(Level.SEVERE, () -> "PIC data missing! Room: " + anh.getName());
             }
 
             ANHThing thing = new ANHThing(anh, dest, len, roomData);
@@ -127,7 +127,7 @@ public class Ingest {
     }
 
     private static int decompressResource(RandomAccessFile raf, Resource resource, byte[] dest) {
-        LOGGER.log(Level.FINE, "Decompress: " + resource.getName());
+        LOGGER.log(Level.FINE, () -> "Decompress: " + resource.getName());
 
         try {
             byte[] compressedData = new byte[64000];

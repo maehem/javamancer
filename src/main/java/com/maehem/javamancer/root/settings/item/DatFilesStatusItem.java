@@ -74,11 +74,11 @@ public class DatFilesStatusItem extends HBox {
         AppProperties appProps = AppProperties.getInstance();
         HostServices hostServices = appProps.getHostServices();
         folderButton.setOnAction((t) -> {
-            LOGGER.log(Level.SEVERE, "Open DAT Folder...");
+            LOGGER.log(Level.FINE, "Open DAT Folder...");
             hostServices.showDocument(appProps.getDatFolder().getAbsolutePath());
         });
         infoButton.setOnAction((t) -> {
-            LOGGER.log(Level.SEVERE, "Open DAT How To...");
+            LOGGER.log(Level.FINE, "Open DAT How To...");
             doInfoPopup();
         });
 

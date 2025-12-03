@@ -140,7 +140,7 @@ public class Util {
         }
 
 //        HexFormat hexFormat = HexFormat.of();
-//        LOGGER.log(Level.SEVERE, "RLE Decode => ");
+//        LOGGER.log(Level.FINE, "RLE Decode => ");
 //        int columns = 16;
 //        for (int ii = dstIdxOrig; ii < dstIdx; ii += columns) {
 //            StringBuilder sb = new StringBuilder(String.format("%04X", ii & 0xFFFF) + ": ");
@@ -152,7 +152,7 @@ public class Util {
 //            } catch (IndexOutOfBoundsException ex) {
 //
 //            }
-//            Logging.LOGGER.log(Level.SEVERE, sb.toString());
+//            Logging.LOGGER.log(Level.FINE, sb.toString());
 //        }
 
         return processed;

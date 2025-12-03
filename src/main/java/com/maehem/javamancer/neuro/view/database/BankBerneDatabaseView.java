@@ -156,7 +156,7 @@ public class BankBerneDatabaseView extends DatabaseView {
     }
 
     private void transfer() {
-        LOGGER.log(Level.SEVERE, "Bank Berne: transfer");
+        LOGGER.log(Level.FINE, "Bank Berne: transfer");
         pane.getChildren().clear();
 
         Text subHeadingText = new Text("\n"
@@ -178,13 +178,13 @@ public class BankBerneDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "Handle key event.");
+        LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
+                    LOGGER.log(Level.WARNING, "Menu wants to exit system.");
                     keyEvent.consume();
                     return true;
                 } else if (code.isDigitKey()) {

@@ -147,7 +147,7 @@ public class INSADatabaseView extends DatabaseView {
     }
 
     private void codebreaker() {
-        LOGGER.log(Level.SEVERE, "INSA: Codebreaker");
+        LOGGER.log(Level.FINE, "INSA: Codebreaker");
         pane.getChildren().clear();
 
         Text subHeadingText = new Text("\n"
@@ -167,7 +167,7 @@ public class INSADatabaseView extends DatabaseView {
     }
 
     private void traffic() {
-        LOGGER.log(Level.SEVERE, "INSA: Traffic Schedule");
+        LOGGER.log(Level.FINE, "INSA: Traffic Schedule");
         pane.getChildren().clear();
 
         Text subHeadingText = new Text("\nTODO\n\n"
@@ -187,7 +187,7 @@ public class INSADatabaseView extends DatabaseView {
     }
 
     private void skillUpgrade() {
-        LOGGER.log(Level.SEVERE, "INSA: Skill Upgrade");
+        LOGGER.log(Level.FINE, "INSA: Skill Upgrade");
         pane.getChildren().clear();
 
         Text subHeadingText = new Text("\nTODO\n\n"
@@ -209,13 +209,13 @@ public class INSADatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "Handle key event.");
+        LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
+                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
                     keyEvent.consume();
                     return true;
                 } else if (code.isDigitKey()) {
@@ -227,7 +227,7 @@ public class INSADatabaseView extends DatabaseView {
             case EDIT -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Go back up menu level.");
+                    LOGGER.log(Level.FINE, "Go back up menu level.");
                     mainMenu();
                     keyEvent.consume();
                     return false;

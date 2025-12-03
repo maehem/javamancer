@@ -65,7 +65,7 @@ public class NameChooserDialog extends SmallPopupPane {
         KeyCode code = ke.getCode();
         if (code.equals(KeyCode.SPACE)) {
             // Ignore
-            LOGGER.log(Level.SEVERE, "Name Chooser: SPACE");
+            LOGGER.log(Level.FINE, "Name Chooser: SPACE");
             ke.consume();
         } else if ((code.isLetterKey() | code.isDigitKey())
                 && typedName.length() < GameState.NAME_LEN_MAX) {
@@ -78,7 +78,7 @@ public class NameChooserDialog extends SmallPopupPane {
             ke.consume();
         } else if (code.equals(KeyCode.ESCAPE)) {
             // Escape
-            LOGGER.log(Level.SEVERE, "Name Chooser: Escape pressed.");
+            LOGGER.log(Level.FINE, "Name Chooser: Escape pressed.");
             setVisible(false);
         } else if (code.equals(KeyCode.BACK_SPACE)) {
             if (typedName.length() > 0) {

@@ -91,7 +91,7 @@ public class DeckPopup extends PopupPane {
     }
 
     private void softwarePrompt() {
-        LOGGER.log(Level.SEVERE, "Show Deck Popup Software Prompt");
+        LOGGER.log(Level.FINE, "Show Deck Popup Software Prompt");
         mode = Mode.SOFTWARE;
 
         configSmallWindow();
@@ -151,7 +151,7 @@ public class DeckPopup extends PopupPane {
         }
         exitButton.setOnMouseClicked((t) -> {
             cleanup();
-            LOGGER.log(Level.SEVERE, "Exit Deck (via mouse click).");
+            LOGGER.log(Level.INFO, "Exit Deck (via mouse click).");
 
             t.consume();
             listener.popupExit();
@@ -160,7 +160,7 @@ public class DeckPopup extends PopupPane {
     }
 
     private void useSoftware(Warez w) {
-        LOGGER.log(Level.SEVERE, "DeckPopup Use Software: " + w.getSimpleName());
+        LOGGER.log(Level.FINE, () -> "DeckPopup Use Software: " + w.getSimpleName());
         String useReponse = w.use(gameState);
         if (!useReponse.equals(Warez.USE_OK)) {
             displayResponse(useReponse);
@@ -175,13 +175,13 @@ public class DeckPopup extends PopupPane {
     }
 
     private void eraseSoftware(Warez w) {
-        LOGGER.log(Level.SEVERE, "DeckPopup Erase Software: {0}", w.getSimpleName());
+        LOGGER.log(Level.FINE, "DeckPopup Erase Software: {0}", w.getSimpleName());
         gameState.eraseSoftware(w);
         softwarePrompt();
     }
 
     private void connectMenu() {
-        LOGGER.log(Level.SEVERE, "Show Deck Connect Mode Menu");
+        LOGGER.log(Level.FINE, "Show Deck Connect Mode Menu");
         mode = Mode.CHOOSE_MODE;
 
         configEntryWindow();
@@ -207,7 +207,7 @@ public class DeckPopup extends PopupPane {
     }
 
     private void enterLinkCode() {
-        LOGGER.log(Level.SEVERE, "Show Deck Link Code Prompt");
+        LOGGER.log(Level.FINE, "Show Deck Link Code Prompt");
         mode = Mode.ENTER_LINKCODE;
 
         configEntryWindow();
@@ -225,7 +225,7 @@ public class DeckPopup extends PopupPane {
     }
 
     private void enterCyberspace() {
-        LOGGER.log(Level.SEVERE, "Enter Cyberspace.");
+        LOGGER.log(Level.FINE, "Enter Cyberspace.");
 
         //gameState.usingDeck.setMode(DeckItem.Mode.CYBERSPACE);
         // Leave Deck pupup and open cyberspace popup.
@@ -233,7 +233,7 @@ public class DeckPopup extends PopupPane {
     }
 
     private void displayResponse(String response) {
-        LOGGER.log(Level.SEVERE, "Show Deck use() response");
+        LOGGER.log(Level.FINE, "Show Deck use() response");
         configSmallWindow();
 
         mode = Mode.RESPONSE;
@@ -251,7 +251,7 @@ public class DeckPopup extends PopupPane {
     }
 
     private void siteContent() {
-        LOGGER.log(Level.SEVERE, "Open site: " + gameState.database.name);
+        LOGGER.log(Level.INFO, () -> "Open site: " + gameState.database.name);
         mode = Mode.DATABASE;
         configDatabaseWindow();
 
@@ -296,7 +296,7 @@ public class DeckPopup extends PopupPane {
             case SOFTWARE -> {
                 if (code.equals(KeyCode.X)) {
                     cleanup();
-                    LOGGER.log(Level.SEVERE, "Exit Deck (via key event).");
+                    LOGGER.log(Level.FINE, "Exit Deck (via key event).");
                     return true;
                 } else if (code.equals(KeyCode.DIGIT1)) {
                     // Item 1
@@ -304,7 +304,7 @@ public class DeckPopup extends PopupPane {
             }
             case ENTER_LINKCODE -> {
                 if (code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Exit LinkCode Entry (via key event).");
+                    LOGGER.log(Level.FINE, "Exit LinkCode Entry (via key event).");
                     softwarePrompt();
                 } else {
                     handleEnteredLinkCode(keyEvent);
@@ -358,7 +358,7 @@ public class DeckPopup extends PopupPane {
                     linkCodeErr = true;
                 }
             } else {
-                LOGGER.log(Level.SEVERE, "Could not find link called " + typedLinkCode.toString());
+                LOGGER.log(Level.WARNING, () -> "Could not find link called " + typedLinkCode.toString());
                 gameState.usingDeck.setMode(DeckItem.Mode.NONE);
                 linkEnterheading.setText(LINK_CODE_UNKOWN_LINK);
                 linkCodeErr = true;
@@ -372,7 +372,7 @@ public class DeckPopup extends PopupPane {
         }
         if (gameState.chipBalance <= 0) {
             cleanup();
-            LOGGER.log(Level.SEVERE, "Exit Deck (via out of credits).");
+            LOGGER.log(Level.INFO, "Exit Deck (via out of credits).");
             listener.popupExit();
         }
     }

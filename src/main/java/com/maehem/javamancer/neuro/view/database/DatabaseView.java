@@ -189,7 +189,7 @@ public abstract class DatabaseView {
     }
 
     public boolean handleKeyEvent(KeyEvent keyEvent) {
-        //LOGGER.log(Level.SEVERE, "DatabaseView: Handle key event.");
+        //LOGGER.log(Level.FINE, "DatabaseView: Handle key event.");
         KeyCode code = keyEvent.getCode();
         switch (subMode) {
             case LANDING -> {
@@ -272,7 +272,7 @@ public abstract class DatabaseView {
     }
 
     protected void landingContinue() {
-        LOGGER.log(Level.SEVERE, "DatabaseView: landingContunue() called.");
+        LOGGER.log(Level.FINER, "DatabaseView: landingContunue() called.");
         if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
             // Skip password. Elevate access level.
             accessLevel = 3;
@@ -291,11 +291,11 @@ public abstract class DatabaseView {
                 PopupListener.class
             });
             Object object = ctor.newInstance(new Object[]{gs, p, l});
-            LOGGER.log(Level.SEVERE, "Database View created.");
+            LOGGER.log(Level.FINE, "Database View created.");
             if (object instanceof DatabaseView re) {
                 return re;
             } else {
-                LOGGER.log(Level.SEVERE, "Database View Creation Failed.");
+                LOGGER.log(Level.WARNING, "Database View Creation Failed.");
                 return null;
             }
         } catch (InstantiationException
@@ -500,7 +500,7 @@ public abstract class DatabaseView {
     }
 
     protected void accessCleared(int wait) {
-        LOGGER.log(Level.SEVERE, "Access Cleared.");
+        LOGGER.log(Level.FINE, "Access Cleared.");
         subMode = SubMode.CLEAR_WAIT;
         clearWait = 30; // 2 seconds.
     }
@@ -531,7 +531,7 @@ public abstract class DatabaseView {
     }
 
     private void messages(ArrayList<BbsMessage> list) {
-        LOGGER.log(Level.SEVERE, "{0}: Messages", database.name);
+        LOGGER.log(Level.FINE, "{0}: Messages", database.name);
         pane.getChildren().clear();
         //ArrayList<BbsMessage> messageList = database.bbsMessages;
         //mode = Mode.MSG;
@@ -553,7 +553,7 @@ public abstract class DatabaseView {
                 tf.getChildren().add(mmenuItem);
                 mmenuItem.setOnMouseClicked((t) -> {
                     t.consume();
-                    LOGGER.log(Level.SEVERE, "User clicks message: {0}", nn);
+                    LOGGER.log(Level.FINE, "User clicks message: {0}", nn);
                     showMessage(msg);
                 });
             } catch (IndexOutOfBoundsException ex) {
@@ -571,7 +571,7 @@ public abstract class DatabaseView {
         if (messageIndex > 0) {
             prevText.setText("prev");
             prevText.setOnMouseClicked((t) -> {
-                LOGGER.log(Level.SEVERE, "User clicked messages prev.");
+                LOGGER.log(Level.FINE, "User clicked messages prev.");
                 messageIndex -= 9;
                 t.consume();
                 messages();
@@ -581,7 +581,7 @@ public abstract class DatabaseView {
         if (list.size() - (messageIndex + 9) > 0) {
             nextText.setText("next");
             nextText.setOnMouseClicked((t) -> {
-                LOGGER.log(Level.SEVERE, "User clicked messages next.");
+                LOGGER.log(Level.FINE, "User clicked messages next.");
                 messageIndex += 9;
                 t.consume();
                 messages();
@@ -599,7 +599,7 @@ public abstract class DatabaseView {
     }
 
     protected void showMessage(BbsMessage msg) {
-        LOGGER.log(Level.SEVERE, "{0}: Show Message {1}", new Object[]{msg.prefillIndex, database.name});
+        LOGGER.log(Level.FINE, "{0}: Show Message {1}", new Object[]{msg.prefillIndex, database.name});
         pane.getChildren().clear();
         subMode = SubMode.MSG_SHOW;
         //mode = Mode.SHOW;
@@ -637,7 +637,7 @@ public abstract class DatabaseView {
     }
 
     protected void downloads(int index) {
-        LOGGER.log(Level.SEVERE, "{0}: Downloads", database.name);
+        LOGGER.log(Level.FINE, "{0}: Downloads", database.name);
         pane.getChildren().clear();
         //mode = Mode.DOWNLOADS;
         TextFlow tf = pageHeadingTextFlow();
@@ -649,7 +649,7 @@ public abstract class DatabaseView {
         tf.getChildren().add(menuItem);
         menuItem.setOnMouseClicked((t) -> {
             t.consume();
-            LOGGER.log(Level.SEVERE, "User exit to main: ");
+            LOGGER.log(Level.FINE, "User exit to main: ");
             subMode = SubMode.MAIN;
             siteContent();
         });
@@ -663,7 +663,7 @@ public abstract class DatabaseView {
     }
 
     protected Node kgbDownloads() {
-        LOGGER.log(Level.SEVERE, "{0}: Downloads", database.name);
+        LOGGER.log(Level.FINE, "{0}: Downloads", database.name);
         pane.getChildren().clear();
         //mode = Mode.DOWNLOADS;
         TextFlow tf = pageHeadingTextFlow();
@@ -690,7 +690,7 @@ public abstract class DatabaseView {
      * @param indexFail
      */
     protected void uploads(Class<? extends Warez> clazz, int version, int indexPass, int indexFail) {
-        LOGGER.log(Level.SEVERE, "{0}: Uploads", database.name);
+        LOGGER.log(Level.FINE, "{0}: Uploads", database.name);
         this.uploadIndexPass = indexPass;
         this.uploadIndexFail = indexFail;
         this.uploadClassPass = clazz;
@@ -718,7 +718,7 @@ public abstract class DatabaseView {
      * @param indexFail
      */
     protected void runSoftware() {
-        LOGGER.log(Level.SEVERE, "{0}: Run Software", database.name);
+        LOGGER.log(Level.FINE, "{0}: Run Software", database.name);
 
         softwareSubMode = SoftwarePopMode.RUN;
 
@@ -743,7 +743,7 @@ public abstract class DatabaseView {
     private void refreshUploadSubPopup() {
         final int TF_PAD = 20;
 
-        LOGGER.log(Level.SEVERE, "Show Deck Software Prompt");
+        LOGGER.log(Level.FINE, "Show Deck Software Prompt");
         subMode = SubMode.SOFTWARE;
 
         softwareSubPop.getChildren().clear();
@@ -777,12 +777,12 @@ public abstract class DatabaseView {
                         // Begin sequencer animation.
                         // Close software popup
                         if (w instanceof SequencerWarez) {
-                            LOGGER.log(Level.SEVERE, "Run Sequencer...");
+                            LOGGER.log(Level.FINE, "Run Sequencer...");
                             softwareSubPop.setVisible(false);
                             softwareSubMode = SoftwarePopMode.NONE;
                             passwordSequencer();
                         } else {
-                            LOGGER.log(Level.SEVERE, "{0} not useable here.", w.getSimpleName());
+                            LOGGER.log(Level.WARNING, "{0} not useable here.", w.getSimpleName());
                         }
                     }
                 });
@@ -815,7 +815,7 @@ public abstract class DatabaseView {
             subMode = SubMode.MAIN;
             siteContent();
 
-            LOGGER.log(Level.SEVERE, "Exit Uploads (via mouse click).");
+            LOGGER.log(Level.FINE, "Exit Uploads (via mouse click).");
 
             listener.popupExit();
         });
@@ -881,7 +881,7 @@ public abstract class DatabaseView {
                 tf.getChildren().add(menuItem);
                 menuItem.setOnMouseClicked((t) -> {
                     t.consume();
-                    LOGGER.log(Level.SEVERE, "User clicks download: {0}", w.getMenuString());
+                    LOGGER.log(Level.FINE, "User clicks download: {0}", w.getMenuString());
                     attemptSoftwareDownload(w);
                 });
                 i++;
@@ -899,7 +899,7 @@ public abstract class DatabaseView {
     private void attemptSoftwareDownload(Warez w) {
         // TODO: This should be a sequence where "Tramitting..." appears for about a second.
         //
-        LOGGER.log(Level.SEVERE, "Software Download: Attempt to download: {0}", w.getSimpleName());
+        LOGGER.log(Level.FINE, "Software Download: Attempt to download: {0}", w.getSimpleName());
 
         // TODO: Deck software compatibility check
         // RESULT = deck.installSoftware( Warez )
@@ -909,7 +909,7 @@ public abstract class DatabaseView {
     }
 
     protected void composeMessage() {
-        LOGGER.log(Level.SEVERE, "{0}: Compose BBS Message", database.name);
+        LOGGER.log(Level.FINE, "{0}: Compose BBS Message", database.name);
         pane.getChildren().clear();
         subMode = SubMode.MSG_SEND;
 
@@ -953,7 +953,7 @@ public abstract class DatabaseView {
             typedTo.delete(typedTo.length() - 1, typedTo.length());
             typedToText.setText(typedTo.toString());
         } else if (ke.getCode().equals(KeyCode.ENTER)) { // Done with To, now Body field
-            LOGGER.log(Level.SEVERE, "Message 'to' complete ==> {0}",
+            LOGGER.log(Level.FINE, "Message 'to' complete ==> {0}",
                     new Object[]{typedTo});
             TO_CURSOR_TEXT.setVisible(false);
             messageCursor.setVisible(true);
@@ -1002,7 +1002,7 @@ public abstract class DatabaseView {
             typedMessage.delete(typedMessage.length() - 1, typedMessage.length());
             typedMessageText.setText(typedMessage.toString());
         } else if (ke.getCode().equals(KeyCode.ESCAPE)) { // Send message
-            LOGGER.log(Level.SEVERE, "Ready to send message.");
+            LOGGER.log(Level.FINE, "Ready to send message.");
             instructions.setVisible(false);
             messageCursor.setVisible(false);
             sendYN.setVisible(true);
@@ -1019,7 +1019,7 @@ public abstract class DatabaseView {
      * @param message
      */
     protected BbsMessage sendMessage(String to, String message) {
-        LOGGER.log(Level.SEVERE, "Send Message:");
+        LOGGER.log(Level.FINE, "Send Message:");
         String refinedMessage = "To: " + to + "\nFrom: \1\n" + message;
         BbsMessage msg = new BbsMessage(database.number, gameState.getDateString(), to, "\1", refinedMessage, true);
         database.bbsMessages.add(msg);
@@ -1047,7 +1047,7 @@ public abstract class DatabaseView {
     }
 
     protected void viewText(int index1, int index2, int index3, int index4) {
-        LOGGER.log(Level.SEVERE, "View Text Resource: {0}", new Object[]{index1, index2, index3});
+        LOGGER.log(Level.FINE, "View Text Resource: {0}", new Object[]{index1, index2, index3});
         pane.getChildren().clear();
         subMode = SubMode.VIEW_TEXT;
 
@@ -1112,10 +1112,10 @@ public abstract class DatabaseView {
         ArrayList<Person> list;
         if (personEditList != null) { // Using editable list.
             list = personEditList;
-            LOGGER.log(Level.SEVERE, "Person list is from GameState, editable.");
+            LOGGER.log(Level.FINE, "Person list is from GameState, editable.");
         } else {
             list = new ArrayList<>();
-            LOGGER.log(Level.SEVERE, "Person list is local, read only.");
+            LOGGER.log(Level.FINE, "Person list is local, read only.");
         }
         if (list.isEmpty()) {
             LOGGER.log(Level.CONFIG, "Person list is empty. Let's fill it.");
@@ -1165,7 +1165,7 @@ public abstract class DatabaseView {
     }
 
     private void personDetails(Person p, boolean canEdit) {
-        LOGGER.log(Level.SEVERE, "Database View: Person Details {0}",
+        LOGGER.log(Level.FINE, "Database View: Person Details {0}",
                 canEdit ? " (editable)" : " (read only)");
         pane.getChildren().clear();
         subMode = SubMode.PERSON_VIEW;
@@ -1220,7 +1220,7 @@ public abstract class DatabaseView {
             contentTf.getChildren().addAll(gapText, editLinkText);
 
             editLinkText.setOnMouseClicked((t) -> {
-                LOGGER.log(Level.SEVERE, "Editing user name: {0}", p.getName());
+                LOGGER.log(Level.FINE, "Editing user name: {0}", p.getName());
                 t.consume();
                 nameCursorText.setVisible(true);
             });
@@ -1230,11 +1230,11 @@ public abstract class DatabaseView {
     }
 
     private boolean handlePersonEditKeyEvent(KeyEvent ke) {
-        LOGGER.log(Level.SEVERE, "Pane Key Pressed. Mode is: {0}", nameCursorText.isVisible() ? "NAME" : "ID");
+        LOGGER.log(Level.FINE, "Pane Key Pressed. Mode is: {0}", nameCursorText.isVisible() ? "NAME" : "ID");
         ke.consume();
         if (nameCursorText.isVisible()) {
             KeyCode code = ke.getCode();
-            LOGGER.log(Level.SEVERE, "Name Field something typed: {0}", code.getChar());
+            LOGGER.log(Level.FINE, "Name Field something typed: {0}", code.getChar());
             if (code == KeyCode.ENTER) {
                 nameCursorText.setVisible(false);
                 // Move to ID field
@@ -1249,10 +1249,10 @@ public abstract class DatabaseView {
                     nameValueText.setText(nameValueText.getText() + code.getChar());
                 }
             } else {
-                LOGGER.log(Level.SEVERE, "Not a valid character.");
+                LOGGER.log(Level.WARNING, "Not a valid character.");
             }
         } else if (idCursorText.isVisible()) {
-            LOGGER.log(Level.SEVERE, "ID Field something typed.");
+            LOGGER.log(Level.FINE, "ID Field something typed.");
             KeyCode code = ke.getCode();
             if (code == KeyCode.ENTER) {
                 nameCursorText.setVisible(false);
@@ -1264,7 +1264,7 @@ public abstract class DatabaseView {
                 editingPerson = null;
                 //pane.setOnKeyPressed(null); // No more typing.
                 // Do exit of edit mode. Back to list view.
-                LOGGER.log(Level.SEVERE, "Person changes recorded. Reload list.");
+                LOGGER.log(Level.FINE, "Person changes recorded. Reload list.");
                 handlePersonListChanged();
                 return true;
             } else if (code == KeyCode.BACK_SPACE) {
@@ -1291,7 +1291,7 @@ public abstract class DatabaseView {
             if (clearWait <= 0) {
                 clearWait = 0;
                 subMode = SubMode.MAIN;
-                LOGGER.log(Level.SEVERE, "ClearWait finished. Load site content.");
+                LOGGER.log(Level.FINE, "ClearWait finished. Load site content.");
                 subMode = SubMode.MAIN;
                 siteContent();
             }
@@ -1306,13 +1306,13 @@ public abstract class DatabaseView {
                 guessChar = Character.toString((int) (Math.random() * (126 - 32) + 32));
                 passwordCharTries++;
             }
-            //LOGGER.log(Level.SEVERE, "Random Char: " + val);
+            //LOGGER.log(Level.FINE, "Random Char: " + val);
             String passSubstring = database.password2.substring(0, passwordSeqPosition);
             enteredPasswordText.setText(passSubstring + guessChar);
             if (guessChar.equals(String.valueOf(database.password2.charAt(passwordSeqPosition)))) {
                 passwordSeqPosition++;
                 if (passwordSeqPosition == database.password2.length()) {
-                    LOGGER.log(Level.SEVERE, "Password Sequenced.");
+                    LOGGER.log(Level.FINE, "Password Sequenced.");
                     CONTINUE_TEXT.setVisible(true);
                     CONTINUE_TEXT.setOnMouseClicked((t) -> {
                         CONTINUE_TEXT.setOnMouseClicked(null);

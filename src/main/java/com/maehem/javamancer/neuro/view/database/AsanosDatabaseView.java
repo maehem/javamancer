@@ -175,7 +175,7 @@ public class AsanosDatabaseView extends DatabaseView {
     }
 
     private void catalog() {
-        LOGGER.log(Level.SEVERE, "Asano's Catalog.");
+        LOGGER.log(Level.FINE, "Asano's Catalog.");
         pane.getChildren().clear();
         mode = Mode.CATALOG;
 
@@ -203,7 +203,7 @@ public class AsanosDatabaseView extends DatabaseView {
     }
 
     private void manufacturers() {
-        LOGGER.log(Level.SEVERE, "Asano's Manufacturers.");
+        LOGGER.log(Level.FINE, "Asano's Manufacturers.");
         pane.getChildren().clear();
         mode = Mode.MFG;
 
@@ -222,7 +222,7 @@ public class AsanosDatabaseView extends DatabaseView {
     }
 
     private void inventory() {
-        LOGGER.log(Level.SEVERE, "Asano's Inventory.");
+        LOGGER.log(Level.FINE, "Asano's Inventory.");
         pane.getChildren().clear();
         mode = Mode.INVENTORY;
 
@@ -243,13 +243,13 @@ public class AsanosDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "Handle key event.");
+        LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
+                    LOGGER.log(Level.WARNING, "Menu wants to exit system.");
                     keyEvent.consume();
                     return true;
                 } else if (code.isDigitKey()) {
@@ -261,7 +261,7 @@ public class AsanosDatabaseView extends DatabaseView {
             case CATALOG, MFG, INVENTORY -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Go back up menu level.");
+                    LOGGER.log(Level.FINE, "Go back up menu level.");
                     mainMenu();
                     keyEvent.consume();
                     return false;

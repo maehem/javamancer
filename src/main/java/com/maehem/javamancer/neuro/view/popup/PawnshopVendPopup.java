@@ -94,7 +94,7 @@ public class PawnshopVendPopup extends SmallPopupPane {
             LOGGER.log(Level.CONFIG, "Clicked Pawnshop Vend Exit.");
             if (gameState.pawnRecent != GameState.PawnRecent.NONE) {
                 listener.popupExit(RoomMode.Popup.TALK);
-                LOGGER.log(Level.SEVERE, "End pawn buy dialog and open TALK.");
+                LOGGER.log(Level.FINE, "End pawn buy dialog and open TALK.");
                 t.consume();
             } else {
                 t.consume();
@@ -119,7 +119,7 @@ public class PawnshopVendPopup extends SmallPopupPane {
         LOGGER.log(Level.FINER, "Build Pawnshop Vend {0} List", mode.name());
         //ArrayList<Skill> installedSkills = gameState.skills;
         int discount = gameState.room.getExtras().getDiscount(gameState);
-        LOGGER.log(Level.SEVERE, "Discount is: " + discount);
+        LOGGER.log(Level.FINE, () -> "Discount is: " + discount);
 
         for (int i = 0; i < NUM_ITEMS; i++) {
             if (i + itemIndex < vendItems.size()) {
@@ -175,7 +175,7 @@ public class PawnshopVendPopup extends SmallPopupPane {
                     // Try to buy it.
                     int price = computePrice(item.price, discount);
                     if (gameState.chipBalance >= price) {
-                        LOGGER.log(Level.SEVERE, "Pawnshop: Player bought {0}", item.item.itemName);
+                        LOGGER.log(Level.FINE, "Pawnshop: Player bought {0}", item.item.itemName);
                         gameState.chipBalance -= price;
                         gameState.inventory.add(item);
                         //TextResource roomText = gameState.resourceManager.getRoomText(gameState.room);
@@ -183,10 +183,10 @@ public class PawnshopVendPopup extends SmallPopupPane {
                         //vendItems.remove(part);
                         gameState.pawnRecent = GameState.PawnRecent.BUY;
                     } else {
-                        LOGGER.log(Level.SEVERE, "Pawnshop: Not enough money to buy item.");
+                        LOGGER.log(Level.INFO, "Pawnshop: Not enough money to buy item.");
                     }
                 } else {
-                    LOGGER.log(Level.SEVERE, "Pawnshop: Can't buy item. We already have one.");
+                    LOGGER.log(Level.INFO, "Pawnshop: Can't buy item. We already have one.");
                 }
             }
             case SELL -> {
@@ -216,14 +216,14 @@ public class PawnshopVendPopup extends SmallPopupPane {
             }
             case M -> {
                 if (itemIndex < (BodyPart.values().length - NUM_ITEMS)) {
-                    LOGGER.log(Level.SEVERE, "Pawnshop: User pressed M (more)");
+                    LOGGER.log(Level.FINE, "Pawnshop: User pressed M (more)");
                     itemIndex += NUM_ITEMS;
                     itemListPage();
                 }
             }
             case N -> {
                 if (itemIndex >= NUM_ITEMS) {
-                    LOGGER.log(Level.SEVERE, "Pawnshop: User pressed N (previous)");
+                    LOGGER.log(Level.FINE, "Pawnshop: User pressed N (previous)");
                     itemIndex -= NUM_ITEMS;
                     itemListPage();
                 }

@@ -147,13 +147,13 @@ public class CheapHotelDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "Handle key event.");
+        LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
+                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
                     return true;
                 } else if (code.isDigitKey()) {
                     itemPage(code.getChar());
@@ -288,7 +288,7 @@ public class CheapHotelDatabaseView extends DatabaseView {
     }
 
 //    private void localThings() {
-//        LOGGER.log(Level.SEVERE, "Do Local Things.");
+//        LOGGER.log(Level.FINE, "Do Local Things.");
 //        pane.getChildren().clear();
 //        mode = Mode.LOCAL;
 //
@@ -307,7 +307,7 @@ public class CheapHotelDatabaseView extends DatabaseView {
 //        });
 //    }
     private void reviewBill(boolean allowEdit) {
-        LOGGER.log(Level.SEVERE, "Do Review Bill.");
+        LOGGER.log(Level.FINE, "Do Review Bill.");
         pane.getChildren().clear();
         mode = Mode.BILL;
         CURSOR_TEXT.setOpacity(0.0);
@@ -424,7 +424,7 @@ public class CheapHotelDatabaseView extends DatabaseView {
         switch (itemLetter) {
             case "1" -> { // Caviar
                 if (gameState.hotelCaviar > 0) {
-                    LOGGER.log(Level.SEVERE, "Buy Item: Caviar");
+                    LOGGER.log(Level.FINE, "Buy Item: Caviar");
                     gameState.hotelCharges += CAVIAR_PRICE;
                     gameState.hotelCaviar--;
                     gameState.hotelDeliverCaviar++; // visit real cheap hotel to get items into inventory.
@@ -433,7 +433,7 @@ public class CheapHotelDatabaseView extends DatabaseView {
             }
             case "2" -> { // Sake
                 if (gameState.hotelSake > 0) {
-                    LOGGER.log(Level.SEVERE, "Buy Item: Sake");
+                    LOGGER.log(Level.FINE, "Buy Item: Sake");
                     gameState.hotelCharges += SAKE_PRICE;
                     gameState.hotelSake--;
                     gameState.hotelDeliverSake++; // visit real cheap hotel to get items into inventory.
@@ -444,20 +444,20 @@ public class CheapHotelDatabaseView extends DatabaseView {
     }
 
     private void attemptPayment() {
-        LOGGER.log(Level.SEVERE, "Player attempts to pay hotel bill...");
+        LOGGER.log(Level.FINE, "Player attempts to pay hotel bill...");
         int available = gameState.chipBalance;
         int hotelBalance = gameState.hotelCharges - gameState.hotelOnAccount;
 
         if (hotelBalance == 0) {
-            LOGGER.log(Level.SEVERE, "Zero hotel balance. Nothing to pay.");
+            LOGGER.log(Level.FINE, "Zero hotel balance. Nothing to pay.");
             return;
         }
         if (available < hotelBalance) {
-            LOGGER.log(Level.SEVERE, "Not enough credits to pay hotel bill!");
+            LOGGER.log(Level.FINE, "Not enough credits to pay hotel bill!");
             // unable to pay
             // Play "bad" sound.
         } else {
-            LOGGER.log(Level.SEVERE, "Hotel bill paid.");
+            LOGGER.log(Level.FINE, "Hotel bill paid.");
             gameState.chipBalance -= hotelBalance;
             gameState.hotelOnAccount += hotelBalance;
             // Play "good" sound.

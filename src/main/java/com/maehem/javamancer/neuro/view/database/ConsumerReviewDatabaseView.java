@@ -90,13 +90,13 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.SEVERE, "Handle key event.");
+        LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Menu wants to exit system.");
+                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
                     return true;
                 } else {
                     if (code.isDigitKey()) {
@@ -118,7 +118,7 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.SPACE)
                         || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.SEVERE, "Out of credits wants to exit system.");
+                    LOGGER.log(Level.INFO, "Out of credits wants to exit system.");
                     return true;
                 }
             }
@@ -128,7 +128,7 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
 
     @Override
     protected void siteContent() {
-        LOGGER.log(Level.SEVERE, "Do site content 'payment'.");
+        LOGGER.log(Level.INFO, "Do site content 'payment'.");
         mode = Mode.PAYMENT;
         pane.getChildren().clear();
 
@@ -136,11 +136,11 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         Text newLines = new Text("\n\n\n\n\n\n\n\n\n\n");
         if (gameState.chipBalance >= 200) {
             gameState.chipBalance -= 200;
-            LOGGER.log(Level.SEVERE, "Deducted 200 credits from player.");
+            LOGGER.log(Level.INFO, "Deducted 200 credits from player.");
             creditDeduct.setText(dbTextResource.get(25));
             paymentWait = 30; // timer, then proceed to next page (menu).
         } else {
-            LOGGER.log(Level.SEVERE, "Player does not have credits to pay.");
+            LOGGER.log(Level.INFO, "Player does not have credits to pay.");
             //creditDeduct.setText(dbTextResource.get(26));
             // Don't proceed.
             outOfCredits();
@@ -148,7 +148,7 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
         }
         TextFlow tf = pageTextFlow();
         tf.getChildren().addAll(headingText, newLines, creditDeduct);
-        LOGGER.log(Level.SEVERE, "Add text flow for payment wait.");
+        LOGGER.log(Level.FINE, "Add text flow for payment wait.");
         pane.getChildren().add(tf);
     }
 
