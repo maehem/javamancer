@@ -30,7 +30,7 @@ import java.util.logging.LogRecord;
  */
 public class LoggingFormatter extends Formatter {
 
-    private static final String FORMAT = "[%1$tF %1$tT] [%2$-7s] %3$s      <==== %4$s %n";
+    private static final String FORMAT = "[%1$tF %1$tT] [%2$-7s] %3$-70s <==== %4$s %n";
 
     @Override
     public synchronized String format(LogRecord lr) {
