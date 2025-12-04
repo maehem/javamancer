@@ -84,6 +84,12 @@ public class R1Extras extends RoomExtras {
     }
 
     @Override
+    public double getNpcPosition() {
+        return 120;
+    }
+
+    
+    @Override
     public boolean give(GameState gs, Item item, int aux) {
         // Player give is credits.
         if (item instanceof CreditsItem cr) {
