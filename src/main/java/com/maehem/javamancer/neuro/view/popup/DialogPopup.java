@@ -80,6 +80,9 @@ public class DialogPopup extends DialogPopupPane {
     public int dialogCountDown = 0;
     private int fillingText = 0; // 0 == none,  1 == map1, 2 == map2
 
+    // TODO: Add Choose and Say mouse hints or buttons.
+    
+    
     public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
         super(l, gs);
 
@@ -93,6 +96,8 @@ public class DialogPopup extends DialogPopupPane {
         this.items = dialogChain[dialogIndex];
         this.textResource = rm.getRoomText(gameState.room);
 
+        // TODO: Room specific conditions should not be here.
+        // Somehow move them into the Room code.
         if (gameState.bodyShopRecent != GameState.BodyShopRecent.NONE) {
             dialogCountDown = DIALOG_COUNT;
             gameState.bodyShopRecent = GameState.BodyShopRecent.NONE;
