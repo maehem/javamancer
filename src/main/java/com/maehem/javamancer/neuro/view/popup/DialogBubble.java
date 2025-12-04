@@ -26,7 +26,10 @@
  */
 package com.maehem.javamancer.neuro.view.popup;
 
+import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.view.ResourceManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -36,10 +39,11 @@ import javafx.scene.image.ImageView;
  */
 public class DialogBubble extends ImageView {
 
+    public static final Logger LOGGER = Logging.LOGGER;
     private static final int FLIP_X = 300;
     private int index;
-    private double playerX;
-    private double npcX;
+    private final double playerX;
+    private final double npcX;
 
     protected enum Mode {
         NONE, PLAYER_SAY, PLAYER_THINK, NPC_SAY
@@ -82,6 +86,7 @@ public class DialogBubble extends ImageView {
             }
             case NPC_SAY -> {
                 index = 1 + (npcX < FLIP_X ? 1 : 0);
+                LOGGER.log(Level.WARNING, () -> "NPC X: " + npcX);
                 this.setLayoutX(npcX + (npcX < FLIP_X ? 38 : -38));
             }
         }
