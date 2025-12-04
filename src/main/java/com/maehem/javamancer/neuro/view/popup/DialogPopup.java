@@ -120,7 +120,7 @@ public class DialogPopup extends DialogPopupPane {
         if (mode == Mode.NPC) {
             if (dialogIndex < 50) {
                 // Might be a command.
-                LOGGER.log(Level.CONFIG, "first text: {0}\n{1}\t\t\t",
+                LOGGER.log(Level.CONFIG, "first text: {0}\n\n{1}\n\t\t\t\t",
                         new Object[]{
                             dialogIndex,
                             textResource.get(dialogIndex)
@@ -186,7 +186,6 @@ public class DialogPopup extends DialogPopupPane {
                 }
             }
         }
-
     }
 
     private void npcResponse(int sub) {
@@ -220,7 +219,7 @@ public class DialogPopup extends DialogPopupPane {
             // Control character '01' is a token for the player's name. Replace it here.
             wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
             bubble.setMode(DialogBubble.Mode.NPC_SAY);
-            LOGGER.log(Level.FINE, "npcResponse() NPC Text: \n{0}\t\t\t", wordText.getText());
+            LOGGER.log(Level.FINE, "npcResponse() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
             dialogCountDown = -1;
             dialogSubIndex = -1;
             if (items.length > 0) {
@@ -275,7 +274,7 @@ public class DialogPopup extends DialogPopupPane {
                     //npcResponse(0);
                     wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
                     bubble.setMode(DialogBubble.Mode.NPC_SAY);
-                    LOGGER.log(Level.FINE, "handleTypedText() NPC Text: \n{0}\t\t\t", wordText.getText());
+                    LOGGER.log(Level.FINE, "handleTypedText() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
                     dialogCountDown = DIALOG_COUNT;
                     if (gameState.room.getExtras() != null) {
                         gameState.room.getExtras().onDialog(gameState, askWord);
@@ -308,12 +307,12 @@ public class DialogPopup extends DialogPopupPane {
                 switch (mode) {
                     case PLAYER -> {
                         // Nothing to do.
-                        //LOGGER.log(Level.CONFIG, "SPACE bar for NPC.");
+                        //LOGGER.log(Level.FINE, "SPACE bar for NPC.");
                     }
                     case NPC -> {
                         mode = Mode.PLAYER;
                         bubble.setMode(DialogBubble.Mode.PLAYER_THINK);
-                        LOGGER.log(Level.CONFIG, "Toggle to PLAYER next bubble response.");
+                        LOGGER.log(Level.FINE, "Toggle to PLAYER next bubble response.");
                         typedText.setText("");
                     }
                 }
@@ -333,8 +332,8 @@ public class DialogPopup extends DialogPopupPane {
                 } else {
                     // Get response for NPC dialog.
                     // Display bubbles.
-                    LOGGER.log(Level.CONFIG,
-                            "SPACE: Show new player response. d[{0}][{1}] = {2}\n{3}\t\t\t",
+                    LOGGER.log(Level.FINE,
+                            "SPACE: Show new player response. d[{0}][{1}] = {2}\n\n{3}\n\t\t\t\t",
                             new Object[]{
                                 dialogIndex, dialogSubIndex,
                                 items[dialogSubIndex],
@@ -385,7 +384,7 @@ public class DialogPopup extends DialogPopupPane {
                             CURSOR_FILL.setText(CURSOR_STRING);
 
                         } else {
-                            //LOGGER.log(Level.CONFIG, "ENTER PRESSED. Begin countdown...");
+                            //LOGGER.log(Level.FINE, "ENTER PRESSED. Begin countdown...");
                             // Start one second countdown to show response.
                             dialogCountDown = DIALOG_COUNT;
                             //bubble.setMode(DialogBubble.Mode.NONE);
