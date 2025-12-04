@@ -137,7 +137,7 @@ public class DialogPopup extends DialogPopupPane {
                 dialogCountDown = DIALOG_COUNT;
                 bubble.setMode(DialogBubble.Mode.NPC_SAY);
             } else {
-                LOGGER.log(Level.FINE, "first text appears to be a command.");
+                LOGGER.log(Level.CONFIG, "first text appears to be a command.");
                 //processCommand(dialogIndex);
                 processCommand(DialogCommand.getCommand(dialogIndex));
             }
