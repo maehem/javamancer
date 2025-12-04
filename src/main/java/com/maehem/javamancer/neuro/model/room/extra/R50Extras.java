@@ -37,7 +37,7 @@ import com.maehem.javamancer.neuro.model.room.RoomExtras;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class R50Extras extends RoomExtras { // Fuji
+public class R50Extras extends RoomExtras { // After Cyber Beach
 
     protected static final int[][] DIALOG_CHAIN = {
         {NPC.num, 1}, // [0] :: Ah, I see you have arrived safely. Good, this pleases me.  When first I saw what was unfolding I feared

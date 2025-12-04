@@ -87,7 +87,6 @@ public class R1Extras extends RoomExtras {
     public double getNpcPosition() {
         return 120;
     }
-
     
     @Override
     public boolean give(GameState gs, Item item, int aux) {
