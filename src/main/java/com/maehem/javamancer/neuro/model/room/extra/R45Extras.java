@@ -44,9 +44,6 @@ public class R45Extras extends RoomExtras { // Street Robot (Matrix Rest.)
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        //gs.resourceManager.getRoomText(Room.R45).dumpList();
 
         // TODO: No Pass. Kick out.
     }
@@ -58,6 +55,8 @@ public class R45Extras extends RoomExtras { // Street Robot (Matrix Rest.)
 
     @Override
     public int dialogWarmUp(GameState gs) {
+        // TODO: Return 0 if player did something regarding Armitage.
+        
         return 1;
 
     }
