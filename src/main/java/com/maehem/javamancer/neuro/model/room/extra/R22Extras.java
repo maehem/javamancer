@@ -38,7 +38,7 @@ import com.maehem.javamancer.neuro.model.room.RoomExtras;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class R22Extras extends RoomExtras { // Spaceport Chiba
+public class R22Extras extends RoomExtras { // Straylight Bust
 
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, //  [0] ::
@@ -55,7 +55,7 @@ public class R22Extras extends RoomExtras { // Spaceport Chiba
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
         //gs.resourceManager.getRoomText(Room.R22).dumpList();
     }
-
+    
     @Override
     public JackZone jackZone() {
         return JackZone.SEVEN;
