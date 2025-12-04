@@ -68,6 +68,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
     //private boolean pause = false;
     public NeuroGamePane(File resourceFolder) {
+        LOGGER.log(Level.INFO, "Create Game Pane.");
         this.setPrefSize(WIDTH, HEIGHT);
         this.setWidth(WIDTH);
         this.setHeight(HEIGHT);
@@ -76,7 +77,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         resourceManager = new ResourceManager(resourceFolder);
         this.gameState = new GameState(resourceManager);
 
-        // TODO: refernce resource manager from gamestate.
+        // TODO: reference resource manager from gamestate.
         setMode(new TitleMode(this, gameState));
 
         initGameLoop();
@@ -100,6 +101,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     }
 
     private void initGameLoop() {
+        LOGGER.log(Level.INFO, "Init Game Loop.");
         timer = new AnimationTimer() {
 
             private long lastToggle;
@@ -121,6 +123,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
     }
 
     private void loadSlot(int slot) {
+        LOGGER.log(Level.CONFIG, "User requests load slot {0}.", gameState.loadSlot);
         gameState.cleanUp();
 
         gameState = new GameState(resourceManager);
@@ -131,8 +134,6 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
     private void loop() {
         if (gameState.loadSlot > 0) {
-            LOGGER.log(Level.CONFIG, "User requests load slot {0}.", gameState.loadSlot);
-
             loadSlot(gameState.loadSlot);
             return;
         }
@@ -187,13 +188,13 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                 // Parent watches this action via actionHandler and will switch
                 // screen back to main Javamancer application.
                 gameState.resourceManager.musicManager.stopAll();
-                LOGGER.log(Level.CONFIG, "User Quit Game.");
+                LOGGER.log(Level.INFO, "User Quit Game.");
                 LOGGER.log(Level.CONFIG, "Stop Timer Loop.");
                 timer.stop();
                 actionHandler.handle(new ActionEvent(action, this));
             }
             case LOAD -> {
-                LOGGER.log(Level.CONFIG, "Load Saved Game #{0}", actionObjects[0]);
+                LOGGER.log(Level.INFO, "Load Saved Game #{0}", actionObjects[0]);
                 gameState.loadSlot((int) actionObjects[0]);
             }
             case NEW_GAME -> {
@@ -202,7 +203,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                     if (!s.isBlank()) {
                         gameState.name = s;
                     }
-                    LOGGER.log(Level.CONFIG, "New Game with player name: {0}", gameState.name);
+                    LOGGER.log(Level.INFO, "New Game with player name: {0}", gameState.name);
                     gameState.initNewGame();
                     gameState.room = ROOM_START;
                     initTestItems();
@@ -215,7 +216,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
                     setMode(new RoomMode(this, gameState));
                 } else {
-                    LOGGER.log(Level.CONFIG, "New Game actionObject[0] was null!");
+                    LOGGER.log(Level.WARNING, "New Game actionObject[0] was null!");
                 }
             }
             case MUTE_MUSIC -> {
@@ -227,6 +228,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
 
     private void setMode(NeuroModePane newMode) {
         if (this.mode == null || !this.mode.equals(newMode)) {
+            LOGGER.log(Level.INFO, "Game mode changed to {0}", newMode.getClass().getSimpleName());
             // tell current mode to de-init.
             gameState.pause = true;
             gameState.useDoor = Door.NONE; // Clear any just used door.
