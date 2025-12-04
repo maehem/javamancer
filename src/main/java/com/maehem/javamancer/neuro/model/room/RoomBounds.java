@@ -94,7 +94,7 @@ public enum RoomBounds { // and Doors
     R55(170, 570, 224, 20, 100, 420, 170, 54, 50, 110, 170, 54),
     R56(180, 570, 224, 40, 40, 100, 0, 0, 0, 0, 0, 0),
     R57(182, 580, 224, 40, 0, 0, 0, 0, 0, 0, 182, 42),
-    R58(174, 580, 224, 40, 0, 0, 0, 0, 0, 0, 0, 0);
+    R58(174, 580, 224, 40, 0, 0, 0, 0, 0, 0, 180, 50);
 
     public enum Door {
         NONE, TOP, RIGHT, BOTTOM, LEFT, JAIL, STREET_CHAT, BODY_SHOP, SHUTTLE, FREESIDE, ZION, SPACEPORT
