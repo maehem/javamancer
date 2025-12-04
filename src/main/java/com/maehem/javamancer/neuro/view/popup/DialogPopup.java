@@ -135,6 +135,7 @@ public class DialogPopup extends DialogPopupPane {
                 }
                 wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name));
                 dialogCountDown = DIALOG_COUNT;
+                bubble.setMode(DialogBubble.Mode.NPC_SAY);
             } else {
                 LOGGER.log(Level.FINE, "first text appears to be a command.");
                 //processCommand(dialogIndex);
