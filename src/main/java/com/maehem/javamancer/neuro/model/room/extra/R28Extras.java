@@ -64,6 +64,11 @@ public class R28Extras extends RoomExtras { // JAL - Shuttle To Earth
     }
 
     @Override
+    public double getNpcPosition() {
+        return 550;
+    }
+    
+    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

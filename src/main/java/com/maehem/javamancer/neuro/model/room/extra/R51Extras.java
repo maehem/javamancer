@@ -58,6 +58,11 @@ public class R51Extras extends RoomExtras { // Fuji
     }
 
     @Override
+    public double getNpcPosition() {
+        return 80;
+    }
+
+    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

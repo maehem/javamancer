@@ -136,6 +136,11 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
     }
 
     @Override
+    public double getNpcPosition() {
+        return 200;
+    }
+    
+    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

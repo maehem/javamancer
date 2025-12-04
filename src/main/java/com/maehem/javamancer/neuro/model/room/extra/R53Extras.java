@@ -110,6 +110,11 @@ public class R53Extras extends RoomExtras { // Hitachi
     }
 
     @Override
+    public double getNpcPosition() {
+        return 360;
+    }
+
+    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

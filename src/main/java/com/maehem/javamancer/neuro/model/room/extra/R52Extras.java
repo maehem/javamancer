@@ -118,6 +118,11 @@ public class R52Extras extends RoomExtras { // Security Gate
     }
 
     @Override
+    public double getNpcPosition() {
+        return 440;
+    }
+
+    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

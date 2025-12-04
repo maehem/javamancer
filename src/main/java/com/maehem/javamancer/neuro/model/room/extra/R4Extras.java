@@ -68,6 +68,11 @@ public class R4Extras extends RoomExtras {
     }
 
     @Override
+    public double getNpcPosition() {
+        return 400;
+    }
+    
+    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

@@ -249,7 +249,7 @@ public class R8Extras extends RoomExtras {
 
     @Override
     public double getNpcPosition() {
-        return 100;
+        return 90;
     }
 
 }

@@ -140,6 +140,11 @@ public class R23Extras extends RoomExtras { // Panther Moderns
     }
 
     @Override
+    public double getNpcPosition() {
+        return 200;
+    }
+    
+    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

@@ -226,7 +226,7 @@ public abstract class RoomExtras {
     }
 
     public double getNpcPosition() {
-        return 600;
+        return 300;
     }
 
     /**

@@ -120,6 +120,11 @@ public class R11Extras extends RoomExtras { // Zion
     }
 
     @Override
+    public double getNpcPosition() {
+        return 300;
+    }
+    
+    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

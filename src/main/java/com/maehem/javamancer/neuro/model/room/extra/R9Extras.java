@@ -78,6 +78,11 @@ public class R9Extras extends RoomExtras {
     }
 
     @Override
+    public double getNpcPosition() {
+        return 120;
+    }
+    
+    @Override
     public JackZone jackZone() {
         return JackZone.SIX;
     }

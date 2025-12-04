@@ -161,6 +161,11 @@ public class R44Extras extends RoomExtras { // Asano's
     }
 
     @Override
+    public double getNpcPosition() {
+        return 200;
+    }
+   
+    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

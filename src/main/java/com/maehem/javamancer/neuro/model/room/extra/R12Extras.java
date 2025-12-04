@@ -155,6 +155,11 @@ public class R12Extras extends RoomExtras {
     }
 
     @Override
+    public double getNpcPosition() {
+        return 160;
+    }
+
+    @Override
     public int dialogWarmUp(GameState gs) {
         if (gs.larryMoeWanted) {
             dialogNoMore(gs);
