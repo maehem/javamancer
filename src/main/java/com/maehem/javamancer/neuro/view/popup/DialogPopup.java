@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
+import com.maehem.javamancer.neuro.model.item.RealItem;
 import com.maehem.javamancer.neuro.model.item.SoftwareItem;
 import com.maehem.javamancer.neuro.model.room.DialogCommand;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
@@ -42,6 +43,7 @@ import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import com.maehem.javamancer.neuro.view.RoomMode;
 import java.util.logging.Level;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -177,10 +179,10 @@ public class DialogPopup extends DialogPopupPane {
         } else { // Finished countdown. Do something.
             dialogCountDown = -1;
             if (mode == Mode.PLAYER) {
-                LOGGER.log(Level.CONFIG, "Player: Talk countdown finished.");
+                LOGGER.log(Level.FINE, "Player: Talk countdown finished.");
                 npcResponse(0);
             } else { // NPC count down done.
-                LOGGER.log(Level.CONFIG,
+                LOGGER.log(Level.FINE,
                         "NPC: Talk countdown finished.  dialogChain[dialogIndex][0] == {0}",
                         items[0]);
                 if (items[0] >= 50) {
@@ -195,18 +197,18 @@ public class DialogPopup extends DialogPopupPane {
     }
 
     private void npcResponse(int sub) {
-        LOGGER.log(Level.CONFIG, "{0}: Do response.", mode.name());
+        LOGGER.log(Level.FINE, "{0}: Do response.", mode.name());
         mode = Mode.NPC;
         LOGGER.log(Level.FINE, "[186] Mode = NPC");
 
         bubble.setMode(DialogBubble.Mode.NONE); // The thing that hangs under the words.
         dialogSubIndex = sub;
 
-        LOGGER.log(Level.CONFIG, "new dialog: d[{0}][{1}]",
+        LOGGER.log(Level.FINE, "new dialog: d[{0}][{1}]",
                 new Object[]{dialogIndex, dialogSubIndex});
         // Fill in NPC Response
         int newDialog = items[dialogSubIndex];
-        LOGGER.log(Level.CONFIG, "new dialog:             == {0}",
+        LOGGER.log(Level.FINE, "new dialog:             == {0}",
                 new Object[]{newDialog});
         if (gameState.room.getExtras() != null) {
             gameState.room.getExtras().onDialog(gameState, newDialog);
@@ -221,7 +223,7 @@ public class DialogPopup extends DialogPopupPane {
             dialogIndex = newDialog;
             items = dialogChain[dialogIndex];
 
-            LOGGER.log(Level.CONFIG, "{0}: Set dialog index to: {1}", new Object[]{mode.name(), dialogIndex});
+            LOGGER.log(Level.FINE, "{0}: Set dialog index to: {1}", new Object[]{mode.name(), dialogIndex});
             // Control character '01' is a token for the player's name. Replace it here.
             wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
             bubble.setMode(DialogBubble.Mode.NPC_SAY);
@@ -395,7 +397,7 @@ public class DialogPopup extends DialogPopupPane {
                             dialogCountDown = DIALOG_COUNT;
                             //bubble.setMode(DialogBubble.Mode.NONE);
 
-                            LOGGER.log(Level.CONFIG, "ENTER: start countdown. current dialog index: {0}   next NPC response. d[{1}][{2}] = {3}",
+                            LOGGER.log(Level.FINE, "ENTER: start countdown. current dialog index: {0}   next NPC response. d[{1}][{2}] = {3}",
                                     new Object[]{
                                         dialogIndex,
                                         dialogIndex, dialogSubIndex,
@@ -421,7 +423,6 @@ public class DialogPopup extends DialogPopupPane {
                 gameState.room.getExtras().dialogNoMore(gameState);
                 LOGGER.log(Level.CONFIG, "End of dialog chain reached. NPC has nothing more to say.");
                 listener.popupExit();
-                return;
             }
             case DIALOG_NO_MORE -> { // Like DIALOG_END but leave dialog open so next command can run.
                 gameState.room.getExtras().dialogNoMore(gameState);
@@ -432,7 +433,6 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.CONFIG, "NPC sends player to jail.");
                 listener.popupExit();
                 gameState.useDoor = RoomBounds.Door.JAIL;
-                return;
             }
             case BODY_BUY -> { // Bodyshop  buy menu
                 LOGGER.log(Level.CONFIG, "NPC opens Body Shop Buy menu.");
@@ -460,13 +460,11 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.CONFIG, "NPC sends player to new room via right.");
                 listener.popupExit();
                 gameState.useDoor = RoomBounds.Door.RIGHT;
-                return;
             }
             case EXIT_B -> { // Exit Bottom
                 LOGGER.log(Level.CONFIG, "NPC sends player to new room via bottom.");
                 listener.popupExit();
                 gameState.useDoor = RoomBounds.Door.BOTTOM;
-                return;
             }
             case EXIT_L -> { // Exit Left
                 LOGGER.log(Level.CONFIG, "NPC sends player to new room via left.");
@@ -478,13 +476,11 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.CONFIG, "NPC sends player to Street Chatsubo.");
                 listener.popupExit();
                 gameState.useDoor = RoomBounds.Door.STREET_CHAT;
-                return;
             }
             case EXIT_BDSHOP -> { // Exit to Body Shop after Death
                 LOGGER.log(Level.CONFIG, "NPC sends player to Body Shop.");
                 listener.popupExit();
                 gameState.useDoor = RoomBounds.Door.BODY_SHOP;
-                return;
             }
             case EXIT_SHUTTLE_FS, EXIT_SHUTTLE_ZION -> {
                 // Ticket agent handles ticket sale.
@@ -507,7 +503,6 @@ public class DialogPopup extends DialogPopupPane {
                 listener.popupExit();
                 //gameState.room.getExtras().exitX(gameState); // Sets gameState.useDoor
                 gameState.useDoor = gameState.shuttleDest;
-                return;
             }
             case DIALOG_CLOSE -> {
                 listener.popupExit();
@@ -518,11 +513,9 @@ public class DialogPopup extends DialogPopupPane {
                 mode = Mode.PLAYER; // Causes next loop to toggle to NPC again.
                 LOGGER.log(Level.FINE, "[514] Mode = PLAYER");
                 npcResponse(1);
-                return;
             }
             case PLAYER -> {
                 mode = Mode.NPC;
-                return;
             }
             case FINE_BANK_500 -> {
                 LOGGER.log(Level.FINE, "Fine from bank 500.");
@@ -604,7 +597,7 @@ public class DialogPopup extends DialogPopupPane {
                 }
             }
             case DISCOUNT -> {
-                LOGGER.log(Level.FINE, "Apply discount from NPC.");
+                LOGGER.log(Level.CONFIG, "Apply discount from NPC.");
                 gameState.room.extras.applyDiscount(gameState);
             }
             case DESC -> {
@@ -619,19 +612,26 @@ public class DialogPopup extends DialogPopupPane {
                 dialogSubIndex = -1;
                 dialogCountDown = DIALOG_COUNT;
             }
+            // TODO: Move logic into Room method.
             case UXB -> {
                 LOGGER.log(Level.FINE, "Give UXB to player.");
                 boolean hasItem = false;
                 for (Item item : gameState.inventory) {
                     if (item instanceof UXBDeckItem) {
                         hasItem = true;
-                        LOGGER.log(Level.FINE, "Player already has UXB.");
+                        LOGGER.log(Level.CONFIG, "Player already has UXB.");
+                    }
+                    if ( item instanceof RealItem r) {
+                        if (r.item.equals(Catalog.PAWNTICKET)) {
+                            LOGGER.log(Level.CONFIG, "Player has Pawn Ticket. Removing from player inventory.");
+                            Platform.runLater(()->{gameState.inventory.remove(r);});
+                        }
                     }
                 }
                 if (!hasItem) {
-                    LOGGER.log(Level.FINE, "Add UXB to player inventory.");
                     UXBDeckItem uxbDeckItem = new UXBDeckItem();
                     uxbDeckItem.needsRepair = true;
+                    LOGGER.log(Level.CONFIG, "Add UXB to player inventory.");
                     gameState.inventory.add(uxbDeckItem);
                 }
                 npcResponse(1);
