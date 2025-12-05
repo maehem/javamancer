@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -48,7 +49,7 @@ public class RoomDescriptionPane extends ScrollPane {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
-    private static final int BORDER_W = 4;
+    private static final double BORDER_W = 1.8;
 
     public static final int WIDTH = 200;
     public static final int HEIGHT = 120;
@@ -101,7 +102,7 @@ public class RoomDescriptionPane extends ScrollPane {
         );
         // TODO: Add blur.
 
-        Rectangle dr = new Rectangle(POS_X - 10, POS_Y, WIDTH * 1.44, HEIGHT);
+        Rectangle dr = new Rectangle(POS_X - 12, POS_Y, WIDTH * 1.44, HEIGHT);
 
         Shape subtract = Shape.subtract(r, dr);
         subtract.setFill(new Color(0.7, 0.7, 0.7, 0.4));
@@ -109,16 +110,22 @@ public class RoomDescriptionPane extends ScrollPane {
         return subtract;
     }
 
+    // TODO Add animated mouse scroll hint glyph.
+    
     public static Shape createDescriptionBorder() {
         Shape s = new Rectangle(
-                RoomDescriptionPane.WIDTH * 1.44, RoomDescriptionPane.HEIGHT
+                (RoomDescriptionPane.WIDTH + 2*BORDER_W) * 1.44, 
+                RoomDescriptionPane.HEIGHT + 4.4*BORDER_W
         );
-        s.setLayoutX(RoomDescriptionPane.POS_X - 10);
-        s.setLayoutY(RoomDescriptionPane.POS_Y);
+        s.setLayoutX(RoomDescriptionPane.POS_X - 12);
+        s.setLayoutY(RoomDescriptionPane.POS_Y - BORDER_W - 2);
 
         s.setFill(Color.TRANSPARENT);
         s.setStroke(Color.MAGENTA);
         s.setStrokeWidth(BORDER_W);
+        //s.setOpacity(0.8);
+        
+        s.setEffect(new BoxBlur(2*BORDER_W,2*BORDER_W, 2));
         
         s.setMouseTransparent(true);
 
