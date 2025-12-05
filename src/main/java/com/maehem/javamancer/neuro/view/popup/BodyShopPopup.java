@@ -99,13 +99,13 @@ public class BodyShopPopup extends SmallPopupPane {
             }
         });
         more.setOnMouseClicked((t) -> {
-            LOGGER.log(Level.CONFIG, "Clicked Body Parts More.");
+            LOGGER.log(Level.FINER, "Clicked Body Parts More.");
             t.consume();
             itemIndex += NUM_ITEMS;
             itemListPage();
         });
         previous.setOnMouseClicked((t) -> {
-            LOGGER.log(Level.CONFIG, "Clicked Body Parts Previous.");
+            LOGGER.log(Level.FINER, "Clicked Body Parts Previous.");
             t.consume();
             itemIndex -= NUM_ITEMS;
             itemListPage();
@@ -113,7 +113,7 @@ public class BodyShopPopup extends SmallPopupPane {
     }
 
     private void populateList(TextFlow tf) {
-        LOGGER.log(Level.FINER, "Build Body Parts {0} List", mode.name());
+        LOGGER.log(Level.FINE, "Build Body Parts {0} List", mode.name());
         ArrayList<BodyPart> soldparts = gameState.soldBodyParts;
         BodyPart[] parts = BodyPart.values();
         for (int i = 0; i < NUM_ITEMS; i++) {
@@ -152,13 +152,13 @@ public class BodyShopPopup extends SmallPopupPane {
                     // Try to buy it back.
                     int price = gameState.bodyPartDiscount ? part.discPrice : part.buyPrice;
                     if (gameState.chipBalance >= price) {
-                        LOGGER.log(Level.FINE, "Player bought " + part.itemName);
+                        LOGGER.log(Level.CONFIG, () -> "Player bought " + part.itemName + "for $" + price);
                         gameState.chipBalance -= price;
                         //gameState.modifyConstitution(part.constDamage);
                         gameState.soldBodyParts.remove(part);
                         gameState.bodyShopRecent = GameState.BodyShopRecent.BUY;
                     } else {
-                        LOGGER.log(Level.FINE, "Not enough money to buy body part.");
+                        LOGGER.log(Level.CONFIG, "Not enough money to buy body part.");
                     }
                 } else {
                     LOGGER.log(Level.WARNING, "Can't buy part back as we never sold it.");
@@ -168,7 +168,7 @@ public class BodyShopPopup extends SmallPopupPane {
                 if (!gameState.soldBodyParts.contains(part)) {
                     // Try to sell it.
                     int price = part.sellPrice;
-                    LOGGER.log(Level.FINE, () -> "Player sold " + part.itemName);
+                    LOGGER.log(Level.CONFIG, () -> "Player sold " + part.itemName + " for $" + price);
                     gameState.chipBalance += price;
                     //gameState.modifyConstitution(-part.constDamage);
                     gameState.soldBodyParts.add(part);
@@ -202,14 +202,14 @@ public class BodyShopPopup extends SmallPopupPane {
             }
             case M -> {
                 if (itemIndex < (BodyPart.values().length - NUM_ITEMS)) {
-                    LOGGER.log(Level.FINE, "User pressed M (more)");
+                    LOGGER.log(Level.FINER, "User pressed M (more)");
                     itemIndex += NUM_ITEMS;
                     itemListPage();
                 }
             }
             case N -> {
                 if (itemIndex >= NUM_ITEMS) {
-                    LOGGER.log(Level.FINE, "User pressed N (previous)");
+                    LOGGER.log(Level.FINER, "User pressed N (previous)");
                     itemIndex -= NUM_ITEMS;
                     itemListPage();
                 }
