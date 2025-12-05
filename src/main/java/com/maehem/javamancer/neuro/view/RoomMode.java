@@ -32,7 +32,6 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.item.SoftwareItem;
-import com.maehem.javamancer.neuro.model.room.DialogCommand;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.Room;
@@ -118,6 +117,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     private final Rectangle timeButton = button(STAT_2_X, STAT_1_Y, STAT_W, STAT_H);
     private final Rectangle credButton = button(STAT_1_X, STAT_2_Y, STAT_W, STAT_H);
     private final Rectangle constButton = button(STAT_2_X, STAT_2_Y, STAT_W, STAT_H);
+
+    private final Shape descriptionFocusBorder = RoomDescriptionPane.createDescriptionBorder();
 
     private final Shape descriptionGreyOut = RoomDescriptionPane.descrptionGreyOut();
 
@@ -212,7 +213,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 inventoryButton, paxButton, talkButton,
                 skillsButton, romButton, diskButton,
                 dateButton, timeButton, credButton, constButton,
-                descriptionGreyOut
+                descriptionGreyOut, descriptionFocusBorder
         );
 
         statusText.setId("neuro-status");
@@ -255,6 +256,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         if (scrollValue == 1.0) {
             roomPane.setEffect(null);
             descriptionGreyOut.setVisible(false);
+            descriptionFocusBorder.setVisible(false);
             firstTime = false;
             return true;
         }
@@ -404,11 +406,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         if (popup != null) {
             LOGGER.log(Level.FINEST, () -> "Popup is: " + popup.getClass().getSimpleName());
             switch (popup) {
-                case DialogPopup dp -> 
+                case DialogPopup dp ->
                     dp.dialogCounter();
                 case DeckPopup dp ->
                     dp.tick();
-                case CyberspacePopup dp -> 
+                case CyberspacePopup dp ->
                     dp.tick();
                 default -> {
                 }

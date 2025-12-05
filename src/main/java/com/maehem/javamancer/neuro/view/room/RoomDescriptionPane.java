@@ -48,6 +48,8 @@ public class RoomDescriptionPane extends ScrollPane {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
+    private static final int BORDER_W = 4;
+
     public static final int WIDTH = 200;
     public static final int HEIGHT = 120;
     public static final int POS_X = 354;
@@ -58,6 +60,7 @@ public class RoomDescriptionPane extends ScrollPane {
 
     public RoomDescriptionPane(Scale scale) {
         super();
+
         setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
@@ -104,6 +107,22 @@ public class RoomDescriptionPane extends ScrollPane {
         subtract.setFill(new Color(0.7, 0.7, 0.7, 0.4));
         //subtract.setEffect(new GaussianBlur(4.0));
         return subtract;
+    }
+
+    public static Shape createDescriptionBorder() {
+        Shape s = new Rectangle(
+                RoomDescriptionPane.WIDTH * 1.44, RoomDescriptionPane.HEIGHT
+        );
+        s.setLayoutX(RoomDescriptionPane.POS_X - 10);
+        s.setLayoutY(RoomDescriptionPane.POS_Y);
+
+        s.setFill(Color.TRANSPARENT);
+        s.setStroke(Color.MAGENTA);
+        s.setStrokeWidth(BORDER_W);
+        
+        s.setMouseTransparent(true);
+
+        return s;
     }
 
     public void addMessage(String message) {
