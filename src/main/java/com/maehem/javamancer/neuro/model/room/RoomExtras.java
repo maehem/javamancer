@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.item.SoftwareItem;
+import com.maehem.javamancer.neuro.view.popup.DialogPopup;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -233,11 +234,19 @@ public abstract class RoomExtras {
      * Override to take action on a dialog command.
      *
      * @param command
-     * @return true if command can run
+     * @return -1 if command should run.
      */
     public int onDialogCommand(GameState gs, DialogCommand command) {
         LOGGER.log(Level.WARNING, "onDialogCommand() called but not over-ridden!");
         return -1;
+    }
+    
+    /**
+     * Override to take action when user dismisses popup.
+     * @param gs 
+     */
+    public void onPopupExit(GameState gs, DialogPopup pop) {
+        LOGGER.log(Level.FINEST, "onPopupExit() called but it's not over-ridden.");
     }
 
 }
