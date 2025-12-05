@@ -415,7 +415,7 @@ public class DialogPopup extends DialogPopupPane {
         }
     }
 
-    private void processCommand(DialogCommand command) {
+    public void processCommand(DialogCommand command) {
         LOGGER.log(Level.FINE, "Process command: {0}::{1}", new Object[]{command.num, command.name()});
 
         switch (command) {
@@ -454,7 +454,6 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.CONFIG, "NPC sends player to new room via top.");
                 listener.popupExit();
                 gameState.useDoor = RoomBounds.Door.TOP;
-                return;
             }
             case EXIT_R -> { // Exit Right
                 LOGGER.log(Level.CONFIG, "NPC sends player to new room via right.");
@@ -470,7 +469,6 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.CONFIG, "NPC sends player to new room via left.");
                 listener.popupExit();
                 gameState.useDoor = RoomBounds.Door.LEFT;
-                return;
             }
             case EXIT_ST_CHAT -> { // Exit to Street Outside Chatsubo
                 LOGGER.log(Level.CONFIG, "NPC sends player to Street Chatsubo.");
