@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.item.SoftwareItem;
+import com.maehem.javamancer.neuro.model.room.DialogCommand;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.Room;
@@ -616,7 +617,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 roomPane.mouseClick(x - RoomPane.PANE_X, y - RoomPane.PANE_Y, getGameState());
             }
         }
-        if (popup instanceof DialogPopup) {
+        if (popup instanceof DialogPopup dp) {
+            room.getExtras().onPopupExit(getGameState(), dp);
             popupExit();
         }
     }
@@ -645,7 +647,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         if (popup == null) { // Used by sense/net room to boot player.
             return false;
         }
-        LOGGER.log(Level.CONFIG, "Remove popup from scene: {0}", popup.getClass().getSimpleName());
+        LOGGER.log(Level.INFO, "Remove popup from scene: {0}", popup.getClass().getSimpleName());
         popup.setVisible(false);
         boolean doNextPopup;
         if (popup instanceof SkillsVendPopup) {
