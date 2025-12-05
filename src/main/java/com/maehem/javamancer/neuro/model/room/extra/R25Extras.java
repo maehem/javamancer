@@ -77,7 +77,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
 
     @Override
     public double getNpcPosition() {
-        return 300;
+        return 180;
     }
     
     @Override
