@@ -109,8 +109,6 @@ public class RoomDescriptionPane extends ScrollPane {
         //subtract.setEffect(new GaussianBlur(4.0));
         return subtract;
     }
-
-    // TODO Add animated mouse scroll hint glyph.
     
     public static Shape createDescriptionBorder() {
         Shape s = new Rectangle(
@@ -123,7 +121,6 @@ public class RoomDescriptionPane extends ScrollPane {
         s.setFill(Color.TRANSPARENT);
         s.setStroke(Color.MAGENTA);
         s.setStrokeWidth(BORDER_W);
-        //s.setOpacity(0.8);
         
         s.setEffect(new BoxBlur(2*BORDER_W,2*BORDER_W, 2));
         
