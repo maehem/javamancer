@@ -72,6 +72,13 @@ public class R2Extras extends RoomExtras {
         }
     }
 
+    /**
+     * The dialog popup is usually dismissible by the player, but in this
+     * case we need to send player to jail if they didn't pay Ratz.
+     * 
+     * @param gs
+     * @param pop 
+     */
     @Override
     public void onPopupExit(GameState gs, DialogPopup pop) {
         LOGGER.log(Level.SEVERE, "R2 dialog popup closed. Check if Ratz was paid.");
@@ -79,6 +86,5 @@ public class R2Extras extends RoomExtras {
             pop.processCommand(DialogCommand.TO_JAIL);
         }
     }
-
     
 }
