@@ -27,10 +27,13 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.room.DialogCommand;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import com.maehem.javamancer.neuro.view.popup.DialogPopup;
+import java.util.logging.Level;
 
 /**
  *
@@ -39,7 +42,8 @@ import com.maehem.javamancer.neuro.model.room.RoomExtras;
 public class R2Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = {
-        {TO_JAIL.num}, {NPC.num, 1} // 0, 1
+        {TO_JAIL.num}, // You're under arrest!
+        {NPC.num, 1} // Move along.
     };
 
     @Override
@@ -68,4 +72,13 @@ public class R2Extras extends RoomExtras {
         }
     }
 
+    @Override
+    public void onPopupExit(GameState gs, DialogPopup pop) {
+        LOGGER.log(Level.SEVERE, "R2 dialog popup closed. Check if Ratz was paid.");
+        if (!gs.ratzPaid) {
+            pop.processCommand(DialogCommand.TO_JAIL);
+        }
+    }
+
+    
 }
