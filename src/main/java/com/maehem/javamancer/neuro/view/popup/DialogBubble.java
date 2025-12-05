@@ -86,7 +86,6 @@ public class DialogBubble extends ImageView {
             }
             case NPC_SAY -> {
                 index = 1 + (npcX < FLIP_X ? 1 : 0);
-                LOGGER.log(Level.WARNING, () -> "NPC X: " + npcX);
                 this.setLayoutX(npcX + (npcX < FLIP_X ? 38 : -38));
             }
         }
