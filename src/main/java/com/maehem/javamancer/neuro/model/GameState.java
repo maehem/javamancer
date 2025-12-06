@@ -462,14 +462,14 @@ public class GameState {
         dialogAllowed.add(R27);
         dialogAllowed.add(R32);
         dialogAllowed.add(R36);
+        dialogAllowed.add(R40);
         dialogAllowed.add(R44);
         dialogAllowed.add(R45);
         dialogAllowed.add(R46);
         dialogAllowed.add(R50);
-        dialogAllowed.add(R51);
         dialogAllowed.add(R52);
+        dialogAllowed.add(R53);
         dialogAllowed.add(R56);
-        dialogAllowed.add(R57);
 
         visited.add(R10); // TODO: Shuttle doesn't work as "firstTime" visit.
 

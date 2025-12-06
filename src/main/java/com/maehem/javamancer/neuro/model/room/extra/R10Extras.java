@@ -59,11 +59,6 @@ public class R10Extras extends RoomExtras { // JAL - Shuttle To Orbit
     @Override
     public void initRoom(GameState gs) {
     }
-
-    @Override
-    public double getNpcPosition() {
-        return 500;
-    }
     
     @Override
     public int[][] getDialogChain() {
@@ -73,7 +68,6 @@ public class R10Extras extends RoomExtras { // JAL - Shuttle To Orbit
     @Override
     public int dialogWarmUp(GameState gs) {
         return 3;
-
     }
 
     @Override

@@ -81,13 +81,9 @@ public class R1Extras extends RoomExtras {
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
+
     }
 
-    @Override
-    public double getNpcPosition() {
-        return 140;
-    }
-    
     @Override
     public boolean give(GameState gs, Item item, int aux) {
         // Player give is credits.

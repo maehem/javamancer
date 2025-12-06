@@ -42,7 +42,7 @@ import java.util.logging.Level;
 public class R2Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = {
-        {TO_JAIL.num}, // You're under arrest!
+        {TO_JAIL.num}, // You're under arrest! ( see onPopupExit() )
         {NPC.num, 1} // Move along.
     };
 
@@ -51,11 +51,6 @@ public class R2Extras extends RoomExtras {
         if (gs.ratzPaid) {
             gs.room.lockDoor(RoomBounds.Door.TOP);
         }
-    }
-
-    @Override
-    public double getNpcPosition() {
-        return 100;
     }
     
     @Override

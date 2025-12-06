@@ -36,10 +36,38 @@ import java.util.logging.Logger;
  */
 public enum RoomPosition {
 
-    R1(300, 204, 60, 40), // Chatsubo
-    R2(420, 200, 20, 150), // Street Cahtsubo
-    R8(420, 200, 20, 150), // G-Loser
-    DEFAULT(300, 196, 0, 0);
+    R1(300, 204, 120, 40), // Chatsubo
+    R2(420, 204, 110, 150), // Street Cahtsubo
+    R3(300, 204, 150, 150), // Street Cahtsubo
+    R4(300, 204, 400, 150), // Body Shop
+    R6(300, 204, 500, 150), // Donut World
+    R8(420, 204, 40, 150), // G-Loser
+    R9(500,204, 200,150), // Maas Biolabs
+    R10(300,204,500,200),  // JAL Shuttle to Orbit
+    R11(300,204,200,200),  // Zion
+    R12(300,204,160,200), // Microsofts
+    R19(300,204,500,200), // Spaceport Chiba
+    R22(200,204,300,200), // Straylight Bust
+    R23(400, 204, 200, 200), // Panther Modern meeting
+    R24(130,204,280,150), // Massage Parlor
+    R25(320,204, 170,150), // Shin's Pawn
+    R26(320,204, 460,150), // Street - Zone's Lady 
+    R27(400,204, 210,150), // Julius Dean 
+    R28(300,204, 550,150), // JAL Shuttle - to Earth
+    R29(300,204, 500,150), // Freeside - Space Dock
+    R32(300,204, 200,150), // Metro Holographix
+    R34(200,204, 300,150), // Bank Berne - Lobby
+    R36(170,204, 320,150), // House of Pong
+    R40(340,204, 200,150), // Crazy Edo's
+    R44(330,204, 200,150), // Asano's
+    R45(300,204, 200,150), // Asano's
+    R46(400,204, 160,150), // Matrix Restuarant
+    R51(300,204, 80,150), // Fuji Electric
+    R52(200,204, 330,150), // Security Gate
+    R53(100,204, 300,150), // Hitachi
+    R56(200,204, 300,150), // Sense Net
+    R57(400,204, 100,150), // Hosaka
+    DEFAULT(300, 204, 0, 0);
 
     public static final Logger LOGGER = Logging.LOGGER;
 
@@ -48,9 +76,9 @@ public enum RoomPosition {
     public final int npcX;
     public final int npcY;
 
-    private RoomPosition(int pX, int pY, int npcX, int npcY ) {
-        this.playerX = pX;
-        this.playerY = pY;
+    private RoomPosition(int playerX, int playerY, int npcX, int npcY ) {
+        this.playerX = playerX;
+        this.playerY = playerY;
         this.npcX = npcX;
         this.npcY = npcY;
     }

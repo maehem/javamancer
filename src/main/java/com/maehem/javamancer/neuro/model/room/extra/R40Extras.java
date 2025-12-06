@@ -87,11 +87,6 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
         gs.resourceManager.getRoomText(Room.R40).dumpList();
     }
 
-    @Override
-    public double getNpcPosition() {
-        return 220;
-    }
-    
     /**
      * Crazy Edo will give player ComLink 2.0 if the player has Caviar in their
      * inventory.

@@ -39,7 +39,7 @@ import com.maehem.javamancer.neuro.model.room.RoomExtras;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class R4Extras extends RoomExtras {
+public class R4Extras extends RoomExtras { // Body Shop
 
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1 // Room descriptions
@@ -65,11 +65,6 @@ public class R4Extras extends RoomExtras {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
         //gs.resourceManager.getRoomText(gs.room).dumpList();
-    }
-
-    @Override
-    public double getNpcPosition() {
-        return 400;
     }
     
     @Override

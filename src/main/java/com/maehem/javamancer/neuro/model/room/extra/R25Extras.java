@@ -76,11 +76,6 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
     }
 
     @Override
-    public double getNpcPosition() {
-        return 180;
-    }
-    
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

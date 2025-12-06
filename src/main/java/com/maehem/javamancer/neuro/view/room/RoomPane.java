@@ -245,7 +245,7 @@ public class RoomPane extends Pane {
 
     public boolean updatePlayerPosition(GameState gs, int newPosX, int newPosY) {
 
-        boolean retVal = true;
+        boolean retVal;
         playerGroup.setLayoutX(newPosX);
         playerGroup.setLayoutY(newPosY);
         if (Shape.intersect(playerFeet, walkBounds).getBoundsInLocal().getWidth() != -1) {

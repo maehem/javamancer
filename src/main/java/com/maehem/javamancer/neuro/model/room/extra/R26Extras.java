@@ -159,11 +159,6 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
     }
 
     @Override
-    public double getNpcPosition() {
-        return 460;
-    }
-    
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

@@ -42,7 +42,7 @@ import java.util.logging.Level;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class R24Extras extends RoomExtras {
+public class R24Extras extends RoomExtras {    
 
     protected static final int[][] DIALOG_CHAIN = { //    The massage parlor.
         {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
@@ -76,11 +76,6 @@ public class R24Extras extends RoomExtras {
     }
 
     @Override
-    public double getNpcPosition() {
-        return 400;
-    }
-    
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -101,6 +96,5 @@ public class R24Extras extends RoomExtras {
 
         return 10 + (int) (Math.random() * 6);
     }
-
 
 }

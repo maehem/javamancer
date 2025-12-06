@@ -77,11 +77,6 @@ public class R36Extras extends RoomExtras { // House of Pong
     }
 
     @Override
-    public double getNpcPosition() {
-        return 400;
-    }
-
-    @Override
     public boolean give(GameState gs, Item item, int aux) {
         // Player give is joystick.
         if (item.item == Catalog.JOYSTICK) {

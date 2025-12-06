@@ -54,11 +54,6 @@ public class R57Extras extends RoomExtras { // Hosaka
         //gs.resourceManager.getRoomText(Room.R57).dumpList();
 
     }
-
-    @Override
-    public double getNpcPosition() {
-        return 100;
-    }
     
     @Override
     public JackZone jackZone() {

@@ -102,15 +102,10 @@ public class R3Extras extends RoomExtras {
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
     }
 
-    /**
+    /*
      * TODO: Some way to move the talk bubble for each of the two NPCs
-     * 
-     * @return X position of NPC
+     *
      */
-    @Override
-    public double getNpcPosition() {
-        return 120;
-    }
     
     @Override
     public int[][] getDialogChain() {

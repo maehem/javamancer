@@ -62,11 +62,6 @@ public class R28Extras extends RoomExtras { // JAL - Shuttle To Earth
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
         //gs.resourceManager.getRoomText(Room.R28).dumpList();
     }
-
-    @Override
-    public double getNpcPosition() {
-        return 550;
-    }
     
     @Override
     public int[][] getDialogChain() {

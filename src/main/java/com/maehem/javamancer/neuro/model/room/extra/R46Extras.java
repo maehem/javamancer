@@ -134,11 +134,6 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
 
         // TODO: No Pass. Kick out.
     }
-
-    @Override
-    public double getNpcPosition() {
-        return 200;
-    }
     
     @Override
     public int[][] getDialogChain() {
@@ -151,7 +146,6 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
             return 28;
         }
         return 2;
-
     }
 
     @Override

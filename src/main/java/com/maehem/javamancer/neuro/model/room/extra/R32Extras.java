@@ -122,11 +122,6 @@ public class R32Extras extends RoomExtras { // Metro Holographix
     }
 
     @Override
-    public double getNpcPosition() {
-        return 200;
-    }
-    
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

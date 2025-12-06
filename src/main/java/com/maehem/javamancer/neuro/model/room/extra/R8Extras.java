@@ -246,10 +246,4 @@ public class R8Extras extends RoomExtras {
             return new int[]{17, 18}; // What do you know about
         }
     }
-
-    @Override
-    public double getNpcPosition() {
-        return 90;
-    }
-
 }

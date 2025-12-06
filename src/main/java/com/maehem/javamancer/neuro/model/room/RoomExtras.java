@@ -46,7 +46,7 @@ public abstract class RoomExtras {
     public static final Logger LOGGER = Logging.LOGGER;
 
     public boolean onVendFinishedOpenDialog = false; // Semaphote to open dialog when vend finished.
-
+    
     /**
      * Request the talk dialog. Handled by RoomMode.tick() Flag is cleared when
      * handled.
@@ -225,11 +225,7 @@ public abstract class RoomExtras {
         LOGGER.log(Level.WARNING, "onFilter1() called but not over-ridden!");
         return new int[]{2};
     }
-
-    public double getNpcPosition() {
-        return 300;
-    }
-
+    
     /**
      * Override to take action on a dialog command.
      *
@@ -242,7 +238,7 @@ public abstract class RoomExtras {
     }
     
     /**
-     * Override to take action when user dismisses popup.
+     * Optionally override to take action when user dismisses popup.
      * @param gs 
      */
     public void onPopupExit(GameState gs, DialogPopup pop) {

@@ -76,11 +76,6 @@ public class R9Extras extends RoomExtras {
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
         //gs.resourceManager.getRoomText(Room.R9).dumpList();
     }
-
-    @Override
-    public double getNpcPosition() {
-        return 120;
-    }
     
     @Override
     public JackZone jackZone() {

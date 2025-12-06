@@ -54,6 +54,7 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
     @Override
     public void initRoom(GameState gs) {
         //gs.resourceManager.getRoomText(Room.R7).dumpList();
+        
     }
 
     @Override

@@ -39,6 +39,7 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD2;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import com.maehem.javamancer.neuro.model.room.RoomPosition;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import com.maehem.javamancer.neuro.view.RoomMode;
@@ -90,7 +91,7 @@ public class DialogPopup extends DialogPopupPane {
 
         this.bubble = new DialogBubble(rm,
                 gs.roomPosX,
-                gs.room.getExtras().getNpcPosition(),
+                RoomPosition.get(gs.room).npcX,
                 getPrefHeight() - 4
         );
         this.dialogChain = gs.room.getExtras().getDialogChain();

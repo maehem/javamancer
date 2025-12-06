@@ -78,11 +78,6 @@ public class R19Extras extends RoomExtras { // Spaceport Chiba
     }
 
     @Override
-    public double getNpcPosition() {
-        return 500;
-    }
-    
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

@@ -147,11 +147,6 @@ public class R27Extras extends RoomExtras {
     }
 
     @Override
-    public double getNpcPosition() {
-        return 200;
-    }
-
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }

@@ -140,11 +140,6 @@ public class R23Extras extends RoomExtras { // Panther Moderns
     }
 
     @Override
-    public double getNpcPosition() {
-        return 200;
-    }
-    
-    @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
     }
@@ -152,7 +147,6 @@ public class R23Extras extends RoomExtras { // Panther Moderns
     @Override
     public int dialogWarmUp(GameState gs) {
         return 2;
-
     }
 
     @Override

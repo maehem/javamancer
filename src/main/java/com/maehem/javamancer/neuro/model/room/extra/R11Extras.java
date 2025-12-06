@@ -118,11 +118,6 @@ public class R11Extras extends RoomExtras { // Zion
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
         gs.resourceManager.getRoomText(Room.R11).dumpList();
     }
-
-    @Override
-    public double getNpcPosition() {
-        return 300;
-    }
     
     @Override
     public int[][] getDialogChain() {
