@@ -84,8 +84,6 @@ public class DialogPopup extends DialogPopupPane {
     private int fillingText = 0; // 0 == none,  1 == map1, 2 == map2
 
     // TODO: Add Choose and Say mouse hints or buttons.
-    
-    
     public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
         super(l, gs);
 
@@ -96,7 +94,15 @@ public class DialogPopup extends DialogPopupPane {
         );
         this.dialogChain = gs.room.getExtras().getDialogChain();
         this.dialogIndex = gs.room.getExtras().dialogWarmUp(gs);
-        this.items = dialogChain[dialogIndex];
+
+        // TODO: Check for use of DESC_DIRECT command.  i.e. 500 + index.
+        // If the dialogIndex is > 500 then print text item into
+        // room description and then execute command.
+        if (dialogIndex > 500) {
+            this.items = dialogChain[dialogIndex - 500];
+        } else {
+            this.items = dialogChain[dialogIndex];
+        }
         this.textResource = rm.getRoomText(gameState.room);
 
         // TODO: Room specific conditions should not be here.
@@ -140,9 +146,19 @@ public class DialogPopup extends DialogPopupPane {
                 dialogCountDown = DIALOG_COUNT;
                 bubble.setMode(DialogBubble.Mode.NPC_SAY);
             } else {
-                LOGGER.log(Level.CONFIG, "first text appears to be a command.");
-                //processCommand(dialogIndex);
-                processCommand(DialogCommand.getCommand(dialogIndex));
+                // Handle when dialog text should appear in the room description
+                // pane rather than a dialog bubble.
+                if (dialogIndex >= 500 && dialogIndex < 600) {
+                    int index = dialogIndex - 500;
+                    LOGGER.log(Level.CONFIG, () -> "first text appears to be a command: " + dialogIndex);
+                    LOGGER.log(Level.CONFIG, "first text: {0}\n\n{1}\n\t\t\t\t",
+                            new Object[]{
+                                index,
+                                textResource.get(index)
+                            });
+                            //processCommand(dialogIndex);
+                            processCommand(DialogCommand.DESC_DIRECT);
+                }
             }
         }
 
@@ -416,7 +432,7 @@ public class DialogPopup extends DialogPopupPane {
         }
     }
 
-    public void processCommand(DialogCommand command) {
+    public final void processCommand(DialogCommand command) {
         LOGGER.log(Level.FINE, "Process command: {0}::{1}", new Object[]{command.num, command.name()});
 
         switch (command) {
@@ -600,7 +616,7 @@ public class DialogPopup extends DialogPopupPane {
                 gameState.room.extras.applyDiscount(gameState);
             }
             case DESC -> {
-                LOGGER.log(Level.FINE, "Print next response into room description window.");
+                LOGGER.log(Level.CONFIG, "Print next response into room description window.");
                 dialogSubIndex++;
                 int dItem = items[dialogSubIndex];
                 LOGGER.log(Level.FINE, "Name: {0} == [{1}][{2}]", new Object[]{dItem, dialogIndex, dialogSubIndex});
@@ -611,6 +627,10 @@ public class DialogPopup extends DialogPopupPane {
                 dialogSubIndex = -1;
                 dialogCountDown = DIALOG_COUNT;
             }
+            case DESC_DIRECT -> { // Print the current message into the room description.
+                LOGGER.log(Level.CONFIG, "Print next response into room description window.");
+                listener.showMessage(textResource.get(dialogIndex-500));
+            }
             // TODO: Move logic into Room method.
             case UXB -> {
                 LOGGER.log(Level.FINE, "Give UXB to player.");
@@ -620,10 +640,12 @@ public class DialogPopup extends DialogPopupPane {
                         hasItem = true;
                         LOGGER.log(Level.CONFIG, "Player already has UXB.");
                     }
-                    if ( item instanceof RealItem r) {
+                    if (item instanceof RealItem r) {
                         if (r.item.equals(Catalog.PAWNTICKET)) {
                             LOGGER.log(Level.CONFIG, "Player has Pawn Ticket. Removing from player inventory.");
-                            Platform.runLater(()->{gameState.inventory.remove(r);});
+                            Platform.runLater(() -> {
+                                gameState.inventory.remove(r);
+                            });
                         }
                     }
                 }
