@@ -62,11 +62,12 @@ public enum RoomPosition {
     R44(330,204, 200,150), // Asano's
     R45(300,204, 200,150), // Asano's
     R46(400,204, 160,150), // Matrix Restuarant
-    R51(300,204, 80,150), // Fuji Electric
+    R51(200,204, 80,150), // Fuji Electric
     R52(200,204, 330,150), // Security Gate
     R53(100,204, 300,150), // Hitachi
     R56(200,204, 300,150), // Sense Net
-    R57(400,204, 100,150), // Hosaka
+    R57(200,204, 0,0), // Hosaka
+    R58(450,204, 0,0), // Musabori
     DEFAULT(300, 204, 0, 0);
 
     public static final Logger LOGGER = Logging.LOGGER;
