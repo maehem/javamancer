@@ -391,7 +391,7 @@ public class GameState {
                 | NoSuchMethodException
                 | SecurityException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            ex.printStackTrace();
+            //ex.printStackTrace();
 
         }
 
@@ -470,6 +470,7 @@ public class GameState {
         dialogAllowed.add(R52);
         dialogAllowed.add(R53);
         dialogAllowed.add(R56);
+        dialogAllowed.add(R57); // Hosaka
 
         visited.add(R10); // TODO: Shuttle doesn't work as "firstTime" visit.
 
