@@ -24,7 +24,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package com.maehem.javamancer.neuro.model.item;
 
 import com.maehem.javamancer.neuro.model.GameState;
@@ -93,7 +92,7 @@ public abstract class DeckItem extends Item {
                 | NoSuchMethodException
                 | SecurityException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         LOGGER.log(Level.SEVERE,
                 "Could not get instance for DeckItem: {0}",
@@ -134,12 +133,16 @@ public abstract class DeckItem extends Item {
      * @param z
      */
     public void setZone(JackZone z) {
-        this.zone = z;
-        LOGGER.log(Level.FINER, "Deck: Zone changed: {0}", zone);
+        if (z != null) {
+            this.zone = z;
+            LOGGER.log(Level.FINE, "Deck: Zone changed: {0}", zone);
 
-        setCordX(z.x);
-        // Set start point back one grid sice we animate visual into actual postion.
-        setCordY(z.y - GameState.GRID_SIZE);
+            setCordX(z.x);
+            // Set start point back one grid sice we animate visual into actual postion.
+            setCordY(z.y - GameState.GRID_SIZE);
+        } else {
+            LOGGER.log(Level.FINE, "Can`t set zone. No cyberspace jack here.");
+        }
     }
 
     public int getCordX() {
