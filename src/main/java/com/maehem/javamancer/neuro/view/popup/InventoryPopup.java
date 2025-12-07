@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
@@ -300,15 +301,20 @@ public class InventoryPopup extends SmallPopupPane {
     @SuppressWarnings("unchecked")
     private void operateItem(boolean altMode) {
         if (currentItem != null) {
-            if (currentItem instanceof SkillItem si) {
-                LOGGER.log(Level.INFO, "Operate(Install) Skill: {0}", si);
-                askInstallSkillItem(si);
-            } else if (currentItem instanceof DeckItem deck) {
-                LOGGER.log(Level.INFO, "Operate Deck: {0}", deck);
-                gameState.usingDeck = deck;
-                gameState.usingDeckErase = altMode;
-                deck.setZone(gameState.room.getJack());
-                listener.popupExit(RoomMode.Popup.DECK); // Exit inventory
+            switch (currentItem) {
+                case SkillItem si -> {
+                    LOGGER.log(Level.INFO, "Operate(Install) Skill: {0}", si);
+                    askInstallSkillItem(si);
+                }
+                case DeckItem deck -> {
+                    LOGGER.log(Level.INFO, "Operate Deck: {0}", deck);
+                    gameState.usingDeck = deck;
+                    gameState.usingDeckErase = altMode;
+                    deck.setZone(gameState.room.getJack());
+                    listener.popupExit(RoomMode.Popup.DECK); // Exit inventory
+                }
+                default -> {
+                }
             }
         }
     }
