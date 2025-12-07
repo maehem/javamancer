@@ -29,7 +29,6 @@ package com.maehem.javamancer.neuro.view;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.GameStateUtils;
-import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds.Door;
 import com.maehem.javamancer.neuro.model.room.RoomMap;
 import com.maehem.javamancer.neuro.model.room.RoomPosition;
@@ -49,11 +48,7 @@ import javafx.scene.shape.Rectangle;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class NeuroGamePane extends Pane implements NeuroModePaneListener {
-
     public static final Logger LOGGER = Logging.LOGGER;
-
-    //private static final Room ROOM_START = Room.R1;
-    private static final Room ROOM_START = Room.R1; // Debug value
 
     public static final int SYSTEM_WINDOW_HEADER_H = 20; // MacOS
     public static final int WIDTH = 640;
@@ -81,23 +76,6 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         setMode(new TitleMode(this, gameState));
 
         initGameLoop();
-    }
-
-    /**
-     * Called near the end of NEW_GAME action.
-     *
-     * This should be empty for any release version.
-     */
-    private void initTestItems() {
-
-        //gameState.room = Room.R22; // Gentleman Loser
-        // Game Test Items
-        //Cyberspace7DeckItem testDeckItem = new Cyberspace7DeckItem();
-//        testDeckItem.needsRepair = true;
-        //gameState.inventory.add(testDeckItem); // Test item
-        //gameState.deckSlots = testDeckItem.nSlots;
-        //gameState.addSoftware(new CyberspaceWarez(1));
-        //gameState.addSoftware(new AcidWarez(3)); // Should delete when used.
     }
 
     private void initGameLoop() {
@@ -205,14 +183,14 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                     }
                     LOGGER.log(Level.INFO, "New Game with player name: {0}", gameState.name);
                     gameState.initNewGame();
-                    gameState.room = ROOM_START;
-                    initTestItems();
+                    gameState.room = GameState.ROOM_START;
+                    gameState.initTestItems();
 
                     LOGGER.log(Level.CONFIG, "Set default player position: {0},{1}",
                             new Object[]{gameState.roomPosX, gameState.roomPosY}
                     );
-                    gameState.roomPosX = RoomPosition.get(ROOM_START).playerX;
-                    gameState.roomPosY = RoomPosition.get(ROOM_START).playerY;
+                    gameState.roomPosX = RoomPosition.get(GameState.ROOM_START).playerX;
+                    gameState.roomPosY = RoomPosition.get(GameState.ROOM_START).playerY;
 
                     setMode(new RoomMode(this, gameState));
                 } else {

@@ -58,6 +58,8 @@ public class GameState {
     public static final int GRID_MAX = 512;
     public static final int GRID_SIZE = 16;
 
+    public static final Room ROOM_START = Room.R1;
+
     public enum BodyShopRecent {
         NONE, BUY, SELL, REVIVED;
     }
@@ -186,6 +188,26 @@ public class GameState {
         this.resourceManager = rm;
 
         this.dbList = new DatabaseList(rm);
+    }
+
+    /**
+     * Called by NeuroGamePane near the end of NEW_GAME action.
+     *
+     * This should be empty for any release version.
+     */
+    public void initTestItems() {
+
+        // Game Test Items
+        room = Room.R13; // Street Microsofts
+        
+        // Test examples:
+        //
+        //Cyberspace7DeckItem testDeckItem = new Cyberspace7DeckItem();
+        //testDeckItem.needsRepair = true;
+        //gameState.inventory.add(testDeckItem); // Test item
+        //gameState.deckSlots = testDeckItem.nSlots;
+        //gameState.addSoftware(new CyberspaceWarez(1));
+        //gameState.addSoftware(new AcidWarez(3)); // Should delete when used.
     }
 
     public boolean roomCanTalk() {
