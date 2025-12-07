@@ -130,7 +130,7 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
             RoomPosition roompos = RoomPosition.get(gameState.room);
             gameState.roomPosX = roompos.playerX;
             gameState.roomPosY = roompos.playerY;
-            LOGGER.log(Level.WARNING, "TODO: Set default player position: {0},{1}",
+            LOGGER.log(Level.CONFIG, "Set default player position: {0},{1}",
                     new Object[]{gameState.roomPosX, gameState.roomPosY}
             );
         } else {
