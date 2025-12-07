@@ -41,7 +41,7 @@ public enum RoomPosition {
     R3(300, 204, 150, 150), // Street Cahtsubo
     R4(300, 204, 400, 150), // Body Shop
     R6(300, 204, 500, 150), // Donut World
-    R8(420, 204, 40, 150), // G-Loser
+    R8(420, 204, 80, 150), // G-Loser
     R9(500,204, 200,150), // Maas Biolabs
     R10(300,204,500,200),  // JAL Shuttle to Orbit
     R11(300,204,200,200),  // Zion
