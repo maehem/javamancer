@@ -31,8 +31,8 @@ package com.maehem.javamancer.neuro.model.room;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public enum RoomMap {
-    R1(Room.R1, null, null, Room.R2, null),
-    R2(Room.R2, Room.R1, Room.R5, null, null),
+    R1(Room.R1, null, null, Room.R2, null), // Chatsubo
+    R2(Room.R2, Room.R1, Room.R5, null, null), // Street outside Chatsubo
     R3(Room.R3, null, null, null, null), // Justice
     R4(Room.R4, null, null, Room.R5, null), // Body Shop
     R5(Room.R5, Room.R4, Room.R13, Room.R6, Room.R2), // Street Body Shop
