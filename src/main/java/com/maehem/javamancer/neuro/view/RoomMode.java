@@ -615,7 +615,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         if ((y > 16 && y < 240) && (x > 16 && x < 624)) {
             // User clicked in room scene.
             if (popup == null) {
-                LOGGER.log(Level.CONFIG, "User clicked roomPane at: {0},{1}", new Object[]{(int) x, (int) y});
+                LOGGER.log(Level.FINER, "User clicked roomPane at: {0},{1}", new Object[]{(int) x, (int) y});
                 roomPane.mouseClick(x - RoomPane.PANE_X, y - RoomPane.PANE_Y, getGameState());
             }
         }
