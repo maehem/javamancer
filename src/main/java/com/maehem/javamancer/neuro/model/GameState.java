@@ -360,9 +360,9 @@ public class GameState {
     public final boolean addSoftware(Warez w) {
         if (software.size() < deckSlots) {
             if (software.add(w)) {
-                LOGGER.log(Level.INFO, "Deck Warez:\n");
+                LOGGER.log(Level.FINE, "Deck Warez:");
                 software.forEach((dw) -> {
-                    LOGGER.log(Level.FINER, () -> dw.getSimpleName() + "\n");
+                    LOGGER.log(Level.FINE, () -> "    " + dw.getSimpleName());
                 });
                 return true;
             } else {
