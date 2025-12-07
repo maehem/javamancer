@@ -40,6 +40,7 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD2;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.room.RoomPosition;
+import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import com.maehem.javamancer.neuro.view.RoomMode;
@@ -651,9 +652,11 @@ public class DialogPopup extends DialogPopupPane {
                 }
                 if (!hasItem) {
                     UXBDeckItem uxbDeckItem = new UXBDeckItem();
-                    uxbDeckItem.needsRepair = true;
+                    //uxbDeckItem.needsRepair = true;
                     LOGGER.log(Level.CONFIG, "Add UXB to player inventory.");
                     gameState.inventory.add(uxbDeckItem);
+                    gameState.deckSlots = uxbDeckItem.nSlots;
+                    gameState.addSoftware(new ComLinkWarez(1));
                 }
                 npcResponse(1);
             }
