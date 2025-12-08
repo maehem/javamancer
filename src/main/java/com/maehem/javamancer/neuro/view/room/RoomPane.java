@@ -33,8 +33,13 @@ import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomBounds.Door;
 import com.maehem.javamancer.neuro.model.room.RoomPosition;
 import com.maehem.javamancer.neuro.view.ResourceManager;
+import com.maehem.javamancer.resource.Util;
+import com.maehem.javamancer.resource.view.AnimationSequence;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -74,10 +79,33 @@ public class RoomPane extends Pane {
     private final double stepSizeRL = 8.0;
     private final double stepSizeTA = 4.0;
 
+    // Animation Stuff
+    private final ArrayList<Timeline> timelines = new ArrayList<>();
+
     public RoomPane(ResourceManager resourceManager, Room room) {
         //this.room = room;
         ImageView roomView = new ImageView(resourceManager.getBackdrop(room));
         getChildren().addAll(roomView);
+
+        // Add animation here.
+        File[] animEntries = resourceManager.getAnimationEntries(room);
+        LOGGER.log(Level.CONFIG, () -> "Found  " + animEntries.length + " animation entry folders.");
+        for ( File entryFolder : animEntries ) {
+            LOGGER.log(Level.CONFIG, () -> "    " + entryFolder.getName() );
+            File[] anims = entryFolder.listFiles((dir) -> {
+                return dir.isDirectory() && dir.getName().startsWith("anim00");
+            });
+            for ( File animDir: anims ) {
+                AnimationSequence animSequence = new AnimationSequence();
+                getChildren().add(Util.compGroup(animDir, animSequence));
+                Timeline timeline = null;
+                Util.configTimeline(timeline, animSequence);
+                if (timeline != null) {
+                    LOGGER.log(Level.CONFIG, "Add animation timeline to room.");
+                    timelines.add(timeline);
+                }
+            }
+        }
 
         setLayoutX(PANE_X);
         setLayoutY(PANE_Y);
@@ -114,7 +142,7 @@ public class RoomPane extends Pane {
     }
 
     private Rectangle addDoor(RoomBounds rb, RoomBounds.Door door) {
-        int x=1, y=1, w=1, h=1;
+        int x = 1, y = 1, w = 1, h = 1;
         switch (door) {
             case TOP -> {
                 if (rb.tx == 0 || rb.tw == 0) {
@@ -154,7 +182,7 @@ public class RoomPane extends Pane {
             }
 
         }
-        Rectangle r = new Rectangle(x,y,w,h);
+        Rectangle r = new Rectangle(x, y, w, h);
         r.setFill(DOOR_COLOR);
         r.setOpacity(BOUNDS_OPACITY);
         r.setStroke(null);
@@ -278,4 +306,11 @@ public class RoomPane extends Pane {
         }
         LOGGER.log(Level.FINE, "Walk to: {0},{1}", new Object[]{walkToX, walkToY});
     }
+
+    public void cleanup() {
+        timelines.forEach(tl -> {
+            tl.stop();
+        });
+    }
+
 }
