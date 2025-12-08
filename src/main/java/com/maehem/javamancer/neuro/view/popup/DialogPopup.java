@@ -135,7 +135,7 @@ public class DialogPopup extends DialogPopupPane {
         if (mode == Mode.NPC) {
             if (dialogIndex < 50) {
                 // Might be a command.
-                LOGGER.log(Level.CONFIG, "first text: {0}\n\n{1}\n\t\t\t\t",
+                LOGGER.log(Level.FINE, "first text: {0}\n\n{1}\n\t\t\t\t",
                         new Object[]{
                             dialogIndex,
                             textResource.get(dialogIndex)
@@ -152,7 +152,7 @@ public class DialogPopup extends DialogPopupPane {
                 if (dialogIndex >= 500 && dialogIndex < 600) {
                     int index = dialogIndex - 500;
                     LOGGER.log(Level.CONFIG, () -> "first text appears to be a command: " + dialogIndex);
-                    LOGGER.log(Level.CONFIG, "first text: {0}\n\n{1}\n\t\t\t\t",
+                    LOGGER.log(Level.FINE, "first text: {0}\n\n{1}\n\t\t\t\t",
                             new Object[]{
                                 index,
                                 textResource.get(index)
