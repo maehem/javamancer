@@ -33,6 +33,7 @@ import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.room.Room;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -124,6 +125,17 @@ public class ResourceManager {
         }
 
         return null;
+    }
+    
+    public File[] getAnimationEntries(Room room) {
+        File animRoomDir = new File(anhFolder, room.name());
+        File[] listFiles = animRoomDir.listFiles((File pathname) -> 
+                pathname.getName().startsWith("entry") &&
+                        pathname.isDirectory());
+        if (listFiles == null) {
+            return new File[]{};
+        }
+        return listFiles;
     }
 
     public TextResource getRoomText(Room room) {
