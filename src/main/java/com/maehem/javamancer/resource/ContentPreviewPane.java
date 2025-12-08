@@ -111,82 +111,33 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                     if (file.getName().startsWith("anim")) {
                         LOGGER.log(Level.FINEST, "User Clicked in Anim Item.");
                         getChildren().clear();
+                        Group compGroup = new Group();
+                        getChildren().add(compGroup);
 
-                        AnimationSequence animSequence = new AnimationSequence();
-
-                        // Get Room name.
-                        File roomFolder = file.getParentFile().getParentFile();
-                        LOGGER.log(Level.FINER, "Room File: {0}", roomFolder.getName());
-                        AppProperties app = AppProperties.getInstance();
-                        File picFolder = new File(app.getCacheFolder(), "pic");
-                        File roomPngFile = new File(picFolder, roomFolder.getName() + ".png");
-
-                        try {
-                            Group compGroup = new Group();
-                            getChildren().add(compGroup);
-
-                            ArrayList<String> locList = new ArrayList<>();
-
-                            // Get metadata.  Sleep, and locations.
-                            File meta = new File(file, "meta.txt");
-                            if (meta.exists()) {
-                                LOGGER.log(Level.FINEST, "Found meta.txt");
-                                try (Stream<String> stream = Files.lines(Paths.get(meta.toURI()))) {
-                                    stream.forEach((line) -> {
-                                        if (line.startsWith("sleep:")) {
-                                            String[] split = line.split(":");
-                                            animSequence.setSleep(Integer.parseInt(split[1]));
-                                            LOGGER.log(Level.FINER, "Set Sleep to: {0}", animSequence.getSleep());
-                                        } else if (line.startsWith("//")) {
-                                            // Ignore comment
-                                            LOGGER.log(Level.FINER, line);
-                                        } else if (line.contains(",")) {
-                                            locList.add(line);
-                                        }
-                                    });
-                                } catch (IOException ex) {
-                                    LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-                                }
-                            }
-                            // Draw room pic
-                            {
+                        {  // Add background room reference image.
+                            AppProperties app = AppProperties.getInstance();
+                            // Get Room name.
+                            File roomFolder = file.getParentFile().getParentFile();
+                            LOGGER.log(Level.FINER, "Room File: {0}", roomFolder.getName());
+                            File picFolder = new File(app.getCacheFolder(), "pic");
+                            File roomPngFile = new File(picFolder, roomFolder.getName() + ".png");
+                            try { // Draw room pic
                                 LOGGER.log(Level.FINEST, "Add PIC.");
                                 ImageView iv = new ImageView(new Image(
                                         new FileInputStream(roomPngFile),
                                         ViewUtils.PIC_PREF_WIDTH, 0, true, true
                                 ));
                                 compGroup.getChildren().add(iv);
+                            } catch (FileNotFoundException ex) {
+                                LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
                             }
-
-                            fillAnimSequence(file, animSequence, locList);
-                            animSequence.images.forEach((img) -> {
-                                compGroup.getChildren().add(img);
-                            });
-
-                            timeline = new Timeline(new KeyFrame(
-                                    Duration.millis(animSequence.getSleep() * 50),
-                                    ae -> {
-                                        //LOGGER.log(Level.FINE, "Anim Frame Event.");
-                                        ArrayList<ImageView> images = animSequence.images;
-                                        int next = 0;
-                                        for (int i = 0; i < images.size(); i++) {
-                                            if (images.get(i).isVisible()) {
-                                                images.get(i).setVisible(false);
-                                                next = i + 1;
-                                            }
-                                        }
-                                        next %= images.size();
-                                        //LOGGER.log(Level.FINE, "SetVisible: " + next);
-                                        images.get(next).setVisible(true);
-                                    }
-                            ));
-                            timeline.setCycleCount(Animation.INDEFINITE);
-                            LOGGER.log(Level.FINER, "Start Play Timeline.");
-                            timeline.play();
-
-                        } catch (FileNotFoundException ex) {
-                            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
                         }
+
+                        AnimationSequence animSequence = new AnimationSequence();
+                        compGroup.getChildren().add(Util.compGroup(file, animSequence));
+
+                        Util.configTimeline(timeline, animSequence);
+                        
                     }
                 }
             }
@@ -195,35 +146,6 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
         }
     }
 
-    private void fillAnimSequence(File pngDir,
-            AnimationSequence animSequence,
-            ArrayList<String> locList) throws FileNotFoundException {
-
-        // Load frames.
-        File[] pngFiles = pngDir.listFiles((dir, name) -> {
-            return name.matches("[0-9][0-9].png"); // ex.  00.png, 01.png, etc.
-        });
-        Arrays.sort(pngFiles);
-        int listIndex = 0;
-        for (File pngFile : pngFiles) {
-            Image img0 = new Image(new FileInputStream(pngFile));
-            double w = img0.getWidth() * ViewUtils.PIC_PREVIEW_SCALE;
-            Image img = new Image(new FileInputStream(pngFile), w, 0, true, true);
-
-            ImageView iv = new ImageView(img);
-            animSequence.images.add(iv);
-
-            String[] split = locList.get(listIndex).split(",");
-            iv.setLayoutX((Integer.parseInt(split[0]) - 4) * ViewUtils.PIC_PREVIEW_SCALE * 2.0);
-            iv.setLayoutY((Integer.parseInt(split[1]) - 8) * ViewUtils.PIC_PREVIEW_SCALE);
-            LOGGER.log(Level.FINEST, "Add anim frame.");
-
-            //compGroup.getChildren().add(iv);
-            iv.setVisible(listIndex == 0);
-            listIndex++;
-        }
-
-    }
 
     private static ImageView doImage(File clickedFile, int width) {
         try {
