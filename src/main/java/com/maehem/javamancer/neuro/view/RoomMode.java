@@ -577,6 +577,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     mus.track, mus.fadeOut
             );
         }
+        roomPane.cleanup();
+        
         room = null;
     }
 
