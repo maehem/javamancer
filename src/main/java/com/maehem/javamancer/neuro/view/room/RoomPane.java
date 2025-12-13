@@ -33,10 +33,10 @@ import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomBounds.Door;
 import com.maehem.javamancer.neuro.model.room.RoomPosition;
 import com.maehem.javamancer.neuro.view.ResourceManager;
-import com.maehem.javamancer.resource.Util;
-import com.maehem.javamancer.resource.view.AnimationSequence;
+import com.maehem.javamancer.resource.view.AnimationEntry;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.Timeline;
@@ -80,33 +80,16 @@ public class RoomPane extends Pane {
     private final double stepSizeTA = 4.0;
 
     // Animation Stuff
-    private final ArrayList<Timeline> timelines = new ArrayList<>();
+    // An entity array list of ArrayList<Timeline>.
+    // Each entity has a sequence of animation timelines to play sequentaly.
+    // All entities play independently in parallel.
+    //private final ArrayList<ArrayList<Timeline>> timelines = new ArrayList<>();
 
     public RoomPane(ResourceManager resourceManager, Room room) {
-        //this.room = room;
         ImageView roomView = new ImageView(resourceManager.getBackdrop(room));
         getChildren().addAll(roomView);
 
-        // Add animation here.
-        File[] animEntries = resourceManager.getAnimationEntries(room);
-        LOGGER.log(Level.CONFIG, () -> "Found  " + animEntries.length + " animation entry folders.");
-        for ( File entryFolder : animEntries ) {
-            LOGGER.log(Level.CONFIG, () -> "    " + entryFolder.getName() );
-            File[] anims = entryFolder.listFiles((dir) -> {
-                return dir.isDirectory() && dir.getName().startsWith("anim00");
-            });
-            for ( File animDir: anims ) {
-                AnimationSequence animSequence = new AnimationSequence();
-                getChildren().add(Util.compGroup(animDir, animSequence));
-                Timeline timeline = null;
-                Util.configTimeline(timeline, animSequence);
-                if (timeline != null) {
-                    LOGGER.log(Level.CONFIG, "Add animation timeline to room.");
-                    timelines.add(timeline);
-                }
-            }
-        }
-
+        // Moved to Room Mode.
         setLayoutX(PANE_X);
         setLayoutY(PANE_Y);
 
@@ -129,6 +112,28 @@ public class RoomPane extends Pane {
         getChildren().add(playerGroup);
     }
 
+    public final void initAnimations(ResourceManager resourceManager, Room room) {
+        // TODO: Curate the anumations to be toggled in and out of the scene.
+        // Define in Room extras.
+        File[] animEntries = resourceManager.getAnimationEntries(room);
+        Arrays.sort(animEntries);
+        LOGGER.log(Level.CONFIG, () -> "Found  " + animEntries.length + " animation entry folders.");
+        for (File entryFolder : animEntries) {
+            LOGGER.log(Level.CONFIG, () -> "  " + entryFolder.getName());
+            
+            AnimationEntry entry = new AnimationEntry(entryFolder);
+            getChildren().add(entry);
+        }
+    }
+
+    public void startAnimations() {
+        getChildren().forEach((t) -> {
+            if (t instanceof AnimationEntry ae ) {
+                ae.start();
+            }
+        });
+    }
+    
     private Rectangle addWalkBounds(RoomBounds rb) {
         Rectangle r = new Rectangle(
                 rb.lBound, rb.tBound,
@@ -308,8 +313,10 @@ public class RoomPane extends Pane {
     }
 
     public void cleanup() {
-        timelines.forEach(tl -> {
-            tl.stop();
+        getChildren().forEach((t) -> {
+            if (t instanceof AnimationEntry ae ) {
+                ae.stop();
+            }
         });
     }
 
