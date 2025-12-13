@@ -153,6 +153,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         if (room.getExtras() != null) {
             LOGGER.log(Level.CONFIG, "Room has `extras`. Configuring...");
             RoomExtras extras = room.getExtras();
+            // TODO: Can we run initRoom() when we create the room?
             extras.initRoom(gameState);
             int[][] dc = extras.getDialogChain();
             if (firstTime) {
@@ -200,6 +201,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             });
         }
 
+        roomPane.initAnimations(getResourceManager(), room);
+                
         doorStateMessages();
 
         // TODO: Move this into description pane?
@@ -239,6 +242,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             } else {
                 LOGGER.log(Level.WARNING, "No soundtrack for room {0}", room.name());
             }
+            roomPane.startAnimations();
         });
 
         setFocusTraversable(true);
