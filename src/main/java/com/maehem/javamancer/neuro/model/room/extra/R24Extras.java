@@ -68,6 +68,18 @@ public class R24Extras extends RoomExtras {
         {NPC.num, 17}, // [21] :: I have more info, if you
         {} // [22] :: You know more than me
     };
+    
+    // Animation
+    // Load at start:
+    // Woman ::
+    //        entry01 : anim00
+    //
+    // Triggered visible by dialog response [17]:
+    // Police Bot ::
+    //        entry02 : anim00
+    // Police Bot Hover Energy ::
+    //        entry03 : anim00
+    
 
     @Override
     public void initRoom(GameState gs) {

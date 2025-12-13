@@ -77,6 +77,17 @@ public class R1Extras extends RoomExtras {
         {2} // 32 Response to underpayment.
     };
 
+    // Animation
+    // Load at start:
+    // Ratz Face    :: entry1 :
+    //                anim00
+    // Ratz Arm     :: entry2 :
+    //                anim00
+    // Sign Dots    :: entry3 :
+    //                anim00,anim01,anim02
+    // Sign Letters :: entry4 :
+    //                anim00 - anim07
+    
     @Override
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
