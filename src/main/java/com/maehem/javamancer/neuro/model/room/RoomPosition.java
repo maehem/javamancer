@@ -49,7 +49,7 @@ public enum RoomPosition {
     R19(300,204,500,200), // Spaceport Chiba
     R22(200,204,300,200), // Straylight Bust
     R23(400, 204, 200, 200), // Panther Modern meeting
-    R24(130,204,280,150), // Massage Parlor
+    R24(170,204,280,150), // Massage Parlor
     R25(320,204, 170,150), // Shin's Pawn
     R26(320,204, 460,150), // Street - Zone's Lady 
     R27(400,204, 210,150), // Julius Dean 
