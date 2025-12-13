@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2024 Mark J. Koch ( @maehem on GitHub )
+ * Copyright (c) 2026 Mark J. Koch ( @maehem on GitHub )
  *
  * Portions of this software are Copyright (c) 2018 Henadzi Matuts and are
  * derived from their project: https://github.com/HenadziMatuts/Reuromancer
