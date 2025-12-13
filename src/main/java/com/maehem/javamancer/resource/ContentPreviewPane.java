@@ -38,14 +38,10 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
@@ -57,7 +53,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 
 /**
  *
@@ -133,11 +128,15 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
                             }
                         }
 
-                        AnimationSequence animSequence = new AnimationSequence();
-                        compGroup.getChildren().add(Util.compGroup(file, animSequence));
-
-                        Util.configTimeline(timeline, animSequence);
-                        
+                        AnimationSequence animationSequence = new AnimationSequence(file);
+                        compGroup.getChildren().add(animationSequence);
+                        animationSequence.setVisible(true);
+                        animationSequence.start();
+                        animationSequence.timeline.setOnFinished((t) -> {
+                            Platform.runLater(() -> {
+                                animationSequence.start();
+                            });
+                        });
                     }
                 }
             }
@@ -145,7 +144,6 @@ public class ContentPreviewPane extends StackPane implements ChangeListener<Obje
             }
         }
     }
-
 
     private static ImageView doImage(File clickedFile, int width) {
         try {
