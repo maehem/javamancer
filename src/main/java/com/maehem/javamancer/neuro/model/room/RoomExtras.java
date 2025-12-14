@@ -67,6 +67,7 @@ public abstract class RoomExtras {
     }
 
     public abstract int[][] getDialogChain();
+    public int[][] getAnimationFlags() { return new int[0][];}
 
     public abstract int dialogWarmUp(GameState gs);
 
