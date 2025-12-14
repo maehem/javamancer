@@ -31,6 +31,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
+import javafx.animation.Animation;
 import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -84,9 +85,11 @@ public class AnimationEntry extends Pane {
                 });
             });
         }
+        setVisible(false);
     }
 
     public void start() {
+        setVisible(true);
         currentSequence = 0;
         anim.get(currentSequence).start();
     }
@@ -95,6 +98,10 @@ public class AnimationEntry extends Pane {
         anim.get(currentSequence).timeline.stop();
     }
 
+    public boolean isRunning() {
+        return anim.get(currentSequence).timeline.getStatus() == Animation.Status.RUNNING;
+    }
+    
     public void cleanUp() {
     }
 
