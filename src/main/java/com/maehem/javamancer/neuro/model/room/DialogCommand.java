@@ -64,6 +64,7 @@ public enum DialogCommand {
     DEATH(79), // Go to jail action
     TO_JAIL(80), // Go to jail action
     DECK_WAIT(81), // Wait till user exit's deck or leaves room.
+    MASSAGE_BOT(82), // Cause Police Bot to appear in Massage Parlor
     UXB(90), // Shin gives UXB
     PASS(91), // Shiva gives Rest. Pass
     CAVIAR(92), // Edo gives ConLink 2.0 for Caviar
