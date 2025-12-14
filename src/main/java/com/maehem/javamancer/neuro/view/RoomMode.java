@@ -186,6 +186,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     roomDescriptionPane.setVvalue(1.0); // Triggers dialog pop.
                 });
             }
+
+            roomPane.initAnimations(getResourceManager(), room);
+
         } else {
             LOGGER.log(Level.CONFIG, "Room does not have `extras`.");
             //updateGreyOutState(1.0);
@@ -201,8 +204,6 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             });
         }
 
-        roomPane.initAnimations(getResourceManager(), room);
-                
         doorStateMessages();
 
         // TODO: Move this into description pane?
@@ -242,7 +243,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             } else {
                 LOGGER.log(Level.WARNING, "No soundtrack for room {0}", room.name());
             }
-            roomPane.startAnimations();
+            RoomExtras extras = gameState.room.getExtras();
+            if (extras != null) {
+                roomPane.startAnimations(extras);
+            }
         });
 
         setFocusTraversable(true);
@@ -411,8 +415,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         if (popup != null) {
             LOGGER.log(Level.FINEST, () -> "Popup is: " + popup.getClass().getSimpleName());
             switch (popup) {
-                case DialogPopup dp ->
+                case DialogPopup dp -> {
                     dp.dialogCounter();
+                    roomPane.tick(getGameState());
+                }
                 case DeckPopup dp ->
                     dp.tick();
                 case CyberspacePopup dp ->
@@ -582,7 +588,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             );
         }
         roomPane.cleanup();
-        
+
         room = null;
     }
 

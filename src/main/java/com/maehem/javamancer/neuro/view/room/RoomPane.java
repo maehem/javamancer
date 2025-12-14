@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomBounds.Door;
+import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.room.RoomPosition;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import com.maehem.javamancer.resource.view.AnimationEntry;
@@ -39,7 +40,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -79,12 +79,13 @@ public class RoomPane extends Pane {
     private final double stepSizeRL = 8.0;
     private final double stepSizeTA = 4.0;
 
+    private final ArrayList<AnimationEntry> animations = new ArrayList<>();
+
     // Animation Stuff
     // An entity array list of ArrayList<Timeline>.
     // Each entity has a sequence of animation timelines to play sequentaly.
     // All entities play independently in parallel.
     //private final ArrayList<ArrayList<Timeline>> timelines = new ArrayList<>();
-
     public RoomPane(ResourceManager resourceManager, Room room) {
         ImageView roomView = new ImageView(resourceManager.getBackdrop(room));
         getChildren().addAll(roomView);
@@ -120,20 +121,32 @@ public class RoomPane extends Pane {
         LOGGER.log(Level.CONFIG, () -> "Found  " + animEntries.length + " animation entry folders.");
         for (File entryFolder : animEntries) {
             LOGGER.log(Level.CONFIG, () -> "  " + entryFolder.getName());
-            
+
             AnimationEntry entry = new AnimationEntry(entryFolder);
+            animations.add(entry);
             getChildren().add(entry);
         }
     }
 
-    public void startAnimations() {
-        getChildren().forEach((t) -> {
-            if (t instanceof AnimationEntry ae ) {
-                ae.start();
+    public void startAnimations(RoomExtras extras) {
+        LOGGER.log(Level.CONFIG, "StartAnimations called.");
+//        animations.forEach((ae) -> {
+//            ae.start();
+//        });
+                // Check if animation flag has changed to 1 (run) and run it.
+        if (extras != null) {
+            int[][] animationFlags = extras.getAnimationFlags();
+            for (int i = 0; i < animationFlags.length; i++) {
+                if (animationFlags[i][0] == 1 ) {
+                    LOGGER.log(Level.CONFIG, "    Animation {0} has been started.", i);
+                    animations.get(i).start();
+                } else {
+                    LOGGER.log(Level.CONFIG, "    Animation {0} is flagged as dormant.", i);                    
+                }
             }
-        });
+        }
     }
-    
+
     private Rectangle addWalkBounds(RoomBounds rb) {
         Rectangle r = new Rectangle(
                 rb.lBound, rb.tBound,
@@ -201,7 +214,17 @@ public class RoomPane extends Pane {
             updateDoors(gs);
         }
 
-        // Update animation.
+        // Check if animation flag has changed to 1 (run) and run it.
+        RoomExtras extras = gs.room.getExtras();
+        if (extras != null) {
+            int[][] animationFlags = extras.getAnimationFlags();
+            for (int i = 0; i < animationFlags.length; i++) {
+                if (animationFlags[i][0] == 1 && !animations.get(i).isRunning()) {
+                    LOGGER.log(Level.CONFIG, "Dormant animation {0} has been activated.", i);
+                    animations.get(i).start();
+                }
+            }
+        }
     }
 
     private boolean processWalk(GameState gs) {
@@ -314,7 +337,7 @@ public class RoomPane extends Pane {
 
     public void cleanup() {
         getChildren().forEach((t) -> {
-            if (t instanceof AnimationEntry ae ) {
+            if (t instanceof AnimationEntry ae) {
                 ae.stop();
             }
         });

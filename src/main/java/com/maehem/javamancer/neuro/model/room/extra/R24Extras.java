@@ -27,11 +27,13 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.room.DialogCommand;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.CHIP;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_L;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.INFO_BUY;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.MASSAGE_BOT;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
@@ -65,7 +67,7 @@ public class R24Extras extends RoomExtras {
         {EXIT_L.num}, // [18] :: Get serious!  No discounts here, buckaroo!
         {INFO_BUY.num, 20}, // [19] :: You just bought yourself some
         {}, // [20] :: The girl relieves you of <== Place in room description
-        {NPC.num, 17}, // [21] :: I have more info, if you
+        {MASSAGE_BOT.num, NPC.num,17}, // [21] :: I have more info, if you
         {} // [22] :: You know more than me
     };
     
@@ -79,7 +81,16 @@ public class R24Extras extends RoomExtras {
     //        entry02 : anim00
     // Police Bot Hover Energy ::
     //        entry03 : anim00
+    protected final int[][] ANIMATION_FLAGS = {
+                {1}, // Akiko
+                {0}, // Police Robot
+                {0}  // Police Robot Hover Exhaust
+        };
     
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
 
     @Override
     public void initRoom(GameState gs) {
@@ -100,6 +111,10 @@ public class R24Extras extends RoomExtras {
     @Override
     public int onInfoBuy(GameState gs) {
         LOGGER.log(Level.INFO, "Massage Parlor: Player bought info...");
+        
+        // TODO: Make police bot appear.
+        
+        
         if (gs.chipBalance < 20) {
             return 21;
         }
@@ -109,4 +124,18 @@ public class R24Extras extends RoomExtras {
         return 10 + (int) (Math.random() * 6);
     }
 
+    @Override
+    public int onDialogCommand(GameState gs, DialogCommand command) {
+        if ( command == DialogCommand.MASSAGE_BOT ) {
+            LOGGER.log(Level.SEVERE, "Set Police Bot Animation flags.");
+            // Show police bot.
+            getAnimationFlags()[1][0] = 1;
+            getAnimationFlags()[2][0] = 1;
+            // Animation will update on next RoomPane tick().
+        }
+        
+        return 0;
+    }
+
+    
 }
