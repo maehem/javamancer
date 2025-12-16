@@ -58,20 +58,20 @@ import javafx.scene.text.TextFlow;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class DialogPopup extends DialogPopupPane {
-    
+
     public static final int DIALOG_COUNT = 35; // 15 frames == 1 second
     private static final String WORD_FILL_MN = "@---------------";
     private static final String FILL_STRING = "_______________";
     private static final String CURSOR_STRING = "<";
     private final Text CURSOR_FILL = new Text(" ");
-    
+
     private final TextResource textResource;
     private int[] items;
-    
+
     private enum Mode {
         NPC, PLAYER
     }
-    
+
     private final TextFlow textFlow = new TextFlow();
     private final Text wordText = new Text();
     private final Text typedText = new Text(); // For typing in word
@@ -87,7 +87,7 @@ public class DialogPopup extends DialogPopupPane {
     // TODO: Add Choose and Say mouse hints or buttons.
     public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
         super(l, gs);
-        
+
         this.bubble = new DialogBubble(rm,
                 gs.roomPosX,
                 RoomPosition.get(gs.room).npcX,
@@ -119,19 +119,19 @@ public class DialogPopup extends DialogPopupPane {
             bubble.setMode(DialogBubble.Mode.PLAYER_THINK);
             handleCode(KeyCode.SPACE);
         }
-        
+
         textFlow.setLineSpacing(LINE_SPACING + 1.0);
         textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 30);
         textFlow.getChildren().addAll(
                 wordText, typedText, CURSOR_FILL,
                 blankLine);
         textFlow.setMinHeight(getPrefHeight());
-        
+
         VBox box = addBox(textFlow);
         box.setPadding(new Insets(4, 20, 4, 20));
-        
+
         getChildren().add(bubble);
-        
+
         if (mode == Mode.NPC) {
             if (dialogIndex < 50) {
                 // Might be a command.
@@ -162,7 +162,7 @@ public class DialogPopup extends DialogPopupPane {
                 }
             }
         }
-        
+
         setOnMouseClicked((mouseEvent) -> {
             switch (mouseEvent.getButton()) {
                 case PRIMARY -> {
@@ -183,7 +183,7 @@ public class DialogPopup extends DialogPopupPane {
                 }
             }
         });
-        
+
     }
 
     // TODO: Get rid of dialog counter and require mouse click or space
@@ -213,7 +213,7 @@ public class DialogPopup extends DialogPopupPane {
             }
         }
     }
-    
+
     private void npcResponse(int sub) {
         LOGGER.log(Level.FINE, "{0}: Do response.", mode.name());
         mode = Mode.NPC;
@@ -221,7 +221,7 @@ public class DialogPopup extends DialogPopupPane {
         
         bubble.setMode(DialogBubble.Mode.NONE); // The thing that hangs under the words.
         dialogSubIndex = sub;
-        
+
         LOGGER.log(Level.FINE, "new dialog: d[{0}][{1}]",
                 new Object[]{dialogIndex, dialogSubIndex});
         // Fill in NPC Response
@@ -240,7 +240,7 @@ public class DialogPopup extends DialogPopupPane {
             //dialogIndex = dialogChain[dialogIndex][dialogSubIndex];
             dialogIndex = newDialog;
             items = dialogChain[dialogIndex];
-            
+
             LOGGER.log(Level.FINE, "{0}: Set dialog index to: {1}", new Object[]{mode.name(), dialogIndex});
             // Control character '01' is a token for the player's name. Replace it here.
             wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
@@ -258,7 +258,7 @@ public class DialogPopup extends DialogPopupPane {
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
         keyEvent.consume();
-        
+
         if (dialogCountDown > 0) {
             LOGGER.log(Level.WARNING, "KEY IGNORED: Events not allowed during countdown.");
             return false;
@@ -270,7 +270,7 @@ public class DialogPopup extends DialogPopupPane {
         }
         return false;
     }
-    
+
     private void handleTypedText(KeyEvent ke) {
         KeyCode code = ke.getCode();
         if (code == KeyCode.ENTER) {
@@ -278,9 +278,9 @@ public class DialogPopup extends DialogPopupPane {
             LOGGER.log(Level.FINE, "Set Cursor In-Visible.");
             CURSOR_FILL.setText(" ");
             mode = Mode.NPC;
-            
+
             RoomExtras extras = gameState.room.getExtras();
-            
+
             if (extras != null) {
                 int askWord = -1;
                 switch (fillingText) {
@@ -310,7 +310,7 @@ public class DialogPopup extends DialogPopupPane {
                 }
             }
             fillingText = 0;
-            
+
         } else if (code == KeyCode.BACK_SPACE) {
             String typedString = typedText.getText();
             if (!typedString.isEmpty()) {
@@ -324,9 +324,9 @@ public class DialogPopup extends DialogPopupPane {
             typedText.setText(typedText.getText() + code.getChar().toLowerCase());
         }
     }
-    
+
     private void handleCode(KeyCode code) {
-        
+
         switch (code) {
             case SPACE -> {
                 LOGGER.log(Level.FINE, "SPACE BAR");
@@ -387,7 +387,7 @@ public class DialogPopup extends DialogPopupPane {
                     case PLAYER -> {
                         LOGGER.log(Level.FINE, "handle code: ENTER -> PLAYER");
                         bubble.setMode(DialogBubble.Mode.PLAYER_SAY);
-                        
+
                         dialogIndex = items[dialogSubIndex];
                         items = dialogChain[dialogIndex];
                         dialogSubIndex = 0;
@@ -408,7 +408,7 @@ public class DialogPopup extends DialogPopupPane {
                             }
                             typedText.setText("");
                             CURSOR_FILL.setText(CURSOR_STRING);
-                            
+
                         } else {
                             //LOGGER.log(Level.FINE, "ENTER PRESSED. Begin countdown...");
                             // Start one second countdown to show response.
@@ -426,16 +426,16 @@ public class DialogPopup extends DialogPopupPane {
                     }
                 }
             }
-            
+
             case ESCAPE -> {
                 listener.popupExit();
             }
         }
     }
-    
+
     public final void processCommand(DialogCommand command) {
         LOGGER.log(Level.FINE, "Process command: {0}::{1}", new Object[]{command.num, command.name()});
-        
+
         switch (command) {
             case DIALOG_END -> { // NPC no longer talks.
                 gameState.room.getExtras().dialogNoMore(gameState);
@@ -581,14 +581,14 @@ public class DialogPopup extends DialogPopupPane {
                 dialogSubIndex++;
                 int dItem = items[dialogSubIndex];
                 listener.showMessage(textResource.get(dItem));
-                
+
                 mode = Mode.PLAYER;
                 // Index of next respose
                 dialogIndex = gameState.room.getExtras().onInfoBuy(gameState);
                 items = dialogChain[dialogIndex];
                 dialogSubIndex = 0;
                 LOGGER.log(Level.CONFIG, "{0}: Do INFO_BUY response.", mode.name());
-                
+
                 bubble.setMode(DialogBubble.Mode.NONE); // The thing that hangs under the words.
 
                 LOGGER.log(Level.CONFIG, "INFO_BUY: new dialog: d[{0}][{1}]",
@@ -621,7 +621,7 @@ public class DialogPopup extends DialogPopupPane {
                 dialogSubIndex++;
                 int dItem = items[dialogSubIndex];
                 LOGGER.log(Level.FINE, "Name: {0} == [{1}][{2}]", new Object[]{dItem, dialogIndex, dialogSubIndex});
-                
+
                 listener.showMessage(textResource.get(dItem));
                 dialogIndex = dItem; // Move dialog to next dialog item.
                 items = dialogChain[dialogIndex];
@@ -675,7 +675,7 @@ public class DialogPopup extends DialogPopupPane {
             case ON_FILTER_1 -> {
                 LOGGER.log(Level.FINE, "OnFilter1 called.");
                 items = gameState.room.getExtras().onFilter1(gameState);
-                
+
                 bubble.setMode(DialogBubble.Mode.PLAYER_THINK);
                 // Get response for NPC dialog.
                 // Display bubbles.
@@ -703,9 +703,9 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.SEVERE, "Process Command :: Not handled yet: {0}", command);
             }
         }
-        
+
     }
-    
+
     @Override
     public void cleanup() {
     }
