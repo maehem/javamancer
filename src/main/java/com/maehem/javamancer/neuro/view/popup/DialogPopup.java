@@ -83,6 +83,7 @@ public class DialogPopup extends DialogPopupPane {
     private int dialogSubIndex = -1;
     public int dialogCountDown = 0;
     private int fillingText = 0; // 0 == none,  1 == map1, 2 == map2
+    private int keepTalking = 0; // Indexed flag. The next part of a multi part dialog entry.
 
     // TODO: Add Choose and Say mouse hints or buttons.
     public DialogPopup(PopupListener l, GameState gs, ResourceManager rm) {
@@ -201,9 +202,11 @@ public class DialogPopup extends DialogPopupPane {
                 npcResponse(0);
             } else { // NPC count down done.
                 LOGGER.log(Level.FINE,
-                        "NPC: Talk countdown finished.  dialogChain[dialogIndex][0] == {0}",
-                        items[0]);
-                if (items[0] >= 50) {
+                        "dialogCounter():  NPC Talk countdown finished.  dialogChain[{0}][0] == {1}",
+                        new Object[]{dialogIndex,items[0]});
+                LOGGER.log(Level.CONFIG, () -> "Dialog subIndex = " + dialogSubIndex);
+                if (dialogSubIndex == -1 && items[0] >= 50) {
+                    LOGGER.log(Level.CONFIG, "dialogCounter(): Command encountered. set dialogSubindex to 0.");
                     dialogSubIndex = 0;
                     processCommand(DialogCommand.getCommand(items[dialogSubIndex]));
                 } else {
@@ -215,10 +218,10 @@ public class DialogPopup extends DialogPopupPane {
     }
 
     private void npcResponse(int sub) {
-        LOGGER.log(Level.FINE, "{0}: Do response.", mode.name());
+        LOGGER.log(Level.FINE, "{0}: Do response {1}.", new Object[]{mode.name(), sub});
         mode = Mode.NPC;
-        LOGGER.log(Level.FINE, "[186] Mode = NPC");
-        
+        LOGGER.log(Level.FINE, "[223] Set Mode = NPC");
+
         bubble.setMode(DialogBubble.Mode.NONE); // The thing that hangs under the words.
         dialogSubIndex = sub;
 
@@ -242,18 +245,46 @@ public class DialogPopup extends DialogPopupPane {
             items = dialogChain[dialogIndex];
 
             LOGGER.log(Level.FINE, "{0}: Set dialog index to: {1}", new Object[]{mode.name(), dialogIndex});
-            // Control character '01' is a token for the player's name. Replace it here.
-            wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
-            bubble.setMode(DialogBubble.Mode.NPC_SAY);
-            LOGGER.log(Level.FINE, "npcResponse() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
+
+            String text = textResource.get(dialogIndex);
+            if (text.indexOf("  ") > 0) {
+                LOGGER.log(Level.CONFIG, "npcResponse(): Multipart reponsse encountered.");
+                keepTalking(text);
+                keepTalking = 1;
+            } else {
+                // ASCII Control character '01' is a token for the player's name. Replace it here.
+                wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
+                bubble.setMode(DialogBubble.Mode.NPC_SAY);
+                LOGGER.log(Level.FINE, "npcResponse() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
+            }
             dialogCountDown = -1;
-            dialogSubIndex = -1;
             if (items.length > 0) {
                 dialogCountDown = DIALOG_COUNT;
             }
         }
     }
-    
+
+    private void keepTalking(String text) {
+        LOGGER.log(Level.CONFIG, "Break this response into mulitple chunks.");
+        String[] split = text.split("  ");
+        //int si = dialogSubIndex / 100; // 0, 1, 2, etc.
+        // Control character '01' is a token for the player's name. Replace it here.
+        wordText.setText(split[keepTalking].replace("\1", gameState.name) + "\n");
+
+        bubble.setMode(DialogBubble.Mode.NPC_SAY);
+        LOGGER.log(Level.FINE, "npcResponse() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
+        dialogCountDown = -1;
+        keepTalking++;
+        if ( keepTalking < split.length) {
+            //dialogSubIndex = si + 100; // Set up next piece of dialog.
+            LOGGER.log(Level.CONFIG, "keepTalking(): There is more. Set next part to {0}", keepTalking);
+        } else {
+            LOGGER.log(Level.CONFIG, "keepTalking(): Done with multi-response. Set dialogSubIndex to -1.");
+            keepTalking = 0;
+            dialogSubIndex = -1; // Done with multi-response.
+        }
+    }
+
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
@@ -295,9 +326,9 @@ public class DialogPopup extends DialogPopupPane {
                     LOGGER.log(Level.FINE, "askWord() returned: {0}", askWord);
                     dialogIndex = askWord;
                     items = dialogChain[dialogIndex];
+                    LOGGER.log(Level.CONFIG, "handleTypedText.askword set dialogSunIndex to 0.");
                     dialogSubIndex = 0;
                     typedText.setText("");
-                    //npcResponse(0);
                     wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
                     bubble.setMode(DialogBubble.Mode.NPC_SAY);
                     LOGGER.log(Level.FINE, "handleTypedText() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
@@ -336,47 +367,62 @@ public class DialogPopup extends DialogPopupPane {
                         //LOGGER.log(Level.FINE, "SPACE bar for NPC.");
                     }
                     case NPC -> {
-                        mode = Mode.PLAYER;
-                        bubble.setMode(DialogBubble.Mode.PLAYER_THINK);
-                        LOGGER.log(Level.FINE, "Toggle to PLAYER next bubble response.");
-                        typedText.setText("");
+                        if (keepTalking > 0) {
+                            // Stay in NPC mode.
+                            LOGGER.log(Level.CONFIG, "NPC has more to say...");
+                        } else {
+                            mode = Mode.PLAYER;
+                            bubble.setMode(DialogBubble.Mode.PLAYER_THINK);
+                            LOGGER.log(Level.FINE, "Toggle to PLAYER next bubble response.");
+                            typedText.setText("");
+                        }
                     }
                 }
+
                 dialogSubIndex++; //  array[2][0]
-                // Cycle player response back to beginning.
-                if (dialogSubIndex < 0 || dialogSubIndex >= items.length) {
-                    dialogSubIndex = 0;
-                }
-                LOGGER.log(Level.FINE, "Dialog is now:  d[{0}][{1}] = {2}",
-                        new Object[]{dialogIndex, dialogSubIndex,
-                            items[dialogSubIndex]
-                        });
-                // Is it a command?
-                if (items[dialogSubIndex] >= 50) {
-                    LOGGER.log(Level.FINE, "Command found for response.");
-                    processCommand(DialogCommand.getCommand(items[dialogSubIndex]));
-                } else {
-                    // Get response for NPC dialog.
-                    // Display bubbles.
-                    LOGGER.log(Level.FINE,
-                            "SPACE: Show new player response. d[{0}][{1}] = {2}\n\n{3}\n\t\t\t\t",
-                            new Object[]{
-                                dialogIndex, dialogSubIndex,
-                                items[dialogSubIndex],
-                                textResource.get(items[dialogSubIndex])
-                            });
-                    typedText.setText("");
-                    String toSay = textResource.get(items[dialogSubIndex]);
-                    if (toSay.contains(WORD_FILL_MN)) {
-                        LOGGER.log(Level.FINE, "WORD_FILL_IN detected.");
-                        toSay = toSay.replace(WORD_FILL_MN, "");
-                        typedText.setText(FILL_STRING);
-                        CURSOR_FILL.setText("?\n                             ");
-                    } else {
-                        CURSOR_FILL.setText("");
-                    }
-                    wordText.setText(toSay);
+                if (keepTalking > 0) {
+                    // Config for same dialog.
+                    LOGGER.log(Level.FINE, "Keep talking dialog is now:  d[{0}][{1}].  keepTalking index = {2}",
+                            new Object[]{dialogIndex, dialogSubIndex,keepTalking});
+                    keepTalking(textResource.get(dialogIndex));
                     dialogCountDown = -1; // No count down until ENTER pressed.
+                } else {
+                    if (dialogSubIndex < 0 || dialogSubIndex >= items.length) {
+                        // Cycle player response back to beginning.
+                        LOGGER.log(Level.CONFIG, "handleCode(). Set dialogSunIndex to 0.");
+                        dialogSubIndex = 0;
+                    }
+                    LOGGER.log(Level.FINE, "Dialog is now:  d[{0}][{1}] = {2}",
+                            new Object[]{dialogIndex, dialogSubIndex,
+                                items[dialogSubIndex]
+                            });
+                    // Is it a command?
+                    if (items[dialogSubIndex] >= 50) {
+                        LOGGER.log(Level.FINE, "Command found for response.");
+                        processCommand(DialogCommand.getCommand(items[dialogSubIndex]));
+                    } else {
+                        // Get response for NPC dialog.
+                        // Display bubbles.
+                        LOGGER.log(Level.FINE,
+                                "SPACE: Show new player response. d[{0}][{1}] = {2}\n\n{3}\n\t\t\t\t",
+                                new Object[]{
+                                    dialogIndex, dialogSubIndex,
+                                    items[dialogSubIndex],
+                                    textResource.get(items[dialogSubIndex])
+                                });
+                        typedText.setText("");
+                        String toSay = textResource.get(items[dialogSubIndex]);
+                        if (toSay.contains(WORD_FILL_MN)) {
+                            LOGGER.log(Level.FINE, "WORD_FILL_IN detected.");
+                            toSay = toSay.replace(WORD_FILL_MN, "");
+                            typedText.setText(FILL_STRING);
+                            CURSOR_FILL.setText("?\n                             ");
+                        } else {
+                            CURSOR_FILL.setText("");
+                        }
+                        wordText.setText(toSay);
+                        dialogCountDown = -1; // No count down until ENTER pressed.
+                    }
                 }
             }
             case ENTER -> {
@@ -601,15 +647,23 @@ public class DialogPopup extends DialogPopupPane {
                     gameState.room.getExtras().onDialog(gameState, newDialog);
                 }
 
-                // Control character '01' is a token for the player's name. Replace it here.
-                wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
+                // Handle "keep talking" action here using the keepTalking() method.
+                String text = textResource.get(dialogIndex).replace("\1", gameState.name) + "\n";
                 bubble.setMode(DialogBubble.Mode.NPC_SAY);
-                LOGGER.log(Level.FINE, "INFO_BUY NPC Text: \n{0}\t\t\t",
-                        wordText.getText());
                 dialogCountDown = -1;
-                dialogSubIndex = -1;
-                if (items.length > 0) {
-                    dialogCountDown = DIALOG_COUNT;
+                if (text.indexOf("  ") > 0) {
+                    keepTalking(text);
+                    LOGGER.log(Level.CONFIG, "INFO_BUY NPC Text (multipart): \n{0}\t\t\t", text);
+                    keepTalking = 1; // Response has multiple bubbles. Flag it.
+                } else {
+                    // Control character '01' is a token for the player's name. Replace it here.
+                    wordText.setText(text);
+                    LOGGER.log(Level.FINE, "INFO_BUY NPC Text: \n{0}\t\t\t",
+                            wordText.getText());
+                    dialogSubIndex = -1;
+                    if (items.length > 0) {
+                        dialogCountDown = DIALOG_COUNT;
+                    }
                 }
             }
             case DISCOUNT -> {
@@ -664,7 +718,7 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.FINE, "Cause Police Bot to appear in massage parlor.");
                 gameState.room.getExtras().onDialogCommand(gameState, command);
                 mode = Mode.PLAYER; // Causes next loop to toggle to NPC again.
-                //npcResponse(1);
+                npcResponse(2);
             }
             case CAVIAR -> { // Edo gives ComLink 2.0 for caviar.
                 LOGGER.log(Level.FINE, "Player receives ComLink from Edo.");
