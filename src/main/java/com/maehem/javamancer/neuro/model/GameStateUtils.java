@@ -184,7 +184,7 @@ public class GameStateUtils {
         pPut(props, MASSAGE_INFO_3, gs.massageInfo3);
         pPut(props, MASSAGE_INFO_4, gs.massageInfo4);
         pPut(props, MASSAGE_INFO_5, gs.massageInfo5);
-        
+
         // Misc. Flags
         pPut(props, MSG_TO_ARMITAGE_SENT, gs.msgToArmitageSent);
         pPut(props, RATZ_PAID, gs.ratzPaid);
@@ -210,15 +210,26 @@ public class GameStateUtils {
     }
 
     private static void pPut(Properties p, GameStateDefaults k, String value) {
-        p.put(k.key, value);
+        // Only put the prop if it is not a default value.
+        if (k.value == null || !k.value.equals(value)) {
+            p.put(k.key, value);
+        }
     }
 
     private static void pPut(Properties p, GameStateDefaults k, int value) {
-        p.put(k.key, String.valueOf(value));
+        // Only put the prop if it is not a default value.
+        String strValue = String.valueOf(value);
+        if (!k.value.equals(strValue)) {
+            p.put(k.key, strValue);
+        }
     }
 
     private static void pPut(Properties p, GameStateDefaults k, boolean value) {
-        p.put(k.key, String.valueOf(value));
+        // Only put the prop if it is not a default value.
+        String strValue = String.valueOf(value);
+        if (!k.value.equals(strValue)) {
+            p.put(k.key, strValue);
+        }
     }
 
     /**
@@ -287,7 +298,6 @@ public class GameStateUtils {
         gs.matrixPosY = getInt(MATRIX_POS_Y, p);
         gs.dixieInstalled = getBool(DIXIE_INSTALLED, p);
 
-
         // Need to configure deck as if entering cyberspace
         // need to set deck location?
         //gs.usingDeck =
@@ -302,7 +312,7 @@ public class GameStateUtils {
         gs.hotelSake = getInt(HOTEL_SAKE, p);
         gs.hotelDeliverCaviar = getInt(HOTEL_DELIVER_CAVIAR, p);
         gs.hotelDeliverSake = getInt(HOTEL_DELIVER_SAKE, p);
-        
+
         // Massage Parlor
         gs.massageInfo1 = getBool(MASSAGE_INFO_1, p);
         gs.massageInfo2 = getBool(MASSAGE_INFO_2, p);
@@ -610,7 +620,7 @@ public class GameStateUtils {
     }
 
     /**
-     * Format example:  locked = R12:T|R|B|L,R22:T|L,R45:R|B
+     * Format example: locked = R12:T|R|B|L,R22:T|L,R45:R|B
      *
      * Only rooms with one or more door locked are written.
      *
@@ -626,15 +636,15 @@ public class GameStateUtils {
 //                sb.append(",");
 //            }
 
-            for ( RoomBounds.Door d: RoomBounds.Door.values() ) {
-                if ( r.isDoorLocked(d) ) {
-                    if ( !sb.isEmpty() ) {
+            for (RoomBounds.Door d : RoomBounds.Door.values()) {
+                if (r.isDoorLocked(d)) {
+                    if (!sb.isEmpty()) {
                         sb.append("|");
                     }
                     sb.append(d.name().substring(0, 1));
                 }
             }
-            if ( !sb.isEmpty() ) {
+            if (!sb.isEmpty()) {
                 if (!mainSb.isEmpty()) {
                     mainSb.append(",");
                 }
@@ -660,7 +670,7 @@ public class GameStateUtils {
             String elements[] = rStr.split(":");
             LOGGER.log(Level.INFO, "Restore locked room: {0}", elements[0]);
             Room room = Room.lookup(elements[0]);
-            for ( String dStr: elements[1].split("|")) {
+            for (String dStr : elements[1].split("|")) {
                 if (dStr.startsWith("T")) {
                     room.lockDoor(RoomBounds.Door.TOP);
                 } else if (dStr.startsWith("R")) {
@@ -674,6 +684,5 @@ public class GameStateUtils {
 
         }
     }
-
 
 }
