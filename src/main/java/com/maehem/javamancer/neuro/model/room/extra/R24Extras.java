@@ -37,6 +37,7 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.MASSAGE_BOT;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.logging.Level;
 
@@ -44,7 +45,7 @@ import java.util.logging.Level;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class R24Extras extends RoomExtras {    
+public class R24Extras extends RoomExtras {
 
     protected static final int[][] DIALOG_CHAIN = { //    The massage parlor.
         {LONG_DESC.num}, {SHORT_DESC.num}, // 0, 1
@@ -53,7 +54,7 @@ public class R24Extras extends RoomExtras {
         {16}, // [4] :: Im sure Ill think of
         {8}, // [5] :: Uh, excuse me, Im just
         {19, CHIP.num, 20}, // [6] :: I wanna buy some info
-        {}, // [7] ::
+        {}, // [7] :: // Blank Line
         {DIALOG_CLOSE.num}, // [8] :: You dont know what youre
         {EXIT_L.num}, // [9] :: I just remembered I have
         {NPC.num, 21}, // [10] :: Heres a hot tip. The Panther
@@ -63,15 +64,14 @@ public class R24Extras extends RoomExtras {
         {NPC.num, 15}, // [14] :: Just heard that Maas Biolabs finished
         {NPC.num, 21}, // [15] :: CyberEyes, you dont need a regular
         {EXIT_L.num}, // [16] :: Take a hike, meatball!
-        {}, // 17 test
-        //{TO_JAIL.num}, // [17] :: Look out!  Its
+        {TO_JAIL.num}, // [17] :: Look out!  Its
         {EXIT_L.num}, // [18] :: Get serious!  No discounts here, buckaroo!
-        {INFO_BUY.num, 20}, // [19] :: You just bought yourself some
+        {NPC.num, INFO_BUY.num, 20}, // [19] :: You just bought yourself some
         {DESC.num}, // [20] :: The girl relieves you of <== Place in room description
-        {MASSAGE_BOT.num, NPC.num,17}, // [21] :: I have more info, if you
+        {MASSAGE_BOT.num, NPC.num, 17}, // [21] :: I have more info, if you
         {DIALOG_CLOSE.num} // [22] :: You know more than me
     };
-    
+
     // Animation
     // Load at start:
     // Woman ::
@@ -83,11 +83,11 @@ public class R24Extras extends RoomExtras {
     // Police Bot Hover Energy ::
     //        entry03 : anim00
     protected final int[][] ANIMATION_FLAGS = {
-                {1}, // Akiko
-                {0}, // Police Robot
-                {0}  // Police Robot Hover Exhaust
-        };
-    
+        {1}, // Akiko
+        {0}, // Police Robot
+        {0} // Police Robot Hover Exhaust
+    };
+
     @Override
     public int[][] getAnimationFlags() {
         return ANIMATION_FLAGS;
@@ -113,32 +113,86 @@ public class R24Extras extends RoomExtras {
     @Override
     public int onInfoBuy(GameState gs) {
         LOGGER.log(Level.INFO, "Massage Parlor: Player bought info...");
-        
+
         if (gs.chipBalance < 20) {
             return 18;
         }
 
-        gs.chipBalance -= 20; // Deduct some money.
-        int randomInfo = 10 + (int) (Math.random() * 6);
-        LOGGER.log(Level.CONFIG, () -> "Akiko gives you info dialog " + randomInfo);
-        
-        // TODO: Track what random info was given and don't give it again.
-        // TODO: When all info has been bought, return 22.
-        
-        return randomInfo;
+        // Returns a new info index or 22 if all are given.
+        int newInfo = getNewInfo(gs);
+
+        // When all info has been bought,  don't deduct money and return 22.
+        if (newInfo != 22) {
+            gs.chipBalance -= 20; // Deduct some money.
+            LOGGER.log(Level.CONFIG, () -> "Akiko gives you info dialog " + newInfo);
+        } else {
+            LOGGER.log(Level.CONFIG, () -> "Akiko has given you all the info she has.");
+        }
+
+        return newInfo;
     }
 
     @Override
     public int onDialogCommand(GameState gs, DialogCommand command) {
-        if ( command == DialogCommand.MASSAGE_BOT ) {
+        if (command == DialogCommand.MASSAGE_BOT) {
             LOGGER.log(Level.SEVERE, "Set Police Bot Animation flags.");
             // Show police bot.
             getAnimationFlags()[1][0] = 1;
             getAnimationFlags()[2][0] = 1;
             // Animation will update on next RoomPane tick().
         }
-        
+
         return 0;
     }
-    
+
+    private int getNewInfo(GameState gs) {
+        if (gs.massageInfo1
+                && gs.massageInfo2
+                && gs.massageInfo3
+                && gs.massageInfo4
+                && gs.massageInfo5) {
+            return 22;
+        }
+
+        boolean found = false;
+        int randVal = 99;
+        while (!found) {
+            randVal = (int) (Math.random() * 5);
+            switch (randVal) {
+                case 0 -> {
+                    if (!gs.massageInfo1) {
+                        gs.massageInfo1 = true;
+                        found = true;
+                    }
+                }
+                case 1 -> {
+                    if (!gs.massageInfo2) {
+                        gs.massageInfo2 = true;
+                        found = true;
+                    }
+                }
+                case 2 -> {
+                    if (!gs.massageInfo3) {
+                        gs.massageInfo3 = true;
+                        found = true;
+                    }
+                }
+                case 3 -> {
+                    if (!gs.massageInfo4) {
+                        gs.massageInfo4 = true;
+                        found = true;
+                    }
+                }
+                case 4 -> {
+                    if (!gs.massageInfo5) {
+                        gs.massageInfo5 = true;
+                        found = true;
+                    }
+                }
+            }
+
+        }
+        return 10 + randVal;
+
+    }
 }
