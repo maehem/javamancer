@@ -81,14 +81,6 @@ public abstract class PopupPane extends Pane {
     }
 
     protected VBox addBox(Node... nodes) {
-//        VBox box = new VBox(nodes);
-//        box.setSpacing(0);
-//        box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
-//        box.setMinWidth(getPrefWidth());
-//        box.setPrefWidth(getPrefWidth());
-//        box.setMinHeight(getPrefHeight());
-//        box.setMaxHeight(getPrefWidth());
-//        box.setPadding(new Insets(0, 0, 0, 10));
 
         VBox box = makeBox(this, nodes);
         getChildren().add(box);
