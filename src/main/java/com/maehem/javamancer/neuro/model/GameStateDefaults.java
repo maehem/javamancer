@@ -82,10 +82,17 @@ public enum GameStateDefaults {
     // Hotel
     HOTEL_CHARGES("hotelCharges", 1000),
     HOTEL_ON_ACCOUNT("hotelOnAccount", 0),
-    HOTEL_CAVIAR("hotelCaviar", 1),
-    HOTEL_SAKE("hotelSake", 2),
+    HOTEL_CAVIAR("hotelCaviar", 1), // Quantity
+    HOTEL_SAKE("hotelSake", 2), // Quantity
     HOTEL_DELIVER_CAVIAR("hotelDeliverCaviar", 0),
-    HOTEL_DELIVER_SAKE("hotelDeliverSake", 0),;
+    HOTEL_DELIVER_SAKE("hotelDeliverSake", 0),
+    // Massage Parlor
+    MASSAGE_INFO_1("massageInfo1", false), // Panther Moderns
+    MASSAGE_INFO_2("massageInfo2", false), // Banking
+    MASSAGE_INFO_3("massageInfo3", false), // Court Fees
+    MASSAGE_INFO_4("massageInfo4", false), // Panther more
+    MASSAGE_INFO_5("massageInfo5", false), // Cyber Eyes
+    ;
 
     public final String value;
     public final String key;

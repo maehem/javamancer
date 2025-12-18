@@ -145,6 +145,13 @@ public class GameState {
     public int hotelDeliverCaviar = 0; // Add this many caviar to player inventory upon next hotel visit.
     public int hotelDeliverSake = 0; // Add this many sake to player inventory upon next hotel visit.
 
+    // Massage Parlor
+    public boolean massageInfo1 = false;
+    public boolean massageInfo2 = false;
+    public boolean massageInfo3 = false;
+    public boolean massageInfo4 = false;
+    public boolean massageInfo5 = false;
+
     public boolean msgToArmitageSent = false;
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
     public boolean shivaChipMentioned = false;
@@ -198,10 +205,18 @@ public class GameState {
     public void initTestItems() {
 
         // Game Test Items
-        room = Room.R13; // Street Microsofts
-        
-        // Test examples:
+        room = Room.R45; // Street Microsofts
+        shivaGavePass = true;
+        chipBalance = 2000;
+        //massageInfo1 = true;
+        //massageInfo2 = true;
+        //massageInfo3 = true;
+        //massageInfo4 = true;
+        //massageInfo5 = false;
+
+// Test examples:
         //
+        // Make a Deck, put it into inventory and put some software on it.
         //Cyberspace7DeckItem testDeckItem = new Cyberspace7DeckItem();
         //testDeckItem.needsRepair = true;
         //gameState.inventory.add(testDeckItem); // Test item

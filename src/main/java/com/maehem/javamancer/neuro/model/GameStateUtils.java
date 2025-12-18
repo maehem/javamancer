@@ -178,6 +178,13 @@ public class GameStateUtils {
         pPut(props, HOTEL_DELIVER_CAVIAR, gs.hotelDeliverCaviar);
         pPut(props, HOTEL_DELIVER_SAKE, gs.hotelDeliverSake);
 
+        // Massage Parlor
+        pPut(props, MASSAGE_INFO_1, gs.massageInfo1);
+        pPut(props, MASSAGE_INFO_2, gs.massageInfo2);
+        pPut(props, MASSAGE_INFO_3, gs.massageInfo3);
+        pPut(props, MASSAGE_INFO_4, gs.massageInfo4);
+        pPut(props, MASSAGE_INFO_5, gs.massageInfo5);
+        
         // Misc. Flags
         pPut(props, MSG_TO_ARMITAGE_SENT, gs.msgToArmitageSent);
         pPut(props, RATZ_PAID, gs.ratzPaid);
@@ -295,6 +302,13 @@ public class GameStateUtils {
         gs.hotelSake = getInt(HOTEL_SAKE, p);
         gs.hotelDeliverCaviar = getInt(HOTEL_DELIVER_CAVIAR, p);
         gs.hotelDeliverSake = getInt(HOTEL_DELIVER_SAKE, p);
+        
+        // Massage Parlor
+        gs.massageInfo1 = getBool(MASSAGE_INFO_1, p);
+        gs.massageInfo2 = getBool(MASSAGE_INFO_2, p);
+        gs.massageInfo3 = getBool(MASSAGE_INFO_3, p);
+        gs.massageInfo4 = getBool(MASSAGE_INFO_4, p);
+        gs.massageInfo5 = getBool(MASSAGE_INFO_5, p);
 
         gs.msgToArmitageSent = getBool(MSG_TO_ARMITAGE_SENT, p);
         gs.ratzPaid = getBool(RATZ_PAID, p);
