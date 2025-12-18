@@ -92,7 +92,7 @@ public class AnimationSequence extends ImageView {
 
                 listIndex++;
             }
-            LOGGER.log(Level.CONFIG, () -> "        created AnimationSequence with " + images.size() + " images.");
+            LOGGER.log(Level.FINER, () -> "        created AnimationSequence with " + images.size() + " images.");
 
             configTimeline();
             setVisible(false);

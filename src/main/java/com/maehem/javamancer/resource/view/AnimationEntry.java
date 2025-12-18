@@ -72,7 +72,7 @@ public class AnimationEntry extends Pane {
                 iv.setLayoutY(sequence.locations.get(0).getY());
                 getChildren().add(iv);
             }
-            LOGGER.log(Level.CONFIG, () -> "    Add sequence for: " + dir.getName());
+            LOGGER.log(Level.FINER, () -> "    Add sequence for: " + dir.getName());
             getChildren().add(sequence);
 
             sequence.timeline.setOnFinished((t) -> {
