@@ -247,7 +247,7 @@ public class DialogPopup extends DialogPopupPane {
             LOGGER.log(Level.FINE, "{0}: Set dialog index to: {1}", new Object[]{mode.name(), dialogIndex});
 
             String text = textResource.get(dialogIndex);
-            if (text.indexOf("  ") > 0) {
+            if (text.indexOf("  ") > 0) { // Two spaces in a dialog text means they are a multi-part text.
                 LOGGER.log(Level.CONFIG, "npcResponse(): Multipart reponsse encountered.");
                 keepTalking(text);
                 //keepTalking = 1;
@@ -583,6 +583,7 @@ public class DialogPopup extends DialogPopupPane {
             case PLAYER -> {
                 mode = Mode.NPC;
             }
+            // TODO: Move logic into Room method using onDialogCommand()
             case FINE_BANK_500 -> {
                 LOGGER.log(Level.FINE, "Fine from bank 500.");
                 int amt = 500;
@@ -598,6 +599,7 @@ public class DialogPopup extends DialogPopupPane {
                 ));
                 npcResponse(1);
             }
+            // TODO: Move logic into Room method using onDialogCommand()
             case FINE_BANK_20K -> {
                 LOGGER.log(Level.FINE, "Fine from bank 20K.");
                 int amt = 20000;
@@ -670,6 +672,7 @@ public class DialogPopup extends DialogPopupPane {
                     }
                 }
             }
+            // TODO: Move logic into Room method using onDialogCommand()
             case DISCOUNT -> {
                 LOGGER.log(Level.CONFIG, "Apply discount from NPC.");
                 gameState.room.extras.applyDiscount(gameState);
@@ -690,7 +693,7 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.CONFIG, "Print next response into room description window.");
                 listener.showMessage(textResource.get(dialogIndex - 500));
             }
-            // TODO: Move logic into Room method.
+            // TODO: Move logic into Room method using onDialogCommand()
             case UXB -> {
                 LOGGER.log(Level.FINE, "Give UXB to player.");
                 boolean hasItem = false;
