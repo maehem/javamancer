@@ -208,14 +208,9 @@ public class GameState {
         room = Room.R45; // Street Microsofts
         shivaGavePass = true;
         chipBalance = 2000;
-        //massageInfo1 = true;
-        //massageInfo2 = true;
-        //massageInfo3 = true;
-        //massageInfo4 = true;
-        //massageInfo5 = false;
 
 // Test examples:
-        //
+        //massageInfo3 = true;
         // Make a Deck, put it into inventory and put some software on it.
         //Cyberspace7DeckItem testDeckItem = new Cyberspace7DeckItem();
         //testDeckItem.needsRepair = true;
