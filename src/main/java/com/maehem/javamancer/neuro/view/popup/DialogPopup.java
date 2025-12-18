@@ -250,7 +250,7 @@ public class DialogPopup extends DialogPopupPane {
             if (text.indexOf("  ") > 0) {
                 LOGGER.log(Level.CONFIG, "npcResponse(): Multipart reponsse encountered.");
                 keepTalking(text);
-                keepTalking = 1;
+                //keepTalking = 1;
             } else {
                 // ASCII Control character '01' is a token for the player's name. Replace it here.
                 wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
