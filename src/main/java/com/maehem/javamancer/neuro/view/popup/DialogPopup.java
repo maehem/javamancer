@@ -481,7 +481,11 @@ public class DialogPopup extends DialogPopupPane {
 
     public final void processCommand(DialogCommand command) {
         LOGGER.log(Level.FINE, "Process command: {0}::{1}", new Object[]{command.num, command.name()});
-
+        
+        // The room extras can perform some tasks here.
+        int onDialogCommandIndex = gameState.room.getExtras().onDialogCommand(gameState, command);
+        
+        // Add any tasks here that the room extras could not directly do.
         switch (command) {
             case DIALOG_END -> { // NPC no longer talks.
                 gameState.room.getExtras().dialogNoMore(gameState);
@@ -547,14 +551,14 @@ public class DialogPopup extends DialogPopupPane {
             case EXIT_SHUTTLE_FS, EXIT_SHUTTLE_ZION -> {
                 // Ticket agent handles ticket sale.
                 // Also sets the gameState.shuttleDest.
-                int index = gameState.room.getExtras().onDialogCommand(gameState, command);
-                if (index < 0) {
+                //int index = gameState.room.getExtras().onDialogCommand(gameState, command);
+                if (onDialogCommandIndex < 0) {
                     LOGGER.log(Level.CONFIG, "NPC sends player to Shuttle.");
                     listener.popupExit();
                     gameState.useDoor = RoomBounds.Door.SHUTTLE;
                 } else {
                     // Not enough money.
-                    dialogIndex = index;
+                    dialogIndex = onDialogCommandIndex;
                     items = dialogChain[dialogIndex];
                     dialogSubIndex = 0;
                     npcResponse(0);
@@ -716,7 +720,9 @@ public class DialogPopup extends DialogPopupPane {
             }
             case MASSAGE_BOT -> {
                 LOGGER.log(Level.FINE, "Cause Police Bot to appear in massage parlor.");
-                gameState.room.getExtras().onDialogCommand(gameState, command);
+                //gameState.room.getExtras().onDialogCommand(gameState, command);
+                
+                // TODO: can this be a NPC.num command?
                 mode = Mode.PLAYER; // Causes next loop to toggle to NPC again.
                 npcResponse(2);
             }
