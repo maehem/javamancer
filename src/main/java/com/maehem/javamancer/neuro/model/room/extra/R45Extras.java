@@ -44,8 +44,6 @@ public class R45Extras extends RoomExtras { // Street Robot (Matrix Rest.)
 
     @Override
     public void initRoom(GameState gs) {
-
-        // TODO: No Pass. Kick out.
     }
 
     @Override
