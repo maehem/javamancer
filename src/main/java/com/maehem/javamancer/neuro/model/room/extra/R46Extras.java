@@ -54,7 +54,7 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
         {NPC.num, 5}, // [4] :: frying and pulled the trodes off me.
         {NPC.num, 6}, // [5] :: I know what you mean. Tried it myself once. That ice was bad news. Maybe an AI got old Bosch.  He was worried when
         {NPC.num, 7}, // [6] :: I last talked to him at Gridpoint. He thought some AI had found a way to make itself smarter!  You believe it?
-        {8}, // [7] :: No. Nobody trusts an AI. Every AI ever built has an electromagnetic shotgun wired to its forehead. Turing would
+        {NPC.num, 8}, // [7] :: No. Nobody trusts an AI. Every AI ever built has an electromagnetic shotgun wired to its forehead. Turing would
         {9, 10}, // [8] :: wipe it right away....Hey!  Look who wandered in when we left the door open!
         {12}, // [9] :: Got any old chips you want to sell?
         {WORD1.num}, // [10] :: Hey, what do you know about @---------------
@@ -130,9 +130,6 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        //gs.resourceManager.getRoomText(Room.R46).dumpList();
-
-        // TODO: No Pass. Kick out.
     }
     
     @Override
