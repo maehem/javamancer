@@ -34,6 +34,11 @@ import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -51,9 +56,9 @@ public class RoomDescriptionPane extends ScrollPane {
 
     private static final double BORDER_W = 1.8;
 
-    public static final int WIDTH = 200;
+    public static final int WIDTH = 210;
     public static final int HEIGHT = 120;
-    public static final int POS_X = 354;
+    public static final int POS_X = 344;
     public static final int POS_Y = 268;
 
     private final Text text = new Text("...");
@@ -74,8 +79,10 @@ public class RoomDescriptionPane extends ScrollPane {
         setLayoutY(POS_Y);
 
         textFlow.setLineSpacing(-7);
-        textFlow.setPrefWidth(180);
-        text.setLineSpacing(-7);
+        textFlow.setPrefWidth(WIDTH);
+        textFlow.setMinHeight(HEIGHT);
+        //textFlow.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
+        text.setLineSpacing(-6);
         setContent(textFlow);
 
         setOnMouseClicked((t) -> {
@@ -111,11 +118,15 @@ public class RoomDescriptionPane extends ScrollPane {
     }
     
     public static Shape createDescriptionBorder() {
+//        Shape s = new Rectangle(
+//                (RoomDescriptionPane.WIDTH + 2*BORDER_W) * 1.44, 
+//                RoomDescriptionPane.HEIGHT + 4.4*BORDER_W
+//        );
         Shape s = new Rectangle(
-                (RoomDescriptionPane.WIDTH + 2*BORDER_W) * 1.44, 
-                RoomDescriptionPane.HEIGHT + 4.4*BORDER_W
+                (WIDTH + 4*BORDER_W) * 1.333,
+                HEIGHT + 4*BORDER_W
         );
-        s.setLayoutX(RoomDescriptionPane.POS_X - 12);
+        s.setLayoutX(RoomDescriptionPane.POS_X - BORDER_W);
         s.setLayoutY(RoomDescriptionPane.POS_Y - BORDER_W - 2);
 
         s.setFill(Color.TRANSPARENT);
