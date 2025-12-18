@@ -72,9 +72,7 @@ public class R19Extras extends RoomExtras { // Spaceport Chiba
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        //gs.resourceManager.getRoomText(Room.R19).dumpList();
+        //gs.resourceManager.getRoomText(gs.room).dumpList();
     }
 
     @Override

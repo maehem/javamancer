@@ -128,8 +128,7 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
+        //gs.resourceManager.getRoomText(gs.room).dumpList();
     }
     
     @Override
