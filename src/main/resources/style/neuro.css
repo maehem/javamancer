@@ -94,6 +94,7 @@ Text {
     -fx-padding: 0;
 }
 
+/* Date Display */
 #neuro-status {
     -fx-font-size: 22;
 }
