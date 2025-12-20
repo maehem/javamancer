@@ -133,7 +133,7 @@ public class R24Extras extends RoomExtras {
     }
 
     @Override
-    public int onDialogCommand(GameState gs, DialogCommand command) {
+    public int onDialogPreCommand(GameState gs, DialogCommand command) {
         if (command == DialogCommand.MASSAGE_BOT) {
             LOGGER.log(Level.SEVERE, "Set Police Bot Animation flags.");
             // Show police bot.

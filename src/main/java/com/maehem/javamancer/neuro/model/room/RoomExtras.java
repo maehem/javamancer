@@ -211,6 +211,24 @@ public abstract class RoomExtras {
         // Override to take actions when certain dialog index are reached.
     }
 
+    /**
+     * Always called before command. Optionally override to take an action.
+     *
+     * @param command
+     * @return -1 if command should run.
+     */
+    public int onDialogPreCommand(GameState gs, DialogCommand command) {
+        LOGGER.log(Level.FINEST, "onDialogCommand() called but not over-ridden.");
+        return -1;
+    }
+    
+    /**
+     * Always called after command. Optionally override to take an action.
+     * 
+     * @param gs
+     * @param newDialog 
+     */
+    public void onDialogPostCommand(GameState gs, DialogCommand command) {
         // Override to take actions when certain dialogs are reached.
     }
 

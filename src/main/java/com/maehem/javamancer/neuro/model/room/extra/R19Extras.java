@@ -86,7 +86,7 @@ public class R19Extras extends RoomExtras { // Spaceport Chiba
     }
 
     @Override
-    public int onDialogCommand(GameState gs, DialogCommand command) {
+    public int onDialogPreCommand(GameState gs, DialogCommand command) {
         switch (command) {
             case EXIT_SHUTTLE_FS -> {
                 LOGGER.log(Level.INFO, "Do something about purchase of ticket Free Side.");
