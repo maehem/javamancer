@@ -256,17 +256,6 @@ public abstract class RoomExtras {
     }
     
     /**
-     * Override to take action on a dialog command.
-     *
-     * @param command
-     * @return -1 if command should run.
-     */
-    public int onDialogCommand(GameState gs, DialogCommand command) {
-        LOGGER.log(Level.WARNING, "onDialogCommand() called but not over-ridden!");
-        return -1;
-    }
-    
-    /**
      * Optionally override to take action when user dismisses popup.
      * @param gs 
      */
