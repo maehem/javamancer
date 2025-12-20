@@ -200,7 +200,17 @@ public abstract class RoomExtras {
         return 0;
     }
 
-    public void onDialog(GameState gs, int newDialog) {
+    /**
+     * Optionally called during NPC processing of a dialog index.
+     * Override to make use of.
+     * 
+     * @param gs
+     * @param index Dialog Index being referenced.
+     */
+    public void onDialogIndex(GameState gs, int index) {
+        // Override to take actions when certain dialog index are reached.
+    }
+
         // Override to take actions when certain dialogs are reached.
     }
 
