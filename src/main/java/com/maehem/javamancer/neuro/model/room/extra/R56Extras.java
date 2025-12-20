@@ -142,7 +142,7 @@ public class R56Extras extends RoomExtras { // Sense Net
     }
 
     @Override
-    public void onDialog(GameState gs, int dialog) {
+    public void onDialogIndex(GameState gs, int dialog) {
         if (dialog == 2) {
             LOGGER.log(Level.INFO, "Gave 30 second warning.");
             // Begin 30 second timer.
