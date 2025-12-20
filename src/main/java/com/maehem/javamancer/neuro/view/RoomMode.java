@@ -129,6 +129,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     public RoomMode(NeuroModePaneListener listener, GameState gameState) {
         super(listener, gameState);
 
+        gameState.roomMode = this;
         // TODO: generate Room from gameState.roomNumber
         this.room = gameState.room;
         LOGGER.log(Level.INFO, "Create new RoomMode for {0}.", room.name());
@@ -459,7 +460,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
      *
      * @param pop
      */
-    private void showPopup(Popup pop) {
+    public void showPopup(Popup pop) {
         if (popup != null) {
             return; // User must exit current popup first!
         }
@@ -667,6 +668,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         boolean doNextPopup;
         if (popup instanceof SkillsVendPopup) {
             doNextPopup = room.getExtras().onSkillVendFinished(getGameState());
+        } else if (popup instanceof DeckPopup) {
+            doNextPopup = room.getExtras().onDeckFinished(getGameState());
         } else {
             doNextPopup = true;
         }
