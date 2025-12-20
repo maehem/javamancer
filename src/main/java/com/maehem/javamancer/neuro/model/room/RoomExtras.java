@@ -263,4 +263,14 @@ public abstract class RoomExtras {
         LOGGER.log(Level.FINEST, "onPopupExit() called but it's not over-ridden.");
     }
 
+    /**
+     * Optionally get notified when a player finishes using a deck jeck in the room.
+     * 
+     * @param gameState
+     * @return true(default) for next popup if there is one.
+     */
+    public boolean onDeckFinished(GameState gameState) {
+        return true;
+    }
+
 }
