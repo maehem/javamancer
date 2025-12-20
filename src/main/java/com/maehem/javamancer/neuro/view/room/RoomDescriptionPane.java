@@ -107,23 +107,18 @@ public class RoomDescriptionPane extends ScrollPane {
         Rectangle r = new Rectangle(
                 NeuroGamePane.WIDTH, NeuroGamePane.HEIGHT
         );
-        // TODO: Add blur.
 
+        // TODO: review these geometry numbers.
         Rectangle dr = new Rectangle(POS_X - 12, POS_Y, WIDTH * 1.44, HEIGHT);
 
         Shape subtract = Shape.subtract(r, dr);
         subtract.setFill(new Color(0.7, 0.7, 0.7, 0.4));
-        //subtract.setEffect(new GaussianBlur(4.0));
         return subtract;
     }
     
     public static Shape createDescriptionBorder() {
-//        Shape s = new Rectangle(
-//                (RoomDescriptionPane.WIDTH + 2*BORDER_W) * 1.44, 
-//                RoomDescriptionPane.HEIGHT + 4.4*BORDER_W
-//        );
         Shape s = new Rectangle(
-                (WIDTH + 4*BORDER_W) * 1.333,
+                (WIDTH + 4*BORDER_W) * 1.333, // 4:3 aspect == 1.333
                 HEIGHT + 4*BORDER_W
         );
         s.setLayoutX(RoomDescriptionPane.POS_X - BORDER_W);
