@@ -766,6 +766,10 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.SEVERE, "Process Command :: Not handled yet: {0}", command);
             }
         }
+        
+        // A room can perform any tasks here, after any commands have made
+        // changes in the popup or elsewhere.
+        gameState.room.extras.onDialogPostCommand(gameState, command);
 
     }
 
