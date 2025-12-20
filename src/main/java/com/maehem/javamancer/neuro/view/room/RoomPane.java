@@ -222,6 +222,11 @@ public class RoomPane extends Pane {
                 if (animationFlags[i][0] == 1 && !animations.get(i).isRunning()) {
                     LOGGER.log(Level.CONFIG, "Dormant animation {0} has been activated.", i);
                     animations.get(i).start();
+                    animations.get(i).setVisible(true);
+                } else if (animationFlags[i][0] == 0 && animations.get(i).isRunning()) {
+                    LOGGER.log(Level.CONFIG, "Running animation {0} has been stopped and made invisble.", i);
+                    animations.get(i).stop();
+                    animations.get(i).setVisible(false);
                 }
             }
         }
