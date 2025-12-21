@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.room.extra;
 
+import com.maehem.javamancer.neuro.model.BodyPart;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.room.DialogCommand;
@@ -96,7 +97,9 @@ public class R53Extras extends RoomExtras { // Hitachi
             // Woman asks you to wait. Hide her animation.
             ANIMATION_FLAGS[0][0] = 0;
         } else if ( command.equals(LUNGS)) {
+            gs.chipBalance += 3000;
             gs.soldBodyParts.add(BodyPart.LUNGS);
+            // TODO: Verify if player can buy lung back at bodyshop in original game.
         }
         return super.onDialogPreCommand(gs, command); // Default value.
     }
