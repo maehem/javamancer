@@ -46,7 +46,7 @@ public abstract class RoomExtras {
     public static final Logger LOGGER = Logging.LOGGER;
 
     public boolean onVendFinishedOpenDialog = false; // Semaphote to open dialog when vend finished.
-    
+
     /**
      * Request the talk dialog. Handled by RoomMode.tick() Flag is cleared when
      * handled.
@@ -67,8 +67,10 @@ public abstract class RoomExtras {
     }
 
     public abstract int[][] getDialogChain();
-    public int[][] getAnimationFlags() { return new int[0][];}
 
+    public int[][] getAnimationFlags() {
+        return new int[0][];
+    }
 
     public int dialogWarmUp(GameState gs) {
         return 2;
@@ -204,9 +206,9 @@ public abstract class RoomExtras {
     }
 
     /**
-     * Optionally called during NPC processing of a dialog index.
-     * Override to make use of.
-     * 
+     * Optionally called during NPC processing of a dialog index. Override to
+     * make use of.
+     *
      * @param gs
      * @param index Dialog Index being referenced.
      * @return potentially alternate index when overridden.
@@ -226,12 +228,12 @@ public abstract class RoomExtras {
         LOGGER.log(Level.FINEST, "onDialogCommand() called but not over-ridden.");
         return -1;
     }
-    
+
     /**
      * Always called after command. Optionally override to take an action.
-     * 
+     *
      * @param gs
-     * @param newDialog 
+     * @param newDialog
      */
     public void onDialogPostCommand(GameState gs, DialogCommand command) {
         // Override to take actions when certain dialogs are reached.
@@ -254,11 +256,11 @@ public abstract class RoomExtras {
     /**
      * Sometimes called during DialogPopup::processCommand() and can help adjust
      * current dialog index based on some state change or player response.
-     * 
-     * Example:  INFO_BUY
-     * 
+     *
+     * Example: INFO_BUY
+     *
      * @param gs
-     * @return 
+     * @return
      */
     public int dialogIndexAdjust(GameState gs, DialogCommand command) {
         return 2;
@@ -268,18 +270,20 @@ public abstract class RoomExtras {
         LOGGER.log(Level.WARNING, "onFilter1() called but not over-ridden!");
         return new int[]{2};
     }
-    
+
     /**
      * Optionally override to take action when user dismisses popup.
-     * @param gs 
+     *
+     * @param gs
      */
     public void onPopupExit(GameState gs, DialogPopup pop) {
         LOGGER.log(Level.FINE, "onPopupExit() called but it's not over-ridden.");
     }
 
     /**
-     * Optionally get notified when a player finishes using a deck jeck in the room.
-     * 
+     * Optionally get notified when a player finishes using a deck jeck in the
+     * room.
+     *
      * @param gameState
      * @return true(default) for next popup if there is one.
      */
