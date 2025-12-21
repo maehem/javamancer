@@ -205,7 +205,6 @@ public class GameStateUtils {
         pPut(props, PSYCHO_PROBE_COUNT, gs.psychoProbeCount);
 
         pPut(props, HOSAKA_DAYS_SINCE_PAID, gs.hosakaDaysSincePaid);
-        pPut(props, HITACHI_LUNGS, gs.hitachiLungRemoved);
 
         return props;
     }
@@ -340,7 +339,6 @@ public class GameStateUtils {
         gs.psychoProbeCount = getInt(PSYCHO_PROBE_COUNT, p);
 
         gs.hosakaDaysSincePaid = getInt(HOSAKA_DAYS_SINCE_PAID, p);
-        gs.hitachiLungRemoved = getBool(HITACHI_LUNGS, p);
 
     }
 

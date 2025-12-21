@@ -80,7 +80,7 @@ public class R53Extras extends RoomExtras { // Hitachi
 
     @Override
     public int onDialogIndex(GameState gs, int index) {
-        if ( index == 7 && gs.hitachiLungRemoved ) {
+        if ( index == 7 && gs.soldBodyParts.contains(BodyPart.LUNGS) ) {
             LOGGER.log(Level.FINEST, "onDialogIndex() change dialogIndex because lung was already removed.");
             return 17;
         }
@@ -96,7 +96,7 @@ public class R53Extras extends RoomExtras { // Hitachi
             // Woman asks you to wait. Hide her animation.
             ANIMATION_FLAGS[0][0] = 0;
         } else if ( command.equals(LUNGS)) {
-            gs.hitachiLungRemoved = true;
+            gs.soldBodyParts.add(BodyPart.LUNGS);
         }
         return super.onDialogPreCommand(gs, command); // Default value.
     }
