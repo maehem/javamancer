@@ -111,7 +111,7 @@ public class R24Extras extends RoomExtras {
     }
 
     @Override
-    public int onInfoBuy(GameState gs) {
+    public int dialogIndexAdjust(GameState gs, DialogCommand command) {
         LOGGER.log(Level.INFO, "Massage Parlor: Player bought info...");
 
         if (gs.chipBalance < 20) {

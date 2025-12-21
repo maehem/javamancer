@@ -248,7 +248,16 @@ public abstract class RoomExtras {
         return requestDialogPoppup;
     }
 
-    public int onInfoBuy(GameState gs) {
+    /**
+     * Sometimes called during DialogPopup::processCommand() and can help adjust
+     * current dialog index based on some state change or player response.
+     * 
+     * Example:  INFO_BUY
+     * 
+     * @param gs
+     * @return 
+     */
+    public int dialogIndexAdjust(GameState gs, DialogCommand command) {
         return 2;
     }
 

@@ -636,7 +636,7 @@ public class DialogPopup extends DialogPopupPane {
 
                 mode = Mode.PLAYER;
                 // Index of next respose
-                dialogIndex = gameState.room.getExtras().onInfoBuy(gameState);
+                dialogIndex = gameState.room.getExtras().dialogIndexAdjust(gameState, command);
                 items = dialogChain[dialogIndex];
                 dialogSubIndex = 0;
                 LOGGER.log(Level.CONFIG, "{0}: Do INFO_BUY response.", mode.name());
