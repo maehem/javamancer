@@ -260,7 +260,7 @@ public abstract class RoomExtras {
      * @param gs 
      */
     public void onPopupExit(GameState gs, DialogPopup pop) {
-        LOGGER.log(Level.FINEST, "onPopupExit() called but it's not over-ridden.");
+        LOGGER.log(Level.FINE, "onPopupExit() called but it's not over-ridden.");
     }
 
     /**
