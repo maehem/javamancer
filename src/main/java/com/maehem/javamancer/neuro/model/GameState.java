@@ -132,6 +132,7 @@ public class GameState {
     private boolean iceBroken = false; // Ephemeral
 
     // Room Stuff
+    public RoomMode roomMode;
     public int roomPosX = 160;
     public int roomPosY = 90;
     public Room room = null;
