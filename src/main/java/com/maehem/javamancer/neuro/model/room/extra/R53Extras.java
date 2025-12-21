@@ -28,24 +28,27 @@ package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.JackZone;
+import com.maehem.javamancer.neuro.model.room.DialogCommand;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DECK_WAIT;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC_DIRECT;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_B;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LUNGS;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
-import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
-import java.util.Map;
-import static java.util.Map.entry;
+import java.util.logging.Level;
 
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class R53Extras extends RoomExtras { // Hitachi
+
+    boolean deckJustUsed = false;
 
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
@@ -54,34 +57,60 @@ public class R53Extras extends RoomExtras { // Hitachi
         {8}, // [4] :: Im so embarrassed. I just stumbled inhere by mistake.  Excuse me.
         {9}, // [5] :: Actually, Im just here to steal some time on your cyberspace jack. I know its illegal, but what the hell....
         {10}, // [6] :: Actually, Im just here to see you. Ive heard youre the kind of woman who likes to have fun....
-        {DECK_WAIT.num, 7}, // [7] :: Great!  Were currently paying our volunteers $3000 apiece.  Wait here and Ill be back in a few minutes.
+        {DIALOG_CLOSE.num, DECK_WAIT.num, 11}, // [7] :: Great!  We're currently paying our volunteers $3000 apiece.  Wait here and Ill be back in a few minutes.
         {EXIT_B.num}, // [8] :: You should be embarrassed, you fool! Get out of here!
         {TO_JAIL.num}, // [9] :: Youre right. It is illegal. Have a nice trip to the Justice Booth.
-        {DESC.num, 15}, // [10] :: Ive heard youre the kind of turnip- head who likes getting arrested.
+        {NPC.num, 15}, // [10] :: Ive heard youre the kind of turnip- head who likes getting arrested.
         {NPC.num, 12}, // [11] :: Thanks for waiting. This wont hurt a bit. Well, maybe a little bit, but you wont feel anything after the
         {NPC.num, 13}, // [12] :: anesthetic takes effect. At least, not while youre asleep. After youre awake, of course, thats another
-        {DESC.num, 14, LUNGS.num}, // [13] :: matter entirely. Then itll hurt like hell. But, hey, you volunteered for this. Nobody forced you into it.
-        {NPC.num, 16}, // [14] :: The Technician painfully removes both of your lungs.
-        {EXIT_B.num}, // [15] :: The Technician kicks you out of the lab.
+        {DESC.num, NPC.num, 14}, // [13] :: matter entirely. Then itll hurt like hell. But, hey, you volunteered for this. Nobody forced you into it.
+        {LUNGS.num, NPC.num, 16}, // [14] :: The Technician painfully removes both of your lungs.
+        {DESC.num, EXIT_B.num}, // [15] :: The Technician kicks you out of the lab.
         {EXIT_B.num}, // [16] :: Thank you, goodbye.
         {EXIT_B.num}, // [17] :: Hey you dont have organic lungs. Get out of here!
     };
 
-    /**
-     *
-     * Do you know about...
-     *
-     */
-    private static final Map<String, Integer> map1 = Map.ofEntries(
-            entry("fuji", 10),
-            entry("hosaka", 10),
-            entry("musabori", 10),
-            entry("hitachi", 10),
-            entry("sense/net", 10),
-            entry("sensenet", 10),
-            entry("sense-net", 10),
-            entry("sense net", 10)
-    );
+    protected final int[][] ANIMATION_FLAGS = {
+        {1} // Woman
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+
+    @Override
+    public int onDialogIndex(GameState gs, int index) {
+        if ( index == 7 && gs.hitachiLungRemoved ) {
+            LOGGER.log(Level.FINEST, "onDialogIndex() change dialogIndex because lung was already removed.");
+            return 17;
+        }
+        return index;
+    }
+
+    
+    @Override
+    public int onDialogPreCommand(GameState gs, DialogCommand command) {
+        LOGGER.log(Level.CONFIG, "Dialog Pre Command called. command = " + command.name());
+        if (command.equals(DIALOG_CLOSE)) { // Woman has left the room.
+            LOGGER.log(Level.CONFIG, "Woman animation not visible.");
+            // Woman asks you to wait. Hide her animation.
+            ANIMATION_FLAGS[0][0] = 0;
+        } else if ( command.equals(LUNGS)) {
+            gs.hitachiLungRemoved = true;
+        }
+        return super.onDialogPreCommand(gs, command); // Default value.
+    }
+
+    @Override
+    public boolean onDeckFinished(GameState gameState) {
+        LOGGER.log(Level.CONFIG, "Deck has finished. What shall we do?");
+        // make woman visible.
+        ANIMATION_FLAGS[0][0] = 1;
+        deckJustUsed = true;
+        setRequestDialogPopup(true);
+        return true;
+    }
 
     @Override
     public JackZone jackZone() {
@@ -89,24 +118,8 @@ public class R53Extras extends RoomExtras { // Hitachi
     }
 
     @Override
-    public int askWord1(GameState gs, String word) {
-        Integer index = map1.get(word);
-        // Check agains game state for employment.
-
-        if (index == null) {
-            return 15; // Doesn't know.
-        }
-
-        return index;
-    }
-
-    @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R53).dumpList();
-
-        // TODO: No Pass. Kick out.
+        //gs.resourceManager.getRoomText(Room.R53).dumpList();
     }
 
     @Override
@@ -116,8 +129,12 @@ public class R53Extras extends RoomExtras { // Hitachi
 
     @Override
     public int dialogWarmUp(GameState gs) {
+        LOGGER.log(Level.CONFIG, "dialogWarmup()");
+        if (deckJustUsed) {
+            deckJustUsed = false;
+            return 11;
+        }
         return 2;
-
     }
 
 }
