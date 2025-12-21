@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.JackZone;
+import com.maehem.javamancer.neuro.model.database.HosakaDatabase;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC_DIRECT;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
@@ -49,12 +50,9 @@ public class R57Extras extends RoomExtras { // Hosaka
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        //gs.resourceManager.getRoomText(Room.R57).dumpList();
-
+        //gs.resourceManager.getRoomText(gs.room).dumpList();
     }
-    
+
     @Override
     public JackZone jackZone() {
         return JackZone.TWO;
