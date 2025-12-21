@@ -31,7 +31,6 @@ import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.room.DialogCommand;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DECK_WAIT;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC_DIRECT;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_B;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
