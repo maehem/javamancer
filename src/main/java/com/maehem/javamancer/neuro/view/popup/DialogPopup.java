@@ -142,7 +142,7 @@ public class DialogPopup extends DialogPopupPane {
                             textResource.get(dialogIndex)
                         });
                 if (gameState.room.getExtras() != null) {
-                    gameState.room.getExtras().onDialogIndex(gameState, dialogIndex);
+                    dialogIndex = gameState.room.getExtras().onDialogIndex(gameState, dialogIndex);
                 }
                 wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name));
                 dialogCountDown = DIALOG_COUNT;
@@ -232,7 +232,7 @@ public class DialogPopup extends DialogPopupPane {
         LOGGER.log(Level.FINE, "new dialog:             == {0}",
                 new Object[]{newDialog});
         if (gameState.room.getExtras() != null) {
-            gameState.room.getExtras().onDialogIndex(gameState, newDialog);
+            newDialog = gameState.room.getExtras().onDialogIndex(gameState, newDialog);
         }
         //dialogSubIndex = 0;
         if (newDialog >= 50) {
@@ -334,7 +334,7 @@ public class DialogPopup extends DialogPopupPane {
                     LOGGER.log(Level.FINE, "handleTypedText() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
                     dialogCountDown = DIALOG_COUNT;
                     if (gameState.room.getExtras() != null) {
-                        gameState.room.getExtras().onDialogIndex(gameState, askWord);
+                        askWord = gameState.room.getExtras().onDialogIndex(gameState, askWord);
                     }
                 } else {
                     LOGGER.log(Level.WARNING, "RoomExtras.askWord has returned unexpected value! -1");
@@ -650,7 +650,7 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.CONFIG, "INFO_BUY: new dialog == {0}",
                         new Object[]{newDialog});
                 if (gameState.room.getExtras() != null) {
-                    gameState.room.getExtras().onDialogIndex(gameState, newDialog);
+                    newDialog = gameState.room.getExtras().onDialogIndex(gameState, newDialog);
                 }
 
                 // Handle "keep talking" action here using the keepTalking() method.

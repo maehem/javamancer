@@ -206,9 +206,11 @@ public abstract class RoomExtras {
      * 
      * @param gs
      * @param index Dialog Index being referenced.
+     * @return potentially alternate index when overridden.
      */
-    public void onDialogIndex(GameState gs, int index) {
+    public int onDialogIndex(GameState gs, int index) {
         // Override to take actions when certain dialog index are reached.
+        return index;
     }
 
     /**
