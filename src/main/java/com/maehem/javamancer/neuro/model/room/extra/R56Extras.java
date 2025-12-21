@@ -158,6 +158,8 @@ public class R56Extras extends RoomExtras { // Sense Net
             countdown = -1;
             dialogNoMore(gs);
         }
+        
+        return dialog;
     }
 
     @Override
