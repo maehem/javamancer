@@ -578,7 +578,7 @@ public class DialogPopup extends DialogPopupPane {
                 //dialogSubIndex++;
                 mode = Mode.PLAYER; // Causes next loop to toggle to NPC again.
                 LOGGER.log(Level.FINE, "[514] Mode = PLAYER");
-                npcResponse(1);
+                npcResponse(dialogSubIndex+1);
             }
             case PLAYER -> {
                 mode = Mode.NPC;
