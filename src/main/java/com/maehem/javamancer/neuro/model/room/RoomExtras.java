@@ -69,7 +69,10 @@ public abstract class RoomExtras {
     public abstract int[][] getDialogChain();
     public int[][] getAnimationFlags() { return new int[0][];}
 
-    public abstract int dialogWarmUp(GameState gs);
+
+    public int dialogWarmUp(GameState gs) {
+        return 2;
+    }
 
     public void dialogNoMore(GameState gs) {
         LOGGER.log(Level.INFO, "Something set room to no more dialog.");

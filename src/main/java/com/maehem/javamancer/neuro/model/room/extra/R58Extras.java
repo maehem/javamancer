@@ -56,10 +56,4 @@ public class R58Extras extends RoomExtras { // Musabori
         return DIALOG_CHAIN;
     }
 
-    @Override
-    public int dialogWarmUp(GameState gs) {
-        return 2;
-
-    }
-
 }
