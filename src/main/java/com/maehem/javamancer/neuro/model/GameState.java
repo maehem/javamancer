@@ -178,9 +178,6 @@ public class GameState {
     // Sets to -1 if player removes BAMA from list.
     public int hosakaDaysSincePaid = -1;
     
-    // Hitachi Biotech pays to remove your lungs.
-    public boolean hitachiLungRemoved = false;
-
     // Ephemeral. Not game saved.
     //public ItemCatalog activeItem = ItemCatalog.NONE;
     public Skill previousSkill = null;
