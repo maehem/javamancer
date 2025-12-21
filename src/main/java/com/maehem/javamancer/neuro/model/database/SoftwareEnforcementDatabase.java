@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.BbsMessage;
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import com.maehem.javamancer.neuro.model.warez.SequencerWarez;
 import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
@@ -75,5 +76,15 @@ public class SoftwareEnforcementDatabase extends Database {
         bbsMessages.add(new BbsMessage("11/16/58", "W. Gibson", "SEA", 10, true));
 
     }
-
+    
+    @Override
+    public void handlePersonListChanged(GameState gameState) {
+        // TODO: What NPCs are affected by this?
+//        for (Person p : gameState.seaWantedList) {
+//            if (p.getBama().equals(GameState.LARRY_MODE_BAMA)) {
+//                gameState.larryMoeWanted = true;
+//                return;
+//            }
+//        }
+    }
 }

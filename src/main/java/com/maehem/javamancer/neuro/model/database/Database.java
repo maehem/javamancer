@@ -151,4 +151,9 @@ public abstract class Database {
         // TODO: Consider player attributes (skill, etc.)
         return effect;
     }
+    
+    public void handlePersonListChanged(GameState gs) {
+        // Over-ride in subclass to take action when person list is edited.
+    }
+
 }

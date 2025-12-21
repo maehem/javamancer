@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.Person;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
@@ -61,4 +63,14 @@ public class ChibaCityPoliceDatabase extends Database {
         );
     }
 
+    @Override
+    public void handlePersonListChanged(GameState gameState) {
+        // List contains Larry's BAMA?
+        for (Person p : gameState.chibaWantedList) {
+            if (p.getBama().equals(GameState.LARRY_MODE_BAMA)) {
+                gameState.larryMoeWanted = true;
+                return;
+            }
+        }
+    }
 }

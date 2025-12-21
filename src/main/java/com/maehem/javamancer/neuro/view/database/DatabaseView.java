@@ -184,10 +184,6 @@ public abstract class DatabaseView {
 
     protected abstract void siteContent();
 
-    protected void handlePersonListChanged() {
-        // Over-ride in subclass to take action when person list is edited.
-    }
-
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         //LOGGER.log(Level.FINE, "DatabaseView: Handle key event.");
         KeyCode code = keyEvent.getCode();
@@ -1265,7 +1261,7 @@ public abstract class DatabaseView {
                 //pane.setOnKeyPressed(null); // No more typing.
                 // Do exit of edit mode. Back to list view.
                 LOGGER.log(Level.FINE, "Person changes recorded. Reload list.");
-                handlePersonListChanged();
+                gameState.database.handlePersonListChanged(gameState);
                 return true;
             } else if (code == KeyCode.BACK_SPACE) {
                 if (!idValueText.getText().isEmpty()) {

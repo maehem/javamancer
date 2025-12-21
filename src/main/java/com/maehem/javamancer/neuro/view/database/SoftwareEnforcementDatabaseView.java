@@ -270,14 +270,5 @@ public class SoftwareEnforcementDatabaseView extends DatabaseView {
         return super.handleKeyEvent(keyEvent);
     }
 
-    @Override
-    protected void handlePersonListChanged() {
-        // TODO: What NPCs are affected by this?
-//        for (Person p : gameState.seaWantedList) {
-//            if (p.getBama().equals(GameState.LARRY_MODE_BAMA)) {
-//                gameState.larryMoeWanted = true;
-//                return;
-//            }
-//        }
-    }
+
 }

@@ -158,14 +158,5 @@ public class ChibaCityPoliceDatabaseView extends DatabaseView {
         return super.handleKeyEvent(keyEvent);
     }
 
-    @Override
-    protected void handlePersonListChanged() {
-        // List contains Larry's BAMA?
-        for (Person p : gameState.chibaWantedList) {
-            if (p.getBama().equals(GameState.LARRY_MODE_BAMA)) {
-                gameState.larryMoeWanted = true;
-                return;
-            }
-        }
-    }
+
 }

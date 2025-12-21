@@ -27,6 +27,8 @@
 package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.BbsMessage;
+import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.Person;
 import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import com.maehem.javamancer.neuro.model.warez.ConcreteWarez;
 import com.maehem.javamancer.neuro.model.warez.HammerWarez;
@@ -80,5 +82,22 @@ public class HosakaDatabase extends Database {
         bbsMessages.add(new BbsMessage("11/16/58", "All", "E. D. Cooper", 8, true));
         bbsMessages.add(new BbsMessage("11/16/58", "All", "E. D. Cooper", 9, true));
     }
+    
+    @Override
+    public void handlePersonListChanged(GameState gameState) {
+        // List contains player BAMA?
+        if (HosakaDatabase.isEmployee(gameState)) {
+            gameState.hosakaDaysSincePaid = 7;
+        }
+    }
+    
+    public static final boolean isEmployee(GameState gameState) {
+        for (Person p : gameState.hosakaEmployeeList) {
+            if (p.getBama().equals(gameState.PLAYER_BAMA)) {
+                return true;
+            }
+        }
 
+        return false;
+    }
 }

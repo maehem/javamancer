@@ -67,7 +67,7 @@ public class R57Extras extends RoomExtras { // Hosaka
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (gs.hosakaDaysSincePaid > 6) {
+        if (HosakaDatabase.isEmployee(gs) && gs.hosakaDaysSincePaid > 6) {
             int pay = 10000 * gs.hosakaDaysSincePaid / 7;
             gs.hosakaDaysSincePaid = gs.hosakaDaysSincePaid % 7;
             gs.chipBalance += pay;
