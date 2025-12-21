@@ -188,11 +188,13 @@ public class R23Extras extends RoomExtras { // Panther Moderns
     }
 
     @Override
-    public void onDialogIndex(GameState gs, int dialogNumber) {
+    public int onDialogIndex(GameState gs, int dialogNumber) {
         if (dialogNumber == 7) {
             LOGGER.log(Level.INFO, "Dialog 7: Lupus says you\'re ok.  Discount applied.");
             discount = true;
         }
+        
+        return dialogNumber;
     }
 
     @Override

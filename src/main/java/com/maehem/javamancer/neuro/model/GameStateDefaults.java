@@ -92,6 +92,9 @@ public enum GameStateDefaults {
     MASSAGE_INFO_3("massageInfo3", false), // Court Fees
     MASSAGE_INFO_4("massageInfo4", false), // Panther more
     MASSAGE_INFO_5("massageInfo5", false), // Cyber Eyes
+    // Hitachi Biotech
+    HITACHI_LUNGS("hitachiLungs", false), // Hitachi Removes your Lungs for Cash
+
     ;
 
     public final String value;
