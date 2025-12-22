@@ -85,6 +85,9 @@ public class R53Extras extends RoomExtras { // Hitachi
             LOGGER.log(Level.FINEST, "onDialogIndex() change dialogIndex because lung was already removed.");
             return 17;
         }
+        if (index == 9) { // Thrown in jail for hacking.
+            gs.hitachiVolunteer = false; // clear it just in case.
+        }
         return index;
     }
 
