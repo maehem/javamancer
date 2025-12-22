@@ -154,6 +154,9 @@ public class GameState {
     public boolean massageInfo4 = false;
     public boolean massageInfo5 = false;
 
+    // Hi-Tech Zone visitor (Hitachi)
+    public boolean hitachiVolunteer = false;
+    
     public boolean msgToArmitageSent = false;
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
     public boolean shivaChipMentioned = false;
