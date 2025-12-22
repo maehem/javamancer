@@ -120,7 +120,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     private final Shape descriptionFocusBorder = RoomDescriptionPane.createDescriptionBorder();
 
-    private final Shape descriptionGreyOut = RoomDescriptionPane.descrptionGreyOut();
+    private final Shape descriptionGreyOut = RoomDescriptionPane.descrptionGreyOut(TEXT_SCALE);
 
     private final RoomDescriptionPane roomDescriptionPane;
     private Status statusMode = Status.DATE;

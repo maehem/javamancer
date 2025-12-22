@@ -34,11 +34,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -56,11 +51,13 @@ public class RoomDescriptionPane extends ScrollPane {
 
     private static final double BORDER_W = 1.8;
 
-    public static final int WIDTH = 210;
-    public static final int HEIGHT = 120;
-    public static final int POS_X = 344;
-    public static final int POS_Y = 268;
+    public static final int WIDTH = 200;
+    public static final int HEIGHT = 122;
+    public static final int POS_X = 347;
+    public static final int POS_Y = 267;
 
+    private static final Color GREY_OUT_COLOR = new Color(0.2, 0.2, 0.2, 0.5);
+    
     private final Text text = new Text("...");
     private final TextFlow textFlow = new TextFlow(text);
 
@@ -79,8 +76,9 @@ public class RoomDescriptionPane extends ScrollPane {
         setLayoutY(POS_Y);
 
         textFlow.setLineSpacing(-7);
-        textFlow.setPrefWidth(WIDTH);
+        textFlow.setPrefWidth(WIDTH-12);
         textFlow.setMinHeight(HEIGHT);
+        // For testing
         //textFlow.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
         text.setLineSpacing(-6);
         setContent(textFlow);
@@ -92,7 +90,6 @@ public class RoomDescriptionPane extends ScrollPane {
                 if (val > 1.0) {
                     val = 1.0;
                 }
-                //setVvalue(val);
                 scrollPos.set(val);
             }
         });
@@ -103,26 +100,26 @@ public class RoomDescriptionPane extends ScrollPane {
         this.text.setText(text);
     }
 
-    public static final Shape descrptionGreyOut() {
+    public static final Shape descrptionGreyOut(Scale scale) {
         Rectangle r = new Rectangle(
                 NeuroGamePane.WIDTH, NeuroGamePane.HEIGHT
         );
-
-        // TODO: review these geometry numbers.
-        Rectangle dr = new Rectangle(POS_X - 12, POS_Y, WIDTH * 1.44, HEIGHT);
+        
+        Rectangle dr = new Rectangle(POS_X , POS_Y, WIDTH*1.43, HEIGHT);
 
         Shape subtract = Shape.subtract(r, dr);
-        subtract.setFill(new Color(0.7, 0.7, 0.7, 0.4));
+        subtract.setFill(GREY_OUT_COLOR);
+        
         return subtract;
     }
     
     public static Shape createDescriptionBorder() {
         Shape s = new Rectangle(
-                (WIDTH + 4*BORDER_W) * 1.333, // 4:3 aspect == 1.333
-                HEIGHT + 4*BORDER_W
+                WIDTH * 1.43 + 2*BORDER_W, // 4:3 aspect == 1.333
+                HEIGHT + 2*BORDER_W
         );
-        s.setLayoutX(RoomDescriptionPane.POS_X - BORDER_W);
-        s.setLayoutY(RoomDescriptionPane.POS_Y - BORDER_W - 2);
+        s.setLayoutX(RoomDescriptionPane.POS_X - 2*BORDER_W);
+        s.setLayoutY(RoomDescriptionPane.POS_Y - BORDER_W);
 
         s.setFill(Color.TRANSPARENT);
         s.setStroke(Color.MAGENTA);
