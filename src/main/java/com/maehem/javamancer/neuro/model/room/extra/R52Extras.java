@@ -35,6 +35,7 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.logging.Level;
 
@@ -57,12 +58,28 @@ public class R52Extras extends RoomExtras { // Security Gate
         {EXIT_R.num}, // [10] :: Domo arigato.  You are cleared for entry.
         {DIALOG_CLOSE.num}, // [11] :: This is not a Hitachi Volunteer Day. Come back tomorrow.
         {NPC.num, 13}, // [12] :: You are cleared for limited access. Please proceed directly North to Hitachi Biotech.  Be aware that
-        {EXIT_R.num}, // [13] :: you will not be allowed admittance to any other buildings in this zone.
+        {DIALOG_CLOSE.num}, // [13] :: you will not be allowed admittance to any other buildings in this zone.
         {DIALOG_CLOSE.num}, // [14] :: We have our own security force. Your assistance is not required, officer.
         {DIALOG_CLOSE.num}, // [15] :: You appear to be lost. That company is not in the Chiba high-tech zone.
     };
 
+    //  TODO: Figure out what is the trigger for item 11.
+    
     private int wordTries = 0;
+
+    protected final int[][] ANIMATION_FLAGS = {
+        {1} // Gate lightning effect
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+
+    private void openGate(GameState gs) {
+        ANIMATION_FLAGS[0][0] = 0;
+        gs.room.unlockDoor(RoomBounds.Door.RIGHT);
+    }
 
     @Override
     public int askWord1(GameState gs, String word) {
@@ -72,12 +89,13 @@ public class R52Extras extends RoomExtras { // Security Gate
                 if (wordTries > 1) {
                     return 9; // go to jail
                 }
-                return 8; // not listed
+                return 8; // not listed. Try again.
             }
             case "hosaka" -> {
                 LOGGER.log(Level.FINE, "Matched Word: {0}", word);
                 for (Person p : gs.hosakaEmployeeList) {
                     if (p.getBama().equals(gs.PLAYER_BAMA)) {
+                        openGate(gs);
                         return 10; // Cleared
                     }
                 }
@@ -114,6 +132,10 @@ public class R52Extras extends RoomExtras { // Security Gate
 
     @Override
     public void initRoom(GameState gs) {
+        ANIMATION_FLAGS[0][0] = 1;
+        gs.room.lockDoor(RoomBounds.Door.RIGHT);
+        gs.hitachiVolunteer = false;
+
         //gs.resourceManager.getRoomText(Room.R52).dumpList();
     }
 
@@ -126,6 +148,16 @@ public class R52Extras extends RoomExtras { // Security Gate
     public int dialogWarmUp(GameState gs) {
         return 2;
 
+    }
+
+    @Override
+    public int onDialogIndex(GameState gs, int index) {
+        if (index == 12) {
+            gs.hitachiVolunteer = true;
+            openGate(gs);
+        }
+
+        return index;
     }
 
 }
