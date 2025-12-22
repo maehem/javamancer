@@ -63,7 +63,7 @@ public enum RoomPosition {
     R45(300,204, 200,150), // Asano's
     R46(400,204, 160,150), // Matrix Restuarant
     R51(200,204, 80,150), // Fuji Electric
-    R52(200,204, 330,150), // Security Gate
+    R52(170,204, 360,150), // Security Gate
     R53(120,204, 330,150), // Hitachi
     R56(200,204, 300,150), // Sense Net
     R57(200,204, 0,0), // Hosaka
