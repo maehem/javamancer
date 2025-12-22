@@ -81,14 +81,13 @@ public class R53Extras extends RoomExtras { // Hitachi
 
     @Override
     public int onDialogIndex(GameState gs, int index) {
-        if ( index == 7 && gs.soldBodyParts.contains(BodyPart.LUNGS) ) {
+        if (index == 7 && gs.soldBodyParts.contains(BodyPart.LUNGS)) {
             LOGGER.log(Level.FINEST, "onDialogIndex() change dialogIndex because lung was already removed.");
             return 17;
         }
         return index;
     }
 
-    
     @Override
     public int onDialogPreCommand(GameState gs, DialogCommand command) {
         LOGGER.log(Level.CONFIG, "Dialog Pre Command called. command = " + command.name());
@@ -96,7 +95,7 @@ public class R53Extras extends RoomExtras { // Hitachi
             LOGGER.log(Level.CONFIG, "Woman animation not visible.");
             // Woman asks you to wait. Hide her animation.
             ANIMATION_FLAGS[0][0] = 0;
-        } else if ( command.equals(LUNGS)) {
+        } else if (command.equals(LUNGS)) {
             gs.chipBalance += 3000;
             gs.soldBodyParts.add(BodyPart.LUNGS);
             // TODO: Verify if player can buy lung back at bodyshop in original game.
