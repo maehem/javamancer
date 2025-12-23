@@ -121,6 +121,28 @@ public class R12Extras extends RoomExtras {
             entry("code", 40)
     );
 
+    // Animation
+    // Load at start:
+    // Larry ::
+    //        entry01 : anim00
+    //
+    // Larry Fades in:
+    // Invisible Larry ::
+    //        entry02 : anim00
+    //
+    // Back Room Door ::
+    //        entry03 : anim00
+    protected final int[][] ANIMATION_FLAGS = {
+        {1}, // Larry Normal
+        {0}, // Larry Invisible
+        {0} // Back Room Door
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+
     @Override
     public int askWord1(GameState gs, String word) {
         Integer index = map.get(word);
