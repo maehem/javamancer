@@ -495,6 +495,7 @@ public class GameState {
         dialogAllowed.add(R23);
         dialogAllowed.add(R24);
         dialogAllowed.add(R25);
+        dialogAllowed.add(R26); // Street Lonnie's Girl
         dialogAllowed.add(R27);
         dialogAllowed.add(R32);
         dialogAllowed.add(R36);
