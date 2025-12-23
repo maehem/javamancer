@@ -42,6 +42,9 @@ import static java.util.Map.entry;
  */
 public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
 
+    // TODO: Play original game to figure out some of this dialog chain.
+    
+    
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, // [0] :: One of Lonny Zones working girls is standing here in the street, leaning against a light tower. She carefully looks you over.
         {2, 3, 4, 5}, // [1] :: Hey, sailor. New in town?
@@ -90,6 +93,14 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
      *
      */
     private static final Map<String, Integer> map1 = Map.ofEntries(
+            entry("maas", 20),
+            entry("cops", 21),
+            entry("court", 21),
+            entry("jail", 21),
+            entry("cyberspace", 22),
+            entry("massage", 23),
+            entry("???2", 25),
+            
             entry("lonny", 36),
             entry("zone", 36),
             entry("lonny zone", 36),
@@ -99,9 +110,7 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
             entry("softwarez", 31),
             entry("hitachi", 30),
             entry("justice", 34),
-            entry("cyberspace", 31),
             entry("matrix", 38),
-            entry("massage", 23),
             entry("banks", 35),
             entry("armitage", 36),
             entry("copenhagen", 37),
@@ -116,11 +125,14 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
     private static final Map<String, Integer> map2 = Map.ofEntries(
             entry("cyberspace", 25),
             entry("shin", 26),
+            entry("pawn", 26),
             entry("pawn shop", 26),
             entry("shin's", 26),
             entry("manyusha wana", 35),
             entry("gentleman loser", 28),
+            entry("loser", 28),
             entry("cheap hotel", 29),
+            entry("hotel", 29),
             entry("hitachi", 30),
             entry("fuji", 30),
             entry("hosaka", 30),
@@ -130,6 +142,22 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
             entry("matrix", 38),
             entry("restaurant", 38)
     );
+
+    // Animation
+    // Load at start:
+    // Lonnie's Girl ::
+    //        entry01 : anim00
+    // Lonnie's Girl (standing/shifting) ::
+    //        entry02 : anim00
+    protected final int[][] ANIMATION_FLAGS = {
+        {1}, // Girl
+        {0}  // Girl simply standing/shifting
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
 
     @Override
     public int askWord1(GameState gs, String word) {
