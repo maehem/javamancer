@@ -109,6 +109,7 @@ public class RoomPane extends Pane {
         playerGroup = new Group(player, playerFeet);
         playerGroup.setLayoutX(rp.playerX);
         playerGroup.setLayoutY(rp.playerY);
+        playerGroup.setViewOrder(-1.0); // Always front.
 
         getChildren().add(playerGroup);
     }
