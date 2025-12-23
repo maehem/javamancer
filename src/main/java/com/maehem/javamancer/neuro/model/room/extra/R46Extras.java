@@ -84,15 +84,21 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
      *
      */
     private static final Map<String, Integer> map1 = Map.ofEntries(
+            entry("ice", 14),
             entry("anonymous", 14),
             entry("bosch", 14),
             entry("anonymous bosch", 14),
             entry("rom", 15),
             entry("rom construct", 15),
+            entry("construct", 15),
             entry("dixie", 15),
             entry("bargaining", 16),
             entry("psychoanalysis", 16),
             entry("phenomenology", 16),
+            entry("chip", 12),
+            entry("chips", 12),
+            entry("skill", 16),
+            entry("skills", 16),
             entry("upgrade", 17),
             entry("upgrades", 17),
             entry("train", 17),
