@@ -51,7 +51,7 @@ public enum RoomPosition {
     R23(400, 204, 200, 200), // Panther Modern meeting
     R24(180,204,280,150), // Massage Parlor
     R25(320,204, 170,150), // Shin's Pawn
-    R26(320,204, 460,150), // Street - Zone's Lady 
+    R26(160,204, 340,150), // Street - Zone's Lady 
     R27(400,204, 210,150), // Julius Dean 
     R28(300,204, 550,150), // JAL Shuttle - to Earth
     R29(300,204, 500,150), // Freeside - Space Dock
@@ -60,7 +60,7 @@ public enum RoomPosition {
     R36(170,204, 320,150), // House of Pong
     R40(340,204, 200,150), // Crazy Edo's
     R44(330,204, 200,150), // Asano's
-    R45(300,204, 200,150), // Asano's
+    R45(300,204, 120,150), // Street Security Robot - Matrix
     R46(400,204, 160,150), // Matrix Restuarant
     R51(200,204, 80,150), // Fuji Electric
     R52(170,204, 360,150), // Security Gate
