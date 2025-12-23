@@ -161,7 +161,6 @@ public class GameState {
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
     public boolean shivaChipMentioned = false;
     public boolean shivaGaveChip = false;
-    public boolean shivaGavePass = false;
     public boolean joystickGiven = false; // Player must give Nolan the joystick.
     public boolean gasMaskIsOn = false;
     //public boolean gasMaskGiven = false; // Not used.

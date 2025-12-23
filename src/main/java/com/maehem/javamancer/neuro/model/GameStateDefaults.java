@@ -68,7 +68,6 @@ public enum GameStateDefaults {
     RATZ_PAID("ratzPaid", false),
     SHIVA_CHIP_MENTIONED("shivaChipMentioned", false),
     SHIVA_CHIP_GIVEN("shivaGaveChip", false),
-    RESTAURANT_PASS_GIVEN("shivaGavePass", false),
     JOYSTICK_GIVEN("joystickGiven", false),
     GAS_MASK_ON("gasMaskOn", false),
     BODY_PART_DISCOUNT("bodyPartDiscount", false),

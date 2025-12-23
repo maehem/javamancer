@@ -144,7 +144,7 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (!gs.shivaGavePass) {
+        if (!gs.hasInventoryItem(Item.Catalog.GUESTPASS)) {
             return 28;
         }
         return 2;

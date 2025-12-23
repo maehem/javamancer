@@ -200,6 +200,15 @@ public class R8Extras extends RoomExtras {
     }
 
     @Override
+    public int onDialogIndex(GameState gs, int index) {
+        if (index == 35 && gs.hasInventoryItem(Item.Catalog.GUESTPASS)) {
+            LOGGER.log(Level.CONFIG, "Shiva already gave you a Matrix pass.");
+            return 32;
+        }
+        return index;
+    }
+    
+    @Override
     public ArrayList<SkillItem> getVendSkillItems(GameState gs) {
         ArrayList<SkillItem> list = new ArrayList<>();
         if (gs.shivaGaveChip) {
@@ -232,12 +241,11 @@ public class R8Extras extends RoomExtras {
     @Override
     public boolean onVendItemsFinished(GameState gs) {
         if (gs.hasInventoryItem(Item.Catalog.GUESTPASS)) {
-            gs.shivaGavePass = true;
             return true;
         }
         return false;
     }
-
+    
     @Override
     public int[] onFilter1(GameState gs) {
         if (!gs.shivaGaveChip) {
