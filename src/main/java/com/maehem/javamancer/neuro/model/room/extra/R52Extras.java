@@ -132,8 +132,8 @@ public class R52Extras extends RoomExtras { // Security Gate
 
     @Override
     public void initRoom(GameState gs) {
-        ANIMATION_FLAGS[0][0] = 1;
         gs.allowDialog(gs.room);
+        ANIMATION_FLAGS[0][0] = 1; // Reset if we come back here.
         gs.room.lockDoor(RoomBounds.Door.RIGHT);
         gs.hitachiVolunteer = false;
     }
