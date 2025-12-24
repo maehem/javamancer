@@ -487,34 +487,6 @@ public class GameState {
                 name
         );
 
-        dialogAllowed.add(R1);
-        dialogAllowed.add(R2);
-        dialogAllowed.add(R3);
-        dialogAllowed.add(R4);
-        dialogAllowed.add(R6);
-        dialogAllowed.add(R7);
-        dialogAllowed.add(R8);
-        dialogAllowed.add(R9);
-        dialogAllowed.add(R10);
-        dialogAllowed.add(R12);
-        dialogAllowed.add(R19);
-        dialogAllowed.add(R23);
-        dialogAllowed.add(R24);
-        dialogAllowed.add(R25);
-        dialogAllowed.add(R26); // Street Lonnie's Girl
-        dialogAllowed.add(R27);
-        dialogAllowed.add(R32);
-        dialogAllowed.add(R36);
-        dialogAllowed.add(R40);
-        dialogAllowed.add(R44);
-        dialogAllowed.add(R45);
-        dialogAllowed.add(R46);
-        dialogAllowed.add(R50);
-        dialogAllowed.add(R52);
-        dialogAllowed.add(R53);
-        dialogAllowed.add(R56);
-        dialogAllowed.add(R57); // Hosaka
-
         visited.add(R10); // TODO: Shuttle doesn't work as "firstTime" visit.
 
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 120));

@@ -43,11 +43,6 @@ public class R47Extras extends RoomExtras { // Bank Gemeinschaft Vault
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        //gs.resourceManager.getRoomText(Room.R46).dumpList();
-
-        // TODO: No Pass. Kick out.
     }
 
     @Override

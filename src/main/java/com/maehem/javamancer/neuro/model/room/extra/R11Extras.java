@@ -125,8 +125,7 @@ public class R11Extras extends RoomExtras { // Zion
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
+        gs.allowDialog(gs.room);
         gs.resourceManager.getRoomText(Room.R11).dumpList();
     }
     

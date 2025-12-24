@@ -41,7 +41,7 @@ import java.util.logging.Level;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class R57Extras extends RoomExtras { // Hosaka
-
+    
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
         {DIALOG_END.num}, // [2] ::   As you pass through the doorway, the accounting computer recognizes you as an employee and generates your weekly paycheck, depositing the amount directly into your credit chip.
@@ -50,7 +50,7 @@ public class R57Extras extends RoomExtras { // Hosaka
 
     @Override
     public void initRoom(GameState gs) {
-        //gs.resourceManager.getRoomText(gs.room).dumpList();
+        gs.allowDialog(gs.room);
     }
 
     @Override

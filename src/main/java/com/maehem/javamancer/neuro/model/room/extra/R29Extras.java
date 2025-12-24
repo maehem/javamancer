@@ -76,6 +76,7 @@ public class R29Extras extends RoomExtras { // Freeside - Spacedock
 
     @Override
     public void initRoom(GameState gs) {
+        gs.allowDialog(gs.room);
     }
 
     @Override

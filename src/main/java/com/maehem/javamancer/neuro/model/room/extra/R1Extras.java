@@ -101,9 +101,7 @@ public class R1Extras extends RoomExtras {
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-
+        gs.allowDialog(gs.room);
     }
 
     @Override

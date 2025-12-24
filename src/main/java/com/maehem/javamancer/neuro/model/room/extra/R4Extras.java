@@ -74,8 +74,7 @@ public class R4Extras extends RoomExtras { // Body Shop
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
+        gs.allowDialog(gs.room);
         //gs.resourceManager.getRoomText(gs.room).dumpList();
     }
     

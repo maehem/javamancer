@@ -181,9 +181,7 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R26).dumpList();
+        gs.allowDialog(gs.room);
     }
 
     @Override

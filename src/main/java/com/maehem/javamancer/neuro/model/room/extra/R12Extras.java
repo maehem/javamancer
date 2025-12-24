@@ -159,9 +159,7 @@ public class R12Extras extends RoomExtras {
      */
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        //gs.resourceManager.getRoomText(Room.R12).dumpList();
+        gs.allowDialog(gs.room);
         if (gs.larryMoeWanted) {
             // Top door unlocked.
             gs.room.unlockDoor(RoomBounds.Door.TOP);

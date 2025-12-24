@@ -75,9 +75,7 @@ public class R34Extras extends RoomExtras { // Bank Berne Lobby
     
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R34).dumpList();
+        gs.allowDialog(gs.room);
     }
 
     @Override

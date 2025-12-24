@@ -134,9 +134,7 @@ public class R23Extras extends RoomExtras { // Panther Moderns
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        //gs.resourceManager.getRoomText(Room.R23).dumpList();
+        gs.allowDialog(gs.room);
     }
 
     @Override

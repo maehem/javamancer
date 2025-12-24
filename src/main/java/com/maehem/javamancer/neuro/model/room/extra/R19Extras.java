@@ -84,7 +84,7 @@ public class R19Extras extends RoomExtras { // Spaceport Chiba
     
     @Override
     public void initRoom(GameState gs) {
-        //gs.resourceManager.getRoomText(gs.room).dumpList();
+        gs.allowDialog(gs.room);
     }
 
     @Override

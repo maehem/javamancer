@@ -82,9 +82,7 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R40).dumpList();
+        gs.allowDialog(gs.room);
     }
 
     /**

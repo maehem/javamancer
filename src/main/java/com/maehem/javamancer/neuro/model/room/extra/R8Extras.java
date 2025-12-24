@@ -187,7 +187,7 @@ public class R8Extras extends RoomExtras {
      */
     @Override
     public void initRoom(GameState gs) {
-        //gs.resourceManager.getRoomText(Room.R8).dumpList();
+        gs.allowDialog(gs.room);
         onVendFinishedOpenDialog = true;
     }
 

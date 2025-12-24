@@ -119,6 +119,7 @@ public class R32Extras extends RoomExtras { // Metro Holographix
 
     @Override
     public void initRoom(GameState gs) {
+        gs.allowDialog(gs.room);
     }
 
     @Override

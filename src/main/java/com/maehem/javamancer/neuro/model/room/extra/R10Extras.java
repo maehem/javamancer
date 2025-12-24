@@ -58,6 +58,7 @@ public class R10Extras extends RoomExtras { // JAL - Shuttle To Orbit
 
     @Override
     public void initRoom(GameState gs) {
+        gs.allowDialog(gs.room);
     }
     
     @Override

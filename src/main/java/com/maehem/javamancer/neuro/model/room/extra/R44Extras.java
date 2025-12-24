@@ -166,9 +166,7 @@ public class R44Extras extends RoomExtras { // Asano's
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        //gs.resourceManager.getRoomText(Room.R44).dumpList();
+        gs.allowDialog(gs.room);
     }
 
     @Override
