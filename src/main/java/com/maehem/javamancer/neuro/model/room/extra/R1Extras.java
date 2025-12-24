@@ -76,7 +76,7 @@ public class R1Extras extends RoomExtras {
         {31}, //31  87 = player gives npc less than 46 credits.
         {2} // 32 Response to underpayment.
     };
-
+    
     // Animation
     // Load at start:
     // Ratz Face    :: entry1 :
@@ -87,7 +87,18 @@ public class R1Extras extends RoomExtras {
     //                anim00,anim01,anim02
     // Sign Letters :: entry4 :
     //                anim00 - anim07
-    
+    protected final int[][] ANIMATION_FLAGS = {
+        {1}, // Ratz Face
+        {1}, // Ratz Arm
+        {1}, // Sign with Dots
+        {1}  // Sign with Letters
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+
     @Override
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
