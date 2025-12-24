@@ -63,6 +63,8 @@ public class R22Extras extends RoomExtras { // Straylight Bust
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
         //gs.resourceManager.getRoomText(Room.R22).dumpList();
+        gs.allowDialog(gs.room);
+        //gs.dialogAllowed.add(gs.room);
     }
     
     @Override

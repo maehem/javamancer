@@ -466,6 +466,12 @@ public class GameState {
         return iceBroken;
     }
 
+    public void allowDialog(Room room) {
+        if (!dialogAllowed.contains(room) ) {
+            dialogAllowed.add(room);
+        }
+    }
+
     public void initNewGame() {
         // Standard inventory items
         inventory.add(new CreditsItem());
