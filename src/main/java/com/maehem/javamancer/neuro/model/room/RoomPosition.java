@@ -47,16 +47,18 @@ public enum RoomPosition {
     R11(300,204,200,200),  // Zion
     R12(300,204,160,200), // Microsofts
     R19(300,204,500,200), // Spaceport Chiba
-    R22(200,204,300,200), // Straylight Bust
+    R21(440,204,500,200), // Freeside - Villa Ext.
+    R22(500,204,300,200), // Straylight Bust
     R23(400, 204, 200, 200), // Panther Modern meeting
     R24(180,204,280,150), // Massage Parlor
     R25(320,204, 170,150), // Shin's Pawn
     R26(160,204, 340,150), // Street - Zone's Lady 
-    R27(400,204, 210,150), // Julius Dean 
+    R27(400,204, 230,150), // Julius Deane
     R28(300,204, 550,150), // JAL Shuttle - to Earth
-    R29(300,204, 500,150), // Freeside - Space Dock
+    R29(360,204, 470,150), // Freeside - Space Dock
     R32(300,204, 200,150), // Metro Holographix
-    R34(200,204, 300,150), // Bank Berne - Lobby
+    R34(150,204, 300,150), // Bank Berne - Mgr. Office
+    R35(200,204, 300,150), // Bank Berne - Lobby
     R36(170,204, 320,150), // House of Pong
     R40(340,204, 200,150), // Crazy Edo's
     R44(330,204, 200,150), // Asano's
