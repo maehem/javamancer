@@ -76,7 +76,7 @@ public class R1Extras extends RoomExtras {
         {31}, //31  87 = player gives npc less than 46 credits.
         {2} // 32 Response to underpayment.
     };
-    
+
     // Animation
     // Load at start:
     // Ratz Face    :: entry1 :
@@ -91,7 +91,7 @@ public class R1Extras extends RoomExtras {
         {1}, // Ratz Face
         {1}, // Ratz Arm
         {1}, // Sign with Dots
-        {1}  // Sign with Letters
+        {1} // Sign with Letters
     };
 
     @Override

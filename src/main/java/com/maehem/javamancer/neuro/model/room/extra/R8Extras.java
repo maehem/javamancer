@@ -153,7 +153,7 @@ public class R8Extras extends RoomExtras {
     public int[][] getAnimationFlags() {
         return ANIMATION_FLAGS;
     }
-    
+
     @Override
     public JackZone jackZone() {
         return JackZone.ONE;
@@ -217,7 +217,7 @@ public class R8Extras extends RoomExtras {
         }
         return index;
     }
-    
+
     @Override
     public ArrayList<SkillItem> getVendSkillItems(GameState gs) {
         ArrayList<SkillItem> list = new ArrayList<>();
@@ -255,7 +255,7 @@ public class R8Extras extends RoomExtras {
         }
         return false;
     }
-    
+
     @Override
     public int[] onFilter1(GameState gs) {
         if (!gs.shivaGaveChip) {

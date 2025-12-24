@@ -146,7 +146,6 @@ public class R52Extras extends RoomExtras { // Security Gate
     @Override
     public int dialogWarmUp(GameState gs) {
         return 2;
-
     }
 
     @Override

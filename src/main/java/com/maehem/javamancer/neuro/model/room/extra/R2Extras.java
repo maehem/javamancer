@@ -49,7 +49,7 @@ public class R2Extras extends RoomExtras {
     // Animation
     protected final int[][] ANIMATION_FLAGS = {
         {1}, // Robot Upper
-        {1}  // Robot Lower
+        {1} // Robot Lower
     };
 
     @Override
@@ -64,7 +64,7 @@ public class R2Extras extends RoomExtras {
             gs.room.lockDoor(RoomBounds.Door.TOP);
         }
     }
-    
+
     @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
@@ -80,11 +80,11 @@ public class R2Extras extends RoomExtras {
     }
 
     /**
-     * The dialog popup is usually dismissible by the player, but in this
-     * case we need to send player to jail if they didn't pay Ratz.
-     * 
+     * The dialog popup is usually dismissible by the player, but in this case
+     * we need to send player to jail if they didn't pay Ratz.
+     *
      * @param gs
-     * @param pop 
+     * @param pop
      */
     @Override
     public void onPopupExit(GameState gs, DialogPopup pop) {
@@ -93,5 +93,5 @@ public class R2Extras extends RoomExtras {
             pop.processCommand(DialogCommand.TO_JAIL);
         }
     }
-    
+
 }

@@ -62,9 +62,9 @@ public class R4Extras extends RoomExtras { // Body Shop
 
     // Animation
     protected final int[][] ANIMATION_FLAGS = {
-        {1},  // Chin's Face
-        {1},  // Chin's Body
-        {1}   // Tank Bubbles
+        {1}, // Chin's Face
+        {1}, // Chin's Body
+        {1} // Tank Bubbles
     };
 
     @Override
@@ -77,7 +77,7 @@ public class R4Extras extends RoomExtras { // Body Shop
         gs.allowDialog(gs.room);
         //gs.resourceManager.getRoomText(gs.room).dumpList();
     }
-    
+
     @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
