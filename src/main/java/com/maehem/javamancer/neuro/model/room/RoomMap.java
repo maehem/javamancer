@@ -71,13 +71,13 @@ public enum RoomMap {
     R38(Room.R38, Room.R37, Room.R44, Room.R39, null), // Street Asano's
     R39(Room.R39, Room.R38, Room.R45, Room.R40, Room.R31), // Street Crazy Edos
     R40(Room.R40, Room.R39, null, null, null), // Crazy Edo's
-    R41(Room.R41, Room.R47, null, Room.R42, null), // Bank Gemeinschaft
+    R41(Room.R41, null, Room.R47, Room.R42, null), // Bank Gemeinschaft
     R42(Room.R42, Room.R41, null, null, Room.R33), // Bank Gemeinschaft, ext.
     R43(Room.R43, null, null, null, null), // unused
     R44(Room.R44, null, null, null, Room.R38), // Asano's
     R45(Room.R45, null, Room.R49, Room.R46, Room.R39), // Street Security Robot/ Matrix Rest.
     R46(Room.R46, Room.R45, null, null, null), // Matrix Rest.
-    R47(Room.R47, null, null, null, null), // Bank Gemeinschaft Vault
+    R47(Room.R47, null, null, null, Room.R41), // Bank Gemeinschaft Vault
     R48(Room.R48, null, null, null, null), // unused
     R49(Room.R49, null, Room.R52, null, Room.R45), // Street Burned Building
     R50(Room.R50, null, null, null, null), // Cyberspace Beach
