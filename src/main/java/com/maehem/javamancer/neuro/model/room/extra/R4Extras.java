@@ -60,6 +60,18 @@ public class R4Extras extends RoomExtras { // Body Shop
         {BODY_BUY.num} // 16 // Well sell parts back at a discount.
     };
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1},  // Chin's Face
+        {1},  // Chin's Body
+        {1}   // Tank Bubbles
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+
     @Override
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.

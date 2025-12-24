@@ -63,6 +63,16 @@ public class R34Extras extends RoomExtras { // Bank Berne Lobby
         {DESC.num, DIALOG_CLOSE.num}, // [18] :: You notice that the door to the managers office is slightly ajar.
     };
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1}  // Person
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+    
     @Override
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.

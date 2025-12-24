@@ -32,7 +32,6 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_T;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
-import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
@@ -64,11 +63,19 @@ public class R29Extras extends RoomExtras { // Freeside - Spacedock
         {DIALOG_CLOSE.num}, // [20] :: Take a hike.  You cant afford it.
     };
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1}, // Face
+        {1} // Hands
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R29).dumpList();
     }
 
     @Override
@@ -78,14 +85,12 @@ public class R29Extras extends RoomExtras { // Freeside - Spacedock
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        return 3;
-
+        return 2;
     }
 
     @Override
     public boolean chipDeduct(GameState gs, int amt) {
         return super.chipDeduct(gs, amt);
     }
-
 
 }

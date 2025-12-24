@@ -46,6 +46,17 @@ public class R2Extras extends RoomExtras {
         {NPC.num, 1} // Move along.
     };
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1}, // Robot Upper
+        {1}  // Robot Lower
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+
     @Override
     public void initRoom(GameState gs) {
         if (gs.ratzPaid) {

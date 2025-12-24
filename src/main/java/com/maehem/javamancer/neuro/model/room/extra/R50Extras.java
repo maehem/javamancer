@@ -30,7 +30,6 @@ import com.maehem.javamancer.neuro.model.GameState;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_X;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
-import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
@@ -66,13 +65,22 @@ public class R50Extras extends RoomExtras { // After Cyber Beach
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R50).dumpList();
-
-        // TODO: No Pass. Kick out.
+        //gs.resourceManager.getRoomText(gs.room).dumpList();
     }
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1},  // Puppetmaster AI Dude
+        {1},  // Eyes
+        {0},  // Eyes
+        {0}   // Eyes
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+    
     @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
@@ -80,7 +88,7 @@ public class R50Extras extends RoomExtras { // After Cyber Beach
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        return 0;
+        return 0; // NPC Simply Talks to you.
     }
 
 }

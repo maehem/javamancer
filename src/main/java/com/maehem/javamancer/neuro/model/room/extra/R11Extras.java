@@ -97,6 +97,17 @@ public class R11Extras extends RoomExtras { // Zion
             entry("zion", 29)
     );
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1}, // Rasta man face
+        {1}  // Rasta man arms
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+    
     @Override
     public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);

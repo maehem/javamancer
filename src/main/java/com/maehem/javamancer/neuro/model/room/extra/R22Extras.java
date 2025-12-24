@@ -49,7 +49,16 @@ public class R22Extras extends RoomExtras { // Straylight Bust
         {DIALOG_CLOSE.num}, // [6] :: Question authority, my friend, and dare to remain in the shadowlands forever....
     };
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1}   // Bust Face
+    };
+
     @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+        @Override
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.
         //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
@@ -68,7 +77,7 @@ public class R22Extras extends RoomExtras { // Straylight Bust
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        return 3;
+        return 2;
 
     }
 

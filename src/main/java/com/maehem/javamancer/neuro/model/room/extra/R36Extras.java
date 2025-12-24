@@ -69,6 +69,16 @@ public class R36Extras extends RoomExtras { // House of Pong
         {SKILL_BUY.num, DIALOG_END.num}, // [20] :: You have the Holy Joystick! The Masters will be pleased! As a token of our gratitude, please accept these.
     };
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1}  // Monk
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+    
     @Override
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.

@@ -144,6 +144,16 @@ public class R8Extras extends RoomExtras {
             entry("emperor norton", 35)
     );
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1} // Shiva
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+    
     @Override
     public JackZone jackZone() {
         return JackZone.ONE;

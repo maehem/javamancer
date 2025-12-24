@@ -124,6 +124,17 @@ public class R27Extras extends RoomExtras {
             entry("exotic hardware", 28)
     );
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1},  // Face
+        {1}   // Arm
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+    
     @Override
     public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);

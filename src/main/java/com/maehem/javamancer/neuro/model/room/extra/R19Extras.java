@@ -70,6 +70,18 @@ public class R19Extras extends RoomExtras { // Spaceport Chiba
         {DIALOG_CLOSE.num}, // [20] :: Im afraid you dont have enough money, citizen.
     };
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1},  // Ticket Agent Face
+        {1},  // Ticket Agent Arms
+        {1}   // Plane Crash
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+    
     @Override
     public void initRoom(GameState gs) {
         //gs.resourceManager.getRoomText(gs.room).dumpList();

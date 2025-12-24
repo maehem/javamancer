@@ -42,6 +42,21 @@ public class R45Extras extends RoomExtras { // Street Robot (Matrix Rest.)
         {DIALOG_CLOSE.num}, // [1] :: Move along citizen.
     };
 
+    
+    // TODO: What triggers getting arrested here?
+    
+    
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1},  // Robot Face
+        {1}   // Robot Hover
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+    
     @Override
     public void initRoom(GameState gs) {
     }

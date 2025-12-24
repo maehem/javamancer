@@ -81,6 +81,16 @@ public class R6Extras extends RoomExtras {
         {3, 5, 6, 8, 9} // 35 -- CopTalk Skill 2 active
     };
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1},  // Cop Eating
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+
     @Override
     public void initRoom(GameState gs) {
         // lock door if still talking to Ratz.

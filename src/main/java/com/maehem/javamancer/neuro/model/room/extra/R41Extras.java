@@ -56,6 +56,20 @@ public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
         {DESC.num, DEATH.num}, // [9] :: Your body is set ablaze with excruciating pain, you collapse to the floor and...die.
     };
 
+    // TODO:  Show only frame 0 of animation and run animation
+    // Once when door open trigger reached. Then make anim invisible.
+    
+
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {0}  // Vault Door
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+    
     /**
      *
      * Do you know about...
@@ -77,9 +91,6 @@ public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
 
     @Override
     public void initRoom(GameState gs) {
-        // lock door if still talking to Ratz.
-        //gs.doorBottomLocked = gs.roomNpcTalk[gs.room.getIndex()];
-        gs.resourceManager.getRoomText(Room.R41).dumpList();
     }
 
     @Override
@@ -90,7 +101,6 @@ public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
     @Override
     public int dialogWarmUp(GameState gs) {
         return 3;
-
     }
 
     @Override
@@ -98,5 +108,14 @@ public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
         return true;
     }
 
+    @Override
+    public int onDialogIndex(GameState gs, int index) {
+        if ( index == 8 ) {
+            ANIMATION_FLAGS[0][0] = 1; // Open Door
+        }
+        return index;
+    }
+
+    
 
 }

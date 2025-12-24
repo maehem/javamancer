@@ -103,6 +103,17 @@ public class R44Extras extends RoomExtras { // Asano's
         {14, 16}, // [34] :: I hope you have reconsidered who your friends are, now.
     };
 
+    // Animation
+    protected final int[][] ANIMATION_FLAGS = {
+        {1},  // Face
+        {1}   // Body
+    };
+
+    @Override
+    public int[][] getAnimationFlags() {
+        return ANIMATION_FLAGS;
+    }
+    
     /**
      *
      * Do you know about...
