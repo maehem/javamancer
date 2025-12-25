@@ -494,7 +494,7 @@ public class GameState {
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Download, 75));
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Fine, 1000));
 
-        Room.R17.lockDoor(RoomBounds.Door.LEFT);
+        Room.R17.lockDoor(RoomBounds.Door.LEFT); // Lock Maas Biolabs
     }
 
     /**
