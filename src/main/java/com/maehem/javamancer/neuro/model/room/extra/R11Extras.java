@@ -76,6 +76,9 @@ public class R11Extras extends RoomExtras { // Zion
         {12}, // [30] :: You don have the cash, mon?  Join us  and play some dub, then.
     };
 
+    // TODO:  Use MUSICIAN chip and NPC will set flag to have Maelcum take you to
+    //  Freeside.
+    
     /**
      *
      * Do you know about...
@@ -111,12 +114,8 @@ public class R11Extras extends RoomExtras { // Zion
     @Override
     public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);
-        // Check agains game state for employment.
 
         if (index == null) {
-//            if ( gs.skill == COPTALK ) {
-//                return 26;
-//            }
             return 22; // Doesn't know.
         }
 
@@ -136,7 +135,7 @@ public class R11Extras extends RoomExtras { // Zion
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        return 3;
+        return 2;
 
     }
 
