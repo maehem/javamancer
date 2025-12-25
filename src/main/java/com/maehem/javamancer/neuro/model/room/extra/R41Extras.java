@@ -71,7 +71,7 @@ public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
     
     /**
      *
-     * Do you know about...
+     * My code is: ____
      *
      */
     private static final Map<String, Integer> map1 = Map.ofEntries(
@@ -82,7 +82,7 @@ public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
     public int askWord1(GameState gs, String word) {
         Integer index = map1.get(word);
         if (index == null) {
-            return 4; // Doesn't know.
+            return 4; // Code incorrect.
         }
 
         return index;
