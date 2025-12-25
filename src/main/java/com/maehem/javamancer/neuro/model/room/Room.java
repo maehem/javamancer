@@ -59,7 +59,7 @@ public enum Room {
     R17("Street Maas Biolabs", R17Extras.class), // Supress use of description.
     R18("Street Spaceport", null),
     R19("Spaceport", R19Extras.class),
-    R20("Marcus Garvey", null),
+    R20("Marcus Garvey", R20Extras.class),
     R21("Villa Straylight, Ext.", null),
     R22("Villa Straylight", R22Extras.class),
     R23("Panther Moderns", R23Extras.class),
