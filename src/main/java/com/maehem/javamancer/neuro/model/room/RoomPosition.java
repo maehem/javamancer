@@ -44,7 +44,7 @@ public enum RoomPosition {
     R8(420, 204, 80, 150), // G-Loser
     R9(500,204, 200,150), // Maas Biolabs
     R10(300,204,500,200),  // JAL Shuttle to Orbit
-    R11(300,204,200,200),  // Zion
+    R11(200,204,320,200),  // Zion
     R12(300,204,160,200), // Microsofts
     R19(300,204,500,200), // Spaceport Chiba
     R21(440,204,500,200), // Freeside - Villa Ext.
