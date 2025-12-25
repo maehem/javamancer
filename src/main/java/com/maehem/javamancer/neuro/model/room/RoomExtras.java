@@ -46,7 +46,7 @@ public abstract class RoomExtras {
     public static final Logger LOGGER = Logging.LOGGER;
 
     public boolean onVendFinishedOpenDialog = false; // Semaphote to open dialog when vend finished.
-
+    
     /**
      * Request the talk dialog. Handled by RoomMode.tick() Flag is cleared when
      * handled.
