@@ -51,7 +51,7 @@ public abstract class DialogPopupPane extends PopupPane {
     public DialogPopupPane(PopupListener l, GameState gs, int width, int height, int x, int y) {
         super(l, gs);
         setPrefSize(width, height);
-        setMinSize(width, height);
+        setMinSize(width, height-50);
         setMaxSize(width, height);
         setLayoutX(x);
         setLayoutY(y);

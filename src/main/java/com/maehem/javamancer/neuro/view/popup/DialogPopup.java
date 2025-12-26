@@ -144,7 +144,7 @@ public class DialogPopup extends DialogPopupPane {
                 if (gameState.room.getExtras() != null) {
                     dialogIndex = gameState.room.getExtras().onDialogIndex(gameState, dialogIndex);
                 }
-                wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name));
+                setBubbleText(textResource.get(dialogIndex).replace("\1", gameState.name));
                 dialogCountDown = DIALOG_COUNT;
                 bubble.setMode(DialogBubble.Mode.NPC_SAY);
             } else {
@@ -253,7 +253,7 @@ public class DialogPopup extends DialogPopupPane {
                 //keepTalking = 1;
             } else {
                 // ASCII Control character '01' is a token for the player's name. Replace it here.
-                wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
+                setBubbleText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
                 bubble.setMode(DialogBubble.Mode.NPC_SAY);
                 LOGGER.log(Level.FINE, "npcResponse() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
             }
@@ -269,7 +269,7 @@ public class DialogPopup extends DialogPopupPane {
         String[] split = text.split("  ");
         //int si = dialogSubIndex / 100; // 0, 1, 2, etc.
         // Control character '01' is a token for the player's name. Replace it here.
-        wordText.setText(split[keepTalking].replace("\1", gameState.name) + "\n");
+        setBubbleText(split[keepTalking].replace("\1", gameState.name) + "\n");
 
         bubble.setMode(DialogBubble.Mode.NPC_SAY);
         LOGGER.log(Level.FINE, "npcResponse() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
@@ -329,7 +329,7 @@ public class DialogPopup extends DialogPopupPane {
                     LOGGER.log(Level.CONFIG, "handleTypedText.askword set dialogSunIndex to 0.");
                     dialogSubIndex = 0;
                     typedText.setText("");
-                    wordText.setText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
+                    setBubbleText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
                     bubble.setMode(DialogBubble.Mode.NPC_SAY);
                     LOGGER.log(Level.FINE, "handleTypedText() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
                     dialogCountDown = DIALOG_COUNT;
@@ -420,7 +420,7 @@ public class DialogPopup extends DialogPopupPane {
                         } else {
                             CURSOR_FILL.setText("");
                         }
-                        wordText.setText(toSay);
+                        setBubbleText(toSay);
                         dialogCountDown = -1; // No count down until ENTER pressed.
                     }
                 }
@@ -663,7 +663,7 @@ public class DialogPopup extends DialogPopupPane {
                     keepTalking = 1; // Response has multiple bubbles. Flag it.
                 } else {
                     // Control character '01' is a token for the player's name. Replace it here.
-                    wordText.setText(text);
+                    setBubbleText(text);
                     LOGGER.log(Level.FINE, "INFO_BUY NPC Text: \n{0}\t\t\t",
                             wordText.getText());
                     dialogSubIndex = -1;
@@ -759,7 +759,7 @@ public class DialogPopup extends DialogPopupPane {
                 } else {
                     CURSOR_FILL.setText("");
                 }
-                wordText.setText(toSay);
+                setBubbleText(toSay);
                 dialogCountDown = -1; // No count down until ENTER pressed.
             }
             default -> {
@@ -773,6 +773,15 @@ public class DialogPopup extends DialogPopupPane {
 
     }
 
+    private void setBubbleText( String text ) {
+        wordText.setText(text);
+        layoutChildren(); // Computes wordText bounds.
+        setPrefHeight(16 + wordText.getBoundsInLocal().getHeight());
+        // Move the bubble dangle after knowing wordText size.
+        bubble.setLayoutY(getPrefHeight() - 4 );
+        layout();
+    }
+    
     @Override
     public void cleanup() {
     }
