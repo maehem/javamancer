@@ -29,17 +29,22 @@ package com.maehem.javamancer.neuro.model.room.extra;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.room.DialogCommand;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC_DIRECT;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_NO_MORE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_L;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
+import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.UXB;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
+import static com.maehem.javamancer.neuro.model.room.RoomExtras.LOGGER;
+import com.maehem.javamancer.neuro.view.popup.DialogPopup;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -61,7 +66,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
         {UXB.num, DESC.num, 13}, // [9] :: Thanks for my deck, Shin. I really appreciate you looking after it.
         {UXB.num, DESC.num, 13}, // [10] :: Okay, pal!  Ill go away!  And Ill tell all my friends about this place!
         {UXB.num, DESC.num, 13}, // [11] :: Thanks, Shin.  I knew youd see it my way.
-        {DIALOG_NO_MORE.num, EXIT_L.num}, // [12] ::   Shin slams and bolts the door behind you as you leave.
+        {}, // [12] ::   Shin slams and bolts the door behind you as you leave.
         {DESC.num, 12}, // [13] ::   Shin gives you your deck.
         {UXB.num, DESC.num, 13}, // [14] :: No have ticket? Shin give deck   anyways.
     //{DESC, 12}, // [15] ::   After UXB..
@@ -92,15 +97,19 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
             return DIALOG_END.num;
         }
     }
-
+    
     @Override
-    public void dialogNoMore(GameState gs) {
-        super.dialogNoMore(gs);
-
-        // Shin locks door as you leave.
-        Room.R14.lockDoor(RoomBounds.Door.RIGHT);
+    public int onDialogIndex(GameState gs, int index) {
+        LOGGER.log(Level.CONFIG, "onDialogIndex() called. Index = " + index);
+        if (index == 12) {
+            //gs.roomMode.popupExit();
+            // Shin locks door as you leave.
+            gs.useDoor = RoomBounds.Door.LEFT;
+            Room.R14.lockDoor(RoomBounds.Door.RIGHT);
+        }
+        return index;
     }
-
+    
     @Override
     public ArrayList<Item> getVendItems(GameState gs) {
         ArrayList<Item> list = new ArrayList<>();

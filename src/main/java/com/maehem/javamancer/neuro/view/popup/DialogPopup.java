@@ -684,6 +684,9 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.FINE, "Name: {0} == [{1}][{2}]", new Object[]{dItem, dialogIndex, dialogSubIndex});
 
                 listener.showMessage(textResource.get(dItem));
+                if (gameState.room.getExtras() != null) {
+                    dItem = gameState.room.getExtras().onDialogIndex(gameState, dItem);
+                }
                 dialogIndex = dItem; // Move dialog to next dialog item.
                 items = dialogChain[dialogIndex];
                 dialogSubIndex = -1;
