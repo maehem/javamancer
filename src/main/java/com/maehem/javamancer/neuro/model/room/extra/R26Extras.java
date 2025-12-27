@@ -31,7 +31,6 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD2;
-import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.Map;
 import static java.util.Map.entry;
