@@ -44,7 +44,6 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_GET;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
-import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import java.util.ArrayList;
@@ -102,12 +101,13 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
         }
         if (gs.hasInventoryItem(Catalog.CAVIAR)) {
             if (gs.addSoftware(new ComLinkWarez(2))) {
-                LOGGER.log(Level.FINE, "Warez installed.");
-                gs.removeInventoryItem(Catalog.CAVIAR);
+                LOGGER.log(Level.FINE, "Warez installed succesfully.");
+                gs.removeInventoryItem(Catalog.CAVIAR); // Remove Caviar
+                gs.comlink2recieved = true;
                 return true;
             } else {
                 // Not installed, why?
-                LOGGER.log(Level.WARNING, "Could not install software! Unknown error.");
+                LOGGER.log(Level.SEVERE, "Could not install software! Unknown error.");
             }
         } else {
             LOGGER.log(Level.INFO, "Player does not have Caviar in inventory.");
@@ -126,11 +126,12 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
         if (gs.comlink2recieved) {
             return 8;
         }
+
         if (gs.hasInventoryItem(Item.Catalog.CAVIAR)) {
             return 5;
         }
-        return 2;
 
+        return 2;
     }
 
     @Override
