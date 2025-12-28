@@ -396,6 +396,16 @@ public class GameState {
         }
         return software.remove(w);
     }
+    
+    public final boolean hasInstalledSoftware(Warez w) {
+        for ( Warez sw : software) {
+            if ( sw.item.equals(w.item) && sw.version == w.version) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
     public void battleStart() { // Handled by next tick() of CYberspacePopup
         databaseBattle = true;
