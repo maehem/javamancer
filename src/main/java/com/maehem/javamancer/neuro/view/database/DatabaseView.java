@@ -903,9 +903,13 @@ public abstract class DatabaseView {
 
         // TODO: Deck software compatibility check
         // RESULT = deck.installSoftware( Warez )
-        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
-
-        gameState.addSoftware(w);
+        if (!gameState.hasInstalledSoftware(w)) {
+            // TODO: Deck software compatibility check
+            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
+            gameState.addSoftware(w);
+        } else {
+            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
+        }
     }
 
     protected void composeMessage() {
