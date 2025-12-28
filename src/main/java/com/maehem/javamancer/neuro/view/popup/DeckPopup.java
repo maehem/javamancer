@@ -289,6 +289,13 @@ public class DeckPopup extends PopupPane {
     }
 
     @Override
+    public void inventoryClicked() {
+        if ( mode == Mode.DATABASE ) {
+            databaseView.inventoryClicked();
+        }
+    }
+
+    @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
 
