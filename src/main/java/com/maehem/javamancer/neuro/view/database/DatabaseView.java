@@ -184,6 +184,10 @@ public abstract class DatabaseView {
 
     protected abstract void siteContent();
 
+    public void inventoryClicked() {
+        runSoftware();
+    }
+
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         //LOGGER.log(Level.FINE, "DatabaseView: Handle key event.");
         KeyCode code = keyEvent.getCode();
