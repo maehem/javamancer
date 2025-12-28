@@ -114,4 +114,9 @@ public abstract class PopupPane extends Pane {
      *
      */
     public abstract void cleanup();
+
+    /**
+     * Override if popup needs Inventory button event.
+     */
+    public void inventoryClicked() {}
 }
