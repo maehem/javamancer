@@ -462,6 +462,12 @@ public class RoomMode extends NeuroModePane implements PopupListener {
      */
     public void showPopup(Popup pop) {
         if (popup != null) {
+            if ( pop == Popup.INVENTORY ) {
+                LOGGER.log(Level.CONFIG, "popup: optional inventoryClicked().");
+                // Deck has a software inventory.
+                popup.inventoryClicked();
+            }
+            
             return; // User must exit current popup first!
         }
         switch (pop) {
