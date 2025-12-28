@@ -305,7 +305,7 @@ public abstract class DatabaseView {
                 | NoSuchMethodException
                 | SecurityException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         LOGGER.log(Level.SEVERE, "Was not able to create a view for {0}", gs.database.name);
         return null;
@@ -901,7 +901,6 @@ public abstract class DatabaseView {
         //
         LOGGER.log(Level.FINE, "Software Download: Attempt to download: {0}", w.getSimpleName());
 
-        // TODO: Deck software compatibility check
         // RESULT = deck.installSoftware( Warez )
         if (!gameState.hasInstalledSoftware(w)) {
             // TODO: Deck software compatibility check
