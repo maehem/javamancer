@@ -197,9 +197,9 @@ public abstract class DatabaseView {
                     case KeyCode.SPACE -> {
                         landingContinue();
                     }
-                    case I -> {
-                        runSoftware();
-                    }
+//                    case I -> {
+//                        runSoftware();
+//                    }
                     case X, ESCAPE -> {
                         LOGGER.log(Level.FINER, "User pressed X or ESC Key.");
                         return true;
