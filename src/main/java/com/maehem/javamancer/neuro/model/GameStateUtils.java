@@ -630,7 +630,6 @@ public class GameStateUtils {
     private static void putLockedRooms(GameState gs, Properties p) {
         StringBuilder mainSb = new StringBuilder();
         for (Room r : Room.values()) {
-            LOGGER.log(Level.INFO, "Put locked room: {0}", r.name());
             StringBuilder sb = new StringBuilder();
 //            if (!sb.isEmpty()) {
 //                sb.append(",");
@@ -645,6 +644,7 @@ public class GameStateUtils {
                 }
             }
             if (!sb.isEmpty()) {
+                LOGGER.log(Level.INFO, "Put locked room: {0}", r.name());
                 if (!mainSb.isEmpty()) {
                     mainSb.append(",");
                 }
