@@ -135,6 +135,7 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
     @Override
     public void initRoom(GameState gs) {
         //gs.resourceManager.getRoomText(gs.room).dumpList();
+        gs.allowDialog(gs.room);
     }
     
     @Override
