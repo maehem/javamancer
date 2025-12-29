@@ -511,7 +511,7 @@ public class GameStateUtils {
         int i = 0;
 
         while (p.getProperty(prefix + "." + i + ".name") != null) {
-            String itemPrefix = prefix + "." + i + ".name";
+            String itemPrefix = prefix + "." + i;
 
             LOGGER.log(Level.FINE, "Restore person: {0}.{1}", new Object[]{prefix, i});
             Person person = Person.pullPerson(itemPrefix, p);
