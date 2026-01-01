@@ -67,7 +67,6 @@ public class ExploreGridPane extends GridPane {
         0, 0, 0, 1, 1, 1, 2, 2, 2
     };
 
-
     private final ImageView cspace;
     private final ImageView[] gridLR;
     private final ImageView[] gridFB;
@@ -155,12 +154,24 @@ public class ExploreGridPane extends GridPane {
         @Override
         public void indexChanged(int index) {
             DeckItem deck = gameState.usingDeck;
-            int amount = GRID / 4;
+            final int AMOUNT = GRID / 4;
 
             if (axisX) {
-                deck.setCordX(deck.getCordX() + (isReverse() ? amount : -amount));
+                int newX = deck.getCordX() + (isReverse() ? AMOUNT : -AMOUNT);
+                if (newX <= 0) {
+                    newX = GameState.GRID_MAX - GameState.GRID_SIZE;
+                } else if (newX >= GameState.GRID_MAX ) {
+                    newX = GameState.GRID_SIZE;
+                }
+                deck.setCordX(newX);
             } else {
-                deck.setCordY(deck.getCordY() + (isReverse() ? amount : -amount));
+                int newY = deck.getCordY() + (isReverse() ? AMOUNT : -AMOUNT);
+                if (newY <= 0) {
+                    newY = GameState.GRID_MAX - GameState.GRID_SIZE;
+                } else if (newY >= GameState.GRID_MAX) {
+                    newY = GameState.GRID_SIZE;
+                }
+                deck.setCordY(newY);
             }
             layoutDatabase();
         }
