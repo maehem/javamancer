@@ -30,6 +30,7 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.warez.ChessWarez;
 import com.maehem.javamancer.neuro.model.warez.CorruptorWarez;
 import com.maehem.javamancer.neuro.model.warez.IceBreakerWarez;
@@ -358,7 +359,18 @@ public class BattleGridPane extends GridPane {
             }
 
             if (gameState.database.getIce() == 0) {
+                LOGGER.log(Level.INFO, "ICE Broken.");
                 gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+                if (gameState.database.ai != null
+                        && gameState.activeSkill.catalog == Item.Catalog.PSYCHOANALYSIS) {
+                    LOGGER.log(Level.INFO, "Using Psychoanalysis. Increase aiFightSkill. Current: {0}", gameState.aiFightSkill);
+                    gameState.aiFightSkill++;
+                    if (gameState.aiFightSkill > GameState.AI_FIGHT_SKILL_MAX) {
+                        LOGGER.log(Level.INFO, "aiFightSkill already at max.");
+                        gameState.aiFightSkill = GameState.AI_FIGHT_SKILL_MAX;
+                    }
+                }
+
                 iceBroken(iceFrontPane);
                 iceBroken(iceRearPane);
             }
@@ -374,7 +386,6 @@ public class BattleGridPane extends GridPane {
         shotLiveDBSequence.start();
         dbAttackRunning = true;
         gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_HIT);
-
 
         TranslateTransition tt = shotMoveInit(shotsLiveDBPane, 80, db.shotDuration);
         tt.setOnFinished((t) -> {
@@ -402,7 +413,6 @@ public class BattleGridPane extends GridPane {
         ft.setToValue(0.0);
         ft.setCycleCount(1);
         ft.setAutoReverse(false);
-
         ft.setOnFinished((t) -> {
             fadingNode.setVisible(false);
             fadingNode.setOpacity(1.0);
