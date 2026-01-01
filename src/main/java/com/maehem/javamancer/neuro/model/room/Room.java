@@ -74,7 +74,7 @@ public enum Room {
     R32("Metro Holographix", R32Extras.class),
     R33("Bank of Berne Ext.", null),
     R34("Bank of Berne Lobby", R34Extras.class),
-    R35("Bank Manager's Office", null),
+    R35("Bank Manager's Office", R35Extras.class),
     R36("House of Pong", R36Extras.class),
     R37("Street House of Pong", null),
     R38("Street Asano's", null),
