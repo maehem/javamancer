@@ -87,7 +87,7 @@ public class VisualPane extends Pane {
         switch (code) {
             case RIGHT -> {
                 keyEvent.consume();
-                if (deck.getCordX() < GameState.GRID_MAX - GameState.GRID_SIZE) {
+                if (hasEasyRider || deck.getCordX() < GameState.GRID_MAX - GameState.GRID_SIZE) {
                     JackZone destZone = JackZone.lookUp(
                             deck.getCordX() + GameState.GRID_SIZE,
                             deck.getCordY()
@@ -104,7 +104,7 @@ public class VisualPane extends Pane {
             }
             case LEFT -> {
                 keyEvent.consume();
-                if (deck.getCordX() >= GameState.GRID_SIZE) {
+                if (hasEasyRider || deck.getCordX() >= GameState.GRID_SIZE) {
                     JackZone destZone = JackZone.lookUp(
                             deck.getCordX() - GameState.GRID_SIZE,
                             deck.getCordY()
@@ -121,7 +121,7 @@ public class VisualPane extends Pane {
             }
             case UP -> {
                 keyEvent.consume();
-                if (deck.getCordY() < GameState.GRID_MAX - GameState.GRID_SIZE) {
+                if (hasEasyRider || deck.getCordY() < GameState.GRID_MAX - GameState.GRID_SIZE) {
                     JackZone destZone = JackZone.lookUp(
                             deck.getCordX(),
                             deck.getCordY() + GameState.GRID_SIZE
@@ -138,7 +138,7 @@ public class VisualPane extends Pane {
             }
             case DOWN -> {
                 keyEvent.consume();
-                if (deck.getCordY() > GameState.GRID_SIZE) {
+                if (hasEasyRider || deck.getCordY() > GameState.GRID_SIZE) {
                     JackZone destZone = JackZone.lookUp(
                             deck.getCordX(),
                             deck.getCordY() - GameState.GRID_SIZE
