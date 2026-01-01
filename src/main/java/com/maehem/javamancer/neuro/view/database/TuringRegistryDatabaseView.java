@@ -28,12 +28,21 @@ package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.skill.LogicSkill;
+import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
+import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
+import com.maehem.javamancer.neuro.model.skill.PsychoanalysisSkill;
+import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -60,14 +69,14 @@ import javafx.scene.text.TextFlow;
 public class TuringRegistryDatabaseView extends DatabaseView {
 
     private enum Mode {
-        SUB, MENU, EDIT
+        SUB, MENU, EDIT, SKILL
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
 
     public TuringRegistryDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
 
-        dbTextResource.dumpList();
+        //dbTextResource.dumpList();
         if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
             accessLevel = 3;
             siteContent();
@@ -154,26 +163,69 @@ public class TuringRegistryDatabaseView extends DatabaseView {
     }
 
     private void skillUpgrade() {
-        LOGGER.log(Level.FINE, "Turing Registry: skill upgrade");
         pane.getChildren().clear();
+        mode = Mode.SKILL;
 
-        Text subHeadingText = new Text("""
-                                       
-                                       TODO
-                                       """
-                + dbTextResource.get(5)
-        );
+        TextFlow tf = pageTextFlow(headingText);
 
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
+        String menuString = dbTextResource.get(5);
+        String[] split = menuString.split("\\r");
+        for (String s : split) {
+            Text menuItem = new Text("\n         " + s);
+            tf.getChildren().add(menuItem);
+            if (s.startsWith("X.")
+                    || s.startsWith("1.")
+                    || s.startsWith("2.")
+                    || s.startsWith("3.")
+                    || s.startsWith("4.")
+                    || s.startsWith("5.")
+                ) {
+                menuItem.setOnMouseClicked((t) -> {
+                    t.consume();
+                    switch (s.trim().substring(0, 1)) {
+                        case "X" -> {
+                            mainMenu();
+                        }
+                        case "1" -> {
+                            attemptSkillUpgrade(new PhenomenologySkill(5));
+                        }
+                        case "2" -> {
+                            attemptSkillUpgrade(new PhilosophySkill(5));
+                        }
+                        case "3" -> {
+                            attemptSkillUpgrade(new SophistrySkill(5));
+                        }
+                        case "4" -> {
+                            attemptSkillUpgrade(new LogicSkill(5));
+                        }
+                        case "5" -> {
+                            attemptSkillUpgrade(new PsychoanalysisSkill(4));
+                        }
+                    }
 
-        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
+                });
+            }
+        }
 
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
+        pane.getChildren().add(tf);
+        pane.setOnMouseClicked(null);
+    }
+
+    private void attemptSkillUpgrade(Skill upgradeSkill) {
+        LOGGER.log(Level.FINE, () -> "Turing Registry: Attempt Skill Upgrade: " + upgradeSkill.getVersionedName());
+
+        Skill toUpgrade = gameState.getInstalledSkill(new SkillItem(upgradeSkill.catalog, 1));
+        if (toUpgrade != null) {
+            LOGGER.log(Level.FINE, "Player has skill. Proceed with attempt upgrade...");
+            if (upgradeSkill.level > toUpgrade.level) {
+                LOGGER.log(Level.FINE, "Player upgrades {0} from {1} to {2}", new Object[]{toUpgrade.catalog.name(), toUpgrade.level, upgradeSkill.level});
+                toUpgrade.level = upgradeSkill.level;
+                // TODO: Play sound "success"
+            } else {
+                LOGGER.log(Level.FINE, "Installed skill is already at or above upgrade level.");
+                // TODO: Play sound "bad"
+            }
+        }
     }
 
     @Override
