@@ -76,7 +76,7 @@ public class CopenhagenUniversityDatabase extends Database {
                 3,
                 "brainstorm",
                 "perilous", null, null,
-                0, 0,
+                320, 32,
                 null,
                 null, null,
                 150,
