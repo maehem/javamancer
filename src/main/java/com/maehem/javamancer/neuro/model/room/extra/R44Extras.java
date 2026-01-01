@@ -32,6 +32,7 @@ import com.maehem.javamancer.neuro.model.deck.BlueLightSpecialDeckItem;
 import com.maehem.javamancer.neuro.model.deck.Cyberspace2DeckItem;
 import com.maehem.javamancer.neuro.model.deck.Cyberspace3DeckItem;
 import com.maehem.javamancer.neuro.model.deck.Cyberspace7DeckItem;
+import com.maehem.javamancer.neuro.model.deck.DeckUtils;
 import com.maehem.javamancer.neuro.model.deck.EdokkoDeckItem;
 import com.maehem.javamancer.neuro.model.deck.GaijinDeckItem;
 import com.maehem.javamancer.neuro.model.deck.HikiGaeruDeckItem;
@@ -103,15 +104,15 @@ public class R44Extras extends RoomExtras { // Asano's
 
     // Animation
     protected final int[][] ANIMATION_FLAGS = {
-        {1},  // Face
-        {1}   // Body
+        {1}, // Face
+        {1} // Body
     };
 
     @Override
     public int[][] getAnimationFlags() {
         return ANIMATION_FLAGS;
     }
-    
+
     /**
      *
      * Do you know about...
