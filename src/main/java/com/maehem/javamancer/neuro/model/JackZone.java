@@ -58,7 +58,7 @@ public enum JackZone {
      * @return JackZone of coordinates.
      */
     public static final JackZone lookUp(int x, int y) {
-        return numToZone(y / 127 * 2 + x / 255);
+        return numToZone((y%GameState.GRID_MAX) / 127 * 2 + (x%GameState.GRID_MAX) / 255);
     }
 
     /**
