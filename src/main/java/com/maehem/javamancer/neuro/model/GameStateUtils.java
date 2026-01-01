@@ -153,6 +153,7 @@ public class GameStateUtils {
         putSentMessageList(gs.messageSent, props);
 
         pPut(props, DECK_SLOTS, gs.deckSlots);
+        pPut(props, AI_FIGHT_SKILL, gs.aiFightSkill);
 
         if (gs.usingDeck != null) {
             pPut(props, USING_DECK, gs.usingDeck.item.name());
@@ -291,6 +292,7 @@ public class GameStateUtils {
 
         // Deck
         gs.deckSlots = getInt(DECK_SLOTS, p);
+        gs.aiFightSkill = getInt(AI_FIGHT_SKILL, p);
 
         // Matrix Stuff
         gs.usingDeck = DeckUtils.getUsingDeck(gs, getStr(USING_DECK, p));

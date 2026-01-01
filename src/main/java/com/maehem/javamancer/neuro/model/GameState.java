@@ -118,6 +118,7 @@ public class GameState {
 
     // Deck
     public int deckSlots = 0;
+    public int aiFightSkill = 0; // Philosophy skill. +1 after every AI win. 6 max.
 
     // Matrix Stuff
     public DeckItem usingDeck = null;

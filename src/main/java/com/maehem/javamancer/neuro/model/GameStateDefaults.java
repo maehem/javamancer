@@ -53,6 +53,7 @@ public enum GameStateDefaults {
     HOSAKA_EMPLOYEE("hosakaEmployee", 0),
     // Deck
     DECK_SLOTS("deckSlots", 0),
+    AI_FIGHT_SKILL("aiFightSkill", 0),
     DATABASE("database", null),
     USING_DECK("usingDeck", null),
     MATRIX_POS_X("matrixPosX", 112),
