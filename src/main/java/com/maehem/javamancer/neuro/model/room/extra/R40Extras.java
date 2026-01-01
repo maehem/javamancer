@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.model.room.extra;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.deck.BlueLightSpecialDeckItem;
 import com.maehem.javamancer.neuro.model.deck.BushidoDeckItem;
+import com.maehem.javamancer.neuro.model.deck.DeckUtils;
 import com.maehem.javamancer.neuro.model.deck.EdokkoDeckItem;
 import com.maehem.javamancer.neuro.model.deck.GaijinDeckItem;
 import com.maehem.javamancer.neuro.model.deck.HikiGaeruDeckItem;
@@ -54,8 +55,6 @@ import java.util.logging.Level;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class R40Extras extends RoomExtras { // Crazy Edo's
-
-    private boolean purchasedItem = false;
 
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
@@ -149,14 +148,17 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
     }
 
     @Override
-    public boolean onVendItemsFinished(GameState gs) {
-        if (!purchasedItem) {
+    public boolean onVendItemsFinished(GameState gs, boolean purchased) {
+
+        if (!purchased) {
             // set dialog to 32 // Come back when you're ready
-            LOGGER.log(Level.WARNING, "No item was purchased.");
+            LOGGER.log(Level.INFO, "No item was purchased.");
         } else {
-            LOGGER.log(Level.FINE, "Item was purchased.");
+            // Potentially increase deck slots if a deck was purchased.
+            DeckUtils.computeMaxSlots(gs);
+
         }
+
         return false;
     }
-
 }

@@ -64,8 +64,6 @@ import java.util.logging.Level;
  */
 public class R44Extras extends RoomExtras { // Asano's
 
-    private boolean purchasedItem = false;
-
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
         {5, 6, 7}, // [2] :: Welcome to my humble shop!
@@ -204,12 +202,15 @@ public class R44Extras extends RoomExtras { // Asano's
     }
 
     @Override
-    public boolean onVendItemsFinished(GameState gs) {
-        if (!purchasedItem) {
-            // set dialog to 32 // Come back when you're ready
-        } else {
+    public boolean onVendItemsFinished(GameState gs, boolean purchased) {
 
+        if (purchased) {
+            // Potentially increase deck slots if a deck was purchased.
+            DeckUtils.computeMaxSlots(gs);
+        } else {
+            // set dialog to 32 // Come back when you're ready
         }
+        
         return false;
     }
 

@@ -123,7 +123,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
     }
 
     @Override
-    public boolean onVendItemsFinished(GameState gs) {
+    public boolean onVendItemsFinished(GameState gs, boolean purchased) {
         if (gs.hasInventoryItem(Item.Catalog.UXB)) {
             // Shin locks door as you leave.
             Room.R14.lockDoor(RoomBounds.Door.RIGHT);

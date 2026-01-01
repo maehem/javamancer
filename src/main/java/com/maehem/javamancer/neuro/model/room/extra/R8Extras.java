@@ -249,11 +249,8 @@ public class R8Extras extends RoomExtras {
     }
 
     @Override
-    public boolean onVendItemsFinished(GameState gs) {
-        if (gs.hasInventoryItem(Item.Catalog.GUESTPASS)) {
-            return true;
-        }
-        return false;
+    public boolean onVendItemsFinished(GameState gs, boolean purchased) {
+        return gs.hasInventoryItem(Item.Catalog.GUESTPASS);
     }
 
     @Override

@@ -32,7 +32,7 @@ import com.maehem.javamancer.neuro.model.JackZone;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.item.SoftwareItem;
-import com.maehem.javamancer.neuro.view.popup.DialogPopup;
+import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -141,7 +141,15 @@ public abstract class RoomExtras {
         return null;
     }
 
-    public boolean onVendItemsFinished(GameState gs) {
+    /**
+     * Called when the Vend window closes and allows room extras to take
+     * some action if an item was purchased.
+     * 
+     * @param gs Game State
+     * @param purchased a purchase was made.
+     * @return true if next popup (if there is one) should open.
+     */
+    public boolean onVendItemsFinished(GameState gs, boolean purchased) {
         LOGGER.log(Level.WARNING, "Room called onVendItemsFinished() but it's not overridden!");
         return false;
     }
@@ -276,8 +284,9 @@ public abstract class RoomExtras {
      *
      * @param gs
      */
-    public void onPopupExit(GameState gs, DialogPopup pop) {
-        LOGGER.log(Level.FINE, "onPopupExit() called but it's not over-ridden.");
+    public boolean onPopupExit(GameState gs, PopupPane pop) {
+        LOGGER.log(Level.FINEST, "onPopupExit() called but it's not over-ridden.");
+        return true;
     }
 
     /**
