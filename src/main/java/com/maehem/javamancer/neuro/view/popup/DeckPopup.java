@@ -83,6 +83,8 @@ public class DeckPopup extends PopupPane {
     private Mode mode = Mode.SOFTWARE;
     private boolean linkCodeErr;
 
+    private boolean handoffToCyberspace = false;
+
     public DeckPopup(PopupListener l, GameState gameState) {
         super(l, gameState);
         this.deck = gameState.usingDeck;
@@ -229,9 +231,10 @@ public class DeckPopup extends PopupPane {
 
         //gameState.usingDeck.setMode(DeckItem.Mode.CYBERSPACE);
         // Leave Deck pupup and open cyberspace popup.
+        handoffToCyberspace = true;
         listener.popupExit(RoomMode.Popup.CYBERSPACE);
     }
-
+    
     private void displayResponse(String response) {
         LOGGER.log(Level.FINE, "Show Deck use() response");
         configSmallWindow();
@@ -290,7 +293,7 @@ public class DeckPopup extends PopupPane {
 
     @Override
     public void inventoryClicked() {
-        if ( mode == Mode.DATABASE ) {
+        if (mode == Mode.DATABASE) {
             databaseView.inventoryClicked();
         }
     }
@@ -386,8 +389,11 @@ public class DeckPopup extends PopupPane {
 
     @Override
     public void cleanup() {
+        LOGGER.log(Level.INFO, "Deck cleanup() called for: " + deck.getName());
         gameState.usingDeckErase = false;
-        gameState.usingDeck = null;
+        if (!handoffToCyberspace) {
+            gameState.usingDeck = null;
+        }
         deck.cleanUp();
     }
 }
