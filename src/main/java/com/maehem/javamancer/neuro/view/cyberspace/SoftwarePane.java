@@ -29,10 +29,12 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.warez.UtilityWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import static javafx.scene.input.KeyCode.*;
@@ -157,11 +159,32 @@ public class SoftwarePane extends Pane {
         } else {
             gameState.usingDeck.setCurrentWarez(w);
             LOGGER.log(Level.INFO, "Use Software OK.");
-            // TODO: Play 'fire' sound.
+            // TODO: Play 'fire', or 'in-use' sound.
             displayUsingSoftware();
+            if ((w instanceof UtilityWarez)) {
+                // Set a timer to take down this pane after a few seconds.
+                long startTime = System.nanoTime();
+                AnimationTimer timer = new AnimationTimer() {
+                    @Override
+                    public void handle(long now) {
+                        // 'now' is a timestamp in nanoseconds
+                        // Calculate elapsed time in seconds
+                        double elapsedTime = (now - startTime) / 1_000_000_000.0;
+                        if ( elapsedTime > (w.getRunDuration()/15) ) {
+                            setVisible(false); // Take down the software popup.
+                        }
+                    }
+                };
+
+                // Start the timer when the application starts
+                timer.start();
+            }
+
             // Listen for warez to finish.
             usedWarez.setOnFinished((t) -> {
                 LOGGER.log(Level.INFO, () -> "Warez finished. " + w.item.itemName);
+
+                gameState.usingDeck.setCurrentWarez(null);
                 setVisible(false);
             });
         }
