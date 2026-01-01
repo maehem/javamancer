@@ -33,6 +33,7 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.view.popup.DialogPopup;
+import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import java.util.logging.Level;
 
 /**
@@ -87,11 +88,15 @@ public class R2Extras extends RoomExtras {
      * @param pop
      */
     @Override
-    public void onPopupExit(GameState gs, DialogPopup pop) {
-        LOGGER.log(Level.SEVERE, "R2 dialog popup closed. Check if Ratz was paid.");
-        if (!gs.ratzPaid) {
-            pop.processCommand(DialogCommand.TO_JAIL);
+    public boolean onPopupExit(GameState gs, PopupPane pop) {
+        if (pop instanceof DialogPopup dp) {
+            LOGGER.log(Level.SEVERE, "R2 dialog popup closed. Check if Ratz was paid.");
+            if (!gs.ratzPaid) {
+                dp.processCommand(DialogCommand.TO_JAIL);
+            }
         }
+        
+        return false;
     }
 
 }
