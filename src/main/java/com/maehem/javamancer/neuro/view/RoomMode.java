@@ -676,18 +676,20 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             doNextPopup = room.getExtras().onSkillVendFinished(getGameState());
         } else if (popup instanceof DeckPopup) {
             doNextPopup = room.getExtras().onDeckFinished(getGameState());
+//            if ( dp.requestCyberspace() ) {
+//                doNextPopup = true;
+//            }
+        } else if (popup instanceof PawnshopVendPopup vendPop) {
+            doNextPopup = room.getExtras().onVendItemsFinished(getGameState(),vendPop.itemPurchased());
         } else {
             doNextPopup = true;
         }
+        
         getChildren().remove(popup);
         popup.cleanup();
         popup = null;
         getGameState().pause = false;
 
-//        if (getGameState().usingDeck != null) {
-//            LOGGER.log(Level.INFO, "Previous Popup wants to open Deck Popup.");
-//            showPopup(Popup.DECK);
-//        }
         return doNextPopup;
     }
 

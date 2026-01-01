@@ -55,6 +55,7 @@ public class PawnshopVendPopup extends SmallPopupPane {
 
     private final Mode mode;
     private final ArrayList<Item> vendItems;
+    private boolean itemPurchased = false;
 
     public enum Mode {
         BUY, SELL
@@ -176,6 +177,7 @@ public class PawnshopVendPopup extends SmallPopupPane {
                     int price = computePrice(item.price, discount);
                     if (gameState.chipBalance >= price) {
                         LOGGER.log(Level.FINE, "Pawnshop: Player bought {0}", item.item.itemName);
+                        itemPurchased = true;
                         gameState.chipBalance -= price;
                         gameState.inventory.add(item);
                         //TextResource roomText = gameState.resourceManager.getRoomText(gameState.room);
@@ -192,6 +194,10 @@ public class PawnshopVendPopup extends SmallPopupPane {
             case SELL -> {
             }
         }
+    }
+    
+    public boolean itemPurchased() {
+        return itemPurchased;
     }
 
     @Override
