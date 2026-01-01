@@ -111,6 +111,7 @@ public class CyberspacePopup extends PopupPane {
         gameState.usingDeck.setMode(DeckItem.Mode.NONE);
         gameState.databaseBattle = false;
         databaseView = null;
+        gameState.usingDeck = null;
     }
 
     public void setState(State state) {
