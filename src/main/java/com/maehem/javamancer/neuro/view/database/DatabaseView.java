@@ -897,18 +897,19 @@ public abstract class DatabaseView {
     }
 
     private void attemptSoftwareDownload(Warez w) {
-        // TODO: This should be a sequence where "Tramitting..." appears for about a second.
+        // TODO: This should be a sequence where "Trasmitting..." appears for about a second.
         //
         LOGGER.log(Level.FINE, "Software Download: Attempt to download: {0}", w.getSimpleName());
 
-        // RESULT = deck.installSoftware( Warez )
-        if (!gameState.hasInstalledSoftware(w)) {
+// Work in progress:  Allow multiple downloads of software.
+// However maybe some sites should limit how many you can have?
+//        if (!gameState.hasInstalledSoftware(w)) {
             // TODO: Deck software compatibility check
             gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
             gameState.addSoftware(w);
-        } else {
-            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
-        }
+//        } else {
+//            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
+//        }
     }
 
     protected void composeMessage() {
