@@ -83,6 +83,7 @@ public class GameState {
     public static final int CONSTITUTION_MAX = 2000;
     public static final int CONSTITUTION_HEAL_RATE = 40;
     public int damage = 0; // Heal after revived, decays HEAL_RATE per 15 ticks.
+    public static final int AI_FIGHT_SKILL_MAX = 6;
 
     public final ArrayList<Item> inventory = new ArrayList<>();
 
