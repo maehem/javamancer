@@ -83,7 +83,6 @@ public class GameState {
     public static final int CONSTITUTION_MAX = 2000;
     public static final int CONSTITUTION_HEAL_RATE = 40;
     public int damage = 0; // Heal after revived, decays HEAL_RATE per 15 ticks.
-    public static final int AI_FIGHT_SKILL_MAX = 6;
 
     public final ArrayList<Item> inventory = new ArrayList<>();
 
@@ -119,9 +118,9 @@ public class GameState {
 
     // Deck
     public int deckSlots = 0;
-    public int aiFightSkill = 0; // Philosophy skill. +1 after every AI win. 6 max.
 
     // Matrix Stuff
+    public static final int AI_FIGHT_SKILL_MAX = 8;
     public DeckItem usingDeck = null;
     public int matrixPosX = 112;
     public int matrixPosY = 96;
@@ -133,6 +132,7 @@ public class GameState {
     public boolean databaseBattleBegin = false; // Ephemeral.
     private boolean flatlined = false; // Ephemaral
     private boolean iceBroken = false; // Ephemeral
+    public int aiFightSkill = 0; // Philosophy skill. +1 after every AI win. 8 max.
 
     // Room Stuff
     public RoomMode roomMode;
