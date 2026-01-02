@@ -172,12 +172,14 @@ public class SoftwarePane extends Pane {
                         double elapsedTime = (now - startTime) / 1_000_000_000.0;
                         if (elapsedTime > (w.getRunDuration() / 15)) {
                             setVisible(false); // Take down the software popup.
+                            this.stop();
                         }
                     }
                 };
 
                 // Start the timer when the application starts
                 timer.start();
+           } else {
 
                 // Listen for warez to finish.
                 usedWarez.setOnFinished((t) -> {
