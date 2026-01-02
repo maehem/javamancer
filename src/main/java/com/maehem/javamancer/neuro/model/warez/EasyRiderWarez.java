@@ -42,7 +42,7 @@ public class EasyRiderWarez extends UtilityWarez {
 
     @Override
     public int getRunDuration() {
-        return 30; // 2 seconds
+        return 15; // 2 seconds
     }
 
     @Override
