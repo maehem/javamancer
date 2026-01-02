@@ -78,7 +78,7 @@ public class SoftwarePane extends Pane {
 
         softwarePrompt();
     }
-
+    
     public final void softwarePrompt() {
         LOGGER.log(Level.CONFIG, "Cyberspace: Show Software Prompt");
         //mode = Mode.SOFTWARE;
@@ -170,7 +170,7 @@ public class SoftwarePane extends Pane {
                         // 'now' is a timestamp in nanoseconds
                         // Calculate elapsed time in seconds
                         double elapsedTime = (now - startTime) / 1_000_000_000.0;
-                        if ( elapsedTime > (w.getRunDuration()/15) ) {
+                        if (elapsedTime > (w.getRunDuration() / 15)) {
                             setVisible(false); // Take down the software popup.
                         }
                     }
@@ -178,15 +178,15 @@ public class SoftwarePane extends Pane {
 
                 // Start the timer when the application starts
                 timer.start();
+
+                // Listen for warez to finish.
+                usedWarez.setOnFinished((t) -> {
+                    LOGGER.log(Level.INFO, () -> "Warez finished. " + w.item.itemName);
+
+                    gameState.usingDeck.setCurrentWarez(null);
+                    setVisible(false);
+                });
             }
-
-            // Listen for warez to finish.
-            usedWarez.setOnFinished((t) -> {
-                LOGGER.log(Level.INFO, () -> "Warez finished. " + w.item.itemName);
-
-                gameState.usingDeck.setCurrentWarez(null);
-                setVisible(false);
-            });
         }
     }
 
