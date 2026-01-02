@@ -125,6 +125,7 @@ public class GameState {
     public int matrixPosX = 112;
     public int matrixPosY = 96;
     public boolean dixieInstalled = false; // ROM Construct: Dixie Flatline
+    public int aiFightSkill = 0; // Philosophy skill. +1 after every AI win. 8 max.
     public boolean usingDeckErase = false; // Ephemeral
     public Database database = null; // Ephemeral
     public boolean databaseBattle = false; // Ephemeral. No save during battle
@@ -132,7 +133,6 @@ public class GameState {
     public boolean databaseBattleBegin = false; // Ephemeral.
     private boolean flatlined = false; // Ephemaral
     private boolean iceBroken = false; // Ephemeral
-    public int aiFightSkill = 0; // Philosophy skill. +1 after every AI win. 8 max.
 
     // Room Stuff
     public RoomMode roomMode;
