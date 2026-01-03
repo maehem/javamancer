@@ -43,8 +43,6 @@ public abstract class Skill {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
-//    public enum Type {
-//        NONE("none", Skill.class),
 //        BARGAINING("Barganing", BargainingSkill.class),
 //        COPTALK("Cop Talk", CopTalkSkill.class),
 //        WAREZ_ANALYSIS("Warez Analysis", WarezAnalysisSkill.class),
@@ -61,22 +59,11 @@ public abstract class Skill {
 //        SOPHISTRY("Sophistry", SophistrySkill.class),
 //        ZEN("Zen", ZenSkill.class),
 //        MUSICIANSHIP("Muscianship", MusicianshipSkill.class);
-//
-//        public final String itemName;
-//        public final Class clazz;
-//
-//        private Type(String name, Class<? extends Skill> clazz) {
-//            this.itemName = name;
-//            this.clazz = clazz;
-//        }
-//
-//    };
-    //public final Type type;
+
     public final Item.Catalog catalog;
     public int level;
 
     public Skill(Item.Catalog catalog, int level) {
-        //this.type = type;
         this.catalog = catalog;
         this.level = level;
     }
@@ -128,7 +115,6 @@ public abstract class Skill {
                 | NoSuchMethodException
                 | SecurityException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            ex.printStackTrace();
         }
 
         return null;
