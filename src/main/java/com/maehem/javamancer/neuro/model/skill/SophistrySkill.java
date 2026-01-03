@@ -34,13 +34,14 @@ import java.util.logging.Level;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class SophistrySkill extends Skill {
-
+    
     public SophistrySkill(int level) {
         super(Item.Catalog.SOPHISTRY, level);
     }
 
     @Override
     public void use() {
+    //TODO: Damage 
         LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
     }
 
