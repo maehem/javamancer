@@ -29,7 +29,12 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- * Build back your deck's shield to full strength when it's low or gone.
+ * ArmorAll: Healing Software
+ * 
+ *  - Build back deck's shield to full strength.
+ *  - All versions of ArmorAll will fully heal.
+ *  - Erases after (n = version) times.
+ *  - Healing speed increases with higher versions.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

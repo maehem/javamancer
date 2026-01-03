@@ -30,7 +30,10 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Hemlock:
+ * 
+ * Shotgun for Greystoke.
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class HemlockWarez extends ShotgunWarez {

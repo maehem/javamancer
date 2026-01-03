@@ -34,7 +34,8 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.warez.Warez.USE_OK;
 
 /**
- *
+ * ???
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class LinkWarez extends Warez {

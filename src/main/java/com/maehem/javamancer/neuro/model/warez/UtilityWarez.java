@@ -37,7 +37,7 @@ import static com.maehem.javamancer.neuro.model.warez.Warez.USE_OK;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class UtilityWarez extends Warez {
+public abstract class UtilityWarez extends Warez {
 
     public UtilityWarez(Item.Catalog catItem, int version) {
         super(catItem, version);

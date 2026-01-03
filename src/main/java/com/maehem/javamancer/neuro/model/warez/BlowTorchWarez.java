@@ -30,6 +30,11 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * BlowTorch 
+ * 
+ * Low tier ICE breaker. Higher versions do more damage. 
+ * 
+ * Max level: 4.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

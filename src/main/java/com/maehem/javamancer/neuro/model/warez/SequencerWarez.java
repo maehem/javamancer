@@ -30,6 +30,9 @@ import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * Determines first level password for link code if it exists.
+ * 
+ * Displays 'no password' for sites that don't have passwords but this
+ * tool provides the only way in.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

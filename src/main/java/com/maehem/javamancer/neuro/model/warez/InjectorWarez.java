@@ -30,7 +30,11 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Injector: Virus Program
+ * 
+ * Higher versions are more powerful.
+ * 
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class InjectorWarez extends VirusWarez {

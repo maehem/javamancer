@@ -33,6 +33,9 @@ import java.util.logging.Level;
 
 /**
  * Attempt to break straight through ICE by mimicking a warranted investigation.
+ * 
+ *  - Does not work for many.
+ *  - Maybe needs CopTalk skill active at same time?
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

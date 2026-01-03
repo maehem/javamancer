@@ -34,7 +34,8 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.warez.Warez.USE_OK;
 
 /**
- *
+ * Certain type of warez. ABSTRACT.
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public abstract class CorruptorWarez extends Warez {

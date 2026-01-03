@@ -30,7 +30,8 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Door Stop: Mid-tier ICE breaker.
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class DoorStopWarez extends IceBreakerWarez {

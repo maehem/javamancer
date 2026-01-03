@@ -30,7 +30,11 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Concrete: High tier ICE breaker. 
+ * 
+ * More damage per version.
+ * 
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class ConcreteWarez extends IceBreakerWarez {

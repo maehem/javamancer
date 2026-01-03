@@ -30,7 +30,9 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Works like ComLink 6.0 but costs $0 per second.
+ * 
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class CyberspaceWarez extends LinkWarez {

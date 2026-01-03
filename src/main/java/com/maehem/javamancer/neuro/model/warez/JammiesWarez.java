@@ -30,6 +30,16 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * Jammies:
+ *  - Freezes ICE attacks but not projectiles.
+ * 
+ *  - One shot. Erases when used.
+ * 
+ *  - Higher version = longer effect. 
+ *  - Level >= 3.0 and above the freeze time makes it viable. 
+ *  - At low levels ICE will recover too quickly to make it worthwhile. 
+ *  - Optimally freeze the AI before it can launch its next attack.
+ * 
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

@@ -30,6 +30,10 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * Slow: Slows the ICE fire rate and projectile speed for the entire battle.
+ *
+ *  - Recommended: Start a battle with it (after using ICE Breaker).
+ *  - Required to defeat tougher ICE.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

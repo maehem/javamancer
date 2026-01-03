@@ -30,7 +30,11 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Centurion:  Fake Warez
+ * 
+ * Causes slight heal on ICE.
+ * 
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class CenturionWarez extends FakeWarez {

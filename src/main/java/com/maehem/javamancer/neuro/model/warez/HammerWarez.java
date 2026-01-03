@@ -30,7 +30,10 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Hammer:
+ * 
+ * Super Low tier ICE breaker.
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class HammerWarez extends IceBreakerWarez {

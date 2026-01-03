@@ -30,7 +30,11 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * KGB:
+ * 
+ *  - Transports player to the KGB DB location in Cyberspace.
+ *  - Use for escaping an AI fight.
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class KGBWarez extends ChessWarez {

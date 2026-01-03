@@ -30,7 +30,9 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Damages player.
+ * 
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class SnailBaitWarez extends FakeWarez {

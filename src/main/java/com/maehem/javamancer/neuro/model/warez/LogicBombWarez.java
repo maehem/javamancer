@@ -30,7 +30,11 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Logic Bomb:
+ * 
+ *  - High level ICE Breaker.
+ * 
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class LogicBombWarez extends IceBreakerWarez {

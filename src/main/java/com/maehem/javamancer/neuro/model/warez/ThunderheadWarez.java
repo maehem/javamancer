@@ -30,7 +30,10 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Damage over time.
+ * 
+ * Erases self after use.
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class ThunderheadWarez extends VirusWarez {

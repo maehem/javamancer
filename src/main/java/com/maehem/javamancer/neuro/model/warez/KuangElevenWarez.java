@@ -30,7 +30,10 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Kuang Eleven:
+ * 
+ *  - Shotgun for Neuromancer AI
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class KuangElevenWarez extends ShotgunWarez {

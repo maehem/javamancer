@@ -30,7 +30,11 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Depth Charge:  Hightier ICE breaker
+ * 
+ * Max Version 8
+ * 
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class DepthChargeWarez extends IceBreakerWarez {

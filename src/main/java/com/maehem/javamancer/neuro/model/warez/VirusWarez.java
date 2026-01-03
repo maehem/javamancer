@@ -31,7 +31,8 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
- * Weakens ICE. One shot use. Cyberspace only.
+ * Weakens ICE Over time. One shot use. Cyberspace only.
+ * Runs over a few attacks and does damage over time.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

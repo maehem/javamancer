@@ -30,7 +30,8 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Drill: Mid-tier ICE breaker.
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class DrillWarez extends IceBreakerWarez {

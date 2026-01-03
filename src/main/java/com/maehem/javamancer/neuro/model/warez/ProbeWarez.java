@@ -29,7 +29,14 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- * Cyberspace only. Reveals what AI lives there.
+ * Cyberspace only. 
+ * 
+ * Provides information about a base in cyberspace. 
+ * 
+ * Lower versions: reveal base name
+ * Higher versions: Strength of ICE and if AI is present.
+ * Reveals how many levels of base.
+ *
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

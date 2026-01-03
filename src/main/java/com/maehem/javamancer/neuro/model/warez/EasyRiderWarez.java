@@ -30,7 +30,9 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- * Cross zones without having to go to another cyberjack.
+ * Easy Rider: 
+ * 
+ * Cross zones without having to go to another cyber-jack.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

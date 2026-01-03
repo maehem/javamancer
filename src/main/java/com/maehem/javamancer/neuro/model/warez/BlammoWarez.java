@@ -30,7 +30,13 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- * Fake warez
+ * Blammo:
+ * Fake battle warez that boomerangs back on you and wipes out your
+ * shield. 
+ * 
+ * Players, do not use. 
+ * 
+ * Max level 1.0.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

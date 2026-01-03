@@ -30,7 +30,11 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * Acid: A virus that does damage.
+ * 
+ *  - Erases self after use.
+ *  - Higher levels do more damage.
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class AcidWarez extends VirusWarez {

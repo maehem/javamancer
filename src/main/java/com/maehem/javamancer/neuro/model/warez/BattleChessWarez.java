@@ -30,6 +30,9 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
+ * For winning chess games. 
+ * 
+ * BattleChess 4.0 acts as the “shotgun program” for Phantom.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

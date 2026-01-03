@@ -30,6 +30,10 @@ import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * Reveals how many levels in site.
+ * 
+ * Use on entry page of Database.
+ * Use on basic deck mode.
+ * 
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

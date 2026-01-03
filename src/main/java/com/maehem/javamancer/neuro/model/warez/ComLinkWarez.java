@@ -30,7 +30,11 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- *
+ * ComLink: Allows deck to connect to DBs and Cyberspace.
+ * 
+ * ComLink 6.0 allows connection to Cyberspace with Cyberspace capable deck.
+ * Costs player $1 per second.
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class ComLinkWarez extends LinkWarez {
