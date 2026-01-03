@@ -439,8 +439,6 @@ public class GameState {
                 | NoSuchMethodException
                 | SecurityException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            //ex.printStackTrace();
-
         }
 
         return null;
