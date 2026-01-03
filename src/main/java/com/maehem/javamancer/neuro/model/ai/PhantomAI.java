@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
+import com.maehem.javamancer.neuro.model.item.Item;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -33,7 +35,12 @@ package com.maehem.javamancer.neuro.model.ai;
 public class PhantomAI extends AI {
 
     public PhantomAI(String name) {
-        super("Phantom", 0);
+        super("Phantom", 0, 24576);
     }
-
+    
+    @Override
+    public Item.Catalog getWeakness() {
+        return Item.Catalog.BATTLECHESS;
+    }
+    
 }

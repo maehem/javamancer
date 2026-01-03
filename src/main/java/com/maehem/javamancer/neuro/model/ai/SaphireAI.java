@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
+import com.maehem.javamancer.neuro.model.item.Item;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -33,7 +35,12 @@ package com.maehem.javamancer.neuro.model.ai;
 public class SaphireAI extends AI {
 
     public SaphireAI() {
-        super("Saphire", 0);
+        super("Saphire", 0, 192);
     }
 
+    @Override
+    public Item.Catalog getWeakness() {
+        return Item.Catalog.SOPHISTRY;
+    }
+    
 }

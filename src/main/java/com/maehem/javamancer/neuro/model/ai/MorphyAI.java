@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
+import com.maehem.javamancer.neuro.model.item.Item;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -33,7 +35,12 @@ package com.maehem.javamancer.neuro.model.ai;
 public class MorphyAI extends AI {
 
     public MorphyAI() {
-        super("Morphy", 0);
+        super("Morphy", 0, 96);
     }
 
+    @Override
+    public Item.Catalog getWeakness() {
+        return Item.Catalog.LOGIC;
+    }
+    
 }

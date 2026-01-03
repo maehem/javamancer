@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
+import com.maehem.javamancer.neuro.model.item.Item;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -33,7 +35,12 @@ package com.maehem.javamancer.neuro.model.ai;
 public class GoldAI extends AI {
 
     public GoldAI() {
-        super("Gold", 0);
+        super("Gold", 0, 1536);
     }
-
+    
+    @Override
+    public Item.Catalog getWeakness() {
+        return Item.Catalog.PHILOSOPHY;
+    }
+    
 }

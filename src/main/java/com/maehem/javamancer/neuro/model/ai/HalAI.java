@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
+import com.maehem.javamancer.neuro.model.item.Item;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -33,7 +35,11 @@ package com.maehem.javamancer.neuro.model.ai;
 public class HalAI extends AI {
 
     public HalAI() {
-        super("HAL", 0);
+        super("HAL", 0, 384);
     }
 
+    @Override
+    public Item.Catalog getWeakness() {
+        return Item.Catalog.LOGIC;
+    }
 }

@@ -1,5 +1,7 @@
 package com.maehem.javamancer.neuro.model.ai;
 
+import com.maehem.javamancer.neuro.model.item.Item;
+
 /*
  * MIT License
  *
@@ -33,7 +35,12 @@ package com.maehem.javamancer.neuro.model.ai;
 public class XavieraAI extends AI {
 
     public XavieraAI() {
-        super("Xaviera", 0);
+        super("Xaviera", 0, 768);
     }
 
+    @Override
+    public Item.Catalog getWeakness() {
+        return Item.Catalog.PHENOMENOLOGY;
+    }
+    
 }

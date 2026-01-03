@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
+import com.maehem.javamancer.neuro.model.item.Item;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -33,7 +35,11 @@ package com.maehem.javamancer.neuro.model.ai;
 public class WintermuteAI extends AI {
 
     public WintermuteAI() {
-        super("Wintermute", 0);
+        super("Wintermute", 0, 12288);
     }
-
+    
+    @Override
+    public Item.Catalog getWeakness() {
+        return Item.Catalog.SOPHISTRY;
+    }
 }

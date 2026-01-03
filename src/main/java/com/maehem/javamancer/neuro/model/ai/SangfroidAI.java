@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
+import com.maehem.javamancer.neuro.model.item.Item;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -33,7 +35,12 @@ package com.maehem.javamancer.neuro.model.ai;
 public class SangfroidAI extends AI {
 
     public SangfroidAI() {
-        super("Sanfroid", 0);
+        super("Sanfroid", 0, 6144);
     }
 
+    @Override
+    public Item.Catalog getWeakness() {
+        return Item.Catalog.PHENOMENOLOGY;
+    }
+    
 }
