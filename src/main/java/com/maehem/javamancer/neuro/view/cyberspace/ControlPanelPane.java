@@ -48,6 +48,15 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 
 /**
+ * TODO: 
+ * If shield is 0, player will lose CON points for each hit.
+ * If CON is reduced to 0, player will die. 
+ * In cyberspace player cannot see CON points directly and instead has to 
+ * look at the EEG meter in the bottom right. 
+ * The moving blip changes color from green to yellow to red as player takes damage. 
+ * The redder the moving blip is, the lower the players health. 
+ * If its color is bright red player is on the brink of death and
+ * should flee immediately.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
