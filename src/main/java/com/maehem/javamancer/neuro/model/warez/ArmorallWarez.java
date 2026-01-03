@@ -35,6 +35,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *  - All versions of ArmorAll will fully heal.
  *  - Erases after (n = version) times.
  *  - Healing speed increases with higher versions.
+ *  - Not usable while in AI battle.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
