@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
-import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
@@ -42,7 +41,6 @@ import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
