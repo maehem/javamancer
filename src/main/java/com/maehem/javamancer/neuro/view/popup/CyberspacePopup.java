@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.popup;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
+import com.maehem.javamancer.neuro.view.RoomMode;
 import com.maehem.javamancer.neuro.view.cyberspace.ControlPanelPane;
 import com.maehem.javamancer.neuro.view.cyberspace.VisualPane;
 import com.maehem.javamancer.neuro.view.database.DatabaseView;
@@ -42,7 +43,7 @@ import javafx.scene.shape.Rectangle;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class CyberspacePopup extends PopupPane {
+public class CyberspacePopup extends PopupPane implements PopupListener {
 
     private static final int WIDTH = 640;
     private static final int HEIGHT = 480;
@@ -134,12 +135,14 @@ public class CyberspacePopup extends PopupPane {
         } else {
             visualPane.tick();
         }
-        if (gameState.isIceBroken()) {
-            // Unset iceBroken
-            gameState.setIceBroken(false);
+
+        // Player got past ICE and AI. Open the Database page.
+        if (visualPane.isVisible() && visualPane.readyForDatabase()) {
+            setState(State.EXPLORE);
             // Set Database View
-            this.databaseView = DatabaseView.getView(gameState, databsePane, listener);
+            this.databaseView = DatabaseView.getView(gameState, databsePane, this);
             databsePane.setVisible(true);
+            visualPane.setVisible(false);
         }
 
     }
@@ -152,6 +155,37 @@ public class CyberspacePopup extends PopupPane {
         databsePane.setLayoutY(LARGE_Y);
         databsePane.setId("neuro-popup");
         databsePane.setVisible(false);
+    }
+
+    @Override
+    public boolean popupExit() {
+        setState(State.EXPLORE);
+        databaseView = null;
+        databsePane.setVisible(false);
+        visualPane.setVisible(true);
+        
+        return true;
+    }
+
+    /**
+     * Should never be called so we defer it to the default popupExit() method.
+     *
+     * @param newPopup
+     */
+    @Override
+    public void popupExit(RoomMode.Popup newPopup) {
+        LOGGER.log(Level.WARNING, "popupExit() called with next popup specified! CyberspacePopup does not support that.");
+        popupExit();
+    }
+
+    /**
+     * Should never be called. We will log it just in case.
+     *
+     * @param message
+     */
+    @Override
+    public void showMessage(String message) {
+        LOGGER.log(Level.WARNING, "CyberspacePopup.showMessage() called  unexpectedly. Nothing happens.");
     }
 
 }
