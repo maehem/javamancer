@@ -58,7 +58,7 @@ public abstract class Database {
     public final LinkedHashMap<Class<? extends Warez>, Integer> warez1 = new LinkedHashMap<>();
     public final LinkedHashMap<Class<? extends Warez>, Integer> warez2 = new LinkedHashMap<>();
     public final LinkedHashMap<Class<? extends Warez>, Integer> warez3 = new LinkedHashMap<>();
-    public final int shotDuration = 2000; // mS
+    public final int shotDuration = 2500; // mS
     private final int effect = 100;
 
     public final int matrixX;
@@ -127,6 +127,29 @@ public abstract class Database {
     public int getIce() {
         return ice;
     }
+    
+    public void resetIce() {
+        ice = ICE_MAX;
+    }
+    
+    /**
+     * Returns ICE health if above 0. Otherwise AI health if AI present.
+     * 
+     * @param gs
+     * @return 0 - 100 percent of either ICE or AI.
+     */
+    public int getBattleHealth(GameState gs) {
+        if ( getIce() > 0 ) {
+           return 100 * (1 - getIce() / ICE_MAX);
+        } else {
+            if ( ai != null ) {
+                AI currentAI = gs.getAI(ai);
+                return 100 * ( 1 - currentAI.getConstitution() / currentAI.MAX_CONSTITUTION);
+            }
+        }
+        
+        return 0;
+    }
 
     public int applyWarezAttack(Warez w, GameState gs) {
         // TODO: Each Warez, Apply Skill buff.
@@ -138,12 +161,23 @@ public abstract class Database {
             damage += ice; // ice is negative, so lower damage reported.
             ice = 0;
         }
-        LOGGER.log(Level.INFO, "Apply " + damage + " to database.");
-        if (ice == 0) {
-            LOGGER.log(Level.FINE, "Database reached 0 ice.");
-        } else {
-            LOGGER.log(Level.FINE, "Database ice  = " + ice);
+        LOGGER.log(Level.FINE, "Apply {0} damage to database.  Ice now: {1}", new Object[]{damage,ice});
+
+        return damage;
+    }
+
+    public int applySkillAttack(Skill skill, GameState gs) {
+        // TODO: Each Warez, Apply Skill buff.
+
+        int damage = skill.getEffect(gs);
+        ice -= damage;
+        if (ice < 0) {
+            damage += ice; // ice is negative, so lower damage reported.
+            ice = 0;
         }
+        LOGGER.log(Level.FINE, "Apply {0} Skill damage of {1} to database.", new Object[]{skill.catalog.name(), damage});
+        LOGGER.log(Level.FINE, "    Database ice  = {0}", ice);
+        
         return damage;
     }
 
