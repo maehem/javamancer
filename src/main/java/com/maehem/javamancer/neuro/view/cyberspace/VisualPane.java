@@ -171,6 +171,14 @@ public class VisualPane extends Pane {
             }
         }
     }
+    
+    /**
+     * 
+     * @return true if battleMode finished and ICE and AI are defeated.
+     */
+    public boolean readyForDatabase() {
+        return battlePane.isVisible() && battlePane.isDone();
+    }
 
     public void tick() {
         if (battlePane.isVisible()) {
