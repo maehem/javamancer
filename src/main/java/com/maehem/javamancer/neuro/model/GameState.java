@@ -132,7 +132,6 @@ public class GameState {
     public boolean databaseArrived = false; // Ephemeral. Set by explorer when at a DB.
     public boolean databaseBattleBegin = false; // Ephemeral.
     private boolean flatlined = false; // Ephemaral
-    private boolean iceBroken = false; // Ephemeral
 
     // Room Stuff
     public RoomMode roomMode;
@@ -181,7 +180,7 @@ public class GameState {
     // Sets to 0 when player is paid.
     // Sets to -1 if player removes BAMA from list.
     public int hosakaDaysSincePaid = -1;
-    
+
     // Ephemeral. Not game saved.
     //public ItemCatalog activeItem = ItemCatalog.NONE;
     public Skill previousSkill = null;
@@ -398,24 +397,37 @@ public class GameState {
         }
         return software.remove(w);
     }
-    
+
     public final boolean hasInstalledSoftware(Warez w) {
-        for ( Warez sw : software) {
-            if ( sw.item.equals(w.item) && sw.version == w.version) {
+        for (Warez sw : software) {
+            if (sw.item.equals(w.item) && sw.version == w.version) {
                 return true;
             }
         }
-        
+
         return false;
     }
 
-    public void battleStart() { // Handled by next tick() of CYberspacePopup
+    /**
+     * Called by YES/NO popup when player nears DB in Cyberspace.
+     * 
+     */
+    public void battleStart() { // Handled by next tick() of CyberspacePopup
+        database = dbList.whatsAt(
+                usingDeck.getCordX(), usingDeck.getCordY()
+        );
         databaseBattle = true;
         databaseBattleBegin = true;
         databaseArrived = false;
+        
+        // Next CyberspacePopup.tick() will cause BattleGrid to show and begin ICE battle.
     }
 
     public AI getAI(Class<? extends AI> aiClazz) {
+        if (aiClazz == null) {
+            return null;
+        }
+        
         for (AI ai : aiList) {
             if (ai.getClass().equals(aiClazz)) {
                 return ai;
@@ -444,10 +456,10 @@ public class GameState {
         return null;
     }
 
-    public void applyDbAttack() {
+    public void applyEnemyAttack(int amount) {
         // Apply DB attack effect to constitution.
-        int effect = database.getEffect(this);
-        damage += effect;
+        //int effect = database.getEffect(this);
+        damage += amount;
         // If Constitution == 0 then die.
         if (getConstitution() <= 0) {
             LOGGER.log(Level.CONFIG, "Player death. Revive in Body Shop.");
@@ -468,16 +480,8 @@ public class GameState {
         useDoor = RoomBounds.Door.BODY_SHOP;
     }
 
-    public void setIceBroken(boolean state) {
-        this.iceBroken = state;
-    }
-
-    public boolean isIceBroken() {
-        return iceBroken;
-    }
-
     public void allowDialog(Room room) {
-        if (!dialogAllowed.contains(room) ) {
+        if (!dialogAllowed.contains(room)) {
             dialogAllowed.add(room);
         }
     }
