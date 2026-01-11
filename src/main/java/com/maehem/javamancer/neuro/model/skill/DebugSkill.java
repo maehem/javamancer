@@ -30,6 +30,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
+ * <pre>
  * Debug level 4 has a 100% success rate at debugging software.
  * Debug level 3 has a 75% success rate at debugging software.
  * Debug level 2 has a 50% success rate at debugging software.
@@ -37,15 +38,16 @@ import java.util.logging.Level;
  *
  * ROMs have Debug 3.
  *
- * If you attempt to debug a program and it fails, subsequent attempts will
- * always fail to debug that same piece of software except Debug 4,
- *
+ * When player attempts to debug a program and it fails, subsequent attempts 
+ * will always fail to debug that same piece of software except Debug 4.
+ * </pre>
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class DebugSkill extends Skill {
 
     public DebugSkill(int level) {
-        super(Item.Catalog.DEBUG, level);
+        super(Item.Catalog.DEBUG, level, 4);
     }
 
     @Override

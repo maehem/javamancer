@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.skill.Skill.LOGGER;
 import java.util.logging.Level;
@@ -37,7 +38,7 @@ import java.util.logging.Level;
 public class PhilosophySkill extends Skill {
 
     public PhilosophySkill(int level) {
-        super(Item.Catalog.PHILOSOPHY, level);
+        super(Item.Catalog.PHILOSOPHY, level, 5);
     }
 
     @Override
@@ -48,5 +49,10 @@ public class PhilosophySkill extends Skill {
     @Override
     public String getDescription() {
         return "AI fight skill. +1 after every AI victory.";
+    }
+    
+    @Override
+    public int getEffect(GameState gs) {
+        return level * level * 200;
     }
 }

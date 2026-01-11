@@ -30,13 +30,19 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
+ * ICE Breaker (obtain from Metro Holografix) 
+ * 
+ * TODO:
+ * Boost attack power.
+ * Use at start of each battle.
+ * Upgrades each time ICE broken in zones above zone 0.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class IceBreakingSkill extends Skill {
 
     public IceBreakingSkill(int level) {
-        super(Item.Catalog.ICEBREAKING, level);
+        super(Item.Catalog.ICEBREAKING, level, 8);
     }
 
     @Override

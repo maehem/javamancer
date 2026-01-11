@@ -27,12 +27,14 @@
 package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.logging.Logging;
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 import java.util.logging.Level;
+import static java.util.logging.Level.FINE;
 import java.util.logging.Logger;
 
 /**
@@ -62,15 +64,48 @@ public abstract class Skill {
 
     public final Item.Catalog catalog;
     public int level;
+    public final int MAX_LEVEL;
 
-    public Skill(Item.Catalog catalog, int level) {
+    public Skill(Item.Catalog catalog, int level, int maxLevel) {
         this.catalog = catalog;
         this.level = level;
+        this.MAX_LEVEL = maxLevel;
     }
 
     public abstract String getDescription();
 
     public abstract void use();
+    
+    public int upgrade() {
+        LOGGER.log(Level.FINE, "{0} : Level Upgrade called.",new Object[]{ catalog.name() } );
+        level++;
+        if ( level > MAX_LEVEL ) {
+            level = MAX_LEVEL;
+            LOGGER.log(Level.FINE, "{0} : Level Upgrade is now Maximum Level of {1}",new Object[]{ catalog.name(), MAX_LEVEL } );
+        }
+        
+        return level;
+    }
+    
+    /**
+     * Run duration in mS. Over-ride for effect-over-time.
+     * 
+     * @return duration in milliseconds.
+     */
+    public int getRunDuration() {
+        return 0; // Instant
+    }
+    
+    /**
+     * Damage or other effect amount per second (every 15 ticks).
+     * Over-ride for custom effect amount.
+     * 
+     * @param gs Game State object
+     * @return value of effect per 15 ticks().
+     */
+    public int getEffect(GameState gs) {
+        return 0;
+    }
 
     public String getVersionedName() {
         return catalog.itemName + " " + level;

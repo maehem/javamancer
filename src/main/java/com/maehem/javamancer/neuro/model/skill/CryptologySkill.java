@@ -36,7 +36,7 @@ import java.util.logging.Level;
 public class CryptologySkill extends Skill {
 
     public CryptologySkill(int level) {
-        super(Item.Catalog.CRYPTOLOGY, level);
+        super(Item.Catalog.CRYPTOLOGY, level, 4);
     }
 
     @Override

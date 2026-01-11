@@ -36,7 +36,7 @@ import java.util.logging.Level;
 public class EvasionSkill extends Skill {
 
     public EvasionSkill(int level) {
-        super(Item.Catalog.EVASION, level);
+        super(Item.Catalog.EVASION, level, 2);
     }
 
     @Override

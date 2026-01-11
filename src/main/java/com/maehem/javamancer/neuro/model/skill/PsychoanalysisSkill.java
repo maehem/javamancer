@@ -36,7 +36,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class PsychoanalysisSkill extends Skill {
 
     public PsychoanalysisSkill(int level) {
-        super(Item.Catalog.PSYCHOANALYSIS, level);
+        super(Item.Catalog.PSYCHOANALYSIS, level, 4);
     }
 
     @Override

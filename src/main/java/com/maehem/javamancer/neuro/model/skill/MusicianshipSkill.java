@@ -36,7 +36,7 @@ import java.util.logging.Level;
 public class MusicianshipSkill extends Skill {
 
     public MusicianshipSkill(int level) {
-        super(Item.Catalog.MUSICIANSHIP, level);
+        super(Item.Catalog.MUSICIANSHIP, level, 1);
     }
 
     @Override

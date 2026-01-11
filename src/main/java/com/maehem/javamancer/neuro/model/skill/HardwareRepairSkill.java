@@ -36,7 +36,7 @@ import java.util.logging.Level;
 public class HardwareRepairSkill extends Skill {
 
     public HardwareRepairSkill(int level) {
-        super(Item.Catalog.HARDWAREREPAIR, level);
+        super(Item.Catalog.HARDWAREREPAIR, level, 2);
     }
 
     @Override

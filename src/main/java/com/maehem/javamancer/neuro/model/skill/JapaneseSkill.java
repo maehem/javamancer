@@ -36,7 +36,7 @@ import java.util.logging.Level;
 public class JapaneseSkill extends Skill {
 
     public JapaneseSkill(int level) {
-        super(Item.Catalog.JAPANESE, level);
+        super(Item.Catalog.JAPANESE, level, 1);
     }
 
     @Override
