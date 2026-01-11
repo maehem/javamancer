@@ -280,19 +280,18 @@ public class BattleGridPane extends GridPane {
 
                 // Upgrade AI Fight Skills used in battle.
                 usedOnAISkill.forEach((skill) -> {
-                    if ( skill instanceof PsychoanalysisSkill ||
-                            skill instanceof SophistrySkill ||
-                            skill instanceof LogicSkill ||
-                            skill instanceof PhenomenologySkill ) {
+                    if (skill instanceof PsychoanalysisSkill
+                            || skill instanceof SophistrySkill
+                            || skill instanceof LogicSkill
+                            || skill instanceof PhenomenologySkill) {
                         skill.upgrade();
                     }
                 });
                 usedOnAISkill.clear();
-                
+
                 usedOnAIWarez.clear();
-                
+
                 // TODO: Upgrade ICEBreaking Skill if used.
-                
             }
             case BROKEN -> {
                 // Animations are running. Do nothing for now.
@@ -366,31 +365,31 @@ public class BattleGridPane extends GridPane {
                     // Animations
                     iceBrokenAnimation(iceFrontPane, iceRearPane);
                     gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
-            switch (mode) {
-                case AI -> {
-                    if (ai.getConstitution() <= 0) {
-                        LOGGER.log(Level.INFO, "AI Defeated.");
-                        // TODO: New sound for AI defeated.
-                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
-                        aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
+                    switch (mode) {
+                        case AI -> {
+                            if (ai.getConstitution() <= 0) {
+                                LOGGER.log(Level.INFO, "AI Defeated.");
+                                // TODO: New sound for AI defeated.
+                                gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+                                aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
 
+                            }
+                        }
+                        case BASIC, ROT, VIRUS -> { // Any ICE battle mode.
+                            if (db.getIce() <= 0) {
+                                LOGGER.log(Level.INFO, "ICE Broken.");
+                                mode = IceMode.BROKEN; // Allow animations to finish.
+
+                                // Animations
+                                iceBrokenAnimation(iceFrontPane, iceRearPane);
+                                gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+
+                            }
+                        }
+                        default -> {
+                            // Do nothing.
+                        }
                     }
-                }
-                case BASIC, ROT, VIRUS -> { // Any ICE battle mode.
-                    if (db.getIce() <= 0) {
-                        LOGGER.log(Level.INFO, "ICE Broken.");
-                        mode = IceMode.BROKEN; // Allow animations to finish.
-
-                        // Animations
-                        iceBrokenAnimation(iceFrontPane, iceRearPane);
-                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
-
-                    }
-                }
-                default -> {
-                    // Do nothing.
-                }
-            }
                     mode = IceMode.BROKEN;
                     deck.setCurrentWarez(null);
                 } else {
@@ -445,7 +444,7 @@ public class BattleGridPane extends GridPane {
         }
 
     }
-    
+
     public boolean isDone() {
         return mode == IceMode.NONE;
     }
@@ -472,12 +471,12 @@ public class BattleGridPane extends GridPane {
 
     /**
      * Initiate a Skill shot from player.
-     * 
-     * This method kicks off the animation to send the attack towards the
-     * enemy.  Once the animation ends and also hits the enemy, the Skill
-     * effects are then applied and the players use of the Skill ends.
-     * 
-     * @param skill 
+     *
+     * This method kicks off the animation to send the attack towards the enemy.
+     * Once the animation ends and also hits the enemy, the Skill effects are
+     * then applied and the players use of the Skill ends.
+     *
+     * @param skill
      */
     private void fireShotPlayer(Skill skill) {
         LOGGER.log(Level.FINE, "Player Fires Skill Attack Round: {0}", skill.getVersionedName());
@@ -500,7 +499,7 @@ public class BattleGridPane extends GridPane {
             shotsLivePlayerPane.setVisible(false);
             shotsLivePlayerPane.setTranslateY(0);
             shotExplodeDBSequence.start();
-            
+
             gameState.activeSkill = null; // Consume the skill.
             // Apply damage, considering weaknesses.
             if (mode == IceMode.AI) {
@@ -518,7 +517,6 @@ public class BattleGridPane extends GridPane {
 //        if (w instanceof VirusWarez) {
 //            gameState.eraseSoftware(w);
 //        }
-
         // Set up animation.
         shotsLivePlayerPane.setLayoutY(200);
         shotsLivePlayerPane.setVisible(true);
@@ -539,10 +537,10 @@ public class BattleGridPane extends GridPane {
             shotsLivePlayerPane.setVisible(false);
             shotsLivePlayerPane.setTranslateY(0);
             shotExplodeDBSequence.start();
-            
+
             // Start the Warez running. Next tick() will handle the rest.
             w.start();
-            
+
 //            // Apply damage, considering weaknesses.
 //            if (mode == IceMode.AI) {
 //                //ai.applyDamage(w.getEffect(gameState));
@@ -550,7 +548,6 @@ public class BattleGridPane extends GridPane {
 //            } else {
 //                gameState.database.applyWarezAttack(w, gameState);
 //            }
-
             // Change any animations for ICE.
             // TODO: Do this instead at each tick() ???
             if (w instanceof VirusWarez) { // Thunderhead, Injector, Python, Acid
