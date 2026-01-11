@@ -28,8 +28,6 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.DeckItem;
-import com.maehem.javamancer.neuro.model.warez.UtilityWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import java.util.logging.Level;
@@ -60,14 +58,12 @@ public class SoftwarePane extends Pane {
 
     private int slotBase = 0;
     private final GameState gameState;
-    private final DeckItem deck;
 
     private Warez usedWarez = null;
     private String usedResponse = "";
 
     public SoftwarePane(GameState gs) {
         this.gameState = gs;
-        deck = gameState.usingDeck;
 
         setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
         setMinSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
@@ -78,7 +74,7 @@ public class SoftwarePane extends Pane {
 
         softwarePrompt();
     }
-    
+
     public final void softwarePrompt() {
         LOGGER.log(Level.CONFIG, "Cyberspace: Show Software Prompt");
         //mode = Mode.SOFTWARE;
@@ -93,10 +89,7 @@ public class SoftwarePane extends Pane {
         Text prevButton = new Text("prev");
         Text nextButton = new Text("next");
         TextFlow tf = PopupPane.textFlow(softwareHeading);
-        //TextFlow tf = new TextFlow(softwareHeading);
-        //tf.setLineSpacing(LINE_SPACING);
         tf.setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
-        //tf.setPadding(new Insets(4, 0, 0, 16));
 
         HBox navBox = new HBox(prevButton, exitButton, nextButton);
         navBox.setSpacing(20);
@@ -161,56 +154,45 @@ public class SoftwarePane extends Pane {
             LOGGER.log(Level.INFO, "Use Software OK.");
             // TODO: Play 'fire', or 'in-use' sound.
             displayUsingSoftware();
-            if ((w instanceof UtilityWarez)) {
-                // Set a timer to take down this pane after a few seconds.
-                long startTime = System.nanoTime();
-                AnimationTimer timer = new AnimationTimer() {
-                    @Override
-                    public void handle(long now) {
-                        // 'now' is a timestamp in nanoseconds
-                        // Calculate elapsed time in seconds
-                        double elapsedTime = (now - startTime) / 1_000_000_000.0;
-                        if (elapsedTime > (w.getRunDuration() / 15)) {
-                            setVisible(false); // Take down the software popup.
-                            this.stop();
-                        }
+            // Leave software pane up for as long as shot takes
+            long startTime = System.nanoTime();
+            AnimationTimer timer = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    // 'now' is a timestamp in nanoseconds
+                    // Calculate elapsed time in seconds
+                    double elapsedTime = (now - startTime) / 1_000_000.0;
+                    if (elapsedTime > 1700) { // Stay up for this many mS.
+                        setVisible(false); // Take down the software popup.
+                        this.stop();
                     }
-                };
+                }
+            };
 
-                // Start the timer when the application starts
-                timer.start();
-           } else {
-
-                // Listen for warez to finish.
-                usedWarez.setOnFinished((t) -> {
-                    LOGGER.log(Level.INFO, () -> "Warez finished. " + w.item.itemName);
-
-                    gameState.usingDeck.setCurrentWarez(null);
-                    setVisible(false);
-                });
-            }
+            // Start the timer when the application starts
+            timer.start();
         }
     }
 
-    private void displayResponse(String response) {
-        LOGGER.log(Level.INFO, "Show Deck use() response");
-
-        getChildren().clear();
-        setVisible(true);
-        Text heading = new Text(response);
-
-        getChildren().add(PopupPane.makeBox(this, PopupPane.textFlow(heading)));
-
-        setOnMouseClicked((t) -> {
-            t.consume();
-            // Allow user to view response and go back to menu when clicked.
-            setOnMouseClicked(null);
-            softwarePrompt();
-        });
-    }
+//    private void displayResponse(String response) {
+//        LOGGER.log(Level.INFO, "Show Deck use() response");
+//
+//        getChildren().clear();
+//        setVisible(true);
+//        Text heading = new Text(response);
+//
+//        getChildren().add(PopupPane.makeBox(this, PopupPane.textFlow(heading)));
+//
+//        setOnMouseClicked((t) -> {
+//            t.consume();
+//            // Allow user to view response and go back to menu when clicked.
+//            setOnMouseClicked(null);
+//            softwarePrompt();
+//        });
+//    }
 
     private void displayUsingSoftware() {
-        LOGGER.log(Level.INFO, "Show Deck use() in progress");
+        LOGGER.log(Level.INFO, "Show Warez use() in progress");
 
         getChildren().clear();
         setVisible(true);
