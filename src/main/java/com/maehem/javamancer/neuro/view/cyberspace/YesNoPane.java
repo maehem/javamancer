@@ -120,6 +120,7 @@ public class YesNoPane extends Pane {
                 LOGGER.log(Level.INFO, "Cyberspace: YesNoPane: Yes Pressed...");
                 ke.consume();
                 enterDatabase();
+                return true;
             }
         }
 
@@ -128,9 +129,6 @@ public class YesNoPane extends Pane {
 
     private void enterDatabase() {
         LOGGER.log(Level.INFO, "User enters database...");
-        gameState.database = gameState.dbList.whatsAt(
-                gameState.usingDeck.getCordX(), gameState.usingDeck.getCordY()
-        );
         gameState.battleStart();
         setVisible(false);
     }
