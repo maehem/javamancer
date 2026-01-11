@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.warez;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.ai.GreystokeAI;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
@@ -44,11 +45,16 @@ public class HemlockWarez extends ShotgunWarez {
 
     @Override
     public int getRunDuration() {
-        return 2000;
+        return 1;
     }
 
     @Override
     public int getEffect(GameState gs) {
-        return 100;
+        if ( gs.databaseBattle && 
+                gs.database.getIce() <= 0 &&
+                (gs.database.ai.getClass().equals(GreystokeAI.class)) ) {
+            return version * 10000;
+        }
+        return version * 10;
     }
 }

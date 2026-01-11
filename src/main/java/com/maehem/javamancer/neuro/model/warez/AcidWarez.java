@@ -52,11 +52,11 @@ public class AcidWarez extends VirusWarez {
 
     @Override
     public int getRunDuration() {
-        return 2000;
+        return version * 3000;
     }
 
     @Override
     public int getEffect(GameState gs) {
-        return version * 50;
+        return version * 1;
     }
 }

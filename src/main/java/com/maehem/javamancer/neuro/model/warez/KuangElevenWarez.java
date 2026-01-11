@@ -27,6 +27,8 @@
 package com.maehem.javamancer.neuro.model.warez;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.ai.NeuromancerAI;
+import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
@@ -49,6 +51,12 @@ public class KuangElevenWarez extends ShotgunWarez {
 
     @Override
     public int getEffect(GameState gs) {
-        return 100;
+        Database database = gs.database;
+        if ( gs.databaseBattle && 
+                gs.database.getIce() <= 0 &&
+                (gs.database.ai.getClass().equals(NeuromancerAI.class)) ) {
+            return version * 10000;
+        }
+        return version * 10;
     }
 }

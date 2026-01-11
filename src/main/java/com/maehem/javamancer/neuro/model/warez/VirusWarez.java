@@ -29,10 +29,13 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
+import javafx.application.Platform;
 
 /**
- * Weakens ICE Over time. One shot use. Cyberspace only.
- * Runs over a few attacks and does damage over time.
+ * Weakens ICE Over time. One shot use. Cyberspace only. Runs over a few attacks
+ * and does damage over time.
+ * 
+ * @see @AcidWarez, @InjectorWarez, @PythonWarez, @ThunderheadWarez
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
@@ -62,6 +65,16 @@ public abstract class VirusWarez extends Warez {
             }
         }
         return "Can't be used here.";
+    }
+
+    @Override
+    public void abort(GameState gs) {
+        super.abort(gs);
+
+        // Remove used up software.
+        Platform.runLater(() -> {
+            gs.software.remove(this);
+        });
     }
 
 }

@@ -42,6 +42,11 @@ public class CyberspaceWarez extends LinkWarez {
     }
 
     @Override
+    public int getRunDuration() {
+        return RUN_FOREVER;
+    }
+    
+    @Override
     public String use(GameState gs) {
         String superUse = super.use(gs);
         if (!superUse.equals(Warez.USE_OK)) {

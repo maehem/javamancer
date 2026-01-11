@@ -34,10 +34,34 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.warez.Warez.USE_OK;
 
 /**
- * Ice Breaker:  ABSTRACT
  * 
- * For breaking ICE
+ * Ice Breaker: ABSTRACT
+ *
+ * <pre>
+ * For breaking ICE / Attack
+ *
+ * ICE grows resistant to attack software.
+ * The next time player uses the same software it will do less damage 
+ * one version level lower.
+ * Ex., Hammer 4.0 will only do damage of Hammer 3.0 when used next.
  * 
+ * Player should use different software for each attack to maximize
+ * damage output and only re-use other attacks when they reached the end of
+ * a cycle.
+ *
+ * Weakest to Strongest: 
+ *     Hammer, Decoder, Drill, DoorStop, LogicBomb, DepthCharge, BlowTorch, Concrete. 
+ * 
+ * Top tier attacks:
+ * (LogicBomb, DepthCharge,Concrete) are twice as powerful as the mid-tier
+ * attacks (Drill, DoorStop) and twice as powerful as the low-tier attacks
+ * (Hammer, BlowTorch, Decoder). 
+ * 
+ * Ex. LogicBomb 1.0 is equivalent to Drill 2.0 and Hammer 4.0. 
+ * 
+ * TODO: Make spreadsheet chart of these power values.
+ * 
+ * </pre>
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public abstract class IceBreakerWarez extends Warez {

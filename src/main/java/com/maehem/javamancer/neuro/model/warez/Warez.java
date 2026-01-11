@@ -34,31 +34,27 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 import java.util.logging.Level;
+import static java.util.logging.Level.FINE;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 /**
- * TODO: 
- * There is a (10% guessing) chance that a random software program of will 
+ * <pre>
+ * TODO: 10% (guessing) chance that a random software program of will
  * get buggy and can no longer be used reliably, if at all.
- * 
- * The game randomly chooses which program gets damaged. 
- * 
- * To repair your software, you need to use  the Debug skill, which you can only use outside of cyberspace or with the
- * assistance of a ROM construct. 
- * 
- * Debug level 4 has a 100% success rate at debugging software,
- * Debug level 3 has a 75% success rate at debugging software,
- * Debug level 2 has a 50% success rate at debugging software,
- * Debug level 1 has a 25% success rate at debugging software,
- * 
- * ROMs have a 75% chance of debugging software (Debug 3). 
- * 
- * If you attempt to debug a program and it fails, subsequent
- * attempts will always fail to debug that same piece of software except Debug 4, 
- * 
  *
+ * The game randomly chooses which program gets damaged.
+ *
+ * To repair software, player must use the Debug skill, which only can be
+ * used outside of cyberspace or with the assistance of a ROM construct.
+ *
+ * For more see @DebugSkill source code.
+ *
+ * </pre>
+ * @see @IceBreakerWarez source for more notes on that type of warez.
+ * 
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public abstract class Warez {
@@ -67,11 +63,14 @@ public abstract class Warez {
 
     public static final String USE_OK = "OK";
     public static final String REQUIRES_ICE = "Requires ICE.";
+    // Run forever or until finished/aborted.
+    public static final int RUN_FOREVER = Integer.MAX_VALUE;
 
     public final Item.Catalog item;
     public int version;
-    private boolean running;
-    private boolean damaged;
+    //private boolean running;
+    private int runRemaining = 0;
+    private boolean damaged = false;
     private EventHandler<ActionEvent> finishedHandler;
 
     public Warez(Item.Catalog catItem, int version) {
@@ -79,20 +78,53 @@ public abstract class Warez {
         this.version = version;
     }
 
+    // TODO: Change to canUse()
     public String use(GameState gs) {
-        LOGGER.log(Level.FINE, "Warez: Use(): " + getClass().getSimpleName() + " USE_OK");
+        LOGGER.log(Level.FINE, "Warez: Use(): {0} USE_OK", item.name());
         return USE_OK;
     }
 
-    public void setRunning(boolean running) {
-        if (this.running && !running && finishedHandler != null) {
+    /**
+     * Activate the Warez. Runs immediately if runDuration is 0 or less.
+     *
+     * @param running activate warez
+     */
+    public void start() {
+        runRemaining = getRunDuration();
+    }
+
+    /**
+     * Finish run of Warez and call finish handler (if one exists).
+     */
+    public void finish(GameState gs) {
+        abort(gs);
+        if (finishedHandler != null) {
             finishedHandler.handle(new ActionEvent());
         }
-        this.running = running;
+    }
+    
+    /**
+     * Stop Warez running. Do not run finish handler.
+     * 
+     * Overridden by @VirusWarez and @CorruptorWarez to self delete.
+     * 
+     */
+    public void abort(GameState gs) {
+        runRemaining = 0;
+    }
+
+    public void tick(GameState gs) {
+        LOGGER.log(FINE, "{0} Warez.tick()", this.item.name());
+        if (runRemaining != RUN_FOREVER) {
+            runRemaining -= 15;
+            if (runRemaining <= 0) { // run finish handler now.
+                finish(gs);
+            }
+        }
     }
 
     public boolean isRunning() {
-        return running;
+        return runRemaining > 0;
     }
 
     public boolean isDamaged() {
@@ -106,7 +138,7 @@ public abstract class Warez {
     /**
      * How long the software runs for before applying the effect.
      *
-     * @return
+     * @return duration in milliseconds. Use Integer.MAX_VALUE for forever run.
      */
     public abstract int getRunDuration();
 

@@ -43,11 +43,11 @@ public class DecoderWarez extends IceBreakerWarez {
 
     @Override
     public int getRunDuration() {
-        return 2000;
+        return 1;
     }
 
     @Override
     public int getEffect(GameState gs) {
-        return 100;
+        return version * 40;
     }
 }

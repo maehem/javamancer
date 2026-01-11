@@ -45,11 +45,11 @@ public class InjectorWarez extends VirusWarez {
 
     @Override
     public int getRunDuration() {
-        return 2000;
+        return version * 4000;
     }
 
     @Override
     public int getEffect(GameState gs) {
-        return 100;
+        return version * 2;
     }
 }
