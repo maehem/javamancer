@@ -56,6 +56,9 @@ import javafx.scene.text.TextFlow;
  */
 /**
  *
+ * TODO: Mind Probe
+ * 
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class PsychologistDatabaseView extends DatabaseView {
@@ -123,6 +126,9 @@ public class PsychologistDatabaseView extends DatabaseView {
 
     private void itemPage(String itemLetter) {
         switch (itemLetter) {
+            case "X" -> {
+                listener.popupExit();
+            }
             case "1" -> {
                 readReport(2);
             }
@@ -195,12 +201,12 @@ public class PsychologistDatabaseView extends DatabaseView {
     }
 
     private void mindProbe() {
-        LOGGER.log(Level.FINE, "Mind Probe.");
+        LOGGER.log(Level.FINE, "Mind Probe. TODO");
         pane.getChildren().clear();
         mode = Mode.PROBE;
 
         StringBuilder sb = new StringBuilder();
-        sb.append("\n").append("Mind Probe...");
+        sb.append("\n").append("TODO:  Mind Probe...");
         gameState.psychoProbeCount++;
 
         Text text = new Text(sb.toString());
