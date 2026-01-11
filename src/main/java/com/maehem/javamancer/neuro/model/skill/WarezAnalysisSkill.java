@@ -36,7 +36,7 @@ import java.util.logging.Level;
 public class WarezAnalysisSkill extends Skill {
 
     public WarezAnalysisSkill(int level) {
-        super(Item.Catalog.WAREZANALYSIS, level);
+        super(Item.Catalog.WAREZANALYSIS, level, 2);
     }
 
     @Override

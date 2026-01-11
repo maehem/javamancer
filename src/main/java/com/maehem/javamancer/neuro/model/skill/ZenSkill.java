@@ -36,7 +36,7 @@ import java.util.logging.Level;
 public class ZenSkill extends Skill {
 
     public ZenSkill(int level) {
-        super(Item.Catalog.ZEN, level);
+        super(Item.Catalog.ZEN, level, 2);
     }
 
     @Override
