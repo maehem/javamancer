@@ -420,6 +420,10 @@ public class GameState {
         databaseBattleBegin = true;
         databaseArrived = false;
         
+        // Push any used warez (like EadyRider) so that we can pop it when 
+        // player goes back to explore.
+        usingDeck.pushWarez();
+        
         // Next CyberspacePopup.tick() will cause BattleGrid to show and begin ICE battle.
     }
 

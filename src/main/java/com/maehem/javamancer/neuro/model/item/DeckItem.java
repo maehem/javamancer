@@ -49,6 +49,7 @@ public abstract class DeckItem extends Item {
     // Software is stored in GameState
     // Slot capacity is the number of slots for the largest deck player has owned.
     private Warez currentSoftwarez = null;
+    private Warez rememberedWarez = null;
     public final boolean cyberspaceCapable;
 
     public enum Mode {
@@ -183,5 +184,19 @@ public abstract class DeckItem extends Item {
         String get = p.getProperty(prefix + ".needsRepair", "false");
         LOGGER.log(Level.INFO, () -> "Restore Deck needsRepair value = " + get);
         needsRepair = Boolean.parseBoolean(get);
+    }
+    
+    /**
+     * Remember the current Warez to restore later.
+     */
+    public void pushWarez() {
+        rememberedWarez = currentSoftwarez;
+    }
+    
+    /**
+     * Restore any remembered Warez
+     */
+    public void popWarez() {
+        currentSoftwarez = rememberedWarez;
     }
 }

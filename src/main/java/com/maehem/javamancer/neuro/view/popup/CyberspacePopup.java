@@ -157,12 +157,21 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
         databsePane.setVisible(false);
     }
 
+    /**
+     * This is called when the player exits a DB in Cyberspace.
+     * 
+     * @return 
+     */
     @Override
     public boolean popupExit() {
         setState(State.EXPLORE);
         databaseView = null;
         databsePane.setVisible(false);
         visualPane.setVisible(true);
+        
+        // Restore any warez that was running before ICE/AI battle.
+        // Ex.: EasyRider
+        gameState.usingDeck.popWarez();
         
         return true;
     }
