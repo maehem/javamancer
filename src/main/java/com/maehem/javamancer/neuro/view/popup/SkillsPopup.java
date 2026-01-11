@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
@@ -132,12 +133,12 @@ public class SkillsPopup extends SmallPopupPane {
             getChildren().clear();
             mode = Mode.USE;
             Text heading = new Text(skill.catalog.itemName);
-            Text exitText = new Text("X. Exit\n");
+            //Text exitText = new Text("X. Exit\n");
 
             VBox box = new VBox(
-                    heading,
-                    itemUse(skill),
-                    exitText
+                    //heading,
+                    itemUse(skill)
+                    //exitText
             );
             box.setSpacing(0);
             box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
@@ -149,15 +150,26 @@ public class SkillsPopup extends SmallPopupPane {
 
             getChildren().add(box);
 
-            exitText.setOnMouseClicked((t) -> {
-                itemListPage();
-            });
+            // Remove the software popup after running.
+            long startTime = System.nanoTime();
+            AnimationTimer vt = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    double elapsedTime = (now - startTime) / 1_000_000.0; // mS
+                    if (elapsedTime > 750) {
+                        listener.popupExit();
+                        this.stop();
+                    }
+                }
+            };
+            vt.start();
+
         }
     }
 
     private Node itemUse(Skill skill) {
-        Text text = new Text("Using item:\n");
-        Text text2 = new Text(skill.getDescription());
+        Text text = new Text("Using skill:\n");
+        Text text2 = new Text(skill.getVersionedName());
 
         TextFlow tf = new TextFlow(text, text2);
 
