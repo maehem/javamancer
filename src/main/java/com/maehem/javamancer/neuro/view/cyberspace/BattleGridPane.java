@@ -29,8 +29,14 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.database.Database;
+import com.maehem.javamancer.neuro.model.database.KGBDatabase;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.skill.LogicSkill;
+import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
+import com.maehem.javamancer.neuro.model.skill.PsychoanalysisSkill;
+import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 import com.maehem.javamancer.neuro.model.warez.ChessWarez;
 import com.maehem.javamancer.neuro.model.warez.CorruptorWarez;
 import com.maehem.javamancer.neuro.model.warez.IceBreakerWarez;
@@ -39,7 +45,9 @@ import com.maehem.javamancer.neuro.model.warez.ShotgunWarez;
 import com.maehem.javamancer.neuro.model.warez.VirusWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.SoundEffectsManager;
+import java.util.ArrayList;
 import java.util.logging.Level;
+import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
@@ -52,17 +60,53 @@ import javafx.util.Duration;
  */
 public class BattleGridPane extends GridPane {
 
+    /*
+    <pre>
+    TODO:   
+    
+      - ICE is always the first battle.
+      - If site has AI then AI battle begins after ICE.
+      - AI insults player
+      - AI attack is similar to ICE with exceptions:
+          - Offensive software does not work on AIs. Must use:
+              - Skills: Philosophy, Sophistry, Phenomenology and Logic.
+              - These skills upgrade when you use them.
+          - Player cannot quit AI battle. Use Evasion 2.0 or KGB.
+          - Reveal AI weakness with Psychoanalysis Skill.
+          - When a AI cracks player shield, player looses CON.
+          - AI battles allow use of Zen to heal player CON.
+          - Zen has only 2 heals max per battle.
+    
+    </pre>
+     */
     private static final int ICE_X = 210;
     private static final int SHOT_X = 310;
     private static final int EXPLODE_X = 284;
+    private AI ai;
+    private Database db;
 
-    //private final int[] aiPos;
+    /**
+     * ICE Mode / Battle states
+     */
+    private enum IceMode {
+        BASIC, // Normal ICE mode.
+        VIRUS, // ICE animation alt.
+        ROT, // ICE animation alt.
+        BROKEN, // ICE down. Animations finishing. Start AI.
+        AI, // AI Face present, second battle.
+        AI_DEATH, // AI Dead. Face fading.
+        NONE   // Battles over. OK to open DB page.
+    }
+
+    // When player uses a skill/warez agains AI, it is added here.
+    // Of player wins battle with AI, each skill/warez is upgraded by 1.
+    private final ArrayList<Skill> usedOnAISkill = new ArrayList<>();
+    private final ArrayList<Warez> usedOnAIWarez = new ArrayList<>();
+
     private final ImageStack aiFace;
     private boolean dbAttackRunning;
-
-    private enum IceMode {
-        NONE, BASIC, VIRUS, ROT
-    }
+    private boolean aiAttackRunning;
+    private IceMode mode = IceMode.NONE;
 
     private final ImageView[] dbThing;
     private final ImageView[] shotsLivePlayer;
@@ -116,9 +160,6 @@ public class BattleGridPane extends GridPane {
             new ImageView(resourceManager.getSprite("AIP9_1")),
             new ImageView(resourceManager.getSprite("AIP10_1")),
             new ImageView(resourceManager.getSprite("AIP11_1"))};
-//        this.aiPos = new int[]{// Y position of AI face.
-//            284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284, 284
-//        };
 
         this.iceRear = new ImageView[]{
             new ImageView(resourceManager.getSprite("ICE_1")),
@@ -229,104 +270,217 @@ public class BattleGridPane extends GridPane {
             return;
         }
 
-        // Update the current state of the battle.
-        DeckItem deck = gameState.usingDeck;
-        if (deck.getCurrentWarez() != null) {
-            Warez w = deck.getCurrentWarez();
-            switch (w) {
-                case LinkWarez ww -> {
-                    // Do nothing
-                    w.setRunning(true); // must toggle for event to work
-                    w.setRunning(false);
-                    deck.setCurrentWarez(null);
-                }
-                case IceBreakerWarez ww -> {
-                    LOGGER.log(Level.INFO, "Using IceBreaker Warez... {0}", w.item.itemName);
-                    if (!ww.isRunning()) {
-                        ww.setRunning(true);
-                        fireShotPlayer();
+        // Process already running warez each tick().
+        processWarezTick();
+
+        switch (mode) {
+            case NONE -> {
+                // ICE or AI Death animations finished. Proceed to DB page.
+                gameState.aiList.add(ai); // Remember this defeated AI
+
+                // Upgrade AI Fight Skills used in battle.
+                usedOnAISkill.forEach((skill) -> {
+                    if ( skill instanceof PsychoanalysisSkill ||
+                            skill instanceof SophistrySkill ||
+                            skill instanceof LogicSkill ||
+                            skill instanceof PhenomenologySkill ) {
+                        skill.upgrade();
                     }
-                }
-                case VirusWarez ww -> { // ICE Breaker but deletes after use.
-                    LOGGER.log(Level.CONFIG, "Using Virus Warez...{0}.  Todo: What happens here?", w.item.itemName);
-                    if (!ww.isRunning()) {
-                        ww.setRunning(true);
-                        fireShotPlayer();
+                });
+                usedOnAISkill.clear();
+                
+                usedOnAIWarez.clear();
+                
+                // TODO: Upgrade ICEBreaking Skill if used.
+                
+            }
+            case BROKEN -> {
+                // Animations are running. Do nothing for now.
+            }
+            case AI -> {
+                if (ai.getConstitution() > 0) {
+                    // Player can still attack AI with Skill.
+                    // activeSkill is set by player ControlPanel UI interaction.
+                    Skill skill = gameState.activeSkill;
+                    if (skill != null) {
+                        // Apply use of certain skills.
+                        if (skill instanceof PhenomenologySkill
+                                || skill instanceof SophistrySkill
+                                || skill instanceof PsychoanalysisSkill
+                                || skill instanceof LogicSkill) {
+                            fireShotPlayer(skill);
+                        }
+                        gameState.activeSkill = null; // Consume skill
                     }
-                }
-                case CorruptorWarez ww -> {
-                    LOGGER.log(Level.INFO, "Using Corruptor Warez...{0}.  Todo: What happens here?", w.item.itemName);
-                    if (!ww.isRunning()) {
-                        ww.setRunning(true);
-                        fireShotPlayer();
+                    DeckItem deck = gameState.usingDeck;
+                    if (deck.getCurrentWarez() != null) { // player selected a warez in the UI.
+                        Warez w = deck.getCurrentWarez();
+                        switch (w) {
+                            case ShotgunWarez ww -> { // Use on AI.
+                                LOGGER.log(Level.FINER, "Using Shotgun Warez...{0}.", w.item.itemName);
+                                if (!ww.isRunning()) {
+                                    fireShotPlayer(ww);
+                                }
+                            }
+                            case ChessWarez ww -> { // Use on AI
+                                if (ww.item == Item.Catalog.BATTLECHESS && ww.version == 4) {
+                                    LOGGER.log(Level.FINER, "Using Chess Warez...{0}.{1}.", new Object[]{w.item.itemName, w.version});
+                                    fireShotPlayer(w);
+                                } else if (ww.item == Item.Catalog.KGB) { // Escape AI Battle
+                                    // Transport user to KGB Base.
+                                    setIceMode(IceMode.NONE);
+                                    KGBDatabase kgbDatabase = new KGBDatabase(resourceManager);
+                                    gameState.matrixPosX = kgbDatabase.matrixX;
+                                    gameState.matrixPosY = kgbDatabase.matrixY;
+                                    // TODO: Cause Battle to exit into matrix.
+
+                                } else {
+                                    LOGGER.log(Level.FINER, "Using Chess Warez...{0}.{1}. Wrong version used agains AI.", new Object[]{w.item.itemName, w.version});
+                                }
+                            }
+                            default -> {
+                                LOGGER.log(Level.SEVERE, "Warez {0} is not usable in AI battle! ", w.getSimpleName());
+                            }
+                        }
                     }
-                }
-                case ShotgunWarez ww -> {
-                    LOGGER.log(Level.INFO, "Using Shotgun Warez...{0}.  Todo: What happens here?", w.item.itemName);
-                    if (!ww.isRunning()) {
-                        ww.setRunning(true);
-                        fireShotPlayer();
+
+                    // AI can still attack player.
+                    if (!aiAttackRunning) {
+                        fireShotAI(); // AI attacks Player
                     }
-                }
-                case ChessWarez ww -> {
-                    LOGGER.log(Level.INFO, "Using Chess Warez...{0}.  Todo: What happens here?", w.item.itemName);
-                    w.setRunning(true); // must toggle for event to work
-                    w.setRunning(false);
-                    deck.setCurrentWarez(null);
-                }
-                default -> {
-                    LOGGER.log(Level.INFO, "Using Non-Applicable Warez...{0}. Remove from use.", w.item.itemName);
-                    w.setRunning(true); // must toggle for event to work
-                    w.setRunning(false);
-                    deck.setCurrentWarez(null);
+                } else { // AI Fight is won.
+                    // Allow AI defeated animation to finish.
+                    gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+                    aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
+                    setIceMode(IceMode.AI_DEATH);
                 }
             }
+            case AI_DEATH -> {
+                // AI Animation running. Do nothing.
+            }
+            default -> { // All DB battle modes.
+                DeckItem deck = gameState.usingDeck;
+                if (db.getIce() <= 0) {
+                    // End fight and hand off to AI Fight Mode (if present)
+                    LOGGER.log(Level.INFO, "ICE Fight Ended.");
+                    // Animations
+                    iceBrokenAnimation(iceFrontPane, iceRearPane);
+                    gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+            switch (mode) {
+                case AI -> {
+                    if (ai.getConstitution() <= 0) {
+                        LOGGER.log(Level.INFO, "AI Defeated.");
+                        // TODO: New sound for AI defeated.
+                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+                        aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
+
+                    }
+                }
+                case BASIC, ROT, VIRUS -> { // Any ICE battle mode.
+                    if (db.getIce() <= 0) {
+                        LOGGER.log(Level.INFO, "ICE Broken.");
+                        mode = IceMode.BROKEN; // Allow animations to finish.
+
+                        // Animations
+                        iceBrokenAnimation(iceFrontPane, iceRearPane);
+                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+
+                    }
+                }
+                default -> {
+                    // Do nothing.
+                }
+            }
+                    mode = IceMode.BROKEN;
+                    deck.setCurrentWarez(null);
+                } else {
+                    // Update the current state of the battle.
+                    if (deck.getCurrentWarez() != null) { // player selected a warez in the UI.
+                        Warez w = deck.getCurrentWarez();
+                        switch (w) {
+                            case LinkWarez ww -> { // No effect for battle.
+                            }
+                            case IceBreakerWarez ww -> { // Standard ICE Damage. Not for AI.
+                                LOGGER.log(Level.FINER, "Using IceBreaker Warez... {0}", ww.item.itemName);
+                                if (!ww.isRunning()) {
+                                    fireShotPlayer(ww);
+                                }
+                            }
+                            case VirusWarez ww -> { // ICE Breaker but deletes after use.
+                                LOGGER.log(Level.FINER, "Using Virus Warez...{0}.  Todo: What happens here?", ww.item.itemName);
+                                if (!ww.isRunning()) {
+                                    fireShotPlayer(ww);
+                                }
+                            }
+                            case CorruptorWarez ww -> {
+                                LOGGER.log(Level.FINER, "Using Corruptor Warez...{0}.  Todo: What happens here?", ww.item.itemName);
+                                if (!ww.isRunning()) {
+                                    fireShotPlayer(ww);
+                                }
+                            }
+                            case ShotgunWarez ww -> { // Use on AI.
+                                LOGGER.log(Level.FINER, "Using Shotgun Warez...{0}.  Todo: What happens here?", ww.item.itemName);
+                                if (!ww.isRunning()) {
+                                    fireShotPlayer(ww);
+                                }
+                            }
+                            case ChessWarez ww -> { // Use on AI
+                                LOGGER.log(Level.FINER, "Using Chess Warez...{0}.  Todo: What happens here?", ww.item.itemName);
+                            }
+                            default -> {
+                                LOGGER.log(Level.FINER, "Using Non-Applicable Warez...{0}. Nothing happens.", w.item.itemName);
+                            }
+                        }
+                        deck.setCurrentWarez(null); // Consume warez request.
+
+                    }
+                }
+
+                if (!dbAttackRunning && gameState.database.getIce() > 0) {
+                    // DB attack
+                    fireShotDB();
+                }
+            }
+
         }
-        if (!dbAttackRunning && gameState.database.getIce() > 0) {
-            // DB attack
-            fireShotDB();
-        }
+
+    }
+    
+    public boolean isDone() {
+        return mode == IceMode.NONE;
     }
 
     void resetBattle() {
-        Database db = gameState.database;
+        db = gameState.database;
+        ai = gameState.getAI(db.ai);
 
-        if (db.getIce() > 0) {
-            setIceMode(IceMode.BASIC);
-            iceRearSequence.start();
-            iceFrontSequence.start();
-        } else {
-            setIceMode(IceMode.NONE);
-        }
-
-        if (db.ai != null) {
-            AI ai = gameState.getAI(db.ai);
-            database.show(-1);
-            aiFace.show(ai.index);
-        } else {
-            database.show(1);
-            aiFace.show(-1);
-        }
+        db.resetIce();
+        setIceMode(IceMode.BASIC);
+        iceRearSequence.start();
+        iceFrontSequence.start();
+        iceVirusRearSequence.start();
+        iceVirusFrontSequence.start();
+        iceVirusRotRearSequence.start();
+        iceVirusRotFrontSequence.start();
+        aiFace.show(-1);
 
         shotsLiveDBPane.setVisible(false);
         shotsExplodeDBPane.setVisible(true);
         shotsLivePlayerPane.setVisible(false);
         shotsExplodePlayerPane.setVisible(true);
-
-        //iceVirusRearSequence.start();
-        //iceVirusFrontSequence.start();
-        //iceVirusRotRearSequence.start();
-        //iceVirusRotFrontSequence.start();
-        //shotExplodePlayerSequence.start();
-        //shotExplodeDBSequence.start();
-        //fireShotPlayer();
-        //fireShotDB();
     }
 
-    private void fireShotPlayer() {
-        LOGGER.log(Level.SEVERE, "Player Fires Attack Round...");
-        DeckItem deck = gameState.usingDeck;
-        Warez w = deck.getCurrentWarez();
+    /**
+     * Initiate a Skill shot from player.
+     * 
+     * This method kicks off the animation to send the attack towards the
+     * enemy.  Once the animation ends and also hits the enemy, the Skill
+     * effects are then applied and the players use of the Skill ends.
+     * 
+     * @param skill 
+     */
+    private void fireShotPlayer(Skill skill) {
+        LOGGER.log(Level.FINE, "Player Fires Skill Attack Round: {0}", skill.getVersionedName());
 
         shotsLivePlayerPane.setLayoutY(200);
         shotsLivePlayerPane.setVisible(true);
@@ -336,11 +490,48 @@ public class BattleGridPane extends GridPane {
         TranslateTransition tt = shotMoveInit(
                 shotsLivePlayerPane,
                 -70,
-                w.getRunDuration()
+                2000
         );
         tt.setOnFinished((t) -> {
-            LOGGER.log(Level.INFO, () -> "Warez " + w.item.itemName + " finished. Un-slot.");
-            w.setRunning(false);
+            LOGGER.log(Level.FINE, () -> "Skill " + skill.catalog.itemName + " finished. Un-slot.");
+
+            tt.setNode(null);
+            shotLivePlayerSequence.stop();
+            shotsLivePlayerPane.setVisible(false);
+            shotsLivePlayerPane.setTranslateY(0);
+            shotExplodeDBSequence.start();
+            
+            gameState.activeSkill = null; // Consume the skill.
+            // Apply damage, considering weaknesses.
+            if (mode == IceMode.AI) {
+                ai.applySkillAttack(skill, gameState);
+            } else {
+                gameState.database.applySkillAttack(skill, gameState);
+            }
+        });
+    }
+
+    private void fireShotPlayer(Warez w) {
+        LOGGER.log(Level.FINE, "Player Fires Warez Attack Round:{0} v{1}", new Object[]{w.item.itemName, w.version});
+        DeckItem deck = gameState.usingDeck;
+
+//        if (w instanceof VirusWarez) {
+//            gameState.eraseSoftware(w);
+//        }
+
+        // Set up animation.
+        shotsLivePlayerPane.setLayoutY(200);
+        shotsLivePlayerPane.setVisible(true);
+        shotLivePlayerSequence.start();
+        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.PLAYER_FIRE);
+
+        TranslateTransition tt = shotMoveInit(
+                shotsLivePlayerPane,
+                -70,
+                2000
+        );
+        tt.setOnFinished((t) -> {
+            LOGGER.log(Level.FINE, "Warez {0} strikes enemy.", w.item.itemName);
             deck.setCurrentWarez(null);
 
             tt.setNode(null);
@@ -348,38 +539,92 @@ public class BattleGridPane extends GridPane {
             shotsLivePlayerPane.setVisible(false);
             shotsLivePlayerPane.setTranslateY(0);
             shotExplodeDBSequence.start();
-            // Apply damage, considering weaknesses.
-            gameState.database.applyWarezAttack(w, gameState);
+            
+            // Start the Warez running. Next tick() will handle the rest.
+            w.start();
+            
+//            // Apply damage, considering weaknesses.
+//            if (mode == IceMode.AI) {
+//                //ai.applyDamage(w.getEffect(gameState));
+//                ai.applyWarezAttack(w, gameState);
+//            } else {
+//                gameState.database.applyWarezAttack(w, gameState);
+//            }
 
-            if (w instanceof VirusWarez) {
-                gameState.eraseSoftware(w);
+            // Change any animations for ICE.
+            // TODO: Do this instead at each tick() ???
+            if (w instanceof VirusWarez) { // Thunderhead, Injector, Python, Acid
+                setIceMode(IceMode.VIRUS);
+                // Animation runs for duration of Warez.
+                long startTime = System.nanoTime();
+                AnimationTimer vt = new AnimationTimer() {
+                    @Override
+                    public void handle(long now) {
+                        double elapsedTime = (now - startTime) / 1_000_000.0; // mS
+                        if (elapsedTime > (w.getRunDuration())) {
+                            if (mode == IceMode.VIRUS) { // Only expire if still in this mode.
+                                setIceMode(IceMode.BASIC);
+                            }
+                            this.stop();
+                        }
+                    }
+                };
+                vt.start();
+                //gameState.eraseSoftware(w);
+            } else if (w instanceof CorruptorWarez) { // 
+                setIceMode(IceMode.ROT);
+                // Animation runs for duration of Warez.
+                long startTime = System.nanoTime();
+                AnimationTimer vt = new AnimationTimer() {
+                    @Override
+                    public void handle(long now) {
+                        double elapsedTime = (now - startTime) / 1_000_000.0; // mS
+                        if (elapsedTime > (w.getRunDuration())) {
+                            if (mode == IceMode.ROT) { // Only expire if still in this mode.
+                                setIceMode(IceMode.BASIC);
+                            }
+                            this.stop();
+                        }
+                    }
+                };
+                vt.start();
+                //gameState.eraseSoftware(w);
             } else {
                 // Software has a chance of being worn/damaged.
                 LOGGER.log(Level.INFO, "TODO: Wear or Damage software.");
             }
 
-            if (gameState.database.getIce() == 0) {
-                LOGGER.log(Level.INFO, "ICE Broken.");
-                gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
-                if (gameState.database.ai != null
-                        && gameState.activeSkill.catalog == Item.Catalog.PSYCHOANALYSIS) {
-                    LOGGER.log(Level.INFO, "Using Psychoanalysis. Increase aiFightSkill. Current: {0}", gameState.aiFightSkill);
-                    gameState.aiFightSkill++;
-                    if (gameState.aiFightSkill > GameState.AI_FIGHT_SKILL_MAX) {
-                        LOGGER.log(Level.INFO, "aiFightSkill already at max.");
-                        gameState.aiFightSkill = GameState.AI_FIGHT_SKILL_MAX;
+            switch (mode) {
+                case AI -> {
+                    if (ai.getConstitution() <= 0) {
+                        LOGGER.log(Level.INFO, "AI Defeated.");
+                        // TODO: New sound for AI defeated.
+                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+                        aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
+
                     }
                 }
+                case BASIC, ROT, VIRUS -> { // Any ICE battle mode.
+                    if (db.getIce() <= 0) {
+                        LOGGER.log(Level.INFO, "ICE Broken.");
+                        mode = IceMode.BROKEN; // Allow animations to finish.
 
-                iceBroken(iceFrontPane);
-                iceBroken(iceRearPane);
+                        // Animations
+                        iceBrokenAnimation(iceFrontPane, iceRearPane);
+                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+
+                    }
+                }
+                default -> {
+                    // Do nothing.
+                }
             }
+
         });
     }
 
     private void fireShotDB() {
         LOGGER.log(Level.INFO, "Database Fires Attack Round...");
-        Database db = gameState.database;
 
         shotsLiveDBPane.setLayoutY(120);
         shotsLiveDBPane.setVisible(true);
@@ -392,20 +637,80 @@ public class BattleGridPane extends GridPane {
             LOGGER.log(Level.INFO, "DB Attack finished.");
             dbAttackRunning = false;
 
-            //int effect = db.getEffect(gameState);
             tt.setNode(null);
             shotLiveDBSequence.stop();
             shotsLiveDBPane.setVisible(false);
             shotsLiveDBPane.setTranslateY(0);
             shotExplodePlayerSequence.start();
-            gameState.applyDbAttack(); // Handles death and constitution.
+            gameState.applyEnemyAttack(db.getEffect(gameState)); // Handles death and constitution.
+        });
+    }
+
+    private void fireShotAI() {
+        LOGGER.log(Level.INFO, "Database Fires Attack Round...");
+
+        shotsLiveDBPane.setLayoutY(120);
+        shotsLiveDBPane.setVisible(true);
+        shotLiveDBSequence.start();
+        aiAttackRunning = true;
+        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_HIT);
+
+        TranslateTransition tt = shotMoveInit(shotsLiveDBPane, 80, db.shotDuration);
+        tt.setOnFinished((t) -> {
+            LOGGER.log(Level.INFO, "AI Attack finished.");
+            aiAttackRunning = false;
+
+            tt.setNode(null);
+            shotLiveDBSequence.stop();
+            shotsLiveDBPane.setVisible(false);
+            shotsLiveDBPane.setTranslateY(0);
+            shotExplodePlayerSequence.start();
+            gameState.applyEnemyAttack(ai.getEffect()); // Handles death and constitution.
         });
     }
 
     /**
      * ICE Opacity fades over two seconds
      */
-    private FadeTransition iceBroken(Node fadingNode) {
+    private void iceBrokenAnimation(Node fadeNode1, Node fadeNode2) {
+
+        fadeNode1.setVisible(true);
+        FadeTransition ft1 = new FadeTransition(Duration.millis(3200), fadeNode1);
+        ft1.setFromValue(1.0);
+        ft1.setToValue(0.0);
+        ft1.setCycleCount(1);
+        ft1.setAutoReverse(false);
+        ft1.setOnFinished((t) -> {
+            fadeNode1.setVisible(false);
+            fadeNode1.setOpacity(1.0);
+            if (db.ai != null) { // Begin AI fight.
+                LOGGER.log(Level.INFO, "Begin AI Fight...");
+                aiFace.show(ai.index);
+                setIceMode(IceMode.AI);
+            } else {
+                LOGGER.log(Level.INFO, "Switch to DB Terminal...");
+                setIceMode(IceMode.NONE);
+            }
+        });
+        ft1.play();
+
+        fadeNode2.setVisible(true);
+        FadeTransition ft2 = new FadeTransition(Duration.millis(3200), fadeNode2);
+        ft2.setFromValue(1.0);
+        ft2.setToValue(0.0);
+        ft2.setCycleCount(1);
+        ft2.setAutoReverse(false);
+        ft2.setOnFinished((t) -> {
+            fadeNode2.setVisible(false);
+            fadeNode2.setOpacity(1.0);
+        });
+        ft2.play();
+    }
+
+    /**
+     * AI Face Opacity fades over two seconds
+     */
+    private FadeTransition aiDefeatedAnimation(Node fadingNode) {
 
         fadingNode.setVisible(true);
         FadeTransition ft = new FadeTransition(Duration.millis(3200), fadingNode);
@@ -416,7 +721,8 @@ public class BattleGridPane extends GridPane {
         ft.setOnFinished((t) -> {
             fadingNode.setVisible(false);
             fadingNode.setOpacity(1.0);
-            gameState.setIceBroken(true);
+            mode = IceMode.NONE;
+            // Next visual pane tick should pick this up and change to DB mode.
         });
         ft.play();
 
@@ -436,13 +742,106 @@ public class BattleGridPane extends GridPane {
         return tt;
     }
 
+    /**
+     * Changes take place immediatly. Call at animation finishes.
+     *
+     * @param mode
+     */
     private void setIceMode(IceMode mode) {
+        LOGGER.log(Level.INFO, "ICE Mode changed to: {0}", mode.name());
+        this.mode = mode;
+        database.show(mode == IceMode.AI ? -1 : 1);
+
         iceFrontPane.setVisible(mode == IceMode.BASIC);
         iceRearPane.setVisible(mode == IceMode.BASIC);
         iceVirusFrontPane.setVisible(mode == IceMode.VIRUS);
         iceVirusRearPane.setVisible(mode == IceMode.VIRUS);
         iceVirusRotFrontPane.setVisible(mode == IceMode.ROT);
         iceVirusRotRearPane.setVisible(mode == IceMode.ROT);
+
+        if (mode == IceMode.AI) {
+            if (ai != null) {
+                aiFace.show(ai.index);
+            } else {
+                setIceMode(IceMode.NONE);
+                aiFace.show(-1);
+            }
+        }
+    }
+
+    private void processWarezTick() {
+        gameState.software.forEach((warez) -> {
+            if (warez.isRunning()) {
+                // Apply any warez operation to battle.
+                switch (warez) {
+                    case LinkWarez ww -> { // No effect for battle.
+                        // Ignore
+                    }
+
+                    // Don't fireShotPlayer() here.  WarezTick is for when the warez attack
+                    // has already hit the enemy and does damage instantly or over time.
+                    case IceBreakerWarez ww -> { // Standard ICE Damage. Not for AI.
+                        switch (mode) {
+                            case BASIC, VIRUS, ROT -> {
+                                LOGGER.log(Level.FINER, "Using IceBreaker Warez... {0}", warez.item.itemName);
+                                db.applyWarezAttack(ww, gameState);
+                                ww.tick(gameState);
+                            }
+                            default -> {
+                                LOGGER.log(Level.FINER, "Using IceBreaker Warez...{0}.  Not applicable to non-ICE attacks.", warez.item.itemName);
+                                ww.abort(gameState);
+                                gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
+                            }
+                        }
+                    }
+                    case VirusWarez ww -> { // ICE Breaker but deletes after use.
+                        if (mode == IceMode.VIRUS) {
+                            LOGGER.log(Level.FINER, "Applying Virus Warez damage {0} to target.", warez.item.itemName);
+                            db.applyWarezAttack(ww, gameState);
+                            ww.tick(gameState);
+                        } else {
+                            ww.abort(gameState);
+                        }
+                    }
+                    case CorruptorWarez ww -> {
+                        if (mode == IceMode.ROT) {
+                            LOGGER.log(Level.FINER, "Applying Corruptor Warez damage {0} to target.", warez.item.itemName);
+                            db.applyWarezAttack(ww, gameState);
+                            ww.tick(gameState);
+                        } else {
+                            ww.abort(gameState);
+                        }
+                    }
+                    case ShotgunWarez ww -> { // Use on AI.
+                        if (mode == IceMode.AI) {
+                            LOGGER.log(Level.FINER, "Using Shotgun Warez...{0}.", warez.item.itemName);
+                            //fireShotPlayer(ww);
+                            ww.tick(gameState);
+                        } else {
+                            LOGGER.log(Level.FINER, "Using Shotgun Warez...{0}.  Not applicable to DB attacks.", warez.item.itemName);
+                            ww.abort(gameState);
+                            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
+                        }
+                    }
+                    case ChessWarez ww -> { // Use on AI
+                        if (mode == IceMode.AI) {
+                            LOGGER.log(Level.FINER, "Using Chess Warez...{0}.", warez.item.itemName);
+                            // If BattleChess 4.0 --> AI
+                            ww.tick(gameState);
+                        } else {
+                            LOGGER.log(Level.FINER, "Using Chess Warez...{0}.", warez.item.itemName);
+                            ww.abort(gameState);
+                            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
+                        }
+                    }
+                    default -> {
+                        LOGGER.log(Level.FINEST, "Using Non-Applicable Warez...{0}. Ignoring.", warez.item.itemName);
+                        warez.abort(gameState);
+                    }
+                }
+            }
+            //warez.tick(gameState);
+        });
     }
 
     /**
