@@ -125,6 +125,10 @@ public class SkillsPopup extends SmallPopupPane {
         LOGGER.log(Level.FINE, "Num Skills: {0}", numItems);
     }
 
+    // TODO: use() or itemUse() should have own view class (neuro.view.skill)
+    // to handle use of certain skills that have interaction like
+    // Cryptology and Debug.  Or maybe just a few extra methods here?
+    
     private void use(int index) {
         ArrayList<Skill> skills = gameState.skills;
         if (index + itemIndex < skills.size()) {
