@@ -30,6 +30,12 @@ import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * Reveal weakness of AI.
+ * 
+ * <pre>
+ * Obtained from: Julius Deane for $1000.
+ * 
+ * Upgrade: Maximum of level 4 at Turing Registry.
+ * </pre>
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

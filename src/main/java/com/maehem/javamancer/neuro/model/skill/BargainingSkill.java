@@ -30,6 +30,14 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
+ * Bargaining. Allows player to get better prices from merchants. Most effective
+ * at the Body Shop.
+ *
+ * <pre>
+ * Obtained from: Julius Deane for $1000.
+ *
+ * Upgrades: None.
+ * </pre>
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

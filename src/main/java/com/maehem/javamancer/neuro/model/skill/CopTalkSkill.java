@@ -30,6 +30,16 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
+ * CopTalk. Allows player to talk like a cop.
+ *
+ * Used to obtain information at Donut World. Interesting dialog interactions
+ * when used at many other locations.
+ *
+ * <pre>
+ * Obtained from: Larry Moe for $100.
+ *
+ * Upgrade: To a maximum of level 4 at the SEA database.
+ * </pre>
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

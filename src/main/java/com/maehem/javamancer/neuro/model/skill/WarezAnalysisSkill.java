@@ -30,6 +30,15 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
+ * Describes what a Warez program does.
+ *
+ * <pre>
+ * Obtained from: Emperor Norton at the Matrix Restaurant for $1000. 
+ * 
+ * Upgrade: Level of 2 by Emperor Norton
+ * 
+ * </pre>
+ *
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

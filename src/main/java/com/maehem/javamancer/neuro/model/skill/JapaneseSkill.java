@@ -30,7 +30,14 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
- *
+ * Speak fluent Japanese. Found in game assets but not used in game.
+ * 
+ * <pre>
+ * Obtained from: No one.
+ * 
+ * Upgrade: None
+ * </pre>
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class JapaneseSkill extends Skill {

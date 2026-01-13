@@ -30,7 +30,14 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
- *
+ * Cryptology. Input coded words to get decoded passwords.
+ * 
+ * <pre>
+ * Obtained from: Shiva in the Gentlemen Loser by asking about “Cryptology”. 
+ * 
+ * Upgrade: To a max level of 4 by Julius Deane or at the INSA database.
+* </pre>
+* 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class CryptologySkill extends Skill {

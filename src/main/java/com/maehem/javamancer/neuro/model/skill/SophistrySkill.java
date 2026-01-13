@@ -31,7 +31,17 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
- *
+ * Damages AIs. 
+ * 
+ * <pre>
+ * Obtained from: Nolan at the House of Pong
+ * 
+ * Upgrade: 
+ * One level automatically each time player fights an AI and damage 
+ * the AI with the skill; 
+ * Also directly to level 5 at Turing Registry base.
+* </pre>
+* 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class SophistrySkill extends Skill {

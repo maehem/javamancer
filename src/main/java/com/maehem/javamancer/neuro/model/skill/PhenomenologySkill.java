@@ -32,7 +32,16 @@ import static com.maehem.javamancer.neuro.model.skill.Skill.LOGGER;
 import java.util.logging.Level;
 
 /**
- *
+ * Damages AIs. 
+ * 
+ * <pre>
+ * Obtained from: Julius Deane for $1000. 
+ * 
+ * Upgrade: by one level automatically each time player fights an AI and 
+ * damages the AI with the skill.
+ * Also upgrade directly to level 5 at Turing Registry.
+* <pre>
+* 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class PhenomenologySkill extends Skill {

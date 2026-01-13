@@ -30,13 +30,20 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
- * ICE Breaker (obtain from Metro Holografix) 
+ * ICE Breaker. Improves the damage of ICE breaking software. 
+ * 
+ * <pre>
+ * Obtained from: Metro Holografix for $1000. 
+ * 
+ * Upgrade: Each time player uses skill and defeats an ICE in
+ * a new Zone above 0.
  * 
  * TODO:
  * Boost attack power.
  * Use at start of each battle.
  * Upgrades each time ICE broken in zones above zone 0.
- *
+ * </pre>
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class IceBreakingSkill extends Skill {

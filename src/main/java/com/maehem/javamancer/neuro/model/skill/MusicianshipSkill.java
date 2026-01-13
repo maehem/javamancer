@@ -30,6 +30,14 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
+ * Plays music. Its actual use is to play “dub” in Zion Cluster to get a
+ * free ride to Freeside. 
+ * 
+ * <pre>
+ * Obtained from: Emperor Norton at the Matrix Restaurant for $1000. 
+ * 
+ * Upgrade: None.
+ * </pre>
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */

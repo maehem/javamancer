@@ -30,7 +30,14 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
- *
+ * Evasion. Allows player to flee from battles with AIs. 
+ * 
+ * <pre>
+ * Obtained from: Lupus Yonderboy for $2000. 
+ * 
+ * Upgrade: To a max level of 2 by Emperor Norton at Matrix Restaurant.
+ * </pre>
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class EvasionSkill extends Skill {

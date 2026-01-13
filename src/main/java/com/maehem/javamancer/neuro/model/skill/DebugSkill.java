@@ -30,7 +30,15 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
+ * Fixes corrupted software. 
+ * 
+ * 
  * <pre>
+ * Obtained from: Metro Holografix for $1000. 
+ * 
+ * Upgrade: To a max level of 4 by Emperor Norton at the Matrix Restaurant. 
+ * 
+ * 
  * Debug level 4 has a 100% success rate at debugging software.
  * Debug level 3 has a 75% success rate at debugging software.
  * Debug level 2 has a 50% success rate at debugging software.

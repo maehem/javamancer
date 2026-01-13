@@ -30,7 +30,15 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
- *
+ * Heals your Constitution fully during AI battle. 
+ * 
+ * <pre>
+ * Obtained from:  Nolan at House of Pong
+ * by giving him the joystick from Metro Holografix. 
+ * 
+ * Upgrade: Level 2 by Emperor Norton at Matrix Rest.
+* </pre>
+* 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class ZenSkill extends Skill {

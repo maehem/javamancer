@@ -30,7 +30,14 @@ import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
 /**
- *
+ * Hardware Repair. Fixes corrupted decks. 
+ * 
+ * <pre>
+ * Obtained from: Shiva at the Gentlemen Loser for $1000. 
+ * 
+ * Upgrade: To a max level of 2 by Emperor Norton at Matrix Restaurant.
+* 
+* </pre>
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class HardwareRepairSkill extends Skill {

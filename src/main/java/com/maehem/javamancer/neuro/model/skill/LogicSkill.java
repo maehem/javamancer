@@ -32,6 +32,15 @@ import static com.maehem.javamancer.neuro.model.skill.Skill.LOGGER;
 import java.util.logging.Level;
 
 /**
+ * Damages AIs.
+ *
+ * <pre>
+ * Obtained from: Emperor Norton at the Matrix Restaurant for $1000.
+ * 
+ * Upgrade: One level automatically each time player fights an AI and 
+ * damages the AI with the skill.
+ * It can also be raised to level 5 at Turing Registry.
+ * <pre>
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
@@ -50,7 +59,7 @@ public class LogicSkill extends Skill {
     public String getDescription() {
         return "AI fight skill. +1 after every AI victory.";
     }
-    
+
     @Override
     public int getEffect(GameState gs) {
         return level * level * 200;
