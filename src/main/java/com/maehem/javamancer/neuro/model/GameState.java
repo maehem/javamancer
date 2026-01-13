@@ -81,7 +81,7 @@ public class GameState {
 
     // Health
     public static final int CONSTITUTION_MAX = 2000;
-    public static final int CONSTITUTION_HEAL_RATE = 40;
+    public static final int CONSTITUTION_HEAL_RATE = 10;
     public int damage = 0; // Heal after revived, decays HEAL_RATE per 15 ticks.
 
     public final ArrayList<Item> inventory = new ArrayList<>();
@@ -300,7 +300,7 @@ public class GameState {
 
     public void updateConstitution() {
         if (damage > 0 && usingDeck == null) {
-            LOGGER.log(Level.FINE, "Heal Constitution.");
+            LOGGER.log(Level.FINER, "Heal Constitution: {0}", CONSTITUTION_HEAL_RATE);
             damage -= CONSTITUTION_HEAL_RATE;
             if (damage < 0) {
                 damage = 0;
