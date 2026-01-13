@@ -42,10 +42,6 @@ public class R45Extras extends RoomExtras { // Street Robot (Matrix Rest.)
         {DIALOG_CLOSE.num}, // [1] :: Move along citizen.
     };
 
-    
-    // TODO: What triggers getting arrested here?
-    
-    
     // Animation
     protected final int[][] ANIMATION_FLAGS = {
         {1},  // Robot Face
@@ -69,10 +65,15 @@ public class R45Extras extends RoomExtras { // Street Robot (Matrix Rest.)
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        // TODO: Return 0 if player did something regarding Armitage.
+        // If player sent Armitage a message for the free money and then
+        // read his response, player will get arrested here.
+        if ( gs.bbsMsgFromArmitageRead ) {
+            gs.bbsMsgFromArmitageRead = false; // Reset it.
+            
+            return 0;
+        }
         
         return 1;
-
     }
 
 }

@@ -716,7 +716,7 @@ public class DialogPopup extends DialogPopupPane {
                 }
                 if (!hasItem) {
                     UXBDeckItem uxbDeckItem = new UXBDeckItem();
-                    //uxbDeckItem.needsRepair = true;
+                    uxbDeckItem.needsRepair = true; // Damaged if Shin gives it to player.
                     LOGGER.log(Level.CONFIG, "Add UXB to player inventory.");
                     gameState.inventory.add(uxbDeckItem);
                     gameState.deckSlots = uxbDeckItem.nSlots;

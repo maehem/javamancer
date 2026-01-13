@@ -65,6 +65,7 @@ public enum GameStateDefaults {
     ROOM("room", null),
     // VARIOUS
     MSG_TO_ARMITAGE_SENT("msgToArmitageSent", false),
+    BBS_MSG_FROM_ARMITAGE_READ("bbsMsgFromArmitageRead", false),
     HITACHI_VOLUNTEER("hitachiVolunteer", false),
     RATZ_PAID("ratzPaid", false),
     SHIVA_CHIP_MENTIONED("shivaChipMentioned", false),

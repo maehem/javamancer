@@ -29,22 +29,16 @@ package com.maehem.javamancer.neuro.model.room.extra;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
-import com.maehem.javamancer.neuro.model.room.DialogCommand;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC_DIRECT;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_L;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.UXB;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import static com.maehem.javamancer.neuro.model.room.RoomExtras.LOGGER;
-import com.maehem.javamancer.neuro.view.popup.DialogPopup;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -116,7 +110,7 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
 
         UXBDeckItem uxbDeckItem = new UXBDeckItem();
         uxbDeckItem.price = 100;
-        uxbDeckItem.needsRepair = true;
+        uxbDeckItem.needsRepair = false;
         list.add(uxbDeckItem);
 
         return list;

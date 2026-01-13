@@ -183,6 +183,10 @@ public class PaxBbsNode extends PaxNode {
     }
 
     private void showMessage(BbsMessage message) {
+        if ( message.body.startsWith("Thanks for your response") ) {
+            // Flag player to get arrested in front of Matrix.
+            gameState.bbsMsgFromArmitageRead = true;
+        }
         getChildren().clear();
         mode = Mode.VIEW;
         Text heading = new Text(message.date);

@@ -188,6 +188,7 @@ public class GameStateUtils {
 
         // Misc. Flags
         pPut(props, MSG_TO_ARMITAGE_SENT, gs.msgToArmitageSent);
+        pPut(props, BBS_MSG_FROM_ARMITAGE_READ, gs.bbsMsgFromArmitageRead);
         pPut(props, RATZ_PAID, gs.ratzPaid);
         pPut(props, SHIVA_CHIP_MENTIONED, gs.shivaChipMentioned);
         pPut(props, SHIVA_CHIP_GIVEN, gs.shivaGaveChip);
@@ -323,6 +324,7 @@ public class GameStateUtils {
         gs.massageInfo5 = getBool(MASSAGE_INFO_5, p);
 
         gs.msgToArmitageSent = getBool(MSG_TO_ARMITAGE_SENT, p);
+        gs.bbsMsgFromArmitageRead = getBool(BBS_MSG_FROM_ARMITAGE_READ, p);
         gs.ratzPaid = getBool(RATZ_PAID, p);
         gs.shivaChipMentioned = getBool(SHIVA_CHIP_MENTIONED, p);
         gs.shivaGaveChip = getBool(SHIVA_CHIP_GIVEN, p);
