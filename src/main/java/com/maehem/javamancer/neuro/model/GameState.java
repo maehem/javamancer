@@ -30,6 +30,7 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.database.DatabaseList;
+import com.maehem.javamancer.neuro.model.deck.Cyberspace7DeckItem;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
@@ -40,6 +41,9 @@ import com.maehem.javamancer.neuro.model.room.Room;
 import static com.maehem.javamancer.neuro.model.room.Room.*;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.model.warez.AcidWarez;
+import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
+import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import com.maehem.javamancer.neuro.view.RoomMode;
@@ -157,7 +161,9 @@ public class GameState {
 
     // Hi-Tech Zone visitor (Hitachi)
     public boolean hitachiVolunteer = false;
-    
+
+    // Misc.
+    public boolean bbsMsgFromArmitageRead = false;
     public boolean msgToArmitageSent = false;
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
     public boolean shivaChipMentioned = false;
@@ -210,19 +216,19 @@ public class GameState {
     public void initTestItems() {
 
         // Game Test Items
-        room = Room.R45; // Street Microsofts
-        shivaGavePass = true;
-        chipBalance = 2000;
-
-// Test examples:
+        //room = Room.R40; // Street Metro Holo
+        //chipBalance = 2000;
+        //inventory.add(new RealItem(Catalog.CAVIAR, 0)); // Test item
+        // Test examples:
         //massageInfo3 = true;
         // Make a Deck, put it into inventory and put some software on it.
-        //Cyberspace7DeckItem testDeckItem = new Cyberspace7DeckItem();
-        //testDeckItem.needsRepair = true;
-        //gameState.inventory.add(testDeckItem); // Test item
-        //gameState.deckSlots = testDeckItem.nSlots;
-        //gameState.addSoftware(new CyberspaceWarez(1));
-        //gameState.addSoftware(new AcidWarez(3)); // Should delete when used.
+//        Cyberspace7DeckItem testDeckItem = new Cyberspace7DeckItem();
+//        testDeckItem.needsRepair = true;
+//        inventory.add(testDeckItem); // Test item
+//        deckSlots = testDeckItem.nSlots;
+//        addSoftware(new ComLinkWarez(2));
+//        addSoftware(new CyberspaceWarez(1));
+//        addSoftware(new AcidWarez(3)); // Should delete when used.
     }
 
     public boolean roomCanTalk() {
