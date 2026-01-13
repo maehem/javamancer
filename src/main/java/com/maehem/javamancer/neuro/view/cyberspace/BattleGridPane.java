@@ -77,6 +77,8 @@ public class BattleGridPane extends GridPane {
           - AI battles allow use of Zen to heal player CON.
           - Zen has only 2 heals max per battle.
     
+    TODO: Once player shield is depleted, they take CON damage and software damage.
+    
     </pre>
      */
     private static final int ICE_X = 210;

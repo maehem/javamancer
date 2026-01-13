@@ -49,6 +49,9 @@ import javafx.scene.transform.Scale;
 
 /**
  * TODO: 
+ * Implement Player Shield.
+ * Implement EEG animation.
+ * AI Remembers attacks.  Maybe a three or four deep circular array or push stack?
  * If shield is 0, player will lose CON points for each hit.
  * If CON is reduced to 0, player will die. 
  * In cyberspace player cannot see CON points directly and instead has to 

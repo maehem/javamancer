@@ -41,6 +41,9 @@ import com.maehem.javamancer.neuro.model.room.RoomExtras;
 /**
  * TODO: Last few dialog elements need tuning and testing.
  *
+ * TODO: If player is arrested a 5-6 times, fine increases to $20,000.
+ * TODO: If player is sentenced more than 7-8 times, then they will always
+ * get death penalty after that. See dialog [31].
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
@@ -113,6 +116,7 @@ public class R3Extras extends RoomExtras {
 
     @Override
     public int dialogWarmUp(GameState gs) {
+        
         if (!gs.roomCanTalk()) {
             return DIALOG_END.num;
         }
