@@ -365,7 +365,7 @@ public class BattleGridPane extends GridPane {
                     // End fight and hand off to AI Fight Mode (if present)
                     LOGGER.log(Level.INFO, "ICE Fight Ended.");
                     // Animations
-                    iceBrokenAnimation(iceFrontPane, iceRearPane);
+                    //iceBrokenAnimation(iceFrontPane, iceRearPane);
                     gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
                     switch (mode) {
                         case AI -> {
