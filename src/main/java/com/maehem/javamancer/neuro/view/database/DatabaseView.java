@@ -1112,7 +1112,7 @@ public abstract class DatabaseView {
         pane.getChildren().clear();
         subMode = SubMode.PERSON_LIST;
 
-        TextResource bamaList = gameState.resourceManager.getTextResource(personEditResourceName);
+        TextResource bamaList = gameState.resourceManager.getBihResource(personEditResourceName);
         ArrayList<Person> list;
         if (personEditList != null) { // Using editable list.
             list = personEditList;

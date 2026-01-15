@@ -28,6 +28,7 @@ package com.maehem.javamancer.neuro.model.ai;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.warez.Warez;
@@ -158,5 +159,9 @@ public abstract class AI {
         }
 
         return null;
+    }
+
+    public TextResource getDialogs(GameState gs) {
+        return gs.resourceManager.getTxhText("AITEXT");
     }
 }

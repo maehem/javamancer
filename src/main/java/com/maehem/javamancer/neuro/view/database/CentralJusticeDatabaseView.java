@@ -147,7 +147,7 @@ public class CentralJusticeDatabaseView extends DatabaseView {
         TextFlow contentTf = simpleTextFlow(subHeadingText);
         contentTf.setPadding(new Insets(0, 0, 0, 30));
 
-        TextResource bamaList = gameState.resourceManager.getTextResource("POLICE0");
+        TextResource bamaList = gameState.resourceManager.getBihResource("POLICE0");
         bamaList.forEach((item) -> {
             Text t;
             if (item.startsWith("\1")) {

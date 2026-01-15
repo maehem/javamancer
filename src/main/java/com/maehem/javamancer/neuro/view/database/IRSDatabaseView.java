@@ -172,7 +172,7 @@ public class IRSDatabaseView extends DatabaseView {
         TextFlow contentTf = simpleTextFlow(subHeadingText);
         contentTf.setPadding(new Insets(0, 0, 0, 30));
 
-        TextResource bamaList = gameState.resourceManager.getTextResource("IRS0");
+        TextResource bamaList = gameState.resourceManager.getBihResource("IRS0");
         bamaList.forEach((item) -> {
             Text t;
             if (item.startsWith("\1")) {

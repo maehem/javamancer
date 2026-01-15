@@ -161,7 +161,7 @@ public class PsychologistDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.REVIEW;
 
-        TextResource textResource = gameState.resourceManager.getTextResource("PSYCHO" + index);
+        TextResource textResource = gameState.resourceManager.getBihResource("PSYCHO" + index);
 
         textResource.dumpList();
 

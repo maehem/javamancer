@@ -31,6 +31,7 @@ import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.NewsArticle;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.resource.view.DATUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
@@ -139,18 +140,26 @@ public class ResourceManager {
     }
 
     public TextResource getRoomText(Room room) {
-        return getTextResource(room.name());
+        return getTextResource(bihFolder, room.name());
     }
 
     public TextResource getDatabaseText(int dbNum) {
-        return getTextResource("DB" + dbNum);
+        return getTextResource(bihFolder, "DB" + dbNum);
     }
 
-    public TextResource getTextResource( String fileName ) {
+    public TextResource getTxhText(String name) {
+        return getTextResource(txhFolder, name );
+    }
+
+    public TextResource getBihResource(String filename ) {
+        return getTextResource(bihFolder, filename);
+    }
+    
+    public TextResource getTextResource( File folder, String fileName ) {
         BufferedReader in = null;
         TextResource tr = new TextResource();
         try {
-            File txtFile = new File(bihFolder, fileName + "_meta.txt");
+            File txtFile = new File(folder, fileName + "_meta.txt");
             in = new BufferedReader(new FileReader(txtFile), 16 * 1024);
             try (Scanner read = new Scanner(in)) {
                 read.useDelimiter("\n");
@@ -158,11 +167,11 @@ public class ResourceManager {
 
                 while (read.hasNext()) {
                     String txt = read.next();
-                    if (txt.startsWith("// END Text Elements")) {
+                    if (txt.startsWith(DATUtil.TEXT_COMMENT_END)) {
                         break;
                     } else if (foundText) {
                         tr.add(txt);
-                    } else if (txt.startsWith("// Text Elements:")) {
+                    } else if (txt.startsWith(DATUtil.TEXT_COMMENT_BEGIN)) {
                         foundText = true;
                     }
                 }
@@ -182,7 +191,7 @@ public class ResourceManager {
 
     public String getFirstTimeText() {
         try {
-            File txtFile = new File(txhFolder, "FTUSER.txt");
+            File txtFile = new File(txhFolder, "FTUSER_meta.txt");
             return Files.readString(txtFile.toPath());
         } catch (FileNotFoundException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);

@@ -48,6 +48,12 @@ import javafx.scene.image.Image;
 public class DATUtil {
 
     private static final Logger LOG = Logging.LOGGER;
+    
+    public static final String TEXT_COMMENT_BEGIN = "// Text Elements:";
+    public static final String TEXT_COMMENT_END = "// END Text Elements";
+    
+    public static final String DB_PW_COMMENT_BEGIN = "// DB Passwords:";
+    public static final String DB_PW_COMMENT_END = "// END DB Passwords";
 
     public static void createCache(DAT dat, File cacheFolder) {
 
@@ -304,7 +310,7 @@ public class DATUtil {
                 }
 
                 if (!bihThing.passwords.isEmpty()) {
-                    writer.writeBytes("// DB Passwords:");
+                    writer.writeBytes(DB_PW_COMMENT_BEGIN);
                     if (!bihThing.passwords.isEmpty()) {
                         writer.writeBytes("\n");
                     } else {
@@ -314,10 +320,10 @@ public class DATUtil {
                         writer.writeBytes(text);
                         writer.writeBytes("\n");
                     }
-                    writer.writeBytes("// END DB Passwords\n\n");
+                    writer.writeBytes(DB_PW_COMMENT_END + "\n\n");
                 }
 
-                writer.writeBytes("// Text Elements:");
+                writer.writeBytes(TEXT_COMMENT_BEGIN);
                 if (!bihThing.text.isEmpty()) {
                     writer.writeBytes("\n");
                 } else {
@@ -329,7 +335,7 @@ public class DATUtil {
                     writer.writeBytes(text);
                     writer.writeBytes("\n");
                 }
-                writer.writeBytes("// END Text Elements");
+                writer.writeBytes(TEXT_COMMENT_END);
 
                 writer.writeBytes("\n\n// Ancillary header fields: (no known use, always zero)\n");
                 writer.writeBytes("cbOffset:" + String.valueOf(bihThing.cbOffset) + "\n");
@@ -399,16 +405,18 @@ public class DATUtil {
 
             for (int i = 0; i < txhThing.data.length; i++) {
                 if (txhThing.data[i] == '\0') {
-                    txhThing.data[i] = '\r';
+                    txhThing.data[i] = '\n';
                 }
             }
 
-            File metaFile = new File(folder, txhThing.name + ".txt");
+            File metaFile = new File(folder, txhThing.name + "_meta.txt");
             LOG.log(Level.CONFIG, "Create TXT File: {0}", metaFile.getAbsolutePath());
             try (RandomAccessFile writer = new RandomAccessFile(metaFile, "rw")) {
                 writer.getChannel().truncate(0L);
-                writer.writeBytes("// Text for: " + txhThing.name + "\n");
+                writer.writeBytes("// TXH for: " + txhThing.name + "\n");
+                writer.writeBytes(TEXT_COMMENT_BEGIN + "\n");
                 writer.write(txhThing.data);
+                writer.writeBytes("\n" + TEXT_COMMENT_END);
                 writer.close();
             } catch (FileNotFoundException ex) {
                 LOGGER.log(Level.SEVERE, ex.getMessage(), ex);

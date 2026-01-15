@@ -600,18 +600,16 @@ public class BattleGridPane extends GridPane {
                         // TODO: New sound for AI defeated.
                         gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
                         aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
-
                     }
                 }
                 case BASIC, ROT, VIRUS -> { // Any ICE battle mode.
                     if (db.getIce() <= 0) {
                         LOGGER.log(Level.INFO, "ICE Broken.");
-                        mode = IceMode.BROKEN; // Allow animations to finish.
+                        mode = IceMode.BROKEN; // Allows animations to finish.
 
                         // Animations
                         iceBrokenAnimation(iceFrontPane, iceRearPane);
                         gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
-
                     }
                 }
                 default -> {
@@ -686,6 +684,10 @@ public class BattleGridPane extends GridPane {
                 LOGGER.log(Level.INFO, "Begin AI Fight...");
                 aiFace.show(ai.index);
                 setIceMode(IceMode.AI);
+                
+                // Dump the AI responses to LOGGER.
+                gameState.resourceManager.getTxhText("AITALK").dumpList();
+
             } else {
                 LOGGER.log(Level.INFO, "Switch to DB Terminal...");
                 setIceMode(IceMode.NONE);
