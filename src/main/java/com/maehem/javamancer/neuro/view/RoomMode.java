@@ -613,7 +613,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 statusText.setText(time);
             }
             case CREDIT -> {
-                statusText.setText("$" + String.format("%1$9s", String.valueOf(getGameState().chipBalance)));
+                statusText.setText("$" + String.format("%1$9s", String.valueOf(getGameState().moneyChipBalance)));
             }
             case CONSTITUTION -> {
                 statusText.setText(String.format("%1$10s", String.valueOf(gs.getConstitution())));

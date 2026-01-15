@@ -75,7 +75,7 @@ public class PawnshopVendPopup extends SmallPopupPane {
     private void itemListPage() {
         getChildren().clear();
         Text heading = new Text(mode.name() + " ITEMS"
-                + "    credits-" + gameState.chipBalance);
+                + "    credits-" + gameState.moneyChipBalance);
         Text previous = new Text("previous");
         previous.setVisible(itemIndex > 0);
         Text exit = new Text("exit");
@@ -175,10 +175,10 @@ public class PawnshopVendPopup extends SmallPopupPane {
                 if (!gameState.hasInventoryItem(item)) {
                     // Try to buy it.
                     int price = computePrice(item.price, discount);
-                    if (gameState.chipBalance >= price) {
+                    if (gameState.moneyChipBalance >= price) {
                         LOGGER.log(Level.FINE, "Pawnshop: Player bought {0}", item.item.itemName);
                         itemPurchased = true;
-                        gameState.chipBalance -= price;
+                        gameState.moneyChipBalance -= price;
                         gameState.inventory.add(item);
                         //TextResource roomText = gameState.resourceManager.getRoomText(gameState.room);
                         //listener.showMessage(roomText.get(13));

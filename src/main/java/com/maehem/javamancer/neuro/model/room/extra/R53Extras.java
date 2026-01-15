@@ -99,7 +99,7 @@ public class R53Extras extends RoomExtras { // Hitachi
             // Woman asks you to wait. Hide her animation.
             ANIMATION_FLAGS[0][0] = 0;
         } else if (command.equals(LUNGS)) {
-            gs.chipBalance += 3000;
+            gs.moneyChipBalance += 3000;
             gs.soldBodyParts.add(BodyPart.LUNGS);
             // TODO: Verify if player can buy lung back at bodyshop in original game.
         }

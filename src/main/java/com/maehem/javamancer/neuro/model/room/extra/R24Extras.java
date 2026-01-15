@@ -112,7 +112,7 @@ public class R24Extras extends RoomExtras {
     public int dialogIndexAdjust(GameState gs, DialogCommand command) {
         LOGGER.log(Level.INFO, "Massage Parlor: Player bought info...");
 
-        if (gs.chipBalance < 20) {
+        if (gs.moneyChipBalance < 20) {
             return 18;
         }
 
@@ -121,7 +121,7 @@ public class R24Extras extends RoomExtras {
 
         // When all info has been bought,  don't deduct money and return 22.
         if (newInfo != 22) {
-            gs.chipBalance -= 20; // Deduct some money.
+            gs.moneyChipBalance -= 20; // Deduct some money.
             LOGGER.log(Level.CONFIG, () -> "Akiko gives you info dialog " + newInfo);
         } else {
             LOGGER.log(Level.CONFIG, () -> "Akiko has given you all the info she has.");

@@ -480,8 +480,8 @@ public class PaxBbsNode extends PaxNode {
         if ("armitage".equals(typedTo.toString().toLowerCase())
                 && typedMessage.indexOf(GameState.PLAYER_BAMA) >= 0) {
             LOGGER.log(Level.FINE, "Found message to armitage with bama ID!");
-            if (!gameState.msgToArmitageSent) {
-                gameState.msgToArmitageSent = true;
+            if (!gameState.bbsMsgToArmitageSent) {
+                gameState.bbsMsgToArmitageSent = true;
 
                 // Activate Armitage message
                 BbsMessage toMove = null;

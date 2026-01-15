@@ -100,11 +100,11 @@ public class GameState {
     // Money
     public final static String PLAYER_BAMA = "056306118";
     public final static String LARRY_MODE_BAMA = "062788138";
-    public int chipBalance = 6;
+    public int moneyChipBalance = 6;
     public int bankBalance = 2000;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
-    public int bankZurichBalance = 0;  // Create account by accessing Zurich via sequencer of cyberspace.
-    public int bankGemeinBalance = 30000;  // Create account by accessing Zurich via sequencer of cyberspace.
+    public int bankZurichBalance = 0;  // Create account by accessing Zurich via sequencer in cyberspace.
+    public int bankGemeinBalance = 30000;  // Create account by accessing Zurich via sequencer in cyberspace.
     public String bankZurichCreated = null; // Date string when account created.
     public final static String BANK_ZURICH_ID = "712345450134";
     public final static String BANK_GEMEIN_ID = "646328356481";
@@ -135,7 +135,7 @@ public class GameState {
     public boolean databaseBattle = false; // Ephemeral. No save during battle
     public boolean databaseArrived = false; // Ephemeral. Set by explorer when at a DB.
     public boolean databaseBattleBegin = false; // Ephemeral.
-    private boolean flatlined = false; // Ephemaral
+    private boolean playerFlatlined = false; // Ephemaral
 
     // Room Stuff
     public RoomMode roomMode;
@@ -164,7 +164,7 @@ public class GameState {
 
     // Misc.
     public boolean bbsMsgFromArmitageRead = false;
-    public boolean msgToArmitageSent = false;
+    public boolean bbsMsgToArmitageSent = false;
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
     public boolean shivaChipMentioned = false;
     public boolean shivaGaveChip = false;
@@ -188,7 +188,6 @@ public class GameState {
     public int hosakaDaysSincePaid = -1;
 
     // Ephemeral. Not game saved.
-    //public ItemCatalog activeItem = ItemCatalog.NONE;
     public Skill previousSkill = null;
     public int activeSkillLevel = 0;
     public BodyShopRecent bodyShopRecent = BodyShopRecent.NONE; // Fix me. Probably a better way to do.
@@ -266,13 +265,12 @@ public class GameState {
 
         if (usingDeck != null && usingDeck.getMode() != DeckItem.Mode.NONE) {
             if (!usingDeck.isNoFee()) {
-                if (chipBalance > 0) {
-                    chipBalance--;
-                    if (chipBalance == 0) {
+                if (moneyChipBalance > 0) {
+                    moneyChipBalance--;
+                    if (moneyChipBalance == 0) {
                         showMessage = "\n\nNot enough credits to use deck.\n";
                     }
                 } // Deck Popup should check balance and exit if needed.
-
             }
 
         }
@@ -473,19 +471,19 @@ public class GameState {
         // If Constitution == 0 then die.
         if (getConstitution() <= 0) {
             LOGGER.log(Level.CONFIG, "Player death. Revive in Body Shop.");
-            flatlined = true;
+            playerFlatlined = true;
         }
     }
 
     public boolean isFlatline() {
-        return flatlined;
+        return playerFlatlined;
     }
 
     public void revive() {
         LOGGER.log(Level.CONFIG, "Revive player.");
         damage = getConstitutionUsable() - 10;
-        chipBalance = 0;
-        flatlined = false;
+        moneyChipBalance = 0;
+        playerFlatlined = false;
         bodyShopRecent = BodyShopRecent.REVIVED; // Handled by R4Extras.warmup()
         useDoor = RoomBounds.Door.BODY_SHOP;
     }

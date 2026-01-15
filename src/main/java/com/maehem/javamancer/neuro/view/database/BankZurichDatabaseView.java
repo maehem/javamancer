@@ -200,7 +200,7 @@ public class BankZurichDatabaseView extends DatabaseView {
         Text acctLabel = new Text(" " + split[1].substring(acctIndex));
 //        String amountsStr = split[1].replace(
 //                "         ",
-//                String.format("%9d", gameState.chipBalance)
+//                String.format("%9d", gameState.moneyChipBalance)
 //        ) + gameState.bankZurichBalance;
         tf.getChildren().addAll(nameText,
                 chipLabel, chipBalanceText,
@@ -218,7 +218,7 @@ public class BankZurichDatabaseView extends DatabaseView {
         String[] split = dbTextResource.get(12).split("\r");
 //        String amountsStr = split[1].replace(
 //                "         ",
-//                String.format("%9d", gameState.chipBalance)
+//                String.format("%9d", gameState.moneyChipBalance)
 //        ) + gameState.bankZurichBalance;
 //        Text instructionsText = new Text(
 //                split[0].trim() + " " + gameState.name + "\n"
@@ -325,8 +325,8 @@ public class BankZurichDatabaseView extends DatabaseView {
                     }
                 } else if (code == KeyCode.ENTER) {
                     int amount = Integer.parseInt(typedNumberAmount.getText());
-                    if (amount <= gameState.chipBalance) {
-                        gameState.chipBalance -= amount;
+                    if (amount <= gameState.moneyChipBalance) {
+                        gameState.moneyChipBalance -= amount;
                         gameState.bankZurichCreated = gameState.getDateString();
                         gameState.bankZurichBalance = amount;
                         initMessages();
@@ -371,16 +371,16 @@ public class BankZurichDatabaseView extends DatabaseView {
                     if (transferMode) { // true == download to chip
                         if (amount <= gameState.bankZurichBalance) {
                             gameState.bankZurichBalance -= amount;
-                            gameState.chipBalance += amount;
+                            gameState.moneyChipBalance += amount;
 
                             accountOperations();
                         } else {
                             // play "bad" sound
                         }
                     } else { // upload to Zurich
-                        if (amount <= gameState.chipBalance) {
+                        if (amount <= gameState.moneyChipBalance) {
                             gameState.bankZurichBalance += amount;
-                            gameState.chipBalance -= amount;
+                            gameState.moneyChipBalance -= amount;
 
                             accountOperations();
                         }
@@ -404,7 +404,7 @@ public class BankZurichDatabaseView extends DatabaseView {
 
         if (mode == Mode.ACCOUNT || mode == Mode.TRANSFER) {
             chipBalanceText.setText(
-                    String.format("%9d", gameState.chipBalance)
+                    String.format("%9d", gameState.moneyChipBalance)
             );
             zurichBalanceText.setText(String.valueOf(gameState.bankZurichBalance));
         }

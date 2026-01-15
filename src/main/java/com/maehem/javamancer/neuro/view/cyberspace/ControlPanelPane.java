@@ -149,7 +149,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
         zoneText.setText(String.valueOf(currentZone.num));
         xText.setText(String.format("%03d", gameState.usingDeck.getCordX()));
         yText.setText(String.format("%03d", gameState.usingDeck.getCordY()));
-        cashText.setText("$" + String.format("%8d", gameState.chipBalance));
+        cashText.setText("$" + String.format("%8d", gameState.moneyChipBalance));
     }
 
     private void initButtons() {

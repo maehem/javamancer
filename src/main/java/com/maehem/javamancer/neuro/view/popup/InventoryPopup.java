@@ -125,7 +125,7 @@ public class InventoryPopup extends SmallPopupPane {
                 Item item = articles.get(i + itemIndex);
                 Text listItem;
                 if (item.item.equals(Catalog.CREDITS)) {
-                    listItem = new Text(newLine + (i + 1) + ".  " + item.item.itemName + " " + gameState.chipBalance);
+                    listItem = new Text(newLine + (i + 1) + ".  " + item.item.itemName + " " + gameState.moneyChipBalance);
                 } else {
                     String needsRepair = " ";
                     if (item instanceof DeckItem di) {
@@ -161,7 +161,7 @@ public class InventoryPopup extends SmallPopupPane {
         mode = Mode.EFFECT;
         Text heading;
         if (currentItem.item.equals(Catalog.CREDITS)) {
-            heading = new Text(currentItem.item.itemName + " " + gameState.chipBalance);
+            heading = new Text(currentItem.item.itemName + " " + gameState.moneyChipBalance);
         } else {
             heading = new Text(currentItem.item.itemName);
         }
@@ -512,7 +512,7 @@ public class InventoryPopup extends SmallPopupPane {
             }
         } else if (ke.getCode().equals(KeyCode.ENTER)) {
             int value = Integer.parseInt(enteredNumber.toString());
-            if (gameState.chipBalance >= value) {
+            if (gameState.moneyChipBalance >= value) {
                 if (gameState.room.getExtras().give(gameState, currentItem, value)) {
                     listener.popupExit(RoomMode.Popup.TALK); // Talk to NPC now.
                 }
@@ -535,7 +535,7 @@ public class InventoryPopup extends SmallPopupPane {
     private boolean checkAmount(int amount) {
         LOGGER.log(Level.FINER, "Check Give credits amount: {0}", amount);
         // Move to bank
-        if (gameState.chipBalance < amount) {
+        if (gameState.moneyChipBalance < amount) {
             // can't do it.
             LOGGER.log(Level.INFO, "Not enough money on chip!");
             insufficientFunds.setVisible(true);

@@ -68,7 +68,7 @@ public class R57Extras extends RoomExtras { // Hosaka
         if (HosakaDatabase.isEmployee(gs) && gs.hosakaDaysSincePaid > 6) {
             int pay = 10000 * gs.hosakaDaysSincePaid / 7;
             gs.hosakaDaysSincePaid = gs.hosakaDaysSincePaid % 7;
-            gs.chipBalance += pay;
+            gs.moneyChipBalance += pay;
             LOGGER.log(Level.CONFIG, "Player receives Hosaka paycheck of ${0} to chip.", pay);
             return DESC_DIRECT.num + 2;
         }

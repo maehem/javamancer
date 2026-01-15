@@ -102,21 +102,21 @@ public class R19Extras extends RoomExtras { // Spaceport Chiba
         switch (command) {
             case EXIT_SHUTTLE_FS -> {
                 LOGGER.log(Level.INFO, "Do something about purchase of ticket Free Side.");
-                if (gs.chipBalance < FS_TICKET) {
+                if (gs.moneyChipBalance < FS_TICKET) {
                     LOGGER.log(Level.FINE, "Not enough money for Free Side.");
                     return 20;
                 } else {
-                    gs.chipBalance -= FS_TICKET;
+                    gs.moneyChipBalance -= FS_TICKET;
                     gs.shuttleDest = RoomBounds.Door.FREESIDE;
                 }
             }
             case EXIT_SHUTTLE_ZION -> {
                 LOGGER.log(Level.INFO, "Do something about purchase of ticket Zion.");
-                if (gs.chipBalance < ZION_TICKET) {
+                if (gs.moneyChipBalance < ZION_TICKET) {
                     LOGGER.log(Level.FINE, "Not enough money for Zion.");
                     return 20;
                 } else {
-                    gs.chipBalance -= ZION_TICKET;
+                    gs.moneyChipBalance -= ZION_TICKET;
                     gs.shuttleDest = RoomBounds.Door.ZION;
                 }
             }

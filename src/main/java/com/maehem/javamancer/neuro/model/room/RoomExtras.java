@@ -191,11 +191,11 @@ public abstract class RoomExtras {
     }
 
     public boolean chipDeduct(GameState gs, int amt) {
-        if (amt > gs.chipBalance) {
+        if (amt > gs.moneyChipBalance) {
             return false;
         }
 
-        gs.chipBalance -= amt;
+        gs.moneyChipBalance -= amt;
         return true;
     }
 

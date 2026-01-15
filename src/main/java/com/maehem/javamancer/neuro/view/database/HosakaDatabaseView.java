@@ -160,7 +160,7 @@ public class HosakaDatabaseView extends DatabaseView {
         if (uploadOK && !gameState.comlink6uploaded) {
             // Add 7500 credits to chip.
             LOGGER.log(Level.FINE, "Hosaka added 7500 credits to player chip.");
-            gameState.chipBalance += 7500;
+            gameState.moneyChipBalance += 7500;
             gameState.comlink6uploaded = true;
             return true;
         } else if (uploadOK && gameState.comlink6uploaded) {

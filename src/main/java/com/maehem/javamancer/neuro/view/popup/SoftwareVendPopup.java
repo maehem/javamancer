@@ -74,7 +74,7 @@ public class SoftwareVendPopup extends SmallPopupPane {
     private void itemListPage() {
         getChildren().clear();
         Text heading = new Text(mode.name() + " WAREZ"
-                + "    credits-" + gameState.chipBalance);
+                + "    credits-" + gameState.moneyChipBalance);
         Text previous = new Text("previous");
         previous.setVisible(itemIndex > 0);
         Text exit = new Text("exit");
@@ -156,9 +156,9 @@ public class SoftwareVendPopup extends SmallPopupPane {
                 if (!DeckUtils.hasSoftware(gameState, item)) {
                     // Try to buy it.
                     int price = item.price;
-                    if (gameState.chipBalance >= price) {
+                    if (gameState.moneyChipBalance >= price) {
                         LOGGER.log(Level.FINE, () -> "Player bought " + item.getSimpleName());
-                        gameState.chipBalance -= price;
+                        gameState.moneyChipBalance -= price;
                         DeckUtils.installSoftware(gameState, item);
                     } else {
                         LOGGER.log(Level.FINE, "Not enough money to buy skill.");

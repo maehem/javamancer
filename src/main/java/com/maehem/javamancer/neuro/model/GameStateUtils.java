@@ -127,7 +127,7 @@ public class GameStateUtils {
         props.put(DATE_YEAR.key, String.valueOf(gs.dateYear));
 
         // Money
-        props.put(CHIP_BALANCE.key, String.valueOf(gs.chipBalance));
+        props.put(CHIP_BALANCE.key, String.valueOf(gs.moneyChipBalance));
         props.put(BANK_BALANCE.key, String.valueOf(gs.bankBalance));
         putBankTransactions(gs.bankTransactionRecord, props);
 
@@ -187,7 +187,7 @@ public class GameStateUtils {
         pPut(props, MASSAGE_INFO_5, gs.massageInfo5);
 
         // Misc. Flags
-        pPut(props, MSG_TO_ARMITAGE_SENT, gs.msgToArmitageSent);
+        pPut(props, MSG_TO_ARMITAGE_SENT, gs.bbsMsgToArmitageSent);
         pPut(props, BBS_MSG_FROM_ARMITAGE_READ, gs.bbsMsgFromArmitageRead);
         pPut(props, RATZ_PAID, gs.ratzPaid);
         pPut(props, SHIVA_CHIP_MENTIONED, gs.shivaChipMentioned);
@@ -270,7 +270,7 @@ public class GameStateUtils {
         gs.dateYear = getInt(DATE_YEAR, p);
 
         // Money
-        gs.chipBalance = getInt(CHIP_BALANCE, p);
+        gs.moneyChipBalance = getInt(CHIP_BALANCE, p);
         gs.bankBalance = getInt(BANK_BALANCE, p);
         restorebankTransactions(gs.bankTransactionRecord, p);
         gs.bankZurichBalance = getInt(BANK_ZURICH_BALANCE, p);
@@ -323,7 +323,7 @@ public class GameStateUtils {
         gs.massageInfo4 = getBool(MASSAGE_INFO_4, p);
         gs.massageInfo5 = getBool(MASSAGE_INFO_5, p);
 
-        gs.msgToArmitageSent = getBool(MSG_TO_ARMITAGE_SENT, p);
+        gs.bbsMsgToArmitageSent = getBool(MSG_TO_ARMITAGE_SENT, p);
         gs.bbsMsgFromArmitageRead = getBool(BBS_MSG_FROM_ARMITAGE_READ, p);
         gs.ratzPaid = getBool(RATZ_PAID, p);
         gs.shivaChipMentioned = getBool(SHIVA_CHIP_MENTIONED, p);

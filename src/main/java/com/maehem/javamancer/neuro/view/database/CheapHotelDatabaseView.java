@@ -445,7 +445,7 @@ public class CheapHotelDatabaseView extends DatabaseView {
 
     private void attemptPayment() {
         LOGGER.log(Level.FINE, "Player attempts to pay hotel bill...");
-        int available = gameState.chipBalance;
+        int available = gameState.moneyChipBalance;
         int hotelBalance = gameState.hotelCharges - gameState.hotelOnAccount;
 
         if (hotelBalance == 0) {
@@ -458,7 +458,7 @@ public class CheapHotelDatabaseView extends DatabaseView {
             // Play "bad" sound.
         } else {
             LOGGER.log(Level.FINE, "Hotel bill paid.");
-            gameState.chipBalance -= hotelBalance;
+            gameState.moneyChipBalance -= hotelBalance;
             gameState.hotelOnAccount += hotelBalance;
             // Play "good" sound.
         }

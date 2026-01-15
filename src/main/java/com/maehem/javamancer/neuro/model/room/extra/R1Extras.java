@@ -111,7 +111,7 @@ public class R1Extras extends RoomExtras {
             // Credit amount is 46
             if (aux == 46) {
                 gs.ratzPaid = true;
-                gs.chipBalance -= 46;
+                gs.moneyChipBalance -= 46;
                 return true;
             }
         }

@@ -193,7 +193,7 @@ public class SkillsPopup extends SmallPopupPane {
 //            mode = Mode.EFFECT;
 //            Text heading;
 //            if (currentItem.item.equals(ItemCatalog.CREDITS)) {
-//                heading = new Text(currentItem.item.itemName + " " + gameState.chipBalance);
+//                heading = new Text(currentItem.item.itemName + " " + gameState.moneyChipBalance);
 //            } else {
 //                heading = new Text(currentItem.item.itemName);
 //            }

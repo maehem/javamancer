@@ -74,7 +74,7 @@ public class SkillsVendPopup extends SmallPopupPane {
     private void itemListPage() {
         getChildren().clear();
         Text heading = new Text(mode.name() + " SKILLS"
-                + "    credits-" + gameState.chipBalance);
+                + "    credits-" + gameState.moneyChipBalance);
         Text previous = new Text("previous");
         previous.setVisible(itemIndex > 0);
         Text exit = new Text("exit");
@@ -172,9 +172,9 @@ public class SkillsVendPopup extends SmallPopupPane {
                         && !gameState.hasInstalledSkill(skillItem)) {
                     // Try to buy it.
                     int price = computePrice(skillItem.price, discount);
-                    if (gameState.chipBalance >= price) {
+                    if (gameState.moneyChipBalance >= price) {
                         LOGGER.log(Level.FINE, () -> "Player bought " + skillItem.item.itemName);
-                        gameState.chipBalance -= price;
+                        gameState.moneyChipBalance -= price;
                         gameState.inventory.add(skillItem);
                         //vendItems.remove(part);
                         //gameState.bodyShopRecent = GameState.BodyShopRecent.BUY;
@@ -191,10 +191,10 @@ public class SkillsVendPopup extends SmallPopupPane {
 
                     // Try to buy it. We have money and can upgrade?
                     int price = skillItem.price;
-                    if (gameState.chipBalance >= price && skillItem.level > toUpgrade.level) {
+                    if (gameState.moneyChipBalance >= price && skillItem.level > toUpgrade.level) {
 
                         LOGGER.log(Level.FINE, "Player upgrades {0} from {1} to {2}", new Object[]{skillItem.item.itemName, toUpgrade.level, toUpgrade.level + 1});
-                        gameState.chipBalance -= price;
+                        gameState.moneyChipBalance -= price;
                         toUpgrade.level++;
                     } else {
                         LOGGER.log(Level.FINE, "Not enough money to buy skill.");
@@ -208,7 +208,7 @@ public class SkillsVendPopup extends SmallPopupPane {
 //                    // Try to sell it.
 //                    int price = part.sellPrice;
 //                    LOGGER.log(Level.FINE, "Player sold " + part.itemName);
-//                    gameState.chipBalance += price;
+//                    gameState.moneyChipBalance += price;
 //                    gameState.constitution -= part.constDamage;
 //                    gameState.soldBodyParts.add(part);
 //                    gameState.bodyShopRecent = GameState.BodyShopRecent.SELL;

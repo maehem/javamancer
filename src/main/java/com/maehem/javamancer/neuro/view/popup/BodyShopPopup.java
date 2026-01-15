@@ -71,7 +71,7 @@ public class BodyShopPopup extends SmallPopupPane {
     private void itemListPage() {
         getChildren().clear();
         Text heading = new Text(mode.name() + " PARTS"
-                + "    credits-" + gameState.chipBalance);
+                + "    credits-" + gameState.moneyChipBalance);
         Text previous = new Text("previous");
         previous.setVisible(itemIndex > 0);
         Text exit = new Text("exit");
@@ -151,9 +151,9 @@ public class BodyShopPopup extends SmallPopupPane {
                 if (gameState.soldBodyParts.contains(part)) {
                     // Try to buy it back.
                     int price = gameState.bodyPartDiscount ? part.discPrice : part.buyPrice;
-                    if (gameState.chipBalance >= price) {
+                    if (gameState.moneyChipBalance >= price) {
                         LOGGER.log(Level.CONFIG, () -> "Player bought " + part.itemName + "for $" + price);
-                        gameState.chipBalance -= price;
+                        gameState.moneyChipBalance -= price;
                         //gameState.modifyConstitution(part.constDamage);
                         gameState.soldBodyParts.remove(part);
                         gameState.bodyShopRecent = GameState.BodyShopRecent.BUY;
@@ -169,7 +169,7 @@ public class BodyShopPopup extends SmallPopupPane {
                     // Try to sell it.
                     int price = part.sellPrice;
                     LOGGER.log(Level.CONFIG, () -> "Player sold " + part.itemName + " for $" + price);
-                    gameState.chipBalance += price;
+                    gameState.moneyChipBalance += price;
                     //gameState.modifyConstitution(-part.constDamage);
                     gameState.soldBodyParts.add(part);
                     gameState.bodyShopRecent = GameState.BodyShopRecent.SELL;

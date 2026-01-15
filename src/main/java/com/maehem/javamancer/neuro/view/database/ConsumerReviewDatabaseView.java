@@ -134,8 +134,8 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
 
         Text creditDeduct = new Text();
         Text newLines = new Text("\n\n\n\n\n\n\n\n\n\n");
-        if (gameState.chipBalance >= 200) {
-            gameState.chipBalance -= 200;
+        if (gameState.moneyChipBalance >= 200) {
+            gameState.moneyChipBalance -= 200;
             LOGGER.log(Level.INFO, "Deducted 200 credits from player.");
             creditDeduct.setText(dbTextResource.get(25));
             paymentWait = 30; // timer, then proceed to next page (menu).

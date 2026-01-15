@@ -111,7 +111,7 @@ public class PaxBankingNode extends PaxNode {
         );
         Text row2 = new Text(
                 "   "
-                + String.format("%-15s", "chip = " + gameState.chipBalance)
+                + String.format("%-15s", "chip = " + gameState.moneyChipBalance)
                 + "account = " + gameState.bankBalance
         );
 
@@ -255,7 +255,7 @@ public class PaxBankingNode extends PaxNode {
             case UPLOAD -> {
                 LOGGER.log(Level.FINER, "Upload: move from chip.");
                 // Move to bank
-                if (gameState.chipBalance < amount) {
+                if (gameState.moneyChipBalance < amount) {
                     // can't do it.
                     LOGGER.log(Level.INFO, "Not enough money on chip!");
                     insufficientFunds.setVisible(true);
@@ -284,7 +284,7 @@ public class PaxBankingNode extends PaxNode {
         if (checkAmount(amount)) {
             switch (mode) {
                 case DOWNLOAD -> {
-                    gameState.chipBalance += amount;
+                    gameState.moneyChipBalance += amount;
                     gameState.bankBalance -= amount;
                     gameState.bankTransactionRecord.add(new BankTransaction(
                             gameState.getDateString(),
@@ -294,7 +294,7 @@ public class PaxBankingNode extends PaxNode {
                     enteredNumber.setLength(0);
                 }
                 case UPLOAD -> {
-                    gameState.chipBalance -= amount;
+                    gameState.moneyChipBalance -= amount;
                     gameState.bankBalance += amount;
                     gameState.bankTransactionRecord.add(new BankTransaction(
                             gameState.getDateString(),
