@@ -397,6 +397,12 @@ public class DATUtil {
         dat.txh.forEach((txhThing) -> {
             LOG.log(Level.CONFIG, "Process TXH: {0}.", new Object[]{txhThing.name});
 
+            for (int i = 0; i < txhThing.data.length; i++) {
+                if (txhThing.data[i] == '\0') {
+                    txhThing.data[i] = '\r';
+                }
+            }
+
             File metaFile = new File(folder, txhThing.name + ".txt");
             LOG.log(Level.CONFIG, "Create TXT File: {0}", metaFile.getAbsolutePath());
             try (RandomAccessFile writer = new RandomAccessFile(metaFile, "rw")) {
