@@ -47,13 +47,13 @@ import java.util.logging.Logger;
  *      Psychoanalysis skill will occasionally reveal whether an AI is weak
  *      against a particular skill.
  *      Software weaknesses are revealed through text messages in databases.
- * 
+ *
  * The four anti-AI @Skill(s) are: Philosophy, Sophistry, Phenomenology and Logic.
- * The three anti-AI @Warez are BattleChess, Hemlock and KuangEleven. 
- *      When you use an AI’s weakness against it, it will insult you. 
- *      If it survives being struck by its weakness, player can then use any of the 
- *      other anti-AI skills against it. Like with ICE battles, you should cycle 
- *      through the skills but more for the purpose of levelling up your skills 
+ * The three anti-AI @Warez are BattleChess, Hemlock and KuangEleven.
+ *      When you use an AI’s weakness against it, it will insult you.
+ *      If it survives being struck by its weakness, player can then use any of the
+ *      other anti-AI skills against it. Like with ICE battles, you should cycle
+ *      through the skills but more for the purpose of levelling up your skills
  *      than maximising damage.
  *</pre>
  * 
@@ -78,6 +78,7 @@ public abstract class AI {
         // except Greystoke and Neuromancer:
         //     Greystoke :: (0x30 << index) - 1
         //   Neuromancer :: ( 0x30 << (index-1) )
+
     }
 
     public void setConstitution(int value) {
@@ -96,8 +97,8 @@ public abstract class AI {
         }
         LOGGER.log(Level.INFO, "AI Takes Damage from {0} Warez of {1}.  AI constitution: {2}", new Object[]{warez.item.name(), effect, constitution});
     }
-    
-    public void applySkillAttack(Skill skill, GameState gs ) {
+
+    public void applySkillAttack(Skill skill, GameState gs) {
         int effect = skill.getEffect(gs);
         this.constitution -= effect;
         if (constitution < 0) {
