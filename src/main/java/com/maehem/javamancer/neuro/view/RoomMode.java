@@ -669,7 +669,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         if (popup == null) { // Used by sense/net room to boot player.
             return false;
         }
-        LOGGER.log(Level.INFO, "Remove popup from scene: {0}", popup.getClass().getSimpleName());
+        LOGGER.log(Level.FINE, "Remove popup from scene: {0}", popup.getClass().getSimpleName());
         popup.setVisible(false);
         boolean doNextPopup;
         if (popup instanceof SkillsVendPopup) {
