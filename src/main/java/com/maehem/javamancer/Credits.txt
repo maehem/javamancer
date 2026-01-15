@@ -1,0 +1,24 @@
+// JavaMancer Project Credits (uses Markdown style annotations)
+// Text Elements:
+* Original PC Game
+
+* Java Port
+** Created by: Mark J Koch (@maehem on GitHub)
+- Coding
+- Additional Art
+- Testing
+** Reverse Engineering of Original Game Files
+- Henadzi Matuts ( https://github.com/HenadziMatuts/Reuromancer )
+
+** JavaFX Knowledge Gurus
+- Frank Delporte ( https://www.youtube.com/@FrankDelporte )
+
+** Walkthroughs Used for Testing
+*** Text Guides
+- https://gamefaqs.gamespot.com/pc/564806-neuromancer/faqs/81175
+*** YouTube Streamers
+- @MemorySectorZero
+- @DarkwyndPT
+- @HipolitoPichardoAdv
+- @JuliaMinamata
+// END Text Elements
