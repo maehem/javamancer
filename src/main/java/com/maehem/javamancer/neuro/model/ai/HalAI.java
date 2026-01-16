@@ -26,20 +26,23 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 
 /**
- *
+ * AI for NASA Database
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class HalAI extends AI {
 
     public HalAI() {
-        super("HAL", 0, 384);
+        super( "HAL", 0, 384,
+                LogicSkill.class, null
+        );
     }
+    
+    public static final int[] AI_TALK = {
+        16,17,18,19
+    };
 
-    @Override
-    public Item.Catalog getWeakness() {
-        return Item.Catalog.LOGIC;
-    }
 }

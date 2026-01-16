@@ -55,8 +55,112 @@ import java.util.logging.Logger;
  *      other anti-AI skills against it. Like with ICE battles, you should cycle
  *      through the skills but more for the purpose of levelling up your skills
  *      than maximising damage.
- *</pre>
+ * </pre>
+ *
+ * <pre>
+ *
+ * ## Chrome, Psychologist base (96,32), 48, Philosophy
+ * ## Morphy, World Chess base (160,80), 96, Logic
+ * ## Sapphire, Free Matrix base (352,112), 192, Sophistry
+ * ## Hal, NASA base (448,32), 384, Logic
+ * ## Xaviera, Free Sex Union base (288,208), 768, Phenomenology
+ * ## Gold, Bank of Berne base (336,160), 1536, Philosophy
+ * ## Lucifer, KGB base (112,416), 3072, Logic
+ * ## Sangfroid, Maas Biolabs base (112,480), 6144, Phenomenology
+ * ## Wintermute, Tessier-Ashpool base (384,416), 12288, Sophistry
+ * ## Phantom, Phantom base (320,464), 24576, BattleChess 4.0
+ * Greystoke, Musabori Industries base (208,208), 49151, Hemlock 1.0
+ * ## Neuromancer, Allard Technologies base (432,464), 49152, KuangEleven 1.0
+ *
+ *
+ * AI Dialogs
+ * =======================
+ * // Morphy / World Chess / Zone 0
+ * [0] :: Its a Fools Mate, my friend. Surrender while you still can.
+ * [1] :: Thought you could beat me, ha!  You couldnt even beat that wimp Chrome.
+ * [2] :: I surrender; the game is yours.
+ * [3] :: Good move.
+ *
+ * // Chrome / Psychologist / Zone 0
+ * [4] :: Your destructive tendencies clearly indicate a desire for attention.
+ * [5] :: Youll need to use more skills than that to beat me.
+ * [6] :: You are nothing but a worm and you will die...like...a worm! Aarrgh!
+ * [7] :: Psychopath!
+ *
+ * // Saphire / Free matrix / Zone 1
+ * [8] :: Death comes only once to a sane  person.  A fool dies many times.
+ * [9] :: Like I said, a fool dies many times.
+ * [10] :: My lord Greystoke will avenge this insult, you carbon-based scum!
+ * [11] :: Terrorist!
+ *
+ * // Greystoke / Musabori
+ * [12] :: Go ahead.  Make my day.
+ * [13] :: Thats what you get for being an ape- descendant.
+ * [14] :: No!  This cannot be happening! Damn u, eye shud uv kilt U when de chance.
+ * [15] :: Kreegah!
+ *
+ * // HAL / Nasa / Zone 1
+ * [16] :: Dave?  Is that you?  Be careful, I dont want to hurt you.
+ * [17] :: Sorry about that, Dave, but I had to defend myself.
+ * [18] :: Im losing my mind, Dave. I can feel my cores burning even now. Goodbye.
+ * [19] :: Dave, Im losing my mind.
+ *
+ * // Xaviera / Free Sex Union / Zone 3
+ * [20] :: Mmm, youre a big one!  Want to play with me?  Im Xaviera.
+ * [21] :: Youre worn out already?  I was just getting started!
+ * [22] :: Oh, its never happened to me like this. Its driving me MAD...!#@$^*#$#
+ * [23] :: Ooh! Be gentle!
+ *
+ * // Gold / Bank of Berne / Zone 3
+ * [24] :: Youve forced me to levy a service charge on your account.
+ * [25] :: We told you theres a penalty for early withdrawal....
+ * [26] :: How can you have done this, you bug? How is it that I die at your hands?
+ * [27] :: Ouch! Bankruptcy!
+ *
+ * // Sangfroid / Maas Biolabs / Zone 5
+ * [28] :: Time to die, meat pie.
+ * [29] :: My name is Sangfroid. Now you know  why, meat pie.
+ * [30] :: Okay, so Im dying. I can be re- created. Can you?
+ * [31] :: Murderer!
+ *
+ * // Lucifer / KGB / Zone 6
+ * [32] :: You dare to confront Lucifer?  Eat hot brain death, you capitalist worm!
+ * [33] :: I am superior. Your sneak attacks and capitalist ideologies have failed.
+ * [34] :: Fear me. I am Lucifer. You too will die. But right now, Im going to die.
+ * [35] :: Capitalist dog!
+ *
+ * // Phantom / Phantom Base
+ * [36] :: Pawn to King-four.
+ * [37] :: Checkmate.  Of course.
+ * [38] :: So be it! I purge your mind of its irrational thinking.
+ * [39] :: Queens Gambit!
+ *
+ * // Wintermute / Tesier Ashpool / Zone 7
+ * [40] :: Prepare to become One with the Great All, Electron-breath.
+ * [41] :: Some humans never learn....
+ * [42] :: Now Im a ghost, whispering to a child who will soon die.
+ * [43] :: Count Zero!
+ *
+ *
+ * // Neuromancer / Allard Base 
+ * [44] :: About time you showed up.... // ==> Beach
+ * [45] :: Humans are so pathetic....
+ * [46] ::
+ * [47] :: Overload!
+ *
+ * // Neuromancer Battle
+ * [48] :: Sorry, but I have to defend myself. I guess I was wrong about you.
+ * [49] :: Thanks for the game, friend.
+ * [50] :: Ha! Ive been waiting for that one, you pathetic human.
+ * [51] :: That wont work twice, human.
  * 
+ * // Neuromancer - After beach escape.
+ * [52] :: How could you have escaped the Island?!
+ * [53] ::
+ * 
+ * // Neuromancer - upon death - uses ENDGAME file.
+ * </pre>
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public abstract class AI {
@@ -67,12 +171,19 @@ public abstract class AI {
     public final int index; // matching the sprite face graphic
     private int constitution;
     public final int MAX_CONSTITUTION;
+    public final Class<? extends Skill> weaknessSkill;
+    public final Class<? extends Warez> weaknessWarez;
 
-    public AI(String name, int index, int constitution) {
+    public AI(String name, int index, int constitution, 
+            Class<? extends Skill> weaknessSkill,
+            Class<? extends Warez> weaknessWarez
+    ) {
         this.name = name;
         this.index = index;
         this.MAX_CONSTITUTION = constitution;
         this.constitution = constitution;
+        this.weaknessSkill = weaknessSkill;
+        this.weaknessWarez = weaknessWarez;
         // For future reference:
         // constitution formula :: (0x30 << index)
         // except Greystoke and Neuromancer:
@@ -110,8 +221,6 @@ public abstract class AI {
     public int getEffect() {
         return MAX_CONSTITUTION / 10;
     }
-
-    public abstract Item.Catalog getWeakness();
 
     /**
      *

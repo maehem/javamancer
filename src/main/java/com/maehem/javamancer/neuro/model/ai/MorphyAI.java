@@ -26,21 +26,23 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 
 /**
- *
+ * AI for World Chess Database
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class MorphyAI extends AI {
 
     public MorphyAI() {
-        super("Morphy", 0, 96);
+        super("Morphy", 0, 96,
+                LogicSkill.class, null
+        );
     }
 
-    @Override
-    public Item.Catalog getWeakness() {
-        return Item.Catalog.LOGIC;
-    }
-    
+    public static final int[] AI_TALK = {
+        0,1,2,3
+    };
+
 }

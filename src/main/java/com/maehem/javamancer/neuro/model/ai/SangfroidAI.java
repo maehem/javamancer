@@ -26,21 +26,23 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 
 /**
- *
+ * AI for Maas Biolabs Database
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class SangfroidAI extends AI {
 
     public SangfroidAI() {
-        super("Sanfroid", 0, 6144);
+        super( "Sanfroid", 0, 6144,
+                PhenomenologySkill.class, null
+        );
     }
 
-    @Override
-    public Item.Catalog getWeakness() {
-        return Item.Catalog.PHENOMENOLOGY;
-    }
-    
+    public static final int[] AI_TALK = {
+        28,29,30,31
+    };
+
 }

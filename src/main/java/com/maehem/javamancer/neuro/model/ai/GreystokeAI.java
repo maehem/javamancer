@@ -26,21 +26,23 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.warez.HemlockWarez;
 
 /**
- *
+ * AI for Musabori Database
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class GreystokeAI extends AI {
 
+    public static final int[] AI_TALK = {
+        12,13,14,15
+    };
+
     public GreystokeAI() {
-        super("Greystoke", 0, 49151);
+        super("Greystoke", 0, 49151,
+                null, HemlockWarez.class
+        );
     }
-    
-    @Override
-    public Item.Catalog getWeakness() {
-        return Item.Catalog.HEMLOCK;
-    }
-    
+
 }

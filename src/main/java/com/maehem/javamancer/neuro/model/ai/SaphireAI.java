@@ -26,21 +26,23 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 
 /**
+ * AI for Free Matrix Database
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class SaphireAI extends AI {
 
     public SaphireAI() {
-        super("Saphire", 0, 192);
+        super( "Saphire", 0, 192,
+                SophistrySkill.class, null
+        );
     }
 
-    @Override
-    public Item.Catalog getWeakness() {
-        return Item.Catalog.SOPHISTRY;
-    }
-    
+    public static final int[] AI_TALK = {
+        8,9,10,11
+    };
+
 }

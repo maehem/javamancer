@@ -26,31 +26,25 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 
 /**
- *
+ * AI for Psychologist Database
+ * 
+ * Chrome is the weakest AI at a mere 48.
+ * Philosophy 5 will one-shot it.
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class ChromeAI extends AI {
 
-    /*
-    
-    Dev Notes:
-    
-    Weakness: Philosophy
-    Philosophy 5 will one-shot it 
-    
-    Chrome is the weakest AI at a mere 48.
-    
-     */
-    public ChromeAI() {
-        super("Chrome", 0, 48);
-    }
+    public static final int[] AI_TALK = {
+        4,5,6,7
+    };
 
-    @Override
-    public Item.Catalog getWeakness() {
-        return Item.Catalog.PHILOSOPHY;
+    public ChromeAI() {
+        super("Chrome", 0, 48, 
+                PhilosophySkill.class, null);
     }
 
     

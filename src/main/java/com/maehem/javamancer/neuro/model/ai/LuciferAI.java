@@ -26,21 +26,23 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 
 /**
- *
+ * AI for KGB Database
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class LuciferAI extends AI {
 
     public LuciferAI() {
-        super("Lucifer", 0, 3072);
+        super("Lucifer", 0, 3072,
+                LogicSkill.class, null
+        );
     }
-    
-    @Override
-    public Item.Catalog getWeakness() {
-        return Item.Catalog.LOGIC;
-    }
-    
+
+    public static final int[] AI_TALK = {
+        32,33,34,35
+    };
+
 }

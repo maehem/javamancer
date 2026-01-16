@@ -26,21 +26,24 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.skill.LogicSkill;
+import com.maehem.javamancer.neuro.model.warez.BattleChessWarez;
 
 /**
- *
+ * AI for Phantom Database
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class PhantomAI extends AI {
 
     public PhantomAI(String name) {
-        super("Phantom", 0, 24576);
+        super("Phantom", 0, 24576,
+                LogicSkill.class, BattleChessWarez.class
+        );
     }
-    
-    @Override
-    public Item.Catalog getWeakness() {
-        return Item.Catalog.BATTLECHESS;
-    }
-    
+
+    public static final int[] AI_TALK = {
+        36,37,38,39
+    };
+
 }

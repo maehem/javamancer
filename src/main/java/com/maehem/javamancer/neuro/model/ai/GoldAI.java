@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 
 /**
  *
@@ -34,13 +34,15 @@ import com.maehem.javamancer.neuro.model.item.Item;
  */
 public class GoldAI extends AI {
 
+    public static final int[] AI_TALK = {
+        24,25,26,27
+    };
+
     public GoldAI() {
-        super("Gold", 0, 1536);
+        super( "Gold", 0, 1536, 
+                PhilosophySkill.class, null
+        );
     }
     
-    @Override
-    public Item.Catalog getWeakness() {
-        return Item.Catalog.PHILOSOPHY;
-    }
     
 }
