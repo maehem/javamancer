@@ -73,7 +73,7 @@ public class EasternSeaFissionDatabase extends Database {
                 "eastseabod",
                 "longisland", null, null,
                 384, 32,
-                null, null, null,
+                null,
                 150,
                 rm
         );

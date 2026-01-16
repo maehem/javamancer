@@ -62,7 +62,7 @@ public class GridpointDatabase extends Database {
                 "gridtest",
                 null, "test", null,
                 160, 320,
-                null, null, null,
+                null,
                 0,
                 rm);
 

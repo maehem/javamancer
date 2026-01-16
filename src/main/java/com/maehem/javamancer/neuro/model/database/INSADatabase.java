@@ -59,7 +59,7 @@ public class INSADatabase extends Database {
                 "insatest",
                 null, "test", null,
                 448, 320,
-                null, null, null,
+                null,
                 1000,
                 rm
         );

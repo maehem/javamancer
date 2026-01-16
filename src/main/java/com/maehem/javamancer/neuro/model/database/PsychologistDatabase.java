@@ -58,7 +58,7 @@ public class PsychologistDatabase extends Database {
                 "psycho",
                 "new mo", "babylon", null,
                 96, 32,
-                ChromeAI.class, PhilosophySkill.class, null,
+                ChromeAI.class,
                 84,
                 rm
         );

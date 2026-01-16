@@ -58,7 +58,7 @@ public class TessierAshpoolDatabase extends Database {
                 "tessiertest",
                 null, "test", null,
                 384, 416,
-                WintermuteAI.class, SophistrySkill.class, null,
+                WintermuteAI.class,
                 2000,
                 rm
         );

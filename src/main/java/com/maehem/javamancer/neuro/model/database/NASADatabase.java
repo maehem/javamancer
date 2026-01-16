@@ -62,7 +62,7 @@ public class NASADatabase extends Database {
                 "voyager",
                 "apollo", null, null,
                 448, 32,
-                HalAI.class, LogicSkill.class, null,
+                HalAI.class,
                 150,
                 rm
         );

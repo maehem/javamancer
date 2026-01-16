@@ -64,8 +64,6 @@ public abstract class Database {
     public final int matrixX;
     public final int matrixY;
     public final Class<? extends AI> ai;
-    public final Class<? extends Skill> weaknessSkill;
-    public final Class<? extends Warez> weaknessWarez;
     public final int ICE_MAX;
     private int ice;
 
@@ -76,8 +74,6 @@ public abstract class Database {
             String linkCode, String password1, String password2, String password3,
             int matrixX, int matrixY,
             Class<? extends AI> ai,
-            Class<? extends Skill> weaknessSkill,
-            Class<? extends Warez> weaknessWarez,
             int ice,
             ResourceManager rm
     ) {
@@ -92,8 +88,6 @@ public abstract class Database {
         this.matrixX = matrixX;
         this.matrixY = matrixY;
         this.ai = ai;
-        this.weaknessSkill = weaknessSkill;
-        this.weaknessWarez = weaknessWarez;
         this.ICE_MAX = ice;
         this.ice = ice;
 

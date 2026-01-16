@@ -76,7 +76,7 @@ public class PantherModernsDatabase extends Database {
                 "chaos",
                 "mainline", null, null,
                 224, 112,
-                null, null, null,
+                null,
                 84,
                 rm
         );

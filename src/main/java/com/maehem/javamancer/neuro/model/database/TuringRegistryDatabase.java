@@ -55,7 +55,7 @@ public class TuringRegistryDatabase extends Database {
                 "turingtest",
                 null, "test", null,
                 432, 240,
-                null, null, null,
+                null,
                 400,
                 rm
         );

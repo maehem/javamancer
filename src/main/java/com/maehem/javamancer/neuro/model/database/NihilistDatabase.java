@@ -59,7 +59,7 @@ public class NihilistDatabase extends Database {
                 "nihiltest",
                 null, "test", null,
                 416, 368,
-                null, null, null,
+                null,
                 1000,
                 rm
         );

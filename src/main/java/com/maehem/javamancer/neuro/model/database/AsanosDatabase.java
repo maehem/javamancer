@@ -48,13 +48,13 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
 public class AsanosDatabase extends Database {
 
     public AsanosDatabase(ResourceManager rm) {
-        super("Asano's", 2,
+        super( "Asano's", 2,
                 0,
                 1,
                 "asanocomp",
                 "customer", "vendors", null,
                 16, 112,
-                null, null, null,
+                null,
                 84,
                 rm
         );

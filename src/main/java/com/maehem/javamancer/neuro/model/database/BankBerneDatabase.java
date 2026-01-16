@@ -61,8 +61,6 @@ public class BankBerneDatabase extends Database {
                 null, "test", null,
                 336, 160,
                 GoldAI.class,
-                PhilosophySkill.class,
-                null,
                 400,
                 rm
         );

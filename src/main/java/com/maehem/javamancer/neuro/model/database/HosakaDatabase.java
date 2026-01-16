@@ -66,7 +66,7 @@ public class HosakaDatabase extends Database {
                 "hosakacorp",
                 "biosoft", "fungeki", null,
                 144, 160,
-                null, null, null,
+                null,
                 260,
                 rm
         );

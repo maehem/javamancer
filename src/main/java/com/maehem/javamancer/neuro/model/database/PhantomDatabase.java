@@ -58,7 +58,7 @@ public class PhantomDatabase extends Database {
                 "phantomtest",
                 null, "test", null,
                 320, 464,
-                PhantomAI.class, LogicSkill.class, BattleChessWarez.class,
+                PhantomAI.class,
                 2000,
                 rm
         );

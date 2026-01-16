@@ -55,7 +55,7 @@ public class CentralJusticeDatabase extends Database {
                 "justice",
                 "no password", null, null,
                 416, 112,
-                null, null, null,
+                null,
                 150,
                 rm
         );

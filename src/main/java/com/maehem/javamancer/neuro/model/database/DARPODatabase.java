@@ -62,8 +62,6 @@ public class DARPODatabase extends Database {
                 null, "test", null,
                 336, 240,
                 null,
-                null,
-                null,
                 400,
                 rm
         );

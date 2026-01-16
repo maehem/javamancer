@@ -78,7 +78,6 @@ public class CopenhagenUniversityDatabase extends Database {
                 "perilous", null, null,
                 320, 32,
                 null,
-                null, null,
                 150,
                 rm
         );

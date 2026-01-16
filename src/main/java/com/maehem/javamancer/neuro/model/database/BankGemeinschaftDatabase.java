@@ -60,7 +60,7 @@ public class BankGemeinschaftDatabase extends Database {
                 "bankgemein",
                 "eintritt", "verboten", null,
                 304, 320,
-                null, null, null,
+                null,
                 1000,
                 rm
         );

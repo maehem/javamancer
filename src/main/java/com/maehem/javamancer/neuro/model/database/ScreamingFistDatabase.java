@@ -61,7 +61,7 @@ public class ScreamingFistDatabase extends Database {
                 "screamingtes",
                 null, "test", null,
                 464, 160,
-                null, null, null,
+                null,
                 400,
                 rm
         );

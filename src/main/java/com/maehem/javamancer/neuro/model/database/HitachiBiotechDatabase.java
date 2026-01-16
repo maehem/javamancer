@@ -56,7 +56,7 @@ public class HitachiBiotechDatabase extends Database {
                 "hitachibio",
                 "genesplice", "biotech", null,
                 32, 192,
-                null, null, null,
+                null,
                 260,
                 rm
         );

@@ -59,7 +59,7 @@ public class WorldChessDatabase extends Database {
                 "worldchess",
                 "novice", "member", null,
                 160, 80,
-                MorphyAI.class, LogicSkill.class, null,
+                MorphyAI.class,
                 84,
                 rm
         );

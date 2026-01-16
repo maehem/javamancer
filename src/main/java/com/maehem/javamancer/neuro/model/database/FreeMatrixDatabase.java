@@ -68,7 +68,7 @@ public class FreeMatrixDatabase extends Database {
                 "freematrix",
                 "CFM", null, null, // Higher only from cyberspace.
                 352, 112,
-                SaphireAI.class, SophistrySkill.class, null,
+                SaphireAI.class,
                 150,
                 rm
         );

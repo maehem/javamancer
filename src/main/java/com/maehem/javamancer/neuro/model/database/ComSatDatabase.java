@@ -59,7 +59,7 @@ public class ComSatDatabase extends Database {
                 "sattest",
                 null, "test", null,
                 272, 416, // TODO: Need correct coords and other data.
-                null, null, null,
+                null,
                 1000,
                 rm
         );

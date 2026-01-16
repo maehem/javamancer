@@ -61,7 +61,7 @@ public class TozokuImportsDatabase extends Database {
                 "yakuza",
                 "yak", "test", null,
                 480, 80,
-                null, null, null,
+                null,
                 150,
                 rm
         );

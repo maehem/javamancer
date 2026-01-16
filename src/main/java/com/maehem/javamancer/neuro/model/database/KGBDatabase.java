@@ -65,7 +65,7 @@ public class KGBDatabase extends Database {
                 "kgbtest",
                 null, "test", null,
                 112, 416,
-                LuciferAI.class, LogicSkill.class, null,
+                LuciferAI.class,
                 1100,
                 rm);
 

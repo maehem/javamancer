@@ -55,7 +55,7 @@ public class ConsumerReviewDatabase extends Database {
                 "consumerev",
                 "review", null, null, // 2 cyberspace
                 32, 64,
-                null, null, null,
+                null,
                 84,
                 rm
         );

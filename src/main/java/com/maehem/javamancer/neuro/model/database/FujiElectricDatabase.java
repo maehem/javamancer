@@ -55,7 +55,7 @@ public class FujiElectricDatabase extends Database {
                 "fuji",
                 "romcards", "uchikatsu", null,
                 112, 240,
-                null, null, null,
+                null,
                 260,
                 rm
         );

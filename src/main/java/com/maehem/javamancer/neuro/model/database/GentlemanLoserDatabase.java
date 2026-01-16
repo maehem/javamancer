@@ -64,7 +64,7 @@ public class GentlemanLoserDatabase extends Database {
                 "loser",
                 "wilson", "loser", null,
                 416, 64,
-                null, null, null,
+                null,
                 150,
                 rm
         );

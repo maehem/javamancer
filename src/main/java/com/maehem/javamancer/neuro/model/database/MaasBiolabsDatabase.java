@@ -56,7 +56,7 @@ public class MaasBiolabsDatabase extends Database {
                 "maastest",
                 null, "test", null,
                 112, 480,
-                SangfroidAI.class, PhenomenologySkill.class, null,
+                null,
                 1100,
                 rm
         );

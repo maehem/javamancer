@@ -74,7 +74,7 @@ public class RegularFellowsDatabase extends Database {
                 "regfellow",
                 "visitor", "fellow", "fellow", // Remove #3 (for testing)
                 208, 32,
-                null, null, null,
+                null,
                 84,
                 rm
         );

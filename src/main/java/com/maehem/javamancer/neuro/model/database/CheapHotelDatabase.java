@@ -55,7 +55,7 @@ public class CheapHotelDatabase extends Database {
                 1,
                 "cheapo", "guest", "cockroach", null,
                 112, 112,
-                null, null, null,
+                null,
                 84,
                 rm);
 

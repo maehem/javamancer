@@ -59,7 +59,7 @@ public class MusaboriDatabase extends Database {
                 "musaborind",
                 "subaru", "test", null,
                 208, 208,
-                GreystokeAI.class, null, HemlockWarez.class,
+                GreystokeAI.class,
                 260,
                 rm
         );

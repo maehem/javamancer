@@ -55,7 +55,7 @@ public class SenseNetDatabase extends Database {
                 "sensetest",
                 null, "test", null,
                 48, 320,
-                null, null, null,
+                null,
                 800,
                 rm
         );

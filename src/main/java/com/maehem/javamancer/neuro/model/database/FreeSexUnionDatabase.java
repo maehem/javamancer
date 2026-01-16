@@ -57,7 +57,7 @@ public class FreeSexUnionDatabase extends Database {
                 "freesextest", // Set to null before release
                 null, "test", null,
                 288, 208,
-                XavieraAI.class, PhenomenologySkill.class, null,
+                XavieraAI.class,
                 400,
                 rm
         );

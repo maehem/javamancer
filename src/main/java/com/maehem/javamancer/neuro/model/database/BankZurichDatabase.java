@@ -56,7 +56,7 @@ public class BankZurichDatabase extends Database {
                 "bozobank",
                 null, "no password", null, // Must use Sequencer
                 336, 368,
-                null, null, null,
+                null,
                 1000,
                 rm
         );

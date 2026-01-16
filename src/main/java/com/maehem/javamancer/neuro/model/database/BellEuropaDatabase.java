@@ -58,7 +58,6 @@ public class BellEuropaDatabase extends Database {
                 null, "test", null,
                 384, 288,
                 null,
-                null, null,
                 1000,
                 rm
         );

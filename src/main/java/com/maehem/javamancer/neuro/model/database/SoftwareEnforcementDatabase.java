@@ -61,7 +61,7 @@ public class SoftwareEnforcementDatabase extends Database {
                 "soften",
                 "permafrost", null, null,
                 352, 64,
-                null, null, null,
+                null,
                 150,
                 rm
         );
