@@ -31,6 +31,9 @@ import com.maehem.javamancer.neuro.model.warez.KuangElevenWarez;
 /**
  * AI for AllardTech Database
  *
+ * Neuromancer AI gets it's name from the book that this story is about.
+ * Neuromancer is the final boss to defeat to win this game.
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class NeuromancerAI extends AI {
