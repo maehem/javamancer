@@ -31,18 +31,18 @@ import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 /**
  * AI for Tessier Ashpool Database
  * 
+ * Wintermute AI gets it's namesake from the same character in the Neuromancer
+ * book by William Gibson.
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class WintermuteAI extends AI {
 
     public WintermuteAI() {
-        super( "Wintermute", 0, 12288,
-                SophistrySkill.class, null
+        super("Wintermute", 0, 12288,
+                SophistrySkill.class, null,
+                new int[]{40, 41, 42, 43} // AITALK.txh entries
         );
     }
-
-    public static final int[] AI_TALK = {
-        40,41,42,43
-    };
 
 }

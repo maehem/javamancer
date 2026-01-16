@@ -30,19 +30,21 @@ import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 
 /**
  * AI for World Chess Database
- * 
+ *
+ * Morhy AI's namesake is likely a reference to Paul Charles Morphy (1837 –
+ * 1884) who was an American chess player. During his brief career in the late
+ * 1850s, Mr. Morphy was acknowledged as the world's greatest chess master. Many
+ * chess fans have concluded that he was far ahead of his time.
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class MorphyAI extends AI {
 
     public MorphyAI() {
         super("Morphy", 0, 96,
-                LogicSkill.class, null
+                LogicSkill.class, null,
+                new int[]{0, 1, 2, 3} // AITALK.txh entries
         );
     }
-
-    public static final int[] AI_TALK = {
-        0,1,2,3
-    };
 
 }

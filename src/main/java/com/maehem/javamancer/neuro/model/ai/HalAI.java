@@ -30,19 +30,23 @@ import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 
 /**
  * AI for NASA Database
- * 
+ *
+ * HAL gets it's name from the book and movie "2001: A space odyssey" by Arthur
+ * C. Clarke. HAL is perhaps one of the first science-fiction references to an
+ * Artificial Intellegence. In "2001", HAL is created by IBM Corp and goes mad
+ * during the course of the story. HAL's name was invented by simply bumping
+ * each of the letters in IBM down by one to spell HAL. It was appropriate for
+ * the game designers to choose NASA as the custodian of this AI.
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class HalAI extends AI {
 
     public HalAI() {
-        super( "HAL", 0, 384,
-                LogicSkill.class, null
+        super("HAL", 0, 384,
+                LogicSkill.class, null,
+                new int[]{16, 17, 18, 19} // AITALK.txh entries
         );
     }
-    
-    public static final int[] AI_TALK = {
-        16,17,18,19
-    };
 
 }

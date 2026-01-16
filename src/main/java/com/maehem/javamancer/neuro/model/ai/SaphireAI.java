@@ -30,19 +30,20 @@ import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 
 /**
  * AI for Free Matrix Database
+ * 
+ * The creators of Neuromancer may have chosen Saphire as the name for this
+ * AI since Saphire gems are formed from a crystaline matrix structure that is
+ * nearly as hard as diamond.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class SaphireAI extends AI {
 
     public SaphireAI() {
-        super( "Saphire", 0, 192,
-                SophistrySkill.class, null
+        super("Saphire", 0, 192,
+                SophistrySkill.class, null,
+                new int[]{8, 9, 10, 11}
         );
     }
-
-    public static final int[] AI_TALK = {
-        8,9,10,11
-    };
 
 }

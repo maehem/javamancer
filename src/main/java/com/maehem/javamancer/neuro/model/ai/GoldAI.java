@@ -29,20 +29,20 @@ package com.maehem.javamancer.neuro.model.ai;
 import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 
 /**
+ * AI for the Bank of Berne
+ *
+ * Gold AI likely gets it's namesake from the age old tradition of storing one's
+ * gold in a bank.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class GoldAI extends AI {
 
-    public static final int[] AI_TALK = {
-        24,25,26,27
-    };
-
     public GoldAI() {
-        super( "Gold", 0, 1536, 
-                PhilosophySkill.class, null
+        super("Gold", 0, 1536,
+                PhilosophySkill.class, null,
+                new int[]{24, 25, 26, 27} // From AITALK.txh
         );
     }
-    
-    
+
 }

@@ -30,19 +30,20 @@ import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 
 /**
  * AI for Maas Biolabs Database
- * 
+ *
+ * Sangfroid comes from the French term sang-froid, which literally translates
+ * as “cold blood.”. The term describes the quality of someone who keeps their
+ * composure under strain—that, as in "cool as a cucumber".
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class SangfroidAI extends AI {
 
     public SangfroidAI() {
-        super( "Sanfroid", 0, 6144,
-                PhenomenologySkill.class, null
+        super("Sanfroid", 0, 6144,
+                PhenomenologySkill.class, null,
+                new int[]{28, 29, 30, 31} // AITALK.txh entries
         );
     }
-
-    public static final int[] AI_TALK = {
-        28,29,30,31
-    };
 
 }

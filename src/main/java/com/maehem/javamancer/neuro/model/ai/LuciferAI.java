@@ -30,19 +30,24 @@ import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 
 /**
  * AI for KGB Database
- * 
+ *
+ * Lucifer AI namesake likely refers to Operation Luch (Lightbeam), a supposed
+ * KGB program in the Cold War focused on recruiting officials, stealing
+ * secrets, and influencing reforms, with "Lucifer" potentially being a codename
+ * or a metaphorical descriptor for a powerful, deceptive, or disruptive
+ * operation, rather than the biblical figure. The name might imply a deep,
+ * hidden aspect of Soviet intelligence's reach and tactics, especially as it
+ * ties into KGB operations in East Germany.
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class LuciferAI extends AI {
 
     public LuciferAI() {
         super("Lucifer", 0, 3072,
-                LogicSkill.class, null
+                LogicSkill.class, null,
+                new int[]{32, 33, 34, 35} // AITALK.txh entries
         );
     }
-
-    public static final int[] AI_TALK = {
-        32,33,34,35
-    };
 
 }

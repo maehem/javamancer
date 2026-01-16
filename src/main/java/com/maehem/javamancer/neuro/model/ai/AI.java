@@ -29,7 +29,6 @@ package com.maehem.javamancer.neuro.model.ai;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
-import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.lang.reflect.Constructor;
@@ -173,10 +172,12 @@ public abstract class AI {
     public final int MAX_CONSTITUTION;
     public final Class<? extends Skill> weaknessSkill;
     public final Class<? extends Warez> weaknessWarez;
+    public final int[] TALK;
 
     public AI(String name, int index, int constitution, 
             Class<? extends Skill> weaknessSkill,
-            Class<? extends Warez> weaknessWarez
+            Class<? extends Warez> weaknessWarez,
+            int[] talk
     ) {
         this.name = name;
         this.index = index;
@@ -184,6 +185,7 @@ public abstract class AI {
         this.constitution = constitution;
         this.weaknessSkill = weaknessSkill;
         this.weaknessWarez = weaknessWarez;
+        this.TALK = talk;
         // For future reference:
         // constitution formula :: (0x30 << index)
         // except Greystoke and Neuromancer:

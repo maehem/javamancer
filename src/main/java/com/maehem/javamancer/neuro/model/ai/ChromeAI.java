@@ -30,22 +30,26 @@ import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 
 /**
  * AI for Psychologist Database
- * 
- * Chrome is the weakest AI at a mere 48.
- * Philosophy 5 will one-shot it.
- * 
+ *
+ * Chrome AI likely gets it's namesake as a reference to "Burning Chrome", a
+ * collection of short stories set in the same world as Neuromancer. Written by
+ * Willian Gibson before his book Neuromancer ,with many of the stories
+ * published in Omni magazine during the 1980's.
+ *
+ * Chrome is the weakest AI at a mere 48. Philosophy 5 will one-shot it.
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class ChromeAI extends AI {
 
-    public static final int[] AI_TALK = {
-        4,5,6,7
-    };
-
+//    private static final int[] AI_TALK = {
+//        4,5,6,7
+//    };
     public ChromeAI() {
-        super("Chrome", 0, 48, 
-                PhilosophySkill.class, null);
+        super("Chrome", 0, 48,
+                PhilosophySkill.class, null,
+                new int[]{4, 5, 6, 7}
+        );
     }
 
-    
 }

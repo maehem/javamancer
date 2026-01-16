@@ -31,19 +31,16 @@ import com.maehem.javamancer.neuro.model.warez.BattleChessWarez;
 
 /**
  * AI for Phantom Database
- * 
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class PhantomAI extends AI {
 
     public PhantomAI(String name) {
         super("Phantom", 0, 24576,
-                LogicSkill.class, BattleChessWarez.class
+                LogicSkill.class, BattleChessWarez.class,
+                new int[]{36, 37, 38, 39} // AITALK.txh entries
         );
     }
-
-    public static final int[] AI_TALK = {
-        36,37,38,39
-    };
 
 }

@@ -30,19 +30,16 @@ import com.maehem.javamancer.neuro.model.warez.KuangElevenWarez;
 
 /**
  * AI for AllardTech Database
- * 
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class NeuromancerAI extends AI {
 
     public NeuromancerAI() {
         super("Neuromancer", 11, 49152,
-                null, KuangElevenWarez.class
+                null, KuangElevenWarez.class,
+                new int[]{48, 49, 50, 51} // AITALK.txh entries
         );
     }
-
-    public static final int[] AI_TALK = {
-        48,49,50,51
-    };
 
 }
