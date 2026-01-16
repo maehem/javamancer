@@ -44,6 +44,8 @@ import com.maehem.javamancer.neuro.model.warez.LinkWarez;
 import com.maehem.javamancer.neuro.model.warez.ShotgunWarez;
 import com.maehem.javamancer.neuro.model.warez.VirusWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
+import com.maehem.javamancer.neuro.view.PopupListener;
+import com.maehem.javamancer.neuro.view.RoomMode;
 import com.maehem.javamancer.neuro.view.SoundEffectsManager;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -58,7 +60,7 @@ import javafx.util.Duration;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class BattleGridPane extends GridPane {
+public class BattleGridPane extends GridPane implements PopupListener {
 
     /*
     <pre>
@@ -144,6 +146,8 @@ public class BattleGridPane extends GridPane {
     private final ImageStack iceVirusFrontPane;
     private final ImageStack iceVirusRotRearPane;
     private final ImageStack iceVirusRotFrontPane;
+
+    private final AiTalkPane talkPane;
 
     public BattleGridPane(GameState gs) {
         super(gs);
@@ -243,13 +247,16 @@ public class BattleGridPane extends GridPane {
         aiFace.show(-1);
         aiFace.setScaleY(1.06);
 
+        talkPane = new AiTalkPane(this, gameState);
+
         getChildren().addAll(
                 battleGrid,
                 iceRearPane, iceVirusRearPane, iceVirusRotRearPane,
                 database, aiFace,
                 iceFrontPane, iceVirusFrontPane, iceVirusRotFrontPane,
                 shotsLiveDBPane, shotsExplodeDBPane,
-                shotsLivePlayerPane, shotsExplodePlayerPane
+                shotsLivePlayerPane, shotsExplodePlayerPane,
+                talkPane
         );
 
         shotExplodePlayerSequence = new FrameSequence(shotsExplodePlayer, false, false);
@@ -293,6 +300,7 @@ public class BattleGridPane extends GridPane {
 
                 usedOnAIWarez.clear();
 
+                talkPane.setVisible(false);
                 // TODO: Upgrade ICEBreaking Skill if used.
             }
             case BROKEN -> {
@@ -341,6 +349,7 @@ public class BattleGridPane extends GridPane {
                             }
                             default -> {
                                 LOGGER.log(Level.SEVERE, "Warez {0} is not usable in AI battle! ", w.getSimpleName());
+                                gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);                                
                             }
                         }
                     }
@@ -350,9 +359,10 @@ public class BattleGridPane extends GridPane {
                         fireShotAI(); // AI attacks Player
                     }
                 } else { // AI Fight is won.
-                    // Allow AI defeated animation to finish.
+                    LOGGER.log(Level.INFO, "AI Defeated.");
                     gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
                     aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
+                    talkPane.say(AiTalkPane.Message.LAST);
                     setIceMode(IceMode.AI_DEATH);
                 }
             }
@@ -454,6 +464,8 @@ public class BattleGridPane extends GridPane {
     void resetBattle() {
         db = gameState.database;
         ai = gameState.getAI(db.ai);
+        talkPane.setAi(ai);
+        talkPane.setVisible(false);
 
         db.resetIce();
         setIceMode(IceMode.BASIC);
@@ -494,7 +506,7 @@ public class BattleGridPane extends GridPane {
                 2000
         );
         tt.setOnFinished((t) -> {
-            LOGGER.log(Level.FINE, () -> "Skill " + skill.catalog.itemName + " finished. Un-slot.");
+            LOGGER.log(Level.FINE, "Skill {0} finished. Un-slot.", skill.catalog.itemName);
 
             tt.setNode(null);
             shotLivePlayerSequence.stop();
@@ -506,6 +518,7 @@ public class BattleGridPane extends GridPane {
             // Apply damage, considering weaknesses.
             if (mode == IceMode.AI) {
                 ai.applySkillAttack(skill, gameState);
+                talkPane.say(AiTalkPane.Message.RANDOM);
             } else {
                 gameState.database.applySkillAttack(skill, gameState);
             }
@@ -552,71 +565,74 @@ public class BattleGridPane extends GridPane {
 //            }
             // Change any animations for ICE.
             // TODO: Do this instead at each tick() ???
-            if (w instanceof VirusWarez) { // Thunderhead, Injector, Python, Acid
-                setIceMode(IceMode.VIRUS);
-                // Animation runs for duration of Warez.
-                long startTime = System.nanoTime();
-                AnimationTimer vt = new AnimationTimer() {
-                    @Override
-                    public void handle(long now) {
-                        double elapsedTime = (now - startTime) / 1_000_000.0; // mS
-                        if (elapsedTime > (w.getRunDuration())) {
-                            if (mode == IceMode.VIRUS) { // Only expire if still in this mode.
-                                setIceMode(IceMode.BASIC);
+            if (mode == IceMode.BASIC || mode == IceMode.VIRUS || mode == IceMode.ROT) {
+                if (w instanceof VirusWarez) { // Thunderhead, Injector, Python, Acid
+                    setIceMode(IceMode.VIRUS);
+                    // Animation runs for duration of Warez.
+                    long startTime = System.nanoTime();
+                    AnimationTimer vt = new AnimationTimer() {
+                        @Override
+                        public void handle(long now) {
+                            double elapsedTime = (now - startTime) / 1_000_000.0; // mS
+                            if (elapsedTime > (w.getRunDuration())) {
+                                if (mode == IceMode.VIRUS) { // Only expire if still in this mode.
+                                    setIceMode(IceMode.BASIC);
+                                }
+                                this.stop();
                             }
-                            this.stop();
                         }
-                    }
-                };
-                vt.start();
-                //gameState.eraseSoftware(w);
-            } else if (w instanceof CorruptorWarez) { // 
-                setIceMode(IceMode.ROT);
-                // Animation runs for duration of Warez.
-                long startTime = System.nanoTime();
-                AnimationTimer vt = new AnimationTimer() {
-                    @Override
-                    public void handle(long now) {
-                        double elapsedTime = (now - startTime) / 1_000_000.0; // mS
-                        if (elapsedTime > (w.getRunDuration())) {
-                            if (mode == IceMode.ROT) { // Only expire if still in this mode.
-                                setIceMode(IceMode.BASIC);
+                    };
+                    vt.start();
+                    //gameState.eraseSoftware(w);
+                } else if (w instanceof CorruptorWarez) { // 
+                    setIceMode(IceMode.ROT);
+                    // Animation runs for duration of Warez.
+                    long startTime = System.nanoTime();
+                    AnimationTimer vt = new AnimationTimer() {
+                        @Override
+                        public void handle(long now) {
+                            double elapsedTime = (now - startTime) / 1_000_000.0; // mS
+                            if (elapsedTime > (w.getRunDuration())) {
+                                if (mode == IceMode.ROT) { // Only expire if still in this mode.
+                                    setIceMode(IceMode.BASIC);
+                                }
+                                this.stop();
                             }
-                            this.stop();
                         }
-                    }
-                };
-                vt.start();
-                //gameState.eraseSoftware(w);
-            } else {
-                // Software has a chance of being worn/damaged.
-                LOGGER.log(Level.INFO, "TODO: Wear or Damage software.");
-            }
-
-            switch (mode) {
-                case AI -> {
-                    if (ai.getConstitution() <= 0) {
-                        LOGGER.log(Level.INFO, "AI Defeated.");
-                        // TODO: New sound for AI defeated.
-                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
-                        aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
-                    }
-                }
-                case BASIC, ROT, VIRUS -> { // Any ICE battle mode.
-                    if (db.getIce() <= 0) {
-                        LOGGER.log(Level.INFO, "ICE Broken.");
-                        mode = IceMode.BROKEN; // Allows animations to finish.
-
-                        // Animations
-                        iceBrokenAnimation(iceFrontPane, iceRearPane);
-                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
-                    }
-                }
-                default -> {
-                    // Do nothing.
+                    };
+                    vt.start();
+                    //gameState.eraseSoftware(w);
+                } else {
+                    // Software has a chance of being worn/damaged.
+                    LOGGER.log(Level.INFO, "TODO: Wear or Damage software.");
                 }
             }
 
+            // Handled by tick()
+//            switch (mode) {
+//                case AI -> {
+//                    if (ai.getConstitution() <= 0) {
+//                        LOGGER.log(Level.INFO, "AI Defeated.");
+//                        // TODO: New sound for AI defeated.
+//                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+//                        aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
+//                        talkPane.say(AiTalkPane.Message.LAST);
+//                    }
+//                }
+//                case BASIC, ROT, VIRUS -> { // Any ICE battle mode.
+//                    if (db.getIce() <= 0) {
+//                        LOGGER.log(Level.INFO, "ICE Broken.");
+//                        mode = IceMode.BROKEN; // Allows animations to finish.
+//
+//                        // Animations
+//                        iceBrokenAnimation(iceFrontPane, iceRearPane);
+//                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+//                    }
+//                }
+//                default -> {
+//                    // Do nothing.
+//                }
+//            }
         });
     }
 
@@ -681,13 +697,7 @@ public class BattleGridPane extends GridPane {
             fadeNode1.setVisible(false);
             fadeNode1.setOpacity(1.0);
             if (db.ai != null) { // Begin AI fight.
-                LOGGER.log(Level.INFO, "Begin AI Fight...");
-                aiFace.show(ai.index);
                 setIceMode(IceMode.AI);
-                
-                // Dump the AI responses to LOGGER.
-                gameState.resourceManager.getTxhText("AITALK").dumpList();
-
             } else {
                 LOGGER.log(Level.INFO, "Switch to DB Terminal...");
                 setIceMode(IceMode.NONE);
@@ -762,7 +772,11 @@ public class BattleGridPane extends GridPane {
 
         if (mode == IceMode.AI) {
             if (ai != null) {
+                LOGGER.log(Level.INFO, "Begin AI Fight...");
+                // Dump the AI responses to LOGGER.
+                //ai.getDialogs(gameState).dumpList(); // For debug
                 aiFace.show(ai.index);
+                talkPane.say(AiTalkPane.Message.FIRST);
             } else {
                 setIceMode(IceMode.NONE);
                 aiFace.show(-1);
@@ -843,6 +857,24 @@ public class BattleGridPane extends GridPane {
             }
             //warez.tick(gameState);
         });
+    }
+
+    /**
+     * Required by AiTalkPane. Not used here.
+     *
+     * @return
+     */
+    @Override
+    public boolean popupExit() {
+        return true;
+    }
+
+    @Override
+    public void popupExit(RoomMode.Popup newPopup) {
+    }
+
+    @Override
+    public void showMessage(String message) {
     }
 
     /**

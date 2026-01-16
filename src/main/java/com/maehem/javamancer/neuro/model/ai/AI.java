@@ -274,6 +274,6 @@ public abstract class AI {
     }
 
     public TextResource getDialogs(GameState gs) {
-        return gs.resourceManager.getTxhText("AITEXT");
+        return gs.resourceManager.getTxhText("AITALK");
     }
 }
