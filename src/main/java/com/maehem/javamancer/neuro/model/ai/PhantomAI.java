@@ -32,6 +32,12 @@ import com.maehem.javamancer.neuro.model.warez.BattleChessWarez;
 /**
  * AI for Phantom Database
  *
+ * Phantom AI seems to be a reference to something that is much older than the
+ * matrix that is neither AI or Human. Perhaps someone who used to go by the
+ * name Victor. Phantom might also be a reference to "Phantom of the Opera", a
+ * story about a mysterious figure who lurks in catacombs beneath a Paris opera
+ * house.
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class PhantomAI extends AI {
