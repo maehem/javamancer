@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.LuciferAI;
-import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 import com.maehem.javamancer.neuro.model.warez.ArmorallWarez;
 import com.maehem.javamancer.neuro.model.warez.ConcreteWarez;
 import com.maehem.javamancer.neuro.model.warez.DepthChargeWarez;

@@ -26,8 +26,6 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
-import com.maehem.javamancer.neuro.model.ai.SangfroidAI;
-import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**

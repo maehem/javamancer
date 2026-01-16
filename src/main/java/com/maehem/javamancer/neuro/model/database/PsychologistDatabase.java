@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.ChromeAI;
-import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 import com.maehem.javamancer.neuro.model.warez.ThunderheadWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 

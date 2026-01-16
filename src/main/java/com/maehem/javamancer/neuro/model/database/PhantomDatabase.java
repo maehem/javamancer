@@ -27,8 +27,6 @@
 package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.ai.PhantomAI;
-import com.maehem.javamancer.neuro.model.skill.LogicSkill;
-import com.maehem.javamancer.neuro.model.warez.BattleChessWarez;
 import com.maehem.javamancer.neuro.model.warez.HemlockWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 

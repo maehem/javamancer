@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.ai.GreystokeAI;
-import com.maehem.javamancer.neuro.model.warez.HemlockWarez;
 import com.maehem.javamancer.neuro.model.warez.KuangElevenWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 

@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.ai.XavieraAI;
-import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**

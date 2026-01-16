@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.model.database;
 
 import com.maehem.javamancer.neuro.model.BbsMessage;
 import com.maehem.javamancer.neuro.model.ai.SaphireAI;
-import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 import com.maehem.javamancer.neuro.model.warez.BlammoWarez;
 import com.maehem.javamancer.neuro.model.warez.CenturionWarez;
 import com.maehem.javamancer.neuro.model.warez.MegaDeathWarez;
