@@ -6,7 +6,7 @@ A restoration of ***Neuromancer*** *PC Game (1989)* with a *Game Assets Browser*
   <a href="neuro-game-box.md"><img src="/images/neuromancer-pc-box-2.jpeg" height="240"></a>
 </p>
 
-<a hfref="images/README.md">Click Here for More Screenshots!!!</a>
+<a href="images/README.md">Click Here for More Screenshots!!!</a>
 
 Inspired by the [Reuromancer Windows64](https://github.com/HenadziMatuts/Reuromancer) port by [Henadzi Matuts]( https://github.com/HenadziMatuts) with asset decoding/unpacking code adapted to Java/JavaFX.
 
