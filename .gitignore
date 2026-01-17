@@ -27,3 +27,5 @@ sandbox/
 /target 2/
 /jdeploy-bundle/
 /node_modules/
+.DS_Store
+.obsidian/

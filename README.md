@@ -1,21 +1,25 @@
 # javamancer
-Java "Port" of Neuromancer PC Game (1989) with Game Assets Browser
+A restoration of ***Neuromancer*** *PC Game (1989)* with a *Game Assets Browser*, written entirely in *Java/JavaFX*.
 
 <p align="center">
   <img src="/images/javamancer-main.png" height="240">
   <a href="neuro-game-box.md"><img src="/images/neuromancer-pc-box-2.jpeg" height="240"></a>
 </p>
 
-Inspired by and partially based upon the [Reuromancer Windows64](https://github.com/HenadziMatuts/Reuromancer) port by [Henadzi Matuts]( https://github.com/HenadziMatuts) and adapted to Java/JavaFX.
+<a hfref="images/README.md">Click Here for More Screenshots!!!</a>
+
+Inspired by the [Reuromancer Windows64](https://github.com/HenadziMatuts/Reuromancer) port by [Henadzi Matuts]( https://github.com/HenadziMatuts) with asset decoding/unpacking code adapted to Java/JavaFX.
 
 ## Requirements
-- This engine will require the original NEURO1.DAT and NEURO2.DAT resource files to operate.  You can obtain a copy via by searching the internet.
+- This engine will require the original *NEURO1.DAT* and *NEURO2.DAT* resource files from the original floppies to operate.  You can obtain a copy via by searching the internet.
+- The Java code is a cleanroom replacement for the NEURO.EXE game engine from the oroiginal disks.
 - For now, under development and requires NetBeans IDE for running (unless you have Maven skills).
-- The "Game Mode" is now playable at an Alpha quality. You should be able to create a character and acheive many of the game goals. Game save mostly works.
-- For now the game is MacOS only (because of game save and caching files location).  I'm working on Windows and Linux integration (or if you want to contribute).
+- The "Game Mode" is now playable at a late-Alpha quality. You should be able to create a character and acheive many of the game goals. Game save mostly works. Cyberspace exploration and battles are somewhat working.
+- Docoder wheel screen is present but can be bypassed by simply pressing ENTER.
+- For now the game is ***MacOS only*** (because of game save and caching files location).  I'm planning on Windows and Linux integration (or if you want to contribute).
 
-## What is Neuromancer PC?
-Neuromancer PC was "1989 Game of the Year" for PCs and shipped in a [22cm x 22cm x 2cm
+## What is *Neuromancer PC*?
+*Neuromancer PC* was a “1989 Game of the Year" for PCs and shipped in a [22cm x 22cm x 2cm
 thick box](neuro-game-box.md).  The box contained a simple manual, two game floppies and a "decoder" wheel.
 The decoder wheel was used as DRM(copy protection).  As the floppies could be easily copied,
 the designers of the game created an interactive wheel to use during the "on-line" portion
@@ -37,6 +41,14 @@ that I find interesting:
  - [SmallInteger - Text Walkthrough](https://www.smallinteger.com/random/neuromancer.txt)
  - [Walkthrough King - Text Walkthrough](https://www.walkthroughking.com/text/neuromancer.aspx)
  - [Adventurer's Guild - Walkthrough with screenshots](https://advgamer.blogspot.com/2013/05/game-32-neuromancer-learning-ropes.html)
+ - [AMC_revived - Very Thorough and Recent Walkthrough](https://gamefaqs.gamespot.com/pc/564806-neuromancer/faqs/81175)
+
+There are also some wonderful YouTube playthroughs. All of them were helpful with information regarding my development efforts.
+ - [Julia Minamata - Let’s Play Series](https://www.youtube.com/watch?v=7_1X038QoG8)
+ - [DarkwyndPT - Long Playthrough](https://www.youtube.com/watch?v=l6FEqvhp-d0)
+ - [Hipolito Pichardo - Neuromancer game ending - Adventure Quest #33](https://www.youtube.com/watch?v=5RtJPn7a_Cs)
+ - [MemorySectorZero - Extensive Cyberspace playthroughs on AppleII](https://www.youtube.com/@MemorySectorZero/videos)
+
 
 ## What makes this interesting for you?
 In a nutshell, I was hooked when I first read the Neuromancer book. I had just graduated
