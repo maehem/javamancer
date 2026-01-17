@@ -116,7 +116,7 @@ Of all the games I've played on the PC, this was one I really enjoyed.  Since I 
 really program professionaly anymore, I do like to keep my programming skills "fresh".  
 I do that by setting challenges to myself based on personal interests. So for this 
 excerise, I chose to deep-dive into the internals of Neuromancer PC and see where it 
-lead me.  Once I had the game assets decoded, I felt a strong pull to see how fow I 
+lead me.  Once I had the game assets decoded, I felt a strong pull to see how far I 
 could get using those assets in my own "game engine".  Step by step I recreated the 
 experience of the original DOS game.  In the process, this required me to research 
 and code many aspects of Java/JavaFX I had not yet learned about (or had forgotten).
