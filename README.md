@@ -8,6 +8,12 @@ A restoration of ***Neuromancer*** *PC Game (1989)* with a *Game Assets Browser*
 
 <a href="images/README.md">Click Here for More Screenshots!!!</a>
 
+## State of the Development (2026 . January)
+ - Game Running. "late-alpha" quiality. Largely playable!
+ - Curious testers invited to play and comment.
+ - No downloadable version. Use NetBeans IDE please.
+ - MacOS only.  Adventurous coders wanted to adapt it to Linux or Windows.
+
 Inspired by the [Reuromancer Windows64](https://github.com/HenadziMatuts/Reuromancer) port by [Henadzi Matuts]( https://github.com/HenadziMatuts) with asset decoding/unpacking code adapted to Java/JavaFX.
 
 ## Requirements
@@ -93,11 +99,14 @@ assets from Neuromancer PC .DAT files. You will need a copy of the original flop
 won't distribute them here.  Many abandon-ware sites have archived them. Once running,
 the application will scan your NEURO1.DAT and NEURO2.DAT files, extract and cache
 the assets to your user computer.  You can then use the browser function to explore
-the sprites, backgrounds, animations and dialog text.  In the future, I will write
-an engine to play the game with the cached assets.
+the sprites, backgrounds, animations and dialog text.  As of early 2026 the game is now
+playable.  I would call it "late Alpha" quality as most required features are present and
+most game goals are achievable.  However, some things might not yet work at all or at least
+appear to be glitchy.  The updside is that the game save file is plain text and human
+readable. In dire circumstances, one could edit the game save file to get past any hinderance.
 
 # Is this an emulator for the game?
-Kind of... This game uses the original content but the engine is 100% brand new!  Written in 
+Not really... This game uses the original content but the engine is 100% brand new!  Written in 
 Java/JavaFX, the game mode accesses the cached game content and attempts to present an 
 experience that is 99% like the DOS version from 1989.  No attempt was made to understand 
 how the original DOS excecuatble operated.
@@ -136,33 +145,42 @@ I'm considering the most "hacker" way of doing this by only making it only avail
 on command-line tools like "Brew" and "apt-get".
 
 # Where did you get the idea for this?
-Around 2020 (perhaps during covid lock-down) I had an idea to extract the data from
+This game had such an impact on me in 1989 that I longed for something like it all 
+the time it since then.  Fast forward to 2010, I was in between projects and toyed
+with the idea of creating a Neuromancer-like game using HTML-5, which was newfangled
+around that time.  I did a few coding experiments but didn't make any real progress.
+Plus, of course, a paying project came to me and I had to abandon all fun projects
+for a while.  A few years later, I had the idea to poke around the original game files
+with a hex editor, and while I could see small bits of interesting things, I never
+was able to make any real progress on the games asset secrets. I would try that experiment
+a few more times over the next decade. During that time I discovered DOSBox which ran
+well on MacOS and would occasionally make my way through the original game, just like the old times.
+Around 2020 (perhaps during covid lock-down) I had, again the wild notion to extract the data from
 the original files and maybe do something with them.  I really liked playing the game
 in a DOS emulator, but wished there was a way to play it directly on something more
 modern and maybe even be able to add things to or change things (like imagery) in the 
-game.  I initially probed around the DAT files with a hex editor but my knowledge of old 
+game.  I initially probed around the DAT files with a hex editor, again, but my knowledge of old 
 game encoding and compression were lacking.  I really couldn't make sense of it so I gave 
-up.  A few months later, I had the idea of coding something similar from scratch.  I wanted 
+up.  A few months later, I had the idea of coding something similar from scratch.  I 
+had a new idea
 to make a Neuromancer-like game with my own characters but set in a very similar world 
 (hacking, BBS, Matrix ICE busting, etc.). So I started some JavaFX object oriented code 
-experiments  with a "room" where a character could walk around, talk to a NPC, had a simple 
+game-engine experiments  with a "room" where a character could walk around, talk to a NPC, had a simple 
 inventory. I worked out these constraints over a few months and ended up with a 
-game app that was rough but pleasing.  I started to add rooms to the experiment 
+game app that was rough but pleasing.  It was the idea I had dremt up back in 2010 and had
+attempted in HTML.  But this time I was able to make much more progress by going with Java/JavaFX,
+which I used quite considerably professionally up till then.  I started to add rooms to the experiment 
 and soon had a multi room area that the player could walk room to room and affect
 the environment.  I now had my own simple game engine.   I also started making 
 notes for my own character and setting.  Like in Neuromancer PC, my character 
 starts with nothing and the NPCs drop hints about what to do next.  My setting 
 is also in a cyberpunk future but set in the American South West (go with what 
-you know).  Different challenges than Chiba City.
+you know).  Different challenges than Chiba City and a character named "Jack".
+"Jack" was running on my new engine called "Abyss".  But then it occurred to me if I could remake
+Neuromancer PC in the new Abyss engine (entitled Chiba City Blues)?
 
-During this process, I'd realized that I had three projects to juggle.  A Neuromancer PC
-clone "[Chiba City Blues](https://github.com/maehem/ChibaCityBlues)", my game story idea
-"Jack" and an engine "Abyss".  So I divided the work up such that both "Neuro-clone"
-and "Jack" ran on the same game engine, called "[Abyss](https://github.com/maehem/Abyss)".
- I've been working on those three projects for about three years now, no rush.  
-Javamancer is not any of those things, so now I have four related projects.
 
-### Abyss engine (my next engine)
+### Abyss engine (my next engine) running a Neuromancer remake
 A little rough around the edges, but a running game on the 
 "[Abyss](https://github.com/maehem/Abyss)" engine. Left: My version of Chatsubo Bar.  
 Right: My take on the Cyberspace interface.  I'm still working with an artist for character
@@ -172,15 +190,23 @@ designs and such. This is all prototype stuff so don't judge.
 <img src="/images/abyss-engine-screenshot-matrix-1.png" height="240"/>
 </p>
 
-## Fast forward to now (2024) and the creation of Javamancer
+## One project became three...
+During this process, I'd realized that I now had three projects to juggle.  A Neuromancer PC
+clone "[Chiba City Blues](https://github.com/maehem/ChibaCityBlues)", my game story idea
+"Jack" and the underlying engine "Abyss".  So I divided the work up such that both "Neuro-clone"
+and "Jack" ran on the same game engine, called "[Abyss](https://github.com/maehem/Abyss)".
+I've been working on those three projects for about five years now, no rush.  
+BUT... Javamancer is not any of those things, so now I have four related projects.
+
+## Fast forward to 2024 and the creation of Javamancer
 
 In researcing more for "Chiba City Blues" I ran across the work of [Henadzi Matuts](https://habr.com/en/articles/352050/) .
 Hendazi had the same initial curiosity but did exactly what I couldn't, he used his
 skills in 8088/8086 assembler to reverse engineer the Neuromancer PC game byte by byte.
-He went further and wrote a series of four amazing blog posts that break down the content
+He went further and wrote a series of four amazing blog posts that break down the asset
 encoding on the original Neuromancer PC game DAT files.  He had done it back in 2018,
 but somehow I had not stumbled across his work until 2024.  However, he decided to
-port Neuromancer PC to Windows (64-bit) in C++.  But his detailed study of the game's
+try porting Neuromancer PC to Windows (64-bit) in C++.  But his detailed study of the game's
 data was eye opening for me.  As a bonus, he had released his work as MIT license.
 Since I planned to rewrite parts of what he did in a different language (Java) it made
 attribution much easier. Hendazi is credited at the top of each of my source files,
@@ -192,7 +218,7 @@ Handazi's Blogs are in Russian, so I suggest you use Chrome to view them and let
 Google translate it for you.
 
 From there, I was able to unpack and decode all the assets, in Java, in a couple
-weeks.  So here is "Javamancer" in it's current rough state.  I'm sure there are
+weeks.  So here is "Javamancer" in it's current evolving state.  I'm sure there are
 issues and it comes with no instructions.  You'll probably need the latest Netbeans
 and Java to run it.
 
