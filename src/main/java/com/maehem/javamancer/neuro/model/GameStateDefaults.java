@@ -66,7 +66,7 @@ public enum GameStateDefaults {
     USING_DECK("deckInUse", null),
     MATRIX_POS_X("deckMatrixPosX", 112),
     MATRIX_POS_Y("deckMatrixPosY", 96),
-    ROM_INSTALLED("deckRomInstalled", false), // TODO: assign number to ROM choices.
+    ROM_INSTALLED("deckRomInstalled", -1), // -1 = none. 0 = dixie, 1 = Toshiro, 2 = ROMBO
     // Room
     ROOM_POS_X("roomPlayerPosX", 160),
     ROOM_POS_Y("roomPlayerPosY", 90),

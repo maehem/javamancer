@@ -43,6 +43,7 @@ public class R56Extras extends RoomExtras { // Sense Net
 
     private final static int COUNTDOWN_TICKS = 10 * 15; // 30 seconds at 15fps
     private int countdown = -1;
+    private int romNum = -1;
 
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, {SHORT_DESC.num}, //  [0][1]
@@ -60,11 +61,13 @@ public class R56Extras extends RoomExtras { // Sense Net
 
     /**
      *
-     * Do you know about...
-     *
+     * Enter Identity Number...
+     * 
      */
     private static final Map<String, Integer> map1 = Map.ofEntries(
-            entry("0467839", 5)
+            entry("0467839", 5), // Dixie
+            entry("55214260", 5), // ROMBO
+            entry("6905984", 5)  // Toshiro
     );
 
     private int codeTries = 3;
@@ -87,6 +90,8 @@ public class R56Extras extends RoomExtras { // Sense Net
             }
         }
 
+        romNum = index;
+        
         return index;
     }
 
@@ -118,7 +123,7 @@ public class R56Extras extends RoomExtras { // Sense Net
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        if (gs.dixieInstalled) {
+        if (gs.romInstalled >= 0) { // Player already has a ROM installed.
             gs.setRoomTalk(false);
             return DIALOG_END.num;
         }
@@ -151,7 +156,7 @@ public class R56Extras extends RoomExtras { // Sense Net
             // Get ROM Consctruct
             LOGGER.log(Level.FINE, "Player recieves ROM construct.");
             gs.showMessage = gs.resourceManager.getRoomText(gs.room).get(10);
-            gs.dixieInstalled = true;
+            gs.romInstalled = romNum;
             countdown = -1;
             dialogNoMore(gs);
         }

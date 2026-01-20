@@ -164,7 +164,7 @@ public class GameStateUtils {
         pPut(props, MATRIX_POS_X, gs.matrixPosX);
         pPut(props, MATRIX_POS_Y, gs.matrixPosY);
 
-        pPut(props, ROM_INSTALLED, gs.dixieInstalled);
+        pPut(props, ROM_INSTALLED, gs.romInstalled);
 
         pPut(props, ROOM_POS_X, gs.roomPosX);
         pPut(props, ROOM_POS_Y, gs.roomPosY);
@@ -272,7 +272,7 @@ public class GameStateUtils {
         // Money
         gs.moneyChipBalance = getInt(CHIP_BALANCE, p);
         gs.bankBalance = getInt(BANK_BALANCE, p);
-        restorebankTransactions(gs.bankTransactionRecord, p);
+        restoreBankTransactions(gs.bankTransactionRecord, p);
         gs.bankZurichBalance = getInt(BANK_ZURICH_BALANCE, p);
         gs.bankGemeinBalance = getInt(BANK_GEMEIN_BALANCE, p);
         gs.bankZurichCreated = getStr(BANK_ZURICH_CREATED, p);
@@ -299,11 +299,9 @@ public class GameStateUtils {
         gs.usingDeck = DeckUtils.getUsingDeck(gs, getStr(USING_DECK, p));
         gs.matrixPosX = getInt(MATRIX_POS_X, p);
         gs.matrixPosY = getInt(MATRIX_POS_Y, p);
-        gs.dixieInstalled = getBool(ROM_INSTALLED, p);
+        gs.romInstalled = getInt(ROM_INSTALLED, p);
 
-        // Need to configure deck as if entering cyberspace
-        // need to set deck location?
-        //gs.usingDeck =
+        // Room Stuff
         gs.roomPosX = getInt(ROOM_POS_X, p);
         gs.roomPosY = getInt(ROOM_POS_Y, p);
         gs.room = Room.lookup(getStr(ROOM, p));
@@ -626,7 +624,7 @@ public class GameStateUtils {
         }
     }
 
-    private static void restorebankTransactions(ArrayList<BankTransaction> list, Properties p) {
+    private static void restoreBankTransactions(ArrayList<BankTransaction> list, Properties p) {
         String key = BANK_TRANSACTION.key;
         int i = 0;
 
@@ -654,15 +652,9 @@ public class GameStateUtils {
         StringBuilder mainSb = new StringBuilder();
         for (Room r : Room.values()) {
             StringBuilder sb = new StringBuilder();
-//            if (!sb.isEmpty()) {
-//                sb.append(",");
-//            }
 
             for (RoomBounds.Door d : RoomBounds.Door.values()) {
                 if (r.isDoorLocked(d)) {
-//                    if (!sb.isEmpty()) {
-//                        sb.append("|");
-//                    }
                     sb.append(d.name().substring(0, 1));
                 }
             }

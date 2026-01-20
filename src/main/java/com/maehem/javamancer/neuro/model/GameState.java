@@ -128,7 +128,7 @@ public class GameState {
     public DeckItem usingDeck = null;
     public int matrixPosX = 112;
     public int matrixPosY = 96;
-    public boolean dixieInstalled = false; // ROM Construct: Dixie Flatline
+    public int romInstalled = -1; // ROM Construct: None
     public int aiFightSkill = 0; // Philosophy skill. +1 after every AI win. 8 max.
     public boolean usingDeckErase = false; // Ephemeral
     public Database database = null; // Ephemeral
