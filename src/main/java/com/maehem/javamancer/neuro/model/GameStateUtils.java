@@ -120,8 +120,8 @@ public class GameStateUtils {
         putInventory(gs, props);
 
         // Time/Date
-        props.put(TIME_MINUTE.key, String.valueOf(gs.dateMinute));
-        props.put(TIME_HOUR.key, String.valueOf(gs.dateHour));
+        props.put(DATE_MINUTE.key, String.valueOf(gs.dateMinute));
+        props.put(DATE_HOUR.key, String.valueOf(gs.dateHour));
         props.put(DATE_MONTH.key, String.valueOf(gs.dateMonth));
         props.put(DATE_DAY.key, String.valueOf(gs.dateDay));
         props.put(DATE_YEAR.key, String.valueOf(gs.dateYear));
@@ -164,7 +164,7 @@ public class GameStateUtils {
         pPut(props, MATRIX_POS_X, gs.matrixPosX);
         pPut(props, MATRIX_POS_Y, gs.matrixPosY);
 
-        pPut(props, DIXIE_INSTALLED, gs.dixieInstalled);
+        pPut(props, ROM_INSTALLED, gs.dixieInstalled);
 
         pPut(props, ROOM_POS_X, gs.roomPosX);
         pPut(props, ROOM_POS_Y, gs.roomPosY);
@@ -263,8 +263,8 @@ public class GameStateUtils {
         restoreInventory(gs, p);
 
         // Time/Date
-        gs.dateMinute = getInt(TIME_MINUTE, p);
-        gs.dateHour = getInt(TIME_HOUR, p);
+        gs.dateMinute = getInt(DATE_MINUTE, p);
+        gs.dateHour = getInt(DATE_HOUR, p);
         gs.dateMonth = getInt(DATE_MONTH, p);
         gs.dateDay = getInt(DATE_DAY, p);
         gs.dateYear = getInt(DATE_YEAR, p);
@@ -299,7 +299,7 @@ public class GameStateUtils {
         gs.usingDeck = DeckUtils.getUsingDeck(gs, getStr(USING_DECK, p));
         gs.matrixPosX = getInt(MATRIX_POS_X, p);
         gs.matrixPosY = getInt(MATRIX_POS_Y, p);
-        gs.dixieInstalled = getBool(DIXIE_INSTALLED, p);
+        gs.dixieInstalled = getBool(ROM_INSTALLED, p);
 
         // Need to configure deck as if entering cyberspace
         // need to set deck location?
@@ -359,20 +359,22 @@ public class GameStateUtils {
     }
 
     private static void putInventory(GameState gs, Properties p) {
+        String key = INVENTORY.key;
         int i = 0;
         for (Item item : gs.inventory) {
-            LOGGER.log(Level.INFO, "Put inventory item: {0}", item.item.name());
-            item.putProps("inventory." + i, p);
+            LOGGER.log(Level.INFO, "Put {0} item: {1}", new Object[]{key, item.item.name()});
+            item.putProps(key + "." + i, p);
             i++;
         }
     }
 
     @SuppressWarnings("unchecked")
     private static void restoreInventory(GameState gs, Properties p) {
+        String key = INVENTORY.key;
         int i = 0;
         String val;
-        while ((val = p.getProperty("inventory." + i)) != null) {
-            LOGGER.log(Level.INFO, "Restore inventory item: {0}", val);
+        while ((val = p.getProperty(key + "." + i)) != null) {
+            LOGGER.log(Level.INFO, "Restore {0} item: {1}", new Object[]{key, val});
             Catalog lookup = Item.lookup(val);
             if (RealItem.class.isAssignableFrom(lookup.clazz)) {
                 LOGGER.log(Level.FINER, "Found RealItem");
@@ -386,8 +388,7 @@ public class GameStateUtils {
                 LOGGER.log(Level.FINER, "Create Deck Item");
                 DeckItem deck = DeckItem.getInstance(lookup.clazz);
                 gs.inventory.add(deck);
-                deck.pullProps("inventory." + i, p);
-
+                deck.pullProps(key + "." + i, p);
             }
 
             i++;
@@ -395,10 +396,11 @@ public class GameStateUtils {
     }
 
     private static void putSkills(GameState gs, Properties p) {
+        String key = SKILLS.key;
         int i = 0;
         for (Skill skill : gs.skills) {
-            LOGGER.log(Level.INFO, "Put skill: {0}", skill.catalog.name());
-            skill.putProps("skills." + i, p);
+            LOGGER.log(Level.INFO, "Put {0}: {1}", new Object[]{key, skill.catalog.name()});
+            skill.putProps(key + "." + i, p);
             i++;
         }
     }
@@ -406,13 +408,14 @@ public class GameStateUtils {
     private static void restoreSkills(GameState gs, Properties p) {
         int i = 0;
         String val;
-        while ((val = p.getProperty("skills." + i)) != null) {
-            LOGGER.log(Level.INFO, "Restore skill: {0}", val);
+        String key = SKILLS.key;
+        while ((val = p.getProperty(key + "." + i)) != null) {
+            LOGGER.log(Level.INFO, "Restore {0}: {1}", new Object[]{key, val});
             Catalog lookup = Item.lookup(val);
 
-            LOGGER.log(Level.INFO, "Create Skill Item");
+            LOGGER.log(Level.INFO, "Create {0} Item", key);
             Skill skill = Skill.getInstance(lookup, 1);
-            skill.pullProps("skills." + i, p);
+            skill.pullProps(key + i, p);
 
             gs.skills.add(skill);
 
@@ -431,19 +434,22 @@ public class GameStateUtils {
     }
 
     private static void putSoldBodyParts(GameState gs, Properties p) {
+        String key = BODY_PART.key;
         int i = 0;
         for (BodyPart part : gs.soldBodyParts) {
-            LOGGER.log(Level.INFO, "Put sold body part: {0}", part.name());
-            p.put("bodyPart." + i, part.name());
+            String val = part.name();
+            LOGGER.log(Level.INFO, "Put {0}: {1}", new Object[]{key, val});
+            p.put(key + "." + i, val);
             i++;
         }
     }
 
     private static void restoreSoldBodyParts(GameState gs, Properties p) {
+        String key = BODY_PART.key;
         int i = 0;
         String val;
-        while ((val = p.getProperty("bodyPart." + i)) != null) {
-            LOGGER.log(Level.INFO, "Restore sold body part: {0}", val);
+        while ((val = p.getProperty(key + "." + i)) != null) {
+            LOGGER.log(Level.INFO, "Restore {0}: {1}", new Object[]{key, val});
             BodyPart lookup = BodyPart.lookup(val);
 
             gs.soldBodyParts.add(lookup);
@@ -452,11 +458,12 @@ public class GameStateUtils {
         }
     }
 
+    // TODO: Change to list like RoomVisited
     private static void putAIList(GameState gs, Properties p) {
         int i = 0;
         for (AI ai : gs.aiList) {
-            LOGGER.log(Level.INFO, "Put AI: {0}", ai.getClass().getSimpleName());
-            ai.putProps("ai." + i, p);
+            LOGGER.log(Level.INFO, "Put Defeated AI: {0}", ai.getClass().getSimpleName());
+            ai.putProps(AI_DEFEATED + "." + i, p);
             i++;
         }
     }
@@ -464,11 +471,12 @@ public class GameStateUtils {
     private static void restoreAIList(GameState gs, Properties p) {
         int i = 0;
         String val;
-        while ((val = p.getProperty("ai." + i)) != null) {
-            LOGGER.log(Level.INFO, "Restore AI: {0}", val);
+        String key = AI_DEFEATED + ".";
+        while ((val = p.getProperty(key + i)) != null) {
+            LOGGER.log(Level.INFO, "Restore Defeated AI: {0}", val);
             AI lookup = AI.lookup(val);
 
-            lookup.pullProps("ai." + i, p);
+            lookup.pullProps(key + i, p);
 
             gs.aiList.add(lookup);
 
@@ -477,10 +485,11 @@ public class GameStateUtils {
     }
 
     private static void putWarez(GameState gs, Properties p) {
+        String key = DECK_WAREZ.key;
         int i = 0;
         for (Warez w : gs.software) {
-            LOGGER.log(Level.INFO, "Put warez: {0}", w.item.name());
-            w.putProps("warez." + i, p);
+            LOGGER.log(Level.INFO, "Put " + key + ": {0}", w.item.name());
+            w.putProps(key + "." + i, p);
             i++;
         }
     }
@@ -488,13 +497,14 @@ public class GameStateUtils {
     private static void restoreWarez(GameState gs, Properties p) {
         int i = 0;
         String val;
-        while ((val = p.getProperty("warez." + i)) != null) {
-            LOGGER.log(Level.INFO, "Restore warez: {0}", val);
+        String key = DECK_WAREZ.key;
+        while ((val = p.getProperty(key + "." + i)) != null) {
+            LOGGER.log(Level.INFO, "Restore {0}: {1}", new Object[]{key, val});
             Catalog lookup = Item.lookup(val);
 
-            LOGGER.log(Level.INFO, "Create Warez Item");
+            LOGGER.log(Level.INFO, "Create {0} Item", val);
             Warez w = Warez.getInstance(lookup, 1);
-            w.pullProps("warez." + i, p);
+            w.pullProps(key + "." + i, p);
 
             gs.software.add(w);
 
@@ -517,7 +527,7 @@ public class GameStateUtils {
         while (p.getProperty(prefix + "." + i + ".name") != null) {
             String itemPrefix = prefix + "." + i;
 
-            LOGGER.log(Level.FINE, "Restore person: {0}.{1}", new Object[]{prefix, i});
+            LOGGER.log(Level.FINE, "Restore {0}: {1}.{2}", new Object[]{prefix, prefix, i});
             Person person = Person.pullPerson(itemPrefix, p);
             list.add(person);
 
@@ -526,66 +536,72 @@ public class GameStateUtils {
     }
 
     private static void putVisitedRooms(GameState gs, Properties p) {
+        String key = ROOMS_VISITED.key;
         StringBuilder sb = new StringBuilder();
         for (Room r : gs.visited) {
-            LOGGER.log(Level.INFO, "Put visited room: {0}", r.name());
+            LOGGER.log(Level.INFO, "Put {0}: {1}", new Object[]{key, r.name()});
             if (!sb.isEmpty()) {
                 sb.append(",");
             }
 
             sb.append(r.name());
         }
-        p.put("visited", sb.toString());
+        p.put(key, sb.toString());
     }
 
     private static void restoreVisitedRooms(GameState gs, Properties p) {
-        String visited[] = ((String) (p.get("visited"))).split(",");
+        String key = ROOMS_VISITED.key;
+        String visited[] = ((String) (p.get(key))).split(",");
         for (String rStr : visited) {
             if (rStr.isBlank()) {
                 continue;
             }
-            LOGGER.log(Level.INFO, "Restore visited room: {0}", rStr);
+            LOGGER.log(Level.INFO, "Restore {0}: {1}", new Object[]{key, rStr});
             gs.visited.add(Room.lookup(rStr));
         }
     }
 
     private static void putDialogRooms(GameState gs, Properties p) {
+        String key = ROOM_DIALOG_ALLOWED.key;
         StringBuilder sb = new StringBuilder();
         for (Room r : gs.dialogAllowed) {
-            LOGGER.log(Level.INFO, "Put dialog room: {0}", r.name());
+            LOGGER.log(Level.INFO, "Put {0}: {1}", new Object[]{key, r.name()});
             if (!sb.isEmpty()) {
                 sb.append(",");
             }
 
             sb.append(r.name());
         }
-        p.put("dialogAllowed", sb.toString());
+        p.put(key, sb.toString());
     }
 
     private static void restoreDialogRooms(GameState gs, Properties p) {
-        String visited[] = ((String) (p.get("dialogAllowed"))).split(",");
+        String key = ROOM_DIALOG_ALLOWED.key;
+        String visited[] = ((String) (p.get(key))).split(",");
         for (String rStr : visited) {
-            LOGGER.log(Level.INFO, "Restore dialog room: {0}", rStr);
+            LOGGER.log(Level.INFO, "Restore {0}: {1}", new Object[]{key, rStr});
             gs.dialogAllowed.add(Room.lookup(rStr));
         }
     }
 
     private static void putSentMessageList(ArrayList<BbsMessage> list, Properties p) {
+        String key = BBS_SENT_MESSAGE.key;
         int i = 0;
         for (BbsMessage msg : list) {
-            LOGGER.log(Level.INFO, "Put sent BBS message: {0} ==> to: {1}", new Object[]{i, msg.to});
-            msg.putProps("sentMessage." + i, p);
+            LOGGER.log(Level.INFO, "Put {0}: {1} ==> to: {2}", new Object[]{key, i, msg.to});
+            msg.putProps(key + "." + i, p);
             i++;
         }
     }
 
     private static void restoreSentMessageList(GameState gs, Properties p) {
+        String key = BBS_SENT_MESSAGE.key;
         int i = 0;
 
-        while (p.getProperty("sentMessage." + i + ".to") != null) {
-            String itemPrefix = "sentMessage." + i;
+        while (p.getProperty(key + "." + i + ".to") != null) {
+            String itemPrefix = key + "." + i;
 
-            LOGGER.log(Level.INFO, "Restore sent BBS message: {0}", new Object[]{itemPrefix});
+            LOGGER.log(Level.INFO, "Restore: {1}", new Object[]{itemPrefix});
             BbsMessage msg = BbsMessage.pullMessage(itemPrefix, p);
             gs.messageSent.add(msg);
             if (msg.dbNumber == 99) { // PAX BBS messages.
@@ -601,21 +617,23 @@ public class GameStateUtils {
     }
 
     private static void putBankTransactions(ArrayList<BankTransaction> list, Properties p) {
+        String key = BANK_TRANSACTION.key;
         int i = 0;
         for (BankTransaction transaction : list) {
-            LOGGER.log(Level.INFO, "Put {0} bank transaction: {1}", new Object[]{BANK_TRANSACTIONS.key, transaction.toString()});
-            transaction.putProps(BANK_TRANSACTIONS.key + "." + i, p);
+            LOGGER.log(Level.INFO, "Put {0}.{1}: {2}", new Object[]{key, i, transaction.toString()});
+            transaction.putProps(key + "." + i, p);
             i++;
         }
     }
 
     private static void restorebankTransactions(ArrayList<BankTransaction> list, Properties p) {
+        String key = BANK_TRANSACTION.key;
         int i = 0;
 
-        while (p.getProperty(BANK_TRANSACTIONS.key + "." + i + ".name") != null) {
-            String itemPrefix = BANK_TRANSACTIONS.key + "." + i + ".name";
+        while (p.getProperty(key + "." + i + ".name") != null) {
+            String itemPrefix = key + "." + i + ".name";
 
-            LOGGER.log(Level.INFO, "Restore bank transaction: {0}.{1}", new Object[]{BANK_TRANSACTIONS.key, i});
+            LOGGER.log(Level.INFO, "Restore : {0}.{1}", new Object[]{key, i});
             BankTransaction transaction = BankTransaction.pullTransaction(itemPrefix, p);
             list.add(transaction);
 
@@ -624,7 +642,7 @@ public class GameStateUtils {
     }
 
     /**
-     * Format example: locked = R12:T|R|B|L,R22:T|L,R45:R|B
+     * Format example: locked = R12_TRBL,R22_TL,R45_RB
      *
      * Only rooms with one or more door locked are written.
      *
@@ -632,6 +650,7 @@ public class GameStateUtils {
      * @param p
      */
     private static void putLockedRooms(GameState gs, Properties p) {
+        String key = ROOM_LOCKED.key;
         StringBuilder mainSb = new StringBuilder();
         for (Room r : Room.values()) {
             StringBuilder sb = new StringBuilder();
@@ -641,27 +660,28 @@ public class GameStateUtils {
 
             for (RoomBounds.Door d : RoomBounds.Door.values()) {
                 if (r.isDoorLocked(d)) {
-                    if (!sb.isEmpty()) {
-                        sb.append("|");
-                    }
+//                    if (!sb.isEmpty()) {
+//                        sb.append("|");
+//                    }
                     sb.append(d.name().substring(0, 1));
                 }
             }
             if (!sb.isEmpty()) {
-                LOGGER.log(Level.INFO, "Put locked room: {0}", r.name());
+                LOGGER.log(Level.INFO, "Put {0}: {1}", new Object[]{key, r.name()});
                 if (!mainSb.isEmpty()) {
                     mainSb.append(",");
                 }
                 mainSb.append(r.name());
-                mainSb.append(":");
+                mainSb.append("_");
                 mainSb.append(sb.toString());
             }
         }
-        p.put("locked", mainSb.toString());
+        p.put(key, mainSb.toString());
     }
 
     private static void restoreLockedRooms(GameState gs, Properties p) {
-        String lockedDoorProps = (String) p.get("locked");
+        String key = ROOM_LOCKED.key;
+        String lockedDoorProps = (String) p.get(key);
         if (lockedDoorProps == null) {
             return;
         }
@@ -671,18 +691,25 @@ public class GameStateUtils {
             if (rStr.isBlank()) {
                 continue;
             }
-            String elements[] = rStr.split(":");
-            LOGGER.log(Level.INFO, "Restore locked room: {0}", elements[0]);
+
+            String elements[] = rStr.split("_");
+            LOGGER.log(Level.INFO, "Restore {0}: {1}", new Object[]{key, elements[0]});
             Room room = Room.lookup(elements[0]);
-            for (String dStr : elements[1].split("|")) {
-                if (dStr.startsWith("T")) {
-                    room.lockDoor(RoomBounds.Door.TOP);
-                } else if (dStr.startsWith("R")) {
-                    room.lockDoor(RoomBounds.Door.RIGHT);
-                } else if (dStr.startsWith("B")) {
-                    room.lockDoor(RoomBounds.Door.BOTTOM);
-                } else if (dStr.startsWith("L")) {
-                    room.lockDoor(RoomBounds.Door.LEFT);
+            //for (String dStr : elements[1].split("|")) {
+            for (char dStr : elements[1].toCharArray()) {
+                switch (dStr) {
+                    case 'T' -> {
+                        room.lockDoor(RoomBounds.Door.TOP);
+                    }
+                    case 'R' -> {
+                        room.lockDoor(RoomBounds.Door.RIGHT);
+                    }
+                    case 'B' -> {
+                        room.lockDoor(RoomBounds.Door.BOTTOM);
+                    }
+                    case 'L' -> {
+                        room.lockDoor(RoomBounds.Door.LEFT);
+                    }
                 }
             }
 
