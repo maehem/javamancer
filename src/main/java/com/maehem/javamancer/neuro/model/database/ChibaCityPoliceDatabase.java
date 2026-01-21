@@ -67,7 +67,7 @@ public class ChibaCityPoliceDatabase extends Database {
     public void handlePersonListChanged(GameState gameState) {
         // List contains Larry's BAMA?
         for (Person p : gameState.chibaWantedList) {
-            if (p.getBama().equals(GameState.LARRY_MODE_BAMA)) {
+            if (p.getBama().equals(GameState.LARRY_MOE_BAMA)) {
                 gameState.larryMoeWanted = true;
                 return;
             }

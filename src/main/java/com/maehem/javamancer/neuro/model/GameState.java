@@ -99,7 +99,7 @@ public class GameState {
 
     // Money
     public final static String PLAYER_BAMA = "056306118";
-    public final static String LARRY_MODE_BAMA = "062788138";
+    public final static String LARRY_MOE_BAMA = "062788138";
     public int moneyChipBalance = 6;
     public int bankBalance = 2000;
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();

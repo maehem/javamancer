@@ -81,7 +81,7 @@ public class SoftwareEnforcementDatabase extends Database {
     public void handlePersonListChanged(GameState gameState) {
         // TODO: What NPCs are affected by this?
 //        for (Person p : gameState.seaWantedList) {
-//            if (p.getBama().equals(GameState.LARRY_MODE_BAMA)) {
+//            if (p.getBama().equals(GameState.LARRY_MOE_BAMA)) {
 //                gameState.larryMoeWanted = true;
 //                return;
 //            }
