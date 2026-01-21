@@ -37,6 +37,7 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
 import com.maehem.javamancer.neuro.model.item.RealItem;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
@@ -387,6 +388,12 @@ public class GameStateUtils {
                 DeckItem deck = DeckItem.getInstance(lookup.clazz);
                 gs.inventory.add(deck);
                 deck.pullProps(key + "." + i, p);
+            } else if (SkillItem.class.isAssignableFrom(lookup.clazz)) {
+                LOGGER.log(Level.FINER, "Found SkillItem");
+                SkillItem ri = new SkillItem(lookup, 1); // These are always level 1 before installed.
+                gs.inventory.add(ri);
+            } else {
+                LOGGER.log(Level.SEVERE, "Item {0} could not be restored.", lookup.name());
             }
 
             i++;

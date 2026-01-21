@@ -109,22 +109,22 @@ public abstract class Item {
         UNK16(64, "", Object.class),
         UNK17(65, "", Object.class),
         UNK18(66, "", Object.class),
-        BARGANING(67, "Bargaining", BargainingSkill.class),
-        COPTALK(68, "CopTalk", CopTalkSkill.class),
-        WAREZANALYSIS(69, "Warez Analysis", WarezAnalysisSkill.class),
-        DEBUG(70, "Debug", DebugSkill.class),
-        HARDWAREREPAIR(71, "Hardware Repair", HardwareRepairSkill.class),
-        ICEBREAKING(72, "ICE Breaking", IceBreakingSkill.class),
-        EVASION(73, "Evasion", EvasionSkill.class),
-        CRYPTOLOGY(74, "Cryptology", CryptologySkill.class),
-        JAPANESE(75, "Japanese", JapaneseSkill.class),
-        LOGIC(76, "Logic", LogicSkill.class),
-        PSYCHOANALYSIS(77, "Psychoanalysis", PsychoanalysisSkill.class),
-        PHENOMENOLOGY(78, "Phenomenology", PhenomenologySkill.class),
-        PHILOSOPHY(79, "Philosophy", PhilosophySkill.class),
-        SOPHISTRY(80, "Sophistry", SophistrySkill.class),
-        ZEN(81, "Zen", ZenSkill.class),
-        MUSICIANSHIP(82, "Musicianship", MusicianshipSkill.class),
+        BARGANING(67, "Bargaining", SkillItem.class, BargainingSkill.class),
+        COPTALK(68, "CopTalk", SkillItem.class, CopTalkSkill.class),
+        WAREZANALYSIS(69, "Warez Analysis", SkillItem.class, WarezAnalysisSkill.class),
+        DEBUG(70, "Debug", SkillItem.class, DebugSkill.class),
+        HARDWAREREPAIR(71, "Hardware Repair", SkillItem.class, HardwareRepairSkill.class),
+        ICEBREAKING(72, "ICE Breaking", SkillItem.class, IceBreakingSkill.class),
+        EVASION(73, "Evasion", SkillItem.class, EvasionSkill.class),
+        CRYPTOLOGY(74, "Cryptology", SkillItem.class, CryptologySkill.class),
+        JAPANESE(75, "Japanese", SkillItem.class, JapaneseSkill.class),
+        LOGIC(76, "Logic", SkillItem.class, LogicSkill.class),
+        PSYCHOANALYSIS(77, "Psychoanalysis", SkillItem.class, PsychoanalysisSkill.class),
+        PHENOMENOLOGY(78, "Phenomenology", SkillItem.class, PhenomenologySkill.class),
+        PHILOSOPHY(79, "Philosophy", SkillItem.class, PhilosophySkill.class),
+        SOPHISTRY(80, "Sophistry", SkillItem.class, SophistrySkill.class),
+        ZEN(81, "Zen", SkillItem.class, ZenSkill.class),
+        MUSICIANSHIP(82, "Musicianship", SkillItem.class, MusicianshipSkill.class),
         CYBEREYES(83, "CyberEyes", DeckItem.class),
         UNK19(84, "", Object.class),
         UNK20(85, "", Object.class),
@@ -156,11 +156,21 @@ public abstract class Item {
         public int num;
         public String itemName;
         public final Class clazz;
+        public final Class skillClazz;
 
         private Catalog(int num, String name, Class clazz) {
             this.num = num;
             this.itemName = name;
             this.clazz = clazz;
+            this.skillClazz = null; // Unused in this instance.
+        }
+        
+        // Special for Skill Item to Skill Class lookup.
+        private Catalog(int num, String name, Class itemClazz, Class skillClazz) {
+            this.num = num;
+            this.itemName = name;
+            this.clazz = itemClazz;
+            this.skillClazz = skillClazz;
         }
 
     }

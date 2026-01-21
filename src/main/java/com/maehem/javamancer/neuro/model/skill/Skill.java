@@ -34,7 +34,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 import java.util.logging.Level;
-import static java.util.logging.Level.FINE;
 import java.util.logging.Logger;
 
 /**
@@ -131,7 +130,7 @@ public abstract class Skill {
         LOGGER.log(Level.FINER, "Get Skill instance.");
         try {
             @SuppressWarnings("unchecked")
-            Constructor<?> ctor = item.clazz.getConstructor(
+            Constructor<?> ctor = item.skillClazz.getConstructor(
                     new Class[]{int.class}
             );
 

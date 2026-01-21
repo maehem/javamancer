@@ -102,16 +102,16 @@ public class SkillItem extends Item {
                 return skill;
             }
         } else {
-            LOGGER.log(Level.FINER, "Skill OK to install.");
+            LOGGER.log(Level.FINE, "Skill OK to install.");
             Skill instance = Skill.getInstance(skillItem.item, skillItem.level);
             if (instance != null) {
-                LOGGER.log(Level.CONFIG,
+                LOGGER.log(Level.FINE,
                         "Install {0} Skill...",
                         instance.catalog.itemName);
                 skills.add(instance);
                 return instance;
             } else {
-                LOGGER.log(Level.SEVERE, () -> "Unable to install skill " + skillItem.item.name());
+                LOGGER.log(Level.SEVERE, "Unable to install skill {0}", skillItem.item.name());
             }
         }
 
