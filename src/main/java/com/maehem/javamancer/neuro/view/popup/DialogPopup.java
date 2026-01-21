@@ -697,7 +697,7 @@ public class DialogPopup extends DialogPopupPane {
                 listener.showMessage(textResource.get(dialogIndex - 500));
             }
             // TODO: Move logic into Room method using onDialogPreCommand()
-            case UXB -> {
+            case UXB -> { // This applies only to Shin giving the deck.  There is a separate 'vend' in R25 if player buys it.
                 LOGGER.log(Level.FINE, "Give UXB to player.");
                 boolean hasItem = false;
                 for (Item item : gameState.inventory) {
@@ -717,6 +717,7 @@ public class DialogPopup extends DialogPopupPane {
                 if (!hasItem) {
                     UXBDeckItem uxbDeckItem = new UXBDeckItem();
                     uxbDeckItem.needsRepair = true; // Damaged if Shin gives it to player.
+                    
                     LOGGER.log(Level.CONFIG, "Add UXB to player inventory.");
                     gameState.inventory.add(uxbDeckItem);
                     gameState.deckSlots = uxbDeckItem.nSlots;

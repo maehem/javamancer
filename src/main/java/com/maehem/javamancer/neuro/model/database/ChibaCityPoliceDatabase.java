@@ -63,6 +63,15 @@ public class ChibaCityPoliceDatabase extends Database {
         );
     }
 
+    // Issue #18
+    // TODO:  This might be where we put Player's BAMA if they get money from
+    // Armitage.  This could also be for Larry Moe.  The Chiba Police also
+    // have a warrant list and either might go on there.  Will need to play
+    // acutal game to determine what effects what.
+    
+    // Confirmed from walkthrough, you can add Larry Moe here to get him arrested
+    // and gain access to back room with Lups Yonderboy.
+
     @Override
     public void handlePersonListChanged(GameState gameState) {
         // List contains Larry's BAMA?

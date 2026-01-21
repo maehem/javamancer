@@ -40,7 +40,7 @@ import javafx.scene.text.TextFlow;
 
 /**
  * <pre>
-[0] :: * Chiba City Central Justice System *
+ * [0] :: * Chiba City Central Justice System *
  * [1] :: X. Exit System 1. Press Release
  * [2] :: 2. Arrest Warrants 3. Accounting
  * [3] :: Public Defender Press Release ** Administrative Memo 414 ** RE: Text of new Press Release Certain radical factions among the criminal citizens of Chiba City have implied that the Justice Booth system is merely a thinly-disguised method of supplying the city with a needed cash reserve to support its massive expenses. These same individuals have implied that the Public Defenders we provide in each Justice Booth are mental incompetents. Neither of these claims is true. The Justice Booths are a fair means of quickly determining the guilt of any individual who has allegedly committed a crime.  The simple fact is that practically everyone who is brought into a Justice Booth is guilty of something.  We merely provide a means of penalizing these criminals for their antisocial behaviors. As opposed to former methods which involved lengthy trials and vast expenses for both the prosecution and defense, the Justice Booth is cheap to operate and makes its decisions based on pure logic. Justice is quickly served, leaving none of the case backlog which plagued earlier systems. As with the Judges themselves, the Public Defenders are randomly computer generated. Their personalities are based on careful studies of human Public Defenders, allowing the criminal who has been arrested a measure of security and control over his environment.  The fees charged by these Public Defenders are primarily a psychological aid for the criminal, who would otherwise feel that they owe a personal debt to their attorney.
@@ -50,7 +50,8 @@ import javafx.scene.text.TextFlow;
  * </pre>
  */
 /**
- *
+ * Central Justice
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class CentralJusticeDatabaseView extends DatabaseView {
@@ -118,18 +119,19 @@ public class CentralJusticeDatabaseView extends DatabaseView {
             case "X" -> {
                 listener.popupExit();
             }
-            case "1" -> {
+            case "1" -> { // Press Release
                 viewText(3);
             }
-            case "2" -> {
+            case "2" -> { // Warrants - Fluff - Not editable.
                 if (accessLevel > 1) {
                     personList(5, "JUSTICE0", true);
                 }
             }
-            case "3" -> {
-                if (accessLevel > 1) { // Leins
+            case "3" -> { // Accounting - Fluff - Not editable. Player is on this list.
+                if (accessLevel > 1) { // Liens
                     // TODO: Something like warrant list ???
                     // Show resource 4 and 6 with a list of leins.
+                    // Player appears to be on the Liens list.
                     viewText(4);
                     //warrantList("JUSTICE1");
                 }
@@ -137,8 +139,13 @@ public class CentralJusticeDatabaseView extends DatabaseView {
         }
     }
 
+    /**
+     * TODO: Probably not needed.
+     * 
+     * @param index 
+     */
     private void editWarrant(int index) {
-        LOGGER.log(Level.FINE, "SEA: edit warrant");
+        LOGGER.log(Level.FINE, "Justice: edit warrant");
         pane.getChildren().clear();
         mode = Mode.EDIT;
 
@@ -147,7 +154,7 @@ public class CentralJusticeDatabaseView extends DatabaseView {
         TextFlow contentTf = simpleTextFlow(subHeadingText);
         contentTf.setPadding(new Insets(0, 0, 0, 30));
 
-        TextResource bamaList = gameState.resourceManager.getBihResource("POLICE0");
+        TextResource bamaList = gameState.resourceManager.getBihResource("JUSTICE0");
         bamaList.forEach((item) -> {
             Text t;
             if (item.startsWith("\1")) {

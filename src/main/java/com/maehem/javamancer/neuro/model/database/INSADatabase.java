@@ -44,7 +44,7 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  * AI: none
  * Weakness: none
  * ICE: 1000
- * Content: interesting text
+ * Content: interesting text, word decoder feature (online cryptology)
  * </pre>
  *
  * @author Mark J Koch ( @maehem on GitHub )

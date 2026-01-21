@@ -77,6 +77,12 @@ public class SoftwareEnforcementDatabase extends Database {
 
     }
     
+    // Issue #18
+    // TODO:  This might be where we put Player's BAMA if they get money from
+    // Armitage.  This could also be for Larry Moe.  The Chiba Police also
+    // have a warrant list and either might go on there.  Will need to play
+    // acutal game to determine what effects what.
+    
     @Override
     public void handlePersonListChanged(GameState gameState) {
         // TODO: What NPCs are affected by this?
