@@ -44,6 +44,7 @@ public class R35Extras extends RoomExtras { // Bank Berne Mgr. Office (jack)
 
     @Override
     public void initRoom(GameState gs) {
+        gs.setRoomTalk(false);
     }
 
     @Override

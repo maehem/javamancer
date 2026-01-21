@@ -39,6 +39,7 @@ import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import static com.maehem.javamancer.neuro.model.room.RoomExtras.LOGGER;
+import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -68,7 +69,6 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     @Override
@@ -119,6 +119,8 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
     @Override
     public boolean onVendItemsFinished(GameState gs, boolean purchased) {
         if (gs.hasInventoryItem(Item.Catalog.UXB)) {
+            // Install software on deck.
+            gs.software.add(new ComLinkWarez(1));
             // Shin locks door as you leave.
             Room.R14.lockDoor(RoomBounds.Door.RIGHT);
             return true;

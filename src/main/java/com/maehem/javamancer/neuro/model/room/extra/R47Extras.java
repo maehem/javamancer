@@ -43,6 +43,7 @@ public class R47Extras extends RoomExtras { // Bank Gemeinschaft Vault
 
     @Override
     public void initRoom(GameState gs) {
+        gs.setRoomTalk(false);
     }
 
     @Override

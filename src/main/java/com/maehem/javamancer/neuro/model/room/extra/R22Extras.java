@@ -60,7 +60,6 @@ public class R22Extras extends RoomExtras { // Straylight Bust
     }
         @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
     
     @Override

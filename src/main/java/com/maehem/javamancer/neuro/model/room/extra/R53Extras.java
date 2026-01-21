@@ -123,7 +123,6 @@ public class R53Extras extends RoomExtras { // Hitachi
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     @Override

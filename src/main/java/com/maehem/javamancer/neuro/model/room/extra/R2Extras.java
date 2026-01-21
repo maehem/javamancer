@@ -60,7 +60,6 @@ public class R2Extras extends RoomExtras {
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
         if (gs.ratzPaid) {
             gs.room.lockDoor(RoomBounds.Door.TOP);
         }

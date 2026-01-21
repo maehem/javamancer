@@ -55,7 +55,7 @@ public class R7Extras extends RoomExtras { // Cheap Hotel
     public void initRoom(GameState gs) {
         // Only Dialog if there is room service or bill not paid.
         if (gs.hotelOnAccount < gs.hotelCharges ||(gs.hotelDeliverCaviar > 0 || gs.hotelDeliverSake > 0) ) {
-            gs.allowDialog(gs.room);        
+            gs.setRoomTalk(true);        
         } else {
             dialogNoMore(gs);
         }

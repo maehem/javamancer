@@ -134,7 +134,6 @@ public class R23Extras extends RoomExtras { // Panther Moderns
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     @Override

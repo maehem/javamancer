@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.JackZone;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_CLOSE;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_B;
@@ -38,7 +37,8 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
- *
+ * Bank of Berne Lobby
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class R34Extras extends RoomExtras { // Bank Berne Lobby
@@ -76,7 +76,6 @@ public class R34Extras extends RoomExtras { // Bank Berne Lobby
     
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     @Override

@@ -50,7 +50,6 @@ public class R57Extras extends RoomExtras { // Hosaka
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     @Override

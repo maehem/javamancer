@@ -49,6 +49,7 @@ public class R51Extras extends RoomExtras { // Fuji
 
     @Override
     public void initRoom(GameState gs) {
+        gs.setRoomTalk(false);
     }
 
     @Override

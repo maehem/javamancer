@@ -155,6 +155,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             LOGGER.log(Level.CONFIG, "Room has `extras`. Configuring...");
             RoomExtras extras = room.getExtras();
             // TODO: Can we run initRoom() when we create the room?
+            gameState.setRoomTalk(true); // Room talk enabled by default. Use initRoom() if room should not talk.
             extras.initRoom(gameState);
             int[][] dc = extras.getDialogChain();
             if (firstTime) {

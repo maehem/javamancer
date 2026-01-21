@@ -245,6 +245,12 @@ public class GameState {
         }
     }
 
+//    public void allowDialog(Room room) {
+//        if (!dialogAllowed.contains(room)) {
+//            dialogAllowed.add(room);
+//        }
+//    }
+//
     public void addMinute() {
         if (++dateMinute > 59) {
             if (++dateHour > 23) {
@@ -486,12 +492,6 @@ public class GameState {
         playerFlatlined = false;
         bodyShopRecent = BodyShopRecent.REVIVED; // Handled by R4Extras.warmup()
         useDoor = RoomBounds.Door.BODY_SHOP;
-    }
-
-    public void allowDialog(Room room) {
-        if (!dialogAllowed.contains(room)) {
-            dialogAllowed.add(room);
-        }
     }
 
     public void initNewGame() {

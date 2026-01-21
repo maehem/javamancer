@@ -32,7 +32,6 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.ITEM_BUY;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.WORD1;
-import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import java.util.Map;
 import static java.util.Map.entry;
@@ -124,8 +123,8 @@ public class R11Extras extends RoomExtras { // Zion
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
-        gs.resourceManager.getRoomText(Room.R11).dumpList();
+        //gs.setRoomTalk(true);
+        //gs.resourceManager.getRoomText(Room.R11).dumpList();
     }
     
     @Override

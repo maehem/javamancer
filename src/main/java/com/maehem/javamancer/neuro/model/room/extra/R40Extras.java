@@ -80,7 +80,6 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     /**

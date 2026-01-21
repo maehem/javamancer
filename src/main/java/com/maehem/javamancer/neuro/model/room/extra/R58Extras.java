@@ -33,7 +33,8 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
- *
+ * Musabori Headquarters
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class R58Extras extends RoomExtras { // Musabori
@@ -44,6 +45,7 @@ public class R58Extras extends RoomExtras { // Musabori
 
     @Override
     public void initRoom(GameState gs) {
+        gs.setRoomTalk(false);
     }
 
     @Override

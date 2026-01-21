@@ -81,7 +81,6 @@ public class R36Extras extends RoomExtras { // House of Pong
     
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     @Override

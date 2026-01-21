@@ -180,7 +180,6 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     @Override

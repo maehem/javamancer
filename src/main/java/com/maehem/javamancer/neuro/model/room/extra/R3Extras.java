@@ -101,7 +101,6 @@ public class R3Extras extends RoomExtras {
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     /*

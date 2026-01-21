@@ -165,7 +165,6 @@ public class R44Extras extends RoomExtras { // Asano's
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     @Override

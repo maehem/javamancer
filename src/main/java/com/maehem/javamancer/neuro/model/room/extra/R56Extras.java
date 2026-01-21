@@ -36,7 +36,8 @@ import static java.util.Map.entry;
 import java.util.logging.Level;
 
 /**
- *
+ * Sense Net
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class R56Extras extends RoomExtras { // Sense Net
@@ -62,12 +63,12 @@ public class R56Extras extends RoomExtras { // Sense Net
     /**
      *
      * Enter Identity Number...
-     * 
+     *
      */
     private static final Map<String, Integer> map1 = Map.ofEntries(
             entry("0467839", 5), // Dixie
             entry("55214260", 5), // ROMBO
-            entry("6905984", 5)  // Toshiro
+            entry("6905984", 5) // Toshiro
     );
 
     private int codeTries = 3;
@@ -91,13 +92,12 @@ public class R56Extras extends RoomExtras { // Sense Net
         }
 
         romNum = index;
-        
+
         return index;
     }
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class R56Extras extends RoomExtras { // Sense Net
             countdown = -1;
             dialogNoMore(gs);
         }
-        
+
         return dialog;
     }
 

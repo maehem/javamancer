@@ -90,7 +90,6 @@ public class R41Extras extends RoomExtras { // Bank Gemeinschaft Lobby
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     @Override

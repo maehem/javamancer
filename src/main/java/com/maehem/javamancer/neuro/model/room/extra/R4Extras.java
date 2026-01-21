@@ -74,8 +74,6 @@ public class R4Extras extends RoomExtras { // Body Shop
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
-        //gs.resourceManager.getRoomText(gs.room).dumpList();
     }
 
     @Override

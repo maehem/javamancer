@@ -42,6 +42,7 @@ public class R54Extras extends RoomExtras { // Hi-Tech Area (upper: hitachi, fuj
 
     @Override
     public void initRoom(GameState gs) {
+        gs.setRoomTalk(false);
         if ( gs.hitachiVolunteer ) {
             gs.room.lockDoor(RoomBounds.Door.LEFT);
             gs.room.lockDoor(RoomBounds.Door.RIGHT);

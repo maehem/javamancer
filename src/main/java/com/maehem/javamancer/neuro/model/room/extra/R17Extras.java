@@ -43,6 +43,7 @@ public class R17Extras extends RoomExtras { // Street Maas Biolabs
 
     @Override
     public void initRoom(GameState gs) {
+        gs.setRoomTalk(false);
     }
 
     @Override

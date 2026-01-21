@@ -42,6 +42,7 @@ public class R55Extras extends RoomExtras { // Hi-Tech Area (lower... sec. gate,
 
     @Override
     public void initRoom(GameState gs) {
+        gs.setRoomTalk(false);
         if ( gs.hitachiVolunteer ) {
             gs.room.lockDoor(RoomBounds.Door.BOTTOM);
             gs.room.lockDoor(RoomBounds.Door.RIGHT);

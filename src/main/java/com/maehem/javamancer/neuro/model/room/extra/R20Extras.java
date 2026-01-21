@@ -120,8 +120,6 @@ public class R20Extras extends RoomExtras { // Tug Marcus Garvey
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
-        //gs.resourceManager.getRoomText(gs.room).dumpList();
     }
 
     @Override

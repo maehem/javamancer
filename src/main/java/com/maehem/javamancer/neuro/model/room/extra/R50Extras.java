@@ -65,7 +65,6 @@ public class R50Extras extends RoomExtras { // After Cyber Beach
 
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
     }
 
     // Animation

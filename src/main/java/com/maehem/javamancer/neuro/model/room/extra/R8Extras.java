@@ -164,6 +164,10 @@ public class R8Extras extends RoomExtras {
         return true;
     }
 
+    // TODO: Issue #20 :  response [35] doesn't happen until second day from player starting,
+    // 11/17/2058.  So need to add check for date for 'pass' and 'restuaurant' related words.
+    // Also, once player reads message from emp. norton, the restriction is lifted.
+    
     @Override
     public int askWord1(GameState gs, String word) {
         LOGGER.log(Level.FINE, "RoomExtra8: Ask Word: {0}", word);
@@ -187,7 +191,6 @@ public class R8Extras extends RoomExtras {
      */
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
         onVendFinishedOpenDialog = true;
     }
 

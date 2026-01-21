@@ -159,7 +159,6 @@ public class R12Extras extends RoomExtras {
      */
     @Override
     public void initRoom(GameState gs) {
-        gs.allowDialog(gs.room);
         if (gs.larryMoeWanted) {
             // Top door unlocked.
             gs.room.unlockDoor(RoomBounds.Door.TOP);
