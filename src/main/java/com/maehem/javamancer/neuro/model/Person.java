@@ -27,6 +27,8 @@
 package com.maehem.javamancer.neuro.model;
 
 import com.maehem.javamancer.logging.Logging;
+import java.nio.charset.StandardCharsets;
+import java.util.HexFormat;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -115,6 +117,13 @@ public class Person {
     }
 
     /**
+     * aux is stored as string of readable/editable hex values. But stored
+     * in-game as byte char values for raw flag detection/manipulation.
+     *
+     * <pre>
+     * Example:  In-game aux raw chars:  <null><null><(byte)34><null>.
+     * Example:  In-vae file :  aux=00003400  <== in properties file.
+     * </pre>
      *
      * @param prefix
      * @param p
@@ -122,14 +131,24 @@ public class Person {
     public void putProps(String prefix, Properties p) {
         p.put(prefix + ".name", name);
         p.put(prefix + ".bama", bama);
-        p.put(prefix + ".aux", auxData);
+
+        byte[] bytes = auxData.getBytes(java.nio.charset.StandardCharsets.US_ASCII);
+        String hexOutput = HexFormat.of().formatHex(bytes);
+
+        p.put(prefix + ".aux", hexOutput);
     }
 
     public static Person pullPerson(String prefix, Properties p) {
         String name = p.getProperty(prefix + ".name", "ERROR");
         String bama = p.getProperty(prefix + ".bama", "ERROR");
-        String aux = p.getProperty(prefix + ".aux", "ERROR");
-        LOGGER.log(Level.INFO, "Restore Person: {0} :: {1}", new Object[]{name, bama});
+
+        String hexAuxInput = p.getProperty(prefix + ".aux", "00000000");
+        String aux = new String(
+                HexFormat.of().parseHex(hexAuxInput),
+                StandardCharsets.US_ASCII
+        );
+
+        LOGGER.log(Level.FINE, "Restore Person: {0} :: {1}  aux: {2}", new Object[]{name, bama, hexAuxInput});
 
         return new Person(name, bama, aux);
     }
