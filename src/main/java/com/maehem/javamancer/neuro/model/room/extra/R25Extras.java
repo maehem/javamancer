@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.GameStateUtils;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
@@ -119,7 +120,9 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
     @Override
     public boolean onVendItemsFinished(GameState gs, boolean purchased) {
         if (gs.hasInventoryItem(Item.Catalog.UXB)) {
+            UXBDeckItem uxb = (UXBDeckItem) gs.getInventoryItem(Item.Catalog.UXB);
             // Install software on deck.
+            gs.deckSlots = uxb.nSlots;
             gs.software.add(new ComLinkWarez(1));
             // Shin locks door as you leave.
             Room.R14.lockDoor(RoomBounds.Door.RIGHT);
