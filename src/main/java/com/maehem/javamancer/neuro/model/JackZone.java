@@ -37,7 +37,7 @@ public enum JackZone {
     THREE(3, 336, 144), // Bank of Berne Mgr. Office
     FOUR(4, 112, 304), // Sense/Net ( todo: tune x/y)
     FIVE(5, 416, 304), // Bank Gemeinschaft ( todo: tune x/y)
-    SIX(6, 112, 400), // Maas Biolabs? ( todo: tune x/y)
+    SIX(6, 112, 400), // No Physical Jack. Use EasyRider. ( todo: tune x/y)
     SEVEN(7, 416, 400),; // Villa Straylight ( todo: tune x/y)
 
     public final int num;
