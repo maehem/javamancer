@@ -656,8 +656,12 @@ public abstract class DatabaseView {
 
         int i = 1;
         i = addSoftware(i, database.warez1, tf);
-        i = addSoftware(i, database.warez2, tf);
-        addSoftware(i, database.warez3, tf);
+        if (accessLevel > 1) {
+            i = addSoftware(i, database.warez2, tf);
+        }
+        if (accessLevel > 2) {
+            addSoftware(i, database.warez3, tf);
+        }
 
         pane.getChildren().add(tf);
     }
@@ -904,9 +908,9 @@ public abstract class DatabaseView {
 // Work in progress:  Allow multiple downloads of software.
 // However maybe some sites should limit how many you can have?
 //        if (!gameState.hasInstalledSoftware(w)) {
-            // TODO: Deck software compatibility check
-            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
-            gameState.addSoftware(w);
+        // TODO: Deck software compatibility check
+        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
+        gameState.addSoftware(w);
 //        } else {
 //            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
 //        }
