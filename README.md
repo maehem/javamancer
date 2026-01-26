@@ -109,7 +109,7 @@ readable. In dire circumstances, one could edit the game save file to get past a
 Not really... This game uses the original content but the engine is 100% brand new!  Written in 
 Java/JavaFX, the game mode accesses the cached game content and attempts to present an 
 experience that is 99% like the DOS version from 1989.  No attempt was made to understand 
-how the original DOS excecuatble operated.
+how the original DOS execuatble operated.
 
 # But why?
 Of all the games I've played on the PC, this was one I really enjoyed.  Since I don't 
