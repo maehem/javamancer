@@ -35,6 +35,10 @@ import com.maehem.javamancer.neuro.model.warez.DrillWarez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
+ * In Japan "Tozoku" is used to describe thieves in a historical or fantasy
+ * context (e.g., bandit groups). In the Zelda games, it refers to "thief tribe"
+ * or "clan of thieves".  The link code gives it away by the use of "yakuza".
+ *
  * <pre>
  * name: Tozoku Imports
  * Zone: 1

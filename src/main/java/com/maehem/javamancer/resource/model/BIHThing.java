@@ -102,14 +102,27 @@ public class BIHThing {
                 System.arraycopy(data, 0, unknown, 0, data.length);
             }
             default -> {
+                // Reverse engineering Notes (2026-01):
+                // Byte 0: DB Number
+                // Byte 1: ?
+                // Byte 2: Byte Code Start (offset) usually 0x26
+                // Byte 3: ?
+                // Byte 4: ?
+                // Byte 5: ?
+                // Byte 7+6: Start of Text offset
+                // Byte 9+8: Size of this file in bytes.
+                // Byte B + A: Offset of Passwords
+                // Byte D + C: Offest to Control Codes. ???
+                // Byte F + E: Offest to More Control Codes.
+                
                 if (name.startsWith("DB")) {
-                    cbOffset = (data[1] & 0xff) << 8 + (data[0] & 0xff);
+                    cbOffset = (data[1] & 0xff) << 8 + (data[0] & 0xff); // TODO: for DB byte 0 is DB number.
                     cbSegment = (data[3] & 0xff) << 8 + (data[2] & 0xff);
                     ctrlStructAddr = (data[5] & 0xff) << 8 + (data[4] & 0xff);
-                    int txtOffset = ((data[7] & 0xff) << 8) + (data[6] & 0xff);
-                    byteCodeArrayOffset[0] = ((data[9] & 0xff) << 8) + (data[8] & 0xff);
+                    int txtOffset = ((data[7] & 0xff) << 8) + (data[6] & 0xff); // Start of all text-only content.
+                    byteCodeArrayOffset[0] = ((data[9] & 0xff) << 8) + (data[8] & 0xff);   // File size in bytes
                     byteCodeArrayOffset[1] = ((data[11] & 0xff) << 8) + (data[10] & 0xff); // Passwords (1 or 2)
-                    byteCodeArrayOffset[2] = ((data[13] & 0xff) << 8) + (data[12] & 0xff);
+                    byteCodeArrayOffset[2] = ((data[13] & 0xff) << 8) + (data[12] & 0xff); // Begin of menu control bytes.
                     unknown = new byte[txtOffset];
                     System.arraycopy(data, 0, unknown, 0, txtOffset);
                     initPasswords(byteCodeArrayOffset[1], byteCodeArrayOffset[2]);
