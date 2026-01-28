@@ -121,14 +121,14 @@ public class GameState {
     public final ArrayList<BbsMessage> messageSent = new ArrayList<>();
 
     // Deck & Matrix Stuff
-    public static final int AI_FIGHT_SKILL_MAX = 8;
+    public static final int AI_FIGHT_SKILL_MAX = 8; // TODO: Not needed?
     public int deckSlots = 0;
     public DeckItem usingDeck = null;
     public boolean usingDeckErase = false; // Ephemeral
     public int matrixPosX = 112;
     public int matrixPosY = 96;
     public int romInstalled = -1; // ROM Construct: None
-    public int aiFightSkill = 0; // Philosophy skill. +1 after every AI win. 8 max.
+    public int aiFightSkill = 0; // Philosophy skill. +1 after every AI win. 8 max. TODO. Remove. Not used.
     public Database database = null; // Ephemeral
     public boolean databaseBattle = false; // Ephemeral. No save during battle
     public boolean databaseArrived = false; // Ephemeral. Set by explorer when at a DB.
