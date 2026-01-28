@@ -464,12 +464,12 @@ public class RoomMode extends NeuroModePane implements PopupListener {
      */
     public void showPopup(Popup pop) {
         if (popup != null) {
-            if ( pop == Popup.INVENTORY ) {
+            if (pop == Popup.INVENTORY) {
                 LOGGER.log(Level.CONFIG, "popup: optional inventoryClicked().");
                 // Deck has a software inventory.
                 popup.inventoryClicked();
             }
-            
+
             return; // User must exit current popup first!
         }
         switch (pop) {
@@ -681,11 +681,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 //                doNextPopup = true;
 //            }
         } else if (popup instanceof PawnshopVendPopup vendPop) {
-            doNextPopup = room.getExtras().onVendItemsFinished(getGameState(),vendPop.itemPurchased());
+            doNextPopup = room.getExtras().onVendItemsFinished(getGameState(), vendPop.itemPurchased());
         } else {
             doNextPopup = true;
         }
-        
+
         getChildren().remove(popup);
         popup.cleanup();
         popup = null;

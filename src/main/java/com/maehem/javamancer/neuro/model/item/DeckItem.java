@@ -178,6 +178,8 @@ public abstract class DeckItem extends Item {
     public void putProps(String prefix, Properties p) {
         super.putProps(prefix, p);
         p.put(prefix + ".needsRepair", String.valueOf(needsRepair));
+        
+        // TODO: put/pull currentSoftwarez
     }
 
     public void pullProps(String prefix, Properties p) {

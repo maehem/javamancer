@@ -94,7 +94,7 @@ public class TozokuImportsDatabaseView extends DatabaseView {
         mainMenu();
     }
 
-    private void mainMenu() {
+    private void mainMenu() { // Site has mult level access main menu.
         pane.getChildren().clear();
         mode = Mode.MENU;
 

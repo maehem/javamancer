@@ -66,14 +66,14 @@ public class R34Extras extends RoomExtras { // Bank Berne Lobby
 
     // Animation
     protected final int[][] ANIMATION_FLAGS = {
-        {1}  // Person
+        {1} // Person
     };
 
     @Override
     public int[][] getAnimationFlags() {
         return ANIMATION_FLAGS;
     }
-    
+
     @Override
     public void initRoom(GameState gs) {
     }
@@ -98,9 +98,7 @@ public class R34Extras extends RoomExtras { // Bank Berne Lobby
             // make lady disappear.
             ANIMATION_FLAGS[0][0] = 0;
         }
-        return super.onDialogIndex(gs, index); 
+        return super.onDialogIndex(gs, index);
     }
-    
-    
 
 }
