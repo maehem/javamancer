@@ -85,7 +85,10 @@ public class R34Extras extends RoomExtras { // Bank Berne Lobby
 
     @Override
     public int dialogWarmUp(GameState gs) {
-        // If entering from TOP, run 17 (kicked out).
+        if (gs.roomPrevious == Room.R35) { // If entering from managers office,(kicked out).
+            ANIMATION_FLAGS[0][0] = 1; // Make NPC visible again.
+            return 17;
+        }
         return 2;
     }
 

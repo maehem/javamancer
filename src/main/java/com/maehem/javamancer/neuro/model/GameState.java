@@ -140,6 +140,7 @@ public class GameState {
     public int roomPosX = 160;
     public int roomPosY = 90;
     public Room room = null;
+    public Room roomPrevious;
     public RoomBounds.Door useDoor = RoomBounds.Door.NONE; // Ephemeral. Set when player collides with door.
 
     // Cheap Hotel
