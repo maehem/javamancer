@@ -34,11 +34,13 @@ import static com.maehem.javamancer.neuro.model.room.DialogCommand.LONG_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.SHORT_DESC;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.TO_JAIL;
+import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
 /**
  * Bank of Berne Lobby
- * 
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class R34Extras extends RoomExtras { // Bank Berne Lobby
@@ -59,9 +61,9 @@ public class R34Extras extends RoomExtras { // Bank Berne Lobby
         {16}, // [13] :: I have money! Really! And my greatest desire is to open an account here!
         {DIALOG_CLOSE.num}, // [14] :: Fine! Ill take my business elsewhere!
         {TO_JAIL.num}, // [15] :: Loitering in a bank is a federal offense. Im calling the lawbot.
-        {NPC.num, 18}, // [16] :: Well...Ill see if I can find an application for you.  Wait here. This may take a while.
+        {NPC.num, DESC.num, 18 }, // [16] :: Well...Ill see if I can find an application for you.  Wait here. This may take a while.
         {EXIT_B.num}, // [17] :: Get out of my bank!
-        {DESC.num, DIALOG_CLOSE.num}, // [18] :: You notice that the door to the managers office is slightly ajar.
+        {NPC.num, DIALOG_CLOSE.num}, // [18] :: You notice that the door to the managers office is slightly ajar.
     };
 
     // Animation
@@ -76,6 +78,8 @@ public class R34Extras extends RoomExtras { // Bank Berne Lobby
 
     @Override
     public void initRoom(GameState gs) {
+        gs.room.lockDoor(RoomBounds.Door.TOP);
+        gs.setRoomTalk(true);
     }
 
     @Override
@@ -94,9 +98,11 @@ public class R34Extras extends RoomExtras { // Bank Berne Lobby
 
     @Override
     public int onDialogIndex(GameState gs, int index) {
-        if ( index == 18 ) {
+        if (index == 18) {
             // make lady disappear.
             ANIMATION_FLAGS[0][0] = 0;
+            gs.room.unlockDoor(RoomBounds.Door.TOP);
+            gs.room.extras.dialogNoMore(gs);
         }
         return super.onDialogIndex(gs, index);
     }
