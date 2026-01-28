@@ -542,9 +542,10 @@ public class GameStateUtils {
 
     private static void putVisitedRooms(GameState gs, Properties p) {
         String key = ROOMS_VISITED.key;
+        LOGGER.log(Level.FINE, "Put {0}", key);
         StringBuilder sb = new StringBuilder();
-        for (Room r : gs.visited) {
-            LOGGER.log(Level.INFO, "Put {0}: {1}", new Object[]{key, r.name()});
+        for (Room r : gs.getVisitedRooms()) {
+            LOGGER.log(Level.FINER, "    Put visited: {0}", r.name());
             if (!sb.isEmpty()) {
                 sb.append(",");
             }
@@ -556,13 +557,14 @@ public class GameStateUtils {
 
     private static void restoreVisitedRooms(GameState gs, Properties p) {
         String key = ROOMS_VISITED.key;
+        LOGGER.log(Level.FINE, "Restore {0}", key);
         String visited[] = ((String) (p.get(key))).split(",");
         for (String rStr : visited) {
             if (rStr.isBlank()) {
                 continue;
             }
-            LOGGER.log(Level.INFO, "Restore {0}: {1}", new Object[]{key, rStr});
-            gs.visited.add(Room.lookup(rStr));
+            LOGGER.log(Level.FINER, "    Restore: {0}", rStr);
+            gs.setVisited(Room.lookup(rStr));
         }
     }
 

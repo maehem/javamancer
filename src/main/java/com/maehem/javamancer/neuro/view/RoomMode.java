@@ -135,7 +135,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         LOGGER.log(Level.INFO, "Create new RoomMode for {0}.", room.name());
 
         // A room is 'visited' once player fully reads/scrolls the room description.
-        firstTime = !gameState.visited.contains(room);
+        firstTime = !gameState.hasVisited(room);
         roomText = gameState.resourceManager.getRoomText(room);
 
         roomDescriptionPane = new RoomDescriptionPane(TEXT_SCALE);
@@ -145,6 +145,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     scrollHint.setVisible(newValue.doubleValue() != 1.0);
                     if (updateGreyOutState(newValue.doubleValue())) {
                         showPopup(Popup.TALK);
+                        gameState.setVisited(room);
                     }
                 });
 
@@ -584,9 +585,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     @Override
     public void destroy() {
-        if (!getGameState().visited.contains(room)) {
+        if (getGameState().setVisited(room)) {
             LOGGER.log(Level.FINE, "Set room {0} as visited.", room.name());
-            getGameState().visited.add(room);
         }
 
         RoomMusic mus = RoomMusic.get(room);

@@ -146,6 +146,9 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
         if (!gs.hasInventoryItem(Item.Catalog.GUESTPASS)) {
             return 28;
         }
+        if ( gs.hasVisited(gs.room) ) { // Skip banter.
+            return 11;
+        }
         return 2;
     }
 

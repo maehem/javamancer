@@ -50,6 +50,7 @@ import com.maehem.javamancer.neuro.view.RoomMode;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -116,7 +117,7 @@ public class GameState {
     public final ArrayList<Person> seaWantedList = new ArrayList<>();
     public final ArrayList<Person> chibaWantedList = new ArrayList<>();
     public final ArrayList<Person> hosakaEmployeeList = new ArrayList<>();
-    public final ArrayList<Room> visited = new ArrayList<>();
+    private final ArrayList<Room> visited = new ArrayList<>();
     public final ArrayList<Room> dialogAllowed = new ArrayList<>();
     public final ArrayList<Database> defeatedDbList = new ArrayList<>(); // TODO: For stats only. ICE never really dies.
     public final ArrayList<AI> defeatedAiList = new ArrayList<>();
@@ -529,6 +530,22 @@ public class GameState {
         bankTransactionRecord.add(new BankTransaction("11/15/58", BankTransaction.Operation.Fine, 1000));
 
         Room.R17.lockDoor(RoomBounds.Door.LEFT); // Lock Maas Biolabs
+    }
+
+    public boolean setVisited(Room room) {
+        if (!hasVisited(room)) {
+            return visited.add(room);
+        }
+
+        return false;
+    }
+
+    public boolean hasVisited(Room room) {
+        return visited.contains(room);
+    }
+
+    protected List<Room> getVisitedRooms() {
+        return visited;
     }
 
     /**

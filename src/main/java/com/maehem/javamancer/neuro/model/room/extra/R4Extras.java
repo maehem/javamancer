@@ -101,7 +101,7 @@ public class R4Extras extends RoomExtras { // Body Shop
             }
         }
 
-        if (gs.visited.contains(gs.room)) {
+        if (gs.hasVisited(gs.room)) {
             return 3; // Welcome back.
         }
 
