@@ -63,12 +63,16 @@ public abstract class DeckItem extends Item {
     private int cordY = 0;
     private boolean noFee = false; // Set when player connects using Cyberspace 1.0 warez.
     public boolean needsRepair;
+    
+    // TODO: Eliminate default value as cord is always set by JackZone() when player enters cyberspace.
+    // TODO: Eliminate cordX/Y as GameState tracks this position as matrixX/Y. Need to unify this!
+    
 
     public DeckItem(Item.Catalog cat, int nSlots, boolean cyberspace, int startX, int startY) {
         super(cat);
         this.nSlots = nSlots;
-        this.cordX = startX;
-        this.cordY = startY;
+        //this.cordX = startX;
+        //this.cordY = startY;
         this.cyberspaceCapable = cyberspace;
         this.needsRepair = false;
     }

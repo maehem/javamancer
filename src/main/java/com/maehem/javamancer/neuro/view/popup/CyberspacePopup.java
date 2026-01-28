@@ -85,7 +85,10 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
         );
 
         LOGGER.log(Level.FINE, "Cyberspace Popup: Set deck mode to CYBERSPACE.");
-        gs.usingDeck.setMode(DeckItem.Mode.CYBERSPACE);
+        DeckItem deck = gs.usingDeck;
+        deck.setMode(DeckItem.Mode.CYBERSPACE);
+        deck.setCordX(gs.room.getJack().x);
+        deck.setCordY(gs.room.getJack().y);
     }
 
     @Override

@@ -31,14 +31,14 @@ package com.maehem.javamancer.neuro.model;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public enum JackZone {
-    ZERO(0, 112, 96), // Cheap Hotel
-    ONE(1, 416, 48), // Gentleman Loser
-    TWO(2, 208, 192), // Hitachi?, Hosaka?, Musabori, Fuji
+    ZERO(0, 112, 80), // Cheap Hotel
+    ONE(1, 416, 32), // Gentleman Loser
+    TWO(2, 32, 176), // Hitachi?, Hosaka?, Musabori, Fuji
     THREE(3, 336, 144), // Bank of Berne Mgr. Office
-    FOUR(4, 112, 304), // Sense/Net ( todo: tune x/y)
-    FIVE(5, 416, 304), // Bank Gemeinschaft ( todo: tune x/y)
-    SIX(6, 112, 400), // No Physical Jack. Use EasyRider. ( todo: tune x/y)
-    SEVEN(7, 416, 400),; // Villa Straylight ( todo: tune x/y)
+    FOUR(4, 48, 304), // Sense/Net
+    FIVE(5, 304, 304), // Bank Gemeinschaft
+    SIX(6, 128, 432), // No Physical Jack. Use EasyRider.
+    SEVEN(7, 384, 400),; // Villa Straylight
 
     public final int num;
     public final int x;
