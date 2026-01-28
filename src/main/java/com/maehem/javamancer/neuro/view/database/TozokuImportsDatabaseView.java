@@ -68,14 +68,7 @@ public class TozokuImportsDatabaseView extends DatabaseView {
 
     public TozokuImportsDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
-
-        //dbTextResource.dumpList();
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
-            accessLevel = 3;
-            siteContent();
-        } else {
-            landingPage();
-        }
+        landingPage();
     }
 
     @Override
@@ -83,9 +76,9 @@ public class TozokuImportsDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text("\n\n\n\n");
+        Text paddingText = new Text("\n\n\n\n");
 
-        TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
+        TextFlow tf = pageTextFlow(headingText, paddingText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
     }
 
@@ -164,17 +157,6 @@ public class TozokuImportsDatabaseView extends DatabaseView {
                     return false;
                 }
             }
-//            case EDIT -> {
-//                if (code.equals(KeyCode.X)
-//                        || code.equals(KeyCode.ESCAPE)) {
-//                    LOGGER.log(Level.FINE, "Go back up menu level.");
-//                    mainMenu();
-//                    keyEvent.consume();
-//                    return false;
-//                }
-//            }
-            // else ignore key
-
         }
         return super.handleKeyEvent(keyEvent);
     }

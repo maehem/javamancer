@@ -70,27 +70,16 @@ public class PantherModernsDatabaseView extends DatabaseView {
      */
     public PantherModernsDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
-
-        //dbTextResource.dumpList();
-        //ammendMessageList();
-
-        headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
-
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
-            siteContent();
-        } else {
-            landingPage();
-        }
+        landingPage();
     }
 
     @Override
     protected final void landingPage() {
         pane.getChildren().clear();
-        //mode = Mode.SUB;
 
-        Text helloText = new Text("\n\n\n");
+        Text linePadding = new Text("\n\n\n\n\n\n");
 
-        TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
+        TextFlow tf = pageTextFlow(headingText, linePadding, CONTINUE_TEXT);
         pane.getChildren().add(tf);
     }
 

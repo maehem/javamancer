@@ -178,6 +178,11 @@ public abstract class DatabaseView {
         }
 
         setAccessText(AccessText.NONE);
+        
+        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
+            accessLevel = 3;
+        }
+
     }
 
     protected abstract void landingPage();
@@ -272,10 +277,11 @@ public abstract class DatabaseView {
     }
 
     protected void landingContinue() {
-        LOGGER.log(Level.FINER, "DatabaseView: landingContunue() called.");
+        LOGGER.log(Level.FINE, "DatabaseView: landingContunue() called.");
         if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
             // Skip password. Elevate access level.
             accessLevel = 3;
+            LOGGER.log(Level.CONFIG, "Set DB Level to: {0}", accessLevel);
             siteContent();
         } else {
             passwordPage();
@@ -656,10 +662,10 @@ public abstract class DatabaseView {
 
         int i = 1;
         i = addSoftware(i, database.warez1, tf);
-        if (accessLevel > 1) {
+        if (accessLevel > 0) {
             i = addSoftware(i, database.warez2, tf);
         }
-        if (accessLevel > 2) {
+        if (accessLevel > 1) {
             addSoftware(i, database.warez3, tf);
         }
 
@@ -674,11 +680,15 @@ public abstract class DatabaseView {
         tf.getChildren().add(new Text(centeredText(" Software Library") + "\n"));
         Text exitItem = new Text(PADDING + "X. Exit System");
         tf.getChildren().add(exitItem);
-
+        
         int i = 1;
         i = addSoftware(i, database.warez1, tf);
-        i = addSoftware(i, database.warez2, tf);
-        addSoftware(i, database.warez3, tf);
+        if (accessLevel > 0) {
+            i = addSoftware(i, database.warez2, tf);
+        }
+        if (accessLevel > 1) {
+            addSoftware(i, database.warez3, tf);
+        }
 
         pane.getChildren().add(tf);
 

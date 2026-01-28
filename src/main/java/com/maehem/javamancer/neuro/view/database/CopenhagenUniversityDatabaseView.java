@@ -27,11 +27,8 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.TextResource;
-import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
-import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -69,14 +66,7 @@ public class CopenhagenUniversityDatabaseView extends DatabaseView {
 
     public CopenhagenUniversityDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
-
-        //dbTextResource.dumpList();
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
-            accessLevel = 3;
-            siteContent();
-        } else {
-            landingPage();
-        }
+        landingPage();
     }
 
     @Override
@@ -84,11 +74,10 @@ public class CopenhagenUniversityDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text(dbTextResource.get(3) + "\n\n\n\n");
+        Text paddingText = new Text(dbTextResource.get(3) + "\n\n\n\n");
 
-        // TODO: If visited copenhagen, show 4?
-
-        TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
+        // TODO: If visited copenhagen, show 4? or is 4 the header for messages?
+        TextFlow tf = pageTextFlow(headingText, paddingText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
     }
 
@@ -97,7 +86,7 @@ public class CopenhagenUniversityDatabaseView extends DatabaseView {
         mainMenu();
     }
 
-    private void mainMenu() {
+    private void mainMenu() { // Site has multi access level main menu.
         pane.getChildren().clear();
         mode = Mode.MENU;
 
@@ -145,77 +134,6 @@ public class CopenhagenUniversityDatabaseView extends DatabaseView {
         }
     }
 
-    /*
-    private void warrantList(boolean edit) {
-        LOGGER.log(Level.FINE, "Chiba Police: warrant list");
-        pane.getChildren().clear();
-
-        Text subHeadingText = new Text("\n" + dbTextResource.get(3) + "\n\n");
-
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
-
-        TextResource bamaList = gameState.resourceManager.getTextResource("POLICE0");
-        bamaList.forEach((item) -> {
-            Text t;
-            if (item.startsWith("\1")) {
-                t = new Text(
-                        String.format("%-19s", gameState.name)
-                        + item.substring(19)
-                );
-            } else {
-                t = new Text("\n" + item);
-            }
-
-            // TODO: Link item for editing BAMA ID???
-            contentTf.getChildren().add(t);
-        });
-
-        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
-
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
-    }
-     */
-    /*
-    private void editWarrant(int index) {
-        LOGGER.log(Level.FINE, "Chiba Police: edit warrant");
-        pane.getChildren().clear();
-        mode = Mode.EDIT;
-
-        Text subHeadingText = new Text("\n" + dbTextResource.get(11) + "\n\n");
-
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
-
-        TextResource bamaList = gameState.resourceManager.getTextResource("POLICE0");
-        bamaList.forEach((item) -> {
-            Text t;
-            if (item.startsWith("\1")) {
-                t = new Text(
-                        String.format("%-19s", gameState.name)
-                        + item.substring(19)
-                );
-            } else {
-                t = new Text("\n" + item);
-            }
-
-            // TODO: Link item for editing BAMA ID???
-            contentTf.getChildren().add(t);
-        });
-
-        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
-
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
-    }
-*/
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
