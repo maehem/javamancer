@@ -118,7 +118,8 @@ public class GameState {
     public final ArrayList<Person> hosakaEmployeeList = new ArrayList<>();
     public final ArrayList<Room> visited = new ArrayList<>();
     public final ArrayList<Room> dialogAllowed = new ArrayList<>();
-    public final ArrayList<AI> aiList = new ArrayList<>();
+    public final ArrayList<Database> defeatedDbList = new ArrayList<>(); // TODO: For stats only. ICE never really dies.
+    public final ArrayList<AI> defeatedAiList = new ArrayList<>();
     public final ArrayList<BbsMessage> messageSent = new ArrayList<>();
 
     // Deck & Matrix Stuff
@@ -452,8 +453,8 @@ public class GameState {
         if (aiClazz == null) {
             return null;
         }
-        
-        for (AI ai : aiList) {
+
+        for (AI ai : defeatedAiList) {
             if (ai.getClass().equals(aiClazz)) {
                 return ai;
             }
@@ -464,7 +465,7 @@ public class GameState {
             Object object = ctor.newInstance(new Object[]{});
             LOGGER.log(Level.FINE, () -> "AI Object created: " + aiClazz.getSimpleName());
             if (object instanceof AI freshAI) {
-                aiList.add(freshAI);
+                defeatedAiList.add(freshAI);
                 return freshAI;
             } else {
                 LOGGER.log(Level.SEVERE, () -> "AI Creation Failed: " + aiClazz.getSimpleName());

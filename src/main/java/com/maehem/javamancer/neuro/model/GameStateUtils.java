@@ -466,7 +466,7 @@ public class GameStateUtils {
     // TODO: Change to list like RoomVisited
     private static void putAIList(GameState gs, Properties p) {
         int i = 0;
-        for (AI ai : gs.aiList) {
+        for (AI ai : gs.defeatedAiList) {
             LOGGER.log(Level.INFO, "Put Defeated AI: {0}", ai.getClass().getSimpleName());
             ai.putProps(AI_DEFEATED + "." + i, p);
             i++;
@@ -483,7 +483,7 @@ public class GameStateUtils {
 
             lookup.pullProps(key + i, p);
 
-            gs.aiList.add(lookup);
+            gs.defeatedAiList.add(lookup);
 
             i++;
         }
