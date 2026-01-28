@@ -109,6 +109,7 @@ public class GameState {
     public final static String BANK_ZURICH_ID = "712345450134";
     public final static String BANK_GEMEIN_ID = "646328356481";
 
+    // Lists
     public final ArrayList<Skill> skills = new ArrayList<>();
     public final ArrayList<BodyPart> soldBodyParts = new ArrayList<>();
     public final ArrayList<Warez> software = new ArrayList<>();
@@ -368,7 +369,7 @@ public class GameState {
 
         return false;
     }
-    
+
     public Item getInventoryItem(Catalog checkItem) {
         for (Item item : inventory) {
             if (item.item.equals(checkItem)) {
@@ -430,7 +431,7 @@ public class GameState {
 
     /**
      * Called by YES/NO popup when player nears DB in Cyberspace.
-     * 
+     *
      */
     public void battleStart() { // Handled by next tick() of CyberspacePopup
         database = dbList.whatsAt(
@@ -439,11 +440,11 @@ public class GameState {
         databaseBattle = true;
         databaseBattleBegin = true;
         databaseArrived = false;
-        
+
         // Push any used warez (like EadyRider) so that we can pop it when 
         // player goes back to explore.
         usingDeck.pushWarez();
-        
+
         // Next CyberspacePopup.tick() will cause BattleGrid to show and begin ICE battle.
     }
 
