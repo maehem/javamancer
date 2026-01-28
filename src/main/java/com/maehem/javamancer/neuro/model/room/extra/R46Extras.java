@@ -58,7 +58,7 @@ public class R46Extras extends RoomExtras { // Matrix Restaurant
         {9, 10}, // [8] :: wipe it right away....Hey!  Look who wandered in when we left the door open!
         {12}, // [9] :: Got any old chips you want to sell?
         {WORD1.num}, // [10] :: Hey, what do you know about @---------------
-        {}, // [11] ::
+        {9,10}, // [11] ::
         {SKILL_BUY.num}, // [12] :: Have I got chips!  Ive got Logic, Software Analysis, and Musicianship. For you, Ill charge $1000 each.
         {}, // [13] ::
         {10}, // [14] :: Nobodys seen Bosch lately. We think maybe he hit some black ice out in cyberspace. Matt Shaw saw him last.
