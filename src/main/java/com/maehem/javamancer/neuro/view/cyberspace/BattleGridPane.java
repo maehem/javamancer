@@ -301,7 +301,6 @@ public class BattleGridPane extends GridPane implements PopupListener {
                 }
 
                 talkPane.setVisible(false);
-                // TODO: Upgrade ICEBreaking Skill if used.
             }
             case BROKEN -> {
                 // Animations are running. Do nothing for now.
@@ -349,7 +348,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
                             }
                             default -> {
                                 LOGGER.log(Level.SEVERE, "Warez {0} is not usable in AI battle! ", w.getSimpleName());
-                                gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);                                
+                                gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
                             }
                         }
                     }
