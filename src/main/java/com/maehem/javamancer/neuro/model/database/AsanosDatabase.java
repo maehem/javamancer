@@ -55,7 +55,7 @@ public class AsanosDatabase extends Database {
                 "customer", "vendors", null,
                 16, 112,
                 null,
-                84,
+                72,
                 rm
         );
 

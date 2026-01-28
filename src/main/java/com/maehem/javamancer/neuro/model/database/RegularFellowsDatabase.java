@@ -75,7 +75,7 @@ public class RegularFellowsDatabase extends Database {
                 "visitor", "fellow", "fellow", // Remove #3 (for testing)
                 208, 32,
                 null,
-                84,
+                36,
                 rm
         );
         warez1.put(BattleChessWarez.class, 2);
