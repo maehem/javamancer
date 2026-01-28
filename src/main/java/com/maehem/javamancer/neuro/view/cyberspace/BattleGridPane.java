@@ -285,20 +285,20 @@ public class BattleGridPane extends GridPane implements PopupListener {
         switch (mode) {
             case NONE -> {
                 // ICE or AI Death animations finished. Proceed to DB page.
-                gameState.aiList.add(ai); // Remember this defeated AI
-
-                // Upgrade AI Fight Skills used in battle.
-                usedOnAISkill.forEach((skill) -> {
-                    if (skill instanceof PsychoanalysisSkill
-                            || skill instanceof SophistrySkill
-                            || skill instanceof LogicSkill
-                            || skill instanceof PhenomenologySkill) {
-                        skill.upgrade();
-                    }
-                });
-                usedOnAISkill.clear();
-
-                usedOnAIWarez.clear();
+                if (ai != null) {
+                    gameState.defeatedAiList.add(ai); // Remember this defeated AI
+                    // Upgrade AI Fight Skills used in battle.
+                    usedOnAISkill.forEach((skill) -> {
+                        if (skill instanceof PsychoanalysisSkill
+                                || skill instanceof SophistrySkill
+                                || skill instanceof LogicSkill
+                                || skill instanceof PhenomenologySkill) {
+                            skill.upgrade();
+                        }
+                    });
+                    usedOnAISkill.clear();
+                    usedOnAIWarez.clear();
+                }
 
                 talkPane.setVisible(false);
                 // TODO: Upgrade ICEBreaking Skill if used.
