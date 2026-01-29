@@ -171,7 +171,7 @@ public abstract class DatabaseView {
 
         buildVisibleMessagesList();
 
-        dbTextResource = gameState.resourceManager.getDatabaseText(gameState.database.number);
+        dbTextResource = gs.resourceManager.getDatabaseText(gameState.database.number);
 
         if (!dbTextResource.isEmpty()) {
             headingText.setText(centeredText(dbTextResource.get(0)) + "\n");
