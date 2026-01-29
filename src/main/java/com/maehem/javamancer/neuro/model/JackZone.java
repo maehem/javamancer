@@ -34,7 +34,7 @@ public enum JackZone {
     ZERO(0, 112, 80), // Cheap Hotel
     ONE(1, 416, 32), // Gentleman Loser
     TWO(2, 32, 176), // Hitachi?, Hosaka?, Musabori, Fuji
-    THREE(3, 336, 144), // Bank of Berne Mgr. Office
+    THREE(3, 336, 128), // Bank of Berne Mgr. Office
     FOUR(4, 48, 304), // Sense/Net
     FIVE(5, 304, 304), // Bank Gemeinschaft
     SIX(6, 128, 432), // No Physical Jack. Use EasyRider.
