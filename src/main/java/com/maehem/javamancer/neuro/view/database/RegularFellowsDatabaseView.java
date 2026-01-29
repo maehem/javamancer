@@ -115,6 +115,9 @@ public class RegularFellowsDatabaseView extends DatabaseView {
 
     private void itemPage(String itemLetter) {
         switch (itemLetter) {
+            case "X" -> {
+                listener.popupExit();
+            }
             case "1" -> {
                 gallery();
             }
