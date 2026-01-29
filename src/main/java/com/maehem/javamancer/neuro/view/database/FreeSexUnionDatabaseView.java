@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
 import javafx.scene.input.KeyCode;
@@ -66,14 +65,7 @@ public class FreeSexUnionDatabaseView extends DatabaseView {
 
     public FreeSexUnionDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
-
-        dbTextResource.dumpList();
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
-            accessLevel = 3;
-            siteContent();
-        } else {
-            landingPage();
-        }
+        landingPage();
     }
 
     @Override

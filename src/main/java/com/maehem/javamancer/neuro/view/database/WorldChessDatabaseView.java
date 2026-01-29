@@ -96,14 +96,7 @@ public class WorldChessDatabaseView extends DatabaseView {
 
     public WorldChessDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
-
-        //dbTextResource.dumpList();
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
-            accessLevel = 3;
-            siteContent();
-        } else {
-            landingPage();
-        }
+        landingPage();
     }
 
     @Override

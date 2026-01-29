@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
-import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
 import javafx.scene.input.KeyCode;
@@ -57,8 +56,8 @@ import javafx.scene.text.TextFlow;
 /**
  *
  * TODO: Mind Probe
- * 
- * 
+ *
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class PsychologistDatabaseView extends DatabaseView {
@@ -70,14 +69,7 @@ public class PsychologistDatabaseView extends DatabaseView {
 
     public PsychologistDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
-
-        //dbTextResource.dumpList();
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
-            accessLevel = 3;
-            siteContent();
-        } else {
-            landingPage();
-        }
+        landingPage();
     }
 
     @Override

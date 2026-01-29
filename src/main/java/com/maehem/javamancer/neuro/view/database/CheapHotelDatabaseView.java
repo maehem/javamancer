@@ -92,14 +92,9 @@ public class CheapHotelDatabaseView extends DatabaseView {
     public CheapHotelDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
 
-        CURSOR_TEXT.setOpacity(0);
+        CURSOR_TEXT.setOpacity(0); // TODO: What was this for?
 
-        //headingText.setText(centeredText(dbTextResource.get(0)) + "\n\n");
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
-            mainMenu();
-        } else {
-            landingPage();
-        }
+        landingPage();
     }
 
     @Override

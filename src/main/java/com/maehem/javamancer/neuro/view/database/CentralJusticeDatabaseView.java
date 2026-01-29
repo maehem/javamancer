@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
-import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
@@ -51,7 +50,7 @@ import javafx.scene.text.TextFlow;
  */
 /**
  * Central Justice
- * 
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class CentralJusticeDatabaseView extends DatabaseView {
@@ -63,14 +62,7 @@ public class CentralJusticeDatabaseView extends DatabaseView {
 
     public CentralJusticeDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
-
-        //dbTextResource.dumpList();
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
-            accessLevel = 3;
-            siteContent();
-        } else {
-            landingPage();
-        }
+        landingPage();
     }
 
     @Override
@@ -141,8 +133,8 @@ public class CentralJusticeDatabaseView extends DatabaseView {
 
     /**
      * TODO: Probably not needed.
-     * 
-     * @param index 
+     *
+     * @param index
      */
     private void editWarrant(int index) {
         LOGGER.log(Level.FINE, "Justice: edit warrant");

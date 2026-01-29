@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.Map;
 import java.util.logging.Level;
@@ -68,12 +67,7 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
 
     public ConsumerReviewDatabaseView(GameState gameState, Pane pane, PopupListener l) {
         super(gameState, pane, l);
-
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
-            mainMenu();
-        } else {
-            landingPage();
-        }
+        landingPage();
     }
 
     @Override

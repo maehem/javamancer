@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
-import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
@@ -40,7 +39,7 @@ import javafx.scene.text.TextFlow;
 
 /**
  * <pre>
-[0] :: * Internal Revenue Service *
+ * [0] :: * Internal Revenue Service *
  * [1] :: X. Exit System 1. TaxInfo Board
  * [2] :: 2. Supervisors Notice 3. Special Audit Report 4. View Audit List
  * [3] :: 5. Software Library
@@ -69,14 +68,7 @@ public class IRSDatabaseView extends DatabaseView {
 
     public IRSDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
-
-        //dbTextResource.dumpList();
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
-            accessLevel = 3;
-            siteContent();
-        } else {
-            landingPage();
-        }
+        landingPage();
     }
 
     @Override

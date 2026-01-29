@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
@@ -73,14 +72,7 @@ public class TuringRegistryDatabaseView extends DatabaseView {
 
     public TuringRegistryDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
-
-        //dbTextResource.dumpList();
-        if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
-            accessLevel = 3;
-            siteContent();
-        } else {
-            landingPage();
-        }
+        landingPage();
     }
 
     @Override
@@ -176,8 +168,7 @@ public class TuringRegistryDatabaseView extends DatabaseView {
                     || s.startsWith("2.")
                     || s.startsWith("3.")
                     || s.startsWith("4.")
-                    || s.startsWith("5.")
-                ) {
+                    || s.startsWith("5.")) {
                 menuItem.setOnMouseClicked((t) -> {
                     t.consume();
                     switch (s.trim().substring(0, 1)) {
