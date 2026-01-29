@@ -183,6 +183,7 @@ public abstract class DatabaseView {
             accessLevel = 3;
         }
 
+        // TODO: call landingPage() here.
     }
 
     protected abstract void landingPage();
@@ -277,7 +278,7 @@ public abstract class DatabaseView {
     }
 
     protected void landingContinue() {
-        LOGGER.log(Level.FINE, "DatabaseView: landingContunue() called.");
+        LOGGER.log(Level.FINE, "DatabaseView: landingContinue() called.");
         if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
             // Skip password. Elevate access level.
             accessLevel = 3;
