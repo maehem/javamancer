@@ -148,7 +148,7 @@ public class Person {
                 StandardCharsets.US_ASCII
         );
 
-        LOGGER.log(Level.FINE, "Restore Person: {0} :: {1}  aux: {2}", new Object[]{name, bama, hexAuxInput});
+        LOGGER.log(Level.FINEST, "    Restore Person: {0} :: {1}  aux: {2}", new Object[]{name, bama, hexAuxInput});
 
         return new Person(name, bama, aux);
     }

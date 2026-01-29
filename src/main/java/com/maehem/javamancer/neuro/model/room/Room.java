@@ -176,11 +176,12 @@ public enum Room {
     }
 
     public void lockDoor(RoomBounds.Door d) {
-        LOGGER.log(Level.CONFIG, "Room:{0}: Lock Door {1}", new Object[]{name(), d.name()});
+        LOGGER.log(Level.FINEST, "    Room:{0}: Lock Door {1}", new Object[]{name(), d.name()});
         locked.add(d);
     }
 
     public void unlockDoor(RoomBounds.Door d) {
+        LOGGER.log(Level.FINEST, "    Room:{0}: Unlock Door {1}", new Object[]{name(), d.name()});
         locked.remove(d);
     }
 

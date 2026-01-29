@@ -175,7 +175,7 @@ public abstract class Warez {
 
     public void pullProps(String prefix, Properties p) {
         String get = p.getProperty(prefix + ".version", "1");
-        LOGGER.log(Level.FINE, "Restore Warez version value = " + get);
+        LOGGER.log(Level.FINEST, "Restore Warez version value = " + get);
         version = Integer.parseInt(get);
     }
 
@@ -189,11 +189,11 @@ public abstract class Warez {
 
             Object object = ctor.newInstance(
                     new Object[]{version});
-            LOGGER.log(Level.CONFIG, "Warez Object created.");
+            LOGGER.log(Level.FINEST, "Warez Object {0} created.", item.name());
             if (object instanceof Warez w) {
                 return w;
             } else {
-                LOGGER.log(Level.WARNING, "Thing is not a Warez.");
+                LOGGER.log(Level.WARNING, "CatalogItem is not a Warez.");
             }
         } catch (InstantiationException
                 | IllegalAccessException
