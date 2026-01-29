@@ -87,9 +87,7 @@ public class ScreamingFistDatabaseView extends DatabaseView {
         TextFlow tf = pageTextFlow(headingText);
 
         String menuString = dbTextResource.get(1);
-        if (accessLevel > 2) {
-            menuString += "\r" + dbTextResource.get(2);
-        }
+
         String[] split = menuString.split("\\r");
         for (String s : split) {
             Text menuItem = new Text("\n         " + s);
