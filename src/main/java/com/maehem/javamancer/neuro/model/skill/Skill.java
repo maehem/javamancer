@@ -136,11 +136,11 @@ public abstract class Skill {
 
             Object object = ctor.newInstance(
                     new Object[]{level});
-            LOGGER.log(Level.CONFIG, "Skill Object created.");
+            LOGGER.log(Level.CONFIG, "Skill Object {0} created.", item.name());
             if (object instanceof Skill sk) {
                 return sk;
             } else {
-                LOGGER.log(Level.WARNING, "Thing is not a Skill.");
+                LOGGER.log(Level.WARNING, "CatalogItem is not a Skill.");
             }
         } catch (InstantiationException
                 | IllegalAccessException
