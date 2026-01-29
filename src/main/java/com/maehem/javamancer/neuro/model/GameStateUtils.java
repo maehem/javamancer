@@ -420,7 +420,7 @@ public class GameStateUtils {
 
             LOGGER.log(Level.INFO, "Create {0} Item", key);
             Skill skill = Skill.getInstance(lookup, 1);
-            skill.pullProps(key + i, p);
+            skill.pullProps(key + "." + i, p);
 
             gs.skills.add(skill);
 
