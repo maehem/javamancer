@@ -122,7 +122,7 @@ public abstract class Skill {
 
     public void pullProps(String prefix, Properties p) {
         String get = p.getProperty(prefix + ".level", "1");
-        LOGGER.log(Level.INFO, () -> "Restore Skill level value = " + get);
+        LOGGER.log(Level.FINEST, "    Restore Skill level value = {0}", get);
         level = Integer.parseInt(get);
     }
 
@@ -136,7 +136,7 @@ public abstract class Skill {
 
             Object object = ctor.newInstance(
                     new Object[]{level});
-            LOGGER.log(Level.CONFIG, "Skill Object {0} created.", item.name());
+            LOGGER.log(Level.FINEST, "Skill Object {0} created.", item.name());
             if (object instanceof Skill sk) {
                 return sk;
             } else {

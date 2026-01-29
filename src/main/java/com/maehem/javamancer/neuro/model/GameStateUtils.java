@@ -401,24 +401,26 @@ public class GameStateUtils {
     }
 
     private static void putSkills(GameState gs, Properties p) {
+        LOGGER.log(Level.FINE, "Put Skills...");
         String key = SKILLS.key;
         int i = 0;
         for (Skill skill : gs.skills) {
-            LOGGER.log(Level.INFO, "Put {0}: {1}", new Object[]{key, skill.catalog.name()});
+            LOGGER.log(Level.FINER, "Put {0}: {1}", new Object[]{key, skill.catalog.name()});
             skill.putProps(key + "." + i, p);
             i++;
         }
     }
 
     private static void restoreSkills(GameState gs, Properties p) {
+        LOGGER.log(Level.FINE, "Restore Skills...");
         int i = 0;
         String val;
         String key = SKILLS.key;
         while ((val = p.getProperty(key + "." + i)) != null) {
-            LOGGER.log(Level.INFO, "Restore {0}: {1}", new Object[]{key, val});
+            LOGGER.log(Level.FINER, "Restore {0}: {1}", new Object[]{key, val});
             Catalog lookup = Item.lookup(val);
 
-            LOGGER.log(Level.INFO, "Create {0} Item", key);
+            LOGGER.log(Level.FINEST, "Create {0} Item", key);
             Skill skill = Skill.getInstance(lookup, 1);
             skill.pullProps(key + "." + i, p);
 
