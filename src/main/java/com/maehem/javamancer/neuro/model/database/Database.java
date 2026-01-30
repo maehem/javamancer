@@ -122,20 +122,20 @@ public abstract class Database {
     public int getIce() {
         return ice;
     }
-    
+
     public void resetIce() {
         ice = ICE_MAX;
     }
-    
+
     /**
      * Returns ICE health if above 0. Otherwise AI health if AI present.
-     * 
+     *
      * @param gs
      * @return 0 - 100 percent of either ICE or AI.
      */
     public int getBattleHealth(GameState gs) {
-        if ( getIce() > 0 ) {
-           return 100 * (1 - getIce() / ICE_MAX);
+        if (getIce() > 0) {
+            return 100 * (1 - getIce() / ICE_MAX);
         } else {
             if (aiClazz != null) {
                 if (ai == null) {
@@ -144,7 +144,7 @@ public abstract class Database {
                 return 100 * (1 - ai.getConstitution() / ai.MAX_CONSTITUTION);
             }
         }
-        
+
         return 0;
     }
 
@@ -158,7 +158,7 @@ public abstract class Database {
             damage += ice; // ice is negative, so lower damage reported.
             ice = 0;
         }
-        LOGGER.log(Level.FINE, "Apply {0} damage to database.  Ice now: {1}", new Object[]{damage,ice});
+        LOGGER.log(Level.FINE, "Apply {0} damage to database.  Ice now: {1}", new Object[]{damage, ice});
 
         return damage;
     }
@@ -174,7 +174,7 @@ public abstract class Database {
         }
         LOGGER.log(Level.FINE, "Apply {0} Skill damage of {1} to database.", new Object[]{skill.catalog.name(), damage});
         LOGGER.log(Level.FINE, "    Database ice  = {0}", ice);
-        
+
         return damage;
     }
 
@@ -182,7 +182,7 @@ public abstract class Database {
         // TODO: Consider player attributes (skill, etc.)
         return effect;
     }
-    
+
     public void handlePersonListChanged(GameState gs) {
         // Over-ride in subclass to take action when person list is edited.
     }
