@@ -70,13 +70,13 @@ public class ExploreGridPane extends GridPane {
     private final ImageView cspace;
     private final ImageView[] gridLR;
     private final ImageView[] gridFB;
-    private final ImageView[] dbThing;
+    private final ImageView[][] dbThing;
     private final ImageView gridbase;
     private final GridSequence gridRight;
     private final GridSequence gridLeft;
     private final GridSequence gridForward;
     private final GridSequence gridBackward;
-    private final ImageStack database;
+    private final ImageStack[] database = new ImageStack[3];
     private final ImageStack gridLRPane;
     private final ImageStack gridFBPane;
 
@@ -92,10 +92,24 @@ public class ExploreGridPane extends GridPane {
         this.gridbase = new ImageView(resourceManager.getSprite("GRIDBASE_1"));
         gridbase.setLayoutY(HORIZON);
 
-        this.dbThing = new ImageView[]{
+        this.dbThing = new ImageView[][]{
+            {
             new ImageView(resourceManager.getSprite("DBSPR_1")), // Close
             new ImageView(resourceManager.getSprite("DBSPR_2")), // Mid
-            new ImageView(resourceManager.getSprite("DBSPR_3"))};// Far
+            new ImageView(resourceManager.getSprite("DBSPR_3"))
+            },
+            {
+            new ImageView(resourceManager.getSprite("DBSPR_1")), // Close
+            new ImageView(resourceManager.getSprite("DBSPR_2")), // Mid
+            new ImageView(resourceManager.getSprite("DBSPR_3"))
+            },
+            {
+            new ImageView(resourceManager.getSprite("DBSPR_1")), // Close
+            new ImageView(resourceManager.getSprite("DBSPR_2")), // Mid
+            new ImageView(resourceManager.getSprite("DBSPR_3"))
+            }
+        };// Far
+        
         this.gridLR = new ImageView[]{
             new ImageView(resourceManager.getSprite("GRIDS_1")),
             new ImageView(resourceManager.getSprite("GRIDS_2")),
@@ -108,13 +122,18 @@ public class ExploreGridPane extends GridPane {
         gridLRPane = new ImageStack(0, HORIZON, this.gridLR);
         gridFBPane = new ImageStack(0, HORIZON, this.gridFB);
 
-        database = new ImageStack(272, 92, dbThing);
-        database.show(-1); // Hide it.
+        database[0] = new ImageStack(272, 92, dbThing[0]);
+        database[1] = new ImageStack(272, 92, dbThing[1]);
+        database[2] = new ImageStack(272, 92, dbThing[2]);
+        
+        database[0].show(-1); // Hide it.
+        database[1].show(-1); // Hide it.
+        database[2].show(-1); // Hide it.
 
         getChildren().addAll(cspace,
                 gridbase,
                 gridLRPane, gridFBPane,
-                database
+                database[0],database[1],database[2]
         );
 
         gridRight = new GridSequence(gridLR, false, true);
@@ -185,31 +204,39 @@ public class ExploreGridPane extends GridPane {
      */
     private void layoutDatabase() {
         DeckItem deck = gameState.usingDeck;
-
+        
         int xPos = deck.getCordX();
         int yPos = deck.getCordY();
-        database.show(-1); // Hide DB
-        for (int x = -8; x <= 8; x++) {
+        database[0].show(-1); // Hide DB
+        database[1].show(-1); // Hide DB
+        database[2].show(-1); // Hide DB
+        int dbIndex = 0;
+        for (int x = -12; x <= 12; x++) {
             for (int y = 0; y <= 8; y++) {
-
+                //LOGGER.log(Level.SEVERE, "Scan Grid: {0},{1}", new Object[]{x, y});
+                int xCord = xPos + (x * GRID / 4);
+                int yCord = yPos + (y * GRID / 4);
                 Database dbHere = gameState.dbList.whatsAt(
                         xPos + (x * GRID / 4),
                         yPos + (y * GRID / 4)
                 );
                 if (dbHere != null) {
-                    LOGGER.log(Level.FINE, "There is a database at: {0},{1} :: {2}", new Object[]{x, y, dbHere.name});
-                    database.show(dbShow[y]);
-                    database.setLayoutX(272 + x * GRID * multiX[y]);
-                    database.setLayoutY(42 + multiY[y]);
+                    LOGGER.log(Level.FINE, "There is a database nearby at: {0},{1} :: {2}", new Object[]{xCord, yCord, dbHere.name});
+                    database[dbIndex].show(dbShow[y]);
+                    database[dbIndex].setLayoutX(272 + x * GRID * multiX[y]);
+                    database[dbIndex].setLayoutY(42 + multiY[y]);
+                    dbIndex++;
                     if (x == 0 && y == 0) { // The DB is right here.
                         gameState.databaseArrived = true; // Handled by next game tick().
+                        LOGGER.log(Level.SEVERE, "Arrived: {0},{1} :: {2}", new Object[]{xCord, yCord, dbHere.name});
+                    } else {
+                        LOGGER.log(Level.SEVERE, "Not a DB here: {0},{1}", new Object[]{x, y});
                     }
-                    x = 9; // End X loop
-                    break;
+                    //x = 9; // End X loop
+                    //break;
                 }
             }
         }
-
     }
 
 }
