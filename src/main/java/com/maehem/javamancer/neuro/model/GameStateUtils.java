@@ -79,7 +79,6 @@ public class GameStateUtils {
             );
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-            ex.printStackTrace();
             return false;
         }
 
@@ -100,11 +99,9 @@ public class GameStateUtils {
                 return true;
             } catch (FileNotFoundException ex) {
                 LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-                ex.printStackTrace();
                 return false;
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-                ex.printStackTrace();
                 return false;
             }
         } else {
