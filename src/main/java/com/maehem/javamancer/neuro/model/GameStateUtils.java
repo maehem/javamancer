@@ -150,7 +150,8 @@ public class GameStateUtils {
         putDialogRooms(gs, props);
         putLockedRooms(gs, props);
 
-        putAIList(gs, props);
+        putDefeatedAiList(gs, props);
+        
         putSentMessageList(gs.messageSent, props);
 
         pPut(props, DECK_SLOTS, gs.deckSlots);
@@ -281,7 +282,7 @@ public class GameStateUtils {
 
         restoreSkills(gs, p);
         restoreSoldBodyParts(gs, p);
-        restoreAIList(gs, p);
+        restoreDefeatedAIList(gs, p);
         restoreWarez(gs, p);
         restorePersonList(gs.seaWantedList, SEA_WANTED.key, p);
         restorePersonList(gs.chibaWantedList, CHIBA_POLICE.key, p);
@@ -471,31 +472,33 @@ public class GameStateUtils {
         }
     }
 
-    // TODO: Change to list like RoomVisited
-    private static void putAIList(GameState gs, Properties p) {
-        LOGGER.log(Level.FINE, "Put AI List...");
-        int i = 0;
+    private static void putDefeatedAiList(GameState gs, Properties p) {
+        LOGGER.log(Level.FINE, "Put Defeated AIs...");
+        String key = AI_DEFEATED.key;
+        StringBuilder sb = new StringBuilder();
         for (AI ai : gs.defeatedAiList) {
-            LOGGER.log(Level.FINER, "Put Defeated AI: {0}", ai.getClass().getSimpleName());
-            ai.putProps(AI_DEFEATED + "." + i, p);
-            i++;
+            LOGGER.log(Level.FINE, "    Put Defeated AI: {0}", ai.getClass().getSimpleName());
+            if (!sb.isEmpty()) {
+                sb.append(",");
+            }
+
+            sb.append(ai.getClass().getSimpleName());
         }
+        p.put(key, sb.toString());
     }
 
-    private static void restoreAIList(GameState gs, Properties p) {
-        LOGGER.log(Level.FINE, "Restore AI List...");
-        int i = 0;
-        String val;
-        String key = AI_DEFEATED + ".";
-        while ((val = p.getProperty(key + i)) != null) {
-            LOGGER.log(Level.FINER, "Restore Defeated AI: {0}", val);
-            AI lookup = AI.lookup(val);
-
-            lookup.pullProps(key + i, p);
+    private static void restoreDefeatedAIList(GameState gs, Properties p) {
+        LOGGER.log(Level.FINE, "Restore Defeated AI List...");
+        String key = AI_DEFEATED.key;
+        String[] ai = ((String) (p.get(key))).split(",");
+        for (String rStr : ai) {
+            if (rStr.isBlank()) {
+                continue;
+            }
+            LOGGER.log(Level.FINE, "    Restore Defeated AI: {0}", rStr);
+            AI lookup = AI.lookup(rStr);
 
             gs.defeatedAiList.add(lookup);
-
-            i++;
         }
     }
 
