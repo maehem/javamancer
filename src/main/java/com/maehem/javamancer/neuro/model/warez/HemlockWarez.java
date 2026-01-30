@@ -52,7 +52,7 @@ public class HemlockWarez extends ShotgunWarez {
     public int getEffect(GameState gs) {
         if ( gs.databaseBattle && 
                 gs.database.getIce() <= 0 &&
-                (gs.database.ai.getClass().equals(GreystokeAI.class)) ) {
+                (gs.database.aiClazz.getClass().equals(GreystokeAI.class)) ) {
             return version * 10000;
         }
         return version * 10;

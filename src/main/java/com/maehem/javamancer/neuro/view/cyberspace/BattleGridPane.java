@@ -462,7 +462,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
 
     void resetBattle() {
         db = gameState.database;
-        ai = gameState.getAI(db.ai);
+        ai = gameState.getAI(db.aiClazz);
         talkPane.setAi(ai);
         talkPane.setVisible(false);
 
@@ -558,7 +558,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
 //            // Apply damage, considering weaknesses.
 //            if (mode == IceMode.AI) {
 //                //ai.applyDamage(w.getEffect(gameState));
-//                ai.applyWarezAttack(w, gameState);
+//                aiClazz.applyWarezAttack(w, gameState);
 //            } else {
 //                gameState.database.applyWarezAttack(w, gameState);
 //            }
@@ -610,7 +610,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
             // Handled by tick()
 //            switch (mode) {
 //                case AI -> {
-//                    if (ai.getConstitution() <= 0) {
+//                    if (aiClazz.getConstitution() <= 0) {
 //                        LOGGER.log(Level.INFO, "AI Defeated.");
 //                        // TODO: New sound for AI defeated.
 //                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
@@ -695,7 +695,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
         ft1.setOnFinished((t) -> {
             fadeNode1.setVisible(false);
             fadeNode1.setOpacity(1.0);
-            if (db.ai != null) { // Begin AI fight.
+            if (db.aiClazz != null) { // Begin AI fight.
                 setIceMode(IceMode.AI);
             } else {
                 LOGGER.log(Level.INFO, "Switch to DB Terminal...");

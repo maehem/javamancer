@@ -63,7 +63,8 @@ public abstract class Database {
 
     public final int matrixX;
     public final int matrixY;
-    public final Class<? extends AI> ai;
+    public final Class<? extends AI> aiClazz;
+    private AI ai;
     public final int ICE_MAX;
     private int ice;
 
@@ -87,7 +88,7 @@ public abstract class Database {
         this.password3 = password3;
         this.matrixX = matrixX;
         this.matrixY = matrixY;
-        this.ai = ai;
+        this.aiClazz = ai;
         this.ICE_MAX = ice;
         this.ice = ice;
 

@@ -54,7 +54,7 @@ public class KuangElevenWarez extends ShotgunWarez {
         Database database = gs.database;
         if ( gs.databaseBattle && 
                 gs.database.getIce() <= 0 &&
-                (gs.database.ai.getClass().equals(NeuromancerAI.class)) ) {
+                (gs.database.aiClazz.getClass().equals(NeuromancerAI.class)) ) {
             return version * 10000;
         }
         return version * 10;
