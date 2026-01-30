@@ -137,9 +137,11 @@ public abstract class Database {
         if ( getIce() > 0 ) {
            return 100 * (1 - getIce() / ICE_MAX);
         } else {
-            if ( ai != null ) {
-                AI currentAI = gs.getAI(ai);
-                return 100 * ( 1 - currentAI.getConstitution() / currentAI.MAX_CONSTITUTION);
+            if (aiClazz != null) {
+                if (ai == null) {
+                    ai = gs.getAI(aiClazz);
+                }
+                return 100 * (1 - ai.getConstitution() / ai.MAX_CONSTITUTION);
             }
         }
         
