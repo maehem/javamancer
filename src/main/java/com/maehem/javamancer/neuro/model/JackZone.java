@@ -26,6 +26,10 @@
  */
 package com.maehem.javamancer.neuro.model;
 
+import static com.maehem.javamancer.logging.Logging.LOGGER;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Mark J Koch ( @maehem on GitHub )
@@ -58,7 +62,7 @@ public enum JackZone {
      * @return JackZone of coordinates.
      */
     public static final JackZone lookUp(int x, int y) {
-        return numToZone((y%GameState.GRID_MAX) / 127 * 2 + (x%GameState.GRID_MAX) / 255);
+        return numToZone((y%GameState.GRID_MAX-1) / 127 * 2 + (x%GameState.GRID_MAX-1) / 255);
     }
 
     /**
@@ -74,6 +78,7 @@ public enum JackZone {
             }
         }
 
+        LOGGER.log(Level.SEVERE, "Zone not found for: {0}", num);
         return null;
     }
 }
