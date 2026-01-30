@@ -113,6 +113,7 @@ public class GameStateUtils {
     }
 
     private static Properties gatherProperties(GameState gs) {
+        LOGGER.log(Level.CONFIG, "Gather Game Save Properties...");
         Properties props = new Properties();
         // Player
         props.put(NAME.key, gs.name);
@@ -210,6 +211,7 @@ public class GameStateUtils {
         pPut(props, HITACHI_VOLUNTEER, gs.hitachiVolunteer);
         pPut(props, HOSAKA_DAYS_SINCE_PAID, gs.hosakaDaysSincePaid);
 
+        LOGGER.log(Level.CONFIG, "*** Gather Game Save Properties finsished.");
         return props;
     }
 
