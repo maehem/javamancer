@@ -30,7 +30,6 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.database.DatabaseList;
-import com.maehem.javamancer.neuro.model.deck.Cyberspace7DeckItem;
 import com.maehem.javamancer.neuro.model.item.CreditsItem;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
@@ -41,9 +40,6 @@ import com.maehem.javamancer.neuro.model.room.Room;
 import static com.maehem.javamancer.neuro.model.room.Room.*;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.Skill;
-import com.maehem.javamancer.neuro.model.warez.AcidWarez;
-import com.maehem.javamancer.neuro.model.warez.ComLinkWarez;
-import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 import com.maehem.javamancer.neuro.view.RoomMode;
@@ -280,7 +276,6 @@ public class GameState {
                     }
                 } // Deck Popup should check balance and exit if needed.
             }
-
         }
     }
 
