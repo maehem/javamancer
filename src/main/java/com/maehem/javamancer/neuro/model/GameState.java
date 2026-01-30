@@ -466,7 +466,6 @@ public class GameState {
             Object object = ctor.newInstance(new Object[]{});
             LOGGER.log(Level.FINE, () -> "AI Object created: " + aiClazz.getSimpleName());
             if (object instanceof AI freshAI) {
-                defeatedAiList.add(freshAI);
                 return freshAI;
             } else {
                 LOGGER.log(Level.SEVERE, () -> "AI Creation Failed: " + aiClazz.getSimpleName());
