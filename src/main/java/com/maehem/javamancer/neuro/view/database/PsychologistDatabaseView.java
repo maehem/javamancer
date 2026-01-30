@@ -63,9 +63,10 @@ import javafx.scene.text.TextFlow;
 public class PsychologistDatabaseView extends DatabaseView {
 
     private enum Mode {
-        SUB, MENU, PROBE, REVIEW
+        SUB, PRE_MENU, MENU, PROBE, REVIEW
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
+    private boolean preMenuShown = false;
 
     public PsychologistDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
@@ -77,8 +78,12 @@ public class PsychologistDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text(dbTextResource.get(4) + "\n\n"
-                + dbTextResource.get(5) + "\n");
+        Text helloText;
+        if (accessLevel > 1) { // babylon
+            helloText = new Text("\n" + dbTextResource.get(4) + "\n\n");
+        } else { // new mo
+            helloText = new Text("\n" + dbTextResource.get(5) + "\n\n");
+        }
 
         TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
@@ -91,29 +96,51 @@ public class PsychologistDatabaseView extends DatabaseView {
 
     private void mainMenu() {
         pane.getChildren().clear();
-        mode = Mode.MENU;
 
-        TextFlow tf = pageTextFlow(headingText);
+        if (!preMenuShown) {
 
-        String menuString = dbTextResource.get(1);
-        if (accessLevel > 1) {
-            menuString += "\r" + dbTextResource.get(2);
-        }
-        if (accessLevel > 2) {
-            menuString += "\r" + dbTextResource.get(3);
-        }
-        String[] split = menuString.split("\\r");
-        for (String s : split) {
-            Text menuItem = new Text("\n         " + s);
-            tf.getChildren().add(menuItem);
-            menuItem.setOnMouseClicked((t) -> {
+            mode = Mode.PRE_MENU;
+            preMenuShown = true;
+            // Show pre-menu content based on access level.
+            TextFlow tf;
+            if (accessLevel < 2) {
+                Text text = new Text("\n" + dbTextResource.get(6) + "\n\n");
+                tf = pageTextFlow(headingText, text, CONTINUE_TEXT);
+            } else {
+                Text text = new Text(dbTextResource.get(7));
+                tf = pageTextScrolledFlow(headingText, text);
+            }
+            pane.getChildren().add(tf);
+            pane.setOnMouseClicked((t) -> {
                 t.consume();
-                itemPage(s.trim().substring(0, 1));
+                mainMenu();
             });
-        }
+        } else {
+            mode = Mode.MENU;
 
-        pane.getChildren().add(tf);
-        pane.setOnMouseClicked(null);
+            TextFlow tf = pageTextFlow(headingText);
+
+            String menuString = dbTextResource.get(1);
+            if (accessLevel > 1) { // Your own personal mind probe
+                menuString += "\r" + dbTextResource.get(2);
+            }
+            if (accessLevel > 2) { // Software Library
+                menuString += "\r" + dbTextResource.get(3);
+            }
+            String[] split = menuString.split("\\r");
+            for (String s : split) {
+                Text menuItem = new Text("\n         " + s);
+                tf.getChildren().add(menuItem);
+                menuItem.setOnMouseClicked((t) -> {
+                    t.consume();
+                    itemPage(s.trim().substring(0, 1));
+                });
+            }
+
+            pane.getChildren().add(tf);
+            pane.setOnMouseClicked(null);
+        }
+        pane.layout();
     }
 
     private void itemPage(String itemLetter) {
@@ -227,6 +254,14 @@ public class PsychologistDatabaseView extends DatabaseView {
                 } else if (code.isDigitKey()) {
                     keyEvent.consume();
                     itemPage(code.getChar());
+                    return false;
+                }
+            }
+            case PRE_MENU -> {
+                if (code.equals(KeyCode.SPACE)) {
+                    LOGGER.log(Level.FINE, "Proceed to main menu.");
+                    mainMenu();
+                    keyEvent.consume();
                     return false;
                 }
             }
