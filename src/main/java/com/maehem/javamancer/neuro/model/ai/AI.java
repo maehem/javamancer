@@ -242,23 +242,23 @@ public abstract class AI {
     }
 
     public static AI lookup(String clazzName) {
-        LOGGER.log(Level.FINER, "Get AI instance.");
+        LOGGER.log(Level.FINER, "    Get AI instance.");
         try {
             Class<?> clazz = Class.forName(AI.class.getPackageName() + "." + clazzName);
             if (AI.class.isAssignableFrom(clazz)) {
-                LOGGER.log(Level.FINER, "It's an AI class.");
+                LOGGER.log(Level.FINER, "    It's an AI class.");
             } else {
-                LOGGER.log(Level.WARNING, "It's NOT an AI class.");
+                LOGGER.log(Level.WARNING, "    It's NOT an AI class.");
             }
             @SuppressWarnings("unchecked")
             Constructor<?> ctor = clazz.getConstructor();
 
             Object object = ctor.newInstance();
-            LOGGER.log(Level.CONFIG, "AI Object created: {0}", object.getClass().getSimpleName());
+            LOGGER.log(Level.FINER, "    AI Object created: {0}", object.getClass().getSimpleName());
             if (object instanceof AI ai) {
                 return ai;
             } else {
-                LOGGER.log(Level.SEVERE, "Thing is not a AI.");
+                LOGGER.log(Level.SEVERE, "**** Class named is not a AI!");
             }
         } catch (ClassNotFoundException
                 | InstantiationException
