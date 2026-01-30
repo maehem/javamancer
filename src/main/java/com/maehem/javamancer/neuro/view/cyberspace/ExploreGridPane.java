@@ -94,22 +94,22 @@ public class ExploreGridPane extends GridPane {
 
         this.dbThing = new ImageView[][]{
             {
-            new ImageView(resourceManager.getSprite("DBSPR_1")), // Close
-            new ImageView(resourceManager.getSprite("DBSPR_2")), // Mid
-            new ImageView(resourceManager.getSprite("DBSPR_3"))
+                new ImageView(resourceManager.getSprite("DBSPR_1")), // Close
+                new ImageView(resourceManager.getSprite("DBSPR_2")), // Mid
+                new ImageView(resourceManager.getSprite("DBSPR_3"))
             },
             {
-            new ImageView(resourceManager.getSprite("DBSPR_1")), // Close
-            new ImageView(resourceManager.getSprite("DBSPR_2")), // Mid
-            new ImageView(resourceManager.getSprite("DBSPR_3"))
+                new ImageView(resourceManager.getSprite("DBSPR_1")), // Close
+                new ImageView(resourceManager.getSprite("DBSPR_2")), // Mid
+                new ImageView(resourceManager.getSprite("DBSPR_3"))
             },
             {
-            new ImageView(resourceManager.getSprite("DBSPR_1")), // Close
-            new ImageView(resourceManager.getSprite("DBSPR_2")), // Mid
-            new ImageView(resourceManager.getSprite("DBSPR_3"))
+                new ImageView(resourceManager.getSprite("DBSPR_1")), // Close
+                new ImageView(resourceManager.getSprite("DBSPR_2")), // Mid
+                new ImageView(resourceManager.getSprite("DBSPR_3"))
             }
         };// Far
-        
+
         this.gridLR = new ImageView[]{
             new ImageView(resourceManager.getSprite("GRIDS_1")),
             new ImageView(resourceManager.getSprite("GRIDS_2")),
@@ -125,7 +125,7 @@ public class ExploreGridPane extends GridPane {
         database[0] = new ImageStack(272, 92, dbThing[0]);
         database[1] = new ImageStack(272, 92, dbThing[1]);
         database[2] = new ImageStack(272, 92, dbThing[2]);
-        
+
         database[0].show(-1); // Hide it.
         database[1].show(-1); // Hide it.
         database[2].show(-1); // Hide it.
@@ -133,7 +133,7 @@ public class ExploreGridPane extends GridPane {
         getChildren().addAll(cspace,
                 gridbase,
                 gridLRPane, gridFBPane,
-                database[0],database[1],database[2]
+                database[0], database[1], database[2]
         );
 
         gridRight = new GridSequence(gridLR, false, true);
@@ -179,7 +179,7 @@ public class ExploreGridPane extends GridPane {
                 int newX = deck.getCordX() + (isReverse() ? AMOUNT : -AMOUNT);
                 if (newX <= 0) {
                     newX = GameState.GRID_MAX - GameState.GRID_SIZE;
-                } else if (newX >= GameState.GRID_MAX ) {
+                } else if (newX >= GameState.GRID_MAX) {
                     newX = GameState.GRID_SIZE;
                 }
                 deck.setCordX(newX);
@@ -204,7 +204,7 @@ public class ExploreGridPane extends GridPane {
      */
     private void layoutDatabase() {
         DeckItem deck = gameState.usingDeck;
-        
+
         int xPos = deck.getCordX();
         int yPos = deck.getCordY();
         database[0].show(-1); // Hide DB
