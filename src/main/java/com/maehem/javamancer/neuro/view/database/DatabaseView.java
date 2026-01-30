@@ -904,7 +904,6 @@ public abstract class DatabaseView {
                     | InstantiationException | IllegalAccessException
                     | IllegalArgumentException | InvocationTargetException ex) {
                 LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-                ex.printStackTrace();
             }
         }
 
