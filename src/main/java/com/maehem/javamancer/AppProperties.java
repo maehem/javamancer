@@ -111,6 +111,9 @@ public class AppProperties extends Properties {
         return propFile;
     }
 
+    // TODO: Move the settings.properties file to ~/Library/Preferences
+    // Perhaps name it com.maehem.javamancer.settings
+    
     private static File initPropFile() {
         final String os = System.getProperty("os.name");
         if (os != null && os.startsWith("Mac")) {
