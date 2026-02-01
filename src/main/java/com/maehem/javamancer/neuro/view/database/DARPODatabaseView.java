@@ -57,7 +57,7 @@ import javafx.scene.text.TextFlow;
 public class DARPODatabaseView extends DatabaseView {
 
     private enum Mode {
-        SUB, MENU, EDIT
+        SUB, MENU, RESEARCH
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
 
@@ -79,12 +79,21 @@ public class DARPODatabaseView extends DatabaseView {
 
     @Override
     protected final void siteContent() {
-        mainMenu();
+        switch (mode) {
+            case MENU ->
+                mainMenu();
+            case RESEARCH ->
+                research();
+            default -> {
+                mainMenu();
+            }
+        }
     }
 
     private void mainMenu() {
         pane.getChildren().clear();
         mode = Mode.MENU;
+        subMode = SubMode.MAIN;
 
         TextFlow tf = pageTextFlow(headingText);
 
@@ -95,7 +104,7 @@ public class DARPODatabaseView extends DatabaseView {
             tf.getChildren().add(menuItem);
             menuItem.setOnMouseClicked((t) -> {
                 t.consume();
-                itemPage(s.trim().substring(0, 1));
+                mainMenuClicked(s.trim().substring(0, 1));
             });
         }
 
@@ -103,38 +112,63 @@ public class DARPODatabaseView extends DatabaseView {
         pane.setOnMouseClicked(null);
     }
 
-    private void itemPage(String itemLetter) {
+    private void mainMenuClicked(String itemLetter) {
         switch (itemLetter) {
             case "X" -> {
                 listener.popupExit();
             }
-            case "1" -> { // Notes of interest
+            case "1" -> { // Research
                 research();
             }
-            case "2" -> {
+            case "2" -> { // Downloads
                 downloads();
             }
         }
     }
 
     private void research() {
-        LOGGER.log(Level.FINE, "DARPO: research projects");
         pane.getChildren().clear();
+        mode = Mode.RESEARCH;
+        subMode = SubMode.MAIN;
 
-        Text subHeadingText = new Text("\nTODO\n"
-                + dbTextResource.get(4) + "\n\n"
-        );
+        TextFlow tf = pageTextFlow(headingText);
 
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
+        String menuString = dbTextResource.get(4);
+        String[] split = menuString.split("\\r");
+        for (String s : split) {
+            Text menuItem = new Text("\n         " + s);
+            tf.getChildren().add(menuItem);
+            menuItem.setOnMouseClicked((t) -> {
+                t.consume();
+                researchClicked(s.trim().substring(0, 1));
+            });
+        }
 
-        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
+        pane.getChildren().add(tf);
+        pane.setOnMouseClicked(null);
+    }
 
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
+    private void researchClicked(String itemLetter) {
+        switch (itemLetter) {
+            case "X" -> {
+                mainMenu();
+            }
+            case "1" -> {
+                viewText(5);
+            }
+            case "2" -> {
+                viewText(6);
+            }
+            case "3" -> {
+                viewText(7);
+            }
+            case "4" -> {
+                viewText(8);
+            }
+            case "5" -> {
+                viewText(9);
+            }
+        }
     }
 
     @Override
@@ -151,16 +185,30 @@ public class DARPODatabaseView extends DatabaseView {
                     return true;
                 } else if (code.isDigitKey()) {
                     keyEvent.consume();
-                    itemPage(code.getChar());
+                    mainMenuClicked(code.getChar());
                     return false;
                 }
             }
-            case EDIT -> {
+            case RESEARCH -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.ESCAPE)) {
                     LOGGER.log(Level.FINE, "Go back up menu level.");
-                    mainMenu();
+                    if (subMode == SubMode.VIEW_TEXT) {
+                        research();
+                    } else {
+                        mainMenu();
+                    }
                     keyEvent.consume();
+                    return false;
+                }
+                if (code.equals(KeyCode.DIGIT1)
+                        || code.equals(KeyCode.DIGIT2)
+                        || code.equals(KeyCode.DIGIT3)
+                        || code.equals(KeyCode.DIGIT4)
+                        || code.equals(KeyCode.DIGIT5)) {
+                    viewText(code.getCode() - 48 + 4); // DIGIT0 == 48
+                    keyEvent.consume();
+
                     return false;
                 }
             }
