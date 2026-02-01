@@ -66,7 +66,7 @@ import javafx.scene.text.TextFlow;
 public class TuringRegistryDatabaseView extends DatabaseView {
 
     private enum Mode {
-        SUB, MENU, EDIT, SKILL
+        SUB, MENU, SKILL
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
 
@@ -117,13 +117,13 @@ public class TuringRegistryDatabaseView extends DatabaseView {
             case "X" -> {
                 listener.popupExit();
             }
-            case "1" -> { // Notes of interest
+            case "1" -> { // AI Registry
                 viewText(1);
             }
-            case "2" -> {
+            case "2" -> { // AI Reports
                 reports();
             }
-            case "3" -> {
+            case "3" -> { // Skill Upgrade
                 skillUpgrade();
             }
         }
@@ -235,7 +235,7 @@ public class TuringRegistryDatabaseView extends DatabaseView {
                     return false;
                 }
             }
-            case EDIT -> {
+            case SKILL -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.ESCAPE)) {
                     LOGGER.log(Level.FINE, "Go back up menu level.");
