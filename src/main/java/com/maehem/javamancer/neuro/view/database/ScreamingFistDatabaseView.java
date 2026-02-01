@@ -29,7 +29,6 @@ package com.maehem.javamancer.neuro.view.database;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
-import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -55,7 +54,7 @@ import javafx.scene.text.TextFlow;
 public class ScreamingFistDatabaseView extends DatabaseView {
 
     private enum Mode {
-        SUB, MENU, EDIT
+        SUB, MENU
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
 
@@ -69,9 +68,9 @@ public class ScreamingFistDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text(dbTextResource.get(2) + "\n\n\n\n");
+        Text paddingText = new Text("\n" + dbTextResource.get(2) + "\n\n\n");
 
-        TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
+        TextFlow tf = pageTextFlow(headingText, paddingText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
     }
 
@@ -107,35 +106,13 @@ public class ScreamingFistDatabaseView extends DatabaseView {
             case "X" -> {
                 listener.popupExit();
             }
-            case "1" -> { // Notes of interest
+            case "1" -> { // Downloads
                 downloads();
             }
-            case "2" -> {
+            case "2" -> { // Reports
                 viewText(4, 5, 6, 7);
             }
         }
-    }
-
-    private void purpose() {
-        LOGGER.log(Level.FINE, "Free Matrix: purpose statement");
-        pane.getChildren().clear();
-
-        Text subHeadingText = new Text("\n"
-                + dbTextResource.get(5) + "\n\n"
-                + dbTextResource.get(6) + "\n\n"
-                + dbTextResource.get(7)
-        );
-
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
-
-        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
-
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
     }
 
     @Override
@@ -156,15 +133,15 @@ public class ScreamingFistDatabaseView extends DatabaseView {
                     return false;
                 }
             }
-            case EDIT -> {
-                if (code.equals(KeyCode.X)
-                        || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.FINE, "Go back up menu level.");
-                    mainMenu();
-                    keyEvent.consume();
-                    return false;
-                }
-            }
+//            case EDIT -> {
+//                if (code.equals(KeyCode.X)
+//                        || code.equals(KeyCode.ESCAPE)) {
+//                    LOGGER.log(Level.FINE, "Go back up menu level.");
+//                    mainMenu();
+//                    keyEvent.consume();
+//                    return false;
+//                }
+//            }
             // else ignore key
 
         }
