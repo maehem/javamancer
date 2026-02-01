@@ -1099,6 +1099,7 @@ public abstract class DatabaseView {
             subMode = SubMode.MAIN;
             siteContent();
         });
+        pane.layout();
     }
 
     /**
