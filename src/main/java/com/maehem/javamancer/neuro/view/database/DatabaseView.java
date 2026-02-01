@@ -178,7 +178,7 @@ public abstract class DatabaseView {
         }
 
         setAccessText(AccessText.NONE);
-        
+
         if (gameState.usingDeck.getMode() == DeckItem.Mode.CYBERSPACE) {
             accessLevel = 3;
         }
@@ -639,19 +639,25 @@ public abstract class DatabaseView {
         });
     }
 
+    /**
+     * Create downloads menu from DB Model list.
+     * 
+     */
     protected void downloads() {
         downloads(-1);
     }
 
+    /**
+     * Create downloads menu from dbTextResource string if above 0.
+     * 
+     * @param index dbTextResource index or -1 for auto values in DB model.
+     */
     protected void downloads(int index) {
         LOGGER.log(Level.FINE, "{0}: Downloads", database.name);
         pane.getChildren().clear();
         //mode = Mode.DOWNLOADS;
         TextFlow tf = pageHeadingTextFlow();
         tf.getChildren().add(new Text(centeredText(" Software Library") + "\n"));
-        if (index >= 0) {
-            tf.getChildren().add(new Text("\n" + dbTextResource.get(index) + "\n"));
-        }
         Text menuItem = new Text(PADDING + "X. Exit to main");
         tf.getChildren().add(menuItem);
         menuItem.setOnMouseClicked((t) -> {
@@ -661,15 +667,18 @@ public abstract class DatabaseView {
             siteContent();
         });
 
-        int i = 1;
-        i = addSoftware(i, database.warez1, tf);
-        if (accessLevel > 0) {
-            i = addSoftware(i, database.warez2, tf);
+        if (index >= 0) { // Use dbTextResource string as menu constructor.
+            tf.getChildren().add(new Text("\n" + dbTextResource.get(index) + "\n"));
+        } else { // Use DB model warez list as menu constructor.
+            int i = 1;
+            i = addSoftware(i, database.warez1, tf);
+            if (accessLevel > 0) {
+                i = addSoftware(i, database.warez2, tf);
+            }
+            if (accessLevel > 1) {
+                addSoftware(i, database.warez3, tf);
+            }
         }
-        if (accessLevel > 1) {
-            addSoftware(i, database.warez3, tf);
-        }
-
         pane.getChildren().add(tf);
     }
 
@@ -681,7 +690,7 @@ public abstract class DatabaseView {
         tf.getChildren().add(new Text(centeredText(" Software Library") + "\n"));
         Text exitItem = new Text(PADDING + "X. Exit System");
         tf.getChildren().add(exitItem);
-        
+
         int i = 1;
         i = addSoftware(i, database.warez1, tf);
         if (accessLevel > 0) {
