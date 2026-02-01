@@ -158,12 +158,12 @@ public class PsychologistDatabaseView extends DatabaseView {
                 readReport(1);
             }
             case "4" -> {
-                if (accessLevel > 1) {
+                if (accessLevel > 1 && gameState.psychoProbeCount < 4) {
                     mindProbe();
                 }
             }
             case "5" -> {
-                if (accessLevel > 1) {
+                if (accessLevel > 1 && gameState.psychoProbeCount > 0) {
                     readReport(0);
                 }
             }
@@ -187,15 +187,17 @@ public class PsychologistDatabaseView extends DatabaseView {
         StringBuilder sb = new StringBuilder();
         // TODO: Index 0 is player reports. There are 4 possible reports.
         // TODO: gameState.psychoVisits
-        if (index == 0) {
+        if (index == 0) { // player report
             int subIndex = gameState.psychoProbeCount - 1;
             if (subIndex < 0) { // Never probed.
                 // dbTextResource
                 // 6 = access > 1 && probeCount == 0;
                 // 7 = access > 1 && probeCount > 0
                 if (accessLevel <= 1) {
+                    // Should not be reachable.
                     sb.append(dbTextResource.get(5));
                 } else if (gameState.psychoProbeCount < 1) {
+                    // Should not be reachable.
                     sb.append(dbTextResource.get(6));
                 } else {
                     sb.append(dbTextResource.get(7));
@@ -205,7 +207,7 @@ public class PsychologistDatabaseView extends DatabaseView {
             } else { // Max probes.
                 sb.append(textResource.get(3));
             }
-        } else {
+        } else { // other reports
             sb.append(textResource.get(0));
         }
 
@@ -226,8 +228,13 @@ public class PsychologistDatabaseView extends DatabaseView {
 
         StringBuilder sb = new StringBuilder();
         sb.append("\n").append("TODO:  Mind Probe...");
+        sb.append(dbTextResource.get(9));
         gameState.psychoProbeCount++;
 
+        //
+        // TODO: Enter text like BBS send message.
+        //
+       
         Text text = new Text(sb.toString());
         text.setLineSpacing(LINE_SPACING);
         TextFlow pageTf = pageTextScrolledFlow(headingText, text);
