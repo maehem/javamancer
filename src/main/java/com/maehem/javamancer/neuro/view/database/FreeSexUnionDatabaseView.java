@@ -73,9 +73,9 @@ public class FreeSexUnionDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text(dbTextResource.get(4) + "\n\n\n\n");
+        Text paddingText = new Text("\n\n\n\n" + dbTextResource.get(2) + "\n\n\n\n");
 
-        TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
+        TextFlow tf = pageTextFlow(headingText, paddingText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
     }
 
@@ -89,7 +89,6 @@ public class FreeSexUnionDatabaseView extends DatabaseView {
         mode = Mode.MENU;
 
         TextFlow tf = pageTextFlow(headingText);
-        tf.getChildren().add(new Text("\n" + dbTextResource.get(2) + "\n (TODO: Cyberspace access only)"));
         String menuString = dbTextResource.get(1);
         String[] split = menuString.split("\\r");
         for (String s : split) {
@@ -110,13 +109,13 @@ public class FreeSexUnionDatabaseView extends DatabaseView {
             case "X" -> {
                 listener.popupExit();
             }
-            case "1" -> { // Notes of interest
+            case "1" -> { // Meeting place
                 viewText(3);
             }
-            case "2" -> {
+            case "2" -> { // Advice
                 messages();
             }
-            case "3" -> {
+            case "3" -> { // AI buffer messages
                 messages2();
             }
         }
@@ -140,17 +139,6 @@ public class FreeSexUnionDatabaseView extends DatabaseView {
                     return false;
                 }
             }
-//            case EDIT -> {
-//                if (code.equals(KeyCode.X)
-//                        || code.equals(KeyCode.ESCAPE)) {
-//                    LOGGER.log(Level.FINE, "Go back up menu level.");
-//                    mainMenu();
-//                    keyEvent.consume();
-//                    return false;
-//                }
-//            }
-            // else ignore key
-
         }
         return super.handleKeyEvent(keyEvent);
     }
