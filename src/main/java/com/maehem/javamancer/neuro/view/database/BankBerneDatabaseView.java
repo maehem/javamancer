@@ -86,9 +86,9 @@ public class BankBerneDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text("\n\n\n\n");
+        Text paddingText = new Text("\n\n\n\n\n\n\n\n\n\n\n\n");
 
-        TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
+        TextFlow tf = pageTextFlow(headingText, paddingText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
     }
 
@@ -104,9 +104,6 @@ public class BankBerneDatabaseView extends DatabaseView {
         TextFlow tf = pageTextFlow(headingText);
 
         String menuString = dbTextResource.get(1);
-        if (accessLevel > 2) {
-            menuString += "\r" + dbTextResource.get(2);
-        }
         String[] split = menuString.split("\\r");
         for (String s : split) {
             Text menuItem = new Text("\n         " + s);
