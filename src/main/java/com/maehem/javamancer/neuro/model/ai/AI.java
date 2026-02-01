@@ -141,7 +141,7 @@ import java.util.logging.Logger;
  * [43] :: Count Zero!
  *
  *
- * // Neuromancer / Allard Base 
+ * // Neuromancer / Allard Base
  * [44] :: About time you showed up.... // ==> Beach
  * [45] :: Humans are so pathetic....
  * [46] ::
@@ -152,11 +152,11 @@ import java.util.logging.Logger;
  * [49] :: Thanks for the game, friend.
  * [50] :: Ha! Ive been waiting for that one, you pathetic human.
  * [51] :: That wont work twice, human.
- * 
+ *
  * // Neuromancer - After beach escape.
  * [52] :: How could you have escaped the Island?!
  * [53] ::
- * 
+ *
  * // Neuromancer - upon death - uses ENDGAME file.
  * </pre>
  *
@@ -174,7 +174,7 @@ public abstract class AI {
     public final Class<? extends Warez> weaknessWarez;
     public final int[] TALK;
 
-    public AI(String name, int index, int constitution, 
+    public AI(String name, int index, int constitution,
             Class<? extends Skill> weaknessSkill,
             Class<? extends Warez> weaknessWarez,
             int[] talk
@@ -211,13 +211,23 @@ public abstract class AI {
         LOGGER.log(Level.INFO, "AI Takes Damage from {0} Warez of {1}.  AI constitution: {2}", new Object[]{warez.item.name(), effect, constitution});
     }
 
-    public void applySkillAttack(Skill skill, GameState gs) {
+    public boolean applySkillAttack(Skill skill, GameState gs) {
         int effect = skill.getEffect(gs);
-        this.constitution -= effect;
+        boolean retVal = false;
+        if (skill.getClass() == weaknessSkill) {
+            // Double damage.
+            this.constitution -= effect*2;
+            LOGGER.log(Level.FINE, "AI Takes Critical Hit: Weakness to {0}", skill.catalog.itemName);
+            retVal = true; // AI has weakness to this.
+        } else {
+            this.constitution -= effect;
+        }
         if (constitution < 0) {
             constitution = 0;
         }
         LOGGER.log(Level.INFO, "AI Takes Damage from {0} Skill of {1}.  AI constitution: {2}", new Object[]{skill.catalog.name(), effect, constitution});
+
+        return false;
     }
 
     public int getEffect() {
