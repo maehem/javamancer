@@ -393,7 +393,7 @@ public class DeckPopup extends PopupPane {
         gameState.usingDeckErase = false;
         if (!handoffToCyberspace) {
             gameState.usingDeck = null;
+            deck.cleanUp();
         }
-        deck.cleanUp();
     }
 }

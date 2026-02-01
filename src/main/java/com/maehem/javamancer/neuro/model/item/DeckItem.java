@@ -75,6 +75,7 @@ public abstract class DeckItem extends Item {
         //this.cordY = startY;
         this.cyberspaceCapable = cyberspace;
         this.needsRepair = false;
+        LOGGER.log(Level.FINER, "Create Deck Item: {0} :: {1}", new Object[]{cat.itemName, this.toString()});
     }
 
     public static DeckItem getInstance(Class<? extends DeckItem> d) {
@@ -111,6 +112,7 @@ public abstract class DeckItem extends Item {
 
     public void setCurrentWarez(Warez w) {
         if (w instanceof CyberspaceWarez) {
+            LOGGER.log(Level.FINE, "No fees charged while in cyberspace.{0}", this.toString());
             noFee = true;
         }
         currentSoftwarez = w;
@@ -124,6 +126,11 @@ public abstract class DeckItem extends Item {
         LOGGER.log(Level.CONFIG, "{0}:: set mode to {1}",
                 new Object[]{getName(), mode.name()});
         this.mode = mode;
+        if ( mode == Mode.NONE ) {
+            setCurrentWarez(null);
+            LOGGER.log(Level.FINE, "Disable no-fee of deck.");
+            noFee = false;
+        }
     }
 
     public JackZone getZone() {
@@ -169,9 +176,8 @@ public abstract class DeckItem extends Item {
     }
 
     public void cleanUp() {
-        mode = Mode.NONE;
-        currentSoftwarez = null;
-        noFee = false;
+        LOGGER.log(Level.FINEST, "Deck Cleanup called: " + this.toString());
+        setMode(Mode.NONE);
     }
 
     public boolean isNoFee() {
@@ -188,7 +194,7 @@ public abstract class DeckItem extends Item {
 
     public void pullProps(String prefix, Properties p) {
         String get = p.getProperty(prefix + ".needsRepair", "false");
-        LOGGER.log(Level.INFO, () -> "Restore Deck needsRepair value = " + get);
+        LOGGER.log(Level.FINE, () -> "Restore Deck needsRepair value = " + get);
         needsRepair = Boolean.parseBoolean(get);
     }
     
