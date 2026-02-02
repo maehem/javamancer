@@ -312,7 +312,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
                     // activeSkill is set by player ControlPanel UI interaction.
                     Skill skill = gameState.activeSkill;
                     if (skill != null) {
-                        LOGGER.log(Level.FINER, "Skill is: " + skill.getVersionedName());
+                        LOGGER.log(Level.FINER, "Skill is: {0}", skill.getVersionedName());
                         // Apply use of certain skills.
                         if (skill instanceof PhenomenologySkill
                                 || skill instanceof PhilosophySkill
