@@ -135,7 +135,7 @@ public class AnimationSequence extends ImageView {
                     if (line.startsWith("sleep:")) {
                         String[] split = line.split(":");
                         setSleep(Integer.parseInt(split[1]));
-                        LOGGER.log(Level.FINE, "Set Sleep to: {0}", getSleep());
+                        LOGGER.log(Level.FINEST, "Set Sleep to: {0}", getSleep());
                     } else if (line.startsWith("//")) {
                         // Ignore commented lines
                         LOGGER.log(Level.FINEST, line);
