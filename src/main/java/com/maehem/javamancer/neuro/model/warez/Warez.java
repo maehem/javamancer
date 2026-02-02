@@ -160,7 +160,7 @@ public abstract class Warez {
     }
 
     public String getSimpleName() {
-        return item.itemName + " " + version + ".0";
+        return item.itemName + " " + version;
     }
 
     /**
