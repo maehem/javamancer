@@ -169,7 +169,11 @@ public class DeckPopup extends PopupPane {
         } else {
             deck.setCurrentWarez(w);
             if (deck.cyberspaceCapable) {
-                connectMenu();
+                if (w instanceof CyberspaceWarez) {
+                    enterCyberspace();
+                } else {
+                    connectMenu();
+                }
             } else {
                 enterLinkCode();
             }
@@ -234,7 +238,7 @@ public class DeckPopup extends PopupPane {
         handoffToCyberspace = true;
         listener.popupExit(RoomMode.Popup.CYBERSPACE);
     }
-    
+
     private void displayResponse(String response) {
         LOGGER.log(Level.FINE, "Show Deck use() response");
         configSmallWindow();
