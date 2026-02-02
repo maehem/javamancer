@@ -34,6 +34,7 @@ import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
+import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 import com.maehem.javamancer.neuro.model.skill.PsychoanalysisSkill;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
@@ -311,12 +312,16 @@ public class BattleGridPane extends GridPane implements PopupListener {
                     // activeSkill is set by player ControlPanel UI interaction.
                     Skill skill = gameState.activeSkill;
                     if (skill != null) {
+                        LOGGER.log(Level.FINER, "Skill is: " + skill.getVersionedName());
                         // Apply use of certain skills.
                         if (skill instanceof PhenomenologySkill
+                                || skill instanceof PhilosophySkill
                                 || skill instanceof SophistrySkill
                                 || skill instanceof PsychoanalysisSkill
                                 || skill instanceof LogicSkill) {
                             fireShotPlayer(skill);
+                        } else {
+                            LOGGER.log(Level.FINE, "Skill: {0} is not a AI battle skill.", skill.catalog.name());
                         }
                         gameState.activeSkill = null; // Consume skill
                     }
@@ -761,6 +766,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
         LOGGER.log(Level.INFO, "ICE Mode changed to: {0}", mode.name());
         this.mode = mode;
         database.show(mode == IceMode.AI ? -1 : 1);
+        gameState.usingDeck.setCurrentWarez(null);
 
         iceFrontPane.setVisible(mode == IceMode.BASIC);
         iceRearPane.setVisible(mode == IceMode.BASIC);
