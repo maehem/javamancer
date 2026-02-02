@@ -119,9 +119,9 @@ public class RoomPane extends Pane {
         // Define in Room extras.
         File[] animEntries = resourceManager.getAnimationEntries(room);
         Arrays.sort(animEntries);
-        LOGGER.log(Level.CONFIG, () -> "Found  " + animEntries.length + " animation entry folders.");
+        LOGGER.log(Level.FINE, () -> "Found  " + animEntries.length + " animation entry folders.");
         for (File entryFolder : animEntries) {
-            LOGGER.log(Level.CONFIG, () -> "  " + entryFolder.getName());
+            LOGGER.log(Level.FINER, () -> "  " + entryFolder.getName());
 
             AnimationEntry entry = new AnimationEntry(entryFolder);
             animations.add(entry);
@@ -139,10 +139,10 @@ public class RoomPane extends Pane {
             int[][] animationFlags = extras.getAnimationFlags();
             for (int i = 0; i < animationFlags.length; i++) {
                 if (animationFlags[i][0] == 1 ) {
-                    LOGGER.log(Level.CONFIG, "    Animation {0} has been started.", i);
+                    LOGGER.log(Level.FINER, "    Animation {0} has been started.", i);
                     animations.get(i).start();
                 } else {
-                    LOGGER.log(Level.CONFIG, "    Animation {0} is flagged as dormant.", i);                    
+                    LOGGER.log(Level.FINER, "    Animation {0} is flagged as dormant.", i);                    
                 }
             }
         }
@@ -225,7 +225,7 @@ public class RoomPane extends Pane {
                     animations.get(i).start();
                     animations.get(i).setVisible(true);
                 } else if (animationFlags[i][0] == 0 && animations.get(i).isRunning()) {
-                    LOGGER.log(Level.FINE, "Running animation {0} has been stopped and made invisble.", i);
+                    LOGGER.log(Level.FINER, "Running animation {0} has been stopped and made invisble.", i);
                     animations.get(i).stop();
                     animations.get(i).setVisible(false);
                 }
