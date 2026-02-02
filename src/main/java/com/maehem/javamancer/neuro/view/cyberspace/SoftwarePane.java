@@ -50,6 +50,10 @@ public class SoftwarePane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
 
+    public enum Mode {
+        RUN, ERASE, REPAIR
+    }
+
     private static final int SOFT_LIST_WIDTH = 360;
     private static final int SOFT_LIST_HEIGHT = 130;
     private static final int SOFT_LIST_X = 114;
@@ -59,11 +63,13 @@ public class SoftwarePane extends Pane {
     private int slotBase = 0;
     private final GameState gameState;
 
+    private final Mode mode;
     private Warez usedWarez = null;
     private String usedResponse = "";
 
-    public SoftwarePane(GameState gs) {
+    public SoftwarePane(GameState gs, Mode mode) {
         this.gameState = gs;
+        this.mode = mode;
 
         setPrefSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
         setMinSize(SOFT_LIST_WIDTH, SOFT_LIST_HEIGHT);
@@ -84,7 +90,19 @@ public class SoftwarePane extends Pane {
 
         setVisible(true);
         getChildren().clear();
-        Text softwareHeading = new Text("Software");
+        String modeString;
+        switch (mode) {
+            default -> {
+                modeString = "";
+            }
+            case ERASE -> {
+                modeString = "Erase ";
+            }
+            case REPAIR -> {
+                modeString = "Repair ";
+            }
+        }
+        Text softwareHeading = new Text(modeString + "Software");
         Text exitButton = new Text("exit");
         Text prevButton = new Text("prev");
         Text nextButton = new Text("next");
@@ -104,7 +122,27 @@ public class SoftwarePane extends Pane {
                 // Add onMouseClick()
                 itemText.setOnMouseClicked((t) -> {
                     t.consume();
-                    useSoftware(w);
+                    switch (mode) {
+                        case RUN -> {
+                            useSoftware(w);
+                        }
+                        case ERASE -> {
+                            if (gameState.software.remove(w)) {
+                                LOGGER.log(Level.FINE, "Erased software {0} from deck.", w.getSimpleName());
+                                slotBase = 0;
+                                softwarePrompt();
+                            } else {
+                                LOGGER.log(Level.SEVERE, "Something went wrong while erasing software {0} from deck.", w.getSimpleName());
+                            }
+                        }
+                        case REPAIR -> {
+                            LOGGER.log(Level.SEVERE, "Software repair not omplemented yet.");
+
+                            //repairSoftware();
+                        }
+                        default ->
+                            throw new AssertionError();
+                    }
                 });
             } catch (IndexOutOfBoundsException ex) {
                 tf.getChildren().add(new Text("\n"));
@@ -190,7 +228,6 @@ public class SoftwarePane extends Pane {
 //            softwarePrompt();
 //        });
 //    }
-
     private void displayUsingSoftware() {
         LOGGER.log(Level.INFO, "Show Warez use() in progress");
 

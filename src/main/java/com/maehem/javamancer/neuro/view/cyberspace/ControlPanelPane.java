@@ -90,6 +90,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
     private final DamageGauge opponentDamage = new DamageGauge(DamageGauge.Orientation.HORIZ);
 
     private final SoftwarePane softwarePane;
+    private final SoftwarePane erasePane;
     private final YesNoPane yesNoPane;
     private final SkillsPopup skillsPopup;
     private final DiskPopup diskPopup;
@@ -101,8 +102,10 @@ public class ControlPanelPane extends Pane implements PopupListener {
         this.listener = l;
         this.visualPane = visualPane;
 
-        softwarePane = new SoftwarePane(gs);
+        softwarePane = new SoftwarePane(gs, SoftwarePane.Mode.RUN);
         softwarePane.setVisible(false);
+        erasePane = new SoftwarePane(gs, SoftwarePane.Mode.ERASE);
+        erasePane.setVisible(false);
         yesNoPane = new YesNoPane(gs);
         yesNoPane.setVisible(false);
         skillsPopup = new SkillsPopup(this, gs);
@@ -132,7 +135,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                 invRect, skillRect, romRect, gameRect,
                 playerDamage, opponentDamage,
                 eraseRect, exitRect,
-                softwarePane, yesNoPane,
+                softwarePane, erasePane, yesNoPane,
                 skillsPopup, diskPopup, romPopup
         );
         tick();
@@ -175,6 +178,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
         });
         eraseRect.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Cyberspace: Erase Button Clicked...");
+            erasePane.setVisible(true);
             t.consume();
         });
         exitRect.setOnMouseClicked((t) -> {
@@ -187,6 +191,8 @@ public class ControlPanelPane extends Pane implements PopupListener {
     public boolean handleKeyEvent(KeyEvent ke) {
         if (softwarePane.isVisible()) {
             softwarePane.handleKeyEvent(ke);
+        } else if (erasePane.isVisible()) {
+            erasePane.handleKeyEvent(ke);
         } else if (yesNoPane.isVisible()) {
             if (!yesNoPane.handleKeyEvent(ke) && gameState.databaseBattle) {
                 // User pressed Y
@@ -222,6 +228,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                     // Close other popups.
                     softwarePane.softwarePrompt();
                     skillsPopup.setVisible(false);
+                    erasePane.setVisible(false);
                     diskPopup.setVisible(false);
                     romPopup.setVisible(false);
                 }
@@ -231,6 +238,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                     // Close other popups.
                     skillsPopup.setVisible(false);
                     softwarePane.setVisible(false);
+                    erasePane.setVisible(false);
                     diskPopup.setVisible(false);
                     romPopup.setVisible(true);
                 }
@@ -240,6 +248,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                     // Close other popups.
                     skillsPopup.setVisible(true);
                     softwarePane.setVisible(false);
+                    erasePane.setVisible(false);
                     diskPopup.setVisible(false);
                     romPopup.setVisible(false);
                 }
@@ -249,12 +258,19 @@ public class ControlPanelPane extends Pane implements PopupListener {
                     // Close other popups.
                     skillsPopup.setVisible(false);
                     softwarePane.setVisible(false);
+                    erasePane.setVisible(false);
                     diskPopup.setVisible(true);
                     romPopup.setVisible(false);
                 }
                 case E -> { // Erase
+                    LOGGER.log(Level.INFO, "Cyberspace: Erase Key Pressed...");
                     ke.consume();
-                    LOGGER.log(Level.INFO, "Cyberspace: Erase Key Pressed... (TODO)");
+                    // Close other popups.
+                    skillsPopup.setVisible(false);
+                    softwarePane.setVisible(false);
+                    erasePane.setVisible(true);
+                    diskPopup.setVisible(false);
+                    romPopup.setVisible(false);
                 }
             }
 
