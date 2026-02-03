@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.database;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
+import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -75,6 +76,7 @@ public class BankZurichDatabaseView extends DatabaseView {
     private final Text chipBalanceText = new Text("         ");
     private final Text zurichBalanceText = new Text(String.valueOf(gameState.bankZurichBalance));
     private boolean transferMode = false; // download == true, upload == false;
+    private final Text transferMessageText = new Text("");
 
     public BankZurichDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
@@ -194,15 +196,16 @@ public class BankZurichDatabaseView extends DatabaseView {
 
     private void accountSummary(TextFlow tf) {
         String[] split = dbTextResource.get(12).split("\r");
-        Text nameText = new Text(split[0].replace("\1", gameState.name) + "\n");
+        Text nameText = new Text("     " + split[0].replace("\1", gameState.name) + "\n");
         int acctIndex = split[1].indexOf("acc");
-        Text chipLabel = new Text(split[1].substring(0, acctIndex).trim());
-        Text acctLabel = new Text(" " + split[1].substring(acctIndex));
+        Text chipLabel = new Text("     " + split[1].substring(0, acctIndex).trim());
+        Text acctLabel = new Text("  " + split[1].substring(acctIndex));
 //        String amountsStr = split[1].replace(
 //                "         ",
 //                String.format("%9d", gameState.moneyChipBalance)
 //        ) + gameState.bankZurichBalance;
-        tf.getChildren().addAll(nameText,
+        tf.getChildren().addAll(
+                nameText,
                 chipLabel, chipBalanceText,
                 acctLabel, zurichBalanceText,
                 new Text("\n\n")
@@ -214,6 +217,7 @@ public class BankZurichDatabaseView extends DatabaseView {
         mode = Mode.ACCOUNT;
 
         TextFlow tf = pageTextFlow(headingText);
+        tf.setLineSpacing(-4);
 
         String[] split = dbTextResource.get(12).split("\r");
 //        String amountsStr = split[1].replace(
@@ -226,9 +230,9 @@ public class BankZurichDatabaseView extends DatabaseView {
 //                + split[2] + "\n"
 //        );
 
-        Text exitText = new Text(split[3] + "\n");
-        Text downloadText = new Text(split[4] + "\n");
-        Text uploadText = new Text(split[5] + "\n");
+        Text exitText = new Text("   " + split[3] + "\n");
+        Text downloadText = new Text("   " + split[4] + "\n");
+        Text uploadText = new Text("   " + split[5] + "\n");
 
         accountSummary(tf);
         tf.getChildren().addAll(
@@ -261,12 +265,14 @@ public class BankZurichDatabaseView extends DatabaseView {
         typedNumberAmount.setText("");
 
         TextFlow tf = pageTextFlow(headingText);
+        tf.setLineSpacing(-4);
+
 
         Text instructionsText;
         if (txfrMode) {
-            instructionsText = new Text(dbTextResource.get(13));
+            instructionsText = new Text("      " + dbTextResource.get(13));
         } else {
-            instructionsText = new Text(dbTextResource.get(14));
+            instructionsText = new Text("      " + dbTextResource.get(14));
         }
         Text spacingText = new Text("\n             ");
 
@@ -274,7 +280,8 @@ public class BankZurichDatabaseView extends DatabaseView {
         accountSummary(tf);
         tf.getChildren().addAll(
                 instructionsText,
-                spacingText, typedNumberAmount, cursorText, new Text("\n")
+                spacingText, typedNumberAmount, cursorText, new Text("\n\n"),
+                transferMessageText
         );
 
         pane.getChildren().add(tf);
@@ -366,26 +373,38 @@ public class BankZurichDatabaseView extends DatabaseView {
                 keyEvent.consume();
                 if (code == KeyCode.X || code == KeyCode.ESCAPE) {
                     accountOperations();
-                } else if (code == KeyCode.ENTER) {
+                } else if (code == KeyCode.ENTER && !typedNumberAmount.getText().isEmpty()) {
                     int amount = Integer.parseInt(typedNumberAmount.getText());
                     if (transferMode) { // true == download to chip
                         if (amount <= gameState.bankZurichBalance) {
+                            LOGGER.log(Level.FINE, "Do download from chip.");
                             gameState.bankZurichBalance -= amount;
                             gameState.moneyChipBalance += amount;
+                            transferMessageText.setText("downloaded credits");
 
                             accountOperations();
                         } else {
-                            // play "bad" sound
+                            LOGGER.log(Level.FINE, "Unable to perform action.");
+                             transferMessageText.setText("insufficient funds");
+                           // play "bad" sound
+                            // Update message.
                         }
                     } else { // upload to Zurich
                         if (amount <= gameState.moneyChipBalance) {
+                            LOGGER.log(Level.FINE, "Do upload from chip.");
                             gameState.bankZurichBalance += amount;
                             gameState.moneyChipBalance -= amount;
+                            transferMessageText.setText("uploaded credits");
 
                             accountOperations();
+                        } else {
+                            LOGGER.log(Level.FINE, "Unable to perform action.");
+                             transferMessageText.setText("insufficient funds");
+                           // play "bad" sound
+                            // Update message.
                         }
                     }
-                } else if (code == KeyCode.BACK_SPACE) {
+                } else if (code == KeyCode.BACK_SPACE && !typedNumberAmount.getText().isEmpty()) {
                     String typedAmount = typedNumberAmount.getText();
                     typedNumberAmount.setText(typedAmount.substring(0, typedAmount.length() - 1));
                 } else if (code.isDigitKey()) {
