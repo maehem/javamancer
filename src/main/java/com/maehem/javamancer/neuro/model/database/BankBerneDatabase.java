@@ -42,7 +42,6 @@ import com.maehem.javamancer.neuro.view.ResourceManager;
  * Warez: Slow 3.0, Probe 10.0, Armorall 1.0
  * Matrix: 336, 160
  * AI: Gold
- * Weakness: philosophy
  * ICE: 400
  * Content: transfer 500,000 credits to your Bozobank account number: 121519831200
  * </pre>
