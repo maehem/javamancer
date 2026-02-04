@@ -113,7 +113,7 @@ public class BankBerneDatabaseView extends DatabaseView {
     private final String TX_UNABLE_STR = dbTextResource.get(24);
 
     private final Text txResultMessage = new Text("Transmit Result Message");
-    private final Text bankBalanceText = new Text(String.valueOf(gameState.bankGemeinBalance));
+    private final Text bankBalanceText = new Text(String.valueOf(gameState.bankBerneBalance));
 
     public BankBerneDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
@@ -427,7 +427,7 @@ public class BankBerneDatabaseView extends DatabaseView {
                 } else if (code == KeyCode.ENTER) {
                     // Evaluate
                     int amount = Integer.parseInt(typedAmount.getText());
-                    if (amount <= gameState.bankGemeinBalance) {
+                    if (amount <= gameState.bankBerneBalance) {
                         DEST_ACCT_LABEL_TXT.setVisible(true);
                         CURSOR_TXT_3.setText(CURSOR);
                         this.transferAmount = amount;
@@ -506,7 +506,7 @@ public class BankBerneDatabaseView extends DatabaseView {
                 //txResultMessage.setText(txCompleteStr);
                 gameState.bankBerneBalance -= transferAmount;
                 gameState.bankZurichBalance += transferAmount;
-                bankBalanceText.setText(String.valueOf(gameState.bankGemeinBalance));
+                bankBalanceText.setText(String.valueOf(gameState.bankBerneBalance));
                 CONTINUE_TEXT.setVisible(true);
                 TX_COMPLETE_TXT.setVisible(true);
                 //txResultMessage.setText("transfer complete.");
