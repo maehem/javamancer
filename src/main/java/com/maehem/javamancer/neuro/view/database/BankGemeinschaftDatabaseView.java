@@ -81,7 +81,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
     private int transferAmount;
 
     private enum Mode {
-        SUB, MENU, EDIT, TRANSFER1, TRANSFER2
+        SUB, MENU, TRANSFER1, TRANSFER2
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
 
@@ -287,15 +287,6 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                 } else if (code.isDigitKey()) {
                     keyEvent.consume();
                     itemPage(code.getChar());
-                    return false;
-                }
-            }
-            case EDIT -> {
-                if (code.equals(KeyCode.X)
-                        || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.FINE, "Go back up menu level.");
-                    mainMenu();
-                    keyEvent.consume();
                     return false;
                 }
             }
