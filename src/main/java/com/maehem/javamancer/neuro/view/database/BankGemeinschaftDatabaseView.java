@@ -28,6 +28,9 @@ package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.PopupListener;
+import com.maehem.javamancer.neuro.view.SoundEffectsManager;
+import static com.maehem.javamancer.neuro.view.SoundEffectsManager.Sound.DENIED;
+import static com.maehem.javamancer.neuro.view.SoundEffectsManager.Sound.TRANSMIT;
 import java.util.logging.Level;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
@@ -90,31 +93,30 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
     }
     private TransferMode txMode = TransferMode.LINK;
 
-    private final Text cursorText1 = new Text(CURSOR);
-    private final Text cursorText2 = new Text(CURSOR);
-    private final Text cursorText3 = new Text(CURSOR);
+    private final Text CURSOR_TEXT_1 = new Text(CURSOR);
+    private final Text CURSOR_TEXT_2 = new Text(CURSOR);
+    private final Text CURSOR_TEXT_3 = new Text(CURSOR);
     private final Text typedSourceAccountNumber = new Text();
-    private final Text typedAuthCode = new Text();
     private final Text typedAmount = new Text();
     private final Text typedDestLink = new Text();
     private final Text typedDestAccount = new Text();
 
-    private final String SRC_ACCT_LABEL = dbTextResource.get(17);
-    private final String FUNC_LABEL = SRC_ACCT_LABEL.split("\r")[0];
-    private final Text srcAcctLabel = new Text("\n" + SRC_ACCT_LABEL);
-    private final Text authCodeLabel = new Text("\n" + dbTextResource.get(18));
-    private final Text creditsLabel = new Text("\n" + dbTextResource.get(19) + " ");
-    private final Text amountLabel = new Text("\n" + dbTextResource.get(20));
-    private final Text destCodeLabel = new Text("\n" + dbTextResource.get(21));
-    private final Text destAcctLabel = new Text("\n" + dbTextResource.get(22));
-    private final Text txMessage = new Text(dbTextResource.get(23));
-    private final String txCompleteStr = dbTextResource.get(24) + "\n";
-    private final String incorrectAuthStr = dbTextResource.get(25);
-    private final String unknownBankStr = dbTextResource.get(26);
-    private final String unknownAcctStr = dbTextResource.get(27);
-    private final String txUnableStr = dbTextResource.get(29);
+    private final String SRC_ACCT_LABEL_STR = dbTextResource.get(17);
+    private final String FUNC_LABEL = SRC_ACCT_LABEL_STR.split("\r")[0].trim();
+    private final Text SRC_ACCT_LABEL_TXT = new Text(SRC_ACCT_LABEL_STR);
+    private final Text AUTH_CODE_LABEL_TXT = new Text(dbTextResource.get(18)); // AUTH NOT USED On THIS DB
+    private final Text CREDITS_LABEL_TXT = new Text(dbTextResource.get(19) + " ");
+    private final Text AMOUNT_LABEL_TXT = new Text(dbTextResource.get(20));
+    private final Text DEST_CODE_LABEL_TXT = new Text(dbTextResource.get(21));
+    private final Text DEST_ACCT_LABEL_TXT = new Text(dbTextResource.get(22));
+    private final Text TX_MESSAGE_TXT = new Text(dbTextResource.get(23));
+    private final String TX_COMPLETE_TXT = dbTextResource.get(24) + "\n";
+    private final String AUTH_INCORRECT_TXT = dbTextResource.get(25); // NOT USED ON THIS DB
+    private final String UNKNOW_BANK_TXT = dbTextResource.get(26);
+    private final String UNKNOWN_ACCT_TXT = dbTextResource.get(27);
+    private final String TX_UNABLE_TXT = dbTextResource.get(29);
 
-    private final Text txResultMessage = new Text("Transmit Result Message");
+    private final Text txResultMessage = new Text("                      ");
     private final Text bankBalanceText = new Text(String.valueOf(gameState.bankGemeinBalance));
 
     public BankGemeinschaftDatabaseView(GameState gs, Pane p, PopupListener l) {
@@ -201,8 +203,10 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
         pane.getChildren().clear();
 
         TextFlow contentTf = simpleTextFlow(
-                new Text(SRC_ACCT_LABEL + "\n\n             "),
-                typedSourceAccountNumber, cursorText1,
+                new Text("\n"),
+                SRC_ACCT_LABEL_TXT,
+                new Text("\n\n             "),
+                typedSourceAccountNumber, CURSOR_TEXT_1,
                 new Text("\n"),
                 txResultMessage
         );
@@ -211,6 +215,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
 
         pane.getChildren().add(pageTf);
         pane.setOnMouseClicked(null);
+        pane.layout();
 
         Platform.runLater(() -> {
             typedSourceAccountNumber.setText("");
@@ -227,19 +232,22 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
 
         CONTINUE_TEXT.setVisible(true); // DEBUG
 
-        TextFlow contentTf = simpleTextFlow(
-                new Text( centeredText(FUNC_LABEL)),
-                creditsLabel, bankBalanceText,
+        TextFlow contentTf = simpleTextFlow(new Text(centeredText(FUNC_LABEL)),
                 new Text("\n"),
-                destCodeLabel, new Text("\n"),
-                typedDestLink, cursorText1, // BOZOBANK
-                amountLabel, new Text("\n"), // Amount to transfer
-                typedAmount, cursorText2,
-                destAcctLabel, new Text("\n"),
-                typedDestAccount, cursorText3,
+                CREDITS_LABEL_TXT, bankBalanceText,
                 new Text("\n\n"),
-                txMessage, txResultMessage,
-                CONTINUE_TEXT
+                DEST_CODE_LABEL_TXT, new Text("\n"),
+                typedDestLink, CURSOR_TEXT_1, // BOZOBANK
+                new Text("\n"),
+                AMOUNT_LABEL_TXT, new Text("\n"), // Amount to transfer
+                typedAmount, CURSOR_TEXT_2,
+                new Text("\n"),
+                DEST_ACCT_LABEL_TXT, new Text("\n"),
+                typedDestAccount, CURSOR_TEXT_3,
+                new Text("\n\n"),
+                TX_MESSAGE_TXT, txResultMessage,
+                CONTINUE_TEXT,
+                new Text("                          \n")
         );
 
         TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
@@ -254,16 +262,16 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
             typedDestLink.setText("");
 
             // Invisible until link OK.
-            amountLabel.setVisible(false);
-            typedAmount.setText("");
-            cursorText2.setText(" ");
+            AMOUNT_LABEL_TXT.setVisible(false);
+            typedAmount.setVisible(false);
+            CURSOR_TEXT_2.setVisible(false);
 
             // Invisible until amoutn OK.
-            destAcctLabel.setVisible(false);
-            typedDestAccount.setText("");
-            cursorText3.setText(" ");
+            DEST_ACCT_LABEL_TXT.setVisible(false);
+            typedDestAccount.setVisible(false);
+            CURSOR_TEXT_3.setVisible(false);
 
-            txMessage.setVisible(false);
+            TX_MESSAGE_TXT.setVisible(false);
             // Invisible until tranmit finished.
             CONTINUE_TEXT.setVisible(false);
             pane.requestLayout();
@@ -312,12 +320,12 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                         transfer2();
                     } else {
                         LOGGER.log(Level.WARNING, "Wrong source acct number");
-                        txResultMessage.setText(unknownAcctStr);
+                        txResultMessage.setText(UNKNOWN_ACCT_TXT);
                         pane.requestLayout();
-                        pane.setOnMouseClicked((t) -> {
-                            transfer1();
-                        });
+                        DENIED.audioClip.play();
                     }
+                } else {
+                    DENIED.audioClip.play();
                 }
             }
             case TRANSFER2 -> {
@@ -357,12 +365,15 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                         // TODO: The game goal is BOZOBANK but should we allow tranfers
                         // to BANKBERNE ?
                         LOGGER.log(Level.FINE, "Link Code BOZOBANK accepted.");
-                        amountLabel.setVisible(true);
-                        cursorText2.setText(CURSOR);
+                        CURSOR_TEXT_1.setVisible(false);
+                        AMOUNT_LABEL_TXT.setVisible(true);
+                        typedAmount.setVisible(true);
+                        CURSOR_TEXT_2.setVisible(true);
                         txMode = TransferMode.AMOUNT;
                     } else { // invaalid link code
                         LOGGER.log(Level.WARNING, "Unknown bank link code.");
-                        txResultMessage.setText(unknownBankStr);
+                        txResultMessage.setText(UNKNOW_BANK_TXT);
+                        DENIED.audioClip.play();
                     }
                 } else if (code == KeyCode.BACK_SPACE) {
                     if (!txResultMessage.getText().isEmpty()) {
@@ -373,6 +384,8 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                     if (!typed.isEmpty()) {
                         typedDestLink.setText(typed.substring(0, typed.length() - 1));
                     }
+                } else {
+                    DENIED.audioClip.play();
                 }
             }
             case AMOUNT -> {
@@ -390,13 +403,17 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                     // Evaluate
                     int amount = Integer.parseInt(typedAmount.getText());
                     if (amount <= gameState.bankGemeinBalance) {
-                        destAcctLabel.setVisible(true);
-                        cursorText3.setText(CURSOR);
+                        LOGGER.log(Level.FINE, "Amount to transfer accepted.");
+                        CURSOR_TEXT_2.setVisible(false);
+                        DEST_ACCT_LABEL_TXT.setVisible(true);
+                        typedDestAccount.setVisible(true);
+                        CURSOR_TEXT_3.setVisible(true);
                         this.transferAmount = amount;
                         txMode = TransferMode.DEST_ACCT;
                     } else { // invaalid link code
-                        LOGGER.log(Level.WARNING, "Wrong amount.");
-                        txResultMessage.setText(txUnableStr);
+                        LOGGER.log(Level.WARNING, "Insufficient funds.");
+                        txResultMessage.setText(TX_UNABLE_TXT);
+                        DENIED.audioClip.play();
                     }
                 } else if (code == KeyCode.BACK_SPACE) {
                     if (!txResultMessage.getText().isEmpty()) {
@@ -407,6 +424,8 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                     if (!typed.isEmpty()) {
                         typedAmount.setText(typed.substring(0, typed.length() - 1));
                     }
+                } else {
+                    DENIED.audioClip.play();
                 }
             }
             case DEST_ACCT -> {
@@ -423,12 +442,15 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                 } else if (code == KeyCode.ENTER) {
                     // Evaluate
                     if (typedDestAccount.getText().equals(GameState.BANK_ZURICH_ID)) {
+                        LOGGER.log(Level.FINE, "Dest. Account Accepted.");
                         txMode = TransferMode.TRANSFERING;
-                        txMessage.setVisible(true);
+                        CURSOR_TEXT_3.setVisible(false);
+                        TX_MESSAGE_TXT.setVisible(true);
                         transferTicks = TX_TICKS;
                     } else { // invaalid link code
                         LOGGER.log(Level.WARNING, "Wrong account.");
-                        txResultMessage.setText(unknownAcctStr);
+                        txResultMessage.setText(UNKNOWN_ACCT_TXT);
+                        DENIED.audioClip.play();
                     }
                 } else if (code == KeyCode.BACK_SPACE) {
                     if (!txResultMessage.getText().isEmpty()) {
@@ -439,6 +461,8 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                     if (!typed.isEmpty()) {
                         typedDestAccount.setText(typed.substring(0, typed.length() - 1));
                     }
+                } else {
+                    DENIED.audioClip.play();
                 }
             }
             case TRANSFERING -> {
@@ -462,13 +486,14 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                 transferTicks--;
             } else {
                 // CHeck if error.
-                txResultMessage.setText(txCompleteStr);
+                txResultMessage.setText(TX_COMPLETE_TXT);
                 gameState.bankGemeinBalance -= transferAmount;
                 gameState.bankZurichBalance += transferAmount;
                 bankBalanceText.setText(String.valueOf(gameState.bankGemeinBalance));
                 CONTINUE_TEXT.setVisible(true);
                 txMode = TransferMode.RESULT;
                 LOGGER.log(Level.INFO, "Bank Transfer completed.");
+                TRANSMIT.audioClip.play();
             }
         }
     }
