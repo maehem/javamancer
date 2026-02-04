@@ -102,9 +102,12 @@ public class GameState {
     public final ArrayList<BankTransaction> bankTransactionRecord = new ArrayList<>();
     public int bankZurichBalance = 0;  // Create account by accessing Zurich via sequencer in cyberspace.
     public int bankGemeinBalance = 30000;  // Create account by accessing Zurich via sequencer in cyberspace.
+    public int bankBerneBalance = 500000;  // Get account info by reading Yakuza and other BBS messages..
     public String bankZurichCreated = null; // Date string when account created.
     public final static String BANK_ZURICH_ID = "712345450134";
     public final static String BANK_GEMEIN_ID = "646328356481";
+    public final static String BANK_BERNE_AUTH_CODE = "LYMA1211MARZ";
+    public final static String BANK_BERNE_ID = "121519831200";
 
     // Lists
     public final ArrayList<Skill> skills = new ArrayList<>();
