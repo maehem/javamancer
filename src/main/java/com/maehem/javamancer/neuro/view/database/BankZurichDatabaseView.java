@@ -343,6 +343,7 @@ public class BankZurichDatabaseView extends DatabaseView {
                         pane.requestLayout();
                     } else {
                         // Play "bad" sound.
+                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
                     }
                 } else if (code == KeyCode.BACK_SPACE) {
                     String typedAmount = typedNumberAmount.getText();
@@ -385,9 +386,9 @@ public class BankZurichDatabaseView extends DatabaseView {
                             accountOperations();
                         } else {
                             LOGGER.log(Level.FINE, "Unable to perform action.");
-                             transferMessageText.setText("insufficient funds");
-                           // play "bad" sound
-                            // Update message.
+                            transferMessageText.setText("insufficient funds");
+                            // play "bad" sound
+                            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
                         }
                     } else { // upload to Zurich
                         if (amount <= gameState.moneyChipBalance) {
@@ -400,8 +401,8 @@ public class BankZurichDatabaseView extends DatabaseView {
                         } else {
                             LOGGER.log(Level.FINE, "Unable to perform action.");
                              transferMessageText.setText("insufficient funds");
-                           // play "bad" sound
-                            // Update message.
+                             // play "bad" sound
+                             gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
                         }
                     }
                 } else if (code == KeyCode.BACK_SPACE && !typedNumberAmount.getText().isEmpty()) {
