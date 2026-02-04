@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.database;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
+import com.maehem.javamancer.neuro.view.SoundEffectsManager;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -451,11 +452,14 @@ public class CheapHotelDatabaseView extends DatabaseView {
             LOGGER.log(Level.FINE, "Not enough credits to pay hotel bill!");
             // unable to pay
             // Play "bad" sound.
+            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
         } else {
             LOGGER.log(Level.FINE, "Hotel bill paid.");
             gameState.moneyChipBalance -= hotelBalance;
             gameState.hotelOnAccount += hotelBalance;
             // Play "good" sound.
+            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
+
         }
 
     }

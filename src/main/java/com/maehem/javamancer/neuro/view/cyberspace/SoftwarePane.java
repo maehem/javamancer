@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.warez.Warez;
+import com.maehem.javamancer.neuro.view.SoundEffectsManager;
 import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -184,8 +185,7 @@ public class SoftwarePane extends Pane {
         usedWarez = w;
         if (!usedResponse.equals(Warez.USE_OK)) {
             LOGGER.log(Level.INFO, "Use Software Not OK: {0}", usedResponse);
-            //displayResponse(usedResponse);
-            // TODO: Play 'bad' sound.
+            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
             setVisible(false);
         } else {
             gameState.usingDeck.setCurrentWarez(w);
