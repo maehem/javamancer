@@ -37,6 +37,8 @@ import com.maehem.javamancer.neuro.model.warez.SequencerWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.SoundEffectsManager;
+import static com.maehem.javamancer.neuro.view.SoundEffectsManager.Sound.DENIED;
+import static com.maehem.javamancer.neuro.view.SoundEffectsManager.Sound.TRANSMIT;
 import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -929,11 +931,12 @@ public abstract class DatabaseView {
 // However maybe some sites should limit how many you can have?
 //        if (!gameState.hasInstalledSoftware(w)) {
         // TODO: Deck software compatibility check
-        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
-        gameState.addSoftware(w);
-//        } else {
-//            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
-//        }
+        if ( gameState.addSoftware(w) ) {
+            TRANSMIT.audioClip.play();
+        } else {
+            DENIED.audioClip.play();
+        }
+        
     }
 
     protected void composeMessage() {
