@@ -506,7 +506,7 @@ public class GameStateUtils {
         String key = DECK_WAREZ.key;
         int i = 0;
         for (Warez w : gs.software) {
-            LOGGER.log(Level.INFO, "Put " + key + ": {0}", w.item.name());
+            LOGGER.log(Level.FINER, "    Put: {0}", w.getSimpleName());
             w.putProps(key + "." + i, p);
             i++;
         }
@@ -518,10 +518,10 @@ public class GameStateUtils {
         String val;
         String key = DECK_WAREZ.key;
         while ((val = p.getProperty(key + "." + i)) != null) {
-            LOGGER.log(Level.FINER, "Restore {0}: {1}", new Object[]{key, val});
+            LOGGER.log(Level.FINER, "    Restore {0}: {1}", new Object[]{key, val});
             Catalog lookup = Item.lookup(val);
 
-            LOGGER.log(Level.FINEST, "Create {0} Item", val);
+            LOGGER.log(Level.FINEST, "    Create {0} Item", val);
             Warez w = Warez.getInstance(lookup, 1);
             w.pullProps(key + "." + i, p);
 
@@ -535,7 +535,7 @@ public class GameStateUtils {
         LOGGER.log(Level.FINE, "Put Person List {0}...", prefix);
         int i = 0;
         for (Person person : list) {
-            LOGGER.log(Level.FINER, "Put {0} person: {1}", new Object[]{prefix, person.getName()});
+            LOGGER.log(Level.FINER, "    Put {0} person: {1}", new Object[]{prefix, person.getName()});
             person.putProps(prefix + "." + i, p);
             i++;
         }
