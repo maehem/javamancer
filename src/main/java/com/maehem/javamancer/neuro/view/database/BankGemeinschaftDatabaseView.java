@@ -99,13 +99,16 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
     private final Text typedDestLink = new Text();
     private final Text typedDestAccount = new Text();
 
+    private final String SRC_ACCT_LABEL = dbTextResource.get(17);
+    private final String FUNC_LABEL = SRC_ACCT_LABEL.split("\r")[0];
+    private final Text srcAcctLabel = new Text("\n" + SRC_ACCT_LABEL);
     private final Text authCodeLabel = new Text("\n" + dbTextResource.get(18));
     private final Text creditsLabel = new Text("\n" + dbTextResource.get(19) + " ");
     private final Text amountLabel = new Text("\n" + dbTextResource.get(20));
     private final Text destCodeLabel = new Text("\n" + dbTextResource.get(21));
     private final Text destAcctLabel = new Text("\n" + dbTextResource.get(22));
     private final Text txMessage = new Text(dbTextResource.get(23));
-    private final String txCompleteStr = dbTextResource.get(24);
+    private final String txCompleteStr = dbTextResource.get(24) + "\n";
     private final String incorrectAuthStr = dbTextResource.get(25);
     private final String unknownBankStr = dbTextResource.get(26);
     private final String unknownAcctStr = dbTextResource.get(27);
@@ -186,7 +189,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
             }
             case "6" -> {  // Transfer
                 if (accessLevel > 1) {
-                    transfer2();
+                    transfer1();
                 }
             }
         }
@@ -198,12 +201,11 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
         pane.getChildren().clear();
 
         TextFlow contentTf = simpleTextFlow(
-                new Text(dbTextResource.get(17) + "\n"),
+                new Text(SRC_ACCT_LABEL + "\n\n             "),
                 typedSourceAccountNumber, cursorText1,
                 new Text("\n"),
                 txResultMessage
         );
-        //contentTf.setPadding(new Insets(0, 0, 0, 30));
 
         TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
 
@@ -225,13 +227,8 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
 
         CONTINUE_TEXT.setVisible(true); // DEBUG
 
-        Text subHeadingText = new Text("             "
-                + dbTextResource.get(17).split("\r")[0].trim()
-                + "\n"
-        );
-
         TextFlow contentTf = simpleTextFlow(
-                subHeadingText,
+                new Text( centeredText(FUNC_LABEL)),
                 creditsLabel, bankBalanceText,
                 new Text("\n"),
                 destCodeLabel, new Text("\n"),
@@ -249,6 +246,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
 
         pane.getChildren().add(pageTf);
         pane.setOnMouseClicked(null);
+        pane.layout();
 
         // Initial state of transfer page.
         Platform.runLater(() -> {
