@@ -29,11 +29,12 @@ package com.maehem.javamancer.neuro.view.database;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
-import javafx.geometry.Insets;
+import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
 /*
@@ -71,10 +72,48 @@ import javafx.scene.text.TextFlow;
  */
 public class BankBerneDatabaseView extends DatabaseView {
 
+    private int transferTicks = 0;
+    private final static int TX_TICKS = 60;
+    private int transferAmount;
+    private boolean srcAcctCorrect = false;
+
     private enum Mode {
-        SUB, MENU
+        SUB, MENU, TRANSFER1, TRANSFER2
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
+
+    private enum TransferMode {
+        LINK, AMOUNT, DEST_ACCT, TRANSFERING, RESULT
+    }
+    private TransferMode txMode = TransferMode.LINK;
+
+    private final Text CURSOR_TXT_1 = new Text(CURSOR);
+    private final Text CURSOR_TXT_2 = new Text(CURSOR);
+    private final Text CURSOR_TXT_3 = new Text(CURSOR);
+    private final Text typedSourceAccountNumber = new Text();
+    private final Text typedAuthCode = new Text();
+    private final Text typedAmount = new Text();
+    private final Text typedDestLink = new Text();
+    private final Text typedDestAccount = new Text();
+
+    private final String SRC_ACCT_LABEL_STR = dbTextResource.get(12);
+    private final String FUNC_LABEL = SRC_ACCT_LABEL_STR.split("\r")[0].trim();
+    private final Text SRC_ACCT_LABEL_TXT = new Text(SRC_ACCT_LABEL_STR);
+
+    private final Text AUTH_CODE_LBL_TXT = new Text("\n" + dbTextResource.get(13));
+    private final Text CREDITS_LBL_TXT = new Text("\n" + dbTextResource.get(14) + " ");
+    private final Text AMOUNT_LABEL_TXT = new Text("\n" + dbTextResource.get(15));
+    private final Text DEST_CODE_LABEL_TXT = new Text("\n" + dbTextResource.get(16));
+    private final Text DEST_ACCT_LABEL_TXT = new Text("\n" + dbTextResource.get(17));
+    private final Text TX_MESSAGE_TXT = new Text(dbTextResource.get(18));
+    private final Text TX_COMPLETE_TXT = new Text(dbTextResource.get(19));
+    private final String AUTH_INCORRECT_STR = dbTextResource.get(20);
+    private final String UNKNOWN_BANK_STR = dbTextResource.get(21);
+    private final String UNKNOWN_ACCT_STR = dbTextResource.get(22);
+    private final String TX_UNABLE_STR = dbTextResource.get(24);
+
+    private final Text txResultMessage = new Text("Transmit Result Message");
+    private final Text bankBalanceText = new Text(String.valueOf(gameState.bankGemeinBalance));
 
     public BankBerneDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
@@ -133,7 +172,7 @@ public class BankBerneDatabaseView extends DatabaseView {
                 messages();
             }
             case "4" -> {
-                transfer();
+                transfer1();
             }
             case "5" -> {
                 downloads();
@@ -144,30 +183,105 @@ public class BankBerneDatabaseView extends DatabaseView {
         }
     }
 
-    private void transfer() {
-        LOGGER.log(Level.FINE, "Bank Berne: transfer");
+    private void transfer1() {
+        LOGGER.log(Level.FINE, "Bank of Berne: funds transfer part 1");
+        mode = Mode.TRANSFER1;
         pane.getChildren().clear();
+        srcAcctCorrect = false;
 
-        Text subHeadingText = new Text("\n"
-                + dbTextResource.get(15) + "\n\nTODO\n\n"
+        TextFlow contentTf = simpleTextFlow(SRC_ACCT_LABEL_TXT,
+                new Text("\n"),
+                typedSourceAccountNumber, CURSOR_TXT_1,
+                new Text("\n\n"),
+                AUTH_CODE_LBL_TXT,
+                new Text("\n"),
+                typedAuthCode, CURSOR_TXT_2,
+                new Text("\n\n"),
+                txResultMessage,
+                new Text("\n")
         );
-
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
+        contentTf.setMinHeight(230);
+        contentTf.setTextAlignment(TextAlignment.LEFT);
 
         TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
 
         pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
+        pane.setOnMouseClicked(null);
+        pane.layout();
+
+        Platform.runLater(() -> {
+            typedSourceAccountNumber.setText("");
+            typedAuthCode.setText("");
+
+            contentTf.layout();
+            txResultMessage.setVisible(false);
+            AUTH_CODE_LBL_TXT.setVisible(false);
+            typedAuthCode.setVisible(false);
+            CURSOR_TXT_2.setVisible(false);
+        });
+    }
+
+    private void transfer2() {
+        LOGGER.log(Level.FINE, "Bank of Berne: funds transfer part 2");
+        mode = Mode.TRANSFER2;
+        txMode = TransferMode.LINK;
+
+        pane.getChildren().clear();
+
+        CONTINUE_TEXT.setVisible(true);
+
+        TextFlow contentTf = simpleTextFlow(new Text(centeredText(FUNC_LABEL)),
+                CREDITS_LBL_TXT, bankBalanceText,
+                new Text("\n"),
+                DEST_CODE_LABEL_TXT, new Text("\n"),
+                typedDestLink, CURSOR_TXT_1, // BOZOBANK
+                AMOUNT_LABEL_TXT, new Text("\n"), // Amount to transfer
+                typedAmount, CURSOR_TXT_2,
+                DEST_ACCT_LABEL_TXT, new Text("\n"),
+                typedDestAccount, CURSOR_TXT_3,
+                new Text("\n\n"),
+                TX_MESSAGE_TXT, TX_COMPLETE_TXT, txResultMessage,
+                new Text("\n"),
+                CONTINUE_TEXT,
+                new Text("\n")
+        );
+
+        contentTf.setLineSpacing(contentTf.getLineSpacing() + 0.2);
+        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
+        
+
+        pane.getChildren().add(pageTf);
+        pane.setOnMouseClicked(null);
+        pane.layout();
+
+        // Initial state of transfer page.
+        Platform.runLater(() -> {
+            txResultMessage.setText("");
+            typedDestLink.setText("");
+
+            // Invisible until link OK.
+            AMOUNT_LABEL_TXT.setVisible(false);
+            typedAmount.setText("");
+            CURSOR_TXT_2.setText(" ");
+
+            // Invisible until amount OK.
+            DEST_ACCT_LABEL_TXT.setVisible(false);
+            typedDestAccount.setText("");
+            CURSOR_TXT_3.setText(" ");
+
+            TX_MESSAGE_TXT.setVisible(false);
+            TX_COMPLETE_TXT.setVisible(false);
+
+            // Invisible until tranmit finished.
+            CONTINUE_TEXT.setVisible(false);
+            pane.layout();
         });
     }
 
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.FINE, "Handle key event.");
+        LOGGER.log(Level.FINEST, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
@@ -182,18 +296,224 @@ public class BankBerneDatabaseView extends DatabaseView {
                     return false;
                 }
             }
-//            case EDIT -> {
-//                if (code.equals(KeyCode.X)
-//                        || code.equals(KeyCode.ESCAPE)) {
-//                    LOGGER.log(Level.SEVERE, "Go back up menu level.");
-//                    mainMenu();
-//                    keyEvent.consume();
-//                    return false;
-//                }
-//            }
-            // else ignore key
+            case TRANSFER1 -> {
+                if (code == KeyCode.ESCAPE) {
+                    siteContent();
+                    return false;
+                }
+                txResultMessage.setVisible(false);
+
+                Text typedText;
+                if (!srcAcctCorrect) {
+                    typedText = typedSourceAccountNumber;
+                } else {
+                    typedText = typedAuthCode;
+                }
+
+                if (code == KeyCode.X || code == KeyCode.ESCAPE) {
+                    siteContent();
+                } else if (code.isDigitKey()) {
+                    String typed = typedText.getText();
+                    if (typed.length() < 12) {
+                        typedText.setText(typed + code.getChar());
+                    }
+                } else if (srcAcctCorrect && code.isLetterKey()) {
+                    String typed = typedText.getText();
+                    if (typed.length() < 12) {
+                        typedText.setText(typed + code.getChar().toUpperCase());
+                    }
+                } else if (code == KeyCode.BACK_SPACE) {
+                    String txt = typedText.getText();
+                    if (!txt.isEmpty()) {
+                        typedText.setText(txt.substring(0, txt.length() - 1));
+                    }
+                } else if (code == KeyCode.ENTER) {
+                    if (!srcAcctCorrect) { // Source Acct Entry
+                        if (typedText.getText().equals(GameState.BANK_BERNE_ID)) {
+                            LOGGER.log(Level.FINE, "Correct Account ID entered.");
+                            srcAcctCorrect = true; // Dialog can move to auth code entry.
+                            AUTH_CODE_LBL_TXT.setVisible(true);
+                            typedAuthCode.setVisible(true);
+                            CURSOR_TXT_2.setVisible(true);
+                            CURSOR_TXT_1.setVisible(false);
+                            txResultMessage.setVisible(false);
+                        } else {
+                            LOGGER.log(Level.WARNING, "Wrong source acct number");
+                            Platform.runLater(() -> {
+                                txResultMessage.setText(UNKNOWN_ACCT_STR);
+                                txResultMessage.setVisible(true);
+                                //pane.layout();
+                            });
+                        }
+                    } else { // Auth Code Entry
+                        if (typedText.getText().equals(GameState.BANK_BERNE_AUTH_CODE)) {
+                            LOGGER.log(Level.FINE, "Correct Auth Code entered.");
+                            transfer2();
+                        } else {
+                            LOGGER.log(Level.WARNING, "Wrong auth code entered.");
+                            Platform.runLater(() -> {
+                                txResultMessage.setText(AUTH_INCORRECT_STR);
+                                txResultMessage.setVisible(true);
+                                //pane.layout();
+                            });
+                        }
+                    }
+                }
+            }
+
+            case TRANSFER2 -> {
+                handleTransfer2KeyEvent(keyEvent);
+            }
 
         }
         return super.handleKeyEvent(keyEvent);
     }
+
+    private void handleTransfer2KeyEvent(KeyEvent ke) {
+        KeyCode code = ke.getCode();
+        LOGGER.log(Level.FINEST, () -> "Handle TX2 Code: " + code.getName());
+        if (code == KeyCode.ESCAPE) {
+            siteContent();
+            return;
+        }
+
+        switch (txMode) {
+            case LINK -> {
+                // Typing link
+                if (code.isLetterKey()) {
+                    if (!txResultMessage.getText().isEmpty()) {
+                        txResultMessage.setText("");
+                        typedDestLink.setText("");
+                    }
+                    String typed = typedDestLink.getText();
+                    if (typed.length() < 12) {
+                        typedDestLink.setText(typed + code.getChar());
+                    }
+                } else if (code == KeyCode.ENTER) {
+                    // Evaluate
+                    if (typedDestLink.getText()
+                            .toUpperCase()
+                            .equals("BOZOBANK")) {
+                        LOGGER.log(Level.FINE, "Link Code BOZOBANK accepted.");
+                        AMOUNT_LABEL_TXT.setVisible(true);
+                        CURSOR_TXT_2.setText(CURSOR);
+                        txMode = TransferMode.AMOUNT;
+                    } else { // invaalid link code
+                        LOGGER.log(Level.WARNING, "Unknown bank link code.");
+                        txResultMessage.setText(UNKNOWN_BANK_STR);
+                    }
+                } else if (code == KeyCode.BACK_SPACE) {
+                    if (!txResultMessage.getText().isEmpty()) {
+                        txResultMessage.setText("");
+                        typedDestLink.setText("");
+                    }
+                    String typed = typedDestLink.getText();
+                    if (!typed.isEmpty()) {
+                        typedDestLink.setText(typed.substring(0, typed.length() - 1));
+                    }
+                }
+            }
+            case AMOUNT -> {
+                // Typing amount
+                if (code.isDigitKey()) {
+                    if (txResultMessage.isVisible()) {
+                        txResultMessage.setText("");
+                        typedAmount.setText("");
+                    }
+                    String typed = typedAmount.getText();
+                    if (typed.length() < 9) {
+                        typedAmount.setText(typed + code.getChar());
+                    }
+                } else if (code == KeyCode.ENTER) {
+                    // Evaluate
+                    int amount = Integer.parseInt(typedAmount.getText());
+                    if (amount <= gameState.bankGemeinBalance) {
+                        DEST_ACCT_LABEL_TXT.setVisible(true);
+                        CURSOR_TXT_3.setText(CURSOR);
+                        this.transferAmount = amount;
+                        txMode = TransferMode.DEST_ACCT;
+                    } else { // invaalid link code
+                        LOGGER.log(Level.WARNING, "Wrong amount.");
+                        txResultMessage.setText(TX_UNABLE_STR);
+                    }
+                } else if (code == KeyCode.BACK_SPACE) {
+                    if (!txResultMessage.getText().isEmpty()) {
+                        txResultMessage.setText("");
+                        typedAmount.setText("");
+                    }
+                    String typed = typedAmount.getText();
+                    if (!typed.isEmpty()) {
+                        typedAmount.setText(typed.substring(0, typed.length() - 1));
+                    }
+                }
+            }
+            case DEST_ACCT -> {
+                // Typing Dest Account
+                txResultMessage.setText("");
+                if (code.isDigitKey()) {
+                    if (!txResultMessage.getText().isEmpty()) {
+                        txResultMessage.setText("");
+                        typedDestAccount.setText("");
+                    }
+                    String typed = typedDestAccount.getText();
+                    if (typed.length() < 12) {
+                        typedDestAccount.setText(typed + code.getChar());
+                    }
+                } else if (code == KeyCode.ENTER) {
+                    // Evaluate
+                    if (typedDestAccount.getText().equals(GameState.BANK_ZURICH_ID)) {
+                        txMode = TransferMode.TRANSFERING;
+                        TX_MESSAGE_TXT.setVisible(true);
+                        transferTicks = TX_TICKS;
+                    } else { // invaalid link code
+                        LOGGER.log(Level.WARNING, "Wrong account.");
+                        txResultMessage.setText(UNKNOWN_ACCT_STR);
+                        txResultMessage.setVisible(true);
+                        //pane.layout();
+                    }
+                } else if (code == KeyCode.BACK_SPACE) {
+                    if (!txResultMessage.getText().isEmpty()) {
+                        txResultMessage.setText("");
+                        typedDestAccount.setText("");
+                    }
+                    String typed = typedDestAccount.getText();
+                    if (!typed.isEmpty()) {
+                        typedDestAccount.setText(typed.substring(0, typed.length() - 1));
+                    }
+                }
+            }
+            case TRANSFERING -> {
+                // No interaction allowed. See tick().
+            }
+            default -> { // RESULT
+                // Result shown. Space to continue.
+                if (code == KeyCode.SPACE) {
+                    siteContent();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (mode == Mode.TRANSFER2 && txMode == TransferMode.TRANSFERING) {
+            if (transferTicks > 0) {
+                transferTicks--;
+            } else {
+                // CHeck if error.
+                //txResultMessage.setText(txCompleteStr);
+                gameState.bankBerneBalance -= transferAmount;
+                gameState.bankZurichBalance += transferAmount;
+                bankBalanceText.setText(String.valueOf(gameState.bankGemeinBalance));
+                CONTINUE_TEXT.setVisible(true);
+                TX_COMPLETE_TXT.setVisible(true);
+                //txResultMessage.setText("transfer complete.");
+                txMode = TransferMode.RESULT;
+                LOGGER.log(Level.INFO, "Bank Transfer completed.");
+            }
+        }
+    }
+
 }
