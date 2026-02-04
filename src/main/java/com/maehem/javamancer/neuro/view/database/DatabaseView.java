@@ -125,7 +125,7 @@ public abstract class DatabaseView {
 
     protected static final int CHAR_W = 39; // This many chars accross.
     protected static final double LINE_SPACING = -8.4;
-    protected static final double TF_W = 420;
+    protected static final double TF_W = 410;
     protected static final Insets TF_PADDING = new Insets(8);
     private static final String PADDING = "\n          ";
 
@@ -378,8 +378,8 @@ public abstract class DatabaseView {
         }
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sp.setMinSize(420, 234);
-        sp.setMaxSize(420, 234);
+        sp.setMinSize(420, 238);
+        sp.setMaxSize(420, 238);
 
         TextFlow mainTf = pageTextFlow(header, new Text("\n"), sp);
         mainTf.setLineSpacing(LINE_SPACING);
