@@ -304,7 +304,7 @@ public class BankZurichDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.FINE, "BankZurichDatabaseView: Handle key event.");
+        LOGGER.log(Level.FINEST, "BankZurichDatabaseView: Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
@@ -379,10 +379,9 @@ public class BankZurichDatabaseView extends DatabaseView {
                     int amount = Integer.parseInt(typedNumberAmount.getText());
                     if (transferMode) { // true == download to chip
                         if (amount <= gameState.bankZurichBalance) {
-                            LOGGER.log(Level.FINE, "Do download from chip.");
+                            LOGGER.log(Level.FINE, "Do download of {0} from chip.", amount);
                             gameState.bankZurichBalance -= amount;
                             gameState.moneyChipBalance += amount;
-                            transferMessageText.setText("downloaded credits");
 
                             accountOperations();
                         } else {
@@ -393,10 +392,9 @@ public class BankZurichDatabaseView extends DatabaseView {
                         }
                     } else { // upload to Zurich
                         if (amount <= gameState.moneyChipBalance) {
-                            LOGGER.log(Level.FINE, "Do upload from chip.");
+                            LOGGER.log(Level.FINE, "Do upload of {0} from chip.", amount);
                             gameState.bankZurichBalance += amount;
                             gameState.moneyChipBalance -= amount;
-                            transferMessageText.setText("uploaded credits");
 
                             accountOperations();
                         } else {
