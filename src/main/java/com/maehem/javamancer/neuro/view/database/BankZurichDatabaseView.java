@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.database;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.SoundEffectsManager;
+import static com.maehem.javamancer.neuro.view.SoundEffectsManager.Sound.DENIED;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
@@ -344,7 +345,7 @@ public class BankZurichDatabaseView extends DatabaseView {
                         pane.requestLayout();
                     } else {
                         // Play "bad" sound.
-                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
+                        DENIED.audioClip.play();
                     }
                 } else if (code == KeyCode.BACK_SPACE) {
                     String typedAmount = typedNumberAmount.getText();
@@ -388,7 +389,7 @@ public class BankZurichDatabaseView extends DatabaseView {
                             LOGGER.log(Level.FINE, "Unable to perform action.");
                             transferMessageText.setText("insufficient funds");
                             // play "bad" sound
-                            gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
+                             DENIED.audioClip.play();
                         }
                     } else { // upload to Zurich
                         if (amount <= gameState.moneyChipBalance) {
@@ -401,7 +402,7 @@ public class BankZurichDatabaseView extends DatabaseView {
                             LOGGER.log(Level.FINE, "Unable to perform action.");
                              transferMessageText.setText("insufficient funds");
                              // play "bad" sound
-                             gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
+                             DENIED.audioClip.play();
                         }
                     }
                 } else if (code == KeyCode.BACK_SPACE && !typedNumberAmount.getText().isEmpty()) {
