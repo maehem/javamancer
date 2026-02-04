@@ -63,7 +63,7 @@ public class GridpointDatabase extends Database {
                 null, "test", null, // added to allow testing.
                 160, 320,
                 null,
-                0,
+                800,
                 rm);
 
         warez1.put(JammiesWarez.class, 3);
