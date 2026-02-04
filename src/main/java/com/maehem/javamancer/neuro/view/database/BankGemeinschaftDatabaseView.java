@@ -174,17 +174,17 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                 viewText(10);
 
             }
-            case "4" -> {  // Faculty news
+            case "4" -> {  // Messages
                 if (accessLevel > 1) {
                     messages();
                 }
             }
-            case "5" -> {  // Faculty news
+            case "5" -> {  // Downloads
                 if (accessLevel > 1) {
                     downloads();
                 }
             }
-            case "6" -> {  // Faculty news
+            case "6" -> {  // Transfer
                 if (accessLevel > 1) {
                     transfer2();
                 }
@@ -244,7 +244,6 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                 txMessage, txResultMessage,
                 CONTINUE_TEXT
         );
-        //contentTf.setPadding(new Insets(0, 0, 0, 30));
 
         TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
 
@@ -276,7 +275,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.FINE, "Handle key event.");
+        LOGGER.log(Level.FINEST, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
@@ -343,7 +342,7 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
 
     private void handleTransfer2KeyEvent(KeyEvent ke) {
         KeyCode code = ke.getCode();
-        LOGGER.log(Level.INFO, () -> "Handle Code: " + code.getName());
+        LOGGER.log(Level.FINEST, () -> "Handle Code: " + code.getName());
         if (code == KeyCode.ESCAPE) {
             siteContent();
             return;
@@ -366,11 +365,14 @@ public class BankGemeinschaftDatabaseView extends DatabaseView {
                     if (typedDestLink.getText()
                             .toUpperCase()
                             .equals("BOZOBANK")) {
+                        // TODO: The game goal is BOZOBANK but should we allow tranfers
+                        // to BANKBERNE ?
+                        LOGGER.log(Level.FINE, "Link Code BOZOBANK accepted.");
                         amountLabel.setVisible(true);
                         cursorText2.setText(CURSOR);
                         txMode = TransferMode.AMOUNT;
                     } else { // invaalid link code
-                        LOGGER.log(Level.WARNING, "Wrong source acct number");
+                        LOGGER.log(Level.WARNING, "Unknown bank link code.");
                         txResultMessage.setText(unknownBankStr);
                     }
                 } else if (code == KeyCode.BACK_SPACE) {
