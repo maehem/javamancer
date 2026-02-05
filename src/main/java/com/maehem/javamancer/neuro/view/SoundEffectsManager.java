@@ -51,9 +51,10 @@ public class SoundEffectsManager {
         public AudioClip audioClip;
 
         private Sound(String simpleFileName) {
-            this.fileName = "/sounds/" + simpleFileName + ".mp3";
+            this.fileName = "/sounds/" + simpleFileName + ".wav";
             try {
                 this.audioClip = new AudioClip(getClass().getResource(fileName).toURI().toString());
+                audioClip.setPriority(1);
             } catch (URISyntaxException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
