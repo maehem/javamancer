@@ -40,6 +40,7 @@ import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.room.RoomMap;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
 import com.maehem.javamancer.neuro.view.popup.BodyShopPopup;
+import com.maehem.javamancer.neuro.view.popup.CryptologyPopup;
 import com.maehem.javamancer.neuro.view.popup.CyberspacePopup;
 import com.maehem.javamancer.neuro.view.popup.DeckPopup;
 import com.maehem.javamancer.neuro.view.popup.DialogPopup;
@@ -81,7 +82,12 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     }
 
     public enum Popup {
-        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, BODYSHOP_BUY, BODYSHOP_SELL, SKILLS_BUY, SKILLS_UPGRADE, ITEMS_BUY, SOFTWARE_BUY, CYBERSPACE
+        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, 
+        BODYSHOP_BUY, BODYSHOP_SELL, 
+        SKILLS_BUY, SKILLS_UPGRADE, 
+        ITEMS_BUY, SOFTWARE_BUY, 
+        CYBERSPACE,
+        SKILL_CRYPTO
     }
 
     private static final int ROW_1_Y = 292;
@@ -574,6 +580,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case CYBERSPACE -> {
                 popup = new CyberspacePopup(this, getGameState());
                 LOGGER.log(Level.INFO, "Set popup to: Cyberspace");
+            }
+            case SKILL_CRYPTO -> {
+                popup = new CryptologyPopup(this, getGameState());
+                LOGGER.log(Level.INFO, "Set popup to: Cryptology Skill");
             }
         }
         if (popup != null) {

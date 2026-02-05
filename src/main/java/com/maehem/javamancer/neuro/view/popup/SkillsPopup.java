@@ -27,8 +27,10 @@
 package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.skill.CryptologySkill;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.view.PopupListener;
+import com.maehem.javamancer.neuro.view.RoomMode;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.animation.AnimationTimer;
@@ -128,46 +130,51 @@ public class SkillsPopup extends SmallPopupPane {
     // TODO: use() or itemUse() should have own view class (neuro.view.skill)
     // to handle use of certain skills that have interaction like
     // Cryptology and Debug.  Or maybe just a few extra methods here?
-    
     private void use(int index) {
         ArrayList<Skill> skills = gameState.skills;
         if (index + itemIndex < skills.size()) {
             Skill skill = gameState.skills.get(index + itemIndex);
+            gameState.previousSkill = gameState.activeSkill;
+            gameState.activeSkill = skill;
 
-            getChildren().clear();
-            mode = Mode.USE;
-            Text heading = new Text(skill.catalog.itemName);
-            //Text exitText = new Text("X. Exit\n");
+            if (skill instanceof CryptologySkill) {
+                listener.popupExit(RoomMode.Popup.SKILL_CRYPTO);
+            } else {
+                getChildren().clear();
+                mode = Mode.USE;
+                //Text heading = new Text(skill.catalog.itemName);
+                //Text exitText = new Text("X. Exit\n");
 
-            VBox box = new VBox(
-                    //heading,
-                    itemUse(skill)
-                    //exitText
-            );
-            box.setSpacing(0);
-            box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
-            box.setMinWidth(400);
-            box.setPrefWidth(400);
-            box.setMinHeight(160);
-            box.setMaxHeight(160);
-            box.setPadding(new Insets(0, 0, 0, 10));
+                VBox box = new VBox(
+                        //heading,
+                        itemUse(skill)
+                //exitText
+                );
+                box.setSpacing(0);
+                box.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
+                box.setMinWidth(400);
+                box.setPrefWidth(400);
+                box.setMinHeight(160);
+                box.setMaxHeight(160);
+                box.setPadding(new Insets(0, 0, 0, 10));
 
-            getChildren().add(box);
+                getChildren().add(box);
 
-            // Remove the software popup after running.
-            long startTime = System.nanoTime();
-            AnimationTimer vt = new AnimationTimer() {
-                @Override
-                public void handle(long now) {
-                    double elapsedTime = (now - startTime) / 1_000_000.0; // mS
-                    if (elapsedTime > 750) {
-                        listener.popupExit();
-                        this.stop();
+                // Remove the software popup after running.
+                long startTime = System.nanoTime();
+                AnimationTimer vt = new AnimationTimer() {
+                    @Override
+                    public void handle(long now) {
+                        double elapsedTime = (now - startTime) / 1_000_000.0; // mS
+                        if (elapsedTime > 750) {
+                            listener.popupExit();
+                            this.stop();
+                        }
                     }
-                }
-            };
-            vt.start();
+                };
+                vt.start();
 
+            }
         }
     }
 
@@ -176,9 +183,6 @@ public class SkillsPopup extends SmallPopupPane {
         Text text2 = new Text(skill.getVersionedName());
 
         TextFlow tf = new TextFlow(text, text2);
-
-        gameState.previousSkill = gameState.activeSkill;
-        gameState.activeSkill = skill;
 
         tf.setMinHeight(78);
         tf.setMaxHeight(78);
