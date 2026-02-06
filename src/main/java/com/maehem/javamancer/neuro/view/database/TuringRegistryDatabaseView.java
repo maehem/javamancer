@@ -27,15 +27,12 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.SkillItem;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 import com.maehem.javamancer.neuro.model.skill.PsychoanalysisSkill;
-import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 import com.maehem.javamancer.neuro.view.PopupListener;
-import com.maehem.javamancer.neuro.view.SoundEffectsManager;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
@@ -199,25 +196,6 @@ public class TuringRegistryDatabaseView extends DatabaseView {
 
         pane.getChildren().add(tf);
         pane.setOnMouseClicked(null);
-    }
-
-    private void attemptSkillUpgrade(Skill upgradeSkill) {
-        LOGGER.log(Level.FINE, () -> "Turing Registry: Attempt Skill Upgrade: " + upgradeSkill.getVersionedName());
-
-        Skill toUpgrade = gameState.getInstalledSkill(new SkillItem(upgradeSkill.catalog, 1));
-        if (toUpgrade != null) {
-            LOGGER.log(Level.FINE, "Player has skill. Proceed with attempt upgrade...");
-            if (upgradeSkill.level > toUpgrade.level) {
-                LOGGER.log(Level.FINE, "Player upgrades {0} from {1} to {2}", new Object[]{toUpgrade.catalog.name(), toUpgrade.level, upgradeSkill.level});
-                toUpgrade.level = upgradeSkill.level;
-                // TODO: Play sound "success"
-                gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
-            } else {
-                LOGGER.log(Level.FINE, "Installed skill is already at or above upgrade level.");
-                // TODO: Play sound "bad"
-                gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
-            }
-        }
     }
 
     @Override
