@@ -78,12 +78,8 @@ public class KGBDatabaseView extends DatabaseView {
     }
 
     private void mainMenu() {
-        mode = Mode.SUB;
-        Node kgbDownloads = kgbDownloads();
-        kgbDownloads.setOnMouseClicked((t) -> {
-            t.consume();
-            listener.popupExit();
-        });
+        mode = Mode.MENU;
+        kgbDownloads();
     }
 
     private void memo() {
@@ -113,19 +109,6 @@ public class KGBDatabaseView extends DatabaseView {
         KeyCode code = keyEvent.getCode();
         LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
-//            case MENU -> {
-//                if (code.equals(KeyCode.X)
-//                        || code.equals(KeyCode.SPACE)
-//                        || code.equals(KeyCode.ESCAPE)) {
-//                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
-//                    keyEvent.consume();
-//                    return true;
-//                } else if (code.isDigitKey()) {
-//                    keyEvent.consume();
-//                    itemPage(code.getChar());
-//                    return false;
-//                }
-//            }
             case MEMO -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.ESCAPE)) {
