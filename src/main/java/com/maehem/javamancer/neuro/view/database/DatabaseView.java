@@ -695,6 +695,10 @@ public abstract class DatabaseView {
         tf.getChildren().add(new Text(centeredText(" Software Library") + "\n"));
         Text exitItem = new Text(PADDING + "X. Exit System");
         tf.getChildren().add(exitItem);
+        exitItem.setOnMouseClicked((t) -> {
+            LOGGER.log(Level.FINE, "Player clicked KGB exit.");
+            listener.popupExit();
+        });
 
         int i = 1;
         i = addSoftware(i, database.warez1, tf);
