@@ -96,8 +96,6 @@ public class CryptologyPopup extends SmallPopupPane {
             String decoded = cs.decode(typedText.getText());
             if ( decoded == null ) {
                 responseText.setText("*upgrade*");
-            } else if ( decoded.isBlank() ) {
-                responseText.setText("D*^%K#^7@?");
             } else {
                 responseText.setText(decoded);
             }
