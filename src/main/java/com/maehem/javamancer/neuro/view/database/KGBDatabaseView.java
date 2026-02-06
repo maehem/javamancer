@@ -104,6 +104,26 @@ public class KGBDatabaseView extends DatabaseView {
         });
     }
 
+    protected Node kgbDownloads() {
+        LOGGER.log(Level.FINE, "{0}: Downloads", database.name);
+        pane.getChildren().clear();
+        //mode = Mode.DOWNLOADS;
+        TextFlow tf = pageHeadingTextFlow();
+        tf.getChildren().add(new Text(centeredText(" Software Library") + "\n"));
+        Text exitItem = new Text(PADDING + "X. Exit System");
+        tf.getChildren().add(exitItem);
+        exitItem.setOnMouseClicked((t) -> {
+            LOGGER.log(Level.FINE, "Player clicked KGB exit.");
+            listener.popupExit();
+        });
+
+        addSoftware(1, database.warez1, tf);
+
+        pane.getChildren().add(tf);
+
+        return exitItem; // Add a mouseClick listener for menu exit.
+    }
+
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();

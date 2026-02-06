@@ -131,7 +131,7 @@ public abstract class DatabaseView {
     protected static final double LINE_SPACING = -8.4;
     protected static final double TF_W = 410;
     protected static final Insets TF_PADDING = new Insets(0,8,0,8);
-    private static final String PADDING = "\n          ";
+    protected static final String PADDING = "\n          ";
 
     protected final TextResource dbTextResource;
 
@@ -687,33 +687,6 @@ public abstract class DatabaseView {
         pane.getChildren().add(tf);
     }
 
-    protected Node kgbDownloads() {
-        LOGGER.log(Level.FINE, "{0}: Downloads", database.name);
-        pane.getChildren().clear();
-        //mode = Mode.DOWNLOADS;
-        TextFlow tf = pageHeadingTextFlow();
-        tf.getChildren().add(new Text(centeredText(" Software Library") + "\n"));
-        Text exitItem = new Text(PADDING + "X. Exit System");
-        tf.getChildren().add(exitItem);
-        exitItem.setOnMouseClicked((t) -> {
-            LOGGER.log(Level.FINE, "Player clicked KGB exit.");
-            listener.popupExit();
-        });
-
-        int i = 1;
-        i = addSoftware(i, database.warez1, tf);
-        if (accessLevel > 0) {
-            i = addSoftware(i, database.warez2, tf);
-        }
-        if (accessLevel > 1) {
-            addSoftware(i, database.warez3, tf);
-        }
-
-        pane.getChildren().add(tf);
-
-        return exitItem; // Add a mouseClick listener for menu exit.
-    }
-
     /**
      * DB Site expects this Class of Warez and version number for Pass.
      *
@@ -905,7 +878,7 @@ public abstract class DatabaseView {
         return false;
     }
 
-    private int addSoftware(int i, HashMap<Class< ? extends Warez>, Integer> map, TextFlow tf) {
+    protected int addSoftware(int i, HashMap<Class< ? extends Warez>, Integer> map, TextFlow tf) {
         // TODO: Filter based on accessLevel.
         for (Map.Entry<Class<? extends Warez>, Integer> m : map.entrySet()) {
             try {
