@@ -104,10 +104,28 @@ public class CryptologySkill extends Skill {
         if (level < (foundLevel + 1)) { // Class level is 1-4.
             return null; // Word found but Not sufficient Skill.
         }
-        
+
+        if (plainWord.isBlank()) {
+            return randomPassword();
+        }
+
         return plainWord; // blank or plain word if it was found.    
     }
-    
+
+    /**
+     * Generate random 10 char password.
+     *
+     * @return
+     */
+    private String randomPassword() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            sb.append(Character.toString((int) (Math.random() * (126 - 32) + 32)));
+        }
+
+        return sb.toString();
+    }
+
     private class CryptWord {
 
         public String encrypted;
