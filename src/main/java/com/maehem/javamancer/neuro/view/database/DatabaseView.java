@@ -33,6 +33,8 @@ import com.maehem.javamancer.neuro.model.Person;
 import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.item.SkillItem;
+import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.warez.SequencerWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.PopupListener;
@@ -937,6 +939,25 @@ public abstract class DatabaseView {
             DENIED.audioClip.play();
         }
         
+    }
+
+    protected void attemptSkillUpgrade(Skill upgradeSkill) {
+        LOGGER.log(Level.FINE, () -> "Turing Registry: Attempt Skill Upgrade: " + upgradeSkill.getVersionedName());
+
+        Skill toUpgrade = gameState.getInstalledSkill(new SkillItem(upgradeSkill.catalog, 1));
+        if (toUpgrade != null) {
+            LOGGER.log(Level.FINE, "Player has skill. Proceed with attempt upgrade...");
+            if (upgradeSkill.level > toUpgrade.level) {
+                LOGGER.log(Level.FINE, "Player upgrades {0} from {1} to {2}", new Object[]{toUpgrade.catalog.name(), toUpgrade.level, upgradeSkill.level});
+                toUpgrade.level = upgradeSkill.level;
+                // TODO: Play sound "success"
+                TRANSMIT.audioClip.play();
+            } else {
+                LOGGER.log(Level.FINE, "Installed skill is already at or above upgrade level.");
+                // TODO: Play sound "bad"
+                DENIED.audioClip.play();
+            }
+        }
     }
 
     protected void composeMessage() {
