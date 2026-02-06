@@ -27,10 +27,17 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.skill.CryptologySkill;
+import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
+import static javafx.scene.input.KeyCode.BACK_SPACE;
+import static javafx.scene.input.KeyCode.ENTER;
+import static javafx.scene.input.KeyCode.ESCAPE;
+import static javafx.scene.input.KeyCode.X;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -69,9 +76,15 @@ import javafx.scene.text.TextFlow;
 public class INSADatabaseView extends DatabaseView {
 
     private enum Mode {
-        SUB, MENU, EDIT
+        SUB, MENU, CODEBREAKER, SKILL
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
+
+    private final Text typedText = new Text("");
+    private final Text responseText = new Text("RESPONSE");
+    private final Text CURSOR_TXT = new Text("<");
+
+    private final CryptologySkill crypto = new CryptologySkill(4);
 
     public INSADatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
@@ -83,9 +96,9 @@ public class INSADatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text(dbTextResource.get(2) + "\n\n\n\n");
+        Text paddingText = new Text("\n\n" + dbTextResource.get(2) + "\n\n\n\n");
 
-        TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
+        TextFlow tf = pageTextFlow(headingText, paddingText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
     }
 
@@ -101,9 +114,6 @@ public class INSADatabaseView extends DatabaseView {
         TextFlow tf = pageTextFlow(headingText);
 
         String menuString = dbTextResource.get(1);
-        if (accessLevel > 2) {
-            menuString += "\r" + dbTextResource.get(2);
-        }
         String[] split = menuString.split("\\r");
         for (String s : split) {
             Text menuItem = new Text("\n         " + s);
@@ -123,7 +133,7 @@ public class INSADatabaseView extends DatabaseView {
             case "X" -> {
                 listener.popupExit();
             }
-            case "1" -> { // Notes of interest
+            case "1" -> { // Code Breaker
                 codebreaker();
             }
             case "2" -> {
@@ -141,20 +151,29 @@ public class INSADatabaseView extends DatabaseView {
     private void codebreaker() {
         LOGGER.log(Level.FINE, "INSA: Codebreaker");
         pane.getChildren().clear();
+        mode = Mode.CODEBREAKER;
 
-        Text subHeadingText = new Text("\n"
-                + dbTextResource.get(15)
+        Text ENTER_TXT = new Text(dbTextResource.get(15));
+
+        TextFlow contentTf = simpleTextFlow(
+                new Text("\n"),
+                ENTER_TXT, typedText, CURSOR_TXT,
+                new Text("\n\n\n          "),
+                responseText,
+                new Text("\n\n")
         );
-
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
         contentTf.setPadding(new Insets(0, 0, 0, 30));
 
         TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
 
         pane.getChildren().add(pageTf);
+        pane.layout();
         pane.setOnMouseClicked((t) -> {
             t.consume();
             mainMenu();
+        });
+        Platform.runLater(() -> {
+            responseText.setVisible(false);
         });
     }
 
@@ -162,12 +181,15 @@ public class INSADatabaseView extends DatabaseView {
         LOGGER.log(Level.FINE, "INSA: Traffic Schedule");
         pane.getChildren().clear();
 
-        Text subHeadingText = new Text("\nTODO\n\n"
-                + dbTextResource.get(4)
-        );
-
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
+        TextFlow contentTf = simpleTextFlow(new Text("\n"));
         contentTf.setPadding(new Insets(0, 0, 0, 30));
+        for (int i = 4; i < 15; i++) {
+            Text subHeadingText = new Text(
+                    dbTextResource.get(i)
+                    + "\n\n"
+            );
+            contentTf.getChildren().add(subHeadingText);
+        }
 
         TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
 
@@ -176,26 +198,50 @@ public class INSADatabaseView extends DatabaseView {
             t.consume();
             mainMenu();
         });
+        pane.layout();
     }
 
     private void skillUpgrade() {
-        LOGGER.log(Level.FINE, "INSA: Skill Upgrade");
         pane.getChildren().clear();
+        mode = Mode.SKILL;
 
-        Text subHeadingText = new Text("\nTODO\n\n"
-                + dbTextResource.get(18)
-        );
+        TextFlow tf = pageTextFlow(headingText);
 
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
+        String menuString = dbTextResource.get(18);
+        String[] split = menuString.split("\\r");
+        for (String s : split) {
+            Text menuItem = new Text("\n         " + s);
+            tf.getChildren().add(menuItem);
+            if (s.startsWith("X.")
+                    || s.startsWith("1.")) {
+                menuItem.setOnMouseClicked((t) -> {
+                    t.consume();
+                    switch (s.trim().substring(0, 1)) {
+                        case "X" -> {
+                            mainMenu();
+                        }
+                        case "1" -> {
+                            attemptSkillUpgrade(new CryptologySkill(4));
+                        }
+                    }
+                });
+            }
+        }
 
-        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
+        pane.getChildren().add(tf);
+        pane.setOnMouseClicked(null);
+        pane.layout();
+    }
 
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
+    private void doDecode() {
+        LOGGER.log(Level.FINE, "Decode typed word.");
+        String decoded = crypto.decode(typedText.getText());
+        if (decoded == null) {
+            LOGGER.log(Level.SEVERE, "Decode returned null. It should not.");
+            responseText.setText("ERROR");
+        } else {
+            responseText.setText(decoded);
+        }
     }
 
     @Override
@@ -216,7 +262,7 @@ public class INSADatabaseView extends DatabaseView {
                     return false;
                 }
             }
-            case EDIT -> {
+            case SKILL -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.ESCAPE)) {
                     LOGGER.log(Level.FINE, "Go back up menu level.");
@@ -224,6 +270,46 @@ public class INSADatabaseView extends DatabaseView {
                     keyEvent.consume();
                     return false;
                 }
+            }
+            case CODEBREAKER -> {
+                switch (code) {
+                    case ENTER -> {
+                        doDecode();
+                        responseText.setVisible(true);
+                        CURSOR_TXT.setVisible(false);
+                    }
+                    case BACK_SPACE -> {
+                        // response invis.
+                        if (responseText.isVisible()) {
+                            typedText.setText("");
+                        }
+                        responseText.setVisible(false);
+                        CURSOR_TXT.setVisible(true);
+
+                        String typed = typedText.getText();
+                        if (!typed.isEmpty()) {
+                            typedText.setText(typed.substring(0, typed.length() - 1));
+                        }
+                    }
+                    case X, ESCAPE -> {
+                        LOGGER.log(Level.FINE, "Go back up menu level.");
+                        mainMenu();
+                        keyEvent.consume();
+                        return false;
+                    }
+                    default -> {
+                        if (code.isLetterKey()) {
+                            responseText.setVisible(false);
+                            CURSOR_TXT.setVisible(true);
+                            String typed = typedText.getText();
+                            if (typed.length() < 10) {
+                                typedText.setText(typed + code.getChar().toUpperCase());
+                            }
+                        }
+                    }
+
+                }
+                pane.layout();
             }
             // else ignore key
 
