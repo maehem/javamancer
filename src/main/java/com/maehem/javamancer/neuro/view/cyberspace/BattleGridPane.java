@@ -286,7 +286,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
         switch (mode) {
             case NONE -> {
                 // ICE or AI Death animations finished. Proceed to DB page.
-                if (ai != null) {
+                if (ai != null && !gameState.isAiDefeated(ai.getClass())) {
                     gameState.defeatedAiList.add(ai); // Remember this defeated AI
                     // Upgrade AI Fight Skills used in battle.
                     usedOnAISkill.forEach((skill) -> {
@@ -698,9 +698,10 @@ public class BattleGridPane extends GridPane implements PopupListener {
         ft1.setCycleCount(1);
         ft1.setAutoReverse(false);
         ft1.setOnFinished((t) -> {
+            LOGGER.log(Level.FINE, "ICE Broken Animation Finished.");
             fadeNode1.setVisible(false);
             fadeNode1.setOpacity(1.0);
-            if (db.aiClazz != null) { // Begin AI fight.
+            if (db.aiClazz != null && !gameState.isAiDefeated(db.aiClazz)) { // Begin AI fight.
                 setIceMode(IceMode.AI);
             } else {
                 LOGGER.log(Level.INFO, "Switch to DB Terminal...");

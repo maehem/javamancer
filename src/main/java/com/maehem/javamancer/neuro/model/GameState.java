@@ -479,6 +479,15 @@ public class GameState {
 
         return null;
     }
+    
+    public boolean isAiDefeated(Class<? extends AI> aiClazz) {
+        for (AI ai : defeatedAiList) {
+            if (ai.getClass().equals(aiClazz)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void applyEnemyAttack(int amount) {
         // Apply DB attack effect to constitution.
