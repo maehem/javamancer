@@ -52,7 +52,7 @@ import javafx.scene.text.TextFlow;
 public class KGBDatabaseView extends DatabaseView {
 
     private enum Mode {
-        SUB, MENU, EDIT
+        SUB, MENU, MEMO
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
 
@@ -66,7 +66,7 @@ public class KGBDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text(dbTextResource.get(2) + "\n" + dbTextResource.get(3) + "\n");
+        Text helloText = new Text("\n\n" + dbTextResource.get(2) + "\n\n\n\n\n\n\n\n");
 
         TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
@@ -74,10 +74,11 @@ public class KGBDatabaseView extends DatabaseView {
 
     @Override
     protected final void siteContent() {
-        mainMenu();
+        memo();
     }
 
     private void mainMenu() {
+        mode = Mode.SUB;
         Node kgbDownloads = kgbDownloads();
         kgbDownloads.setOnMouseClicked((t) -> {
             t.consume();
@@ -85,38 +86,13 @@ public class KGBDatabaseView extends DatabaseView {
         });
     }
 
-    private void itemPage(String itemLetter) {
-        switch (itemLetter) {
-            case "X" -> {
-                listener.popupExit();
-            }
-            case "1" -> { // Notes of interest
-                downloads();
-            }
-            case "2" -> {
-                purpose();
-            }
-            case "3" -> {
-                if (accessLevel > 2) {
-                    messages();
-                }
-            }
-            case "4" -> {  // Faculty news
-                if (accessLevel > 2) {
-                    viewText(8);
-                }
-            }
-        }
-    }
-
-    private void purpose() {
-        LOGGER.log(Level.FINE, "KGB: purpose statement");
+    private void memo() {
+        LOGGER.log(Level.FINE, "KGB: memo statement");
         pane.getChildren().clear();
+        mode = Mode.MEMO;
 
         Text subHeadingText = new Text("\n"
-                + dbTextResource.get(5) + "\n\n"
-                + dbTextResource.get(6) + "\n\n"
-                + dbTextResource.get(7)
+                + dbTextResource.get(3) + "\n"
         );
 
         TextFlow contentTf = simpleTextFlow(subHeadingText);
@@ -125,6 +101,7 @@ public class KGBDatabaseView extends DatabaseView {
         TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
 
         pane.getChildren().add(pageTf);
+        pane.layout();
         pane.setOnMouseClicked((t) -> {
             t.consume();
             mainMenu();
@@ -136,20 +113,20 @@ public class KGBDatabaseView extends DatabaseView {
         KeyCode code = keyEvent.getCode();
         LOGGER.log(Level.FINE, "Handle key event.");
         switch (mode) {
-            case MENU -> {
-                if (code.equals(KeyCode.X)
-                        || code.equals(KeyCode.SPACE)
-                        || code.equals(KeyCode.ESCAPE)) {
-                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
-                    keyEvent.consume();
-                    return true;
-                } else if (code.isDigitKey()) {
-                    keyEvent.consume();
-                    itemPage(code.getChar());
-                    return false;
-                }
-            }
-            case EDIT -> {
+//            case MENU -> {
+//                if (code.equals(KeyCode.X)
+//                        || code.equals(KeyCode.SPACE)
+//                        || code.equals(KeyCode.ESCAPE)) {
+//                    LOGGER.log(Level.INFO, "Menu wants to exit system.");
+//                    keyEvent.consume();
+//                    return true;
+//                } else if (code.isDigitKey()) {
+//                    keyEvent.consume();
+//                    itemPage(code.getChar());
+//                    return false;
+//                }
+//            }
+            case MEMO -> {
                 if (code.equals(KeyCode.X)
                         || code.equals(KeyCode.ESCAPE)) {
                     LOGGER.log(Level.FINE, "Go back up menu level.");
