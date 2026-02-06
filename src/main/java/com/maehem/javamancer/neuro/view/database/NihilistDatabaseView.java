@@ -84,9 +84,6 @@ public class NihilistDatabaseView extends DatabaseView {
         TextFlow tf = pageTextFlow(headingText);
 
         String menuString = dbTextResource.get(1);
-        if (accessLevel > 2) {
-            menuString += "\r" + dbTextResource.get(2);
-        }
         String[] split = menuString.split("\\r");
         for (String s : split) {
             Text menuItem = new Text("\n         " + s);
@@ -106,13 +103,13 @@ public class NihilistDatabaseView extends DatabaseView {
             case "X" -> {
                 listener.popupExit();
             }
-            case "1" -> { // Notes of interest
+            case "1" -> { // Statement of Purpose
                 viewText(3);
             }
-            case "2" -> {
+            case "2" -> { // Diatribe
                 viewText(4, 5);
             }
-            case "3" -> {
+            case "3" -> { // Software Downloads
                 downloads();
             }
         }
@@ -136,17 +133,6 @@ public class NihilistDatabaseView extends DatabaseView {
                     return false;
                 }
             }
-//            case EDIT -> {
-//                if (code.equals(KeyCode.X)
-//                        || code.equals(KeyCode.ESCAPE)) {
-//                    LOGGER.log(Level.FINE, "Go back up menu level.");
-//                    mainMenu();
-//                    keyEvent.consume();
-//                    return false;
-//                }
-//            }
-            // else ignore key
-
         }
         return super.handleKeyEvent(keyEvent);
     }
