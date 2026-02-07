@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.database;
 
+import com.maehem.javamancer.neuro.model.ai.SangfroidAI;
 import com.maehem.javamancer.neuro.view.ResourceManager;
 
 /**
@@ -54,7 +55,7 @@ public class MaasBiolabsDatabase extends Database {
                 "maastest",
                 null, "test", null,
                 112, 480,
-                null,
+                SangfroidAI.class,
                 1100,
                 rm
         );
