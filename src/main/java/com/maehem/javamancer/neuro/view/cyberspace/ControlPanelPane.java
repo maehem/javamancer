@@ -106,6 +106,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
         softwarePane.setVisible(false);
         erasePane = new SoftwarePane(gs, SoftwarePane.Mode.ERASE);
         erasePane.setVisible(false);
+        erasePane.setLayoutY(40); // Scoot down a bit.
         yesNoPane = new YesNoPane(gs);
         yesNoPane.setVisible(false);
         skillsPopup = new SkillsPopup(this, gs);
