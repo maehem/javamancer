@@ -27,6 +27,9 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
+import com.maehem.javamancer.neuro.model.room.RoomBounds.Door;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
@@ -58,7 +61,7 @@ import javafx.scene.text.TextFlow;
 public class MaasBiolabsDatabaseView extends DatabaseView {
 
     private enum Mode {
-        SUB, MENU, EDIT
+        SUB, MENU, SECURITY
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
 
@@ -72,9 +75,9 @@ public class MaasBiolabsDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text("\n\n\n\n\n\n\n");
+        Text paddingText = new Text("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
-        TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
+        TextFlow tf = pageTextFlow(headingText, paddingText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
     }
 
@@ -90,9 +93,6 @@ public class MaasBiolabsDatabaseView extends DatabaseView {
         TextFlow tf = pageTextFlow(headingText);
 
         String menuString = dbTextResource.get(1);
-        if (accessLevel > 2) {
-            menuString += "\r" + dbTextResource.get(2);
-        }
         String[] split = menuString.split("\\r");
         for (String s : split) {
             Text menuItem = new Text("\n         " + s);
@@ -112,36 +112,71 @@ public class MaasBiolabsDatabaseView extends DatabaseView {
             case "X" -> {
                 listener.popupExit();
             }
-            case "1" -> { // Notes of interest
+            case "1" -> { // Cyber Eye Report
                 viewText(2, 3, 4);
             }
-            case "2" -> {
+            case "2" -> { // Alarm System Report
                 viewText(5);
             }
             case "3" -> {
-                security();
+                security(); // Control Door and Alarm System
             }
         }
     }
 
     private void security() {
-        LOGGER.log(Level.FINE, "Maas Biolabs: security system");
         pane.getChildren().clear();
+        mode = Mode.SECURITY;
 
-        Text subHeadingText = new Text("TODO\n"
-                + dbTextResource.get(6) + "\n\n"
-        );
+        TextFlow tf = pageTextFlow(headingText);
+        tf.setPadding(new Insets(0, 0, 0, 30));
 
-        TextFlow contentTf = simpleTextFlow(subHeadingText);
-        contentTf.setPadding(new Insets(0, 0, 0, 30));
+        String menuString = dbTextResource.get(6);
+        String[] split = menuString.split("\\r");
+        for (String s : split) {
+            Text menuItem = new Text("\n" + s);
 
-        TextFlow pageTf = pageTextScrolledFlow(headingText, contentTf);
+            String item = s.trim();
+            if (item.startsWith("1")) {
+                // TODO: Does this thing ever get toggled to off?
+                // How and why?
 
-        pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
+                // Dress with status
+                String alarmStatus = dbTextResource.get(8); // ON 
+                menuItem.setText(menuItem.getText() + " " + alarmStatus);
+                menuItem.setOnMouseClicked((t) -> {
+                    security();
+                });
+            } else if (item.startsWith("2")) {
+                Room room = Room.R17;
+                // Dress with status
+                String doorStatus;
+                if (room.isDoorLocked(RoomBounds.Door.LEFT)) {
+                    doorStatus = dbTextResource.get(10); // LOCKED 
+                    menuItem.setText(menuItem.getText() + " " + doorStatus);
+                    menuItem.setOnMouseClicked((t) -> {
+                        room.unlockDoor(RoomBounds.Door.LEFT);
+                        security(); // Toggle and reload.
+                    });
+                } else {
+                    doorStatus = dbTextResource.get(9); // UNLOCKED
+                    menuItem.setText(menuItem.getText() + " " + doorStatus);
+                    menuItem.setOnMouseClicked((t) -> {
+                        room.lockDoor(RoomBounds.Door.LEFT);
+                        security(); // Toggle and reload.
+                    });
+                }
+            } else if (item.startsWith("X")) {
+                menuItem.setOnMouseClicked((t) -> {
+                    mainMenu();
+                });
+            }
+            tf.getChildren().add(menuItem);
+        }
+
+        pane.getChildren().add(tf);
+        pane.setOnMouseClicked(null);
+        pane.layout();
     }
 
     @Override
@@ -162,18 +197,37 @@ public class MaasBiolabsDatabaseView extends DatabaseView {
                     return false;
                 }
             }
-//            case EDIT -> {
-//                if (code.equals(KeyCode.X)
-//                        || code.equals(KeyCode.ESCAPE)) {
-//                    LOGGER.log(Level.FINE, "Go back up menu level.");
-//                    mainMenu();
-//                    keyEvent.consume();
-//                    return false;
-//                }
-//            }
-            // else ignore key
-
+            case SECURITY -> {
+                if (code.equals(KeyCode.X)
+                        || code.equals(KeyCode.SPACE)
+                        || code.equals(KeyCode.ESCAPE)) {
+                    LOGGER.log(Level.INFO, "Menu go back one level.");
+                    keyEvent.consume();
+                    mainMenu();
+                    return false;
+                } else if (code.isDigitKey()) {
+                    keyEvent.consume();
+                    toggleStatus(Integer.parseInt(code.getChar()));
+                    security();
+                    return false;
+                }
+            }
         }
         return super.handleKeyEvent(keyEvent);
     }
+
+    private void toggleStatus(int i) {
+        if (i == 1) {
+            LOGGER.log(Level.WARNING, "Toggle alarm. TODO.");
+        } else if (i == 2) {
+            Room room = Room.R17;
+            Door door = RoomBounds.Door.LEFT;
+            if (room.isDoorLocked(door)) {
+                room.unlockDoor(door);
+            } else {
+                room.lockDoor(door);
+            }
+        }
+    }
+
 }
