@@ -98,8 +98,8 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
             if (databaseView.handleKeyEvent(keyEvent)) {
                 LOGGER.log(Level.FINE, "CyberspacePopup: Key Event: True returned from Database View.");
                 databaseView = null;
-                cleanup();
-                return true;
+                //cleanup();
+                return false;
             }
         } else if (controlPanel.handleKeyEvent(keyEvent)) {
             LOGGER.log(Level.FINE, "CyberspacePopup: Key Event: True returned from control panel.");
