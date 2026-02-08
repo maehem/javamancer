@@ -74,9 +74,9 @@ public class MusaboriDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text helloText = new Text(dbTextResource.get(3) + "\n\n\n\n");
+        Text paddingText = new Text("\n\n" + dbTextResource.get(3) + "\n\n\n\n\n\n\n");
 
-        TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
+        TextFlow tf = pageTextFlow(headingText, paddingText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
     }
 
