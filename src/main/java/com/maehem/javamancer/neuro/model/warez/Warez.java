@@ -97,6 +97,7 @@ public abstract class Warez {
      * Finish run of Warez and call finish handler (if one exists).
      */
     public void finish(GameState gs) {
+        LOGGER.log(Level.FINE, "Warez finished: " + getSimpleName());
         abort(gs);
         if (finishedHandler != null) {
             finishedHandler.handle(new ActionEvent());
@@ -114,7 +115,7 @@ public abstract class Warez {
     }
 
     public void tick(GameState gs) {
-        LOGGER.log(FINE, "{0} Warez.tick()", this.item.name());
+        LOGGER.log(FINE, "{0} Warez.tick()", getSimpleName());
         if (runRemaining != RUN_FOREVER) {
             runRemaining -= 15;
             if (runRemaining <= 0) { // run finish handler now.
