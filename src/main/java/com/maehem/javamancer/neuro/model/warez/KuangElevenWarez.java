@@ -30,12 +30,13 @@ import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.ai.NeuromancerAI;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.Item;
+import java.util.logging.Level;
 
 /**
  * Kuang Eleven:
- * 
- *  - Shotgun for Neuromancer AI
- * 
+ *
+ * - Shotgun for Neuromancer AI
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class KuangElevenWarez extends ShotgunWarez {
@@ -46,17 +47,20 @@ public class KuangElevenWarez extends ShotgunWarez {
 
     @Override
     public int getRunDuration() {
-        return 2000;
+        return 1;
     }
 
     @Override
     public int getEffect(GameState gs) {
-        Database database = gs.database;
-        if ( gs.databaseBattle && 
-                gs.database.getIce() <= 0 &&
-                (gs.database.aiClazz.getClass().equals(NeuromancerAI.class)) ) {
-            return version * 10000;
+        Database db = gs.database;
+        if (gs.databaseBattle
+                && db.getIce() <= 0
+                && (db.aiClazz.getClass().equals(NeuromancerAI.class))) {
+            LOGGER.log(Level.FINE,
+                    "{0} is vulnerable to {1}.  Critical damage dealt!",
+                    new Object[]{NeuromancerAI.class.getName(), getSimpleName()});
+            return version * 30000;
         }
-        return version * 10;
+        return version * 10000;
     }
 }
