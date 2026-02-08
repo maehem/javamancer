@@ -29,12 +29,13 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.ai.GreystokeAI;
 import com.maehem.javamancer.neuro.model.item.Item;
+import java.util.logging.Level;
 
 /**
  * Hemlock:
- * 
+ *
  * Shotgun for Greystoke.
- * 
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class HemlockWarez extends ShotgunWarez {
@@ -50,11 +51,14 @@ public class HemlockWarez extends ShotgunWarez {
 
     @Override
     public int getEffect(GameState gs) {
-        if ( gs.databaseBattle && 
-                gs.database.getIce() <= 0 &&
-                (gs.database.aiClazz.getClass().equals(GreystokeAI.class)) ) {
-            return version * 10000;
+        if (gs.databaseBattle
+                && gs.database.getIce() <= 0
+                && (gs.database.aiClazz.getClass().equals(GreystokeAI.class))) {
+            LOGGER.log(Level.FINE, 
+                    "{0} is vulnerable to {1}.  Critical damage dealt!", 
+                    new Object[]{GreystokeAI.class.getName(), getSimpleName()});
+            return version * 30000;
         }
-        return version * 10;
+        return version * 10000;
     }
 }
