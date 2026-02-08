@@ -275,6 +275,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
     }
 
     protected void tick() {
+        LOGGER.log(Level.FINEST, "Battle pane tick().");
         if (gameState.isFlatline()) {
             cleanup();
             return;
@@ -337,18 +338,20 @@ public class BattleGridPane extends GridPane implements PopupListener {
                             }
                             case ChessWarez ww -> { // Use on AI
                                 if (ww.item == Item.Catalog.BATTLECHESS && ww.version == 4) {
-                                    LOGGER.log(Level.FINER, "Using Chess Warez...{0}.{1}.", new Object[]{w.item.itemName, w.version});
-                                    fireShotPlayer(w);
+                                    LOGGER.log(Level.FINE, "Using Chess Warez... {0} {1}.", new Object[]{w.item.itemName, w.version});
+                                    if (!ww.isRunning()) {
+                                        fireShotPlayer(ww);
+                                    }
                                 } else if (ww.item == Item.Catalog.KGB) { // Escape AI Battle
                                     // Transport user to KGB Base.
                                     setIceMode(IceMode.NONE);
                                     KGBDatabase kgbDatabase = new KGBDatabase(resourceManager);
                                     gameState.matrixPosX = kgbDatabase.matrixX;
-                                    gameState.matrixPosY = kgbDatabase.matrixY;
+                                    gameState.matrixPosY = kgbDatabase.matrixY;                                    
                                     // TODO: Cause Battle to exit into matrix.
 
                                 } else {
-                                    LOGGER.log(Level.FINER, "Using Chess Warez...{0}.{1}. Wrong version used agains AI.", new Object[]{w.item.itemName, w.version});
+                                    LOGGER.log(Level.FINE, "Using Chess Warez...{0}.{1}. Wrong version used agains AI.", new Object[]{w.item.itemName, w.version});
                                 }
                             }
                             default -> {
@@ -356,6 +359,8 @@ public class BattleGridPane extends GridPane implements PopupListener {
                                 gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
                             }
                         }
+                        deck.setCurrentWarez(null); // Consume it.
+
                     }
 
                     // AI can still attack player.
@@ -434,7 +439,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
                                 }
                             }
                             case ShotgunWarez ww -> { // Use on AI.
-                                LOGGER.log(Level.FINER, "Using Shotgun Warez...{0}.  Todo: What happens here?", ww.item.itemName);
+                                LOGGER.log(Level.FINE, "Using Shotgun Warez...{0}.  Todo: What happens here?", ww.item.itemName);
                                 if (!ww.isRunning()) {
                                     fireShotPlayer(ww);
                                 }
@@ -533,9 +538,6 @@ public class BattleGridPane extends GridPane implements PopupListener {
         LOGGER.log(Level.FINE, "Player Fires Warez Attack Round:{0} v{1}", new Object[]{w.item.itemName, w.version});
         DeckItem deck = gameState.usingDeck;
 
-//        if (w instanceof VirusWarez) {
-//            gameState.eraseSoftware(w);
-//        }
         // Set up animation.
         shotsLivePlayerPane.setLayoutY(200);
         shotsLivePlayerPane.setVisible(true);
@@ -549,7 +551,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
         );
         tt.setOnFinished((t) -> {
             LOGGER.log(Level.FINE, "Warez {0} strikes enemy.", w.item.itemName);
-            deck.setCurrentWarez(null);
+            //deck.setCurrentWarez(null);
 
             tt.setNode(null);
             shotLivePlayerSequence.stop();
@@ -560,13 +562,6 @@ public class BattleGridPane extends GridPane implements PopupListener {
             // Start the Warez running. Next tick() will handle the rest.
             w.start();
 
-//            // Apply damage, considering weaknesses.
-//            if (mode == IceMode.AI) {
-//                //ai.applyDamage(w.getEffect(gameState));
-//                aiClazz.applyWarezAttack(w, gameState);
-//            } else {
-//                gameState.database.applyWarezAttack(w, gameState);
-//            }
             // Change any animations for ICE.
             // TODO: Do this instead at each tick() ???
             if (mode == IceMode.BASIC || mode == IceMode.VIRUS || mode == IceMode.ROT) {
@@ -611,32 +606,6 @@ public class BattleGridPane extends GridPane implements PopupListener {
                     LOGGER.log(Level.INFO, "TODO: Wear or Damage software.");
                 }
             }
-
-            // Handled by tick()
-//            switch (mode) {
-//                case AI -> {
-//                    if (aiClazz.getConstitution() <= 0) {
-//                        LOGGER.log(Level.INFO, "AI Defeated.");
-//                        // TODO: New sound for AI defeated.
-//                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
-//                        aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
-//                        talkPane.say(AiTalkPane.Message.LAST);
-//                    }
-//                }
-//                case BASIC, ROT, VIRUS -> { // Any ICE battle mode.
-//                    if (db.getIce() <= 0) {
-//                        LOGGER.log(Level.INFO, "ICE Broken.");
-//                        mode = IceMode.BROKEN; // Allows animations to finish.
-//
-//                        // Animations
-//                        iceBrokenAnimation(iceFrontPane, iceRearPane);
-//                        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
-//                    }
-//                }
-//                default -> {
-//                    // Do nothing.
-//                }
-//            }
         });
     }
 
@@ -791,6 +760,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
     }
 
     private void processWarezTick() {
+        LOGGER.log(Level.FINEST, "processWarezTick()");
         gameState.software.forEach((warez) -> {
             if (warez.isRunning()) {
                 // Apply any warez operation to battle.
@@ -836,21 +806,21 @@ public class BattleGridPane extends GridPane implements PopupListener {
                     case ShotgunWarez ww -> { // Use on AI.
                         if (mode == IceMode.AI) {
                             LOGGER.log(Level.FINER, "Using Shotgun Warez...{0}.", warez.item.itemName);
-                            //fireShotPlayer(ww);
+                            ai.applyWarezAttack(ww, gameState);
                             ww.tick(gameState);
                         } else {
-                            LOGGER.log(Level.FINER, "Using Shotgun Warez...{0}.  Not applicable to DB attacks.", warez.item.itemName);
+                            LOGGER.log(Level.FINER, "Using Shotgun Warez...{0}.  Not applicable to ICE attacks.", warez.item.itemName);
                             ww.abort(gameState);
                             gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
                         }
                     }
                     case ChessWarez ww -> { // Use on AI
                         if (mode == IceMode.AI) {
-                            LOGGER.log(Level.FINER, "Using Chess Warez...{0}.", warez.item.itemName);
-                            // If BattleChess 4.0 --> AI
+                            LOGGER.log(Level.FINE, "Using Chess Warez on AI... {0}.", warez.item.itemName);
+                            ai.applyWarezAttack(warez, gameState);
                             ww.tick(gameState);
                         } else {
-                            LOGGER.log(Level.FINER, "Using Chess Warez...{0}.", warez.item.itemName);
+                            LOGGER.log(Level.FINER, "Using Chess Warez...{0}. Not applicable to ICE attacks.", warez.item.itemName);
                             ww.abort(gameState);
                             gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
                         }
@@ -861,7 +831,6 @@ public class BattleGridPane extends GridPane implements PopupListener {
                     }
                 }
             }
-            //warez.tick(gameState);
         });
     }
 
