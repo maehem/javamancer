@@ -42,7 +42,7 @@ import com.maehem.javamancer.neuro.model.warez.BattleChessWarez;
  */
 public class PhantomAI extends AI {
 
-    public PhantomAI(String name) {
+    public PhantomAI() {
         super("Phantom", 0, 24576,
                 LogicSkill.class, BattleChessWarez.class,
                 new int[]{36, 37, 38, 39} // AITALK.txh entries
