@@ -229,7 +229,7 @@ public class SoftwarePane extends Pane {
 //        });
 //    }
     private void displayUsingSoftware() {
-        LOGGER.log(Level.INFO, "Show Warez use() in progress");
+        LOGGER.log(Level.INFO, "Showing pane: Warez use() in progress.");
 
         getChildren().clear();
         setVisible(true);
