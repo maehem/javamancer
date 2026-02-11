@@ -126,12 +126,13 @@ public abstract class Database {
     public void resetIce() {
         ice = ICE_MAX;
     }
-    
+
     /**
      * Used by final Neuromancer battle.
-     * 
+     *
      */
     public void zeroIce() {
+        LOGGER.log(Level.FINE, "Zero ICE value.");
         ice = 0;
     }
 
