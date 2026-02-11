@@ -60,21 +60,26 @@ public class VisualPane extends Pane {
 
         configState(CyberspacePopup.State.EXPLORE);
 
-        Platform.runLater(() -> {
-            gridBasePane.animateTravel(ExploreGridPane.Direction.FORWARD);
-        });
     }
 
     public void handleKeyEvent(KeyEvent keyEvent) {
         if (gridBasePane.isVisible()) {
-            handleExploreKeys(keyEvent);
+           LOGGER.log(Level.FINEST, "VisualPane: Grid Base Pane Key event.");
+           handleExploreKeys(keyEvent);
         } else if (battlePane.isVisible()) {
             // Battle Keys are handled by ControlPanelPane and effect gameState
             // when actuated.  So, in this class we should monitor the gameState
             // at each tick().
+            battlePane.handleKeyEvent(keyEvent); // Handles Neuromancer initial encounter.
         }
     }
 
+    public void animateInitialTravel() {
+        Platform.runLater(() -> {
+            gridBasePane.animateTravel(ExploreGridPane.Direction.FORWARD);
+        });
+    }
+    
     /**
      * Player is moving around cyberspace.
      *
@@ -184,6 +189,10 @@ public class VisualPane extends Pane {
         if (battlePane.isVisible()) {
             battlePane.tick();
         }
+    }
+
+    public void setNeuromancerFinalFight() {
+        battlePane.setupNeuromancerFinalBattle();
     }
 
 }
