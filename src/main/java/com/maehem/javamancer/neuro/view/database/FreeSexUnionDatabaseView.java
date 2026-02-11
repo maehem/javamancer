@@ -73,7 +73,7 @@ public class FreeSexUnionDatabaseView extends DatabaseView {
         pane.getChildren().clear();
         mode = Mode.SUB;
 
-        Text paddingText = new Text("\n\n\n\n" + dbTextResource.get(2) + "\n\n\n\n");
+        Text paddingText = new Text("\n\n\n\n" + dbTextResource.get(2) + "\n\n\n\n\n\n\n\n");
 
         TextFlow tf = pageTextFlow(headingText, paddingText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
