@@ -86,7 +86,7 @@ public enum RoomBounds { // and Doors
     R47(182, 540, 224, 80, 0, 0, 0, 0, 0, 0, 180, 44), // Bank Gemeinschaft Vault
     R48(174, 560, 224, 40, 0, 0, 0, 0, 0, 0, 0, 0),
     R49(180, 560, 224, 40, 0, 0, 180, 44, 0, 0, 180, 44),
-    R50(174, 560, 224, 40, 0, 0, 0, 0, 0, 0, 0, 0), // Unused - Don't Use
+    R50(180, 460, 224, 110, 0, 0, 0, 0, 0, 0, 0, 0), // Unused - Don't Use
     R51(180, 300, 224, 40, 0, 0, 180, 44, 0, 0, 180, 44),
     R52(180, 520, 224, 60, 0, 0, 180, 44, 0, 0, 180, 44), // Security Gate
     R53(190, 360, 224, 40, 0, 0, 0, 0, 250, 90, 0, 0), // Hitachi Medical Experiment
@@ -97,7 +97,7 @@ public enum RoomBounds { // and Doors
     R58(180, 560, 224, 350, 0, 0, 180, 50, 0, 0, 0, 0);  // Musabori
 
     public enum Door {
-        NONE, TOP, RIGHT, BOTTOM, LEFT, JAIL, STREET_CHAT, BODY_SHOP, SHUTTLE, FREESIDE, ZION, SPACEPORT
+        NONE, TOP, RIGHT, BOTTOM, LEFT, JAIL, STREET_CHAT, BODY_SHOP, SHUTTLE, FREESIDE, ZION, SPACEPORT, BEACH
     };
 
     public final int tBound; // Upper walk Line
