@@ -82,10 +82,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     }
 
     public enum Popup {
-        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK, 
-        BODYSHOP_BUY, BODYSHOP_SELL, 
-        SKILLS_BUY, SKILLS_UPGRADE, 
-        ITEMS_BUY, SOFTWARE_BUY, 
+        INVENTORY, PAX, TALK, SKILLS, ROM, DISK, DECK,
+        BODYSHOP_BUY, BODYSHOP_SELL,
+        SKILLS_BUY, SKILLS_UPGRADE,
+        ITEMS_BUY, SOFTWARE_BUY,
         CYBERSPACE,
         SKILL_CRYPTO
     }
@@ -402,9 +402,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     @Override
     public void tick() {
-        if (!getGameState().showMessage.isBlank()) {
-            roomDescriptionPane.addMessage(getGameState().showMessage);
-            getGameState().showMessage = "";
+        GameState gs = getGameState();
+        if (!gs.showMessage.isBlank()) {
+            roomDescriptionPane.addMessage(gs.showMessage);
+            gs.showMessage = "";
         }
         if (firstTime) {
             // We are scrolling the description and may not yet be done
@@ -426,7 +427,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             switch (popup) {
                 case DialogPopup dp -> {
                     dp.dialogCounter();
-                    roomPane.tick(getGameState());
+                    roomPane.tick(gs);
                 }
                 case DeckPopup dp ->
                     dp.tick();
@@ -441,10 +442,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     room.extras.setRequestDialogPopup(false);
                     showPopup(Popup.TALK);
                 } else {
-                    room.extras.tick(getGameState());
+                    room.extras.tick(gs);
                 }
             }
-            roomPane.tick(getGameState());
+            roomPane.tick(gs);
         }
 
         if (getGameState().previousSkill != getGameState().activeSkill) {
