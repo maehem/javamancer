@@ -77,8 +77,13 @@ public class AiTalkPane extends DialogPopupPane {
         this.ai = ai;
     }
 
-    public void say(Message msg) {
+    public void say(int index ) {
         TextResource dialogs = ai.getDialogs(gameState);
+        setBubbleText(dialogs.get(index));
+        setVisible(true);
+    }
+    
+    public void say(Message msg) {
         int index;
         switch (msg) {
             default -> {
@@ -91,8 +96,7 @@ public class AiTalkPane extends DialogPopupPane {
                 index = ai.TALK[(int)(Math.random() * ai.TALK.length - 2) + 1];
             }
         }
-        setBubbleText(dialogs.get(index));
-        setVisible(true);
+        say(index);
     }
 
     @Override
