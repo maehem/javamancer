@@ -41,7 +41,7 @@ import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 public class MorphyAI extends AI {
 
     public MorphyAI() {
-        super("Morphy", 0, 96,
+        super("Morphy", 1, 96,
                 LogicSkill.class, null,
                 new int[]{0, 1, 2, 3} // AITALK.txh entries
         );

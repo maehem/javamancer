@@ -39,7 +39,7 @@ import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 public class GoldAI extends AI {
 
     public GoldAI() {
-        super("Gold", 0, 1536,
+        super("Gold", 4, 1536,
                 PhilosophySkill.class, null,
                 new int[]{24, 25, 26, 27} // From AITALK.txh
         );

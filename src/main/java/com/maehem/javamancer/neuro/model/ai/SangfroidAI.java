@@ -40,7 +40,7 @@ import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 public class SangfroidAI extends AI {
 
     public SangfroidAI() {
-        super("Sanfroid", 0, 6144,
+        super("Sangfroid", 7, 6144,
                 PhenomenologySkill.class, null,
                 new int[]{28, 29, 30, 31} // AITALK.txh entries
         );

@@ -47,7 +47,7 @@ import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 public class XavieraAI extends AI {
 
     public XavieraAI() {
-        super("Xaviera", 0, 768,
+        super("Xaviera", 5, 768,
                 PhenomenologySkill.class, null,
                 new int[]{20, 21, 22, 23} // AITALK.txh entries
         );

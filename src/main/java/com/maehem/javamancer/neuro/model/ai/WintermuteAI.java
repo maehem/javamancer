@@ -39,7 +39,7 @@ import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 public class WintermuteAI extends AI {
 
     public WintermuteAI() {
-        super("Wintermute", 0, 12288,
+        super("Wintermute", 8, 12288,
                 SophistrySkill.class, null,
                 new int[]{40, 41, 42, 43} // AITALK.txh entries
         );

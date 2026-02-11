@@ -40,7 +40,7 @@ import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
 public class SaphireAI extends AI {
 
     public SaphireAI() {
-        super("Saphire", 0, 192,
+        super("Saphire", 2, 192,
                 SophistrySkill.class, null,
                 new int[]{8, 9, 10, 11}
         );

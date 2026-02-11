@@ -44,7 +44,7 @@ import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 public class LuciferAI extends AI {
 
     public LuciferAI() {
-        super("Lucifer", 0, 3072,
+        super("Lucifer", 6, 3072,
                 LogicSkill.class, null,
                 new int[]{32, 33, 34, 35} // AITALK.txh entries
         );

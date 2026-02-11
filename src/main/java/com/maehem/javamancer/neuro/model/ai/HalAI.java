@@ -43,7 +43,7 @@ import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 public class HalAI extends AI {
 
     public HalAI() {
-        super("HAL", 0, 384,
+        super("HAL", 3, 384,
                 LogicSkill.class, null,
                 new int[]{16, 17, 18, 19} // AITALK.txh entries
         );
