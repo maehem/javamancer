@@ -85,10 +85,10 @@ public class AiTalkPane extends DialogPopupPane {
                 index = ai.TALK[0];
             }
             case LAST -> {
-                index = ai.TALK.length - 1;
+                index = ai.TALK[ai.TALK.length - 1];
             }
             case RANDOM -> {
-                index = (int)(Math.random() * ai.TALK.length - 2) + 1;
+                index = ai.TALK[(int)(Math.random() * ai.TALK.length - 2) + 1];
             }
         }
         setBubbleText(dialogs.get(index));
