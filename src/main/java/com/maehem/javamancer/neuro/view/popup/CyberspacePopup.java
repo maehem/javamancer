@@ -28,6 +28,8 @@ package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
 import com.maehem.javamancer.neuro.view.cyberspace.ControlPanelPane;
@@ -89,6 +91,15 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
         deck.setMode(DeckItem.Mode.CYBERSPACE);
         deck.setCordX(gs.room.getJack().x);
         deck.setCordY(gs.room.getJack().y);
+
+        if (gameState.room == Room.R50) {
+            // Go straight into final AI battle.
+            setState(State.BATTLE);
+            gameState.database.zeroIce();
+            visualPane.setNeuromancerFinalFight();
+        } else { // Normal operation.
+            visualPane.animateInitialTravel();
+        }
     }
 
     @Override
@@ -130,8 +141,9 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
         }
         controlPanel.tick();
 
-        if (gameState.isFlatline()) {
+        if (gameState.isFlatline() || gameState.useDoor == RoomBounds.Door.BEACH) {
             listener.popupExit();
+            return;
         }
         if (databaseView != null) {
             databaseView.tick();
