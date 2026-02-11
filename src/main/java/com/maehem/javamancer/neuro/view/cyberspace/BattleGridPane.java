@@ -28,10 +28,13 @@ package com.maehem.javamancer.neuro.view.cyberspace;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.ai.AI;
+import com.maehem.javamancer.neuro.model.ai.NeuromancerAI;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.database.KGBDatabase;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.room.Room;
+import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
@@ -55,6 +58,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
 /**
@@ -100,6 +104,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
         BROKEN, // ICE down. Animations finishing. Start AI.
         AI, // AI Face present, second battle.
         AI_DEATH, // AI Dead. Face fading.
+        NEUROMANCER, // Neuromancer pre-beach. He only talks to you.
         NONE   // Battles over. OK to open DB page.
     }
 
@@ -378,6 +383,11 @@ public class BattleGridPane extends GridPane implements PopupListener {
             case AI_DEATH -> {
                 // AI Animation running. Do nothing.
             }
+            case NEUROMANCER -> { // Set up for final boss scenes.
+                // AI apepars and says a couple things.
+
+                // Player is transported to Beach (R50).
+            }
             default -> { // All DB battle modes.
                 DeckItem deck = gameState.usingDeck;
                 if (db.getIce() <= 0) {
@@ -468,6 +478,11 @@ public class BattleGridPane extends GridPane implements PopupListener {
 
     public boolean isDone() {
         return mode == IceMode.NONE;
+    }
+    
+    public void setupNeuromancerFinalBattle() {
+        LOGGER.log(Level.INFO, "BattleGrid:  Invoke Neuromancer Fight.");
+        setIceMode(IceMode.AI);
     }
 
     void resetBattle() {
@@ -671,7 +686,11 @@ public class BattleGridPane extends GridPane implements PopupListener {
             fadeNode1.setVisible(false);
             fadeNode1.setOpacity(1.0);
             if (db.aiClazz != null && !gameState.isAiDefeated(db.aiClazz)) { // Begin AI fight.
-                setIceMode(IceMode.AI);
+                if (!db.aiClazz.equals(NeuromancerAI.class)) {
+                    setIceMode(IceMode.AI); // Normal AI fight begin.
+                } else {
+                    setIceMode(IceMode.NEUROMANCER); // Final boss set up.
+                }
             } else {
                 LOGGER.log(Level.INFO, "Switch to DB Terminal...");
                 setIceMode(IceMode.NONE);
@@ -745,13 +764,16 @@ public class BattleGridPane extends GridPane implements PopupListener {
         iceVirusRotFrontPane.setVisible(mode == IceMode.ROT);
         iceVirusRotRearPane.setVisible(mode == IceMode.ROT);
 
-        if (mode == IceMode.AI) {
+        if (mode == IceMode.AI || mode == IceMode.NEUROMANCER) {
             if (ai != null) {
                 LOGGER.log(Level.INFO, "Begin AI Fight...");
                 // Dump the AI responses to LOGGER.
-                //ai.getDialogs(gameState).dumpList(); // For debug
+                ai.getDialogs(gameState).dumpList(); // For debug
                 aiFace.show(ai.index);
-                talkPane.say(AiTalkPane.Message.FIRST);
+                database.setVisible(false);
+                talkPane.setAi(ai);
+                talkPane.say(AiTalkPane.Message.LAST);
+                gameState.databaseBattle = true;
             } else {
                 setIceMode(IceMode.NONE);
                 aiFace.show(-1);
@@ -832,6 +854,16 @@ public class BattleGridPane extends GridPane implements PopupListener {
                 }
             }
         });
+    }
+
+    protected void handleKeyEvent(KeyEvent keyEvent) {
+        // Only used for when Neuromancer first pops up. Any key press will
+        // transport player to Beach scene.
+        if (mode == IceMode.NEUROMANCER) {
+            LOGGER.log(Level.FINER, "User pressed key to do beach scene.");
+            gameState.useDoor = RoomBounds.Door.BEACH;
+            cleanup();
+        }
     }
 
     /**
