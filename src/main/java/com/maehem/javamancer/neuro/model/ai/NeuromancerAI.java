@@ -41,7 +41,7 @@ public class NeuromancerAI extends AI {
     public NeuromancerAI() {
         super("Neuromancer", 11, 49152,
                 null, KuangElevenWarez.class,
-                new int[]{48, 49, 50, 51} // AITALK.txh entries
+                new int[]{44, 45, 47,48,49,50,51,52} // AITALK.txh entries
         );
     }
 
