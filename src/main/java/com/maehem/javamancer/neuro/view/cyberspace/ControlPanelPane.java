@@ -348,10 +348,12 @@ public class ControlPanelPane extends Pane implements PopupListener {
             // DB gauge
             //int dmgPercent = 100 * (db.ICE_MAX - db.getBattleHealth(gameState)) / db.ICE_MAX;
             //opponentDamage.setValue(dmgPercent);
+            LOGGER.log(Level.FINEST, "Set Opponent Gauge to: {0}%", db.getBattleHealth(gameState));
             opponentDamage.setValue(db.getBattleHealth(gameState));
 
             // Player Gauge
-            int dmgPercent = 100 * (GameState.CONSTITUTION_MAX - gameState.getConstitution()) / GameState.CONSTITUTION_MAX;
+            int dmgPercent = (int)(100 * (1.0 - (double)gameState.getConstitution() / GameState.CONSTITUTION_MAX));
+            LOGGER.log(Level.FINEST, "Set Player Gauge to: {0}%", dmgPercent);
             playerDamage.setValue(dmgPercent);
 
         } else {
