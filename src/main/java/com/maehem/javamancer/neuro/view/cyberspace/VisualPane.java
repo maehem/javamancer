@@ -192,6 +192,7 @@ public class VisualPane extends Pane {
     }
 
     public void setNeuromancerFinalFight() {
+        LOGGER.log(Level.FINE, "Set Neuromancer final fight.");
         battlePane.setupNeuromancerFinalBattle();
     }
 
