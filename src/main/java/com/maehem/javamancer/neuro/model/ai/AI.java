@@ -173,6 +173,8 @@ public abstract class AI {
     public final Class<? extends Skill> weaknessSkill;
     public final Class<? extends Warez> weaknessWarez;
     public final int[] TALK;
+    public int TALK_SPEC_1;
+    public int TALK_SPEC_2;
 
     public AI(String name, int index, int constitution,
             Class<? extends Skill> weaknessSkill,
@@ -202,13 +204,16 @@ public abstract class AI {
         return constitution;
     }
 
-    public void applyWarezAttack(Warez warez, GameState gs) {
+    public boolean applyWarezAttack(Warez warez, GameState gs) {        
         int effect = warez.getEffect(gs);
+        
         this.constitution -= effect;
         if (constitution < 0) {
             constitution = 0;
         }
         LOGGER.log(Level.INFO, "AI Takes Damage from {0} Warez of {1}.  AI constitution: {2}", new Object[]{warez.item.name(), effect, constitution});
+        
+        return weaknessWarez.equals(warez.getClass());
     }
 
     public boolean applySkillAttack(Skill skill, GameState gs) {
@@ -227,7 +232,7 @@ public abstract class AI {
         }
         LOGGER.log(Level.INFO, "AI Takes Damage from {0} Skill of {1}.  AI constitution: {2}", new Object[]{skill.catalog.name(), effect, constitution});
 
-        return false;
+        return retVal;
     }
 
     public int getEffect() {
