@@ -53,12 +53,11 @@ public class KuangElevenWarez extends ShotgunWarez {
     @Override
     public int getEffect(GameState gs) {
         Database db = gs.database;
-        if (gs.databaseBattle
-                && db.getIce() <= 0
-                && (db.aiClazz.getClass().equals(NeuromancerAI.class))) {
+        if (db.getIce() <= 0
+                && (db.aiClazz.equals(NeuromancerAI.class))) {
             LOGGER.log(Level.FINE,
                     "{0} is vulnerable to {1}.  Critical damage dealt!",
-                    new Object[]{NeuromancerAI.class.getName(), getSimpleName()});
+                    new Object[]{db.aiClazz.getSimpleName(), getSimpleName()});
             return version * 30000;
         }
         return version * 10000;
