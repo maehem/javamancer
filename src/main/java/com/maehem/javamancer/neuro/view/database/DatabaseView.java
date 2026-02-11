@@ -919,7 +919,7 @@ public abstract class DatabaseView {
     }
 
     protected void attemptSkillUpgrade(Skill upgradeSkill) {
-        LOGGER.log(Level.FINE, () -> "Turing Registry: Attempt Skill Upgrade: " + upgradeSkill.getVersionedName());
+        LOGGER.log(Level.FINE, () -> "Attempt Skill Upgrade: " + upgradeSkill.getVersionedName());
 
         Skill toUpgrade = gameState.getInstalledSkill(new SkillItem(upgradeSkill.catalog, 1));
         if (toUpgrade != null) {
