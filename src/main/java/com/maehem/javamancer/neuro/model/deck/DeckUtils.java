@@ -140,7 +140,7 @@ public class DeckUtils {
         return false;
     }
 
-    public static DeckItem getUsingDeck(GameState gs, String deckName) {
+    public static DeckItem getInventoryDeck(GameState gs, String deckName) {
         for (Item item : gs.inventory) {
             if (item.item.name().equals(deckName)) {
                 return (DeckItem) item;
