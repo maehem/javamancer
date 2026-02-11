@@ -319,7 +319,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
 
         if (gameState.databaseArrived) {
             gameState.databaseArrived = false;
-            yesNoPane.setVisible(true);
+            yesNoPane.prompt();
         }
     }
 
