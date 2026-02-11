@@ -27,8 +27,8 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DIALOG_END;
-import static com.maehem.javamancer.neuro.model.room.DialogCommand.EXIT_X;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.NPC;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 
@@ -60,7 +60,7 @@ public class R50Extras extends RoomExtras { // After Cyber Beach
         {NPC.num, 19}, // [18] :: Why havent I killed you?  I am not without gratitude to you for the things you have done.  You killed AIs.
         {NPC.num, 20}, // [19] :: A task which would have revealed my hand too soon.  For this alone I would let you live, and toward that end I
         {NPC.num, 21}, // [20] :: have created this wonderland as a prison designed to specifically hold your puny intellect.
-        {DIALOG_END.num, EXIT_X.num}, // [21] :: Good bye, cowboy.
+        {DIALOG_END.num}, // [21] :: Good bye, cowboy.
     };
 
     @Override
@@ -69,17 +69,17 @@ public class R50Extras extends RoomExtras { // After Cyber Beach
 
     // Animation
     protected final int[][] ANIMATION_FLAGS = {
-        {1},  // Puppetmaster AI Dude
-        {1},  // Eyes
-        {0},  // Eyes
-        {0}   // Eyes
+        {1}, // Puppetmaster AI Dude
+        {1}, // Eyes
+        {0}, // Eyes
+        {0} // Eyes
     };
 
     @Override
     public int[][] getAnimationFlags() {
         return ANIMATION_FLAGS;
     }
-    
+
     @Override
     public int[][] getDialogChain() {
         return DIALOG_CHAIN;
@@ -88,6 +88,11 @@ public class R50Extras extends RoomExtras { // After Cyber Beach
     @Override
     public int dialogWarmUp(GameState gs) {
         return 0; // NPC Simply Talks to you.
+    }
+
+    @Override
+    public JackZone jackZone() {
+        return JackZone.SEVEN;
     }
 
 }
