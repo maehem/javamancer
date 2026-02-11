@@ -126,6 +126,14 @@ public abstract class Database {
     public void resetIce() {
         ice = ICE_MAX;
     }
+    
+    /**
+     * Used by final Neuromancer battle.
+     * 
+     */
+    public void zeroIce() {
+        ice = 0;
+    }
 
     /**
      * Returns ICE health if above 0. Otherwise AI health if AI present.
