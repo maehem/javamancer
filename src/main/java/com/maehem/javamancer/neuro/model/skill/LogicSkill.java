@@ -47,7 +47,7 @@ import java.util.logging.Level;
 public class LogicSkill extends Skill {
 
     public LogicSkill(int level) {
-        super(Item.Catalog.LOGIC, level, 5);
+        super(Item.Catalog.LOGIC, level, 8);
     }
 
     @Override

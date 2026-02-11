@@ -49,7 +49,7 @@ import java.util.logging.Level;
 public class PhilosophySkill extends Skill {
 
     public PhilosophySkill(int level) {
-        super(Item.Catalog.PHILOSOPHY, level, 5);
+        super(Item.Catalog.PHILOSOPHY, level, 8);
     }
 
     @Override

@@ -47,7 +47,7 @@ import java.util.logging.Level;
 public class PhenomenologySkill extends Skill {
 
     public PhenomenologySkill(int level) {
-        super(Item.Catalog.PHENOMENOLOGY, level, 5);
+        super(Item.Catalog.PHENOMENOLOGY, level, 8);
     }
 
 
