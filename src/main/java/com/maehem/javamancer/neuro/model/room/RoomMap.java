@@ -127,6 +127,9 @@ public enum RoomMap {
         if (d == RoomBounds.Door.ZION) {
             return Room.R11;
         }
+        if (d == RoomBounds.Door.BEACH) {
+            return Room.R50;
+        }        
         for (RoomMap rm : values()) {
             if (r.equals(rm.room)) {
                 switch (d) {
