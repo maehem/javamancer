@@ -448,11 +448,6 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             roomPane.tick(gs);
         }
 
-        if (getGameState().previousSkill != getGameState().activeSkill) {
-            // The skill in use has changed.
-            // If the player has visited, trigger dialog. Should load new dialog.
-        }
-
         if (getGameState().isFlatline()) {
             LOGGER.log(Level.INFO, "Player is flatlined.");
             popup = null;
