@@ -36,7 +36,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 /**
- *
+ * This site is never viewed by player. It is a placeholder for final AI
+ * fight actions that occur once ICE is broken.
+ * 
+ * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class AllardTechDatabaseView extends DatabaseView {
@@ -73,7 +76,8 @@ public class AllardTechDatabaseView extends DatabaseView {
 
         TextFlow tf = pageTextFlow(new Text(centeredText("You win!")));
 
-        Text menuItem = new Text("\nTODO: Beach scene");
+        Text menuItem = new Text("\nBeach scene");
+                
         tf.getChildren().add(menuItem);
 
         pane.getChildren().add(tf);
