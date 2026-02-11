@@ -33,7 +33,6 @@ import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.database.KGBDatabase;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
-import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.skill.LogicSkill;
 import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
@@ -403,7 +402,6 @@ public class BattleGridPane extends GridPane implements PopupListener {
                                 // TODO: New sound for AI defeated.
                                 gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
                                 aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
-
                             }
                         }
                         case BASIC, ROT, VIRUS -> { // Any ICE battle mode.
@@ -414,7 +412,6 @@ public class BattleGridPane extends GridPane implements PopupListener {
                                 // Animations
                                 iceBrokenAnimation(iceFrontPane, iceRearPane);
                                 gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
-
                             }
                         }
                         default -> {
@@ -479,13 +476,14 @@ public class BattleGridPane extends GridPane implements PopupListener {
     public boolean isDone() {
         return mode == IceMode.NONE;
     }
-    
+
     public void setupNeuromancerFinalBattle() {
         LOGGER.log(Level.INFO, "BattleGrid:  Invoke Neuromancer Fight.");
         setIceMode(IceMode.AI);
     }
 
     void resetBattle() {
+        LOGGER.log(Level.FINE, "Reset battle settings.");
         db = gameState.database;
         ai = db.getAI(gameState);
         talkPane.setAi(ai);
