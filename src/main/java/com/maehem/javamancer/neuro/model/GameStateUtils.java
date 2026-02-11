@@ -160,6 +160,11 @@ public class GameStateUtils {
         } else {
             pPut(props, USING_DECK, "null");
         }
+        if (gs.lastUsedDeck != null) {
+            pPut(props, LAST_USED_DECK, gs.lastUsedDeck.item.name());
+        } else {
+            pPut(props, LAST_USED_DECK, "null");
+        }
 
         pPut(props, MATRIX_POS_X, gs.matrixPosX);
         pPut(props, MATRIX_POS_Y, gs.matrixPosY);
@@ -298,7 +303,8 @@ public class GameStateUtils {
         gs.aiFightSkill = getInt(AI_FIGHT_SKILL, p);
 
         // Matrix Stuff
-        gs.usingDeck = DeckUtils.getUsingDeck(gs, getStr(USING_DECK, p));
+        gs.usingDeck = DeckUtils.getInventoryDeck(gs, getStr(USING_DECK, p));
+        gs.lastUsedDeck = DeckUtils.getInventoryDeck(gs, getStr(LAST_USED_DECK, p));
         gs.matrixPosX = getInt(MATRIX_POS_X, p);
         gs.matrixPosY = getInt(MATRIX_POS_Y, p);
         gs.romInstalled = getInt(ROM_INSTALLED, p);

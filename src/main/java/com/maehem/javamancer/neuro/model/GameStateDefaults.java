@@ -64,6 +64,7 @@ public enum GameStateDefaults {
     AI_DEFEATED("aiDefeated", null),
     DATABASE("deckCurrentDatabase", null),
     USING_DECK("deckInUse", null),
+    LAST_USED_DECK("deckLastUsed", null),
     MATRIX_POS_X("deckMatrixPosX", 112),
     MATRIX_POS_Y("deckMatrixPosY", 96),
     ROM_INSTALLED("deckRomInstalled", -1), // -1 = none. 0 = dixie, 1 = Toshiro, 2 = ROMBO

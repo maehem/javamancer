@@ -126,6 +126,7 @@ public class GameState {
     public static final int AI_FIGHT_SKILL_MAX = 8; // TODO: Not needed?
     public int deckSlots = 0;
     public DeckItem usingDeck = null;
+    public DeckItem lastUsedDeck = null;
     public boolean usingDeckErase = false; // Ephemeral
     public int matrixPosX = 112;
     public int matrixPosY = 96;

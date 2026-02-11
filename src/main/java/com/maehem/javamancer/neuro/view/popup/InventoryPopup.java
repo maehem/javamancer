@@ -308,6 +308,7 @@ public class InventoryPopup extends SmallPopupPane {
                 case DeckItem deck -> {
                     LOGGER.log(Level.INFO, "Operate Deck: {0}", deck);
                     gameState.usingDeck = deck;
+                    gameState.lastUsedDeck = deck;
                     gameState.usingDeckErase = altMode;
                     deck.setZone(gameState.room.getJack());
                     listener.popupExit(RoomMode.Popup.DECK); // Exit inventory
