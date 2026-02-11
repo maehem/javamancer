@@ -94,6 +94,7 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
 
         if (gameState.room == Room.R50) {
             // Go straight into final AI battle.
+            LOGGER.log(Level.FINEST, "Go straight to Neuromance fight.");
             setState(State.BATTLE);
             gameState.database.zeroIce();
             visualPane.setNeuromancerFinalFight();
