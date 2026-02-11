@@ -32,15 +32,15 @@ import com.maehem.javamancer.neuro.model.warez.HemlockWarez;
  * AI for Musabori Database
  *
  * Greystoke AI may be a reference to Tarzan of the Jungle. Tarzon is raised in
- * the African Congo by apes; he later returns to civilization, only
- * to reject it and return to the Congo as a monkey man.
+ * the African Congo by apes; he later returns to civilization, only to reject
+ * it and return to the Congo as a monkey man.
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class GreystokeAI extends AI {
 
     public GreystokeAI() {
-        super("Greystoke", 0, 49151,
+        super("Greystoke", 10, 49151,
                 null, HemlockWarez.class,
                 new int[]{12, 13, 14, 15} // AITALK.txh entries
         );
