@@ -487,7 +487,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
 
     void resetBattle() {
         db = gameState.database;
-        ai = gameState.getAI(db.aiClazz);
+        ai = db.getAI(gameState);
         talkPane.setAi(ai);
         talkPane.setVisible(false);
 
