@@ -65,7 +65,7 @@ public class YesNoPane extends Pane {
         setLayoutY(PANE_Y);
         setId("neuro-popup");
 
-        prompt();
+        setVisible(false);
     }
 
     public final void prompt() {
