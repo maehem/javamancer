@@ -149,7 +149,7 @@ public abstract class Database {
                 if (ai == null) {
                     ai = gs.getAI(aiClazz);
                 }
-                return 100 * (1 - ai.getConstitution() / ai.MAX_CONSTITUTION);
+                return (int) (100 * (1.0 - (double)ai.getConstitution() / ai.MAX_CONSTITUTION));
             }
         }
 
