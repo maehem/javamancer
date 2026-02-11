@@ -27,7 +27,14 @@
 package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.JackZone;
+import com.maehem.javamancer.neuro.model.database.AllardTechDatabase;
+import com.maehem.javamancer.neuro.model.database.Database;
+import com.maehem.javamancer.neuro.model.database.DatabaseList;
+import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.skill.CryptologySkill;
+import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
+import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
@@ -139,6 +146,20 @@ public class SkillsPopup extends SmallPopupPane {
 
             if (skill instanceof CryptologySkill) {
                 listener.popupExit(RoomMode.Popup.SKILL_CRYPTO);
+            } else if (skill instanceof PhenomenologySkill) {
+                if ( gameState.room == Room.R50 && !gameState.databaseBattle) {
+                    LOGGER.log(Level.INFO, "Player used Philosophy at Beach.");
+                    gameState.activeSkill = null;
+                    
+                    gameState.usingDeck = gameState.lastUsedDeck;
+                    // Place player into CyberspaceMode with AI Battle.
+                    LOGGER.log(Level.INFO, "Operate Deck: {0}", gameState.usingDeck.item.itemName);
+                    gameState.usingDeck.setZone(JackZone.SEVEN); // Allard
+                    gameState.database = gameState.dbList.lookup("AllardTechDatabase");
+                    LOGGER.log(Level.INFO, "Show Cyberspace Popup.");
+                    
+                    listener.popupExit(RoomMode.Popup.CYBERSPACE);
+                }
             } else {
                 getChildren().clear();
                 mode = Mode.USE;
