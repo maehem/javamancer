@@ -347,7 +347,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
                                     setIceMode(IceMode.NONE);
                                     KGBDatabase kgbDatabase = new KGBDatabase(resourceManager);
                                     gameState.matrixPosX = kgbDatabase.matrixX;
-                                    gameState.matrixPosY = kgbDatabase.matrixY;                                    
+                                    gameState.matrixPosY = kgbDatabase.matrixY;
                                     // TODO: Cause Battle to exit into matrix.
 
                                 } else {

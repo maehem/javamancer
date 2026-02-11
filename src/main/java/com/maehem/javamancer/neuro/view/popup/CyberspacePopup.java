@@ -96,13 +96,13 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
         LOGGER.log(Level.FINE, "CyberspacePopup: Key Event.");
         if (databaseView != null) {
             if (databaseView.handleKeyEvent(keyEvent)) {
-                LOGGER.log(Level.FINE, "CyberspacePopup: Key Event: True returned from Database View.");
+                LOGGER.log(Level.FINE, "CyberspacePopup: Key Event: True (exit) returned from Database View.");
                 databaseView = null;
                 //cleanup();
                 return false;
             }
         } else if (controlPanel.handleKeyEvent(keyEvent)) {
-            LOGGER.log(Level.FINE, "CyberspacePopup: Key Event: True returned from control panel.");
+            LOGGER.log(Level.FINE, "CyberspacePopup: Key Event: True (exit) returned from control panel.");
             return true;
         }
 
@@ -162,8 +162,8 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
 
     /**
      * This is called when the player exits a DB in Cyberspace.
-     * 
-     * @return 
+     *
+     * @return
      */
     @Override
     public boolean popupExit() {
@@ -171,11 +171,11 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
         databaseView = null;
         databsePane.setVisible(false);
         visualPane.setVisible(true);
-        
+
         // Restore any warez that was running before ICE/AI battle.
         // Ex.: EasyRider
         gameState.usingDeck.popWarez();
-        
+
         return true;
     }
 
