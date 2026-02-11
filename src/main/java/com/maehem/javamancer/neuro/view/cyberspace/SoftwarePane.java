@@ -79,7 +79,6 @@ public class SoftwarePane extends Pane {
         setLayoutY(SOFT_LIST_Y);
         setId("neuro-popup");
 
-        softwarePrompt();
     }
 
     public final void softwarePrompt() {
