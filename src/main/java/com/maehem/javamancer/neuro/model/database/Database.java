@@ -135,6 +135,13 @@ public abstract class Database {
         ice = 0;
     }
 
+    public AI getAI(GameState gs) {
+        if (ai == null) {
+            ai = gs.getAI(aiClazz);
+        }
+        return ai;
+    }
+
     /**
      * Returns ICE health if above 0. Otherwise AI health if AI present.
      *
