@@ -770,7 +770,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
                 aiFace.show(ai.index);
                 database.setVisible(false);
                 talkPane.setAi(ai);
-                talkPane.say(AiTalkPane.Message.LAST);
+                talkPane.say(AiTalkPane.Message.FIRST);
                 gameState.databaseBattle = true;
             } else {
                 setIceMode(IceMode.NONE);
@@ -826,7 +826,9 @@ public class BattleGridPane extends GridPane implements PopupListener {
                     case ShotgunWarez ww -> { // Use on AI.
                         if (mode == IceMode.AI) {
                             LOGGER.log(Level.FINER, "Using Shotgun Warez...{0}.", warez.item.itemName);
-                            ai.applyWarezAttack(ww, gameState);
+                            if (ai.applyWarezAttack(ww, gameState)) {
+                                talkPane.say(ai.TALK_SPEC_2);
+                            };
                             ww.tick(gameState);
                         } else {
                             LOGGER.log(Level.FINER, "Using Shotgun Warez...{0}.  Not applicable to ICE attacks.", warez.item.itemName);
