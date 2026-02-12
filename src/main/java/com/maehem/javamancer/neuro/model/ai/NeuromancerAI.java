@@ -26,6 +26,8 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
+import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.TextResource;
 import com.maehem.javamancer.neuro.model.warez.KuangElevenWarez;
 
 /**
@@ -43,6 +45,9 @@ public class NeuromancerAI extends AI {
                 null, KuangElevenWarez.class,
                 new int[]{44, 45, 47,48,49,50,51,52} // AITALK.txh entries
         );
+    
+    public TextResource getDeathMonologue(GameState gs) {
+        return gs.resourceManager.getTxhText("ENDGAME");
     }
 
 }
