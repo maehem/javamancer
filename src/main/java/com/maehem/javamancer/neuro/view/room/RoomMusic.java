@@ -55,7 +55,7 @@ public enum RoomMusic {
     R52(STREET_2, 0.44, 30000, 2000, 2000),
     R54(STREET_3, 0.74, 45000, 2000, 2000),
     R55(STREET_3, 0.74, 45000, 2000, 2000),
-    N_DIE(MATRIX_1, 0.74, 0, 20, 2000);
+    N_DIE(MATRIX_1, 0.74, 2000, 3000, 2000);
 
     public final Track track;
     public final double volume;
