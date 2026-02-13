@@ -17,7 +17,7 @@ A restoration of ***Neuromancer*** *PC Game (1989)* with a *Game Assets Browser*
  - Check off all cyberspace databases tested to 100%
  - Fix some documented GIT issue bugs.
 
-###  2026 . February . Aplha 2
+###  2026 . February . Alpha 2
  - Game Winnable! Final scenes added.
  - Still "late-alpha" quality but Essentially playable!
  - Testers invited to play and comment.
