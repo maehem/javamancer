@@ -8,7 +8,22 @@ A restoration of ***Neuromancer*** *PC Game (1989)* with a *Game Assets Browser*
 
 <a href="images/README.md">Click Here for More Screenshots!!!</a>
 
-## State of the Development (2026 . January)
+## State of the Development
+###  Next Steps
+ - **Development Pause** - Taking a break from dev. until about May 2026
+ - Revamp save game directory location.
+ - Support Windows and Linux game save.
+ - Begin testing on Windows and Linux.
+ - Check off all cyberspace databases tested to 100%
+ - Fix some documented GIT issue bugs.
+
+###  2026 . February . Aplha 2
+ - Game Winnable! Final scenes added.
+ - Still "late-alpha" quality but Essentially playable!
+ - Testers invited to play and comment.
+ - Many small game features still to test and implement.
+
+###  2026 . January . Alpha 1
  - Game Running. "late-alpha" quiality. Largely playable!
  - Curious testers invited to play and comment.
  - No downloadable version. Use NetBeans IDE please.
