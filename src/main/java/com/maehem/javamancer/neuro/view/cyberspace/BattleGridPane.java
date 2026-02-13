@@ -57,7 +57,6 @@ import java.util.logging.Level;
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -381,6 +380,9 @@ public class BattleGridPane extends GridPane implements PopupListener {
                     LOGGER.log(Level.INFO, "Neuromancer Death Monologue.");
                     //gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
                     //aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
+                    gameState.resourceManager.musicManager.playTrack(RoomMusic.N_DIE);
+                    gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+                    gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_HIT);
                     talkPane.say(AiTalkPane.Message.LAST);
                     setIceMode(IceMode.NEUROMANCER_DEATH);
                 } else { // AI Fight is won.
@@ -801,9 +803,6 @@ public class BattleGridPane extends GridPane implements PopupListener {
                         talkPane.setBubbleText(dai.getDeathMonologue(gameState).get(0));
                     }
                     gameState.databaseBattle = true;
-                    Platform.runLater(() -> {
-                        gameState.resourceManager.musicManager.playTrack(RoomMusic.N_DIE);
-                    });
                 }
             } else {
                 setIceMode(IceMode.NONE);
