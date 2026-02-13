@@ -55,7 +55,9 @@ public class MusicManager {
         STREET_2("2AM-zzZZZ"),
         STREET_3("Jupiter_Function"),
         MATRIX_1("(empty)"),
-        TESSIER("tessier-lobby");
+        TESSIER("tessier-lobby"),
+        END_GAME("Blocks"),
+        CREDITS("Night Market");
 
         public final String fileName;
 
