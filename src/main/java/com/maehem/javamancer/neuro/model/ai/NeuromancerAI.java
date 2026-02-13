@@ -43,8 +43,22 @@ public class NeuromancerAI extends AI {
     public NeuromancerAI() {
         super("Neuromancer", 11, 49152,
                 null, KuangElevenWarez.class,
-                new int[]{44, 45, 47,48,49,50,51,52} // AITALK.txh entries
+                new int[]{
+                    52,  //[52] :: How could you have escaped the Island?! (real battle start)
+                    //44,//[44] :: About time you showed up.... (first encounter, sent to beach)
+                    45, //[45] :: Humans are so pathetic....  (battle flatline Death)
+                    // 46 not used.
+                    48, //[48] :: Sorry, but I have to defend myself. I guess I was wrong about you. (???)
+                    49, //[49] :: Thanks for the game, friend. (???)
+                    //50, //[50] :: Ha! Ive been waiting for that one, you pathetic human. (Kuang 11)
+                    //51, //[51] :: That wont work twice, human. (something on skill list?)
+                    47 //[47] :: Overload! (Maybe when damage reaches red?)
+                } // AITALK.txh entries
         );
+        
+        TALK_SPEC_1 = 51;
+        TALK_SPEC_2 = 50;
+    }
     
     public TextResource getDeathMonologue(GameState gs) {
         return gs.resourceManager.getTxhText("ENDGAME");
