@@ -50,11 +50,14 @@ import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
 import com.maehem.javamancer.neuro.view.SoundEffectsManager;
+import com.maehem.javamancer.neuro.view.room.RoomMusic;
+import static com.maehem.javamancer.neuro.view.room.RoomMusic.N_DIE;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -104,6 +107,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
         AI, // AI Face present, second battle.
         AI_DEATH, // AI Dead. Face fading.
         NEUROMANCER, // Neuromancer pre-beach. He only talks to you.
+        NEUROMANCER_DEATH, // Battle won. Neuromancer gives monologue.
         NONE   // Battles over. OK to open DB page.
     }
 
@@ -153,6 +157,7 @@ public class BattleGridPane extends GridPane implements PopupListener {
     private final ImageStack iceVirusRotFrontPane;
 
     private final AiTalkPane talkPane;
+    private int talkDeathIndex = 0; // Track which ENDGAME phrase Neuromancer is on.
 
     public BattleGridPane(GameState gs) {
         super(gs);
@@ -371,6 +376,13 @@ public class BattleGridPane extends GridPane implements PopupListener {
                     if (!aiAttackRunning) {
                         fireShotAI(); // AI attacks Player
                     }
+                } else if (ai instanceof NeuromancerAI neuroAi) {
+                    // Special Way for Nruromancer to die.
+                    LOGGER.log(Level.INFO, "Neuromancer Death Monologue.");
+                    //gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
+                    //aiDefeatedAnimation(aiFace); // Changes mode at end of animation.
+                    talkPane.say(AiTalkPane.Message.LAST);
+                    setIceMode(IceMode.NEUROMANCER_DEATH);
                 } else { // AI Fight is won.
                     LOGGER.log(Level.INFO, "AI Defeated.");
                     gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.ICE_BROKEN);
@@ -386,6 +398,10 @@ public class BattleGridPane extends GridPane implements PopupListener {
                 // AI apepars and says a couple things.
 
                 // Player is transported to Beach (R50).
+            }
+            case NEUROMANCER_DEATH -> {
+                // Neuromancer is defeated.
+                // He speaks a monologue for a little bit.
             }
             default -> { // All DB battle modes.
                 DeckItem deck = gameState.usingDeck;
@@ -762,16 +778,33 @@ public class BattleGridPane extends GridPane implements PopupListener {
         iceVirusRotFrontPane.setVisible(mode == IceMode.ROT);
         iceVirusRotRearPane.setVisible(mode == IceMode.ROT);
 
-        if (mode == IceMode.AI || mode == IceMode.NEUROMANCER) {
+        if (mode == IceMode.AI
+                || mode == IceMode.NEUROMANCER
+                || mode == IceMode.NEUROMANCER_DEATH) {
             if (ai != null) {
-                LOGGER.log(Level.INFO, "Begin AI Fight...");
-                // Dump the AI responses to LOGGER.
-                ai.getDialogs(gameState).dumpList(); // For debug
-                aiFace.show(ai.index);
-                database.setVisible(false);
-                talkPane.setAi(ai);
-                talkPane.say(AiTalkPane.Message.FIRST);
-                gameState.databaseBattle = true;
+                if (mode != IceMode.NEUROMANCER_DEATH) { // Normal fight
+                    LOGGER.log(Level.INFO, "Begin AI Fight...");
+                    // Dump the AI responses to LOGGER.
+                    //ai.getDialogs(gameState).dumpList(); // For debug
+                    aiFace.show(ai.index);
+                    database.setVisible(false);
+                    talkPane.setAi(ai);
+                    talkPane.say(AiTalkPane.Message.FIRST);
+                    gameState.databaseBattle = true;
+                } else { // Neuromancer death rattle monologue
+                    LOGGER.log(Level.INFO, "Begin Neuromancer Death Rattle...");
+                    aiFace.show(ai.index);
+                    database.setVisible(false);
+                    talkPane.setAi(ai);
+                    talkPane.setVisible(true);
+                    if (ai instanceof NeuromancerAI dai) {
+                        talkPane.setBubbleText(dai.getDeathMonologue(gameState).get(0));
+                    }
+                    gameState.databaseBattle = true;
+                    Platform.runLater(() -> {
+                        gameState.resourceManager.musicManager.playTrack(RoomMusic.N_DIE);
+                    });
+                }
             } else {
                 setIceMode(IceMode.NONE);
                 aiFace.show(-1);
@@ -863,6 +896,20 @@ public class BattleGridPane extends GridPane implements PopupListener {
             LOGGER.log(Level.FINER, "User pressed key to do beach scene.");
             gameState.useDoor = RoomBounds.Door.BEACH;
             cleanup();
+        } else if (mode == IceMode.NEUROMANCER_DEATH) {
+            LOGGER.log(Level.FINER, "User pressed key to further Neuromancer dialog.");
+            talkDeathIndex++;
+            if (talkDeathIndex < 8) { // Death Rattle
+                if (ai instanceof NeuromancerAI nai) {
+                    talkPane.setBubbleText(nai.getDeathMonologue(gameState).get(talkDeathIndex));
+                }
+            } else { // Neuromancer is dead. Epilogue Screen now loads.
+                LOGGER.log(Level.INFO, "Begin Epilogue Scene.");
+                gameState.resourceManager.musicManager.fadeOutTrack(
+                        N_DIE.track, N_DIE.fadeOut
+                );
+                gameState.useDoor = RoomBounds.Door.EPILOGUE;
+            }
         }
     }
 

@@ -142,7 +142,9 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
         }
         controlPanel.tick();
 
-        if (gameState.isFlatline() || gameState.useDoor == RoomBounds.Door.BEACH) {
+        if (gameState.isFlatline() 
+                || gameState.useDoor == RoomBounds.Door.BEACH
+                || gameState.useDoor == RoomBounds.Door.EPILOGUE) {
             listener.popupExit();
             return;
         }

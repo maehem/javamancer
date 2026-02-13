@@ -97,7 +97,7 @@ public enum RoomBounds { // and Doors
     R58(180, 560, 224, 350, 0, 0, 180, 50, 0, 0, 0, 0);  // Musabori
 
     public enum Door {
-        NONE, TOP, RIGHT, BOTTOM, LEFT, JAIL, STREET_CHAT, BODY_SHOP, SHUTTLE, FREESIDE, ZION, SPACEPORT, BEACH
+        NONE, TOP, RIGHT, BOTTOM, LEFT, JAIL, STREET_CHAT, BODY_SHOP, SHUTTLE, FREESIDE, ZION, SPACEPORT, BEACH, EPILOGUE
     };
 
     public final int tBound; // Upper walk Line

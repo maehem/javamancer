@@ -48,6 +48,7 @@ import javafx.scene.shape.Rectangle;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class NeuroGamePane extends Pane implements NeuroModePaneListener {
+
     public static final Logger LOGGER = Logging.LOGGER;
 
     public static final int SYSTEM_WINDOW_HEADER_H = 20; // MacOS
@@ -117,6 +118,11 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
         }
         if (gameState.requestQuit) {
             neuroModeActionPerformed(Action.QUIT, null);
+        }
+        
+        if (gameState.useDoor == Door.EPILOGUE) {
+            setMode(new EndGameMode(this, gameState));
+            return;
         }
 
         if (!gameState.useDoor.equals(Door.NONE)) {
@@ -197,6 +203,11 @@ public class NeuroGamePane extends Pane implements NeuroModePaneListener {
                 } else {
                     LOGGER.log(Level.WARNING, "New Game actionObject[0] was null!");
                 }
+            }
+            case EPILOGUE -> {
+                LOGGER.log(Level.CONFIG, "GamePane switched to Epilogue.");
+
+                setMode(new EndGameMode(this, gameState));
             }
             case MUTE_MUSIC -> {
                 // Toggle music mute state.

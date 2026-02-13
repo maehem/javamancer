@@ -33,7 +33,7 @@ package com.maehem.javamancer.neuro.view;
 public interface NeuroModePaneListener {
 
     public enum Action {
-        QUIT, LOAD, SAVE, NEW_GAME, ROOM_CHANGE, MUTE_MUSIC
+        QUIT, LOAD, SAVE, NEW_GAME, ROOM_CHANGE, EPILOGUE, MUTE_MUSIC
     };
 
     public void neuroModeActionPerformed(Action action, Object[] actionObjects);
