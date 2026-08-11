@@ -64,6 +64,9 @@
                 <configuration>
                     <jlinkImageName>javamancer</jlinkImageName>
                     <launcher>launcher</launcher>
+                    <options>
+                        <option>--enable-native-access=javafx.graphics,javafx.media,javafx.web</option>
+                    </options>
                     <mainClass>com.maehem.javamancer/com.maehem.javamancer.Javamancer</mainClass>
                 </configuration>
                 <executions>
