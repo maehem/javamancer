@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.view.popup;
 
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.view.ResourceManager;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
