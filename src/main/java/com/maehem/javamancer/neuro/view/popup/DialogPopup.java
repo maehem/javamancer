@@ -132,18 +132,23 @@ public class DialogPopup extends DialogPopupPane {
         box.setPadding(new Insets(4, 20, 4, 20));
 
         getChildren().add(bubble);
-
+        
         if (mode == Mode.NPC) {
             if (dialogIndex < 50) {
                 // Might be a command.
+                if (gameState.room.getExtras() != null) {
+                    LOGGER.log(Level.CONFIG, "Perform room-extra dialog index fine tuning.");
+                    int oldIndex = dialogIndex;
+                    dialogIndex = gameState.room.getExtras().onDialogIndex(gameState, dialogIndex);
+                    if ( oldIndex != dialogIndex ) {
+                        LOGGER.log(Level.CONFIG, "    dialogIndex was changed by roomExtra:  {0} ==> {1}", new Object[]{oldIndex,dialogIndex});
+                    }
+                }
                 LOGGER.log(Level.FINE, "first text: {0}\n\n{1}\n\t\t\t\t",
                         new Object[]{
                             dialogIndex,
                             textResource.get(dialogIndex)
                         });
-                if (gameState.room.getExtras() != null) {
-                    dialogIndex = gameState.room.getExtras().onDialogIndex(gameState, dialogIndex);
-                }
                 setBubbleText(textResource.get(dialogIndex).replace("\1", gameState.name));
                 dialogCountDown = DIALOG_COUNT;
                 bubble.setMode(DialogBubble.Mode.NPC_SAY);
