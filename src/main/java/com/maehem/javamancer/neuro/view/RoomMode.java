@@ -243,6 +243,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         initButtonHandlers();
         initKeyboardEvents();
 
+        roomPane.showWalkArea(gameState.debugShowRoomWalkArea);
+
         Platform.runLater(() -> {
             updateStatus();
             roomPane.updatePlayerPosition(gameState, gameState.roomPosX, gameState.roomPosY);
@@ -377,6 +379,15 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                         case D -> {
                             LOGGER.log(Level.FINER, "User pressed Disk Key.");
                             showPopup(Popup.DISK);
+                        }
+                        case W -> {
+                            if (keyEvent.isShortcutDown()) { // Command key on Mac / Control key on Win/Linux
+                                // Toggle walk area debug
+                                LOGGER.log(Level.CONFIG, "User toggled Walk Area Debug.");
+                                GameState gs = getGameState();
+                                gs.debugShowRoomWalkArea = !gs.debugShowRoomWalkArea; // Toggle value
+                                roomPane.showWalkArea(gs.debugShowRoomWalkArea); // Refresh visual
+                            }
                         }
                         case DIGIT1 -> {
                             LOGGER.log(Level.FINER, "User pressed 1 Key.");

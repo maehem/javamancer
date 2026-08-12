@@ -197,6 +197,9 @@ public class GameState {
 
     public RoomBounds.Door shuttleDest = null; // Ephemeral. Used at spaceports.
 
+    // Debug Vars. Saved in game, do not effect game play
+    public boolean debugShowRoomWalkArea = false;
+    
     // Ephemeral -- Not saved
     public boolean pause = true; // Ephemeral
     public boolean requestQuit = false; // Ephemeral. Set by Disk Menu Quit option.

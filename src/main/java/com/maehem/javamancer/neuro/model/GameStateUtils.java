@@ -212,6 +212,9 @@ public class GameStateUtils {
 
         pPut(props, HITACHI_VOLUNTEER, gs.hitachiVolunteer);
         pPut(props, HOSAKA_DAYS_SINCE_PAID, gs.hosakaDaysSincePaid);
+        
+        pPut(props, DEBUG_SHOW_ROOM_WALK_AREA, gs.debugShowRoomWalkArea);
+        
 
         LOGGER.log(Level.CONFIG, "*** Gather Game Save Properties finsished.");
         return props;
@@ -349,6 +352,8 @@ public class GameStateUtils {
 
         gs.hitachiVolunteer = getBool(HITACHI_VOLUNTEER, p);
         gs.hosakaDaysSincePaid = getInt(HOSAKA_DAYS_SINCE_PAID, p);
+        
+        gs.debugShowRoomWalkArea = getBool(DEBUG_SHOW_ROOM_WALK_AREA, p);
 
         LOGGER.log(Level.CONFIG, "*** Restore Game Save Properties finsished.");
     }

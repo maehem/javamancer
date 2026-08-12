@@ -106,6 +106,8 @@ public enum GameStateDefaults {
     MASSAGE_INFO_4("massageInfo4", false), // Panther more
     MASSAGE_INFO_5("massageInfo5", false), // Cyber Eyes
 
+    DEBUG_SHOW_ROOM_WALK_AREA("debugShowWalkArea", false),
+    
     ;
 
     public final String value;

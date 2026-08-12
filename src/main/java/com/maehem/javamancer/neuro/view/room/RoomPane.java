@@ -61,7 +61,9 @@ public class RoomPane extends Pane {
     private static final int DOOR_THICK = 12;
     private static final Color DOOR_COLOR = Color.RED;
     private static final Color BOUNDS_COLOR = Color.YELLOW;
+    private static final Color FEET_COLOR = Color.RED;
     private static final double BOUNDS_OPACITY = 0.21;
+    private static final double FEET_OPACITY = 0.80;
 
     private final Rectangle walkBounds;
     private final Rectangle topDoor;
@@ -74,7 +76,7 @@ public class RoomPane extends Pane {
 
     //private final Room room;
     private final PlayerNode player;
-    private final Rectangle playerFeet = new Rectangle(4, 4);
+    private final Rectangle playerFeet = new Rectangle(4, 4); // Collidable object.
     private final Group playerGroup;
     private final double stepSizeRL = 8.0;
     private final double stepSizeTA = 4.0;
@@ -111,6 +113,8 @@ public class RoomPane extends Pane {
         playerGroup.setLayoutY(rp.playerY);
         playerGroup.setViewOrder(-1.0); // Always front.
 
+        playerFeet.setFill(FEET_COLOR);
+        
         getChildren().add(playerGroup);
     }
 
@@ -349,4 +353,8 @@ public class RoomPane extends Pane {
         });
     }
 
+    public void showWalkArea( boolean show ) {
+        walkBounds.setOpacity(show?BOUNDS_OPACITY:0.0);
+        playerFeet.setOpacity(show?FEET_OPACITY:0.0);
+    }
 }
