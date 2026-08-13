@@ -356,5 +356,17 @@ public class RoomPane extends Pane {
     public void showWalkArea( boolean show ) {
         walkBounds.setOpacity(show?BOUNDS_OPACITY:0.0);
         playerFeet.setOpacity(show?FEET_OPACITY:0.0);
+        if ( leftDoor != null ) {
+            leftDoor.setOpacity(show?BOUNDS_OPACITY:0.0);
+        }
+        if ( rightDoor != null ) {
+            rightDoor.setOpacity(show?BOUNDS_OPACITY:0.0);
+        }
+        if ( topDoor != null ) {
+            topDoor.setOpacity(show?BOUNDS_OPACITY:0.0);
+        }
+        if ( bottomDoor != null ) {
+            bottomDoor.setOpacity(show?BOUNDS_OPACITY:0.0);
+        }
     }
 }
