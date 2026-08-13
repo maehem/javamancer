@@ -34,12 +34,10 @@ import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.resource.view.DATUtil;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -190,15 +188,8 @@ public class ResourceManager {
     }
 
     public String getFirstTimeText() {
-        try {
-            File txtFile = new File(txhFolder, "FTUSER_meta.txt");
-            return Files.readString(txtFile.toPath());
-        } catch (FileNotFoundException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
-        }
-        return "";
+            TextResource textResource = getTextResource(txhFolder, "FTUSER");
+            return String.join("\n",textResource);
     }
 
     public void initNewsArticles(ArrayList<NewsArticle> articles, String playerName, String dateString) {

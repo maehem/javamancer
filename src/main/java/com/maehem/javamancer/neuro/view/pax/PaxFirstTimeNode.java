@@ -48,15 +48,14 @@ public class PaxFirstTimeNode extends PaxNode {
         super(l, null);
 
         String firstTimeText = rm.getFirstTimeText();
+        
+        int indexOfLF = firstTimeText.indexOf("\n");
 
-        int indexOfLF = firstTimeText.indexOf(0x0a) + 1;
-
-        int indexOfZero = firstTimeText.indexOf(0);
-        String titleString = firstTimeText.substring(indexOfLF, indexOfZero);
+        String titleString = firstTimeText.substring(0, indexOfLF);
 
         Text title = new Text(titleString);
 
-        Text contentText = new Text(firstTimeText.substring(indexOfZero));
+        Text contentText = new Text(firstTimeText.substring(indexOfLF));
         TextFlow tf = new TextFlow(contentText);
         tf.setLineSpacing(LINE_SPACING);
         tf.setPrefSize(380, 164);
