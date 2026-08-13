@@ -119,7 +119,7 @@ public class RoomPane extends Pane {
     }
 
     public final void initAnimations(ResourceManager resourceManager, Room room) {
-        // TODO: Curate the anumations to be toggled in and out of the scene.
+        // TODO: Curate the animations to be toggled in and out of the scene.
         // Define in Room extras.
         File[] animEntries = resourceManager.getAnimationEntries(room);
         Arrays.sort(animEntries);
