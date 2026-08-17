@@ -49,9 +49,9 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.scene.transform.Scale;
 
 /**
  *
@@ -75,7 +75,6 @@ public class DialogPopup extends DialogPopupPane {
     private final TextFlow textFlow = new TextFlow();
     private final Text wordText = new Text();
     private final Text typedText = new Text(); // For typing in word
-    private final Text blankLine = new Text("\n                                       ");
     private final DialogBubble bubble;
     private Mode mode = Mode.NPC;
     private final int[][] dialogChain;
@@ -97,7 +96,6 @@ public class DialogPopup extends DialogPopupPane {
         this.dialogChain = gs.room.getExtras().getDialogChain();
         this.dialogIndex = gs.room.getExtras().dialogWarmUp(gs);
 
-        // TODO: Check for use of DESC_DIRECT command.  i.e. 500 + index.
         // If the dialogIndex is > 500 then print text item into
         // room description and then execute command.
         if (dialogIndex > 500) {
@@ -124,49 +122,16 @@ public class DialogPopup extends DialogPopupPane {
         textFlow.setLineSpacing(LINE_SPACING + 1.0);
         textFlow.setMaxWidth(getPrefWidth() / TEXT_SCALE - 30);
         textFlow.getChildren().addAll(
-                wordText, typedText, CURSOR_FILL,
-                blankLine);
-        textFlow.setMinHeight(getPrefHeight());
+                wordText, typedText, CURSOR_FILL
+        );
+        textFlow.setMinHeight(16);
+        textFlow.getTransforms().add(new Scale(TEXT_SCALE, 1.0));
+        textFlow.setPadding(new Insets(4, 0, 0, 12));
 
-        VBox box = addBox(textFlow);
-        box.setPadding(new Insets(4, 20, 4, 20));
+        getChildren().addAll(textFlow, bubble);
 
-        getChildren().add(bubble);
-        
         if (mode == Mode.NPC) {
-            if (dialogIndex < 50) {
-                // Might be a command.
-                if (gameState.room.getExtras() != null) {
-                    LOGGER.log(Level.CONFIG, "Perform room-extra dialog index fine tuning.");
-                    int oldIndex = dialogIndex;
-                    dialogIndex = gameState.room.getExtras().onDialogIndex(gameState, dialogIndex);
-                    if ( oldIndex != dialogIndex ) {
-                        LOGGER.log(Level.CONFIG, "    dialogIndex was changed by roomExtra:  {0} ==> {1}", new Object[]{oldIndex,dialogIndex});
-                    }
-                }
-                LOGGER.log(Level.FINE, "first text: {0}\n\n{1}\n\t\t\t\t",
-                        new Object[]{
-                            dialogIndex,
-                            textResource.get(dialogIndex)
-                        });
-                setBubbleText(textResource.get(dialogIndex).replace("\1", gameState.name));
-                dialogCountDown = DIALOG_COUNT;
-                bubble.setMode(DialogBubble.Mode.NPC_SAY);
-            } else {
-                // Handle when dialog text should appear in the room description
-                // pane rather than a dialog bubble.
-                if (dialogIndex >= 500 && dialogIndex < 600) {
-                    int index = dialogIndex - 500;
-                    LOGGER.log(Level.CONFIG, () -> "first text appears to be a command: " + dialogIndex);
-                    LOGGER.log(Level.FINE, "first text: {0}\n\n{1}\n\t\t\t\t",
-                            new Object[]{
-                                index,
-                                textResource.get(index)
-                            });
-                    //processCommand(dialogIndex);
-                    processCommand(DialogCommand.DESC_DIRECT);
-                }
-            }
+            firstNpcResponse();
         }
 
         setOnMouseClicked((mouseEvent) -> {
@@ -189,7 +154,6 @@ public class DialogPopup extends DialogPopupPane {
                 }
             }
         });
-
     }
 
     // TODO: Get rid of dialog counter and require mouse click or space
@@ -208,7 +172,7 @@ public class DialogPopup extends DialogPopupPane {
             } else { // NPC count down done.
                 LOGGER.log(Level.FINE,
                         "dialogCounter():  NPC Talk countdown finished.  dialogChain[{0}][0] == {1}",
-                        new Object[]{dialogIndex,items[0]});
+                        new Object[]{dialogIndex, items[0]});
                 LOGGER.log(Level.CONFIG, () -> "Dialog subIndex = " + dialogSubIndex);
                 if (dialogSubIndex == -1 && items[0] >= 50) {
                     LOGGER.log(Level.CONFIG, "dialogCounter(): Command encountered. set dialogSubindex to 0.");
@@ -220,6 +184,47 @@ public class DialogPopup extends DialogPopupPane {
                 }
             }
         }
+    }
+
+    /**
+     * TODO: Suspiciously similar and performs similar task to to npcResponse()
+     * Maybe we can unify this?
+     */
+    private void firstNpcResponse() {
+        LOGGER.log(Level.CONFIG, "Dialog Popup NPC Says Something");
+        if (dialogIndex >= 50) { // Might be a command.
+            // Handle when dialog text should appear in the room description
+            // pane rather than a dialog bubble.
+            if (dialogIndex >= 500 && dialogIndex < 600) {
+                int index = dialogIndex - 500;
+                LOGGER.log(Level.CONFIG, () -> "first text appears to be a command: " + dialogIndex);
+                LOGGER.log(Level.FINE, "first text: {0}\n\n{1}\n\t\t\t\t",
+                        new Object[]{
+                            index,
+                            textResource.get(index)
+                        });
+                //processCommand(dialogIndex);
+                processCommand(DialogCommand.DESC_DIRECT);
+            }
+        } else {
+            if (gameState.room.getExtras() != null) {
+                LOGGER.log(Level.CONFIG, "Perform room-extra dialog index fine tuning.");
+                int oldIndex = dialogIndex;
+                dialogIndex = gameState.room.getExtras().onDialogIndex(gameState, dialogIndex);
+                if (oldIndex != dialogIndex) {
+                    LOGGER.log(Level.CONFIG, "    dialogIndex was changed by roomExtra:  {0} ==> {1}", new Object[]{oldIndex, dialogIndex});
+                }
+            }
+            LOGGER.log(Level.FINE, "first text: {0}\n\n{1}\n\t\t\t\t",
+                    new Object[]{
+                        dialogIndex,
+                        textResource.get(dialogIndex)
+                    });
+            setBubbleText(textResource.get(dialogIndex));
+            bubble.setMode(DialogBubble.Mode.NPC_SAY);
+            dialogCountDown = DIALOG_COUNT;
+        }
+
     }
 
     private void npcResponse(int sub) {
@@ -237,7 +242,12 @@ public class DialogPopup extends DialogPopupPane {
         LOGGER.log(Level.FINE, "new dialog:             == {0}",
                 new Object[]{newDialog});
         if (gameState.room.getExtras() != null) {
+            LOGGER.log(Level.CONFIG, "Perform room-extra dialog index fine tuning.");
+            int oldIndex = dialogIndex;
             newDialog = gameState.room.getExtras().onDialogIndex(gameState, newDialog);
+            if (oldIndex != newDialog) {
+                LOGGER.log(Level.CONFIG, "    dialogIndex was changed by roomExtra:  {0} ==> {1}", new Object[]{oldIndex, dialogIndex});
+            }
         }
         //dialogSubIndex = 0;
         if (newDialog >= 50) {
@@ -258,7 +268,7 @@ public class DialogPopup extends DialogPopupPane {
                 //keepTalking = 1;
             } else {
                 // ASCII Control character '01' is a token for the player's name. Replace it here.
-                setBubbleText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
+                setBubbleText(textResource.get(dialogIndex));
                 bubble.setMode(DialogBubble.Mode.NPC_SAY);
                 LOGGER.log(Level.FINE, "npcResponse() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
             }
@@ -274,13 +284,13 @@ public class DialogPopup extends DialogPopupPane {
         String[] split = text.split("  ");
         //int si = dialogSubIndex / 100; // 0, 1, 2, etc.
         // Control character '01' is a token for the player's name. Replace it here.
-        setBubbleText(split[keepTalking].replace("\1", gameState.name) + "\n");
+        setBubbleText(split[keepTalking]);
 
         bubble.setMode(DialogBubble.Mode.NPC_SAY);
         LOGGER.log(Level.FINE, "npcResponse() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
         dialogCountDown = -1;
         keepTalking++;
-        if ( keepTalking < split.length) {
+        if (keepTalking < split.length) {
             //dialogSubIndex = si + 100; // Set up next piece of dialog.
             LOGGER.log(Level.CONFIG, "keepTalking(): There is more. Set next part to {0}", keepTalking);
         } else {
@@ -334,13 +344,13 @@ public class DialogPopup extends DialogPopupPane {
                     LOGGER.log(Level.CONFIG, "handleTypedText.askword set dialogSunIndex to 0.");
                     dialogSubIndex = 0;
                     typedText.setText("");
-                    setBubbleText(textResource.get(dialogIndex).replace("\1", gameState.name) + "\n");
+                    if (gameState.room.getExtras() != null) {
+                        dialogIndex = gameState.room.getExtras().onDialogIndex(gameState, askWord);
+                    }
+                    setBubbleText(textResource.get(dialogIndex));
                     bubble.setMode(DialogBubble.Mode.NPC_SAY);
                     LOGGER.log(Level.FINE, "handleTypedText() NPC Text: \n\n{0}\n\t\t\t\t", wordText.getText());
                     dialogCountDown = DIALOG_COUNT;
-                    if (gameState.room.getExtras() != null) {
-                        askWord = gameState.room.getExtras().onDialogIndex(gameState, askWord);
-                    }
                 } else {
                     LOGGER.log(Level.WARNING, "RoomExtras.askWord has returned unexpected value! -1");
                 }
@@ -388,7 +398,7 @@ public class DialogPopup extends DialogPopupPane {
                 if (keepTalking > 0) {
                     // Config for same dialog.
                     LOGGER.log(Level.FINE, "Keep talking dialog is now:  d[{0}][{1}].  keepTalking index = {2}",
-                            new Object[]{dialogIndex, dialogSubIndex,keepTalking});
+                            new Object[]{dialogIndex, dialogSubIndex, keepTalking});
                     keepTalking(textResource.get(dialogIndex));
                     dialogCountDown = -1; // No count down until ENTER pressed.
                 } else {
@@ -486,10 +496,10 @@ public class DialogPopup extends DialogPopupPane {
 
     public final void processCommand(DialogCommand command) {
         LOGGER.log(Level.FINE, "Process command: {0}::{1}", new Object[]{command.num, command.name()});
-        
+
         // The room extras can perform some tasks here.
         int onDialogCommandIndex = gameState.room.getExtras().onDialogPreCommand(gameState, command);
-        
+
         // Add any tasks here that the room extras could not directly do.
         switch (command) {
             case DIALOG_END -> { // NPC no longer talks.
@@ -583,7 +593,7 @@ public class DialogPopup extends DialogPopupPane {
                 //dialogSubIndex++;
                 mode = Mode.PLAYER; // Causes next loop to toggle to NPC again.
                 LOGGER.log(Level.FINE, "[514] Mode = PLAYER");
-                npcResponse(dialogSubIndex+1);
+                npcResponse(dialogSubIndex + 1);
             }
             case PLAYER -> {
                 mode = Mode.NPC;
@@ -659,7 +669,7 @@ public class DialogPopup extends DialogPopupPane {
                 }
 
                 // Handle "keep talking" action here using the keepTalking() method.
-                String text = textResource.get(dialogIndex).replace("\1", gameState.name) + "\n";
+                String text = textResource.get(dialogIndex);
                 bubble.setMode(DialogBubble.Mode.NPC_SAY);
                 dialogCountDown = -1;
                 if (text.indexOf("  ") > 0) {
@@ -722,7 +732,7 @@ public class DialogPopup extends DialogPopupPane {
                 if (!hasItem) {
                     UXBDeckItem uxbDeckItem = new UXBDeckItem();
                     uxbDeckItem.needsRepair = true; // Damaged if Shin gives it to player.
-                    
+
                     LOGGER.log(Level.CONFIG, "Add UXB to player inventory.");
                     gameState.inventory.add(uxbDeckItem);
                     gameState.deckSlots = uxbDeckItem.nSlots;
@@ -733,7 +743,7 @@ public class DialogPopup extends DialogPopupPane {
             case MASSAGE_BOT -> {
                 LOGGER.log(Level.FINE, "Cause Police Bot to appear in massage parlor.");
                 //gameState.room.getExtras().onDialogPreCommand(gameState, command);
-                
+
                 // TODO: can this be a NPC.num command?
                 mode = Mode.PLAYER; // Causes next loop to toggle to NPC again.
                 npcResponse(2);
@@ -775,22 +785,40 @@ public class DialogPopup extends DialogPopupPane {
                 LOGGER.log(Level.SEVERE, "Process Command :: Not handled yet: {0}", command);
             }
         }
-        
+
         // A room can perform any tasks here, after any commands have made
         // changes in the popup or elsewhere.
         gameState.room.extras.onDialogPostCommand(gameState, command);
 
     }
 
-    private void setBubbleText( String text ) {
-        wordText.setText(text);
-        layoutChildren(); // Computes wordText bounds.
-        setPrefHeight(16 + wordText.getBoundsInLocal().getHeight());
-        // Move the bubble dangle after knowing wordText size.
-        bubble.setLayoutY(getPrefHeight() - 4 );
-        layout();
+    private void setBubbleText(String text) {
+        LOGGER.log(Level.SEVERE, "\n\nSet Bubble Text: [{0}]\n\n", text);
+        
+        // Replace the \1 character with the player's name.
+        String tText = text.replace("\1", gameState.name);
+        
+        // Some dialog text contains extra new-line, so we trim it.
+        if ( tText.endsWith("\n") ) {
+            tText = tText.substring(0, tText.length()-1);
+        }
+        
+        wordText.setText(tText);
+        
+        // Ask for layout now, just in case.
+        requestLayout();
+
+        // Since changing the text affects the size of the bubble, we
+        // recalculate the geometry during the next redraw.
+        Platform.runLater(() -> {
+            textFlow.applyCss();
+            textFlow.layout();
+            layout();
+            setPrefHeight(textFlow.getLayoutBounds().getHeight() + 6);
+            bubble.setLayoutY(getPrefHeight() - 4);
+        });
     }
-    
+
     @Override
     public void cleanup() {
     }
