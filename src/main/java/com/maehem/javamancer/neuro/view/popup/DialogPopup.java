@@ -793,7 +793,7 @@ public class DialogPopup extends DialogPopupPane {
     }
 
     private void setBubbleText(String text) {
-        LOGGER.log(Level.SEVERE, "\n\nSet Bubble Text: [{0}]\n\n", text);
+        LOGGER.log(Level.FINE, "\n\nSet Bubble Text: [{0}]\n\n", text);
         
         // Replace the \1 character with the player's name.
         String tText = text.replace("\1", gameState.name);
