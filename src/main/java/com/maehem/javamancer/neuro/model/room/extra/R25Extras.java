@@ -95,8 +95,8 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
     
     @Override
     public int onDialogIndex(GameState gs, int index) {
-        LOGGER.log(Level.CONFIG, "onDialogIndex() called. Index = " + index);
-        if (index == 12) {
+        LOGGER.log(Level.CONFIG, "onDialogIndex() called. Index = {0}", index);
+        if (index == 13) {
             //gs.roomMode.popupExit();
             // Shin locks door as you leave.
             gs.useDoor = RoomBounds.Door.LEFT;
