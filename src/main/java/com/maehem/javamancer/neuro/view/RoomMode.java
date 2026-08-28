@@ -294,7 +294,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             LOGGER.log(Level.CONFIG, "User clicked PAX.");
 
             t.consume();
-            showPopup(Popup.PAX);
+            if (room.hasPax()) {
+                showPopup(Popup.PAX);
+            }
         });
         talkButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Talk.");
@@ -362,7 +364,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                         }
                         case P -> {
                             LOGGER.log(Level.FINER, "User pressed PAX Key.");
-                            showPopup(Popup.PAX);
+                            if (room.hasPax()) {
+                                showPopup(Popup.PAX);
+                            }
                         }
                         case T -> {
                             LOGGER.log(Level.FINER, "User pressed Talk Key.");
