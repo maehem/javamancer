@@ -292,11 +292,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         });
         paxButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked PAX.");
-
             t.consume();
-            if (room.hasPax()) {
-                showPopup(Popup.PAX);
-            }
+            showPopup(Popup.PAX);
         });
         talkButton.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "User clicked Talk.");
@@ -364,9 +361,7 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                         }
                         case P -> {
                             LOGGER.log(Level.FINER, "User pressed PAX Key.");
-                            if (room.hasPax()) {
-                                showPopup(Popup.PAX);
-                            }
+                            showPopup(Popup.PAX);
                         }
                         case T -> {
                             LOGGER.log(Level.FINER, "User pressed Talk Key.");
@@ -494,12 +489,17 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 popup = new InventoryPopup(this, getGameState());
             }
             case PAX -> {
-                popup = new PaxPopupPane(this, getGameState(), getResourceManager());
+                if (room.hasPax()) {
+                    LOGGER.log(Level.INFO, "Create new PAX popup.");
+                    popup = new PaxPopupPane(this, getGameState(), getResourceManager());
+                } else {
+                    LOGGER.log(Level.FINE, "No PAX terminal in this room.");
+                }
             }
             case TALK -> {
                 GameState gs = getGameState();
                 boolean canTalk = gs.roomCanTalk();
-                LOGGER.log(Level.FINE, "Room {0} has dialog: {1}", new Object[]{gs.room.getIndex() + 1, canTalk ? "YES" : "NO"});
+                LOGGER.log(Level.FINER, "Room {0} has dialog: {1}", new Object[]{gs.room.getIndex() + 1, canTalk ? "YES" : "NO"});
                 if (canTalk) {
                     LOGGER.log(Level.INFO, "Create new TALK popup.");
                     popup = new DialogPopup(this, gs, getResourceManager());
