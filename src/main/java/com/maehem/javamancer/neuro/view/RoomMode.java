@@ -162,18 +162,26 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             LOGGER.log(Level.CONFIG, "Room has `extras`. Configuring...");
             RoomExtras extras = room.getExtras();
             // TODO: Can we run initRoom() when we create the room?
-            gameState.setRoomTalk(true); // Room talk enabled by default. Use initRoom() if room should not talk.
+            // Room talk enabled by default. 
+            // Use initRoom() if room should not talk.
+            gameState.setRoomTalk(true);
             extras.initRoom(gameState);
             int[][] dc = extras.getDialogChain();
             if (firstTime) {
-                LOGGER.log(Level.CONFIG, "First time visit of room. Use long description.");
+                LOGGER.log(Level.CONFIG, 
+                        "First time visit of room. Use long description."
+                );
                 //int[] dc0 = extras.getDialogChain()[0]; // Long Description
                 if (dc != null && dc[0].length == 1 && dc[0][0] == LONG_DESC.num) { // long desc. here
-                    LOGGER.log(Level.CONFIG, "Found long room description in dialog chain.");
+                    LOGGER.log(Level.CONFIG, 
+                            "Found long room description in dialog chain."
+                    );
                     roomDescriptionPane.setText(roomText.getDescription());
                     roomPane.setEffect(new GaussianBlur(3.0));
                 } else {
-                    LOGGER.log(Level.CONFIG, "No room description found in dialog chain.");
+                    LOGGER.log(Level.CONFIG, 
+                            "No room description found in dialog chain."
+                    );
                     roomDescriptionPane.setText("\n\n");
                     //roomDescriptionPane.vvalueProperty().setValue(1.0);
                     Platform.runLater(() -> {
@@ -181,13 +189,19 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     });
                 }
             } else {
-                LOGGER.log(Level.CONFIG, "We`ve been here before. Use short description.");
+                LOGGER.log(Level.CONFIG, 
+                        "We`ve been here before. Use short description."
+                );
                 //int[] dc1 = extras.getDialogChain()[1]; // Short Description
                 if (dc != null && dc[1].length == 1 && dc[1][0] == SHORT_DESC.num) { // short desc. here
-                    LOGGER.log(Level.CONFIG, "Found short room description in dialog chain.");
+                    LOGGER.log(Level.CONFIG, 
+                            "Found short room description in dialog chain."
+                    );
                     roomDescriptionPane.setText(roomText.getShortDescription());
                 } else {
-                    LOGGER.log(Level.CONFIG, "No room description found in dialog chain.");
+                    LOGGER.log(Level.CONFIG, 
+                            "No room description found in dialog chain."
+                    );
                     roomDescriptionPane.setText("\n\n");
                 }
                 //roomDescriptionPane.vvalueProperty().set(1.0);
@@ -202,10 +216,12 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             LOGGER.log(Level.CONFIG, "Room does not have `extras`.");
             //updateGreyOutState(1.0);
             if (firstTime) {
-                LOGGER.log(Level.CONFIG, "First time visit of room. Use long description.");
+                LOGGER.log(Level.CONFIG, 
+                        "First time visit of room. Use long description.");
                 roomDescriptionPane.setText(roomText.getDescription());
             } else {
-                LOGGER.log(Level.CONFIG, "We've been here before. Use short description.");
+                LOGGER.log(Level.CONFIG, 
+                        "We've been here before. Use short description.");
                 roomDescriptionPane.setText(roomText.getShortDescription());
             }
             Platform.runLater(() -> {
@@ -247,7 +263,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
         Platform.runLater(() -> {
             updateStatus();
-            roomPane.updatePlayerPosition(gameState, gameState.roomPosX, gameState.roomPosY);
+            roomPane.updatePlayerPosition(
+                    gameState, 
+                    gameState.roomPosX, gameState.roomPosY
+            );
             RoomMusic mus = RoomMusic.get(room);
             if (mus != null) {
                 gameState.resourceManager.musicManager.playTrack(mus);
@@ -401,8 +420,13 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                             LOGGER.log(Level.FINER, "User pressed 4 Key.");
                         }
                         case COMMA -> {
-                            LOGGER.log(Level.CONFIG, "User pressed COMMA Key. Toggle Sound Mute");
-                            getListener().neuroModeActionPerformed(NeuroModePaneListener.Action.MUTE_MUSIC, null);
+                            LOGGER.log(Level.CONFIG, 
+                                    "User pressed COMMA Key. Toggle Sound Mute"
+                            );
+                            getListener().neuroModeActionPerformed(
+                                    NeuroModePaneListener.Action.MUTE_MUSIC, 
+                                    null
+                            );
                         }
                     }
                 }
@@ -499,7 +523,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case TALK -> {
                 GameState gs = getGameState();
                 boolean canTalk = gs.roomCanTalk();
-                LOGGER.log(Level.FINER, "Room {0} has dialog: {1}", new Object[]{gs.room.getIndex() + 1, canTalk ? "YES" : "NO"});
+                LOGGER.log(Level.FINER, "Room {0} has dialog: {1}",
+                        new Object[]{gs.room.getIndex() + 1, canTalk ? "YES" : "NO"});
                 if (canTalk) {
                     LOGGER.log(Level.INFO, "Create new TALK popup.");
                     popup = new DialogPopup(this, gs, getResourceManager());
@@ -520,10 +545,16 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 // Let's do matrix stuff.
                 DeckItem deck = getGameState().usingDeck;
                 if (deck != null) {
-                    LOGGER.log(Level.INFO, "Popup created for Deck: {0}", deck.getName());
+                    LOGGER.log(
+                            Level.INFO, 
+                            "Popup created for Deck: {0}", deck.getName()
+                    );
                     popup = new DeckPopup(this, getGameState());
                 } else {
-                    LOGGER.log(Level.SEVERE, "Room tried to use a null deck!  Did something go wrong?");
+                    LOGGER.log(
+                            Level.SEVERE, 
+                            "Room tried to use a null deck!  Did something go wrong?"
+                    );
                     popup = null;
                 }
             }
@@ -578,7 +609,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case SOFTWARE_BUY -> {
                 RoomExtras roomExtras = room.getExtras();
                 if (roomExtras != null) {
-                    ArrayList<SoftwareItem> vendItems = roomExtras.getVendSoftwareItems(getGameState());
+                    ArrayList<SoftwareItem> vendItems = roomExtras.getVendSoftwareItems(
+                            getGameState()
+                    );
                     if (vendItems != null) {
                         popup = new SoftwareVendPopup(
                                 SoftwareVendPopup.Mode.BUY,
@@ -598,7 +631,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             }
         }
         if (popup != null) {
-            LOGGER.log(Level.INFO, "Add popup to scene: {0}", popup.getClass().getSimpleName());
+            LOGGER.log(
+                    Level.INFO, 
+                    "Add popup to scene: {0}", 
+                    popup.getClass().getSimpleName()
+            );
             getChildren().add(popup);
             //getGameState().pause = true;
         }
@@ -635,10 +672,16 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 statusText.setText(time);
             }
             case CREDIT -> {
-                statusText.setText("$" + String.format("%1$9s", String.valueOf(getGameState().moneyChipBalance)));
+                statusText.setText("$" + String.format(
+                        "%1$9s",
+                        String.valueOf(getGameState().moneyChipBalance)
+                ));
             }
             case CONSTITUTION -> {
-                statusText.setText(String.format("%1$10s", String.valueOf(gs.getConstitution())));
+                statusText.setText(String.format(
+                        "%1$10s",
+                        String.valueOf(gs.getConstitution())
+                ));
             }
         }
     }
@@ -650,15 +693,28 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     private void handleMouseClick(double x, double y) {
         if (firstTime) {
-            LOGGER.log(Level.CONFIG, "No mouse interaction until room description is read.");
+            LOGGER.log(
+                    Level.CONFIG, 
+                    "No mouse interaction until room description is read."
+            );
             return;
         }
-        LOGGER.log(Level.FINER, "Mouse Click at: {0},{1}", new Object[]{(int) x, (int) y});
+        LOGGER.log(
+                Level.FINER, 
+                "Mouse Click at: {0},{1}", new Object[]{(int) x, (int) y}
+        );
         if ((y > 16 && y < 240) && (x > 16 && x < 624)) {
             // User clicked in room scene.
             if (popup == null) {
-                LOGGER.log(Level.FINER, "User clicked roomPane at: {0},{1}", new Object[]{(int) x, (int) y});
-                roomPane.mouseClick(x - RoomPane.PANE_X, y - RoomPane.PANE_Y, getGameState());
+                LOGGER.log(Level.FINER, 
+                        "User clicked roomPane at: {0},{1}", 
+                        new Object[]{(int) x, (int) y}
+                );
+                roomPane.mouseClick(
+                        x - RoomPane.PANE_X, 
+                        y - RoomPane.PANE_Y, 
+                        getGameState()
+                );
             }
         }
         if (popup instanceof DialogPopup dp) {
@@ -691,7 +747,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         if (popup == null) { // Used by sense/net room to boot player.
             return false;
         }
-        LOGGER.log(Level.FINE, "Remove popup from scene: {0}", popup.getClass().getSimpleName());
+        LOGGER.log(Level.FINE, 
+                "Remove popup from scene: {0}", 
+                popup.getClass().getSimpleName()
+        );
         popup.setVisible(false);
         boolean doNextPopup;
         if (popup instanceof SkillsVendPopup) {
@@ -702,7 +761,9 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 //                doNextPopup = true;
 //            }
         } else if (popup instanceof PawnshopVendPopup vendPop) {
-            doNextPopup = room.getExtras().onVendItemsFinished(getGameState(), vendPop.itemPurchased());
+            doNextPopup = room.getExtras().onVendItemsFinished(
+                    getGameState(), vendPop.itemPurchased()
+            );
         } else {
             doNextPopup = true;
         }
@@ -718,10 +779,16 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     @Override
     public void popupExit(Popup newPopup) {
         if (popupExit()) {
-            LOGGER.log(Level.CONFIG, "Popup exited. Now open new Popup: {0}", newPopup.name());
+            LOGGER.log(Level.CONFIG, 
+                    "Popup exited. Now open new Popup: {0}",
+                    newPopup.name()
+            );
             showPopup(newPopup);
         } else {
-            LOGGER.log(Level.CONFIG, "Popup exited. Pevious popup denied any new popup.");
+            LOGGER.log(
+                    Level.CONFIG, 
+                    "Popup exited. Pevious popup denied any new popup."
+            );
         }
     }
 
@@ -732,16 +799,24 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     private void doorStateMessages() {
         MessageFormat msg = new MessageFormat("The door to {0} is locked.");
         if (room.isDoorLocked(RoomBounds.Door.TOP)) {
-            roomDescriptionPane.addMessage(msg.format(new Object[]{RoomMap.getRoom(room, RoomBounds.Door.TOP).roomName}));
+            roomDescriptionPane.addMessage(msg.format(new Object[]{
+                RoomMap.getRoom(room, RoomBounds.Door.TOP).roomName}
+            ));
         }
         if (room.isDoorLocked(RoomBounds.Door.RIGHT)) {
-            roomDescriptionPane.addMessage(msg.format(new Object[]{RoomMap.getRoom(room, RoomBounds.Door.RIGHT).roomName}));
+            roomDescriptionPane.addMessage(msg.format(new Object[]{
+                RoomMap.getRoom(room, RoomBounds.Door.RIGHT).roomName}
+            ));
         }
         if (room.isDoorLocked(RoomBounds.Door.BOTTOM)) {
-            roomDescriptionPane.addMessage(msg.format(new Object[]{RoomMap.getRoom(room, RoomBounds.Door.BOTTOM).roomName}));
+            roomDescriptionPane.addMessage(msg.format(new Object[]{
+                RoomMap.getRoom(room, RoomBounds.Door.BOTTOM).roomName}
+            ));
         }
         if (room.isDoorLocked(RoomBounds.Door.LEFT)) {
-            roomDescriptionPane.addMessage(msg.format(new Object[]{RoomMap.getRoom(room, RoomBounds.Door.LEFT).roomName}));
+            roomDescriptionPane.addMessage(msg.format(new Object[]{
+                RoomMap.getRoom(room, RoomBounds.Door.LEFT).roomName}
+            ));
         }
     }
 }
