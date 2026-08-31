@@ -387,6 +387,7 @@ public class DeckPopup extends PopupPane {
         if (gameState.moneyChipBalance <= 0) {
             cleanup();
             LOGGER.log(Level.INFO, "Exit Deck (via out of credits).");
+            listener.showMessage("\nOut of credits for Cyberspace access."); // TODO: i18n
             listener.popupExit();
         }
     }
