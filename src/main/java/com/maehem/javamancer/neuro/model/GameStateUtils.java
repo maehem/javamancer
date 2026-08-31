@@ -101,7 +101,7 @@ public class GameStateUtils {
                 loadedProperties.load(fileReader);
                 restoreFromProperties(gs, loadedProperties);
                 LOGGER.log(Level.CONFIG,
-                        "Slot {0} data written to: {1}",
+                        "Slot {0} data loaded from: {1}",
                         new Object[]{slot, file.getAbsolutePath()}
                 );
                 return true;
