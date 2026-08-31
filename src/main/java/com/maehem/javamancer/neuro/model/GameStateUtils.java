@@ -72,10 +72,14 @@ public class GameStateUtils {
         try {
             AppProperties appProps = AppProperties.getInstance();
             String saveFileName = "game" + slot + ".properties";
-
+            File saveFile = new File(appProps.getSaveFolder(), saveFileName);
             gatherProperties(gs).store(
-                    new FileWriter(new File(appProps.getSaveFolder(), saveFileName)),
+                    new FileWriter(saveFile),
                     "Javamancer Game Save File.  Slot: " + slot
+            );
+            LOGGER.log(Level.CONFIG,
+                    "Slot {0} data written to: {1}",
+                    new Object[]{slot, saveFile.getAbsolutePath()}
             );
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
@@ -96,6 +100,10 @@ public class GameStateUtils {
                 Properties loadedProperties = new Properties();
                 loadedProperties.load(fileReader);
                 restoreFromProperties(gs, loadedProperties);
+                LOGGER.log(Level.CONFIG,
+                        "Slot {0} data written to: {1}",
+                        new Object[]{slot, file.getAbsolutePath()}
+                );
                 return true;
             } catch (FileNotFoundException ex) {
                 LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
@@ -149,7 +157,7 @@ public class GameStateUtils {
         putLockedRooms(gs, props);
 
         putDefeatedAiList(gs, props);
-        
+
         putSentMessageList(gs.messageSent, props);
 
         pPut(props, DECK_SLOTS, gs.deckSlots);
@@ -212,9 +220,8 @@ public class GameStateUtils {
 
         pPut(props, HITACHI_VOLUNTEER, gs.hitachiVolunteer);
         pPut(props, HOSAKA_DAYS_SINCE_PAID, gs.hosakaDaysSincePaid);
-        
+
         pPut(props, DEBUG_SHOW_ROOM_WALK_AREA, gs.debugShowRoomWalkArea);
-        
 
         LOGGER.log(Level.CONFIG, "*** Gather Game Save Properties finsished.");
         return props;
@@ -352,7 +359,7 @@ public class GameStateUtils {
 
         gs.hitachiVolunteer = getBool(HITACHI_VOLUNTEER, p);
         gs.hosakaDaysSincePaid = getInt(HOSAKA_DAYS_SINCE_PAID, p);
-        
+
         gs.debugShowRoomWalkArea = getBool(DEBUG_SHOW_ROOM_WALK_AREA, p);
 
         LOGGER.log(Level.CONFIG, "*** Restore Game Save Properties finsished.");
