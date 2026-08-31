@@ -394,7 +394,7 @@ public class DeckPopup extends PopupPane {
 
     @Override
     public void cleanup() {
-        LOGGER.log(Level.INFO, "Deck cleanup() called for: " + deck.getName());
+        LOGGER.log(Level.INFO, "Deck cleanup() called for: {0}", deck.getName());
         gameState.usingDeckErase = false;
         if (!handoffToCyberspace) {
             gameState.usingDeck = null;
