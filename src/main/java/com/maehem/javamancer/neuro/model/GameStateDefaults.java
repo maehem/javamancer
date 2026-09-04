@@ -92,6 +92,7 @@ public enum GameStateDefaults {
     SECURITY_PASS_GIVEN("goalSecurityPassGiven", false),
     LARRY_MOE_WANTED("goalLarryMoeWanted", false),
     PSYCHO_PROBE_COUNT("goalPsychoProbeCount", 0),
+    DB_CONSUMEREV_FEE_PAID("dbConsumerRevFeePaid", false),
     // Hotel
     HOTEL_CHARGES("hotelCharges", 1000),
     HOTEL_ON_ACCOUNT("hotelOnAccount", 0),

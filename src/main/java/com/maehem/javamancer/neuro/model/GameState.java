@@ -183,6 +183,7 @@ public class GameState {
     public boolean securityPassGiven = false; // Sense/Net pass. Given to computer.
     public boolean larryMoeWanted = false; // Chiba Tectical Police wanted list
     public int psychoProbeCount = 0; // Increaase each time player gets probed.
+    public boolean dbConsumerRevFeePaid = false; // Pay a fee to use CONSUMEREV site.
 
     // Sets to 1 when player adds name. Paid on 1, 8, 15, etc.
     // Sets to 0 when player is paid.

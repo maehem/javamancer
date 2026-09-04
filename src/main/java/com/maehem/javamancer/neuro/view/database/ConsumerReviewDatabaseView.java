@@ -3,8 +3,6 @@
  *
  * Copyright (c) 2024 Mark J. Koch ( @maehem on GitHub )
  *
- * Portions of this software are Copyright (c) 2018 Henadzi Matuts and are
- * derived from their project: https://github.com/HenadziMatuts/Reuromancer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -128,8 +126,12 @@ public class ConsumerReviewDatabaseView extends DatabaseView {
 
         Text creditDeduct = new Text();
         Text newLines = new Text("\n\n\n\n\n\n\n\n\n\n");
-        if (gameState.moneyChipBalance >= 200) {
+        if ( gameState.dbConsumerRevFeePaid ) {
+            // Nothing to do. Already paid.
+            LOGGER.log(Level.INFO, "User has already paid site fee.");
+        } else if (gameState.moneyChipBalance >= 200) {
             gameState.moneyChipBalance -= 200;
+            gameState.dbConsumerRevFeePaid = true;
             LOGGER.log(Level.INFO, "Deducted 200 credits from player.");
             creditDeduct.setText(dbTextResource.get(25));
             paymentWait = 30; // timer, then proceed to next page (menu).
