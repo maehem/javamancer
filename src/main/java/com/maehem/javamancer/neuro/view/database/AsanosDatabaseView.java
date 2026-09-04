@@ -150,6 +150,10 @@ public class AsanosDatabaseView extends DatabaseView {
 
     private void itemPage(String itemLetter) {
         switch (itemLetter) {
+            case "X" -> {
+                LOGGER.log(Level.CONFIG, "User clicked site Exit.");
+                listener.popupExit();
+            }
             case "1" -> {
                 catalog();
             }
