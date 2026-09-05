@@ -218,6 +218,8 @@ public class GameStateUtils {
         pPut(props, LARRY_MOE_WANTED, gs.larryMoeWanted);
         pPut(props, PSYCHO_PROBE_COUNT, gs.psychoProbeCount);
         pPut(props, DB_CONSUMEREV_FEE_PAID, gs.dbConsumerRevFeePaid);
+        pPut(props, DB_WORLDCHESS_TEMP_FEE_PAID, gs.dbWorldChessTempFeePaid);
+        pPut(props, DB_WORLDCHESS_FULL_FEE_PAID, gs.dbWorldChessFullFeePaid);
 
         pPut(props, HITACHI_VOLUNTEER, gs.hitachiVolunteer);
         pPut(props, HOSAKA_DAYS_SINCE_PAID, gs.hosakaDaysSincePaid);
@@ -358,6 +360,8 @@ public class GameStateUtils {
         gs.larryMoeWanted = getBool(LARRY_MOE_WANTED, p);
         gs.psychoProbeCount = getInt(PSYCHO_PROBE_COUNT, p);
         gs.dbConsumerRevFeePaid = getBool(DB_CONSUMEREV_FEE_PAID, p);
+        gs.dbWorldChessTempFeePaid = getBool(DB_WORLDCHESS_TEMP_FEE_PAID, p);
+        gs.dbWorldChessFullFeePaid = getBool(DB_WORLDCHESS_FULL_FEE_PAID, p);
 
         gs.hitachiVolunteer = getBool(HITACHI_VOLUNTEER, p);
         gs.hosakaDaysSincePaid = getInt(HOSAKA_DAYS_SINCE_PAID, p);

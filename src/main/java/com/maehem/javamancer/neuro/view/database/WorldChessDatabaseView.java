@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import java.util.logging.Level;
 import javafx.scene.input.KeyCode;
@@ -93,6 +92,9 @@ public class WorldChessDatabaseView extends DatabaseView {
         SUB, MENU, ABOUT, APPLY, TOURNAMENT, MORPHY
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
+    
+    private static final int FEE_TEMP = 10;
+    private static final int FEE_FULL = 150;
 
     public WorldChessDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
@@ -154,7 +156,7 @@ public class WorldChessDatabaseView extends DatabaseView {
                 viewText(6);
             }
             case "3" -> {
-                applyMembership();
+                applyMembershipMenu();
             }
             case "4" -> {
                 if (accessLevel > 1) {
@@ -179,23 +181,75 @@ public class WorldChessDatabaseView extends DatabaseView {
         }
     }
 
-    private void applyMembership() {
+    private void applyMembershipMenu() {
         LOGGER.log(Level.FINE, "World Chess: apply membership ");
         pane.getChildren().clear();
         mode = Mode.APPLY;
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n").append(dbTextResource.get(7));
-
-        Text text = new Text(sb.toString());
-        text.setLineSpacing(LINE_SPACING);
-        TextFlow pageTf = pageTextScrolledFlow(headingText, text);
-
+        TextFlow content = new TextFlow();
+        content.setLineSpacing(LINE_SPACING);
+        content.setPrefWidth(380);
+        TextFlow pageTf = pageTextScrolledFlow(headingText, content);
+        String ss = dbTextResource.get(7);
+        for (String s : ss.split("\\r")) {
+            Text item = new Text("\n" + s);
+            
+            // If the line.strip() begins with character.dot then it's a menu item.
+            if ( s.matches("^\\s*[A-Z]\\..*") ) {
+                LOGGER.log(Level.FINEST, "Found Clickable Item:{0}", s);
+                item.setOnMouseClicked((t) -> {
+                    t.consume();
+                    membershipItemPage(s.trim().substring(0, 1));
+                });
+            }
+            content.getChildren().add(item);
+        }        
+        content.requestLayout();
+        
         pane.getChildren().add(pageTf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
+
+    }
+
+    private void membershipItemPage(String itemLetter) {
+        switch (itemLetter) {
+            case "X" -> {
+                mainMenu();
+            }
+            case "T" -> { // About system
+                LOGGER.log(Level.SEVERE, "Temp Membership Selected");
+                if ( gameState.moneyChipBalance < FEE_TEMP ) { // Insufficient funds.
+                    viewText(9);
+                } else if ( !gameState.dbWorldChessTempFeePaid && !gameState.dbWorldChessFullFeePaid ) {
+                    gameState.moneyChipBalance -= FEE_TEMP;
+                    if ( accessLevel == 1) {
+                        accessLevel = 2;
+                    }
+                    LOGGER.log(Level.CONFIG, 
+                            "    Temporary membership applied.  ${0} deducted from chip.", 
+                            FEE_TEMP);
+                    viewText(8);
+                } else { // Already has a membership (temp or full)
+                   LOGGER.log(Level.CONFIG, "    Player already has a membership.");
+                }
+            }
+            case "F" -> { // About tournaments
+                LOGGER.log(Level.SEVERE, "Full Membership Selected");
+                if ( gameState.moneyChipBalance < FEE_FULL ) { // Insufficient funds.
+                    viewText(9);
+                } else if ( !gameState.dbWorldChessFullFeePaid ) {
+                    gameState.moneyChipBalance -= FEE_FULL;
+                    if ( accessLevel == 1) {
+                        accessLevel = 2;
+                    }
+                    LOGGER.log(Level.CONFIG, 
+                            "    Full membership applied.  ${0} deducted from chip.", 
+                            FEE_FULL);
+                    viewText(8);
+                } else { // Already has a membership (temp or full)
+                   LOGGER.log(Level.CONFIG, "    Player already has a full membership.");
+                }
+            }
+        }
     }
 
     private void enterTournament() {

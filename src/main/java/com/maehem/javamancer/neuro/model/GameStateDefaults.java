@@ -93,6 +93,8 @@ public enum GameStateDefaults {
     LARRY_MOE_WANTED("goalLarryMoeWanted", false),
     PSYCHO_PROBE_COUNT("goalPsychoProbeCount", 0),
     DB_CONSUMEREV_FEE_PAID("dbConsumerRevFeePaid", false),
+    DB_WORLDCHESS_TEMP_FEE_PAID("dbWorldChessTempFeePaid", false),
+    DB_WORLDCHESS_FULL_FEE_PAID("dbWorldChessFullFeePaid", false),
     // Hotel
     HOTEL_CHARGES("hotelCharges", 1000),
     HOTEL_ON_ACCOUNT("hotelOnAccount", 0),
