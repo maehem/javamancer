@@ -27,7 +27,11 @@
 package com.maehem.javamancer.neuro.view.database;
 
 import com.maehem.javamancer.neuro.model.GameState;
+import com.maehem.javamancer.neuro.model.warez.ChessWarez;
+import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.PopupListener;
+import com.maehem.javamancer.neuro.view.SoundEffectsManager;
+import com.maehem.javamancer.neuro.view.cyberspace.SoftwarePane;
 import java.util.logging.Level;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -37,7 +41,7 @@ import javafx.scene.text.TextFlow;
 
 /**
  * <pre>
-[0] :: * World Chess Confederation *
+ * [0] :: * World Chess Confederation *
  * [1] :: X. Exit System 1. About this system 2. About the Tournaments 3. Membership Application
  * [2] :: 4. Enter Tournament 5. Challenge Morphy
  * [3] :: 6. Software Library 7. AI Message Buffer
@@ -92,7 +96,7 @@ public class WorldChessDatabaseView extends DatabaseView {
         SUB, MENU, ABOUT, APPLY, TOURNAMENT, MORPHY
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
-    
+
     private static final int FEE_TEMP = 10;
     private static final int FEE_FULL = 150;
 
@@ -193,9 +197,9 @@ public class WorldChessDatabaseView extends DatabaseView {
         String ss = dbTextResource.get(7);
         for (String s : ss.split("\\r")) {
             Text item = new Text("\n" + s);
-            
+
             // If the line.strip() begins with character.dot then it's a menu item.
-            if ( s.matches("^\\s*[A-Z]\\..*") ) {
+            if (s.matches("^\\s*[A-Z]\\..*")) {
                 LOGGER.log(Level.FINEST, "Found Clickable Item:{0}", s);
                 item.setOnMouseClicked((t) -> {
                     t.consume();
@@ -203,9 +207,9 @@ public class WorldChessDatabaseView extends DatabaseView {
                 });
             }
             content.getChildren().add(item);
-        }        
+        }
         content.requestLayout();
-        
+
         pane.getChildren().add(pageTf);
 
     }
@@ -217,36 +221,36 @@ public class WorldChessDatabaseView extends DatabaseView {
             }
             case "T" -> { // About system
                 LOGGER.log(Level.SEVERE, "Temp Membership Selected");
-                if ( gameState.moneyChipBalance < FEE_TEMP ) { // Insufficient funds.
+                if (gameState.moneyChipBalance < FEE_TEMP) { // Insufficient funds.
                     viewText(9);
-                } else if ( !gameState.dbWorldChessTempFeePaid && !gameState.dbWorldChessFullFeePaid ) {
+                } else if (!gameState.dbWorldChessTempFeePaid && !gameState.dbWorldChessFullFeePaid) {
                     gameState.moneyChipBalance -= FEE_TEMP;
-                    if ( accessLevel == 1) {
+                    if (accessLevel == 1) {
                         accessLevel = 2;
                     }
-                    LOGGER.log(Level.CONFIG, 
-                            "    Temporary membership applied.  ${0} deducted from chip.", 
+                    LOGGER.log(Level.CONFIG,
+                            "    Temporary membership applied.  ${0} deducted from chip.",
                             FEE_TEMP);
                     viewText(8);
                 } else { // Already has a membership (temp or full)
-                   LOGGER.log(Level.CONFIG, "    Player already has a membership.");
+                    LOGGER.log(Level.CONFIG, "    Player already has a membership.");
                 }
             }
             case "F" -> { // About tournaments
                 LOGGER.log(Level.SEVERE, "Full Membership Selected");
-                if ( gameState.moneyChipBalance < FEE_FULL ) { // Insufficient funds.
+                if (gameState.moneyChipBalance < FEE_FULL) { // Insufficient funds.
                     viewText(9);
-                } else if ( !gameState.dbWorldChessFullFeePaid ) {
+                } else if (!gameState.dbWorldChessFullFeePaid) {
                     gameState.moneyChipBalance -= FEE_FULL;
-                    if ( accessLevel == 1) {
+                    if (accessLevel == 1) {
                         accessLevel = 2;
                     }
-                    LOGGER.log(Level.CONFIG, 
-                            "    Full membership applied.  ${0} deducted from chip.", 
+                    LOGGER.log(Level.CONFIG,
+                            "    Full membership applied.  ${0} deducted from chip.",
                             FEE_FULL);
                     viewText(8);
                 } else { // Already has a membership (temp or full)
-                   LOGGER.log(Level.CONFIG, "    Player already has a full membership.");
+                    LOGGER.log(Level.CONFIG, "    Player already has a full membership.");
                 }
             }
         }
@@ -265,6 +269,27 @@ public class WorldChessDatabaseView extends DatabaseView {
         TextFlow pageTf = pageTextScrolledFlow(headingText, text);
 
         pane.getChildren().add(pageTf);
+
+        // TODO: Pop up software selector.
+        // Use view.cyberspace.SoftwarePane()
+        SoftwarePane softwarePane = new SoftwarePane(gameState, SoftwarePane.Mode.UPLOAD);
+        softwarePane.setLayoutY(220);
+        softwarePane.softwarePrompt((t) -> {
+            Warez w = softwarePane.getUsedWarez();
+            if (w == null || !(w instanceof ChessWarez)) {
+                // Show message 15
+                Text failMsg = new Text("\n" + dbTextResource.get(15));
+                pageTf.getChildren().clear();
+                pageTf.getChildren().add(failMsg);
+                gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
+            } else {
+                pageTf.getChildren().add(new Text("TODO: Start the match!"));
+            }
+        });
+
+        // TODO: Check uploaded software for compatability
+        pane.getChildren().add(softwarePane);
+
         pane.setOnMouseClicked((t) -> {
             t.consume();
             mainMenu();

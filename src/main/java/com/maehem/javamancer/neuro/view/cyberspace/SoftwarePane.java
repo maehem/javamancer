@@ -34,6 +34,8 @@ import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import static javafx.scene.input.KeyCode.*;
@@ -50,14 +52,15 @@ import javafx.scene.text.TextFlow;
 public class SoftwarePane extends Pane {
 
     public static final Logger LOGGER = Logging.LOGGER;
+    private EventHandler<ActionEvent> promptHandler;
 
     public enum Mode {
-        RUN, ERASE, REPAIR
+        RUN, ERASE, REPAIR, UPLOAD
     }
 
     private static final int SOFT_LIST_WIDTH = 360;
     private static final int SOFT_LIST_HEIGHT = 130;
-    private static final int SOFT_LIST_X = 114;
+    private static final int SOFT_LIST_X = 124;
     private static final int SOFT_LIST_Y = 0;
     private final static int SOFT_LIST_SIZE = 4;
 
@@ -81,12 +84,15 @@ public class SoftwarePane extends Pane {
 
     }
 
-    public final void softwarePrompt() {
+    public final void softwarePrompt(EventHandler<ActionEvent> handler) {
         LOGGER.log(Level.CONFIG, "Cyberspace: Show Software Prompt");
         //mode = Mode.SOFTWARE;
 
         usedWarez = null;
         usedResponse = "";
+        if ( handler != null ) {
+            this.promptHandler = handler;
+        }
 
         setVisible(true);
         getChildren().clear();
@@ -100,6 +106,9 @@ public class SoftwarePane extends Pane {
             }
             case REPAIR -> {
                 modeString = "Repair ";
+            }
+            case UPLOAD -> {
+                modeString = "Upload";
             }
         }
         Text softwareHeading = new Text(modeString + "Software");
@@ -130,15 +139,19 @@ public class SoftwarePane extends Pane {
                             if (gameState.software.remove(w)) {
                                 LOGGER.log(Level.FINE, "Erased software {0} from deck.", w.getSimpleName());
                                 slotBase = 0;
-                                softwarePrompt();
+                                softwarePrompt(null);
                             } else {
                                 LOGGER.log(Level.SEVERE, "Something went wrong while erasing software {0} from deck.", w.getSimpleName());
                             }
                         }
                         case REPAIR -> {
-                            LOGGER.log(Level.SEVERE, "Software repair not omplemented yet.");
+                            LOGGER.log(Level.SEVERE, "Software repair not implemented yet.");
 
                             //repairSoftware();
+                        }
+                        case UPLOAD -> {
+                            LOGGER.log(Level.SEVERE, "Software upload."); // WorldChess
+                            uploadSoftware(w);
                         }
                         default ->
                             throw new AssertionError();
@@ -159,14 +172,14 @@ public class SoftwarePane extends Pane {
             prevButton.setOnMouseClicked((t) -> {
                 t.consume();
                 slotBase -= SOFT_LIST_SIZE;
-                softwarePrompt();
+                softwarePrompt(this.promptHandler);
             });
         }
         if (nextButton.isVisible()) {
             nextButton.setOnMouseClicked((t) -> {
                 t.consume();
                 slotBase += SOFT_LIST_SIZE;
-                softwarePrompt();
+                softwarePrompt(this.promptHandler);
             });
         }
         exitButton.setOnMouseClicked((t) -> {
@@ -211,22 +224,6 @@ public class SoftwarePane extends Pane {
         }
     }
 
-//    private void displayResponse(String response) {
-//        LOGGER.log(Level.INFO, "Show Deck use() response");
-//
-//        getChildren().clear();
-//        setVisible(true);
-//        Text heading = new Text(response);
-//
-//        getChildren().add(PopupPane.makeBox(this, PopupPane.textFlow(heading)));
-//
-//        setOnMouseClicked((t) -> {
-//            t.consume();
-//            // Allow user to view response and go back to menu when clicked.
-//            setOnMouseClicked(null);
-//            softwarePrompt();
-//        });
-//    }
     private void displayUsingSoftware() {
         LOGGER.log(Level.INFO, "Showing pane: Warez use() in progress.");
 
@@ -236,6 +233,38 @@ public class SoftwarePane extends Pane {
 
         getChildren().add(PopupPane.makeBox(this, PopupPane.textFlow(heading)));
 
+    }
+
+    private void uploadSoftware(Warez w) {
+        LOGGER.log(Level.INFO, "Cyberspace: Upload Software: {0}", w.item.itemName);
+        usedWarez = w;
+
+        getChildren().clear();
+        setVisible(true);
+        Text heading = new Text("\nUploading...\n\n" + w.getSimpleName());
+
+        getChildren().add(PopupPane.makeBox(this, PopupPane.textFlow(heading)));
+
+        // Leave software pane up for as long as shot takes
+        long startTime = System.nanoTime();
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                // 'now' is a timestamp in nanoseconds
+                // Calculate elapsed time in seconds
+                double elapsedTime = (now - startTime) / 1_000_000.0;
+                if (elapsedTime > 1700) { // Stay up for this many mS.
+                    setVisible(false); // Take down the software popup.
+                    this.stop();
+                    promptHandler.handle(new ActionEvent());
+                }
+            }
+        };
+
+        // Start the timer when the application starts
+        timer.start();
+        // Play upload sound effect
+        gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
     }
 
     public boolean handleKeyEvent(KeyEvent ke) {

@@ -159,7 +159,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
     private void initButtons() {
         invRect.setOnMouseClicked((t) -> {
             LOGGER.log(Level.CONFIG, "Cyberspace: Software Button Clicked...");
-            softwarePane.softwarePrompt();
+            softwarePane.softwarePrompt(null);
             t.consume();
         });
         skillRect.setOnMouseClicked((t) -> {
@@ -227,7 +227,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
                     LOGGER.log(Level.INFO, "Cyberspace: Software Key Pressed...");
                     ke.consume();
                     // Close other popups.
-                    softwarePane.softwarePrompt();
+                    softwarePane.softwarePrompt(null);
                     skillsPopup.setVisible(false);
                     erasePane.setVisible(false);
                     diskPopup.setVisible(false);
