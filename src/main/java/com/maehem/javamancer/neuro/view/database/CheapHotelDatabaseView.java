@@ -399,23 +399,6 @@ public class CheapHotelDatabaseView extends DatabaseView {
         typedBalanceText.setText(String.format("%10s", str));
     }
 
-    private void editBill() {
-        if (gameState.usingDeck.getMode() != DeckItem.Mode.CYBERSPACE) {
-            // only in cyberspace
-            return;
-        }
-        LOGGER.log(Level.SEVERE, "Do Edit Bill.");
-        pane.getChildren().clear();
-        mode = Mode.EDIT;
-        TextFlow tf = pageTextFlow(headingText);
-
-        pane.getChildren().add(tf);
-        pane.setOnMouseClicked((t) -> {
-            t.consume();
-            mainMenu();
-        });
-    }
-
     private void buyItem(String itemLetter) {
         switch (itemLetter) {
             case "1" -> { // Caviar
