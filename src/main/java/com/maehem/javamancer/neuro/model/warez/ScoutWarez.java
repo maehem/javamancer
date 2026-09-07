@@ -40,7 +40,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class ScoutWarez extends UtilityWarez {
 
     public ScoutWarez(int version) {
-        super(Item.Catalog.PROBE, version);
+        super(Item.Catalog.SCOUT, version);
     }
 
 }
