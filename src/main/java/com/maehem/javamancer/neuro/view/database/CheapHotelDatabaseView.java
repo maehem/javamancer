@@ -441,25 +441,24 @@ public class CheapHotelDatabaseView extends DatabaseView {
 
     private void attemptPayment() {
         LOGGER.log(Level.FINE, "Player attempts to pay hotel bill...");
-        int available = gameState.moneyChipBalance;
         int hotelBalance = gameState.hotelCharges - gameState.hotelOnAccount;
 
-        if (hotelBalance == 0) {
+        if (hotelBalance <= 0) {
             LOGGER.log(Level.FINE, "Zero hotel balance. Nothing to pay.");
             return;
         }
-        if (available < hotelBalance) {
+
+        if (gameState.moneyChipBalance < hotelBalance) {
             LOGGER.log(Level.FINE, "Not enough credits to pay hotel bill!");
             // unable to pay
             // Play "bad" sound.
             gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
         } else {
-            LOGGER.log(Level.FINE, "Hotel bill paid.");
+            LOGGER.log(Level.FINE, "Hotel balance increased via player chip.");
             gameState.moneyChipBalance -= hotelBalance;
             gameState.hotelOnAccount += hotelBalance;
             // Play "good" sound.
             gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.TRANSMIT);
-
         }
 
     }
