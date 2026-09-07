@@ -61,7 +61,7 @@ public class CheapHotelDatabase extends Database {
 
         bbsMessages.add(new BbsMessage("11/16/58", null, "Donut World", 4, true));
         bbsMessages.add(new BbsMessage("11/16/58", null, "Manyusha Wanna Massage", 5, true));
-        bbsMessages.add(new BbsMessage("11/16/58", null, "Psychologist", 5, true));
+        bbsMessages.add(new BbsMessage("11/16/58", null, "Psychologist", 6, true));
         bbsMessages.add(new BbsMessage("11/16/58", null, "Crazy Edo's", 7, true));
     }
 
