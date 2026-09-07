@@ -677,10 +677,10 @@ public abstract class DatabaseView {
         } else { // Use DB model warez list as menu constructor.
             int i = 1;
             i = addSoftware(i, database.warez1, tf);
-            if (accessLevel > 0) {
+            if (accessLevel > 1) {
                 i = addSoftware(i, database.warez2, tf);
             }
-            if (accessLevel > 1) {
+            if (accessLevel > 2) {
                 addSoftware(i, database.warez3, tf);
             }
         }
