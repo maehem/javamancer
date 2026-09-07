@@ -142,7 +142,7 @@ public class CheapHotelDatabaseView extends DatabaseView {
     @Override
     public boolean handleKeyEvent(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
-        LOGGER.log(Level.FINE, "Handle key event.");
+        LOGGER.log(Level.FINEST, "Handle key event.");
         switch (mode) {
             case MENU -> {
                 if (code.equals(KeyCode.X)
