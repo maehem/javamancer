@@ -366,14 +366,14 @@ public class DeckPopup extends PopupPane {
                     siteContent(); // hand off to custom site handler.
                 } else {
                     // Error comlink version
-                    LOGGER.log(Level.CONFIG, "ComLink {0} required for this site.", whoIs.comlink);
-                    gameState.usingDeck.setMode(DeckItem.Mode.NONE);
+                    LOGGER.log(Level.CONFIG, 
+                            "ComLink {0} required for site: {1}", 
+                            new Object[]{whoIs.comlink,whoIs.linkCode});
                     linkEnterheading.setText(LINK_CODE_COMLINK_COMPAT);
                     linkCodeErr = true;
                 }
             } else {
                 LOGGER.log(Level.WARNING, () -> "Could not find link called " + typedLinkCode.toString());
-                gameState.usingDeck.setMode(DeckItem.Mode.NONE);
                 linkEnterheading.setText(LINK_CODE_UNKOWN_LINK);
                 linkCodeErr = true;
             }
