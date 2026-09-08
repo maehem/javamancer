@@ -253,25 +253,6 @@ public class CheapHotelDatabaseView extends DatabaseView {
         });
     }
 
-//    private void localThings() {
-//        LOGGER.log(Level.FINE, "Do Local Things.");
-//        pane.getChildren().clear();
-//        mode = Mode.LOCAL;
-//
-//        StringBuilder sb = new StringBuilder();
-//        LOCAL_MAP.forEach((heading, index) -> {
-//            sb.append(heading).append("\n")
-//                    .append(dbTextResource.get(index)).append("\n\n");
-//        });
-//
-//        TextFlow pageTf = pageTextScrolledFlow(headingText, new Text(sb.toString()));
-//
-//        pane.getChildren().add(pageTf);
-//        pane.setOnMouseClicked((t) -> {
-//            t.consume();
-//            mainMenu();
-//        });
-//    }
     private void reviewBill(boolean allowEdit) {
         LOGGER.log(Level.FINE, "Do Review Bill.");
         pane.getChildren().clear();
