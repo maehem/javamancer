@@ -99,9 +99,10 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
         }
         if (gs.hasInventoryItem(Catalog.CAVIAR)) {
             if (gs.addSoftware(new ComLinkWarez(2))) {
-                LOGGER.log(Level.FINE, "Warez installed succesfully.");
                 gs.removeInventoryItem(Catalog.CAVIAR); // Remove Caviar
                 gs.comlink2recieved = true;
+                gs.showMessage = "Caviar removed from inventory.\nComLink2 added to deck.";
+                LOGGER.log(Level.FINE, "Warez installed succesfully.");
                 return true;
             } else {
                 // Not installed, why?
