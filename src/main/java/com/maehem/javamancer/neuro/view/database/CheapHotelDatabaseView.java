@@ -55,40 +55,11 @@ public class CheapHotelDatabaseView extends DatabaseView {
     }
     private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
 
-//    static final Map<String, Integer> LOCAL_MAP = Map.of( // limit 10 items. :(
-//            "11/16/58 Donut World", 4,
-//            "11/16/58 Manyusha Wanna Massage", 5,
-//            "11/16/58 Psychologist", 6,
-//            "11/16/58 Crazy Edo's", 7
-//    );
     private final StringBuilder typedBalance = new StringBuilder();
     private final Text typedBalanceText = new Text();
 
     private boolean roomServiceOk = false;
 
-    /*
-    [0] :: * The Cheap Hotel *
-    [1] :: X. Exit System 1. Room Service 2. Local Things to do 3. Review Bill
-    [2] :: 4. Edit Bill
-    [3] :: Hey, its better than sleeping in the streets! Just enter the password "GUEST" to enter our system.
-    [4] ::    We at Donut World hope to be your breakfast, lunch or dinner place. As per usual, 15% discount for all SEA agents. Open 24 hours.
-    [5] :: Got them Jacked-in stiffies in your shoulders and back? Do you have a bad sector in your spine? Fret no more. Our Manyusha Wana Massage Parlor is waiting for you just around the corner. Weve got services and prices to fit any budget. Our masseuses are prettier than an Ono-Sendai Cyberspace VII and theyve got their own ideas about jacking in.... If you need to be unwound, come our way. You cant afford to miss what we can do for you. Between Shins Pawn Shop and Larrys.
-    [6] :: PSYCHOLOGIST is an intensely personal analysis service for an elite clientele.  It provides a socially- acceptable outlet for private frustrations, phobias, and general concerns.  New users can sample on-going mindprobe sessions for insight into their own personal problems.  After the initial contact, new users will be assigned a personal password. You can reach us at "PSYCHO".
-    [7] ::            Crazy Edos Why buy new when you can buy used for less?  Face it, you know the things work.  You dont have to rip open hundreds of boxes to sub-assemble this stuff.  Its all here. Weve got the almost latest in both warez and K-boxes.  Check us out!  Between Metro Holografix and the Matrix Restaurant.
-    [8] ::      Room: 92  Name:  --------------------------------------    Total Charges               O. On account:                    Balance:                    --------------------------------------             exit  pay bill
-    [9] ::
-    [10] :: --------------------------------------
-    [11] :: You must pay your bill first.
-    [12] ::
-    [13] ::    item               in stock  cost
-    [14] :: 1. Karanakov Caviar             $    2. Yomiuchi brand Sake          $
-
-     */
-//    static final Map<String, int[]> MENU_MAP = Map.of(
-//            "1", new int[]{11, 12, 13, 14},
-//            "2", new int[]{4, 5, 6, 7},
-//            "3", new int[]{8, 9, 10}
-//    );
     public CheapHotelDatabaseView(GameState gs, Pane p, PopupListener l) {
         super(gs, p, l);
 
