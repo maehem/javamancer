@@ -237,6 +237,7 @@ public class R8Extras extends RoomExtras {
     public boolean onSkillVendFinished(GameState gs) {
         if (gs.hasInventoryItem(Item.Catalog.CRYPTOLOGY)) {
             gs.shivaGaveChip = true;
+            gs.showMessage = "\n" + gs.resourceManager.getRoomText(gs.room).get(38) + "\n";
         }
 
         return false; // Don't open new dialog.
