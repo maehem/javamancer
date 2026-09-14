@@ -207,6 +207,9 @@ public class R44Extras extends RoomExtras { // Asano's
         if (purchased) {
             // Potentially increase deck slots if a deck was purchased.
             DeckUtils.computeMaxSlots(gs);
+            
+            // Enable PAX BBS message from Bob hinting at breaker soft from Larry.
+            gs.activatePAXMessage("Modern Bob", "Thanks for");
         } else {
             // set dialog to 32 // Come back when you're ready
         }

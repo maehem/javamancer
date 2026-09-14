@@ -80,6 +80,9 @@ public class SoftwareEnforcementDatabaseView extends DatabaseView {
 
         TextFlow tf = pageTextFlow(headingText, helloText, CONTINUE_TEXT);
         pane.getChildren().add(tf);
+        
+        // Activate PAX BBS message for Free Matrix site.
+        gameState.activatePAXMessage("CFM", "Are you angry");
     }
 
     @Override

@@ -156,7 +156,9 @@ public class R40Extras extends RoomExtras { // Crazy Edo's
         } else {
             // Potentially increase deck slots if a deck was purchased.
             DeckUtils.computeMaxSlots(gs);
-
+            
+            // Enable PAX BBS message from Bob hinting at breaker soft from Larry.
+            gs.activatePAXMessage("Modern Bob", "Thanks for");
         }
 
         return false;
