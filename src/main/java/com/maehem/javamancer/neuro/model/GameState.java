@@ -170,6 +170,7 @@ public class GameState {
     public boolean ratzPaid = false; // Player must give Ratz 46 credits.
     public boolean shivaChipMentioned = false;
     public boolean shivaGaveChip = false;
+    public int loserChipAquiredHours = 0; // Counts up each hour after Crypto chip aquired. Used by Matrix Pass message.
     public boolean joystickGiven = false; // Player must give Nolan the joystick.
     public boolean gasMaskIsOn = false;
     //public boolean gasMaskGiven = false; // Not used.
@@ -273,6 +274,16 @@ public class GameState {
                     hosakaDaysSincePaid++;
                 }
                 dateHour = 0;
+            }
+            // Makes visible a message from Norton regarding Matrix pass
+            // one day after Shiva gives chip to player.
+            // Increments hour timer until 24 hours reached.
+            if (shivaGaveChip && loserChipAquiredHours < 24) {
+                loserChipAquiredHours++;
+                LOGGER.log(Level.SEVERE, "Increase hour count since Shiva gave chip.");
+                if (loserChipAquiredHours >= 24) {
+                    activatePAXMessage("Emp. Norton", "Shiva");
+                }
             }
             dateMinute = 0;
         }

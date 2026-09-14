@@ -82,6 +82,7 @@ public enum GameStateDefaults {
     RATZ_PAID("goalRatzPaid", false),
     SHIVA_CHIP_MENTIONED("goalShivaChipMentioned", false),
     SHIVA_CHIP_GIVEN("goalShivaGaveChip", false),
+    LOSER_CHIP_AQUIRED_HOURS("hoursLoserChipAquired", 0),
     JOYSTICK_GIVEN("goalJoystickGiven", false),
     GAS_MASK_ON("goalGasMaskOn", false),
     BODY_PART_DISCOUNT("goalBodyPartDiscount", false),

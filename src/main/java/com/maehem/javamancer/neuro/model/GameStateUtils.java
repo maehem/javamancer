@@ -205,6 +205,7 @@ public class GameStateUtils {
         pPut(props, RATZ_PAID, gs.ratzPaid);
         pPut(props, SHIVA_CHIP_MENTIONED, gs.shivaChipMentioned);
         pPut(props, SHIVA_CHIP_GIVEN, gs.shivaGaveChip);
+        pPut(props, LOSER_CHIP_AQUIRED_HOURS, gs.loserChipAquiredHours);
         pPut(props, JOYSTICK_GIVEN, gs.joystickGiven);
         pPut(props, GAS_MASK_ON, gs.gasMaskIsOn);
 
@@ -347,6 +348,7 @@ public class GameStateUtils {
         gs.ratzPaid = getBool(RATZ_PAID, p);
         gs.shivaChipMentioned = getBool(SHIVA_CHIP_MENTIONED, p);
         gs.shivaGaveChip = getBool(SHIVA_CHIP_GIVEN, p);
+        gs.loserChipAquiredHours = getInt(LOSER_CHIP_AQUIRED_HOURS, p);
         gs.joystickGiven = getBool(JOYSTICK_GIVEN, p);
         gs.gasMaskIsOn = getBool(GAS_MASK_ON, p);
 
