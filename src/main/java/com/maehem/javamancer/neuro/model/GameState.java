@@ -499,16 +499,16 @@ public class GameState {
 
     /**
      * Apply DB or AI attack damage to player constitution.
-     * 
+     *
      * @param amount to apply to constitution.
      */
     public void applyEnemyAttack(int amount) {
-        LOGGER.log(Level.FINE, 
+        LOGGER.log(Level.FINE,
                 "Player takes {0} damage from attack. Player constitution: {1}",
                 new Object[]{amount, getConstitution()});
-        
+
         damage += amount;
-        
+
         if (getConstitution() <= 0) { // If Constitution == 0 then die.
             LOGGER.log(Level.CONFIG, "Player death. Revive in Body Shop.");
             playerFlatlined = true;
