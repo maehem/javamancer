@@ -44,7 +44,7 @@ public class PantherModernsDatabaseView extends DatabaseView {
     }
 
     //private Mode mode = Mode.SUB; // Sub-mode handled by superclass.
-    private static final String BOB_MSG_TO = "modern bob mod bob";
+    private static final String BOB_MSG_TO = "modern bob mod modernbob";
     private static final String BOB_MSG_BODY = "link code sea hitachi regular fellows";
 
     /*
