@@ -42,26 +42,24 @@ import static java.util.Map.entry;
 public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
 
     // TODO: Play original game to figure out some of this dialog chain.
-    
-    
     protected static final int[][] DIALOG_CHAIN = {
         {LONG_DESC.num}, // [0] :: One of Lonny Zones working girls is standing here in the street, leaning against a light tower. She carefully looks you over.
         {2, 3, 4, 5}, // [1] :: Hey, sailor. New in town?
         {6}, // [2] :: Top of the mornin! Youre under arrest unless you answer some questions.
         {8}, // [3] :: Im not a sailor. Do I look like one?
         {8}, // [4] :: Yes, Im new around here.  Why?
-        {7}, // [5] :: Buzz off, sister. Zones a close personal friend of mine.
+        {18}, // [5] :: Buzz off, sister. Zones a close personal friend of mine.
         {}, // [6] :: Drop dead.
         {}, // [7] :: In your eye, meatball.
         {9, 10, 11, 12, 13}, // [8] :: You look lost. Something I can do for you?
         {19}, // [9] :: Got any good software?
-        {}, // [10] :: I doubt it. Im not lost.
-        {}, // [11] :: I cant afford your kind of help.
+        {15}, // [10] :: I doubt it. Im not lost.
+        {16}, // [11] :: I cant afford your kind of help.
         {WORD1.num}, // [12] :: Do you know anything about @---------------
         {WORD2.num}, // [13] :: Where is @---------------
         {}, // [14] ::
-        {}, // [15] :: Buzz off, cybermo.
-        {}, // [16] :: Some other time, then.
+        {DIALOG_END.num}, // [15] :: Buzz off, cybermo.
+        {DIALOG_END.num}, // [16] :: Some other time, then.
         {}, // [17] ::
         {9, 10, 11, 12}, // [18] :: Lonny was picked up by the feds for  tax evasion.  He said the wrong thing  to the judge and was given the death penalty.
         {10, 11, 12, 13}, // [19] :: Do I look like a Tekkie?
@@ -99,7 +97,6 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
             entry("cyberspace", 22),
             entry("massage", 23),
             entry("???2", 25),
-            
             entry("lonny", 36),
             entry("zone", 36),
             entry("lonny zone", 36),
@@ -111,6 +108,7 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
             entry("justice", 34),
             entry("matrix", 38),
             entry("banks", 35),
+            entry("banksoftware", 35),
             entry("armitage", 36),
             entry("copenhagen", 37),
             entry("university", 37)
@@ -150,7 +148,7 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
     //        entry02 : anim00
     protected final int[][] ANIMATION_FLAGS = {
         {1}, // Girl
-        {0}  // Girl simply standing/shifting
+        {0} // Girl simply standing/shifting
     };
 
     @Override
@@ -191,6 +189,15 @@ public class R26Extras extends RoomExtras { // Street Light Pole - Irish Rose
     public int dialogWarmUp(GameState gs) {
         return 1;
 
+    }
+
+    @Override
+    public int onDialogIndex(GameState gs, int index) {
+        if (index == 18) { // Mentions Zone, trigger new PAX message.
+            gs.activatePAXMessage("IRS", "Got a problem");
+        }
+
+        return super.onDialogIndex(gs, index);
     }
 
 }
