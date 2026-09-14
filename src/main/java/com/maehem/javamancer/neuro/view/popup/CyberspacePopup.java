@@ -101,6 +101,10 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
         } else { // Normal operation.
             visualPane.animateInitialTravel();
         }
+        
+        // Activate new PAX BBS messages related to Samurai7
+        gs.activatePAXMessage("Wakizashi", "Have you sold");
+        gs.activatePAXMessage("Crazy Edo", "You should have");
     }
 
     @Override
