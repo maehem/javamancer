@@ -158,6 +158,9 @@ public class R56Extras extends RoomExtras { // Sense Net
             gs.showMessage = gs.resourceManager.getRoomText(gs.room).get(10);
             gs.romInstalled = romNum;
             countdown = -1;
+            // Once the player gets the ROM at SenseNet, a PAX message appears
+            // from SenseNet asking the public for info about ROM thieves.
+            gs.activatePAXMessage("Sense/Net", "We would");
             dialogNoMore(gs);
         }
 
