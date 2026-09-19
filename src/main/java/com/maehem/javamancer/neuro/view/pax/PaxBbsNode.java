@@ -472,8 +472,10 @@ public class PaxBbsNode extends PaxNode {
             }
         }
         bbs.add(index + 1, message);
-        message.prefillIndex = index;
         gameState.messageSent.add(message);
+        // Remember index of sent message relative to messageSent List
+        // so that we can restore it at game load time.
+        message.prefillIndex = 100 + gameState.messageSent.size() -1;
 
         LOGGER.log(Level.FINE, "Message sent to: {0}", typedTo);
         // Check if to armitage and contains BAMA id.
@@ -484,28 +486,17 @@ public class PaxBbsNode extends PaxNode {
                 gameState.bbsMsgToArmitageSent = true;
 
                 // Activate Armitage message
-                BbsMessage toMove = null;
-                for (BbsMessage m : gameState.bbs) {
-                    if (m.from.equals("Armitage") && m.body.startsWith("Thanks")) {
-                        m.show = true;
-                        m.date = gameState.getDateString();
-                        toMove = m;
-                        break;
-                    }
-                }
-                if (toMove != null) {
-                    gameState.bbs.remove(toMove);
-                    gameState.bbs.add(index + 2, toMove);
-                    gameState.bankBalance += 10000;
-                    gameState.bankTransactionRecord.add(new BankTransaction(
-                            gameState.getDateString(),
-                            BankTransaction.Operation.TransferIn,
-                            10000
-                    ));
-                    LOGGER.log(Level.CONFIG, "Armitage response sent to player.");
-                } else {
-                    LOGGER.log(Level.SEVERE, "Unexpected issue happened while configuring Armitage response message!");
-                }
+                gameState.activatePAXMessage("Armitage", "Thanks");
+                gameState.bankBalance += 10000;
+                gameState.bankTransactionRecord.add(new BankTransaction(
+                        gameState.getDateString(),
+                        BankTransaction.Operation.TransferIn,
+                        10000
+                ));
+                LOGGER.log(Level.CONFIG, "Armitage response sent to player.");
+                
+            } else {
+                LOGGER.log(Level.CONFIG, "Armitage already sent you money!");
             }
         }
     }
