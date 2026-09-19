@@ -553,6 +553,7 @@ public class GameState {
                 bbs,
                 name
         );
+        dumpPaxEntries();
 
         visited.add(R10); // TODO: Shuttle doesn't work as "firstTime" visit.
 
@@ -629,6 +630,29 @@ public class GameState {
             );
         }
 
+        // Debug for PAX list. 
+        dumpPaxEntries();
+
+    }
+
+    public void dumpPaxEntries() {
+        LOGGER.log(Level.FINEST, "Dump PAX List");
+        int i = 0;
+        for (BbsMessage m : bbs) {
+            if (m == null) { // Should never happen.
+                LOGGER.log(Level.FINEST, 
+                        "[{0}]     <=== null"
+                );
+            } else {
+                int bodyLen = m.body.length();
+                LOGGER.log(Level.FINEST,
+                        "[{0}] <== [{1}]    Date: {2}   To: {3}  Body: {4}",
+                        new Object[]{i, m.prefillIndex, m.date, m.to,
+                            m.body.substring(0, bodyLen < 13 ? bodyLen : 13)}
+                );
+            }
+            i++;
+        }
     }
 
 }
