@@ -587,9 +587,9 @@ public class GameState {
         LOGGER.log(Level.CONFIG, "GameState: Clean Up called.");
         resourceManager.musicManager.stopAll(); // Fade all?
     }
-    
+
     public void activatePAXMessage(String from, String startsWith) {
-        
+
         // Find highest index of shown message.
         int index = 0;
         for (int i = 0; i < bbs.size(); i++) {
@@ -602,13 +602,13 @@ public class GameState {
         BbsMessage toMove = null;
         for (BbsMessage m : bbs) {
             if (m.from.startsWith(from) && m.body.startsWith(startsWith)) {
-                if ( m.show ) { // Message already active.
+                if (m.show) { // Message already active.
                     return;
                 }
                 m.show = true;
                 m.date = getDateString();
                 toMove = m;
-                LOGGER.log(Level.CONFIG, 
+                LOGGER.log(Level.CONFIG,
                         "Activated {0} message.",
                         from);
                 break;
@@ -618,12 +618,12 @@ public class GameState {
             bbs.remove(toMove);
             bbs.add(index + 1, toMove);
 
-            LOGGER.log(Level.CONFIG, 
-                    "Moved {0} message to end of msg list @{1}.", 
-                    new Object[]{from,index+2}
+            LOGGER.log(Level.CONFIG,
+                    "Moved {0} message to end of msg list @{1}.",
+                    new Object[]{from, index + 2}
             );
         } else {
-            LOGGER.log(Level.SEVERE, 
+            LOGGER.log(Level.SEVERE,
                     "Unexpected issue happened while configuring {0} message!",
                     from
             );
