@@ -253,6 +253,7 @@ public class ResourceManager {
             try (Scanner read = new Scanner(in)) {
                 read.useDelimiter("\n");
 
+                LOGGER.log(Level.CONFIG, "PAX Messages Initialized");
                 while (read.hasNext()) {
                     String txt = read.next();
                     if (txt.startsWith("// Ancillary")) {
@@ -290,8 +291,10 @@ public class ResourceManager {
                         BbsMessage message = new BbsMessage(99, dateString,
                                 to, from, body, showMessage
                         );
+                        message.prefillIndex = index;
 
                         messages.add(message);
+                        LOGGER.log(Level.FINER, "    [{0}] To: {1}   Date:{2} ", new Object[]{index, message.to, message.date});
 
                         index++;
                     }
