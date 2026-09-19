@@ -158,6 +158,10 @@ public class GameStateUtils {
 
         putDefeatedAiList(gs, props);
 
+        gs.dumpPaxEntries();
+        // Save the PAX message headers: date|prefillIndex
+        putPaxMessageHeadersList(gs.bbs, props);
+
         putSentMessageList(gs.messageSent, props);
 
         pPut(props, DECK_SLOTS, gs.deckSlots);
@@ -279,6 +283,7 @@ public class GameStateUtils {
                 gs.bbs,
                 gs.name
         );
+        gs.dumpPaxEntries();
 
         // Inventory
         restoreInventory(gs, p);
@@ -310,7 +315,9 @@ public class GameStateUtils {
         restoreDialogRooms(gs, p);
         restoreLockedRooms(gs, p);
 
+        restorePaxMessageHeadersList(gs, p);
         restoreSentMessageList(gs, p);
+        gs.dumpPaxEntries();
 
         // Deck
         gs.deckSlots = getInt(DECK_SLOTS, p);
@@ -646,6 +653,28 @@ public class GameStateUtils {
         }
     }
 
+    private static void putPaxMessageHeadersList(ArrayList<BbsMessage> list, Properties p) {
+        LOGGER.log(Level.FINE, "Put Pax BBS Message Headers...");
+        String key = BBS_PAX_MESSAGE_HEADERS.key;
+        StringBuilder sb = new StringBuilder();
+        // Date|prefillIndex
+        // bbsPaxMessageHeaders = 12/15/45:100,12/16/45:3,XX/XX/XX:19
+        // List is in the order it should appear to player.  Dates are
+        // Overwritten.  Number indicates original list index from resource
+        // manager. So when restoring file, move that original message
+        // index to this new list index.
+        for (BbsMessage m : list) {
+            if (!sb.isEmpty()) {
+                sb.append(",");  // Delimeter
+            }
+            sb.append(m.date);
+            sb.append(":"); // Sub-delimeter
+            sb.append(m.prefillIndex);
+        }
+        
+        p.put(key, sb.toString());
+    }
+
     private static void restoreSentMessageList(GameState gs, Properties p) {
         LOGGER.log(Level.FINE, "Restore Sent BBS Messages...");
         String key = BBS_SENT_MESSAGE.key;
@@ -658,7 +687,18 @@ public class GameStateUtils {
             BbsMessage msg = BbsMessage.pullMessage(itemPrefix, p);
             gs.messageSent.add(msg);
             if (msg.dbNumber == 99) { // PAX BBS messages.
-                gs.bbs.add(msg.prefillIndex, msg);
+                // Iterate through gs.bbs and update message details for item
+                // whose prefillIndex matches this one.
+                int ii;
+                for ( ii=0; ii< gs.bbs.size(); ii++) {
+                    BbsMessage bbsMsg = gs.bbs.get(ii);
+                    if ( bbsMsg.prefillIndex == msg.prefillIndex ) {
+                        break;
+                    }
+                }
+                if ( ii<gs.bbs.size() ) {
+                    gs.bbs.set(ii, msg);
+                }
             } else {
                 Database db = gs.dbList.lookup(msg.dbNumber);
                 db.bbsMessages.add(msg);
@@ -666,7 +706,48 @@ public class GameStateUtils {
 
             i++;
         }
+    }
 
+    private static void restorePaxMessageHeadersList(GameState gs, Properties p) {
+        LOGGER.log(Level.FINE, "Restore Pax BBS Message Headers...");
+        String key = BBS_PAX_MESSAGE_HEADERS.key;
+        ArrayList<BbsMessage> original = new ArrayList<>(gs.bbs);
+        gs.bbs.clear();
+
+        try {
+            String prop = (String) (p.get(key));
+            if (prop == null) {
+                return;
+            }
+            String[] header = prop.split(",");
+            for (String rStr : header) {
+                LOGGER.log(Level.FINER, "    Restore: {0}", new Object[]{rStr});
+                String[] items = rStr.split(":");
+                Integer index = Integer.valueOf(items[1]);
+                if (index < 100) {
+                    BbsMessage msg = original.get(index);
+                    msg.date = items[0];
+                    msg.show = !msg.date.startsWith("XX");
+                    gs.bbs.add(msg);
+                } else {
+                    LOGGER.log(Level.SEVERE,
+                            "Found reference to user sent message. Will be added after this step.");
+                    // Create a placeholder sent message to be completed by 
+                    // next game load operation.
+                    BbsMessage msg = new BbsMessage(99, items[0],
+                            "TBD", "TBD", "Placeholder body.",
+                            true
+                    );
+                    msg.prefillIndex = index;
+                    gs.bbs.add(msg);
+                }
+
+            }
+        } catch (NumberFormatException ex) {
+            LOGGER.log(Level.SEVERE,
+                    "non-integer found in one of the index values for {0}!\n    Element: {1}",
+                    new Object[]{key, p.get(key)});
+        }
     }
 
     private static void putBankTransactions(ArrayList<BankTransaction> list, Properties p) {
