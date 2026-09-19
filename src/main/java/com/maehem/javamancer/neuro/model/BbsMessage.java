@@ -47,7 +47,7 @@ public class BbsMessage {
     public int prefillIndex;
     public boolean show;
 
-    public static final int defaultShow = 3; // Default show articles 0..3
+    //public static final int defaultShow = 3; // Default show articles 0..3
 
     /**
      * For game time sent or generated messages.
