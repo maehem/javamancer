@@ -53,6 +53,7 @@ public enum GameStateDefaults {
     HOSAKA_DAYS_SINCE_PAID("hosakaDaysSincePaid", -1),
     // PAX / BBS
     BBS_SENT_MESSAGE("bbsSentMessage", null),
+    BBS_PAX_MESSAGE_HEADERS("bbsPaxMessageHeaders", null),
     // Person Lists
     SEA_WANTED("listSeaWanted", 0),
     CHIBA_POLICE("listChibaPolice", 0),
