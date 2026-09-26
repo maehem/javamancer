@@ -56,7 +56,12 @@ public class MusicManager {
         STREET_3("Jupiter_Function"),
         MATRIX_1("(empty)"),
         TESSIER("tessier-lobby"),
+        ZION("Dimensional_Pulse_-_Big_World"),
         END_GAME("Blocks"),
+        SKILL_DUB("Dimensional_Pulse_-_Flowers"),
+        SKILL_JAZZ("texasradiofish_-_Transition"),
+        SKILL_NEW_WAVE("Bush-Week"),
+        SKILL_CLASSICAL("Mozart-Rondo"),
         CREDITS("Night Market");
 
         public final String fileName;
