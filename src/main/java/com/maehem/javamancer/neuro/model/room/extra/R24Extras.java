@@ -95,6 +95,11 @@ public class R24Extras extends RoomExtras {
 
     @Override
     public void initRoom(GameState gs) {
+        // Hide police bot if previously visible.
+        LOGGER.log(Level.SEVERE, "Disable Police Bot visible, if present.");
+        getAnimationFlags()[1][0] = 0;
+        getAnimationFlags()[2][0] = 0;
+        // Animation will update on next RoomPane tick().
     }
 
     @Override
