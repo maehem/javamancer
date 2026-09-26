@@ -200,6 +200,13 @@ public class MusicManager {
             activeMedia.remove(item);
         }
     }
+    
+    public void fadeAll( int milliseconds) {
+        LOGGER.log(Level.CONFIG, "Music Manager: All music fade out.");
+        for (MediaItem item : activeMedia.toArray(MediaItem[]::new)) {
+            fadeOutTrack(item.track, milliseconds);
+        }
+    }
 
     private class MediaItem {
 
