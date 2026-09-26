@@ -42,6 +42,9 @@ import java.util.logging.Level;
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public class MusicianshipSkill extends Skill {
+    
+    public enum Mode { NONE, DUB, JAZZ, NEW_WAVE, CLASSICAL }
+    private Mode mode = Mode.NONE;
 
     public MusicianshipSkill(int level) {
         super(Item.Catalog.MUSICIANSHIP, level, 1);
@@ -55,5 +58,13 @@ public class MusicianshipSkill extends Skill {
     @Override
     public String getDescription() {
         return "Play 'Dub' in Zion to get what you need.";
+    }
+    
+    public Mode getMode() {
+        return mode;
+    }
+    
+    public void setMode( Mode mode ) {
+        this.mode = mode;
     }
 }

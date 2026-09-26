@@ -46,6 +46,7 @@ import com.maehem.javamancer.neuro.view.popup.DeckPopup;
 import com.maehem.javamancer.neuro.view.popup.DialogPopup;
 import com.maehem.javamancer.neuro.view.popup.DiskPopup;
 import com.maehem.javamancer.neuro.view.popup.InventoryPopup;
+import com.maehem.javamancer.neuro.view.popup.MusicianPopup;
 import com.maehem.javamancer.neuro.view.popup.PawnshopVendPopup;
 import com.maehem.javamancer.neuro.view.popup.PopupPane;
 import com.maehem.javamancer.neuro.view.popup.RomPopup;
@@ -87,7 +88,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         SKILLS_BUY, SKILLS_UPGRADE,
         ITEMS_BUY, SOFTWARE_BUY,
         CYBERSPACE,
-        SKILL_CRYPTO
+        SKILL_CRYPTO,
+        SKILL_MUSIC
     }
 
     private static final int ROW_1_Y = 292;
@@ -628,6 +630,10 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             case SKILL_CRYPTO -> {
                 popup = new CryptologyPopup(this, getGameState());
                 LOGGER.log(Level.INFO, "Set popup to: Cryptology Skill");
+            }
+            case SKILL_MUSIC -> {
+                popup = new MusicianPopup(this, getGameState());
+                LOGGER.log(Level.INFO, "Set popup to: Muscicianship Skill");
             }
         }
         if (popup != null) {
