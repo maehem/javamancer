@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.room.extra;
 
 import com.maehem.javamancer.neuro.model.GameState;
-import com.maehem.javamancer.neuro.model.GameStateUtils;
 import com.maehem.javamancer.neuro.model.deck.UXBDeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import static com.maehem.javamancer.neuro.model.room.DialogCommand.DESC;
@@ -111,7 +110,6 @@ public class R25Extras extends RoomExtras { // Shin's Pawn
 
         UXBDeckItem uxbDeckItem = new UXBDeckItem();
         uxbDeckItem.price = 100;
-        uxbDeckItem.needsRepair = false;
         list.add(uxbDeckItem);
 
         return list;

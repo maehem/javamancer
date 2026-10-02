@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.item.DeckItem;
 import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
@@ -43,6 +44,10 @@ import java.util.logging.Level;
  */
 public class HardwareRepairSkill extends Skill {
 
+    public enum Result {
+        NO_ITEM, NO_BUGS, NOT_HARDWARE, LOW_SKILL, SUCCESS
+    }
+
     public HardwareRepairSkill(int level) {
         super(Item.Catalog.HARDWAREREPAIR, level, 2);
     }
@@ -55,5 +60,35 @@ public class HardwareRepairSkill extends Skill {
     @Override
     public String getDescription() {
         return "Repair your deck.";
+    }
+
+    public Result doRepair(Item item) {
+        if (item == null ) {
+            LOGGER.log(Level.WARNING, "Hardware Repair invoked null item.");
+            return Result.NO_ITEM;
+        }
+        
+        Result result;
+        if (item instanceof DeckItem deckItem) {
+            // Attempt repair.
+            if (deckItem.needsRepair()) {
+
+                // Check skill level
+                if (level < deckItem.getDamage()) { // Skill level no high enough.
+                    result = Result.LOW_SKILL;
+                } else {
+                    // skill level OK. Do repair.
+                    deckItem.setDamage(0);
+                    result = Result.SUCCESS;
+                }
+            } else {
+                result = Result.NO_BUGS;
+            }
+        } else {
+            result = Result.NOT_HARDWARE;
+        }
+        LOGGER.log(Level.INFO, "Hardware Repair invoked on {0} with result {1}", new Object[]{item.getName(),result.name()});
+        
+        return result;
     }
 }

@@ -71,9 +71,23 @@ public class InventoryPopup extends SmallPopupPane {
     private int numItems = 0;
     private Mode mode = Mode.MENU;
     private Item currentItem = null;
+    private boolean chooseOnly; // Used for Hardware Repair Skill Popup
 
     public InventoryPopup(PopupListener l, GameState gs) {
+        this(l, gs, false);
+    }
+
+    /**
+     * Create an Inventory popup. Used by Hardware Repair Popup to
+     * choose an item only and report the result.
+     * 
+     * @param l the listener
+     * @param gs game state
+     * @param chooseOnly normal operation false. Set to true for selecting item only (Hardware Repair).
+     */
+    public InventoryPopup(PopupListener l, GameState gs, boolean chooseOnly) {
         super(l, gs);
+        this.chooseOnly = chooseOnly;
         listItems();
         insufficientFunds.setVisible(false);
     }
@@ -129,7 +143,7 @@ public class InventoryPopup extends SmallPopupPane {
                 } else {
                     String needsRepair = " ";
                     if (item instanceof DeckItem di) {
-                        if (di.needsRepair) {
+                        if (di.needsRepair()) {
                             needsRepair = "-";
                         }
                     }
@@ -141,7 +155,13 @@ public class InventoryPopup extends SmallPopupPane {
                 tf.getChildren().add(listItem);
                 final int n = i;
                 listItem.setOnMouseClicked((t) -> {
-                    itemOptions(n);
+                    if (chooseOnly) { // Used by Hardware Repair Skill Popup
+                        currentItem = item;
+                        LOGGER.log(Level.CONFIG, "Chosen item: {0}", item.item.itemName);
+                        listener.popupExit(RoomMode.Popup.SKILL_REPAIR);
+                    } else {
+                        itemOptions(n);
+                    }
                 });
             }
         }
@@ -547,6 +567,10 @@ public class InventoryPopup extends SmallPopupPane {
         return true;
     }
 
+    public Item getCurrentItem() {
+        return currentItem;
+    }
+    
     @Override
     public void cleanup() {
     }

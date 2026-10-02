@@ -3,9 +3,6 @@
  *
  * Copyright (c) 2024 Mark J. Koch ( @maehem on GitHub )
  *
- * Portions of this software are Copyright (c) 2018 Henadzi Matuts and are
- * derived from their project: https://github.com/HenadziMatuts/Reuromancer
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -45,6 +42,7 @@ import com.maehem.javamancer.neuro.view.popup.CyberspacePopup;
 import com.maehem.javamancer.neuro.view.popup.DeckPopup;
 import com.maehem.javamancer.neuro.view.popup.DialogPopup;
 import com.maehem.javamancer.neuro.view.popup.DiskPopup;
+import com.maehem.javamancer.neuro.view.popup.HardwareRepairPopup;
 import com.maehem.javamancer.neuro.view.popup.InventoryPopup;
 import com.maehem.javamancer.neuro.view.popup.MusicianPopup;
 import com.maehem.javamancer.neuro.view.popup.PawnshopVendPopup;
@@ -89,7 +87,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         ITEMS_BUY, SOFTWARE_BUY,
         CYBERSPACE,
         SKILL_CRYPTO,
-        SKILL_MUSIC
+        SKILL_MUSIC,
+        SKILL_REPAIR_CHOOSE, SKILL_REPAIR
     }
 
     private static final int ROW_1_Y = 292;
@@ -635,6 +634,14 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 popup = new MusicianPopup(this, getGameState());
                 LOGGER.log(Level.INFO, "Set popup to: Muscicianship Skill");
             }
+            case SKILL_REPAIR_CHOOSE -> {
+                popup = new InventoryPopup(this, getGameState(), true);
+                LOGGER.log(Level.INFO, "Set popup to: Inventory Item Chooser for Repair");
+            }
+            case SKILL_REPAIR -> {
+                popup = new HardwareRepairPopup(this, getGameState());
+                LOGGER.log(Level.INFO, "Set popup to: HardwareRepair SKill");
+            }
         }
         if (popup != null) {
             LOGGER.log(
@@ -784,12 +791,28 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     @Override
     public void popupExit(Popup newPopup) {
+        // If inventory popup was used to choose item for  Hardare Repair
+        // init the selected item.
+        Item currentItem = null;
+        if (popup instanceof InventoryPopup ip && ip.getCurrentItem() != null) {
+            currentItem = ip.getCurrentItem();
+        }
+
         if (popupExit()) {
             LOGGER.log(Level.CONFIG,
                     "Popup exited. Now open new Popup: {0}",
                     newPopup.name()
             );
-            showPopup(newPopup);
+            showPopup(newPopup); // aserts new value to popup
+
+            if (popup instanceof HardwareRepairPopup hwp) {
+                if (currentItem != null) {
+                    hwp.repairItem(currentItem);
+                } else {
+                    LOGGER.log(Level.WARNING, "No item provided to repair popup!");
+                }
+            }
+
         } else {
             LOGGER.log(
                     Level.CONFIG,

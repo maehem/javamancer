@@ -62,7 +62,7 @@ public abstract class DeckItem extends Item {
     private int cordX = 0;
     private int cordY = 0;
     private boolean noFee = false; // Set when player connects using Cyberspace 1.0 warez.
-    public boolean needsRepair;
+    private double damage = 0.0;
     
     // TODO: Eliminate default value as cord is always set by JackZone() when player enters cyberspace.
     // TODO: Eliminate cordX/Y as GameState tracks this position as matrixX/Y. Need to unify this!
@@ -74,7 +74,7 @@ public abstract class DeckItem extends Item {
         //this.cordX = startX;
         //this.cordY = startY;
         this.cyberspaceCapable = cyberspace;
-        this.needsRepair = false;
+        this.damage = 0.0;
         LOGGER.log(Level.FINER, "Create Deck Item: {0} :: {1}", new Object[]{cat.itemName, this.toString()});
     }
 
@@ -106,6 +106,22 @@ public abstract class DeckItem extends Item {
         return null;
     }
 
+    public boolean needsRepair() {
+        return damage > 0.0;
+    }
+    
+    public void setDamage( double val ) {
+        this.damage = val;
+    }
+    
+    public double getDamage() {
+        return damage;
+    }
+    
+    public void increaseDamage( double val) {
+        damage += val;
+    }
+    
     public Warez getCurrentWarez() {
         return currentSoftwarez;
     }
@@ -187,15 +203,16 @@ public abstract class DeckItem extends Item {
     @Override
     public void putProps(String prefix, Properties p) {
         super.putProps(prefix, p);
-        p.put(prefix + ".needsRepair", String.valueOf(needsRepair));
+        //p.put(prefix + ".needsRepair", String.valueOf(needsRepair));
+        p.put(prefix + ".damage", damage);
         
-        // TODO: put/pull currentSoftwarez
     }
 
     public void pullProps(String prefix, Properties p) {
-        String get = p.getProperty(prefix + ".needsRepair", "false");
+        String get = p.getProperty(prefix + ".damage", "0.0");
         LOGGER.log(Level.FINE, () -> "Restore Deck needsRepair value = " + get);
-        needsRepair = Boolean.parseBoolean(get);
+        //needsRepair = Boolean.parseBoolean(get);
+        damage = Double.parseDouble(get);
     }
     
     /**
