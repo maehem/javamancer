@@ -366,6 +366,12 @@ public class GameState {
         return null;
     }
 
+    public Skill getInstalledSkill(Catalog catalogItem) {
+        Item.Catalog lookup = Item.lookup(catalogItem.name());
+
+        return getInstalledSkill(new SkillItem(lookup, 1));
+    }
+
     public boolean hasInventoryItem(Item checkItem) {
         for (Item item : inventory) {
             if (item.getName().equals(checkItem.getName())) {
