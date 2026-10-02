@@ -640,7 +640,7 @@ public class GameState {
         int i = 0;
         for (BbsMessage m : bbs) {
             if (m == null) { // Should never happen.
-                LOGGER.log(Level.FINEST, 
+                LOGGER.log(Level.FINEST,
                         "[{0}]     <=== null"
                 );
             } else {
