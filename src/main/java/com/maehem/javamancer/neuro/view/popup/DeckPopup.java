@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.view.popup;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
+import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.PopupListener;
@@ -81,12 +82,21 @@ public class DeckPopup extends PopupPane {
 
     private int slotBase = 0; // Slot menu in groups of 4.
     private Mode mode = Mode.SOFTWARE;
+    private Warez currentWarez = null;
+    private Item currentItem;
+    private boolean chooseOnly; // Used for Hardware Repair Skill Popup
     private boolean linkCodeErr;
 
     private boolean handoffToCyberspace = false;
 
-    public DeckPopup(PopupListener l, GameState gameState) {
+    public DeckPopup(PopupListener l, GameState gamestate) {
+        this(l, gamestate, false);
+    }
+
+    public DeckPopup(PopupListener l, GameState gameState, boolean chooseOnly) {
         super(l, gameState);
+        this.chooseOnly = chooseOnly;
+
         this.deck = gameState.usingDeck;
 
         softwarePrompt();
@@ -121,10 +131,16 @@ public class DeckPopup extends PopupPane {
 
                 // Add onMouseClick()
                 itemText.setOnMouseClicked((t) -> {
-                    if (gameState.usingDeckErase) {
+                    if (chooseOnly) { // used by warez analysis.
+                        currentWarez = w;
+                        currentItem = w.item;
+                        LOGGER.log(Level.CONFIG, "Chosen item: {0}", w.item.getName());
+                        listener.popupExit(RoomMode.Popup.SKILL_WAREZ);
+                    } else if (gameState.usingDeckErase) {
                         eraseSoftware(w);
                     } else {
                         useSoftware(w);
+
                     }
                 });
             } catch (IndexOutOfBoundsException ex) {
@@ -366,9 +382,9 @@ public class DeckPopup extends PopupPane {
                     siteContent(); // hand off to custom site handler.
                 } else {
                     // Error comlink version
-                    LOGGER.log(Level.CONFIG, 
-                            "ComLink {0} required for site: {1}", 
-                            new Object[]{whoIs.comlink,whoIs.linkCode});
+                    LOGGER.log(Level.CONFIG,
+                            "ComLink {0} required for site: {1}",
+                            new Object[]{whoIs.comlink, whoIs.linkCode});
                     linkEnterheading.setText(LINK_CODE_COMLINK_COMPAT);
                     linkCodeErr = true;
                 }
@@ -394,11 +410,17 @@ public class DeckPopup extends PopupPane {
 
     @Override
     public void cleanup() {
-        LOGGER.log(Level.INFO, "Deck cleanup() called for: {0}", deck.getName());
         gameState.usingDeckErase = false;
-        if (!handoffToCyberspace) {
-            gameState.usingDeck = null;
-            deck.cleanUp();
+        if (deck != null) {
+            LOGGER.log(Level.INFO, "Deck cleanup() called for: {0}", deck.getName());
+            if (!handoffToCyberspace) {
+                gameState.usingDeck = null;
+                deck.cleanUp();
+            }
         }
+    }
+
+    public Item getCurrentItem() {
+        return currentItem;
     }
 }

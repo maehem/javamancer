@@ -41,6 +41,11 @@ public abstract class FakeWarez extends Warez {
     }
 
     @Override
+    public String getDescription() {
+        return "Unknown.\n";
+    }
+
+    @Override
     public String use(GameState gs) {
         if (gs.usingDeck != null) {
             switch (gs.usingDeck.getMode()) {

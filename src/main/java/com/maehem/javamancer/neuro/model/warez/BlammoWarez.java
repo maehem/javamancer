@@ -40,7 +40,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class BlammoWarez extends Warez {
+public class BlammoWarez extends FakeWarez {
 
     public BlammoWarez(int version) {
         super(Item.Catalog.BLAMMO, version);

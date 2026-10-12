@@ -47,6 +47,11 @@ public class LinkWarez extends Warez {
     }
 
     @Override
+    public String getDescription() {
+        return "A system communications\nprogram.";
+    }
+
+    @Override
     public String use(GameState gs) {
         if (gs.usingDeck != null) {
             switch (gs.usingDeck.getMode()) {

@@ -81,7 +81,7 @@ public class DeckUtils {
 
     public static boolean hasSoftware(GameState gameState, SoftwareItem item) {
         for (Warez w : gameState.software) {
-            if (w.item == item.item) {
+            if (w.item.item == item.item) {
                 return true;
             }
         }
@@ -98,7 +98,9 @@ public class DeckUtils {
      * @return
      */
     public static boolean installSoftware(GameState gs, SoftwareItem softwareItem) {
-        LOGGER.log(Level.CONFIG, "Start install software item: " + softwareItem.getSimpleName());
+        LOGGER.log(Level.CONFIG, 
+                "Start install software item: {0}", 
+                softwareItem.getSimpleName());
         ArrayList<Warez> software = gs.software;
 
         for (Warez w : software) {

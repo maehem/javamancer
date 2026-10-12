@@ -37,7 +37,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
 public class ReceiptForgerWarez extends IceBreakerWarez {
 
     public ReceiptForgerWarez(int version) {
-        super(Item.Catalog.BUDGETPAL, version);
+        super(Item.Catalog.RECEIPTFORGER, version);
     }
 
     @Override

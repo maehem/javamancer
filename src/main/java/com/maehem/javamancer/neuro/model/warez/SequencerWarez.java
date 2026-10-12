@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
@@ -36,10 +37,25 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class SequencerWarez extends UtilityWarez {
+public class SequencerWarez extends Warez {
 
     public SequencerWarez(int version) {
         super(Item.Catalog.SEQUENCER, version);
+    }
+
+    @Override
+    public String getDescription() {
+        return "A database password\ngenerator.";
+    }
+
+    @Override
+    public int getRunDuration() {
+        return 0;
+    }
+
+    @Override
+    public int getEffect(GameState gameState) {
+        return 0;
     }
 
 }

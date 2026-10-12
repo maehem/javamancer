@@ -90,7 +90,7 @@ public class SoftwarePane extends Pane {
 
         usedWarez = null;
         usedResponse = "";
-        if ( handler != null ) {
+        if (handler != null) {
             this.promptHandler = handler;
         }
 
@@ -192,11 +192,16 @@ public class SoftwarePane extends Pane {
     }
 
     private void useSoftware(Warez w) {
-        LOGGER.log(Level.INFO, "Cyberspace: Use Software: {0}", w.item.itemName);
+        LOGGER.log(Level.INFO, "Cyberspace: Use Software: {0}",
+                w.item.getName()
+        );
         usedResponse = w.use(gameState);
         usedWarez = w;
         if (!usedResponse.equals(Warez.USE_OK)) {
-            LOGGER.log(Level.INFO, "Use Software Not OK: {0}", usedResponse);
+            LOGGER.log(Level.INFO,
+                    "Use Software Not OK: {0}",
+                    usedResponse
+            );
             gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.DENIED);
             setVisible(false);
         } else {
@@ -236,14 +241,18 @@ public class SoftwarePane extends Pane {
     }
 
     private void uploadSoftware(Warez w) {
-        LOGGER.log(Level.INFO, "Cyberspace: Upload Software: {0}", w.item.itemName);
+        LOGGER.log(Level.INFO,
+                "Cyberspace: Upload Software: {0}",
+                w.item.getName());
         usedWarez = w;
 
         getChildren().clear();
         setVisible(true);
         Text heading = new Text("\nUploading...\n\n" + w.getSimpleName());
 
-        getChildren().add(PopupPane.makeBox(this, PopupPane.textFlow(heading)));
+        getChildren().add(PopupPane.makeBox(
+                this, PopupPane.textFlow(heading)
+        ));
 
         // Leave software pane up for as long as shot takes
         long startTime = System.nanoTime();

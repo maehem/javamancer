@@ -30,6 +30,7 @@ import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.item.Item.Catalog;
+import com.maehem.javamancer.neuro.model.item.SoftwareItem;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
@@ -66,7 +67,7 @@ public abstract class Warez {
     // Run forever or until finished/aborted.
     public static final int RUN_FOREVER = Integer.MAX_VALUE;
 
-    public final Item.Catalog item;
+    public final Item item;
     public int version;
     //private boolean running;
     private int runRemaining = 0;
@@ -74,13 +75,15 @@ public abstract class Warez {
     private EventHandler<ActionEvent> finishedHandler;
 
     public Warez(Item.Catalog catItem, int version) {
-        this.item = catItem;
+        this.item = new SoftwareItem(catItem, version, version);
         this.version = version;
     }
+    
+    public abstract String getDescription();
 
     // TODO: Change to canUse()
     public String use(GameState gs) {
-        LOGGER.log(Level.FINE, "Warez: Use(): {0} USE_OK", item.name());
+        LOGGER.log(Level.FINE, "Warez: Use(): {0} USE_OK", item.getName());
         return USE_OK;
     }
 
@@ -155,13 +158,13 @@ public abstract class Warez {
     }
 
     public String getMenuString() {
-        return String.format("%-12s", item.itemName)
+        return String.format("%-12s", item.getName())
                 + String.format("%2s", String.valueOf(version))
                 + ".0";
     }
 
     public String getSimpleName() {
-        return item.itemName + " " + version;
+        return item.getName() + " " + version;
     }
 
     /**
@@ -170,7 +173,7 @@ public abstract class Warez {
      * @param p
      */
     public void putProps(String prefix, Properties p) {
-        p.put(prefix, item.name());
+        p.put(prefix, item.getName());
         p.put(prefix + ".version", String.valueOf(version));
     }
 

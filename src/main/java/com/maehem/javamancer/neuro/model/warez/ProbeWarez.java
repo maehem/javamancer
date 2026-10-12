@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.warez;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
@@ -40,10 +41,25 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class ProbeWarez extends UtilityWarez {
+public class ProbeWarez extends Warez {
 
     public ProbeWarez(int version) {
         super(Item.Catalog.PROBE, version);
+    }
+
+    @Override
+    public String getDescription() {
+        return"A cyberspace info\nprogram.";
+    }
+
+    @Override
+    public int getRunDuration() {
+        return 0;
+    }
+
+    @Override
+    public int getEffect(GameState gameState) {
+        return 0;
     }
 
 }

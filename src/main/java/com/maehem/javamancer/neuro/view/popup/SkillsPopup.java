@@ -34,6 +34,7 @@ import com.maehem.javamancer.neuro.model.skill.HardwareRepairSkill;
 import com.maehem.javamancer.neuro.model.skill.MusicianshipSkill;
 import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
 import com.maehem.javamancer.neuro.model.skill.Skill;
+import com.maehem.javamancer.neuro.model.skill.WarezAnalysisSkill;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
 import java.util.ArrayList;
@@ -148,6 +149,8 @@ public class SkillsPopup extends SmallPopupPane {
                 listener.popupExit(RoomMode.Popup.SKILL_MUSIC);
             } else if ( skill instanceof HardwareRepairSkill ) {
                 listener.popupExit(RoomMode.Popup.SKILL_REPAIR_CHOOSE);
+            } else if ( skill instanceof WarezAnalysisSkill ) {
+                listener.popupExit(RoomMode.Popup.SKILL_WAREZ_CHOOSE);
             } else if (skill instanceof PhenomenologySkill) {
                 if (gameState.room == Room.R50 && !gameState.databaseBattle) {
                     LOGGER.log(Level.INFO, "Player used Philosophy at Beach.");

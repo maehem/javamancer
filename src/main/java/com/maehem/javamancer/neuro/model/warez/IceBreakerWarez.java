@@ -71,6 +71,11 @@ public abstract class IceBreakerWarez extends Warez {
     }
 
     @Override
+    public String getDescription() {
+        return "A cyberspace ICE \nbreaker program.";
+    }
+
+    @Override
     public String use(GameState gs) {
         if (gs.usingDeck != null) {
             switch (gs.usingDeck.getMode()) {

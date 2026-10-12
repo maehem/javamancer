@@ -39,7 +39,7 @@ import com.maehem.javamancer.neuro.model.item.Item;
  *
  * @author Mark J Koch ( @maehem on GitHub )
  */
-public class ArmorallWarez extends UtilityWarez {
+public class ArmorallWarez extends ShieldingWarez {
 
     public ArmorallWarez(int version) {
         super(Item.Catalog.ARMORALL, version);

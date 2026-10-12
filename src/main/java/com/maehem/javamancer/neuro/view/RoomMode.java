@@ -35,6 +35,7 @@ import com.maehem.javamancer.neuro.model.room.Room;
 import com.maehem.javamancer.neuro.model.room.RoomBounds;
 import com.maehem.javamancer.neuro.model.room.RoomExtras;
 import com.maehem.javamancer.neuro.model.room.RoomMap;
+import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
 import com.maehem.javamancer.neuro.view.popup.BodyShopPopup;
 import com.maehem.javamancer.neuro.view.popup.CryptologyPopup;
@@ -51,6 +52,7 @@ import com.maehem.javamancer.neuro.view.popup.RomPopup;
 import com.maehem.javamancer.neuro.view.popup.SkillsPopup;
 import com.maehem.javamancer.neuro.view.popup.SkillsVendPopup;
 import com.maehem.javamancer.neuro.view.popup.SoftwareVendPopup;
+import com.maehem.javamancer.neuro.view.popup.WarezAnalysisPopup;
 import com.maehem.javamancer.neuro.view.room.RoomDescriptionPane;
 import com.maehem.javamancer.neuro.view.room.RoomMusic;
 import com.maehem.javamancer.neuro.view.room.RoomPane;
@@ -88,7 +90,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         CYBERSPACE,
         SKILL_CRYPTO,
         SKILL_MUSIC,
-        SKILL_REPAIR_CHOOSE, SKILL_REPAIR
+        SKILL_REPAIR_CHOOSE, SKILL_REPAIR,
+        SKILL_WAREZ_CHOOSE, SKILL_WAREZ
     }
 
     private static final int ROW_1_Y = 292;
@@ -640,7 +643,15 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             }
             case SKILL_REPAIR -> {
                 popup = new HardwareRepairPopup(this, getGameState());
-                LOGGER.log(Level.INFO, "Set popup to: HardwareRepair SKill");
+                LOGGER.log(Level.INFO, "Set popup to: HardwareRepair Skill");
+            }
+            case SKILL_WAREZ_CHOOSE -> {
+                popup = new DeckPopup(this, getGameState(), true);
+                LOGGER.log(Level.INFO, "Set popup to: Deck Warez Chooser for Inspection");
+            }
+            case SKILL_WAREZ -> {
+                popup = new WarezAnalysisPopup(this, getGameState());
+                LOGGER.log(Level.INFO, "Set popup to: Warez Analysis Skill");
             }
         }
         if (popup != null) {
@@ -796,6 +807,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         Item currentItem = null;
         if (popup instanceof InventoryPopup ip && ip.getCurrentItem() != null) {
             currentItem = ip.getCurrentItem();
+        } else if (popup instanceof DeckPopup ip && ip.getCurrentItem()!= null) {
+            currentItem = ip.getCurrentItem();
         }
 
         if (popupExit()) {
@@ -810,6 +823,13 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                     hwp.repairItem(currentItem);
                 } else {
                     LOGGER.log(Level.WARNING, "No item provided to repair popup!");
+                }
+            }
+            if (popup instanceof WarezAnalysisPopup wp) {
+                if (currentItem != null) {
+                    wp.analyseWarez(currentItem);
+                } else {
+                    LOGGER.log(Level.WARNING, "No item provided to warez analysis popup!");
                 }
             }
 

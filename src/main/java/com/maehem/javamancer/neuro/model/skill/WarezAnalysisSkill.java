@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.warez.*;
 import java.util.logging.Level;
 
 /**
@@ -44,6 +45,19 @@ import java.util.logging.Level;
  */
 public class WarezAnalysisSkill extends Skill {
 
+    public enum Type {
+        CYBERSPACE_INFO,
+        CYBERSPACE_ICE_BREAKER,
+        CYBERSPACE_VIRUS,
+        CYBERSPACE_SHIELDING,
+        CYBERSPACE_ICE_BYPASS,
+        CYBERSPACE_INTERFACE_CORRUPTOR,
+        DATABASE_PASSWORD_GENERATOR,
+        DATABASE_INFO,
+        DATABASE_CHESS,
+        SYSTEM_COMMUNICATIONS,
+        UNKNOWN
+    }
     public WarezAnalysisSkill(int level) {
         super(Item.Catalog.WAREZANALYSIS, level, 2);
     }
@@ -57,4 +71,43 @@ public class WarezAnalysisSkill extends Skill {
     public String getDescription() {
         return "Analyse software for it's purpose.";
     }
+    
+    public Type analyse(Warez warez) {
+        if ( warez instanceof ScoutWarez ) {
+            return Type.CYBERSPACE_INFO;
+        }
+        if ( warez instanceof ArmorallWarez ) {
+            return Type.CYBERSPACE_SHIELDING;
+        }
+        if ( warez instanceof MimicWarez ) {
+            return Type.CYBERSPACE_ICE_BYPASS;
+        }
+        if ( warez instanceof UtilityWarez ) {
+            return Type.DATABASE_INFO;
+        }
+        if ( warez instanceof CorruptorWarez ) {
+            return Type.CYBERSPACE_INTERFACE_CORRUPTOR;
+        }
+        if ( warez instanceof ShotgunWarez ) {
+            return Type.CYBERSPACE_INTERFACE_CORRUPTOR;
+        }
+        if ( warez instanceof ChessWarez ) {
+            return Type.DATABASE_CHESS;
+        }
+        if ( warez instanceof LinkWarez ) {
+            return Type.SYSTEM_COMMUNICATIONS;
+        }
+        if ( warez instanceof SequencerWarez ) {
+            return Type.DATABASE_PASSWORD_GENERATOR;
+        }
+        if ( warez instanceof IceBreakerWarez ) {
+            return Type.CYBERSPACE_ICE_BREAKER;
+        }
+        if ( warez instanceof VirusWarez ) {
+            return Type.CYBERSPACE_VIRUS;
+        }
+        
+        return Type.UNKNOWN;
+    }
+    
 }

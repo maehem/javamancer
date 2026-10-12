@@ -211,7 +211,10 @@ public abstract class AI {
         if (constitution < 0) {
             constitution = 0;
         }
-        LOGGER.log(Level.INFO, "AI Takes Damage from {0} Warez of {1}.  AI constitution: {2}", new Object[]{warez.item.name(), effect, constitution});
+        LOGGER.log(Level.INFO, 
+                "AI Takes Damage from {0} Warez of {1}.  AI constitution: {2}", 
+                new Object[]{warez.item.getName(), effect, constitution}
+        );
         
         return weaknessWarez.equals(warez.getClass());
     }

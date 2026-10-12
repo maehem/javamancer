@@ -44,6 +44,11 @@ public abstract class UtilityWarez extends Warez {
     }
 
     @Override
+    public String getDescription() {
+        return "A utility program.";
+    }
+
+    @Override
     public String use(GameState gs) {
         if (gs.usingDeck != null) {
             switch (gs.usingDeck.getMode()) {

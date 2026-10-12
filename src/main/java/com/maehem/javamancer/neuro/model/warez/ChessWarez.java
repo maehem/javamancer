@@ -29,7 +29,7 @@ package com.maehem.javamancer.neuro.model.warez;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
- * Does nothing. Considered Fake?
+ * Software for Chess tournaments.
  * 
  * @author Mark J Koch ( @maehem on GitHub )
  */
@@ -39,4 +39,10 @@ public abstract class ChessWarez extends Warez {
         super(catItem, version);
     }
 
+    @Override
+    public String getDescription() {
+        return "A database chess\nprogram.";
+    }
+
+    
 }

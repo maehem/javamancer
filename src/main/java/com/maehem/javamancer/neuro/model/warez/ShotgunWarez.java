@@ -3,9 +3,6 @@
  *
  * Copyright (c) 2024 Mark J. Koch ( @maehem on GitHub )
  *
- * Portions of this software are Copyright (c) 2018 Henadzi Matuts and are
- * derived from their project: https://github.com/HenadziMatuts/Reuromancer
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -38,6 +35,11 @@ public abstract class ShotgunWarez extends Warez {
 
     public ShotgunWarez(Item.Catalog catItem, int version) {
         super(catItem, version);
+    }
+
+    @Override
+    public String getDescription() {
+        return "A cyberspace ICE bypass\nprogram.";
     }
 
     @Override

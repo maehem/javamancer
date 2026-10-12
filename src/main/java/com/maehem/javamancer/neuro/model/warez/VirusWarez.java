@@ -46,6 +46,11 @@ public abstract class VirusWarez extends Warez {
     }
 
     @Override
+    public String getDescription() {
+        return 	"A cyberspace virus\nprogram.";
+    }
+
+    @Override
     public String use(GameState gs) {
         if (gs.usingDeck != null) {
             LOGGER.log(Level.FINE, () -> "Using Deck Mode: " + gs.usingDeck.getMode().name());
