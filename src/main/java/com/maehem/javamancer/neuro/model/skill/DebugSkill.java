@@ -27,6 +27,7 @@
 package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.neuro.model.item.Item;
+import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.util.logging.Level;
 
 /**
@@ -54,18 +55,64 @@ import java.util.logging.Level;
  */
 public class DebugSkill extends Skill {
 
+    public enum Result {
+        NO_BUGS,
+        UNABLE_TO_FIX,
+        FIXED,
+        NONE
+    }
+
     public DebugSkill(int level) {
         super(Item.Catalog.DEBUG, level, 4);
     }
 
     @Override
     public void use() {
-        LOGGER.log(Level.INFO, "{0}Use skill: ", catalog.itemName);
+        LOGGER.log(Level.INFO, "{0} Use skill: ", catalog.itemName);
     }
 
     @Override
     public String getDescription() {
         return "Fix broken software.";
     }
+    
+    public Result doDebug( Warez w ) {
+        if (w.getDamage() <= 0) {
+            return Result.NO_BUGS;
+        } else if ( w.getDamage() > level ) {
+            return Result.UNABLE_TO_FIX;
+        } else {
+            w.setDamaged(0);
+            return Result.FIXED;
+        }
+    }
+    
+    /* TODO:
+    	neuro_menu_draw_text("Debug", 9, 0);
+	skills_draw_item_desc(item[0], item[1], 0, 0, 2);
+
+	if (item[2] == 0)
+	{
+		neuro_menu_draw_text("Program has no bugs", 0, 3);
+	}
+	else
+	{
+		uint8_t skill_level = g_3f85.skills[DEBUG];
+
+		if (item[2] > g_fix_difficulty[skill_level])
+		{
+			//* play track 6 
+			neuro_menu_draw_text("Unable to fix bugs", 0, 3);
+		}
+		else
+		{
+			item[2] = 0;
+			///* play track 11 
+			neuro_menu_draw_text("Bug fixed, program\nokay", 0, 3);
+		}
+	}
+
+	neuro_menu_draw_text("Button or [space].", 3, 5);
+    */
 
 }

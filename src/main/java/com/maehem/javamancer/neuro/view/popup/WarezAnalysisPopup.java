@@ -48,10 +48,9 @@ public class WarezAnalysisPopup extends SmallPopupPane {
         //doRepairAction();
     }
 
-    public void analyseWarez(Item item) {
+    public void analyseWarez(Warez w) {
         LOGGER.log(INFO, "Warez analysis invoked.");
         getChildren().clear();
-        Warez w = Warez.getInstance(item.item, 1);
         
         if (w != null) {
             LOGGER.log(INFO, "Present Warez Analysis Popup to inspect item: {0}", w.getSimpleName());

@@ -40,6 +40,7 @@ import com.maehem.javamancer.neuro.view.pax.PaxPopupPane;
 import com.maehem.javamancer.neuro.view.popup.BodyShopPopup;
 import com.maehem.javamancer.neuro.view.popup.CryptologyPopup;
 import com.maehem.javamancer.neuro.view.popup.CyberspacePopup;
+import com.maehem.javamancer.neuro.view.popup.DebugPopup;
 import com.maehem.javamancer.neuro.view.popup.DeckPopup;
 import com.maehem.javamancer.neuro.view.popup.DialogPopup;
 import com.maehem.javamancer.neuro.view.popup.DiskPopup;
@@ -91,7 +92,8 @@ public class RoomMode extends NeuroModePane implements PopupListener {
         SKILL_CRYPTO,
         SKILL_MUSIC,
         SKILL_REPAIR_CHOOSE, SKILL_REPAIR,
-        SKILL_WAREZ_CHOOSE, SKILL_WAREZ
+        SKILL_WAREZ_CHOOSE, SKILL_WAREZ,
+        SKILL_DEBUG_CHOOSE, SKILL_DEBUG
     }
 
     private static final int ROW_1_Y = 292;
@@ -646,12 +648,20 @@ public class RoomMode extends NeuroModePane implements PopupListener {
                 LOGGER.log(Level.INFO, "Set popup to: HardwareRepair Skill");
             }
             case SKILL_WAREZ_CHOOSE -> {
-                popup = new DeckPopup(this, getGameState(), true);
+                popup = new DeckPopup(this, getGameState(), true, RoomMode.Popup.SKILL_WAREZ);
                 LOGGER.log(Level.INFO, "Set popup to: Deck Warez Chooser for Inspection");
             }
             case SKILL_WAREZ -> {
                 popup = new WarezAnalysisPopup(this, getGameState());
                 LOGGER.log(Level.INFO, "Set popup to: Warez Analysis Skill");
+            }
+            case SKILL_DEBUG_CHOOSE -> {
+                popup = new DeckPopup(this, getGameState(), true, RoomMode.Popup.SKILL_DEBUG);
+                LOGGER.log(Level.INFO, "Set popup to: Deck Warez Chooser for Inspection");
+            }
+            case SKILL_DEBUG -> {
+                popup = new DebugPopup(this, getGameState());
+                LOGGER.log(Level.INFO, "Set popup to: Software Debug Skill");
             }
         }
         if (popup != null) {
@@ -802,13 +812,13 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     @Override
     public void popupExit(Popup newPopup) {
-        // If inventory popup was used to choose item for  Hardare Repair
-        // init the selected item.
-        Item currentItem = null;
+        // If inventory popup or deck was used to choose item for 
+        // either Hardare Repair or Debug Software, remember the selected item.
+        Object chosenItem = null;
         if (popup instanceof InventoryPopup ip && ip.getCurrentItem() != null) {
-            currentItem = ip.getCurrentItem();
+            chosenItem = ip.getCurrentItem();
         } else if (popup instanceof DeckPopup ip && ip.getCurrentItem()!= null) {
-            currentItem = ip.getCurrentItem();
+            chosenItem = ip.getCurrentItem();
         }
 
         if (popupExit()) {
@@ -819,17 +829,24 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             showPopup(newPopup); // aserts new value to popup
 
             if (popup instanceof HardwareRepairPopup hwp) {
-                if (currentItem != null) {
-                    hwp.repairItem(currentItem);
+                if (chosenItem != null) {
+                    hwp.repairItem((Item)chosenItem);
                 } else {
                     LOGGER.log(Level.WARNING, "No item provided to repair popup!");
                 }
             }
             if (popup instanceof WarezAnalysisPopup wp) {
-                if (currentItem != null) {
-                    wp.analyseWarez(currentItem);
+                if (chosenItem != null) {
+                    wp.analyseWarez((Warez)chosenItem);
                 } else {
                     LOGGER.log(Level.WARNING, "No item provided to warez analysis popup!");
+                }
+            }
+            if (popup instanceof DebugPopup wp) {
+                if (chosenItem != null) {
+                    wp.debugSoftware((Warez)chosenItem);
+                } else {
+                    LOGGER.log(Level.WARNING, "No item provided to debug warez popup!");
                 }
             }
 

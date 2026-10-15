@@ -29,11 +29,11 @@ package com.maehem.javamancer.neuro.view.popup;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.database.Database;
 import com.maehem.javamancer.neuro.model.item.DeckItem;
-import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.warez.CyberspaceWarez;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import com.maehem.javamancer.neuro.view.PopupListener;
 import com.maehem.javamancer.neuro.view.RoomMode;
+import com.maehem.javamancer.neuro.view.RoomMode.Popup;
 import com.maehem.javamancer.neuro.view.database.DatabaseView;
 import java.util.logging.Level;
 import javafx.geometry.Insets;
@@ -82,20 +82,21 @@ public class DeckPopup extends PopupPane {
 
     private int slotBase = 0; // Slot menu in groups of 4.
     private Mode mode = Mode.SOFTWARE;
-    private Warez currentWarez = null;
-    private Item currentItem;
-    private boolean chooseOnly; // Used for Hardware Repair Skill Popup
+    private Warez currentItem;
+    private boolean chooseOnly; // Used for Hardware Repair and Debug Skill Popup
+    private Popup nextPopup = null; // Used for chooser mode.
     private boolean linkCodeErr;
 
     private boolean handoffToCyberspace = false;
 
     public DeckPopup(PopupListener l, GameState gamestate) {
-        this(l, gamestate, false);
+        this(l, gamestate, false, null);
     }
 
-    public DeckPopup(PopupListener l, GameState gameState, boolean chooseOnly) {
+    public DeckPopup(PopupListener l, GameState gameState, boolean chooseOnly, Popup nextPopup) {
         super(l, gameState);
         this.chooseOnly = chooseOnly;
+        this.nextPopup = nextPopup;
 
         this.deck = gameState.usingDeck;
 
@@ -126,16 +127,16 @@ public class DeckPopup extends PopupPane {
         for (int i = 0; i < SOFT_LIST_SIZE; i++) {
             try {
                 Warez w = gameState.software.get(slotBase + i);
-                Text itemText = new Text("\n" + (i + 1) + ". " + w.getMenuString());
+                //String dmg = w.isDamaged()?"-":" ";
+                Text itemText = new Text("\n" + (w.isDamaged()?"-":" ") + (i + 1) + ". " + w.getMenuString());
                 tf.getChildren().add(itemText);
 
                 // Add onMouseClick()
                 itemText.setOnMouseClicked((t) -> {
                     if (chooseOnly) { // used by warez analysis.
-                        currentWarez = w;
-                        currentItem = w.item;
-                        LOGGER.log(Level.CONFIG, "Chosen item: {0}", w.item.getName());
-                        listener.popupExit(RoomMode.Popup.SKILL_WAREZ);
+                        currentItem = w;
+                        LOGGER.log(Level.CONFIG, "Chosen item: {0}   Next Popup:", new Object[]{w.item.getName(), nextPopup });
+                        listener.popupExit(nextPopup);
                     } else if (gameState.usingDeckErase) {
                         eraseSoftware(w);
                     } else {
@@ -420,7 +421,7 @@ public class DeckPopup extends PopupPane {
         }
     }
 
-    public Item getCurrentItem() {
+    public Warez getCurrentItem() {
         return currentItem;
     }
 }

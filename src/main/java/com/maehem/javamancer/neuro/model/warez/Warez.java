@@ -71,7 +71,7 @@ public abstract class Warez {
     public int version;
     //private boolean running;
     private int runRemaining = 0;
-    private boolean damaged = false;
+    private int damage = 0;
     private EventHandler<ActionEvent> finishedHandler;
 
     public Warez(Item.Catalog catItem, int version) {
@@ -132,11 +132,15 @@ public abstract class Warez {
     }
 
     public boolean isDamaged() {
-        return damaged;
+        return damage > 0;
     }
 
-    public void setDamaged(boolean value) {
-        this.damaged = value;
+    public int getDamage() {
+        return damage;
+    }
+    
+    public void setDamaged(int value) {
+        this.damage = value;
     }
 
     /**
@@ -175,12 +179,17 @@ public abstract class Warez {
     public void putProps(String prefix, Properties p) {
         p.put(prefix, item.getName());
         p.put(prefix + ".version", String.valueOf(version));
+        p.put(prefix + ".damage", String.valueOf(damage));
     }
 
     public void pullProps(String prefix, Properties p) {
         String get = p.getProperty(prefix + ".version", "1");
-        LOGGER.log(Level.FINEST, "Restore Warez version value = " + get);
+        LOGGER.log(Level.FINEST, "Restore Warez version value = {0}", get);
         version = Integer.parseInt(get);
+        
+        get = p.getProperty(prefix + ".damage", "0");
+        LOGGER.log(Level.FINEST, "Restore Warez damage value = {0}", get);
+        damage = Integer.parseInt(get);
     }
 
     public static Warez getInstance(Catalog item, int version) {
