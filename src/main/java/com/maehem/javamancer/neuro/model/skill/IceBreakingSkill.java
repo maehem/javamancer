@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
@@ -51,6 +52,9 @@ public class IceBreakingSkill extends Skill {
     public IceBreakingSkill(int level) {
         super(Item.Catalog.ICEBREAKING, level, 8);
     }
+    
+    public int getAttackPower(GameState gs) {
+        return level * level * 100;
     }
 
     @Override
