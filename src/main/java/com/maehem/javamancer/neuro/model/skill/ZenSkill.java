@@ -64,6 +64,6 @@ public class ZenSkill extends Skill {
 
     @Override
     public String getDescription() {
-        return "Restore health level when fighing AI.";
+        return "Restore constitution level when fighing AI.";
     }
 }
