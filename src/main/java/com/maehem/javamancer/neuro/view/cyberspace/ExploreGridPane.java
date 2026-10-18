@@ -232,8 +232,6 @@ public class ExploreGridPane extends GridPane {
                     } else {
                         LOGGER.log(Level.SEVERE, "Not a DB here: {0},{1}", new Object[]{x, y});
                     }
-                    //x = 9; // End X loop
-                    //break;
                 }
             }
         }
