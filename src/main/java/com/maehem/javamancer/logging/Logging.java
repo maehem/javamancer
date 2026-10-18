@@ -43,7 +43,7 @@ public class Logging {
         handler.setFormatter(new LoggingFormatter());
 
         // handler level is the level we see printed.
-        handler.setLevel(Level.FINE);
+        handler.setLevel(Level.FINEST);
 
         // Get the top most logger and add our handler.
         LOGGER.setUseParentHandlers(false);  // Prevent INFO and HIGHER from going to stderr.
