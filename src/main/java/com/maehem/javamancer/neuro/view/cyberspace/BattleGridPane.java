@@ -40,6 +40,7 @@ import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
 import com.maehem.javamancer.neuro.model.skill.PsychoanalysisSkill;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
+import com.maehem.javamancer.neuro.model.skill.ZenSkill;
 import com.maehem.javamancer.neuro.model.warez.ChessWarez;
 import com.maehem.javamancer.neuro.model.warez.CorruptorWarez;
 import com.maehem.javamancer.neuro.model.warez.IceBreakerWarez;
@@ -57,6 +58,7 @@ import java.util.logging.Level;
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -329,6 +331,8 @@ public class BattleGridPane extends GridPane implements PopupListener {
                                 || skill instanceof PsychoanalysisSkill
                                 || skill instanceof LogicSkill) {
                             fireShotPlayer(skill);
+                        } else if (skill instanceof ZenSkill) {
+                            skill.use(gameState);
                         } else {
                             LOGGER.log(Level.FINE, "Skill: {0} is not a AI battle skill.", skill.catalog.name());
                         }
@@ -561,6 +565,12 @@ public class BattleGridPane extends GridPane implements PopupListener {
         shotLivePlayerSequence.start();
         gameState.resourceManager.soundFxManager.playTrack(SoundEffectsManager.Sound.PLAYER_FIRE);
 
+        if (skill instanceof PsychoanalysisSkill) {
+            Platform.runLater(() -> {
+                gameState.showMessage = "Probe weakness...";
+            });
+        }
+
         TranslateTransition tt = shotMoveInit(
                 shotsLivePlayerPane,
                 -70,
@@ -574,6 +584,10 @@ public class BattleGridPane extends GridPane implements PopupListener {
             shotsLivePlayerPane.setVisible(false);
             shotsLivePlayerPane.setTranslateY(0);
             shotExplodeDBSequence.start();
+
+            if (skill instanceof PsychoanalysisSkill ps) {
+                gameState.showMessage = ps.getWeakness(ai);
+            }
 
             gameState.activeSkill = null; // Consume the skill.
             // Apply damage, considering weaknesses.
@@ -834,6 +848,14 @@ public class BattleGridPane extends GridPane implements PopupListener {
                 setIceMode(IceMode.NONE);
                 aiFace.show(-1);
             }
+        }
+    }
+
+    public void useOnAI(Skill skill) {
+        if (mode == IceMode.AI) {
+            usedOnAISkill.add(skill);
+        } else {
+            LOGGER.log(Level.INFO, "Can only use AI related skill during AI battle!");
         }
     }
 
