@@ -52,25 +52,32 @@ public class CryptologySkill extends Skill {
 
     private final CryptWord[][] WORD_LIST = new CryptWord[][]{
         { // Cryptology Level 1
-            new CryptWord("PANCAKE", "VENDORS"), // Asano lvl.2
             new CryptWord("DUMBO", "ROMCARDS"), // Fuji lvl.1
-            new CryptWord("TURNIP", "LOSER"), // Loser lvl.2         
+            new CryptWord("IMASMURF", "WARRANTS"), // Chiba Police? lvl.2         
+            new CryptWord("PANCAKE", "VENDORS"), // Asano lvl.2
         },
         { // Cryptology Level 2
-            new CryptWord("ABURAKKOI", "UCHIKATSU"), // Fuji lvl.2
             new CryptWord("SMEEGLDIPO", "PERMAFROST"), // SEA lvl.2
-            new CryptWord("SNORSKEE", "SUPERTAC"), // Chiba Police lvl.2 
-            new CryptWord("EGGPLANT", "LONGISLAND"), // Fission Auth. lvl.1
-            new CryptWord("GALILEO", "APOLLO"), // NASA lvl.1
+            new CryptWord("ABURAKKOI", "UCHIKATSU"), // Fuji lvl.2
+            new CryptWord("KIKENNA", "PERILOUS"), // Copenhagen
+            new CryptWord("SNORSKEE", "SUPERTAC"), // Chiba Police lvl.2
         },
         { // Cryptology Level 3
-            new CryptWord("VULCAN", "BIOSOFT"), // Hosaka lvl.2
             new CryptWord("AGABATUR", "EINTRITT"), // Bank Gemeinschaft lvl.1
             new CryptWord("EINHOVEN", "VERBOTEN"), // Bank Gemeinschaft lvl.2
+            new CryptWord("VULCAN", "BIOSOFT"), // Hosaka lvl.1
+            new CryptWord("SELIM", "BIOTECH"), // Hitachi lvl.2
+            new CryptWord("GALILEO", "APOLLO"), // NASA lvl.1
+            new CryptWord("GNU", "YAK"), // Tozoku lvl.1 (from lupus)
         },
         { // Cryptology Level 4
+            new CryptWord("TRIDENT", "FUNGEKI"), // Hosaka lvl.2
+            new CryptWord("OGRAF", "AUDIT"), // IRS lvl.2
+            new CryptWord("EGGPLANT", "LONGISLAND"), // Fission Auth. lvl.1
+            new CryptWord("TURNIP", "LOSER"), // Loser lvl.2         
             new CryptWord("PLEIADES", "SUBARU"), // Musabori lvl.2
-        }
+        },
+
     };
 
     /**
