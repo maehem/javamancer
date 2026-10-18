@@ -134,7 +134,7 @@ public class CyberspacePopup extends PopupPane implements PopupListener {
         gameState.usingDeck = null;
     }
 
-    public void setState(State state) {
+    private void setState(State state) {
         visualPane.configState(state);
         controlPanel.configState(state);
     }
