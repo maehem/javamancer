@@ -140,8 +140,11 @@ public class RoomMode extends NeuroModePane implements PopupListener {
 
     public RoomMode(NeuroModePaneListener listener, GameState gameState) {
         super(listener, gameState);
-
+        
+        gameState.activeSkill = null; // Clear any in-use skills.
+        gameState.previousSkill = null;
         gameState.roomMode = this;
+        
         // TODO: generate Room from gameState.roomNumber
         this.room = gameState.room;
         LOGGER.log(Level.INFO, "Create new RoomMode for {0}.", room.name());
@@ -443,10 +446,6 @@ public class RoomMode extends NeuroModePane implements PopupListener {
     @Override
     public void tick() {
         GameState gs = getGameState();
-        if (!gs.showMessage.isBlank()) {
-            roomDescriptionPane.addMessage(gs.showMessage);
-            gs.showMessage = "";
-        }
         if (firstTime) {
             // We are scrolling the description and may not yet be done
             // incrementing through it.
@@ -496,6 +495,13 @@ public class RoomMode extends NeuroModePane implements PopupListener {
             // Player has died in previous tick.
             // Apply low costitution and revive in Body Shop.
             getGameState().revive();
+        }
+        
+        // If no one consumed the showMessage then let's use it here.
+        if (!gs.showMessage.isBlank()) {
+            LOGGER.log(Level.INFO, "RoomMode: Add message to roomDescritionPane ==> " + gs.showMessage);
+            roomDescriptionPane.addMessage(gs.showMessage);
+            gs.showMessage = "";
         }
     }
 
