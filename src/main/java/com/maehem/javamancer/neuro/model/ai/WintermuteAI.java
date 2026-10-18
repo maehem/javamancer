@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for Tessier Ashpool Database
@@ -40,7 +40,7 @@ public class WintermuteAI extends AI {
 
     public WintermuteAI() {
         super("Wintermute", 8, 12288,
-                SophistrySkill.class, null,
+                Item.Catalog.SOPHISTRY, null,
                 new int[]{40, 41, 42, 43} // AITALK.txh entries
         );
     }

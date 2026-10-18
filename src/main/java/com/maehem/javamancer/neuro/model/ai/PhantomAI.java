@@ -26,8 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.skill.LogicSkill;
-import com.maehem.javamancer.neuro.model.warez.BattleChessWarez;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for Phantom Database
@@ -44,7 +43,7 @@ public class PhantomAI extends AI {
 
     public PhantomAI() {
         super("Phantom", 9, 24576,
-                LogicSkill.class, BattleChessWarez.class,
+                Item.Catalog.LOGIC, Item.Catalog.BATTLECHESS,
                 new int[]{36, 37, 38, 39} // AITALK.txh entries
         );
     }

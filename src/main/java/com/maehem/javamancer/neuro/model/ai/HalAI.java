@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.skill.LogicSkill;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for NASA Database
@@ -44,7 +44,7 @@ public class HalAI extends AI {
 
     public HalAI() {
         super("HAL", 3, 384,
-                LogicSkill.class, null,
+                Item.Catalog.LOGIC, null,
                 new int[]{16, 17, 18, 19} // AITALK.txh entries
         );
     }

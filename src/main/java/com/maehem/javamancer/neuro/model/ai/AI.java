@@ -29,6 +29,7 @@ package com.maehem.javamancer.neuro.model.ai;
 import com.maehem.javamancer.logging.Logging;
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
+import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.warez.Warez;
 import java.lang.reflect.Constructor;
@@ -170,15 +171,15 @@ public abstract class AI {
     public final int index; // matching the sprite face graphic
     private int constitution;
     public final int MAX_CONSTITUTION;
-    public final Class<? extends Skill> weaknessSkill;
-    public final Class<? extends Warez> weaknessWarez;
+    public final Item.Catalog weaknessSkill;
+    public final Item.Catalog weaknessWarez;
     public final int[] TALK;
     public int TALK_SPEC_1;
     public int TALK_SPEC_2;
 
     public AI(String name, int index, int constitution,
-            Class<? extends Skill> weaknessSkill,
-            Class<? extends Warez> weaknessWarez,
+            Item.Catalog weaknessSkill,
+            Item.Catalog weaknessWarez,
             int[] talk
     ) {
         this.name = name;
@@ -222,7 +223,7 @@ public abstract class AI {
     public boolean applySkillAttack(Skill skill, GameState gs) {
         int effect = skill.getEffect(gs);
         boolean retVal = false;
-        if (skill.getClass() == weaknessSkill) {
+        if (skill.catalog == weaknessSkill) {
             // Double damage.
             this.constitution -= effect*2;
             LOGGER.log(Level.FINE, "AI Takes Critical Hit: Weakness to {0}", skill.catalog.itemName);
@@ -293,5 +294,24 @@ public abstract class AI {
 
     public TextResource getDialogs(GameState gs) {
         return gs.resourceManager.getTxhText("AITALK");
+    }
+    
+    public String getWeakness() {
+        StringBuilder sb = new StringBuilder();
+        
+        if ( weaknessSkill != null ) {
+            sb.append(weaknessSkill.itemName);
+        }
+        if ( weaknessWarez != null ){
+            if ( !sb.isEmpty() ) {
+                sb.append(" and ");
+            }
+            sb.append(weaknessWarez.itemName);
+        }
+        
+        if ( sb.isEmpty() ) {
+            sb.append("None.");
+        }
+        return sb.toString();
     }
 }

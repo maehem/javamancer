@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for Free Sex Union Database
@@ -48,7 +48,7 @@ public class XavieraAI extends AI {
 
     public XavieraAI() {
         super("Xaviera", 5, 768,
-                PhenomenologySkill.class, null,
+                Item.Catalog.PHENOMENOLOGY, null,
                 new int[]{20, 21, 22, 23} // AITALK.txh entries
         );
     }

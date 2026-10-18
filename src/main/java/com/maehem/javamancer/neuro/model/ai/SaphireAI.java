@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.skill.SophistrySkill;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for Free Matrix Database
@@ -41,7 +41,7 @@ public class SaphireAI extends AI {
 
     public SaphireAI() {
         super("Saphire", 2, 192,
-                SophistrySkill.class, null,
+                Item.Catalog.SOPHISTRY, null,
                 new int[]{8, 9, 10, 11}
         );
     }

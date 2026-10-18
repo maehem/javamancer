@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for Maas Biolabs Database
@@ -41,7 +41,7 @@ public class SangfroidAI extends AI {
 
     public SangfroidAI() {
         super("Sangfroid", 7, 6144,
-                PhenomenologySkill.class, null,
+                Item.Catalog.PHENOMENOLOGY, null,
                 new int[]{28, 29, 30, 31} // AITALK.txh entries
         );
     }

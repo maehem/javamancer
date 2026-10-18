@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.warez.HemlockWarez;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for Musabori Database
@@ -41,7 +41,7 @@ public class GreystokeAI extends AI {
 
     public GreystokeAI() {
         super("Greystoke", 10, 49151,
-                null, HemlockWarez.class,
+                null, Item.Catalog.HEMLOCK,
                 new int[]{12, 13, 14, 15} // AITALK.txh entries
         );
     }

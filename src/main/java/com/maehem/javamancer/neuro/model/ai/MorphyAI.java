@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.skill.LogicSkill;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for World Chess Database
@@ -42,7 +42,7 @@ public class MorphyAI extends AI {
 
     public MorphyAI() {
         super("Morphy", 1, 96,
-                LogicSkill.class, null,
+                Item.Catalog.LOGIC, null,
                 new int[]{0, 1, 2, 3} // AITALK.txh entries
         );
     }

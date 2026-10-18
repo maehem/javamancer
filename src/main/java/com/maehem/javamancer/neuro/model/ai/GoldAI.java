@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for the Bank of Berne
@@ -40,7 +40,7 @@ public class GoldAI extends AI {
 
     public GoldAI() {
         super("Gold", 4, 1536,
-                PhilosophySkill.class, null,
+                Item.Catalog.PHILOSOPHY, null,
                 new int[]{24, 25, 26, 27} // From AITALK.txh
         );
     }

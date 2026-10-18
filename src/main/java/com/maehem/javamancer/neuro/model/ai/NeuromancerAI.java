@@ -28,7 +28,7 @@ package com.maehem.javamancer.neuro.model.ai;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.TextResource;
-import com.maehem.javamancer.neuro.model.warez.KuangElevenWarez;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for AllardTech Database
@@ -42,7 +42,7 @@ public class NeuromancerAI extends AI {
 
     public NeuromancerAI() {
         super("Neuromancer", 11, 49152,
-                null, KuangElevenWarez.class,
+                null, Item.Catalog.KUANGELEVEN,
                 new int[]{
                     52,  //[52] :: How could you have escaped the Island?! (real battle start)
                     //44,//[44] :: About time you showed up.... (first encounter, sent to beach)

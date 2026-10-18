@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.skill.LogicSkill;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for KGB Database
@@ -45,7 +45,7 @@ public class LuciferAI extends AI {
 
     public LuciferAI() {
         super("Lucifer", 6, 3072,
-                LogicSkill.class, null,
+                Item.Catalog.LOGIC, null,
                 new int[]{32, 33, 34, 35} // AITALK.txh entries
         );
     }

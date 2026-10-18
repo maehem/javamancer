@@ -26,7 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.ai;
 
-import com.maehem.javamancer.neuro.model.skill.PhilosophySkill;
+import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
  * AI for Psychologist Database
@@ -47,7 +47,8 @@ public class ChromeAI extends AI {
 //    };
     public ChromeAI() {
         super("Chrome", 0, 48,
-                PhilosophySkill.class, null,
+                Item.Catalog.PHILOSOPHY,
+                null,
                 new int[]{4, 5, 6, 7}
         );
     }
