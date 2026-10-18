@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.neuro.model.item.Item;
-import java.util.logging.Level;
 
 /**
  * Evasion. Allows player to flee from battles with AIs. 
@@ -44,11 +43,6 @@ public class EvasionSkill extends Skill {
 
     public EvasionSkill(int level) {
         super(Item.Catalog.EVASION, level, 2);
-    }
-
-    @Override
-    public void use() {
-        LOGGER.log(Level.INFO, "Use Skill: {0}", catalog.itemName);
     }
 
     @Override

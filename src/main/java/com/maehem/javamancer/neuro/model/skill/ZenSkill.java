@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
 import java.util.logging.Level;
 
@@ -48,8 +49,17 @@ public class ZenSkill extends Skill {
     }
 
     @Override
-    public void use() {
-        LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
+    public void use(GameState gs) { // use() called by BattlePane.tick()
+        int gsDamageOld = gs.getConstitution();
+        gs.damage -= GameState.CONSTITUTION_MAX/(MAX_LEVEL/level);
+        if ( gs.damage < 0 ) {
+            gs.damage = 0;
+        }
+        gs.activeSkill = gs.previousSkill;
+        gs.previousSkill = null;
+        
+        LOGGER.log(Level.INFO, "Zen :: Heal Constitution: {0}  {1} ==> {2}", new Object[]{catalog.itemName, gsDamageOld, gs.getConstitution() });
+        
     }
 
     @Override

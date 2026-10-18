@@ -73,7 +73,14 @@ public abstract class Skill {
 
     public abstract String getDescription();
 
-    public abstract void use();
+    /**
+     * Called by game tick() for specific reasons.
+     * 
+     * @param gs 
+     */
+    public void use(GameState gs) {
+        LOGGER.log(Level.WARNING, "Skill {0} use() called but no action is implemented!", getVersionedName());
+    }
     
     public int upgrade() {
         LOGGER.log(Level.FINE, "{0} : Level Upgrade called.",new Object[]{ catalog.name() } );

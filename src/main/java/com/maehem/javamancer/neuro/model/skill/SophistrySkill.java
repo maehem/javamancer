@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
-import java.util.logging.Level;
 
 /**
  * Damages AIs. 
@@ -48,12 +47,6 @@ public class SophistrySkill extends Skill {
     
     public SophistrySkill(int level) {
         super(Item.Catalog.SOPHISTRY, level, 8);
-    }
-
-    @Override
-    public void use() {
-    //TODO: Damage 
-        LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
     }
 
     @Override

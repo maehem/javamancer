@@ -28,8 +28,6 @@ package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.neuro.model.GameState;
 import com.maehem.javamancer.neuro.model.item.Item;
-import static com.maehem.javamancer.neuro.model.skill.Skill.LOGGER;
-import java.util.logging.Level;
 
 /**
  * Damages AIs. 
@@ -50,11 +48,6 @@ public class PhilosophySkill extends Skill {
 
     public PhilosophySkill(int level) {
         super(Item.Catalog.PHILOSOPHY, level, 8);
-    }
-
-    @Override
-    public void use() {
-        LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
     }
 
     @Override

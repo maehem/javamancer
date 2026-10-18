@@ -26,6 +26,7 @@
  */
 package com.maehem.javamancer.neuro.model.skill;
 
+import com.maehem.javamancer.neuro.model.ai.AI;
 import com.maehem.javamancer.neuro.model.item.Item;
 
 /**
@@ -45,11 +46,10 @@ public class PsychoanalysisSkill extends Skill {
         super(Item.Catalog.PSYCHOANALYSIS, level, 4);
     }
 
-    @Override
-    public void use() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getWeakness( AI ai ) {
+        return ai.getWeakness();
     }
-
+    
     @Override
     public String getDescription() {
         return "Find the weakness of an AI.";

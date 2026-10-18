@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.neuro.model.item.Item;
-import java.util.logging.Level;
 
 /**
  * Plays music. Its actual use is to play “dub” in Zion Cluster to get a
@@ -48,11 +47,6 @@ public class MusicianshipSkill extends Skill {
 
     public MusicianshipSkill(int level) {
         super(Item.Catalog.MUSICIANSHIP, level, 1);
-    }
-
-    @Override
-    public void use() {
-        LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
     }
 
     @Override

@@ -51,10 +51,6 @@ public class IceBreakingSkill extends Skill {
     public IceBreakingSkill(int level) {
         super(Item.Catalog.ICEBREAKING, level, 8);
     }
-
-    @Override
-    public void use() {
-        LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
     }
 
     @Override

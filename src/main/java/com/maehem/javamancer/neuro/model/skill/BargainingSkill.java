@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.neuro.model.item.Item;
-import java.util.logging.Level;
 
 /**
  * Bargaining. Allows player to get better prices from merchants. Most effective
@@ -45,11 +44,6 @@ public class BargainingSkill extends Skill {
 
     public BargainingSkill(int level) {
         super(Item.Catalog.BARGANING, level, 1);
-    }
-
-    @Override
-    public void use() {
-        LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
     }
 
     @Override

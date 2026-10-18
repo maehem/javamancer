@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.neuro.model.item.Item;
-import java.util.logging.Level;
 
 /**
  * CopTalk. Allows player to talk like a cop.
@@ -47,11 +46,6 @@ public class CopTalkSkill extends Skill {
 
     public CopTalkSkill(int level) {
         super(Item.Catalog.COPTALK, level, 4);
-    }
-
-    @Override
-    public void use() {
-        LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
     }
 
     @Override

@@ -53,11 +53,6 @@ public class HardwareRepairSkill extends Skill {
     }
 
     @Override
-    public void use() {
-        LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
-    }
-
-    @Override
     public String getDescription() {
         return "Repair your deck.";
     }

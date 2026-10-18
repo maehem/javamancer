@@ -27,7 +27,6 @@
 package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.neuro.model.item.Item;
-import java.util.logging.Level;
 
 /**
  * Speak fluent Japanese. Found in game assets but not used in game.
@@ -44,11 +43,6 @@ public class JapaneseSkill extends Skill {
 
     public JapaneseSkill(int level) {
         super(Item.Catalog.JAPANESE, level, 1);
-    }
-
-    @Override
-    public void use() {
-        LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
     }
 
     @Override

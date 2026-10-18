@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.warez.Warez;
-import java.util.logging.Level;
 
 /**
  * Fixes corrupted software. 
@@ -64,11 +63,6 @@ public class DebugSkill extends Skill {
 
     public DebugSkill(int level) {
         super(Item.Catalog.DEBUG, level, 4);
-    }
-
-    @Override
-    public void use() {
-        LOGGER.log(Level.INFO, "{0} Use skill: ", catalog.itemName);
     }
 
     @Override

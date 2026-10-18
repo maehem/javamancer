@@ -28,7 +28,6 @@ package com.maehem.javamancer.neuro.model.skill;
 
 import com.maehem.javamancer.neuro.model.item.Item;
 import com.maehem.javamancer.neuro.model.warez.*;
-import java.util.logging.Level;
 
 /**
  * Describes what a Warez program does.
@@ -60,11 +59,6 @@ public class WarezAnalysisSkill extends Skill {
     }
     public WarezAnalysisSkill(int level) {
         super(Item.Catalog.WAREZANALYSIS, level, 2);
-    }
-
-    @Override
-    public void use() {
-        LOGGER.log(Level.INFO, "Use skill: {0}", catalog.itemName);
     }
 
     @Override
