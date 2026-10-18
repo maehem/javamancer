@@ -95,6 +95,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
     private final SkillsPopup skillsPopup;
     private final DiskPopup diskPopup;
     private final RomPopup romPopup;
+    private final MessagePane messagePane;
     private final VisualPane visualPane;
 
     public ControlPanelPane(PopupListener l, GameState gs, VisualPane visualPane) {
@@ -121,6 +122,9 @@ public class ControlPanelPane extends Pane implements PopupListener {
         romPopup.setVisible(false);
         romPopup.setLayoutX(100);
         romPopup.setLayoutY(0);
+        messagePane = new MessagePane(gs);
+        messagePane.setLayoutX(48);
+        messagePane.setLayoutY(16);
 
         playerDamage.setLayoutX(439);
         playerDamage.setLayoutY(101);
@@ -129,10 +133,15 @@ public class ControlPanelPane extends Pane implements PopupListener {
 
         ImageView cPanelView = new ImageView(gs.resourceManager.getSprite("CSPANEL_1"));
         getChildren().add(cPanelView);
+        
+        // TODO: Terminal output log in white space on control panel..  
+        //      - Hit value
+        //      - Damage value.
+        //      - other status
 
         getChildren().addAll(
                 zoneText, xText, yText,
-                cashText,
+                cashText, messagePane,
                 invRect, skillRect, romRect, gameRect,
                 playerDamage, opponentDamage,
                 eraseRect, exitRect,
@@ -149,7 +158,6 @@ public class ControlPanelPane extends Pane implements PopupListener {
                 gameState.usingDeck.getCordX(),
                 gameState.usingDeck.getCordY()
         );
-
         zoneText.setText(String.valueOf(currentZone.num));
         xText.setText(String.format("%03d", gameState.usingDeck.getCordX()));
         yText.setText(String.format("%03d", gameState.usingDeck.getCordY()));
@@ -316,6 +324,11 @@ public class ControlPanelPane extends Pane implements PopupListener {
     public final void tick() {
         updateText();
         updateGauges();
+        
+        if (!gameState.showMessage.isBlank()) {
+            messagePane.addMessage(gameState.showMessage);
+            gameState.showMessage = "";
+        }
 
         if (gameState.databaseArrived) {
             gameState.databaseArrived = false;
@@ -364,7 +377,7 @@ public class ControlPanelPane extends Pane implements PopupListener {
 
     @Override
     public void showMessage(String message) {
-        // Not used here.  Used in RoomMode.
+        // Not used here.
     }
 
 }
