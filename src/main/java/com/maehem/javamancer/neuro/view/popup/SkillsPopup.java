@@ -34,6 +34,7 @@ import com.maehem.javamancer.neuro.model.skill.DebugSkill;
 import com.maehem.javamancer.neuro.model.skill.HardwareRepairSkill;
 import com.maehem.javamancer.neuro.model.skill.MusicianshipSkill;
 import com.maehem.javamancer.neuro.model.skill.PhenomenologySkill;
+import com.maehem.javamancer.neuro.model.skill.PsychoanalysisSkill;
 import com.maehem.javamancer.neuro.model.skill.Skill;
 import com.maehem.javamancer.neuro.model.skill.WarezAnalysisSkill;
 import com.maehem.javamancer.neuro.view.PopupListener;
@@ -146,13 +147,13 @@ public class SkillsPopup extends SmallPopupPane {
 
             if (skill instanceof CryptologySkill) {
                 listener.popupExit(RoomMode.Popup.SKILL_CRYPTO);
-            } else if ( skill instanceof MusicianshipSkill ) {
+            } else if (skill instanceof MusicianshipSkill) {
                 listener.popupExit(RoomMode.Popup.SKILL_MUSIC);
-            } else if ( skill instanceof HardwareRepairSkill ) {
+            } else if (skill instanceof HardwareRepairSkill) {
                 listener.popupExit(RoomMode.Popup.SKILL_REPAIR_CHOOSE);
-            } else if ( skill instanceof WarezAnalysisSkill ) {
+            } else if (skill instanceof WarezAnalysisSkill) {
                 listener.popupExit(RoomMode.Popup.SKILL_WAREZ_CHOOSE);
-            } else if ( skill instanceof DebugSkill ) {
+            } else if (skill instanceof DebugSkill) {
                 listener.popupExit(RoomMode.Popup.SKILL_DEBUG_CHOOSE);
             } else if (skill instanceof PhenomenologySkill) {
                 if (gameState.room == Room.R50 && !gameState.databaseBattle) {
