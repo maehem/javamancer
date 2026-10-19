@@ -53,9 +53,10 @@ import javafx.event.EventHandler;
  * For more see @DebugSkill source code.
  *
  * </pre>
+ *
  * @see @IceBreakerWarez source for more notes on that type of warez.
- * 
- * 
+ *
+ *
  * @author Mark J Koch ( @maehem on GitHub )
  */
 public abstract class Warez {
@@ -71,14 +72,14 @@ public abstract class Warez {
     public int version;
     //private boolean running;
     private int runRemaining = 0;
-    private int damage = 0;
+    private double damage = 0;
     private EventHandler<ActionEvent> finishedHandler;
 
     public Warez(Item.Catalog catItem, int version) {
         this.item = new SoftwareItem(catItem, version, version);
         this.version = version;
     }
-    
+
     public abstract String getDescription();
 
     // TODO: Change to canUse()
@@ -100,18 +101,21 @@ public abstract class Warez {
      * Finish run of Warez and call finish handler (if one exists).
      */
     public void finish(GameState gs) {
-        LOGGER.log(Level.FINE, "Warez finished: " + getSimpleName());
+        LOGGER.log(Level.FINE, "Warez finished: {0}", getSimpleName());
+        // Wear the software.
+        addDamage(0.05 * version);
+        
         abort(gs);
         if (finishedHandler != null) {
             finishedHandler.handle(new ActionEvent());
         }
     }
-    
+
     /**
      * Stop Warez running. Do not run finish handler.
-     * 
+     *
      * Overridden by @VirusWarez and @CorruptorWarez to self delete.
-     * 
+     *
      */
     public void abort(GameState gs) {
         runRemaining = 0;
@@ -132,15 +136,19 @@ public abstract class Warez {
     }
 
     public boolean isDamaged() {
-        return damage > 0;
+        return damage > 0.0;
     }
 
-    public int getDamage() {
+    public double getDamage() {
         return damage;
     }
-    
-    public void setDamaged(int value) {
+
+    public void setDamaged(double value) {
         this.damage = value;
+    }
+
+    public void addDamage(double value) {
+        this.damage += value;
     }
 
     /**
@@ -186,7 +194,7 @@ public abstract class Warez {
         String get = p.getProperty(prefix + ".version", "1");
         LOGGER.log(Level.FINEST, "Restore Warez version value = {0}", get);
         version = Integer.parseInt(get);
-        
+
         get = p.getProperty(prefix + ".damage", "0");
         LOGGER.log(Level.FINEST, "Restore Warez damage value = {0}", get);
         damage = Integer.parseInt(get);
