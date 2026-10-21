@@ -671,7 +671,7 @@ public class GameStateUtils {
             sb.append(":"); // Sub-delimeter
             sb.append(m.prefillIndex);
         }
-        
+
         p.put(key, sb.toString());
     }
 
@@ -690,13 +690,13 @@ public class GameStateUtils {
                 // Iterate through gs.bbs and update message details for item
                 // whose prefillIndex matches this one.
                 int ii;
-                for ( ii=0; ii< gs.bbs.size(); ii++) {
+                for (ii = 0; ii < gs.bbs.size(); ii++) {
                     BbsMessage bbsMsg = gs.bbs.get(ii);
-                    if ( bbsMsg.prefillIndex == msg.prefillIndex ) {
+                    if (bbsMsg.prefillIndex == msg.prefillIndex) {
                         break;
                     }
                 }
-                if ( ii<gs.bbs.size() ) {
+                if (ii < gs.bbs.size()) {
                     gs.bbs.set(ii, msg);
                 }
             } else {
