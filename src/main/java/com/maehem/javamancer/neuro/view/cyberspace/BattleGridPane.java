@@ -673,8 +673,6 @@ public class BattleGridPane extends GridPane implements PopupListener {
                     vt.start();
                     //gameState.eraseSoftware(w);
                 } else {
-                    // Software has a chance of being worn/damaged.
-                    LOGGER.log(Level.INFO, "TODO: Wear or Damage software.");
                 }
             }
         });

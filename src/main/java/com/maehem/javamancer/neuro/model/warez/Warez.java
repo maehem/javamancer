@@ -85,6 +85,8 @@ public abstract class Warez {
     // TODO: Change to canUse()
     public String use(GameState gs) {
         LOGGER.log(Level.FINE, "Warez: Use(): {0} USE_OK", item.getName());
+        // Wear it.
+        addDamage(0.05 * version);
         return USE_OK;
     }
 
@@ -101,10 +103,9 @@ public abstract class Warez {
      * Finish run of Warez and call finish handler (if one exists).
      */
     public void finish(GameState gs) {
-        LOGGER.log(Level.FINE, "Warez finished: {0}", getSimpleName());
+        LOGGER.log(Level.FINE, "{0} Warez finished. Adding wear.", getSimpleName());
         // Wear the software.
-        addDamage(0.05 * version);
-        
+
         abort(gs);
         if (finishedHandler != null) {
             finishedHandler.handle(new ActionEvent());
@@ -136,7 +137,7 @@ public abstract class Warez {
     }
 
     public boolean isDamaged() {
-        return damage > 0.0;
+        return damage > 0.6;
     }
 
     public double getDamage() {
