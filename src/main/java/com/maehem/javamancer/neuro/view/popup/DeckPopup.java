@@ -250,9 +250,9 @@ public class DeckPopup extends PopupPane {
     private void enterCyberspace() {
         LOGGER.log(Level.FINE, "Enter Cyberspace.");
 
-        //gameState.usingDeck.setMode(DeckItem.Mode.CYBERSPACE);
         // Leave Deck pupup and open cyberspace popup.
         handoffToCyberspace = true;
+        deck.increaseDamage(0.05); // Wear deck on each use.
         listener.popupExit(RoomMode.Popup.CYBERSPACE);
     }
 
@@ -379,6 +379,7 @@ public class DeckPopup extends PopupPane {
                         || whoIs.comlink <= deck.getCurrentWarez().version) {
                     gameState.database = whoIs;
                     gameState.usingDeck.setMode(DeckItem.Mode.LINKCODE);
+                    deck.increaseDamage(0.05); // Wear the deck on each connection.
 
                     siteContent(); // hand off to custom site handler.
                 } else {
