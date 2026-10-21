@@ -68,7 +68,7 @@ public abstract class DeckItem extends Item {
     // TODO: Eliminate cordX/Y as GameState tracks this position as matrixX/Y. Need to unify this!
     
 
-    public DeckItem(Item.Catalog cat, int nSlots, boolean cyberspace, int startX, int startY) {
+    protected DeckItem(Item.Catalog cat, int nSlots, boolean cyberspace, int startX, int startY) {
         super(cat);
         this.nSlots = nSlots;
         //this.cordX = startX;
