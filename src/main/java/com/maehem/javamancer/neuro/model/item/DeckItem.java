@@ -204,8 +204,7 @@ public abstract class DeckItem extends Item {
     public void putProps(String prefix, Properties p) {
         super.putProps(prefix, p);
         //p.put(prefix + ".needsRepair", String.valueOf(needsRepair));
-        p.put(prefix + ".damage", damage);
-        
+        p.put(prefix + ".damage", String.valueOf(damage));
     }
 
     public void pullProps(String prefix, Properties p) {
