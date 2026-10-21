@@ -195,9 +195,9 @@ public abstract class Warez {
         LOGGER.log(Level.FINEST, "Restore Warez version value = {0}", get);
         version = Integer.parseInt(get);
 
-        get = p.getProperty(prefix + ".damage", "0");
+        get = p.getProperty(prefix + ".damage", "0.0");
         LOGGER.log(Level.FINEST, "Restore Warez damage value = {0}", get);
-        damage = Integer.parseInt(get);
+        damage = Double.parseDouble(get);
     }
 
     public static Warez getInstance(Catalog item, int version) {
