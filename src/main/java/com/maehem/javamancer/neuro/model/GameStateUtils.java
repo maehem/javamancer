@@ -522,15 +522,18 @@ public class GameStateUtils {
     private static void restoreDefeatedAIList(GameState gs, Properties p) {
         LOGGER.log(Level.FINE, "Restore Defeated AI List...");
         String key = AI_DEFEATED.key;
-        String[] ai = ((String) (p.get(key))).split(",");
-        for (String rStr : ai) {
-            if (rStr.isBlank()) {
-                continue;
-            }
-            LOGGER.log(Level.FINE, "    Restore Defeated AI: {0}", rStr);
-            AI lookup = AI.lookup(rStr);
+        String aiList = (String) p.get(key);
+        if (aiList != null) {
+            String[] ai = aiList.split(",");
+            for (String rStr : ai) {
+                if (rStr.isBlank()) {
+                    continue;
+                }
+                LOGGER.log(Level.FINE, "    Restore Defeated AI: {0}", rStr);
+                AI lookup = AI.lookup(rStr);
 
-            gs.defeatedAiList.add(lookup);
+                gs.defeatedAiList.add(lookup);
+            }
         }
     }
 
